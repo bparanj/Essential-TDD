@@ -43,8 +43,6 @@ In mathematical terms, the sequence fibonacci(n) of Fibonacci numbers is defined
 ```ruby
 require 'test/unit'
 
-# Version 1
-
 class FibonacciTest < Test::Unit::TestCase
   def test_fibonacci_of_zero_is_zero
     fail "fail"
@@ -54,5 +52,360 @@ end
 
 Got proper require to execute the test. Proper naming of test following naming convention.
 
-
 This example illustrates how to convert Requirements --> Examples --> Executable Specs. Each test for this problem takes an argument, does some computation and returns a result. It illustrates Direct Input and Direct Output. There are no side effects. Side effect free functions are easy to test. 
+
+### Version 1 : Discovery of Public API ###
+
+finonacci_test.rb
+
+```ruby
+require 'test/unit'
+
+class Fibonacci
+  def self.of(number)
+    0
+  end
+end
+
+class FibonacciTest < Test::Unit::TestCase
+  def test_fibonacci_of_zero_is_zero
+    fib_of_zero = Fibonacci.of(0)
+    assert_equal(fib_of_zero, 0)
+  end
+end
+```
+
+### Version 2 : Don't Change the Test code and Code Under Test at the Same Time ###
+
+```ruby
+require 'test/unit'
+
+class Fibonacci
+  def self.of(number)
+    0
+  end
+end
+
+class FibonacciTest < Test::Unit::TestCase
+  def test_fibonacci_of_zero_is_zero
+    fib_of_zero = Fibonacci.of(0)
+    assert_equal(0, fib_of_zero)
+  end
+end
+```
+
+Found the right assertion to use.Overcame the temptation to change the test code and code under test at the same time.Thereby test driving the development of the production code.Got the test to pass quickly by using a fake implementation.The implementation returns a constant.
+
+### Version 4 : Dirty Implementation ###
+
+Made fib(1) = 1 pass very quickly using a dirty implementation.
+
+```ruby
+require 'test/unit'
+
+class Fibonacci
+  def self.of(number)
+    number
+  end
+end
+
+class FibonacciTest < Test::Unit::TestCase
+  def test_fibonacci_of_zero_is_zero
+    fib_of_zero = Fibonacci.of(0)
+    assert_equal(0, fib_of_zero)
+  end
+  
+  def test_fibonacci_of_one_is_one
+    fib_of_one = Fibonacci.of(1)
+    assert_equal(1, fib_of_one)
+  end
+end
+```
+
+### Version 5 : Forcing the Implementation to Change via Tests ###
+
+Broken test forced the implementation to change. Dirty implementation passes the test.
+
+```ruby
+require 'test/unit'
+
+class Fibonacci
+  def self.of(number)
+    if number == 2
+      return 1
+    else
+      return number
+    end
+  end
+end
+
+class FibonacciTest < Test::Unit::TestCase
+  def test_fibonacci_of_zero_is_zero
+    fib_of_zero = Fibonacci.of(0)
+    assert_equal(0, fib_of_zero)
+  end
+  
+  def test_fibonacci_of_one_is_one
+    fib_of_one = Fibonacci.of(1)
+    assert_equal(1, fib_of_one)
+  end
+  
+  def test_fibonacci_of_two_is_one
+    fib_of_two = Fibonacci.of(2)
+    assert_equal(1, fib_of_two)
+  end
+end
+```
+
+### Version 6 : Refactoring in the Green State ###
+
+The new test broke the implementation. Commented out the new test to refactor the test in green state. This code is ready to be generalized.
+
+```ruby
+require 'test/unit'
+
+class Fibonacci
+  def self.of(number)
+    if number == 0
+      return 0
+    elsif number <= 2
+      return 1
+    end
+  end
+end
+
+class FibonacciTest < Test::Unit::TestCase
+  def test_fibonacci_of_zero_is_zero
+    fib_of_zero = Fibonacci.of(0)
+    assert_equal(0, fib_of_zero)
+  end
+  
+  def test_fibonacci_of_one_is_one
+    fib_of_one = Fibonacci.of(1)
+    assert_equal(1, fib_of_one)
+  end
+  
+  def test_fibonacci_of_two_is_one
+    fib_of_two = Fibonacci.of(2)
+    assert_equal(1, fib_of_two)
+  end
+  
+  def xtest_fibonacci_of_three_is_two
+    fib_of_three = Fibonacci.of(3)
+    assert_equal(2, fib_of_three)
+  end
+end
+```
+
+### Version 7 : Generalized Solution ###
+
+Input    Output
+-----    ------
+  0         0
+  1         1
+  2         1
+  3         2
+
+So the pattern emerges and we see the result is the sum of previous to fibonacci numbers return 2 is actually return 1 + 1 which from the above table is fib(n-1) + fib(n-2), so the solution is fib(n-1) + fib(n-2)
+
+```ruby
+require 'test/unit'
+
+class Fibonacci
+  def self.of(number)
+    if number == 0
+      return 0
+    elsif number <= 2
+      return 1
+    end
+    return 2
+  end
+end
+
+class FibonacciTest < Test::Unit::TestCase
+  def test_fibonacci_of_zero_is_zero
+    fib_of_zero = Fibonacci.of(0)
+    assert_equal(0, fib_of_zero)
+  end
+  
+  def test_fibonacci_of_one_is_one
+    fib_of_one = Fibonacci.of(1)
+    assert_equal(1, fib_of_one)
+  end
+  
+  def test_fibonacci_of_two_is_one
+    fib_of_two = Fibonacci.of(2)
+    assert_equal(1, fib_of_two)
+  end
+  
+  def test_fibonacci_of_three_is_two
+    fib_of_three = Fibonacci.of(3)
+    assert_equal(2, fib_of_three)
+  end
+end
+```
+
+### Version 8 : Recursive Solution ###
+
+Input    Output
+-----    ------
+  0         0
+  1         1
+  2         1
+  3         2
+
+```ruby
+require 'test/unit'
+
+class Fibonacci
+  def self.of(number)
+    if number == 0
+      return 0
+    elsif number <= 2
+      return 1
+    end
+    return of(number - 1) + of(number - 2)
+  end
+end
+
+class FibonacciTest < Test::Unit::TestCase
+  def test_fibonacci_of_zero_is_zero
+    fib_of_zero = Fibonacci.of(0)
+    assert_equal(0, fib_of_zero)
+  end
+  
+  def test_fibonacci_of_one_is_one
+    fib_of_one = Fibonacci.of(1)
+    assert_equal(1, fib_of_one)
+  end
+  
+  def test_fibonacci_of_two_is_one
+    fib_of_two = Fibonacci.of(2)
+    assert_equal(1, fib_of_two)
+  end
+  
+  def test_fibonacci_of_three_is_two
+    fib_of_three = Fibonacci.of(3)
+    assert_equal(2, fib_of_three)
+  end
+end
+```
+
+The generalized solution uses recursion.
+
+### Version 9 : Cleanup ###
+
+Recursive solution:
+
+Input    Output
+-----    ------
+  0         0
+  1         1
+  2         1
+  3         2
+
+```ruby
+require 'test/unit'
+
+class Fibonacci
+  def self.of(n)
+    return 0 if n == 0
+    return 1 if n == 1
+    return of(n - 1) + of(n - 2)
+  end
+end
+
+class FibonacciTest < Test::Unit::TestCase
+  def test_fibonacci_of_zero_is_zero
+    fib_of_zero = Fibonacci.of(0)
+    assert_equal(0, fib_of_zero)
+  end
+  
+  def test_fibonacci_of_one_is_one
+    fib_of_one = Fibonacci.of(1)
+    assert_equal(1, fib_of_one)
+  end
+  
+  def test_fibonacci_of_two_is_one
+    fib_of_two = Fibonacci.of(2)
+    assert_equal(1, fib_of_two)
+  end
+  
+  def test_fibonacci_of_three_is_two
+    fib_of_three = Fibonacci.of(3)
+    assert_equal(2, fib_of_three)
+  end
+
+  def test_fibonacci_of_ten_is_what
+    fib_of_ten = Fibonacci.of(10)
+    assert_equal(55, fib_of_ten)
+  end
+  
+end
+```
+
+Green before and after refactoring. Used idiomatic Ruby to cleanup code. Named variables expressive of the domain.
+
+### Version 10 : Optimization ###
+
+Non-Recursive solution:
+
+Input    Output
+-----    ------
+  0         0
+  1         1
+  2         1
+  3         2
+
+```ruby
+require 'test/unit'
+
+class Fibonacci
+  def self.of(n)    
+    current, successor = 0,1
+    n.times do
+      current, successor = successor, current + successor
+    end
+    return current
+  end
+end
+
+class FibonacciTest < Test::Unit::TestCase
+  def test_fibonacci_of_zero_is_zero
+    fib_of_zero = Fibonacci.of(0)
+    assert_equal(0, fib_of_zero)
+  end
+  
+  def test_fibonacci_of_one_is_one
+    fib_of_one = Fibonacci.of(1)
+    assert_equal(1, fib_of_one)
+  end
+  
+  def test_fibonacci_of_two_is_one
+    fib_of_two = Fibonacci.of(2)
+    assert_equal(1, fib_of_two)
+  end
+  
+  def test_fibonacci_of_three_is_two
+    fib_of_three = Fibonacci.of(3)
+    assert_equal(2, fib_of_three)
+  end
+
+  def test_fibonacci_of_ten_is_what
+    fib_of_ten = Fibonacci.of(10)
+    assert_equal(55, fib_of_ten)
+  end
+  
+end
+```
+
+This version illustrates using existing tests as safety net when making major changes to the code. Notice that we only focus only on one thing at a time, the focus can shift from one version to the other.
+
+### Exercises: ###
+
+1. Run the mini-test based fibonacci and make sure all tests pass. 
+		$ ruby fibonacci_test.rb
+2. Move the fibonacci class into its own file and make all the tests pass.
+3. Convert the given mini-test test to rspec version fibonacci_spec.rb.
+4. Optional: Get the output of the mini-test in color. 
+5. Watch the Factorial screencast and convert the unit test to rspec spec.
