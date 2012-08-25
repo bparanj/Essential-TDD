@@ -44,7 +44,8 @@ Input    Output
 
 2. The final solution should be able to take any random number and calculate the Fibonacci number without any modification to the production code.
 
-## Version 0 ##
+## Set Up Environment ##
+## Version 1 ##
 
 ```ruby
 require 'test/unit'
@@ -61,7 +62,7 @@ Got proper require to execute the test. Proper naming of test following naming c
 This example illustrates how to convert Requirements --> Examples --> Executable Specs. Each test for this problem takes an argument, does some computation and returns a result. It illustrates Direct Input and Direct Output. There are no side effects. Side effect free functions are easy to test. 
 
 ## Discovery of Public API ##
-### Version 1 ###
+### Version 2 ###
 
 finonacci_test.rb
 
@@ -83,7 +84,7 @@ end
 ```
 
 ## Don't Change the Test code and Code Under Test at the Same Time ##
-### Version 2 ###
+### Version 3 ###
 ```ruby
 require 'test/unit'
 
@@ -347,7 +348,6 @@ class FibonacciTest < Test::Unit::TestCase
     fib_of_ten = Fibonacci.of(10)
     assert_equal(55, fib_of_ten)
   end
-  
 end
 ```
 
