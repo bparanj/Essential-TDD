@@ -452,9 +452,7 @@ The fundamental idea is that we should divide an object's methods into two categ
 						 of the system (are free of side effects).
     Commands: Change the state of a system but do not return a value.
 
-Because the term 'command' is widely used in other contexts it is referred as 'modifiers' and 'mutators'.
-
-It's useful if you can clearly separate methods that change state from those that don't. This is because you can use queries in many situations with much more confidence, changing their order. You have to be careful with modifiers.
+It's useful if you can clearly separate methods that change state from those that don't. This is because you can use queries in many situations with much more confidence, changing their order. You have to be careful with commands.
 
 The return type is the give-away for the difference. It's a good convention because most of the time it works well. Consider iterating through a collection in Java: the next method both gives the next item in the collection and advances the iterator. It's preferable to separate advance and current methods.
 
