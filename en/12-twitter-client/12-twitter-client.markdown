@@ -339,7 +339,7 @@ end
 
 ## Discussion ##
 
-Continuous Testing with Ruby uses mocks in the tests to write the tests for Mongodb. Because we have never used this db before, it shows breaking dependencies by testing against a real service and then replacing those interactions with mocks. This results in lot of mocks in the tests. 
+The book Continuous Testing with Ruby, Rails and Javascript by Ben Rady & Rod Coffin uses mocks in the tests to write the tests for Mongodb. Because we have never used this db before, it shows breaking dependencies by testing against a real service and then replacing those interactions with mocks. This results in lot of mocks in the tests. 
 
 Using mocks in this case is improper usage of mocks. Because you cannot drive the design of a third-party API (Mongodb API in this case). There is a better way to breaking the external dependencies. 
 	
@@ -347,6 +347,7 @@ Using mocks in this case is improper usage of mocks. Because you cannot drive th
 2. Then create a thin adapter layer that has well defined interface. This adapter layer will encapsulate the interaction with Mongodb. Now you can mock the thin adapter layer in your code and write integration tests for the adapter tests that will interact with Mongodb. 
 
 This prevents the changes in Mongodb API from impacting the domain code. See https://github.com/bparanj/mongodb_specs for example of learning specs.
+
 
 
 
