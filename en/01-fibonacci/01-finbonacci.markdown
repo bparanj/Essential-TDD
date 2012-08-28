@@ -45,7 +45,7 @@ Input    Output
 2. The final solution should be able to take any random number and calculate the Fibonacci number without any modification to the production code.
 
 ## Set Up Environment ##
-## Version 1 ##
+### Version 1 ###
 
 ```ruby
 require 'test/unit'

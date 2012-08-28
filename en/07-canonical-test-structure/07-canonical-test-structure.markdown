@@ -2,10 +2,10 @@
 
 ## Objective : Canonical test structure practice for Given, When, Then ##
 
-		- Given - Precondition
-		- When  - Exercise the SUT
-		- Then  - Postcondition
-		- Example uses State Verification
+- Given - Precondition
+- When  - Exercise the SUT
+- Then  - Postcondition
+- Example uses State Verification
 
 stack_spec.rb
 

@@ -2,14 +2,14 @@
 
 # Scanner #
 
+This example is about a scanner that is used in a checkout counter. You can scan item, the name and price of the item is sent to the output console.
+
 ## Objectives ##
 
 - How to use Fakes and Mocks ?
 - When to delete a test ?
 
 ## Writing the First Test ##
-
-The first example is about a scanner that is used in a checkout counter. You can scan item, the name and price of the item is sent to the output console.
 
 scanner_spec.rb
 
@@ -188,6 +188,33 @@ end
 
 The display method is under our control so we can use Mock. Mock is a design technique that is used to discover API. This is an example of right way to use Mock.
 
+## Notes on Mock Objects ##
+
+A Mock Object is a substitute implementation to emulate or instrument other domain code.  It should be simpler than the real code, not duplicate its implementation, and allow you to set up private state to aid in testing. The emphasis in mock implementations is on absolute simplicity, rather than completeness. For example, a mock collection class might always return the same results from an index method, regardless of the actual parameters. 
+
+A warning sign of a Mock Object becoming too complex is that it starts calling other Mock Objects – which might mean that the unit test is not sufficiently local. When using Mock Objects, only the unit test and the target domain code are real.
+
+## Why use mock objects? ##
+
+- Deferring Infrastructure Choices
+- Lightweight emulation of required complex system state
+- On demand simulation of conditions
+- Interface Discovery
+- Loosely coupled design achieved via dependency injection
+
+## A Pattern for Unit Testing ##
+
+Create instances of Mock Objects
+
+· Set state in the Mock Objects
+· Set expectations in the Mock Objects
+· Invoke domain code with Mock Objects as parameters
+· Verify consistency in the Mock Objects
+
+With this style, the test makes clear what the domain code is expecting from its environment, in effect documenting its preconditions, postconditions, and intended use. All these aspects are defined in executable test code, next to the domain code to which they refer. We sometimes find that arguing over which objects to verify gives us better insight into a test and, hence, the	domain. In our experience, this style makes it easy for new readers to understand the unit tests as it reduces the amount of context they have to remember. We have also found that it is useful for demonstrating to new programmers how to write effective unit tests.
+
+Testing with Mock Objects improves domain code by preserving encapsulation, reducing global dependencies, and clarifying the interactions between classes.
+	
 ## Reference ##
 
 Working Effectively with Legacy Code

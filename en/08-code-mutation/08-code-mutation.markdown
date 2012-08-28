@@ -90,7 +90,7 @@ end
 
 When the test passes without failing, you must modify the production code to make the test fail to make sure that you the test is testing the right thing. This example illustrates:
 
-	- How to open classes that preserves the semantics of the core classes.
-	- What to do when the test passes without failing the first time.
-	- Hiding implementation related classes.
-	- Intention revealing variable names.
+- How to open classes that preserves the semantics of the core classes.
+- What to do when the test passes without failing the first time.
+- Hiding implementation related classes.
+- Intention revealing variable names.
