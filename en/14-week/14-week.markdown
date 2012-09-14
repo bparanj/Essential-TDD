@@ -178,3 +178,4 @@ describe Week do
   end
 end
 ```
+"A program must be able to deal with exceptions. A good design rule is to list explicitly the situations that may cause a program to break down" -- Jorgen Knudsen (Object Design : Roles, Responsibilities and Collaborations)

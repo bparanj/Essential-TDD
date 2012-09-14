@@ -1,5 +1,3 @@
-# Honey Boo Boo #
-
 # Scanner #
 
 This example is about a scanner that is used in a checkout counter. You can scan item, the name and price of the item is sent to the output console.
@@ -17,7 +15,6 @@ scanner_spec.rb
 require_relative 'scanner'
 
 describe Scanner do
-  
   it 'should respond to scan with barcode as the input parameter' do
     scanner = Scanner.new
     
@@ -51,7 +48,6 @@ This will show the output in color and formatted to read as documentation. The d
 require_relative 'scanner'
 
 describe Scanner do
-  
   it 'should respond to scan with barcode as the input argument' do
     scanner = Scanner.new
     
@@ -64,7 +60,6 @@ Run the test, watch it fail due to the input parameter and change the scanner.rb
 
 ```ruby
 class Scanner
-  
   def scan(barcode)
     
   end
@@ -84,7 +79,6 @@ require_relative 'scanner'
 require_relative 'r2d2_display'
 
 describe Scanner do
-    
   it "scan & display the name & price of the scanned item on a cash register display" do
     real_display = R2d2Display.new
     scanner = Scanner.new(real_display)
@@ -133,7 +127,6 @@ require_relative 'scanner'
 require_relative 'fake_display'
 
 describe Scanner do
-    
   it "scan & display the name & price of the scanned item on a cash register display" do
     fake_display = FakeDisplay.new
     scanner = Scanner.new(fake_display)
@@ -175,8 +168,7 @@ Writing a lot of fakes can become tedious. In such cases, mocks can be used. Moc
 ```ruby
 require_relative 'scanner'
 
-describe Scanner do
-    
+describe Scanner do 
   it "scan & display the name & price of the scanned item on a cash register display" do
     fake_display = mock
     fake_display.should_receive(:display).with("Milk $3.99")
@@ -206,10 +198,10 @@ A warning sign of a Mock Object becoming too complex is that it starts calling o
 
 Create instances of Mock Objects
 
-· Set state in the Mock Objects
-· Set expectations in the Mock Objects
-· Invoke domain code with Mock Objects as parameters
-· Verify consistency in the Mock Objects
+- Set state in the Mock Objects
+- Set expectations in the Mock Objects
+- Invoke domain code with Mock Objects as parameters
+- Verify consistency in the Mock Objects
 
 With this style, the test makes clear what the domain code is expecting from its environment, in effect documenting its preconditions, postconditions, and intended use. All these aspects are defined in executable test code, next to the domain code to which they refer. We sometimes find that arguing over which objects to verify gives us better insight into a test and, hence, the	domain. In our experience, this style makes it easy for new readers to understand the unit tests as it reduces the amount of context they have to remember. We have also found that it is useful for demonstrating to new programmers how to write effective unit tests.
 
