@@ -1,0 +1,30 @@
+Essential TDD Meetup Notes
+------------------------------------------------------------------------------------------
+
+1. cover rspec matcher is not working in ruby 1.8.7. Create a custom matcher called between(lower, upper)
+   as an example.
+2. Composing objects occurs in the Game.new(fake_console) step. The mock is basically an interface that plays
+   the role of console. 
+3. In the refactoring stage, you must look beyond just eliminating duplication. You must apply OO principles 
+   and make sure the classes are cohesive and loosely coupled.
+4. Specs should read like a story with a beginning, middle and an end. Once upon a time... lot of exciting things happen... then they lived happily ever after.
+5. Guessing game:
+
+irb > x = $stdin.gets
+54
+ => "54\n" 
+irb > $stdout.puts 'hi'
+hi
+
+6. How do you know the code is working?
+   A test should fail when the code is broken. It should pass when it is good.
+7. Do not tie the test to the data structure. It will lead to brittle test.
+
+------------------------------------------------------------------------------------------
+
+Difficulty in Writing a Test
+
+1. How can you express the domain? What should happen when you start a game?
+2. What statements can you make about the program that is true?
+
+------------------------------------------------------------------------------------------
