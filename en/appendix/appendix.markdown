@@ -63,3 +63,12 @@ Rails:
 4. > User.new(:name => 'matz').should_not be_valid
 5. > irspec 'spec/requests/users_spec.rb'
 ```
+
+## 3. Side Effect ##
+
+TODO: Definition goes here
+
+## 4. dev/null in Unix ##
+
+TODO: Definition goes here
+

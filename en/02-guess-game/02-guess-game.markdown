@@ -98,7 +98,7 @@ class GuessGame
 end
 ```
 
-Note: Using expected.include?(result) is also ok (does not use rspec matcher).
+Note: Using expected.include?(result) is also ok (does not use cover rspec matcher).
 
 ## Version 3 ##
 
@@ -278,7 +278,7 @@ describe GuessGame do
 end
 ```
 
-The fix shows how to invert dependencies on concreted classes to abstract interface. In this case the abstract interface is 'output' and not specific method like 'puts' or GUI related method that ties the game logic to a concrete implementation.
+The fix shows how to invert dependencies on concrete classes to abstract interface. In this case the abstract interface is 'output' and not specific method like 'puts' or GUI related method that ties the game logic to a concrete implementation.
 
 standard_output.rb
 
@@ -321,7 +321,7 @@ Added spec #4. Illustrates the use of as_null_object.
 s = stub.as_null_object
 ```
 
-s acts as a dev/null equivalent for tests. It ignores any messages that it receives. Useful for incidental interactions that is not relevant to what is being tested.
+s acts as a dev/null equivalent for tests. It ignores any messages that it receives. Useful for incidental interactions that is not relevant to what is being tested. See the appendix to learn about dev/null in Unix.
 
 guess_game_spec.rb
 
@@ -1061,3 +1061,29 @@ class GuessGame
   end
 end
 ```
+
+Let's take a look at the list of things that this object can do:
+
+it "should generate random number between 1 and 100 inclusive"
+it "should display greeting when the game begins" 
+it "should display greeting to the standard output when the game begins" 
+it "should prompt the user to enter the number representing their guess." 
+it "should perform validation of the guess entered by the user : lower than 1" 
+it "should perform validation of the guess entered by the user : higher than 100"
+it "should give clue when the input is valid and is less than the computer pick" 
+it "should give clue when the input is valid and is greater than the computer pick"
+it "should recognize the correct answer when the guess is correct."
+
+We can categorize the above responsibilities as:
+
+1. Random number generation
+2. Interacting with the user
+3. Validation of input
+4. Know when the guess is correct
+
+Random number generation has been moved into Randomizer class. So we can delete the first spec, since it is now the responsibility of it's collaborator. The GuessGame object could become a gaming engine that delegates validation and user interaction into separate classes if they become complex. For now we will leave it alone. 
+
+As we reflect on the responsibilities we can check whether they serve one purpose or they are doing unrelated things. This will help us to make the class cohesive.
+
+TODO: Change the console object so that it can get user input from stdout.
+

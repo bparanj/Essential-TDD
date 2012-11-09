@@ -413,6 +413,6 @@ This version illustrates using existing tests as safety net when making major ch
 1. Run the mini-test based fibonacci and make sure all tests pass. 
     ($ ruby fibonacci_test.rb)
 2. Move the fibonacci class into its own file and make all the tests pass.
-3. Convert the given mini-test test to rspec version fibonacci_spec.rb.
-4. Get the output of the mini-test in color. 
-5. Watch the Factorial screencast and convert the unit test to rspec spec.
+3. Get the output of the mini-test in color. 
+4. Convert the given mini-test tests to rspec version fibonacci_spec.rb.
+5. Watch the Factorial screencast and convert the unit tests to rspec specs.
