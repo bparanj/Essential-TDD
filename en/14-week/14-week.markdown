@@ -158,24 +158,23 @@ describe Week do
     
     day.should == :monday
   end
-  # contract test
-  it "should return false for numbers that does not correspond to week day" do
+  it "should return false for numbers that does not correspond to week day (contract test)" do
     day = Week.day("7")
     
     day.should be_false
   end
-  # contract test  
-  it "should throw exception for numbers that does not correspond to week end" do
+  it "should throw exception for numbers that does not correspond to week end (contract test)" do
     expect do
       week_end = Week.end("4")
     end.to raise_error
   end
-  # contract test
-  it "should throw exception for numbers that is out of range" do
+  it "should throw exception for numbers that is out of range (contract test)" do
     expect do
       week_end = Week.end("40")
     end.to raise_error    
   end
 end
 ```
+
 "A program must be able to deal with exceptions. A good design rule is to list explicitly the situations that may cause a program to break down" -- Jorgen Knudsen (Object Design : Roles, Responsibilities and Collaborations)
+

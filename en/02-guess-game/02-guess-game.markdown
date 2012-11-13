@@ -1064,15 +1064,15 @@ end
 
 Let's take a look at the list of things that this object can do:
 
-it "should generate random number between 1 and 100 inclusive"
-it "should display greeting when the game begins" 
-it "should display greeting to the standard output when the game begins" 
-it "should prompt the user to enter the number representing their guess." 
-it "should perform validation of the guess entered by the user : lower than 1" 
-it "should perform validation of the guess entered by the user : higher than 100"
-it "should give clue when the input is valid and is less than the computer pick" 
-it "should give clue when the input is valid and is greater than the computer pick"
-it "should recognize the correct answer when the guess is correct."
+*	it "should generate random number between 1 and 100 inclusive"
+*	it "should display greeting when the game begins" 
+*	it "should display greeting to the standard output when the game begins" 
+*	it "should prompt the user to enter the number representing their guess." 
+*	it "should perform validation of the guess entered by the user : lower than 1" 
+*	it "should perform validation of the guess entered by the user : higher than 100"
+*	it "should give clue when the input is valid and is less than the computer pick" 
+*	it "should give clue when the input is valid and is greater than the computer pick"
+*	it "should recognize the correct answer when the guess is correct."
 
 We can categorize the above responsibilities as:
 
@@ -1089,15 +1089,18 @@ As we reflect on the responsibilities we can check whether the set of responsibi
 
 How can we abstract the standard input and standard output? Playing in the irb:
 
+```ruby
 irb > x = $stdin.gets
 54
  => "54\n" 
 irb > $stdout.puts 'hi'
 hi
+```
 
 We can combine them into a console object. By definition: Console is a monitor and keyboard in a multiuser computer system. We can call this new class StandardConsole.
 
 guess_game_spec.rb
+
 ```ruby
 require_relative 'guess_game'
 
@@ -1173,6 +1176,7 @@ end
 ```
 
 guess_game.rb
+
 ```ruby
 require_relative 'standard_console'
 require_relative 'randomizer'
@@ -1221,6 +1225,7 @@ end
 ```
 
 randomizer.rb
+
 ```ruby
 require_relative 'guess_game'
 
@@ -1237,6 +1242,7 @@ end
 ```
 
 standard_console.rb
+
 ```ruby
 class StandardConsole
   
@@ -1257,6 +1263,7 @@ end
 ```
 
 standard_console_spec.rb
+
 ```ruby
 require_relative 'console_interface_spec'
 require_relative 'standard_console'

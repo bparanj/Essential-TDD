@@ -7,5 +7,3 @@
 ## Exercise ##
 
 Watch BDD_Basics_II.mov
-
-

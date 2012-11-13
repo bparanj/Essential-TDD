@@ -54,7 +54,6 @@ Standalone:
 
 Rails:
 
-
 ```ruby
 1. Include gem 'interactive_rspec' in Gemfile
 2. bundle
@@ -76,6 +75,7 @@ from it.
 
 ## 5. Gist by Pat Maddox at https://gist.github.com/730609 ##
 
+```ruby
 module Codebreaker
   class Game
     def initialize(output)
@@ -100,6 +100,7 @@ module Codebreaker
     end
   end
 end
+```
 
 This example is from the RSpec Book. The problem here is the Game object has no purpose. 
 It is ignoring the system boundary and is tightly coupled to the implementation. It violates
