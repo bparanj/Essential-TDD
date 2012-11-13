@@ -1081,9 +1081,273 @@ We can categorize the above responsibilities as:
 3. Validation of input
 4. Know when the guess is correct
 
-Random number generation has been moved into Randomizer class. So we can delete the first spec, since it is now the responsibility of it's collaborator. The GuessGame object could become a gaming engine that delegates validation and user interaction into separate classes if they become complex. For now we will leave it alone. 
+Random number generation has been moved into Randomizer class. So we can delete the first spec, since it is now the responsibility of it's collaborator. The GuessGame object could become a gaming engine that delegates validation and user interaction to separate classes if they become complex. For now we will leave it alone. 
 
-As we reflect on the responsibilities we can check whether they serve one purpose or they are doing unrelated things. This will help us to make the class cohesive.
+As we reflect on the responsibilities we can check whether the set of responsibilities serve one purpose or they are doing unrelated things. This will help us to design the class with high cohesion. This leads us to the following version.
 
-TODO: Change the console object so that it can get user input from stdout.
+## Version 13 ##
+
+How can we abstract the standard input and standard output? Playing in the irb:
+
+irb > x = $stdin.gets
+54
+ => "54\n" 
+irb > $stdout.puts 'hi'
+hi
+
+We can combine them into a console object. By definition: Console is a monitor and keyboard in a multiuser computer system. We can call this new class StandardConsole.
+
+guess_game_spec.rb
+```ruby
+require_relative 'guess_game'
+
+describe GuessGame do
+  let(:fake_console) { double('Console').as_null_object }
+  
+  context 'Starting the game' do
+    it "should display 'Welcome to the Guessing Game' to the standard output when the game begins" do
+      fake_console.should_receive(:output).with('Welcome to the Guessing Game')
+
+      game = GuessGame.new(fake_console)
+      game.start
+    end
+
+    it "should prompt the user to enter the number representing their guess. Prompt should explain to users what they are to do." do
+      fake_console.should_receive(:prompt).with('Enter a number between 1 and 100 to guess the number')
+
+      game = GuessGame.new(fake_console)
+      game.start    
+    end    
+  end
+  
+  context 'Validation' do
+    it "should perform validation of the guess entered by the user : lower than 1" do
+      fake_console.stub(:input) { 0 }
+
+      game = GuessGame.new(fake_console)
+      game.get_user_guess
+
+      game.error.should == 'The number must be between 1 and 100'            
+    end
+
+    it "should perform validation of the guess entered by the user : higher than 100" do
+      fake_console.stub(:input) { 101 }
+
+      game = GuessGame.new(fake_console)
+      game.get_user_guess
+        
+      game.error.should == 'The number must be between 1 and 100'            
+    end
+  end
+  
+  context "Engine" do
+    let(:fake_randomizer) { stub(:get => 25) }
+    
+    it "should give clue when the input is valid and is less than the computer pick" do
+      fake_console.stub(:input) { 10 }
+      fake_console.should_receive(:output).with('Your guess is lower')
+
+      game = GuessGame.new(fake_console, fake_randomizer)
+      game.get_user_guess
+    end
+
+    it "should give clue when the input is valid and is greater than the computer pick" do
+      fake_console.stub(:input) { 35 }
+      fake_console.should_receive(:output).with('Your guess is higher')
+
+      game = GuessGame.new(fake_console, fake_randomizer)
+      game.get_user_guess
+    end
+
+    it "should recognize the correct answer when the guess is correct." do
+      fake_console.stub(:input) { 25 }
+      fake_console.should_receive(:output).with('Your guess is correct')
+
+      game = GuessGame.new(fake_console, fake_randomizer)
+      game.get_user_guess
+    end
+    
+  end
+  
+end
+```
+
+guess_game.rb
+```ruby
+require_relative 'standard_console'
+require_relative 'randomizer'
+
+class GuessGame
+  attr_reader :guess
+  attr_accessor :error
+  attr_reader :random
+  
+  def initialize(console=StandardConsole.new, randomizer=Randomizer.new)
+    @console = console
+    @random = randomizer.get
+  end
+    
+  def start
+    @console.output("Welcome to the Guessing Game")
+    @console.prompt("Enter a number between 1 and 100 to guess the number")
+  end
+      
+  def get_user_guess
+    @guess = @console.input  
+    give_feedback if valid
+  end
+    
+  private
+  
+  def valid
+    if (@guess < 1) or (@guess > 100)
+      @error = 'The number must be between 1 and 100'
+      false
+    else
+      true
+    end
+  end
+  
+  def give_feedback
+    if @guess < @random
+      @console.output('Your guess is lower')
+    elsif @guess > @random
+      @console.output('Your guess is higher')
+    else
+      @console.output('Your guess is correct')
+    end
+  end
+end
+```
+
+randomizer.rb
+```ruby
+require_relative 'guess_game'
+
+describe Randomizer do
+
+  it "should generate random number between 1 and 100 inclusive" do
+    result = Randomizer.new.get
+  
+    expected = 1..100
+    # expected.include?(result) -- This is also ok (does not use rspec matcher)
+    expected.should cover(result)
+  end
+end
+```
+
+standard_console.rb
+```ruby
+class StandardConsole
+  
+  def output(message)
+    puts message
+  end
+    
+  def prompt(message)
+    output(message)
+    puts ">"
+  end
+  
+  def input
+    gets.chomp.to_i
+  end
+  
+end
+```
+
+standard_console_spec.rb
+```ruby
+require_relative 'console_interface_spec'
+require_relative 'standard_console'
+
+describe StandardConsole do
+  
+  before(:each) do
+    @object = StandardConsole.new
+  end
+  
+  it_behaves_like "Console Interface"
+  
+end
+```
+
+1. StandardOutput and StandardInput is combined into one StandardConsole object. This new object encapsulates
+   the interaction with the standard input and output (monitor & keyboard).
+2. We can have different implementations of the console object such NetworkConsole, GraphicalConsole etc.
+3. The second spec that was the duplicate of the first test has been deleted.
+4. Specs are more readable since they are grouped into their own context.
+5. guess=(n) method has been renamed to a domain expressive method : get_user_guess
+6. Spec 5 :   it "should perform validation of the guess entered by the user : lower than 1" 
+	modified to use StandardConsole#input method. The actual method does not get called in the test. The 
+	fake console is used. 
+
+## Version 14 ##
+
+### Actual Usage of the GuessGame ###
+
+```ruby
+$ irb
+:001 > load './guess_game.rb'
+ => true 
+:002 > g = GuessGame.new
+ => #<GuessGame:0x007fa414139ab0 @console=#<StandardConsole:0x007fa414139a88>, @random=42> 
+:003 > g.start
+Welcome to the Guessing Game
+Enter a number between 1 and 100 to guess the number
+>
+ => nil 
+:001 > g.get_user_guess
+20
+Your guess is lower
+ => nil 
+:002 > g.get_user_guess
+30
+Your guess is lower
+ => nil 
+:003 > g.get_user_guess
+80
+Your guess is higher
+ => nil 
+:004 > g.get_user_guess
+70
+Your guess is higher
+ => nil 
+:005 > g.get_user_guess
+42
+Your guess is correct
+ => nil 
+```
+
+Our objective here is to expose bugs found during exploratory testing by writing test first. Then make it work. 
+So we experimented in the irb to make sure the implementation of StandardConsole#input works. This
+is a change in the production code that is not driven by test. 
+
+We added to_s method to the StandardConsole and GuessGame classes so that the secret number is not revealed while playing the game. This change was driven by exploratory testing. 
+
+guess_game.rb
+
+```ruby
+def to_s
+  "You have chosen : #{@console} to play the guess game"
+end
+```
+
+standard_console.rb
+
+```ruby
+def to_s
+  "Standard Console"
+end
+```
+
+## Exercise ##
+
+1. Play the game with Guess game and make sure you can use it's interface and it works as expected. Use any feedback to write new specs. 
+
+2. For instance, implement the feature to output the number of attempts taken to guess the number correctly.
+
+
+
+
 

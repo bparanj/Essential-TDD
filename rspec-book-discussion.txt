@@ -1,7 +1,3 @@
-https://gist.github.com/730609
-
-The problem here is the Game object has no purpose. It is ignoring the system boundary and is
-tightly coupled to the implementation.
 When I register on the site:
 
 1. Activation email should be sent.

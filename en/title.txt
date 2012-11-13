@@ -1,3 +1,6 @@
 % Essential TDD
 % Bala Paranj
+
+Copyright © 2012 
+Bala Paranj
 \newpage

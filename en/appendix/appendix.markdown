@@ -66,9 +66,67 @@ Rails:
 
 ## 3. Side Effect ##
 
-TODO: Definition goes here
+TODO: Definition goes here.
 
 ## 4. dev/null in Unix ##
 
-TODO: Definition goes here
+In Unix, /dev/null represents a null device that is a special file. It 
+discards all data written to it and provides no data to anyone that read
+from it.
+
+## 5. Gist by Pat Maddox at https://gist.github.com/730609 ##
+
+module Codebreaker
+  class Game
+    def initialize(output)
+      @output = output
+    end
+    def start
+      @output.puts("Welcome to Codebreaker!")
+      @output << "You smell bad"
+    end
+  end
+end
+
+module Codebreaker
+  describe Game do
+    describe "#start" do
+      it "sends a welcome message" do
+        output = double('output')
+        game = Game.new(output)
+        output.should_receive(:puts).with('Welcome to Codebreaker!')
+        game.start
+      end
+    end
+  end
+end
+
+This example is from the RSpec Book. The problem here is the Game object has no purpose. 
+It is ignoring the system boundary and is tightly coupled to the implementation. It violates
+Open Closed Principle.
+
+## FAQ ##
+
+1. cover rspec matcher is not working in ruby 1.8.7. Create a custom matcher called 
+   between(lower, upper) as an example.
+
+2. Composing objects occurs in the Game.new(fake_console) step. The mock is basically an interface that plays
+   the role of console. 
+
+3. In the refactoring stage, you must look beyond just eliminating duplication. You must apply OO principles 
+   and make sure the classes are cohesive and loosely coupled.
+
+4. Specs should read like a story with a beginning, middle and an end. 
+   Once upon a time... lot of exciting things happen... then they lived happily ever after.
+
+5. How do you know the code is working?
+   A test should fail when the code is broken. It should pass when it is good.
+
+6. Do not tie the test to the data structure. It will lead to brittle test.
+
+## Difficulty in Writing a Test ##
+
+1. How can you express the domain? What should happen when you start a game?
+2. What statements can you make about the program that is true?
+
 

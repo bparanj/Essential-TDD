@@ -1,7 +1,15 @@
-pandoc -S --epub-metadata=metadata.xml -o etdd.epub title.txt 01-introduction/01-chapter1.markdown 
-pandoc -S --epub-metadata=metadata.xml -o etdd.pdf title.txt 01-introduction/01-chapter1.markdown 
+## How to Generate the Book ##
 
-Code Examples
+pandoc -S --epub-metadata=metadata.xml -o etdd.epub title.txt 01-introduction/01-chapter1.markdown 
+
+~/projects/essential-tdd/en $ pandoc -S --epub-metadata=metadata.xml -o etdd.pdf title.txt 01-Section/01-section-1.markdown 01-fibonacci/01-finbonacci.markdown 02-guess-game/02-guess-game.markdown 03-command-query-separation/03-command-query-separation.markdown 04-test-spy/04-test-spy.markdown 05-scanner/05-scanner.markdown 06-uncommenter/06-uncommenter.markdown 07-canonical-test-structure/07-canonical-test-structure.markdown 08-code-mutation/08-code-mutation.markdown 09-eliminate-loops/09-eliminate-loops.markdown 10-angry-rock/10-angry-rock.markdown 11-double-dispatch/11-double-dispatch.markdown 12-twitter-client/12-twitter-client.markdown 13-learning-specs/13-learning-specs.markdown 14-week/14-week.markdown 15-tautology/15-tautology.markdown appendix/appendix.markdown 16-bowling-game/16-bowling-game.markdown; open etdd.pdf
+
+## Search for To Do Items ##
+
+grep -r 'TODO' en/01-section/
+
+## Code Examples ##
+
 http://github.com/bparanj/polgar
 
 ## How to Keep Score ##
@@ -33,7 +41,6 @@ In this fourth example (frame 4) when John rolled his first ball he knocked down
 When a bowler knocks all ten pins down on the second ball roll they are said to have rolled a spare. The score keeper will mark a / for that frame and the bowlers score is the ten pins that they just knocked down plus they get to add to that what they knock down on their next ball roll. Consequently, you will not know what the bowers score is until the next frame!
 ￼
 In this fifth example (frame 5) when John rolled his first ball he knocked down 8 pins, on the second ball he knocked down the remaining 2 pins. His score is marked by placing an 8 (for the first ball) and a single slash (for the second ball) indicating the John scored a spare in frame 5. We still don't know what John's score for frame 5 is until he rolls his next ball.
-
 ￼
 In this sixth example (frame 6) when John rolled his first ball he knocked down all ten pins (a strike). We can now go back and score frame five at 64 (44 from frame 4 plus ten from frame 5 plus 10 from the next ball thrown. We still don't know what John's score for frame 6 is until he rolls his next two balls.
 
