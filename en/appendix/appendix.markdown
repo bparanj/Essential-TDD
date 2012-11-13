@@ -129,4 +129,78 @@ Open Closed Principle.
 1. How can you express the domain? What should happen when you start a game?
 2. What statements can you make about the program that is true?
 
+## Notes from Martin Fowler's article and jMock Home Page ##
+
+### Testing and Command Query Separation Principle ###
+
+The term 'command query separation' was coined by Bertrand Meyer in his book 'Object Oriented Software Construction'.
+
+The fundamental idea is that we should divide an object's methods into two categories:
+
+    Queries: Return a result and do not change the observable state 
+						 of the system (are free of side effects).
+    Commands: Change the state of a system but do not return a value.
+
+It's useful if you can clearly separate methods that change state from those that don't. This is because you can use queries in many situations with much more confidence, changing their order. You have to be careful with commands.
+
+The return type is the give-away for the difference. It's a good convention because most of the time it works well. Consider iterating through a collection in Java: the next method both gives the next item in the collection and advances the iterator. It's preferable to separate advance and current methods.
+
+ There are exceptions. Popping a stack is a good example of a modifier that modifies state. Meyer correctly says that you can avoid having this method, but it is a useful idiom. Follow this principle when you can.
+
+From jMock home page: Tests are kept flexible when we follow this rule of thumb: Stub queries and expect commands, where a query is a method with no side effects that does nothing but query the state of an object and a command is a method with side effects that may, or may not, return a result. Of course, this rule does not hold all the time, but it's a useful starting point.
+
+## RSpec Test Structure ##
+
+1. 
+
+describe Movie, "Definition. Make sure single responsibility principle is obeyed." do
+
+
+end
+
+The first argument of the describe block in a spec is name of the class or module under test. It is the subject. It can also be a string. The second is an optional string. It is a good practice to include the second 
+string argument that describes the class and make sure that it does not have 'And', 'Or' or 'But'.
+If it obeys Single responsibility principle that it will not contain those words.
+
+2.
+
+specify "[Method Under Test] [Scenario] [Expected Behavior]" do
+
+end
+
+3. 
+
+Given
+When 
+Then
+
+## Interactive Spec ##
+
+Standalone:
+------------
+
+1. gem install interactive_spec
+2. irspec
+3. > (1+1).should == 3
+
+Rails:
+-------------
+
+1. gem 'interactive_rspec' in Gemfile
+2. bundle
+3. rails c
+> irspec
+> User.new(:name => 'matz').should_not be_valid
+> irspec 'spec/requests/users_spec.rb'
+
+## Stub ##
+
+1. In irb: 
+> require 'rspec/mocks/standalone'
+
+s = stub.as_null_object
+
+acts as a UNIX's dev/null equivalent for tests. It ignores any messages. Useful for incidental interactions that is not relevant to what is being tested. It implements the Null Object pattern.
+
+In E-R modeling you have relationships such as 1-n, n-n, 1-1 and so on. In domain modeling you have relationships such as aggregation, composition, inheritance, delegation etc. Most of these have constructs provided by the language or the framework such as Rails. Example: composed_of in Rails, delegate in Ruby, symbol < for inheritance. The interface relationship for roles has to be explicitly specified in the specs to make the relationship between objects explicit.
 

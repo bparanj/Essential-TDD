@@ -203,7 +203,7 @@ Create instances of Mock Objects
 - Invoke domain code with Mock Objects as parameters
 - Verify consistency in the Mock Objects
 
-With this style, the test makes clear what the domain code is expecting from its environment, in effect documenting its preconditions, postconditions, and intended use. All these aspects are defined in executable test code, next to the domain code to which they refer. We sometimes find that arguing over which objects to verify gives us better insight into a test and, hence, the	domain. In our experience, this style makes it easy for new readers to understand the unit tests as it reduces the amount of context they have to remember. We have also found that it is useful for demonstrating to new programmers how to write effective unit tests.
+With this style, the test makes clear what the domain code is expecting from its environment, in effect documenting its preconditions, postconditions, and intended use. All these aspects are defined in executable test code, next to the domain code to which they refer. Sometimes arguing about which objects to verify gives us better insight into a test and, hence, the domain. This style makes it easy for new readers to understand the unit tests as it reduces the amount of context they have to remember. It is also useful for demonstrating to new programmers how to write effective unit tests.
 
 Testing with Mock Objects improves domain code by preserving encapsulation, reducing global dependencies, and clarifying the interactions between classes.
 	

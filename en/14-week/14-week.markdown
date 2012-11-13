@@ -1,6 +1,6 @@
 # Week #
 
-## Objective ##
+## Objectives ##
 
 - Introduction to Contract tests. 
 - How to write contract tests? 

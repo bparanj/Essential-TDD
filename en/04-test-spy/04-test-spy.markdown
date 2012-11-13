@@ -6,7 +6,7 @@
 
 ### Problem ###
 
- I came across a problem during testing. I had to test the cookie setting logic of my controllers. It was straightforward to test that the cookie was set for the happy path. For the alternative scenario it became tricky to test because RSpec and Rails framework did not play that well together. I even read Devise Rails plugin code to see how Jose Valim handled cookie related problems during testing. No luck. One solution I found was on Stackoverflow: How do I test cookie expiry?
+ I came across a problem during testing. I had to test the cookie setting logic of my controllers. It was straightforward to test that the cookie was set for the happy path. For the alternative scenario it became tricky to test because RSpec and Rails framework did not play well together. I even read Devise Rails plugin code to see how Jose Valim handled cookie related problems during testing. No luck. One solution I found was on Stackoverflow: How do I test cookie expiry?
 
 app/controllers/widget_controller.rb
 

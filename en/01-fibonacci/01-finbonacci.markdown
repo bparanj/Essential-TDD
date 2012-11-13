@@ -408,7 +408,7 @@ end
 
 This version illustrates using existing tests as safety net when making major changes to the code. Notice that we only focus only on one thing at a time, the focus can shift from one version to the other.
 
-## Exercises: ##
+## Exercises ##
 			
 1. Run the mini-test based fibonacci and make sure all tests pass. 
     ($ ruby fibonacci_test.rb)

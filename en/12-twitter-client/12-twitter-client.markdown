@@ -4,8 +4,8 @@
 
 - Dealing with third party API.
 - Thin adapter layer to insulate your application from external API.
-- What abusing mocks looks like
-- Brittle tests that break even when the behavior does not change caused by mock abuse
+- What abusing mocks looks like.
+- Brittle tests that break even when the behavior does not change, caused by mock abuse.
 - Integration tests should test the layer that interacts with external API.
 - Using too many mocks indicate badly designed API. So called fluent interface is actually a train wreck. Fluent interface is ok for languages like Java where it is the only option.
 

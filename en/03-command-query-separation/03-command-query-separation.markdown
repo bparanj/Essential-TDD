@@ -3,8 +3,8 @@
 ## Objectives ##
 
 - How to fix Command Query Separation violation ?
-- Illustrates how to fix abuse of mocks.
-- Illustrates how to write focused tests. 
+- Illustrate how to fix abuse of mocks.
+- Illustrate how to write focused tests. 
 - How to deal with external dependencies in your domain code ?
 
 ## Before ##
@@ -440,22 +440,4 @@ class TweetAnalyzer
 end
 ```
 
-## Notes from Martin Fowler's article and jMock Home Page ##
-
-### Testing and Command Query Separation Principle ###
-
-The term 'command query separation' was coined by Bertrand Meyer in his book 'Object Oriented Software Construction'.
-
-The fundamental idea is that we should divide an object's methods into two categories:
-
-    Queries: Return a result and do not change the observable state 
-						 of the system (are free of side effects).
-    Commands: Change the state of a system but do not return a value.
-
-It's useful if you can clearly separate methods that change state from those that don't. This is because you can use queries in many situations with much more confidence, changing their order. You have to be careful with commands.
-
-The return type is the give-away for the difference. It's a good convention because most of the time it works well. Consider iterating through a collection in Java: the next method both gives the next item in the collection and advances the iterator. It's preferable to separate advance and current methods.
-
- There are exceptions. Popping a stack is a good example of a modifier that modifies state. Meyer correctly says that you can avoid having this method, but it is a useful idiom. Follow this principle when you can.
-
-From jMock home page: Tests are kept flexible when we follow this rule of thumb: Stub queries and expect commands, where a query is a method with no side effects that does nothing but query the state of an object and a command is a method with side effects that may, or may not, return a result. Of course, this rule does not hold all the time, but it's a useful starting point.
+See appendix : Notes from Martin Fowler's article and jMock Home Page.

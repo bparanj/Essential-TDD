@@ -1341,7 +1341,7 @@ def to_s
 end
 ```
 
-## Exercise ##
+## Exercises ##
 
 1. Play the game with Guess game and make sure you can use it's interface and it works as expected. Use any feedback to write new specs. 
 
