@@ -1354,7 +1354,13 @@ end
 
 2. For instance, implement the feature to output the number of attempts taken to guess the number correctly.
 
+3. What if the client were to use the GuessGame like this :
 
+	game = GuessGame.new
+	game.play
+  
+ This raises the level of abstraction and we use gaming domain specific method instead of reaching into implementation level 
+ methods. What changes do you need to make for this to work? Can start and get_user_guess methods be made into private methods?
 
 
 
