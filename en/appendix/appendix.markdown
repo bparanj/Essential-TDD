@@ -161,13 +161,15 @@ end
 
 The first argument of the describe block in a spec is name of the class or module under test. It is the subject. It can also be a string. The second is an optional string. It is a good practice to include the second 
 string argument that describes the class and make sure that it does not have 'And', 'Or' or 'But'.
-If it obeys Single responsibility principle that it will not contain those words.
+If it obeys Single Responsibility Principle that it will not contain those words.
 
 2.
 
 specify "[Method Under Test] [Scenario] [Expected Behavior]" do
 
 end
+
+Same thing can be accomplished by using describe, context and specify methods together. Refer the RSpec book to learn more.
 
 3. 
 
@@ -205,3 +207,12 @@ acts as a UNIX's dev/null equivalent for tests. It ignores any messages. Useful 
 
 In E-R modeling you have relationships such as 1-n, n-n, 1-1 and so on. In domain modeling you have relationships such as aggregation, composition, inheritance, delegation etc. Most of these have constructs provided by the language or the framework such as Rails. Example: composed_of in Rails, delegate in Ruby, symbol < for inheritance. The interface relationship for roles has to be explicitly specified in the specs to make the relationship between objects explicit.
 
+## The Rspec Book ##
+
+The Good
+1. Good discussion of Double, Mock and Stubs.
+
+The Bad
+1. Mocking the ActiveRecord library methods is a bad practice. It is shown with partial mocking example. 
+   This leads to brittle tests. Because the test is tightly coupled to the implementation. For instance, when Rails is 
+   upgraded the specs using old ActiveRecord calls will fail when the new syntax for the ORM is used.

@@ -1115,7 +1115,7 @@ describe GuessGame do
       game.start
     end
 
-    it "should prompt the user to enter the number representing their guess. Prompt should explain to users what they are to do." do
+    it "should prompt the user to enter the number for their guess. It explains users what they are to do." do
       fake_console.should_receive(:prompt).with('Enter a number between 1 and 100 to guess the number')
 
       game = GuessGame.new(fake_console)
