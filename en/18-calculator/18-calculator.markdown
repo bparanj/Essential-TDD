@@ -1,0 +1,282 @@
+# Calculator #
+
+## Objectives ##
+
+- Triangulate to solve the problem
+- Experiment to learn and explore possible solution
+- Refactoring when there is no duplication to write intent revealing code
+- Simplifying method signatures
+
+### Version 1 ###
+
+```ruby
+class Calculator
+  def calculate(input)
+	input.to_i
+  end
+end
+
+describe Calculator do
+  let(:calculator) {  Calculator.new }
+
+  it "returns 0 for an empty string" do
+    result = calculator.calculate("")
+    
+    result.should == 0
+  end
+  
+  it "returns 1 for a string containing 1" do
+    result = calculator.calculate("1")
+    
+    result.should == 1    
+  end
+    
+end
+```
+
+About to triangulate and implement the solution in a real way. 
+
+```ruby
+### Version 2 ###
+
+class Calculator
+  def calculate(input)
+    strings = input.split(',')
+    numbers = strings.map{|x| x.to_i}
+    numbers.inject{|sum, n| sum + n}
+  end
+end
+
+describe Calculator do
+  let(:calculator) {  Calculator.new }
+
+  it "returns 0 for an empty string" do
+    result = calculator.calculate("")
+    
+    result.should == 0
+  end
+  
+  it "returns 1 for a string containing 1" do
+    result = calculator.calculate("1")
+    
+    result.should == 1    
+  end
+  
+  it "returns the sum of the numbers for '1,2'" do
+    result = calculator.calculate("1,2")
+    
+    result.should == 3        
+  end
+  
+end
+```
+
+Started with the simplest test case of an empty string and moved to 1 and two numbers.
+Experimented in irb to get the generic solution working. Copied the code to calculate 
+method to get the test passing. This broke the test 1. Let's fix that now.
+
+### Version 3 ###
+
+Added a guard condition to handle the blank string edge case.
+
+```ruby
+class Calculator
+  def calculate(input)
+    if input.include?(',')
+      strings = input.split(',')
+      numbers = strings.map{|x| x.to_i}
+      numbers.inject{|sum, n| sum + n}
+    else
+      input.to_i
+    end
+  end
+end
+```
+
+### Version 4 ###
+
+Refactored in green state. Made the methods smaller. Method names expressive and focused on doing just one thing.
+
+```ruby
+class Calculator
+  def calculate(input)
+    if input.include?(',')
+      numbers = convert_string_to_integers(input)
+      calculate_sum(numbers)
+    else
+      input.to_i
+    end
+  end
+  
+  private
+  
+  def convert_string_to_integers(input)
+    strings = input.split(',')
+    strings.map{|x| x.to_i}
+  end
+  
+  def calculate_sum(numbers)
+    numbers.inject{|sum, n| sum + n}
+  end
+end
+```
+
+Note that this refactoring was not about duplication. The focus was to write intent revealing code.
+
+### Version 5 ###
+
+From the requirements, the spec for the next task:
+
+```ruby
+it 'can add unknown amount of numbers' do
+  result = calculator.calculate("1,2,3,4")
+  
+  result.should == 10           
+end
+```
+
+This test passes without failing. So we mutate the code to make the test fail:
+
+```ruby
+def calculate_sum(numbers)
+  return 0 if numbers.size == 4
+  numbers.inject{|sum, n| sum + n}
+end
+```
+
+Now we make the test pass by removing the short-circuit statement : return 0 if numbers.size == 4
+
+```ruby
+def calculate_sum(numbers)
+  numbers.inject{|sum, n| sum + n}
+end
+```
+
+### Version 6 ###
+
+Added require_relative 'calculator' statement to the calculator_spec.rb and moved the calculator class to its own file. All specs are still passing.
+
+### Version 7 ###
+
+```ruby
+it 'allows new line also as a delimiter' do
+  result = calculator.calculate("1\n2,3")
+  
+  result.should == 6
+end
+```
+
+This test fails. To make it pass the calculator method now calls normalize_delimiter method:
+
+```ruby
+class Calculator
+
+  def calculate(input)
+    normalize_delimiter(input)
+    if input.include?(',')
+      numbers = convert_string_to_integers(input)
+      calculate_sum(numbers)
+    else
+      input.to_i
+    end
+  end
+  
+  private
+    
+  def normalize_delimiter(input)
+    input.gsub!("\n", ',')
+  end
+  ... Other methods are the same ...
+end
+```
+
+### Version 8 ###
+
+After experimenting in the irb and learning about the String API, the quick and dirty implementation looks like this:
+
+```ruby
+class Calculator
+
+  def calculate(input)
+    if input.start_with?('//')
+      @delimiter = input[2]
+      @string = input[4, input.length - 1]
+    else
+      @delimiter = "\n"
+      @string = input
+    end
+      
+    normalize_delimiter
+    if @string.include?(',')
+      numbers = convert_string_to_integers
+      calculate_sum(numbers)
+    else
+      @string.to_i
+    end
+  end
+  
+  private
+  
+  def convert_string_to_integers
+    strings = @string.split(',')
+    strings.map{|x| x.to_i}
+  end
+  
+  def calculate_sum(numbers)
+    numbers.inject{|sum, n| sum + n}
+  end
+  
+  def normalize_delimiter
+    @string.gsub!(@delimiter, ',')
+  end
+end
+```
+
+### Version 9 ###
+
+After Cleanup :
+
+```ruby
+class Calculator
+
+  def calculate(input)
+    initialize_delimiter_and_input(input)  
+    normalize_delimiter
+    if @string.include?(',')
+      numbers = convert_string_to_integers
+      calculate_sum(numbers)
+    else
+      @string.to_i
+    end
+  end
+  
+  private
+  
+  def initialize_delimiter_and_input(input)
+    if input.start_with?('//')
+      @delimiter = input[2]
+      @string = input[4, input.length - 1]
+    else
+      @delimiter = "\n"
+      @string = input
+    end
+  end
+
+  def convert_string_to_integers
+    strings = @string.split(',')
+    strings.map{|x| x.to_i}
+  end
+  
+  def calculate_sum(numbers)
+    numbers.inject{|sum, n| sum + n}
+  end
+  
+  def normalize_delimiter
+    @string.gsub!(@delimiter, ',')
+  end
+end
+```
+
+We are not passing in the string to be processed into methods anymore. Since it is
+needed by most of the methods, it is now an instance variable. It simplifies the interface
+of the private methods by eliminating the argument.
