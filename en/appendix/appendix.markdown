@@ -210,9 +210,20 @@ In E-R modeling you have relationships such as 1-n, n-n, 1-1 and so on. In domai
 ## The Rspec Book ##
 
 The Good
+
 1. Good discussion of Double, Mock and Stubs.
 
 The Bad
+
 1. Mocking the ActiveRecord library methods is a bad practice. It is shown with partial mocking example. 
    This leads to brittle tests. Because the test is tightly coupled to the implementation. For instance, when Rails is 
    upgraded the specs using old ActiveRecord calls will fail when the new syntax for the ORM is used.
+Even though the behavior does not change it breaks the tests that is tightly coupled to ORM syntax.
+
+## Direct Input ##
+
+## Direct Output ##
+
+## Side Effects ##
+
+ 

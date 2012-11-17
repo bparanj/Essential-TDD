@@ -59,7 +59,9 @@ end
 
 Got proper require to execute the test. Proper naming of test following naming convention.
 
-This example illustrates how to convert Requirements --> Examples --> Executable Specs. Each test for this problem takes an argument, does some computation and returns a result. It illustrates Direct Input and Direct Output. There are no side effects. Side effect free functions are easy to test. 
+This example illustrates how to go from Requirements --> Examples --> Executable Specs. Each test for this problem takes an argument, does some computation and returns a result. It illustrates Direct Input and Direct Output. There are no side effects. Side effect free functions are easy to test. 
+
+See appendix for definition of Direct Input, Direct Output and Side Effects.
 
 ## Discovery of Public API ##
 ### Version 2 ###
@@ -205,16 +207,8 @@ class FibonacciTest < Test::Unit::TestCase
 end
 ```
 
-## Generalized Solution ##
+## Fake Implementation ##
 ### Version 7 ###
-Input    Output
------    ------
-  0         0
-  1         1
-  2         1
-  3         2
-
-So the pattern emerges and we see the result is the sum of previous to fibonacci numbers return 2 is actually return 1 + 1 which from the above table is fib(n-1) + fib(n-2), so the solution is fib(n-1) + fib(n-2)
 
 ```ruby
 require 'test/unit'
@@ -261,6 +255,8 @@ Input    Output
   1         1
   2         1
   3         2
+
+So the pattern emerges and we see the result is the sum of previous to fibonacci numbers return 2 is actually return 1 + 1 which from the above table is fib(n-1) + fib(n-2), so the solution is fib(n-1) + fib(n-2)
 
 ```ruby
 require 'test/unit'
@@ -363,6 +359,7 @@ Input    Output
   1         1
   2         1
   3         2
+ 10         55
 
 ```ruby
 require 'test/unit'
@@ -406,7 +403,7 @@ class FibonacciTest < Test::Unit::TestCase
 end
 ```
 
-This version illustrates using existing tests as safety net when making major changes to the code. Notice that we only focus only on one thing at a time, the focus can shift from one version to the other.
+This version illustrates using existing tests as safety net when making major changes to the code. Notice that we only focus on one thing at a time. The focus can shift from one version to the other.
 
 ## Exercises ##
 			
