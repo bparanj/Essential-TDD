@@ -154,7 +154,7 @@ From jMock home page: Tests are kept flexible when we follow this rule of thumb:
 
 1. 
 
-describe Movie, "Definition. Make sure single responsibility principle is obeyed." do
+describe Movie, "Definition. Make sure Single Responsibility Principle is obeyed." do
 
 
 end

@@ -2,9 +2,9 @@
 
 ## Objectives ##
 
-- How to fix Command Query Separation violation ?
-- Illustrate how to fix abuse of mocks.
-- Illustrate how to write focused tests. 
+- How to fix violation of Command Query Separation principle  ?
+- How to fix abuse of mocks ?
+- How to write focused tests ? 
 - How to deal with external dependencies in your domain code ?
 
 ## Before ##
@@ -88,7 +88,7 @@ describe Calculator, "Computes addition of given two numbers" do
 end
 ```
 
-add is a command. calculator.result is query.
+The add(x,y) method is a command. The calculator.result call is a query.
 
 calculator.rb
 
