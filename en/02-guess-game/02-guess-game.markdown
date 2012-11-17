@@ -9,7 +9,7 @@
 - Illustrate programming to an interface not to an implementation.
 - When to use partial stub on a real object ? Illustrated by spec 7 and 8.
 - Random test failures due to partial stub. Fixed by isolating the random number generation.
-- Small methods focused on doing one thing.
+- Make methods small, focused on doing one thing.
 - How to defer decisions by using Mocks ?
 - Using mock that complies with Gerard Meszaros standard.
 - How to use as_null_object ?
@@ -23,21 +23,6 @@ Write a program that generates a random number between 0 and 100 (inclusive). Th
 * When the program is run it should generate a random number between 0 and 100 inclusive
 * You will display a command line prompt for the user to enter the number representing their guess. Quitting is not an option. The user can only end the game by guessing the target number. Be sure that your prompt explains to them what they are to do.
 * Once you have received a value from the user, you should perform validation. If the user has given you an invalid value (anything other than a number between 1 and 100), display an appropriate error message. If the user has given you a valid value, display a message either telling them that there were correct or should guess higher or lower as described above. This process should continue until they guess the correct number.
-* Once the user has guessed the target number correctly, you should display a "report" to them on their performance. This report should provide the following information:
-	- The target number
-	- The number of guesses it took the user to guess the target number
-	- A list of all the valid values guessed by the user in the order in which they were guessed.
-	- A calculated value called "Cumulative error". Cumulative error is defined as the sum of the absolute value of the difference between the target number and the values guessed. For example : if the target number was 30 and the user guessed 50, 25, 35, and 30, the cumulative error would be calculated as follows:
-	
-	|50-30| + |25-30| + |35-30| + |30-30| = 35
-	
-	Hint: See http://www.w3schools.com/jsref/jsref_abs.asp for assistance
-	- A calculated value called "Average Error" which is calculated as follows: cumulative error / number of valid guesses. Using the above number set, the average error is 8.75.
-	- A text feedback response based on the following rules:
-	- If average error is 10.0 or lower, the message "Incredible guessing!"
-	- If average error is higher than above but under 20.0, "Good job!"
-	- If average error is higher than 20 but under 30.0, "Fair!"
-	- Anything other score: "You are horrible at this game!"
 	
 ## Version 1 ##
 
@@ -88,17 +73,7 @@ describe GuessGame do
 end
 ```
 
-guess_game.rb
-
-```ruby
-class GuessGame
-  def random
-    Random.new.rand(1..100)
-  end
-end
-```
-
-Note: Using expected.include?(result) is also ok (does not use cover rspec matcher).
+Note: Using expected.include?(result) is also ok (does not use cover rspec matcher). 
 
 ## Version 3 ##
 
@@ -118,7 +93,7 @@ describe GuessGame do
   
   it "should display greeting when the game begins" do
     fake_console = mock('Console')
-    fake_console.should_receive(:output).with(greeting)
+    fake_console.should_receive(:output).with("Welcome to the Guessing Game")
     game = GuessGame.new(fake_console)
     game.start
   end
@@ -127,9 +102,9 @@ end
 
 This spec shows how you can defer decisions about how you will interact with the user, it could be standard out, GUI, client server app etc. Fake object is injected into the game object. 
 	 
- The interface output is discovered during the mocking and it hides the details about the type of interface that must be implemented to communicate with an user. Game delegates any user interfacing code to a concrete console object therefore it obeys single responsibility principle. Console objects also obey the single responsibility principle.
+ The interface output is discovered during the mocking and it hides the details about the type of interface that must be implemented to communicate with an user. Game delegates any user interfacing code to a concrete console object therefore it obeys Single Responsibility Principle. Console objects also obey the Single Responsibility Principle.
 	
-We could have implemented this similar to the code breaker game in RSpec book by calling the puts method on output variable, by doing so we tie our game object to the implementation. This results in tightly coupled objects which is not desirable. We want loosely coupled objects with high cohesion.
+We could have implemented this similar to the code breaker game in the RSpec book by calling the puts method on output variable, by doing so we tie our game object to the implementation. This results in tightly coupled objects which is not desirable. Whenever we change the way we interface with the external world, the code will break. We want loosely coupled objects with high cohesion.
 
 guess_game.rb
 
@@ -156,42 +131,14 @@ Using mock that complies with Gerard Meszaros standard. Use double and if expect
 guess_game_spec.rb
 
 ```ruby
-require_relative 'guess_game'
-
-describe GuessGame do
-  it "should generate random number between 1 and 100 inclusive" do
-    game = GuessGame.new
-    result = game.random
-    
-    expected = 1..100
-    expected.should cover(result)
-  end
   
   it "should display greeting when the game begins" do
     fake_console = double('Console')
-    fake_console.should_receive(:output).with(greeting)
+    fake_console.should_receive(:output).with("Welcome to the Guessing Game")
     game = GuessGame.new(fake_console)
     game.start
   end
-end
-```
 
-guess_game.rb
-
-```ruby
-class GuessGame
-  def initialize(console=STDOUT)
-    @console = console
-  end
-  
-  def random
-    Random.new.rand(1..100)
-  end
-  
-  def start
-    @console.output("Welcome to the Guessing Game")
-  end
-end
 ```
 
 ## Version 5 ##
@@ -1352,9 +1299,7 @@ end
 
 1. Play the game with Guess game and make sure you can use it's interface and it works as expected. Use any feedback to write new specs. 
 
-2. For instance, implement the feature to output the number of attempts taken to guess the number correctly.
-
-3. What if the client were to use the GuessGame like this :
+2. What if the client were to use the GuessGame like this :
 
 	game = GuessGame.new
 	game.play
@@ -1362,5 +1307,24 @@ end
  This raises the level of abstraction and we use gaming domain specific method instead of reaching into implementation level 
  methods. What changes do you need to make for this to work? Can start and get_user_guess methods be made into private methods?
 
+3. Version 2 of our game with satisfy the following new requirements:
+ 
+  Once the user has guessed the target number correctly, you should display a "report" to them on their performance. This report should provide the following information:
+	- The target number
+	- The number of guesses it took the user to guess the target number
+	- A list of all the valid values guessed by the user in the order in which they were guessed.
+	- A calculated value called "Cumulative error". Cumulative error is defined as the sum of the absolute value of the difference between the target number and the values guessed. For example : if the target number was 30 and the user guessed 50, 25, 35, and 30, the cumulative error would be calculated as follows:
+
+	|50-30| + |25-30| + |35-30| + |30-30| = 35
+
+	Hint: See http://www.w3schools.com/jsref/jsref_abs.asp for assistance
+	- A calculated value called "Average Error" which is calculated as follows: cumulative error / number of valid guesses. Using the above number set, the average error is 8.75.
+	- A text feedback response based on the following rules:
+	- If average error is 10.0 or lower, the message "Incredible guessing!"
+	- If average error is higher than above but under 20.0, "Good job!"
+	- If average error is higher than 20 but under 30.0, "Fair!"
+	- Anything other score: "You are horrible at this game!"
+
+4. 	It would be nice to be able to say: result.should be_between(expected_range). Implement a custom matcher be_between for a given range.
 
 

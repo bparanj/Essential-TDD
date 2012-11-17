@@ -8,6 +8,8 @@ TODO: Example for over-riding the stubs in individual tests. Pg : 203 RSpec Book
 TODO: DAS screencast for example on why nested doubles indicate problem with design and how to fix it.
 TODO: Update Appendix with definitions
 
+BOOKMARK: Run the guess game example and make the sample code reflect the concept under discussion.
+
 ## How to Generate the Book ##
 
 pandoc -S --epub-metadata=metadata.xml -o etdd.epub title.txt 01-introduction/01-chapter1.markdown 
