@@ -1,11 +1,12 @@
 # Canonical Test Structure #
 
-## Objective : Canonical test structure practice for Given, When, Then ##
+## Objective##
 
-- Given - Precondition
-- When  - Exercise the SUT
-- Then  - Postcondition
-- Example uses State Verification
+- Canonical test structure practice for Given, When, Then 
+
+Step 1 - Given : Precondition
+Step 2 - When  : Exercise the System Under Test
+Step 3 - Then  : Postcondition
 
 stack_spec.rb
 
@@ -95,6 +96,8 @@ describe Stack do
 end
 ```
 
+This is an example for State Verification. We check the state of the system after we exercise the SUT.
+
 ## Exercise ##
 
-Identify the Given, When, Then for the second spec “should pop from the stack”.
+Identify the Given, When, Then steps for the second spec “should pop from the stack”.
