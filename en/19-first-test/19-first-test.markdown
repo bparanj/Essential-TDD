@@ -1,18 +1,17 @@
-## Calculator Example ##
+# Calculator Example #
 
-What statements can you make about the calculator program that is true?
+## Objective ##
+
+- Learn about assertion
+
+Let's write a simple calculator program driven by test. What statements can you make about the calculator program that is true? How about :
 
 *  It should add given two numbers.
 
-Let's write a spec for this statement.
-
-calculator_spec.rb
+Let's write a spec for this statement. Create a file called calculator_spec.rb with the following contents:
 
 ```ruby
-require_relative 'calculator'
-
 describe Calculator do
-  
   it "should add given two numbers" do
     calculator = Calculator.new
     result = calculator.add(1,2)
@@ -22,9 +21,17 @@ describe Calculator do
 end
 ```
 
-We have converted the statement that is true to an assertion. According to the dictionary assertion is a confident and forceful statement of fact or belief. If we did not write any test then we would manually check that the result is correct. We automate this check by using an assertion.
+We first create an instance of Calculator class. The second step is invoking the method add to calculate sum of two numbers. The third step is checking if the result is the same as we expect. In this step, we have converted the statement that is true to an assertion.
 
-calculator.rb
+According to the dictionary assertion is a confident and forceful statement of fact or belief. If we did not write any test then we would manually check the result for correctness. We automate this manual check by using an assertion.
+
+Go to the directory where the spec file resides and run the test like this:
+
+```ruby
+$ rspec calculator_spec.rb --color
+```
+
+This test fails. Define calculator class at the top of the calculator_spec.rb file with the code shown below:
 
 ```ruby
 class Calculator
@@ -34,5 +41,10 @@ class Calculator
 end
 ```
 
+Run the test again. Now the test passes. You can now move the calculator class to its own file called calculator.rb. Add
 
+```ruby
+require_relative 'calculator'
+```
 
+to the top of the calculator_spec.rb. Run the test again. It should pass.
