@@ -65,13 +65,15 @@ Rails:
 
 ## 3. Side Effect ##
 
-TODO: Definition goes here.
+A function or expression modifies some state or has an observable interaction with calling functions or the outside world in addition to returning a value. For example, a function might modify a global or static variable, modify one of its arguments, raise an exception, write data to a display or file, read data, or call other side-effecting functions. In the presence of side effects, a program's behavior depends on history; that is, the order of evaluation matters. Understanding a program with side effects requires knowledge about the context and its possible histories; and is therefore hard to read, understand and debug.
+
+Side effects are the most common way to enable a program to interact with the outside world (people, filesystems, other computers on networks). But the degree to which side effects are used depends on the programming paradigm. Imperative programming is known for its frequent utilization of side effects. In functional programming, side effects are rarely used. 
+
+Source: Wikipedia
 
 ## 4. dev/null in Unix ##
 
-In Unix, /dev/null represents a null device that is a special file. It 
-discards all data written to it and provides no data to anyone that read
-from it.
+In Unix, /dev/null represents a null device that is a special file. It discards all data written to it and provides no data to anyone that read from it.
 
 ## 5. Gist by Pat Maddox at https://gist.github.com/730609 ##
 
@@ -222,8 +224,19 @@ Even though the behavior does not change it breaks the tests that is tightly cou
 
 ## Direct Input ##
 
+A test may interact with the SUT directly via its public API or indirectly via its back door. The stimuli injected by the test into the SUT via its public API are direct inputs of the SUT. Direct inputs may consist of method calls to another component or messages sent on a message channel and the arguments or contents.
+
+## Indirect Input ##
+
+When the behavior of the SUT is affected by the values returned by another component whose services it uses, we call those values indirect inputs of the SUT. Indirect inputs may consist of return values of functions and any errors or exceptions raised by the DoC. Testing of the SUT behavior with indirect inputs requires the appropriate control point on the back side of the SUT. We often use a test stub to inject the indirect inputs into the SUT.
+
 ## Direct Output ##
 
-## Side Effects ##
+A test may interact with the SUT directly via its public API or indirectly via its back door. The responses received by the test from the SUT via its public API are direct outputs of the SUT. Direct outputs may consist of the return values of method calls, updated arguments passed by reference, exceptions raised by the SUT or messages received on a message channel from the SUT.
 
+## Indirect Output ##
+
+When the behavior of the SUT includes actions that cannot be observed through the public API of the SUT but that are seen or experienced by other systems or application components, we call those actions the indirect outputs of the SUT. Indirect outputs may consist of calls to another component, messages sent on a message channel and records inserted into a database or written to a file. Verification of the indirect output behaviors of the SUT requires the use of appropriate observation points on the back side of SUT. Mock objects are often used to implement the observation point by intercepting the indirect outputs of the SUT and comparing them to the expected values.
+
+Source : xUnit Test Patterns: Refactoring Test Code by Gerard Meszaros
  

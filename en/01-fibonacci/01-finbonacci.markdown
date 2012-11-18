@@ -59,7 +59,7 @@ end
 
 Got proper require to execute the test. Proper naming of test following naming convention.
 
-This example illustrates how to go from Requirements --> Examples --> Executable Specs. Each test for this problem takes an argument, does some computation and returns a result. It illustrates Direct Input and Direct Output. There are no side effects. Side effect free functions are easy to test. 
+This example illustrates how to go from Requirements --> Examples --> Executable Specs. Each test for this problem takes an argument, does some computation and returns a result. It illustrates Direct Input and Direct Output. This is called State Based Testing. There are no side effects. Side effect free functions are easy to test. 
 
 See appendix for definition of Direct Input, Direct Output and Side Effects.
 
