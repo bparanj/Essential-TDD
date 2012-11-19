@@ -26,8 +26,6 @@ Write a program that generates a random number between 0 and 100 (inclusive). Th
 	
 ## Version 1 ##
 
-The random generator spec will never pass.
-
 guess_game_spec.rb
 
 ```ruby
@@ -53,9 +51,11 @@ class GuessGame
 end
 ```
 
+The random generator spec will only pass when the generated random number is 50. It will fail more often.
+
 ##	Version 2 ##
 
-The above spec deals with the problem of randomness. You cannot use stub to deal with this spec because you will stub yourself out. The spec checks only the range of the generated random number is within the expected range.
+The spec below deals with the problem of randomness. You cannot use stub to deal with this spec because you will stub yourself out. So, what statement can you make about this code that is true? Can we loosen our assertion and still satisfy the requirement?
 
 guess_game_spec.rb
 
@@ -73,9 +73,13 @@ describe GuessGame do
 end
 ```
 
+This spec checks only the range of the generated random number is within the expected range. This now passes.
+
 Note: Using expected.include?(result) is also ok (does not use cover rspec matcher). 
 
 ## Version 3 ##
+
+Let's now write the second example.
 
 guess_game_spec.rb
 
@@ -83,13 +87,7 @@ guess_game_spec.rb
 require_relative 'guess_game'
 
 describe GuessGame do
-  it "should generate random number between 1 and 100 inclusive" do
-    game = GuessGame.new
-    result = game.random
-    
-    expected = 1..100 
-    expected.should cover(result)
-  end
+  ...
   
   it "should display greeting when the game begins" do
     fake_console = mock('Console')
@@ -99,12 +97,95 @@ describe GuessGame do
   end
 end
 ```
+Run the spec, you will see : undefined method `start' error message. Let's write minimal code required to get past the error message.
 
-This spec shows how you can defer decisions about how you will interact with the user, it could be standard out, GUI, client server app etc. Fake object is injected into the game object. 
-	 
- The interface output is discovered during the mocking and it hides the details about the type of interface that must be implemented to communicate with an user. Game delegates any user interfacing code to a concrete console object therefore it obeys Single Responsibility Principle. Console objects also obey the Single Responsibility Principle.
-	
-We could have implemented this similar to the code breaker game in the RSpec book by calling the puts method on output variable, by doing so we tie our game object to the implementation. This results in tightly coupled objects which is not desirable. Whenever we change the way we interface with the external world, the code will break. We want loosely coupled objects with high cohesion.
+guess_game.rb
+
+```ruby
+class GuessGame  
+  ...
+  def start
+  end
+end
+```
+
+Define an empty start method. Run the spec again, you will see:
+
+1) GuessGame should display greeting when the game begins
+   Failure/Error: fake_console.should_receive(:output).with("Welcome to the Guessing Game")
+     (Mock "Console").output("Welcome to the Guessing Game")
+         expected: 1 time
+         received: 0 times
+
+We are failing now because the console object never received the output(string) method call. GuessGame class now looks like this:
+
+guess_game.rb
+
+```ruby
+class GuessGame
+  def initialize(console)
+    @console = console
+  end
+  
+  def random
+    Random.new.rand(1..100)
+  end
+  
+  def start
+    @console.output("Welcome to the Guessing Game")
+  end
+end
+```
+
+GuessGame class now has a constructor that takes a console object. It then delegates welcoming the user to the console object in the start method. This is an example of dependency injection. Any collaborator that conforms to the interface we have discovered can be used to construct a GuessGame object.
+
+Run the spec again, you will see the failure message:
+
+1) GuessGame should generate random number between 1 and 100 inclusive
+   Failure/Error: game = GuessGame.new
+   ArgumentError:
+     wrong number of arguments (0 for 1)
+
+This implementation broke our previous test which is not passing in the console object to the constructor. We can fix it by initializing the default value to standard output.
+
+guess_game.rb
+
+```ruby
+class GuessGame
+  def initialize(console=STDOUT)
+    @console = console
+  end
+  ...  
+end
+```
+
+Both examples now pass. We are back to green. This spec shows how you can defer decisions about how to interact with the user. It could be standard out, GUI, client server app etc. Fake object is injected into the game object. 
+
+Here is the complete listing for this version.
+
+guess_game_spec.rb
+
+```ruby
+require_relative 'guess_game'
+
+describe GuessGame do
+  it "should generate random number between 1 and 100 inclusive" do
+    game = GuessGame.new
+    result = game.random
+    
+    expected = 1..100
+    expected.should cover(result)
+  end
+  
+  it "should display greeting when the game begins" do
+    fake_console = double('Console')
+    fake_console.should_receive(:output).with(greeting)
+    game = GuessGame.new(fake_console)
+    game.start
+  end
+  
+end
+```
 
 guess_game.rb
 
@@ -123,6 +204,12 @@ class GuessGame
   end
 end
 ```
+
+ The public interface output(string) of the Console object is discovered during the mocking step. It hides the details about the type of interface that must be implemented to communicate with an user. Game delegates any user interfacing code to a collaborating console object therefore it obeys Single Responsibility Principle. Console objects also obey the Single Responsibility Principle by focusing only on one concrete implementation of dealing with user interaction.
+	
+We could have implemented this similar to the code breaker game in the RSpec book by calling the puts method on output variable. By doing so we tie our game object to the implementation details. This results in tightly coupled objects which is not desirable. Whenever we change the way we interface with the external world, the code will break. We want loosely coupled objects with high cohesion.
+
+Why did random number generation spec fail when user interfacing feature was modified? Random number generation and user interfacing logic are not related in any way. Ideally they should be split into separate classes that has only one purpose. We will revisit this topic later.
 
 ## Version 4 ##
 
@@ -131,101 +218,30 @@ Using mock that complies with Gerard Meszaros standard. Use double and if expect
 guess_game_spec.rb
 
 ```ruby
-  
   it "should display greeting when the game begins" do
     fake_console = double('Console')
     fake_console.should_receive(:output).with("Welcome to the Guessing Game")
     game = GuessGame.new(fake_console)
     game.start
   end
-
 ```
 
 ## Version 5 ##
 
-Spec exposes the bug : constructor default value is not correct.
+Let's take our code for quick run:
 
-guess_game_spec.rb
+game = GuessGame.new
+game.start
 
-```ruby
-require_relative 'guess_game'
+gives us the error:
 
-describe GuessGame do
-  it "should generate random number between 1 and 100 inclusive" do
-    game = GuessGame.new
-    result = game.random
-    
-    expected = 1..100
-    expected.should cover(result)
-  end
-  
-  it "should display greeting when the game begins" do
-    fake_console = double('Console')
-    fake_console.should_receive(:output).with(greeting)
-    game = GuessGame.new(fake_console)
-    game.start
-  end
-  
-  it "should display greeting to the standard output when the game begins" do
-    game = GuessGame.new
-    game.start
-  end
-end
-```
+NoMethodError: undefined method ‘output’ for #<IO:<STDOUT>>
+	
+If you run:
 
-This spec exposes the bug due to wrong default value in the constructor. 
+STDOUT.puts 'hi' 
 
-guess_game.rb
-
-```ruby
-class GuessGame
-  def initialize(console=STDOUT)
-    @console = console
-  end
-  
-  def random
-    Random.new.rand(1..100)
-  end
-  
-  def start
-    @console.output("Welcome to the Guessing Game")
-  end
-end
-```
-
-## Version 6 ##
-
-Fixed the bug due to wrong default value in the constructor. Concrete classes depend on an abstract interface called output and not specific things like puts or gui related method.
-
-guess_game_spec.rb
-
-```ruby
-require_relative 'guess_game'
-
-describe GuessGame do
-  it "should generate random number between 1 and 100 inclusive" do
-    game = GuessGame.new
-    result = game.random
-    
-    expected = 1..100
-    expected.should cover(result)
-  end
-  
-  it "should display greeting when the game begins" do
-    fake_console = double('Console')
-    fake_console.should_receive(:output).with(greeting)
-    game = GuessGame.new(fake_console)
-    game.start
-  end
-  
-  it "should display greeting to the standard output when the game begins" do
-    game = GuessGame.new
-    game.start
-  end
-end
-```
-
-The fix shows how to invert dependencies on concrete classes to abstract interface. In this case the abstract interface is 'output' and not specific method like 'puts' or GUI related method that ties the game logic to a concrete implementation.
+it will print 'hi' on the standard output. But it does not recognize output(string) method.	To fix this problem, let's wrap the output method in a StandardOutput class. Like this:
 
 standard_output.rb
 
@@ -236,6 +252,54 @@ class StandardOutput
   end
 end
 ```
+
+and change the constructor of the GuessGame like this:
+
+```ruby
+require_relative 'standard_output'
+
+class GuessGame
+  def initialize(console=StandardOutput.new)
+    @console = console
+  end
+  ...
+end
+```
+
+Even though StandardOutput sounds like a builtin Ruby class it's not:
+irb > Kernel
+ => Kernel 
+irb > StandardOutput
+NameError: uninitialized constant Object::StandardOutput
+	from (irb):2
+	
+You can also quickly check for this at : http://ruby-doc.org/core-1.9.3/ by doing a class search. We do this check to avoid reopening an existing class in Ruby.
+
+guess_game_spec.rb
+
+```ruby
+require_relative 'guess_game'
+
+describe GuessGame do
+  it "should generate random number between 1 and 100 inclusive" do
+    game = GuessGame.new
+    result = game.random
+    
+    expected = 1..100
+    expected.should cover(result)
+  end
+  
+  it "should display greeting when the game begins" do
+    fake_console = double('Console')
+    fake_console.should_receive(:output).with(greeting)
+    game = GuessGame.new(fake_console)
+    game.start
+  end
+  
+end
+```
+
+The tests still pass. The fix shows how to invert dependencies on concrete classes to abstract interface. In this case the abstract interface is 'output' and not specific method like 'puts' or GUI related method that ties the game logic to a concrete implementation of user interaction.
 
 guess_game.rb
 
@@ -257,7 +321,9 @@ class GuessGame
 end
 ```
 
-## Version 7 ##
+In this version we fixed the bug due to wrong default value in the constructor.
+
+## Version 6 ##
 
 Added spec #4. Illustrates the use of as_null_object.
 
