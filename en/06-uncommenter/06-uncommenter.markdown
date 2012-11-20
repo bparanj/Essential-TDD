@@ -77,9 +77,9 @@ describe Uncommenter do
 end
 ```
 
-This example illustrates using Ruby builtin StringIO as a Fake object. File accessing is involved with using the right read or write mode. It requires closing and opening the file at the appropriate times. 
+This example illustrates using Ruby builtin StringIO as a Fake object. File accessing is involved. It requires the right read or write mode. It also requires closing and opening the file at the appropriate times. 
 
-StringIO is a ruby builtin class that mimics the interface of the file. This version of spec runs faster than the file accessing version. The spec is also smaller. In this case, StringIO is a Fake object. You don't have to manually write and maintain a Fake object for file processing. Just use the StringIO.
+StringIO is a ruby builtin class that mimics the interface of the file. This version of spec runs faster than the file accessing version. The spec is also smaller. In this case, StringIO is a real object acting as a Fake object. You don't have to manually write and maintain a Fake object for file processing. Just use the StringIO.
 
 To run the spec:
 
@@ -87,6 +87,6 @@ rspec uncommenter/uncommenter_spec.rb --format doc --color
 
 ## Reference ##
 
-The Well Grounded Rubyist
+Before version stolen from : The Well Grounded Rubyist
 
 \newpage
