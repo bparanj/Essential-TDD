@@ -40,6 +40,8 @@ describe Fibonacci do
 end
 ```
 
+\newpage
+
 ## 2. Interactive Spec ##
 
 How to use Interactive Spec gem to experiment with RSpec.
@@ -62,6 +64,8 @@ Rails:
 4. > User.new(:name => 'matz').should_not be_valid
 5. > irspec 'spec/requests/users_spec.rb'
 ```
+
+\newpage
 
 ## 3. Side Effect ##
 
@@ -108,6 +112,8 @@ This example is from the RSpec Book. The problem here is the Game object has no 
 It is ignoring the system boundary and is tightly coupled to the implementation. It violates
 Open Closed Principle.
 
+\newpage
+
 ## FAQ ##
 
 1. cover rspec matcher is not working in ruby 1.8.7. Create a custom matcher called 
@@ -132,6 +138,8 @@ Open Closed Principle.
 1. How can you express the domain? What should happen when you start a game?
 2. What statements can you make about the program that is true?
 
+\newpage
+
 ## Notes from Martin Fowler's article and jMock Home Page ##
 
 ### Testing and Command Query Separation Principle ###
@@ -151,6 +159,39 @@ The return type is the give-away for the difference. It's a good convention beca
  There are exceptions. Popping a stack is a good example of a modifier that modifies state. Meyer correctly says that you can avoid having this method, but it is a useful idiom. Follow this principle when you can.
 
 From jMock home page: Tests are kept flexible when we follow this rule of thumb: Stub queries and expect commands, where a query is a method with no side effects that does nothing but query the state of an object and a command is a method with side effects that may, or may not, return a result. Of course, this rule does not hold all the time, but it's a useful starting point.
+
+## Notes on Mock Objects ##
+
+A Mock Object is a substitute implementation to emulate or instrument other domain code.  It should be simpler than the real code, not duplicate its implementation, and allow you to set up private state to aid in testing. The emphasis in mock implementations is on absolute simplicity, rather than completeness. For example, a mock collection class might always return the same results from an index method, regardless of the actual parameters. 
+
+A warning sign of a Mock Object becoming too complex is that it starts calling other Mock Objects – which might mean that the unit test is not sufficiently local. When using Mock Objects, only the unit test and the target domain code are real.
+
+## Why use mock objects? ##
+
+- Deferring Infrastructure Choices
+- Lightweight emulation of required complex system state
+- On demand simulation of conditions
+- Interface Discovery
+- Loosely coupled design achieved via dependency injection
+
+## A Pattern for Unit Testing ##
+
+Create instances of Mock Objects
+
+- Set state in the Mock Objects
+- Set expectations in the Mock Objects
+- Invoke domain code with Mock Objects as parameters
+- Verify consistency in the Mock Objects
+
+With this style, the test makes clear what the domain code is expecting from its environment, in effect documenting its preconditions, postconditions, and intended use. All these aspects are defined in executable test code, next to the domain code to which they refer. Sometimes arguing about which objects to verify gives us better insight into a test and, hence, the domain. This style makes it easy for new readers to understand the unit tests as it reduces the amount of context they have to remember. It is also useful for demonstrating to new programmers how to write effective unit tests.
+
+Testing with Mock Objects improves domain code by preserving encapsulation, reducing global dependencies, and clarifying the interactions between classes.
+	
+## Reference ##
+
+Working Effectively with Legacy Code
+
+\newpage
 
 ## RSpec Test Structure ##
 
@@ -214,6 +255,8 @@ acts as a UNIX's dev/null equivalent for tests. It ignores any messages. Useful 
 
 In E-R modeling you have relationships such as 1-n, n-n, 1-1 and so on. In domain modeling you have relationships such as aggregation, composition, inheritance, delegation etc. Most of these have constructs provided by the language or the framework such as Rails. Example: composed_of in Rails, delegate in Ruby, symbol < for inheritance. The interface relationship for roles has to be explicitly specified in the specs to make the relationship between objects explicit.
 
+\newpage
+
 ## The Rspec Book ##
 
 The Good
@@ -244,4 +287,5 @@ A test may interact with the SUT directly via its public API or indirectly via i
 When the behavior of the SUT includes actions that cannot be observed through the public API of the SUT but that are seen or experienced by other systems or application components, we call those actions the indirect outputs of the SUT. Indirect outputs may consist of calls to another component, messages sent on a message channel and records inserted into a database or written to a file. Verification of the indirect output behaviors of the SUT requires the use of appropriate observation points on the back side of SUT. Mock objects are often used to implement the observation point by intercepting the indirect outputs of the SUT and comparing them to the expected values.
 
 Source : xUnit Test Patterns: Refactoring Test Code by Gerard Meszaros
- 
+
+\newpage

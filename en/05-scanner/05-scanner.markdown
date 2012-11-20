@@ -1,6 +1,6 @@
 # Scanner #
 
-This example is about a scanner that is used in a checkout counter. You can scan item, the name and price of the item is sent to the output console.
+This example is about a scanner that is used in a checkout counter. When you can scan an item, the name and price of the item is sent to the output console.
 
 ## Objectives ##
 
@@ -9,7 +9,7 @@ This example is about a scanner that is used in a checkout counter. You can scan
 
 ## Writing the First Test ##
 
-scanner_spec.rb
+Create a scanner_spec.rb file with the following contents:
 
 ```ruby
 require_relative 'scanner'
@@ -23,7 +23,7 @@ describe Scanner do
 end
 ```
 
-scanner.rb
+Create a scanner.rb file with the following contents:
 
 ```ruby
 class Scanner
@@ -33,9 +33,11 @@ class Scanner
 end
 ```
 
-The first spec does not do much. The main purpose of writing the first spec is to help setup the directory structure, require statements etc to get the specs running. You can run this spec by typing the following command from the root of the project:
+You can run this spec by typing the following command from the root of the project:
 
-$ rspec scanner/scanner_spec.rb
+$ rspec scanner_spec.rb
+
+The first spec does not do much. The main purpose of writing the first spec is to help setup the directory structure, require statements etc to get the specs running. 
 
 In your home directory create a .rspec directory with the following contents:
 
@@ -58,8 +60,7 @@ end
 
 \newpage
 
-
-Run the test, watch it fail due to the input parameter and change the scanner.rb as follows :
+Run the spec again, watch it fail due to the input parameter and change the scanner.rb as follows :
 
 ```ruby
 class Scanner
@@ -73,17 +74,18 @@ The test now passes.
 
 ## Deleting a Test ##
 
-The first test is no longer required. It is like a scaffold of a building once we complete the construction of the building the scaffold will go away. Here is the new test that captures the description in the first paragraph of this chapter:
+Let's add a second spec that captures the description in the first paragraph of this chapter:
 
 scanner_spec.rb
 
 ```ruby
 require_relative 'scanner'
-require_relative 'r2d2_display'
+require_relative 'real_display'
 
 describe Scanner do
+  ...
   it "scan & display the name & price of the scanned item on a cash register display" do
-    real_display = R2d2Display.new
+    real_display = RealDisplay.new
     scanner = Scanner.new(real_display)
     scanner.scan("1")
     
@@ -92,10 +94,69 @@ describe Scanner do
 end
 ```
 
-r2d2_display.rb
+real_display.rb
+
+class RealDisplay
+  
+end
+
+The test fails with the error:
+
+1) Scanner scan & display the name & price of the scanned item on a cash register display
+   Failure/Error: scanner = Scanner.new(real_display)
+   ArgumentError:
+     wrong number of arguments(1 for 0)
+
+We have two options we can delete the first spec or we can move it to a contract spec. Contract specs are discussed in a later chapter. Moving this to a contract spec will be the right choice if we expect our system to be able to deal with different types of scanners which must comply to the same interface.
+
+Let's make a simplifying assumption that we don't have to deal with different scanners. So, let's delete the first spec. The first test is no longer required. It is like a scaffold of a building, once we complete the construction of the building the scaffold will go away. 
+
+Change the scanner.rb like this:
+
+class Scanner
+  def initialize(display)
+    @display = display
+  end
+  
+  def scan(barcode)
+
+  end
+end
+
+The spec fails with:
+
+1) Scanner scan & display the name & price of the scanned item on a cash register display
+     Failure/Error: real_display.last_line_item.should == "Milk $3.99"
+     NoMethodError:
+       undefined method `last_line_item' for #<RealDisplay:0x007f87bd0bf0d0>
+
+Change the real_display.rb like this:
+
+real_display.rb
 
 ```ruby
-class R2d2Display
+class RealDisplay
+  attr_reader :last_line_item
+  
+  def display(line_item)
+
+  end
+end
+```
+
+The spec fails with:
+
+1) Scanner scan & display the name & price of the scanned item on a cash register display
+   Failure/Error: real_display.last_line_item.should == "Milk $3.99"
+     expected: "Milk $3.99"
+          got: nil (using ==)
+
+Change the real_display.rb like this:
+
+real_display.rb
+
+```ruby
+class RealDisplay
   attr_reader :last_line_item
   
   def display(line_item)
@@ -107,19 +168,18 @@ class R2d2Display
 end
 ```
 
-Real object used in the test is slow. Here is the scanner.rb to make the new test pass:
+Change the scan method in scanner like this:
 
 ```ruby
 class Scanner
-  def initialize(display)
-    @display = display
-  end
-  
+  ...
   def scan(barcode)
     @display.display("Milk $3.99")
   end
 end
 ```
+
+Now the spec passes. Real object RealDisplay used in the test is slow. 
 
 ## Speeding Up The Test ##
  	
@@ -140,7 +200,7 @@ describe Scanner do
 end
 ```
 
-fake_display.rb
+Create fake_display.rb with the following contents:
 
 ```ruby
 class FakeDisplay
@@ -158,60 +218,28 @@ The spec now runs fast. This solution assumes that we can access the last line i
 attr_reader :last_line_item
 ```
 
-We broke the dependency on external display object by using a fake object that mimicked the interface of the real object. Dependency injection is used to create scanner object with a fake display.
+We broke the dependency on external display object by using a fake object that mimicked the interface of the real object. Dependency injection is used to create scanner object with a fake display. Dependency injection allows us to design loosely coupled objects. We identified the need to decouple the scanner and display objects due to performance problem. This also increases the cohesion of these objects.
 	
-When we write tests, we have to divide and conquer. This test tells us how scanner objects affect displays. This test helps us to see whether a problem is due to scanner. Is scanner fulfilling its responsibility?. This helps us localize errors and save time.
+When we write tests, we have to divide and conquer. This test tells us how scanner objects affect displays. This test helps us to see whether a problem is due to scanner. Is scanner fulfilling its responsibility? This helps us localize errors and save time during troubleshooting.
 	
 When we write tests for individual units, we end up with small well-understood pieces. This makes it easy to reason about code.
 	
-## Using Mocks ##
+## Mocks ##
 
-Writing a lot of fakes can become tedious. In such cases, mocks can be used. Mock objects are fakes that perform assertions internally. The solution that uses mocks is faster than using Fake display object.
+Writing a lot of fakes can become tedious. It becomes a programmer's responsibility to maintain them. In such cases, mocks can be used. Mock objects are fakes that perform assertions internally. The solution that uses mocks is faster than using Fake display object.
 
 ```ruby
 require_relative 'scanner'
 
-describe Scanner do 
-  it "scan & display the name & price of the scanned item on a cash register display" do
-    fake_display = mock
+describe Scanner do
+  it "scans the name & price of the scanned item" do
+    fake_display = double("Fake display")
     fake_display.should_receive(:display).with("Milk $3.99")
+    
     scanner = Scanner.new(fake_display)
     scanner.scan("1")
   end
 end
 ```
 
-The display method is under our control so we can use Mock. Mock is a design technique that is used to discover API. This is an example of right way to use Mock.
-
-## Notes on Mock Objects ##
-
-A Mock Object is a substitute implementation to emulate or instrument other domain code.  It should be simpler than the real code, not duplicate its implementation, and allow you to set up private state to aid in testing. The emphasis in mock implementations is on absolute simplicity, rather than completeness. For example, a mock collection class might always return the same results from an index method, regardless of the actual parameters. 
-
-A warning sign of a Mock Object becoming too complex is that it starts calling other Mock Objects – which might mean that the unit test is not sufficiently local. When using Mock Objects, only the unit test and the target domain code are real.
-
-## Why use mock objects? ##
-
-- Deferring Infrastructure Choices
-- Lightweight emulation of required complex system state
-- On demand simulation of conditions
-- Interface Discovery
-- Loosely coupled design achieved via dependency injection
-
-## A Pattern for Unit Testing ##
-
-Create instances of Mock Objects
-
-- Set state in the Mock Objects
-- Set expectations in the Mock Objects
-- Invoke domain code with Mock Objects as parameters
-- Verify consistency in the Mock Objects
-
-With this style, the test makes clear what the domain code is expecting from its environment, in effect documenting its preconditions, postconditions, and intended use. All these aspects are defined in executable test code, next to the domain code to which they refer. Sometimes arguing about which objects to verify gives us better insight into a test and, hence, the domain. This style makes it easy for new readers to understand the unit tests as it reduces the amount of context they have to remember. It is also useful for demonstrating to new programmers how to write effective unit tests.
-
-Testing with Mock Objects improves domain code by preserving encapsulation, reducing global dependencies, and clarifying the interactions between classes.
-	
-## Reference ##
-
-Working Effectively with Legacy Code
-
-
+The display method is under our control so we can mock it. Mock is a design technique that is used to discover API. This is an example of right way to Mock. The 'and' part of the doc string has been deleted. It is now clear the purpose of Scanner object is to scan items and the Display objects is to display given line items. See the appendix for notes on mocks.
