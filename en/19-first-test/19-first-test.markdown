@@ -49,7 +49,7 @@ require_relative 'calculator'
 
 to the top of the calculator_spec.rb. Run the test again. It should pass.
 
-## Excercises ##
+## Exercises ##
 
 1. Write specs for the following statements:
 
