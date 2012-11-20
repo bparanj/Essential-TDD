@@ -280,3 +280,5 @@ end
 We are not passing in the string to be processed into methods anymore. Since it is
 needed by most of the methods, it is now an instance variable. It simplifies the interface
 of the private methods by eliminating the argument.
+
+\newpage

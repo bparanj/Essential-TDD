@@ -60,3 +60,5 @@ to the top of the calculator_spec.rb. Run the test again. It should pass.
 2. Refactor the duplication you see by using let or before method.
 
 3. Write specs for edge cases such as invalid input, division by 0 etc.
+
+\newpage

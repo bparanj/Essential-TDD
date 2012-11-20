@@ -155,22 +155,22 @@ From jMock home page: Tests are kept flexible when we follow this rule of thumb:
 ## RSpec Test Structure ##
 
 1. 
-
+```ruby
 describe Movie, "Definition. Make sure Single Responsibility Principle is obeyed." do
 
-
 end
+```
 
 The first argument of the describe block in a spec is name of the class or module under test. It is the subject. It can also be a string. The second is an optional string. It is a good practice to include the second 
 string argument that describes the class and make sure that it does not have 'And', 'Or' or 'But'.
 If it obeys Single Responsibility Principle that it will not contain those words.
 
 2.
-
+```ruby
 specify "[Method Under Test] [Scenario] [Expected Behavior]" do
 
 end
-
+```
 Same thing can be accomplished by using describe, context and specify methods together. Refer the RSpec book to learn more.
 
 3. 
@@ -194,16 +194,21 @@ Rails:
 1. gem 'interactive_rspec' in Gemfile
 2. bundle
 3. rails c
+
+```ruby
 > irspec
 > User.new(:name => 'matz').should_not be_valid
 > irspec 'spec/requests/users_spec.rb'
+```
 
 ## Stub ##
 
 1. In irb: 
-> require 'rspec/mocks/standalone'
 
-s = stub.as_null_object
+```ruby
+> require 'rspec/mocks/standalone'
+> s = stub.as_null_object
+```
 
 acts as a UNIX's dev/null equivalent for tests. It ignores any messages. Useful for incidental interactions that is not relevant to what is being tested. It implements the Null Object pattern.
 

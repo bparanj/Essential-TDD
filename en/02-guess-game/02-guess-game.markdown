@@ -293,14 +293,12 @@ describe GuessGame do
     expected = 1..100
     expected.should cover(result)
   end
-  
   it "should display greeting when the game begins" do
     fake_console = double('Console')
     fake_console.should_receive(:output).with('Welcome to the Guessing Game')
     game = GuessGame.new(fake_console)
     game.start
-  end
-  
+  end  
 end
 ```
 
@@ -315,11 +313,9 @@ class GuessGame
   def initialize(console=StandardOutput.new)
     @console = console
   end
-  
   def random
     Random.new.rand(1..100)
   end
-  
   def start
     @console.output("Welcome to the Guessing Game")
   end
@@ -371,7 +367,6 @@ describe GuessGame do
     game = GuessGame.new(fake_console)
     game.start
   end
-    
   it "should prompt the user to enter the number representing their guess." do
     fake_console = double('Console')
     fake_console.should_receive(:prompt).with('Enter a number between 1 and 100')
@@ -449,6 +444,7 @@ end
 
 All specs now pass. Let's play the game in the irb.
 
+```ruby
 $ irb
 001 > load './guess_game.rb'
  => true 
@@ -485,11 +481,9 @@ class GuessGame
   def initialize(console=StandardOutput.new)
     @console = console
   end
-  
   def random
     Random.new.rand(1..100)
   end
-  
   def start
     @console.output("Welcome to the Guessing Game")
     @console.prompt("Enter a number between 1 and 100")
@@ -504,7 +498,6 @@ class StandardOutput
   def output(message)
     puts message
   end
-  
   def prompt(message)
     output(message)
     puts ">"
@@ -528,12 +521,10 @@ class GuessGame
     @console = console
     @random = Random.new.rand(1..100)
   end
-    
   def start
     @console.output("Welcome to the Guessing Game")
     @console.prompt("Enter a number between 1 and 100")
   end
-  
 end
 ```
 
@@ -550,7 +541,6 @@ describe GuessGame do
     
     game.error.should == 'The number must be between 1 and 100'            
   end
-  
 end
 ```
 
@@ -663,7 +653,6 @@ class StandardOutput
   def output(message)
     puts message
   end
-  
   def prompt(message)
     output(message)
     puts ">"
@@ -679,15 +668,13 @@ Change the validation for the lower bound like this:
 require_relative 'guess_game'
 
 describe GuessGame do
-  
   it "should perform validation of the guess entered by the user : lower than 1" do
     game = GuessGame.new
-	game.stub(:get_user_guess) { 0 }
-	game.start
+	  game.stub(:get_user_guess) { 0 }
+  	game.start
   
-	game.error.should == 'The number must be between 1 and 100'            
+	  game.error.should == 'The number must be between 1 and 100'            
   end
-  
 end
 ```
 
@@ -723,7 +710,6 @@ describe GuessGame do
 
     game.start
   end
-
 end
 ```
 
@@ -926,7 +912,7 @@ Change the guess_game.rb as follows:
 require_relative 'standard_output'
 
 class GuessGame
-  
+  ...
   def give_clue
     if get_user_guess < @computer_pick
       @console.output('Your guess is lower')
@@ -952,7 +938,6 @@ class GuessGame
     @console = console
     @computer_pick = Random.new.rand(1..100)
   end
-    
   def start
     @console.output("Welcome to the Guessing Game")
     @console.prompt("Enter a number between 1 and 100")
@@ -960,7 +945,6 @@ class GuessGame
     valid = validate(guess)
     give_clue if valid
   end
-
   def get_user_guess
     0
   end
@@ -975,7 +959,6 @@ class GuessGame
       true
     end
   end
-  
   def give_clue
     if get_user_guess < @computer_pick
       @console.output('Your guess is lower')
@@ -1002,7 +985,6 @@ shared_examples "Console Interface" do
     it "should implement the console interface: output(arg)" do
       @object.should respond_to(:output).with(1).argument
     end
-    
     it "should implement the console interface: prompt(arg)" do
       @object.should respond_to(:prompt).with(1).argument
     end
@@ -1094,7 +1076,7 @@ guess_game_spec.rb
 require_relative 'guess_game'
 
 describe GuessGame do  
- # Delete the following spec :
+ Delete the following spec :
  it "should generate random number between 1 and 100 inclusive" do
    game = GuessGame.new
    result = game.computer_pick
@@ -1349,13 +1331,11 @@ require_relative 'console_interface_spec'
 require_relative 'standard_console'
 
 describe StandardConsole do
-  
   before(:each) do
     @object = StandardConsole.new
   end
   
   it_behaves_like "Console Interface"
-  
 end
 ```
 
@@ -1397,6 +1377,7 @@ class NullDeviceConsole
     output(message + '\n' + ">")
   end  
 end
+```
 
 Change the guess_game_spec.rb to use the NullDeviceConsole class to suppress the output to the standard out like this:
 
@@ -1417,9 +1398,11 @@ context 'Validation' do
     game.error.should == 'The number must be between 1 and 100'            
   end    
 end
+```
 
 Run the specs, you will see clean output like this:
 
+```ruby
 GuessGame
   Start the game
     should display greeting when the game begins
@@ -1434,6 +1417,7 @@ GuessGame
 
 Finished in 0.0058 seconds
 7 examples, 0 failures
+```
 
 ## Version 15 ##
 
@@ -1499,10 +1483,10 @@ end
 1. Play the game with Guess game and make sure you can use it's interface and it works as expected. Use any feedback to write new specs. 
 
 2. What if the client were to use the GuessGame like this :
-
+```ruby
 	game = GuessGame.new
 	game.play
-  
+```
  This raises the level of abstraction and we use gaming domain specific method instead of reaching into implementation level 
  methods. What changes do you need to make for this to work? Can start and get_user_guess methods be made into private methods?
 
@@ -1528,3 +1512,4 @@ end
 
 5. Write null_device_console_spec.rb that uses the shared examples to make sure it implements the abstract console interface. This will allow us to keep the NullDeviceConsole in sync with any changes to the interface of the abstract console.
 
+\newpage

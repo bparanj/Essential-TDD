@@ -88,3 +88,5 @@ rspec uncommenter/uncommenter_spec.rb --format doc --color
 ## Reference ##
 
 The Well Grounded Rubyist
+
+\newpage

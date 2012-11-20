@@ -56,6 +56,9 @@ describe Scanner do
 end
 ```
 
+\newpage
+
+
 Run the test, watch it fail due to the input parameter and change the scanner.rb as follows :
 
 ```ruby

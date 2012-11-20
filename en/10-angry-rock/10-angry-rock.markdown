@@ -957,3 +957,6 @@ This concise solution is based on Sinatra Up and Running book example. In this c
  
 1. Well Grounded Rubyist by David Black based solution refactored to a better design.
 2. Sinatra Up and Running By Alan Harris, Konstantin Haase based concise solution.
+
+\newpage
+

@@ -348,6 +348,7 @@ Using mocks in this case is improper usage of mocks. Because you cannot drive th
 
 This prevents the changes in Mongodb API from impacting the domain code. See https://github.com/bparanj/mongodb_specs for example of learning specs.
 
+\newpage
 
 
 

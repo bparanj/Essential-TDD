@@ -94,3 +94,5 @@ When the test passes without failing, you must modify the production code to mak
 - What to do when the test passes without failing the first time.
 - Hiding implementation related classes.
 - Intention revealing variable names.
+
+\newpage

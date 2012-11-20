@@ -41,3 +41,5 @@ end
 This technique is a great example of Test Spy described in Gerard Meszaros book xUnit Test Patterns. Basically, you install a spy and check the results collected by the test spy in the verification phase. In this case the Hash is the Test Spy that collects data. See how the stub is used to install the spy in the SUT? It overcomes the problems and isolates the SUT from the Rails framework and allows the code to be tested easily. 
 
 In my TDD bootcamps, the topic on Stubs and Mocks generates lot of discussion. To clear confusion that surrounds the stubs and mocks, I would state : Read Martin Fowler's paper on Mocks Aren't Stubs. Stub can never fail your test, only mocks can fail your test. Using stubs in combination with a spy like this makes stubs seem like they can in fact fail your test. But only the data collected by the Test Spy decides whether the test passes or not. So the stub's main purpose is to just isolate the production code from Rails framework and allow access to the internal state of the SUT where there is no direct way to access it.
+
+\newpage

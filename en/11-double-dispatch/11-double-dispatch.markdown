@@ -207,3 +207,6 @@ end
 4. Refactored the test code. Started in Green state and ended in Green state.
 5. We minimized if conditional statements. Moved it to the main partition and kept our application partition clean.
 6. The game rules are encapsulated in the Rock, Paper and Scissors class.
+
+\newpage
+

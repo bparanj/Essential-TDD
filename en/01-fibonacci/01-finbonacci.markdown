@@ -413,3 +413,5 @@ This version illustrates using existing tests as safety net when making major ch
 3. Get the output of the mini-test in color. 
 4. Convert the given mini-test tests to rspec version fibonacci_spec.rb.
 5. Watch the Factorial screencast and convert the unit tests to rspec specs.
+
+\newpage

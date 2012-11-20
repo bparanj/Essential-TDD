@@ -101,3 +101,5 @@ This is an example for State Verification. We check the state of the system afte
 ## Exercise ##
 
 Identify the Given, When, Then steps for the second spec “should pop from the stack”.
+
+\newpage

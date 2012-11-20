@@ -43,3 +43,5 @@ Learning Mongodb Specs : https://github.com/bparanj/mongodb_specs
 
 Specs to describe features of RSpec at https://www.relishapp.com/rspec
 Example:  https://www.relishapp.com/rspec/rspec-mocks/v/2-10/docs/method-stubs/as-null-object
+
+\newpage
