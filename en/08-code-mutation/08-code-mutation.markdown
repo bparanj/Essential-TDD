@@ -77,7 +77,7 @@ class Array
 end
 
 class Fixnum
-  # This eliminates the mental mapping from .. and ... to the behaviour of the methods.
+  # This eliminates the mental mapping from .. and ... to the behavior of the methods.
   def inclusive(element)
     self..element
   end
@@ -88,7 +88,7 @@ class Fixnum
 end
 ```
 
-When the test passes without failing, you must modify the production code to make the test fail to make sure that you the test is testing the right thing. This example illustrates:
+When the test passes without failing, you must modify the production code to make the test fail to make sure that the test is testing the right thing. This example illustrates:
 
 - How to open classes that preserves the semantics of the core classes.
 - What to do when the test passes without failing the first time.

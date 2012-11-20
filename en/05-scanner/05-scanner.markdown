@@ -96,9 +96,11 @@ end
 
 real_display.rb
 
+```ruby
 class RealDisplay
   
 end
+```
 
 The test fails with the error:
 
@@ -113,6 +115,7 @@ Let's make a simplifying assumption that we don't have to deal with different sc
 
 Change the scanner.rb like this:
 
+```ruby
 class Scanner
   def initialize(display)
     @display = display
@@ -122,6 +125,7 @@ class Scanner
 
   end
 end
+```
 
 The spec fails with:
 
