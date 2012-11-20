@@ -9,7 +9,7 @@
 
 ## Before ##
 
-Example of badly designed API that violates command query separation principle:
+Here is an example of a badly designed API that violates command query separation principle:
 
 ```ruby
 user = User.new(params)
@@ -21,7 +21,7 @@ else
 end
 ```
 
-The save is inserting the record in the database. It is a command because it has a side effect. It is also returning true or false so it is also a query.
+The save is inserting the record in the database. It is a command because it has a side effect. It is also returning true or false, so it is also a query.
 
 ## After ##
 
@@ -103,6 +103,8 @@ class Calculator
 end
 ```
 
+We have two choices : we can either return nil or the client can ignore the return value. If the API is for the public then returning nil explicitly will force the client to obey the CQS principle. If it is within a small team we can get away with ignoring the return value and making sure we obey the CQS principle.
+
 ## Tweet Analyser Example ##
 
 Another Command Query Separation Principle violation example.
@@ -116,7 +118,6 @@ class TweetAnalyzer
   def initialize(user)
     @user = user
   end
-  
   def word_frequency
     {"one" => 1}
   end  
@@ -132,7 +133,7 @@ describe TweetAnalyzer do
 end
 ```
 
-It looks like client is tied to the implementation details (it is accessing a data structure) but it is actually any class that can respond to [] method.
+It looks like client is tied to the implementation details (it is accessing a data structure) but it is actually any class that can respond to [] method. The command 'word_frequency' is not only calculating the frequency but also returns a result.
 
 ### After ###
 
@@ -140,17 +141,14 @@ Version 2 - tweet_analyser_spec.rb
 
 ```ruby
 class TweetAnalyzer
+  attr_reader :histogram
+  
   def initialize(user)
     @user = user
-  end
-  
+  end  
   def word_frequency
     @histogram = {"one" => 1}
   end  
-  
-  def histogram(text)
-    @histogram[text]
-  end
 end
 
 describe TweetAnalyzer do
@@ -158,217 +156,195 @@ describe TweetAnalyzer do
     user = double('user')
     analyzer = TweetAnalyzer.new(user)
     analyzer.word_frequency
-
-    analyzer.histogram("one").should == 1
+    
+    analyzer.histogram["one"].should == 1
   end
 end
 ```
+
+In this version, the command word_frequency() does not return a result. Is executes the logic to calculate word frequency. The histogram is now an exposed attribute that returns word frequency. So the command and query has been separated.
 
 ### Version 3 ###
 
-Second spec breaks the existing spec. This is an example for how mocks are abused.
+Let's add a second spec that will force us to replace the fake implementation with a real one.
 
-tweet_analyzer_spec.rb
+```ruby
+it "should return 2 as the frequency for the word two" do
+  expected_tweets = ["one two", "two"]
+  user = double('user')
+  user.should_receive(:recent_tweets).and_return expected_tweets
+  analyzer = TweetAnalyzer.new(user)
+
+  analyzer.word_frequency  
+
+  analyzer.histogram["two"].should == 2
+end
+```
+
+This fails with the error:
+
+  1) TweetAnalyzer asks the user for recent tweets
+     Failure/Error: analyzer.histogram["two"].should == 2
+       expected: 2
+            got: nil (using ==)
+     # ./tweet_analyzer_spec.rb:28:in `block (2 levels) in <top (required)>'
+
+Finished in 0.00128 seconds
+2 examples, 1 failure
+
+Let's now implement the word_frequency for real. Change the word_frequency implementation like this:
 
 ```ruby
 class TweetAnalyzer
-  def initialize(user)
-    @user = user
-  end
-  
+  ...  
   def word_frequency
-    @frequency = Hash.new{0}
+    @histogram = Hash.new{0}
     @user.recent_tweets.each do |tweet|
       tweet.split(/\s/).each do |word|
-        @frequency[word] += 1
+        @histogram[word] += 1
       end
     end
   end  
-  
-  def histogram(text)
-    @frequency[text]
-  end
-end
-
-describe TweetAnalyzer do
-  it "finds the frequency of words in a user's tweets" do
-    user = double('user')
-    analyzer = TweetAnalyzer.new(user)
-    analyzer.word_frequency
-
-    analyzer.histogram("one").should == 1
-  end
-  
-  it "asks the user for recent tweets" do
-    user = double('user')
-    analyzer = TweetAnalyzer.new(user)
-    expected_tweets = ["one two", "two"]
-    user.should_receive(:recent_tweets).and_return expected_tweets
-    
-    histogram = analyzer.word_frequency
-    analyzer.histogram("two").should == 2
-  end
 end
 ```
+
+Run the spec:
+
+$ rspec tweet_analyzer_spec.rb --color --format documentation
+
+We get the failure message:
+
+TweetAnalyzer
+  finds the frequency of words in a user's tweets (FAILED - 1)
+  should return 2 as the frequency for the word two
+
+Failures:
+
+  1) TweetAnalyzer finds the frequency of words in a user's tweets
+     Failure/Error: @user.recent_tweets.each do |tweet|
+       Double "user" received unexpected message :recent_tweets with (no args)
+     # ./tweet_analyzer_spec.rb:10:in `word_frequency'
+     # ./tweet_analyzer_spec.rb:22:in `block (2 levels) in <top (required)>'
+
+Finished in 0.00132 seconds
+2 examples, 1 failure
+
+Failed examples:
+
+rspec ./tweet_analyzer_spec.rb:19 # TweetAnalyzer finds the frequency of words in a user's tweets
+
+We see that the second spec passed but now our first spec is broken. Let's fix this broken spec.
 
 ### Version 4 ###
 
-Fixed abuse of mocks.
+Change the first spec like this:
 
 tweet_analyzer_spec.rb
 
 ```ruby
-class TweetAnalyzer
-  def initialize(user)
-    @user = user
-  end
-  
-  def word_frequency
-    @frequency = Hash.new{0}
-    @user.recent_tweets.each do |tweet|
-      tweet.split(/\s/).each do |word|
-        @frequency[word] += 1
-      end
-    end
-  end  
-  
-  def histogram(text)
-    @frequency[text]
-  end
-end
-
 describe TweetAnalyzer do
   it "finds the frequency of words in a user's tweets" do
-    user = double('user')
     expected_tweets = ["one two", "two"]
-    user.stub(:recent_tweets).and_return expected_tweets
-    
-    analyzer = TweetAnalyzer.new(user)    
-    analyzer.word_frequency
-
-    analyzer.histogram("one").should == 1
-  end
-  
-  it "asks the user for recent tweets" do
     user = double('user')
-    expected_tweets = ["one two", "two"]
     user.stub(:recent_tweets).and_return expected_tweets
-    
     analyzer = TweetAnalyzer.new(user)
     analyzer.word_frequency
-    
-    analyzer.histogram("two").should == 2
-  end
+   
+    analyzer.histogram["one"].should == 1
+   end
+   ...
 end
 ```
+
+Now both the specs pass. Note that we were able to make our tests pass without using a real user object. Our focus is only on testing the word frequency calculation not the user. User is a collaborator that the TweetAnalyzer interacts with to fulfill it's responsibility of frequency calculation. 
+
+We still have mocking going on in the second spec. Why should we care that recent_tweets method gets called on the user? We don't care about this in the second spec because our focus is not asserting on the outgoing message to the user collaborator object. This is an example of how mocks are abused. In this case mock is used instead of stub. Let's fix this in the second spec like this:
+
+```ruby
+it "should return 2 as the frequency for the word two" do
+  expected_tweets = ["one two", "two"]
+  user = double('user')
+  user.stub(:recent_tweets).and_return expected_tweets
+  analyzer = TweetAnalyzer.new(user)
+
+  analyzer.word_frequency  
+
+  analyzer.histogram["two"].should == 2
+end
+```
+
+This solution does not use mocking. It uses a user stub to enable the tests to run. This fixes abuse of mocks. 
 
 ### Version 5 ###
 
-Extracted common setup to before(:each) method.
+Extract common setup to before method.
 
 tweet_analyzer_spec.rb
 
 ```ruby
 class TweetAnalyzer
+  attr_reader :histogram
+  
   def initialize(user)
     @user = user
-  end
-  
+  end  
   def word_frequency
-    @frequency = Hash.new{0}
+    @histogram = Hash.new{0}
     @user.recent_tweets.each do |tweet|
       tweet.split(/\s/).each do |word|
-        @frequency[word] += 1
+        @histogram[word] += 1
       end
     end
-  end  
-  
-  def histogram(text)
-    @frequency[text]
   end
 end
 
 describe TweetAnalyzer do
-  before(:each) do
-    @user = double('user')
+  before do
     expected_tweets = ["one two", "two"]
-    @user.stub(:recent_tweets).and_return expected_tweets
-  end
-  
-  it "finds the frequency of words in a user's tweets" do    
-    analyzer = TweetAnalyzer.new(@user)    
-    analyzer.word_frequency
-
-    analyzer.histogram("one").should == 1
-  end
-  
-  it "asks the user for recent tweets" do    
+    @user = double('user')
+    @user.stub(:recent_tweets).and_return expected_tweets    
+  end  
+  it "finds the frequency of words in a user's tweets" do
     analyzer = TweetAnalyzer.new(@user)
+
     analyzer.word_frequency
     
-    analyzer.histogram("two").should == 2
+    analyzer.histogram["one"].should == 1
   end
+  it "should return 2 as the frequency for the word two" do
+    analyzer = TweetAnalyzer.new(@user)
+
+    analyzer.word_frequency  
+
+    analyzer.histogram["two"].should == 2
+  end
+    
 end
 ```
 
+Green before and after refactoring.
+
 ### Version 6 ###
 
-Focused tests that test only one thing. If it is important that the user's recent tweets are used to calculate the frequency, write a separate test for that.
+Focused spec test only one thing. If it is important that the user's recent tweets are used to calculate the frequency, write a separate test for that.
 
 tweet_analyzer_spec.rb
 
 ```ruby
-class TweetAnalyzer
-  def initialize(user)
-    @user = user
-  end
-  
-  def word_frequency
-    @frequency = Hash.new{0}
-    @user.recent_tweets.each do |tweet|
-      tweet.split(/\s/).each do |word|
-        @frequency[word] += 1
-      end
-    end
-  end  
-  
-  def histogram(text)
-    @frequency[text]
-  end
-end
-
 describe TweetAnalyzer do
-  before(:each) do
-    @user = double('user')
-    expected_tweets = ["one two", "two"]
-    @user.stub(:recent_tweets).and_return expected_tweets
-  end
-  
-  it "finds the frequency of words in a user's tweets" do    
-    analyzer = TweetAnalyzer.new(@user)    
-    analyzer.word_frequency
-
-    analyzer.histogram("one").should == 1
-  end
-  
-  it "find the frequency of words in a user's tweets that appears multiple times" do    
-    analyzer = TweetAnalyzer.new(@user)
-    analyzer.word_frequency
-    
-    analyzer.histogram("two").should == 2
-  end
-  
+  ...  
   it "asks the user for recent tweets" do    
-    user = double('user')
     expected_tweets = ["one two", "two"]
+    user = double('user')
     user.should_receive(:recent_tweets).and_return expected_tweets
     
     analyzer = TweetAnalyzer.new(user)
     analyzer.word_frequency
-  end
-  
+  end  
 end
 ```
+
+In this case we are only interested in asserting on the message sent to the collaborating user object. We are not asserting on the state like the first two specs.
 
 ### Version 7 ###
 
@@ -380,66 +356,63 @@ tweet_analyzer_spec.rb
 require_relative 'tweet_analyzer'
 
 describe TweetAnalyzer do
-  
-  context 'The Usual Specs' do
-    before(:each) do
-      @user = double('user')
+  context 'Calculate word frequency' do
+    before do
       expected_tweets = ["one two", "two"]
-      @user.stub(:recent_tweets).and_return expected_tweets
+      @user = double('user')
+      @user.stub(:recent_tweets).and_return expected_tweets    
     end
 
-    it "finds the frequency of words in a user's tweets" do    
-      analyzer = TweetAnalyzer.new(@user)    
-      analyzer.word_frequency
-
-      analyzer.histogram("one").should == 1
-    end
-
-    it "find the frequency of words in a user's tweets that appears multiple times" do    
+    it "finds the frequency of words in a user's tweets" do
       analyzer = TweetAnalyzer.new(@user)
+
       analyzer.word_frequency
 
-      analyzer.histogram("two").should == 2
+      analyzer.histogram["one"].should == 1
+    end
+
+    it "should return 2 as the frequency for the word two" do
+      analyzer = TweetAnalyzer.new(@user)
+
+      analyzer.word_frequency  
+
+      analyzer.histogram["two"].should == 2
     end    
   end
   
-  context 'Calling recent_tweets is important' do
+  context 'Collaboration with User' do
     it "asks the user for recent tweets" do    
-      user = double('user')
       expected_tweets = ["one two", "two"]
+      user = double('user')
       user.should_receive(:recent_tweets).and_return expected_tweets
 
       analyzer = TweetAnalyzer.new(user)
       analyzer.word_frequency
     end    
   end
-  
 end
 ```
 
-tweet_analyzer.rb
+tweet_analyzer.rb remains unchanged:
 
 ```ruby
 class TweetAnalyzer
+  attr_reader :histogram
+  
   def initialize(user)
     @user = user
-  end
-  
+  end  
   def word_frequency
-    @frequency = Hash.new{0}
+    @histogram = Hash.new{0}
     @user.recent_tweets.each do |tweet|
       tweet.split(/\s/).each do |word|
-        @frequency[word] += 1
+        @histogram[word] += 1
       end
     end
-  end  
-  
-  def histogram(text)
-    @frequency[text]
   end
 end
 ```
 
-See appendix : Notes from Martin Fowler's article and jMock Home Page.
+Again we are green before and after refactoring. So when do we stub and when do we mock? We can use the Command Query Separation Principle in conjunction with a simple guideline : Stub queries and mock commands. Ideal design will not stub and mock at the same time, since it will violate Command Query Separation Principle. See appendix for notes from Martin Fowler's article and jMock Home Page.
 
 \newpage
