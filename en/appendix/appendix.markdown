@@ -288,4 +288,191 @@ When the behavior of the SUT includes actions that cannot be observed through th
 
 Source : xUnit Test Patterns: Refactoring Test Code by Gerard Meszaros
 
+### Angry Rock : Hiding the Implementation ###
+
+angry_rock.rb
+
+```ruby
+module Game  
+  class Play
+    def initialize(first_choice, second_choice)
+      choice_1 = Internal::AngryRock.new(first_choice)
+      choice_2 = Internal::AngryRock.new(second_choice)
+      
+      @winner = choice_1.winner(choice_2)
+    end
+    def has_winner?
+      !@winner.nil?
+    end    
+    def winning_move
+      @winner.move
+    end
+  end
+  
+  module Internal # no-rdoc
+    # This is implementation details. Not for client use.
+    class AngryRock
+      include Comparable
+
+      WINS = [ %w{rock scissors}, %w{scissors paper}, %w{paper rock}]
+
+      attr_accessor :move
+
+      def initialize(move)
+        @move = move.to_s
+      end
+      def <=>(opponent)
+        if move == opponent.move
+          0
+        elsif WINS.include?([move, opponent.move])
+          1
+        elsif WINS.include?([opponent.move, move])
+          -1
+        else
+          raise ArgumentError, "Only rock, paper, scissors are valid choices"
+        end
+      end
+      def winner(opponent)
+        if self > opponent
+          self
+        elsif opponent > self
+          opponent
+        end
+      end
+    end
+  end
+end  
+```
+
+angry_rock_spec.rb
+
+```ruby
+require 'spec_helper'
+
+module Game
+  describe Play do
+   
+   it "should pick paper as the winner over rock" do
+     play = Play.new(:paper, :rock)
+     
+     play.should have_winner
+     play.winning_move.should == "paper"     
+   end 
+   it "picks scissors as the winner over paper" do
+     play = Play.new(:scissors, :paper)
+     
+     play.should have_winner
+     play.winning_move.should == "scissors"     
+   end
+   it "picks rock as the winner over scissors " do
+     play = Play.new(:rock, :scissors)
+     
+     play.should have_winner
+     play.winning_move.should == "rock"          
+   end
+   it "results in a tie when the same choice is made by both players" do
+     data_driven_spec([:rock, :paper, :scissors]) do |choice|
+       play = Play.new(choice, choice)
+
+       play.should_not have_winner
+     end     
+   end   
+   it "should raise exception when illegal input is provided" do
+     expect do
+       play = Play.new(:junk, :hunk)
+     end.to raise_error
+   end
+  end
+end
+```
+
+### Angry Rock : Concise Solution ###
+
+play_spec.rb
+
+```ruby
+require 'spec_helper'
+require 'angryrock/play'
+
+module AngryRock
+  describe Play do
+   it "should pick paper as the winner over rock" do
+     play = Play.new(:paper, :rock)
+     
+     play.should have_winner
+     play.winning_move.should == :paper
+   end    
+   it "picks scissors as the winner over paper" do
+     play = Play.new(:scissors, :paper)
+     
+     play.should have_winner
+     play.winning_move.should == :scissors     
+   end
+   it "picks rock as the winner over scissors " do
+     play = Play.new(:rock, :scissors)
+     
+     play.should have_winner
+     play.winning_move.should == :rock          
+   end
+   it "results in a tie when the same choice is made by both players" do
+     data_driven_spec([:rock, :paper, :scissors]) do |choice|
+       play = Play.new(choice, choice)
+
+       play.should_not have_winner
+     end     
+   end   
+   it "should raise exception when illegal input is provided" do
+     expect do
+       play = Play.new(:junk, :hunk)
+     end.to raise_error
+   end
+  end
+end
+```
+
+play.rb
+
+```ruby
+module AngryRock
+  class Play
+    def initialize(first_choice, second_choice)
+      @choice_1 = Internal::AngryRock.new(first_choice)
+      @choice_2 = Internal::AngryRock.new(second_choice)
+      
+      @winner = @choice_1.winner(@choice_2)
+    end
+    def has_winner?
+      @choice_1.has_winner?(@choice_2)
+    end
+    def winning_move
+      @winner.move
+    end
+  end
+  
+  module Internal # no-rdoc
+    # This is implementation details. Not for client use. Don't touch me.
+    class AngryRock
+      WINS = {rock: :scissors, scissors: :paper, paper: :rock}
+
+      attr_accessor :move
+
+      def initialize(move)
+        @move = move
+      end
+      def has_winner?(opponent)
+        self.move != opponent.move
+      end
+      # fetch will raise exception when the key is not one of the allowed choice
+      def winner(opponent)
+        if WINS.fetch(self.move)
+          self
+        else
+          opponent
+        end
+      end
+    end
+  end
+end
+```
+
 \newpage

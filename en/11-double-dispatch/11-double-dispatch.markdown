@@ -2,7 +2,7 @@
 
 ## Objective ##
 
-How to use double dispatch to make your code object oriented.
+Learn how to use double dispatch to make your code object oriented.
 
 ## Analysis ##
 

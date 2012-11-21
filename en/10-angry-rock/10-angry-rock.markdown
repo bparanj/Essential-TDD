@@ -9,11 +9,11 @@
 
 ### Version 1 - Violation of Command Query Separation Principle ###
 
-angry_rock_spec.rb
+Create angry_rock_spec.rb with the following contents:
+
+require_relative 'angry_rock'
 
 ```ruby
-require 'spec_helper'
-
 module Game
   describe AngryRock do
    it "should pick paper as the winner over rock" do
@@ -22,329 +22,309 @@ module Game
      winner = choice_1.play(choice_2)
      result = winner.move
      
-     result.should == "paper"
+     result.should == :paper
    end    
-   it "picks scissors as the winner over paper" do
-     choice_1 = Game::AngryRock.new(:scissors)
-     choice_2 = Game::AngryRock.new(:paper)
-     winner = choice_1.play(choice_2)
-     result = winner.move
-     
-     result.should == "scissors"   
-   end
-   it "picks rock as the winner over scissors " do
-     choice_1 = Game::AngryRock.new(:rock)
-     choice_2 = Game::AngryRock.new(:scissors)
-     winner = choice_1.play(choice_2)
-     result = winner.move
-     
-     result.should == "rock"      
-   end
-   it "results in a tie when the same choice is made by both players" do
-     [:rock, :paper, :scissors].each do |choice|
-       choice_1 = Game::AngryRock.new(choice)
-       choice_2 = Game::AngryRock.new(choice)
-       winner = choice_1.play(choice_2)
-       
-       winner.should be_false
-     end
-   end
   end
 end
 ```
 
-angry_rock.rb
+Create angry_rock.rb with the following contents:
 
 ```ruby
 module Game
   class AngryRock
-    include Comparable
-
-    WINS = [ %w{rock scissors}, %w{scissors paper}, %w{paper rock}]
-
-    attr_accessor :move
-
-    def initialize(move)
-      @move = move.to_s
-    end
-    def <=>(other)
-      if move == other.move
-        0
-      elsif WINS.include?([move, other.move])
-        1
-      elsif WINS.include?([other.move, move])
-        -1
-      else
-        raise ArgumentError, "Something's wrong"
-      end
-    end
-    # Lousy design : Returns boolean instead of AngryRock winner object
-    def play(other)
-      if self > other
-        self
-      elsif other > self
-        other
-      else
-        false
-      end
-    end
+    
   end
-end  
+end
 ```
 
-Notice the play method implementation, the false case breaks the consistency of the returned value and violates the semantics of the API. Also the play is a “Command” not a “Query”. This method violates the “Command Query Separation Principle”.
+Run the spec and watch it fail:
+
+```ruby
+$ rspec angry_rock_spec.rb --color --format doc
+
+Game::AngryRock
+  should pick paper as the winner over rock (FAILED - 1)
+
+Failures:
+
+  1) Game::AngryRock should pick paper as the winner over rock
+     Failure/Error: choice_1 = Game::AngryRock.new(:paper)
+     ArgumentError:
+       wrong number of arguments(1 for 0)
+```
+
+Let's get past this error by changing the angry_rock.rb as follows:
+
+```ruby
+module Game
+  class AngryRock
+    def initialize(move)
+      @move = move
+    end
+  end
+end
+```
+
+Now we get the error:
+
+```ruby
+1) Game::AngryRock should pick paper as the winner over rock
+   Failure/Error: winner = choice_1.play(choice_2)
+   NoMethodError:
+     undefined method `play' for #<Game::AngryRock:0x007fc594955db0 @move=:paper>
+```
+
+So, let's define a empty play method as follows:
+
+```ruby
+module Game
+  class AngryRock
+    ...    
+    def play
+      
+    end
+  end
+end
+```
+
+Now we get:
+
+```ruby
+1) Game::AngryRock should pick paper as the winner over rock
+   Failure/Error: winner = choice_1.play(choice_2)
+   ArgumentError:
+     wrong number of arguments (1 for 0)
+```
+
+Change the play method signature like this:
+
+```ruby
+def play(other)
+  
+end
+```
+
+Now we get:
+
+```ruby
+1) Game::AngryRock should pick paper as the winner over rock
+    Failure/Error: result = winner.move
+    NoMethodError:
+      undefined method `move' for nil:NilClass
+```
+
+Change the play method like this:
+
+```ruby
+    def play(other)
+      self
+    end
+```
+
+```ruby
+1) Game::AngryRock should pick paper as the winner over rock
+    Failure/Error: result = winner.move
+    NoMethodError:
+      undefined method `move' for #<Game::AngryRock:0x007fe39a8bedd8 @move=:paper>
+```
+
+Change the angry_rock.rb as follows:
+
+```ruby
+module Game
+  class AngryRock
+    attr_accessor :move
+    ...
+  end
+end
+```
+
+The first spec now passes. Add the second spec:
+
+```ruby
+it "picks scissors as the winner over paper" do
+  choice_1 = Game::AngryRock.new(:scissors)
+  choice_2 = Game::AngryRock.new(:paper)
+  winner = choice_1.play(choice_2)
+  result = winner.move
+  
+  result.should == :scissors   
+end
+```
+
+It passes immediately. Make it fail by mutating the angry_rock.rb like this:
+
+```ruby
+module Game
+  class AngryRock
+	...
+    def play(other)
+      return other if other.move == :paper
+      self
+    end
+  end
+end
+```
+
+It now fails with :
+
+```ruby
+1) Game::AngryRock picks scissors as the winner over paper
+   Failure/Error: result.should == :scissors
+     expected: :scissors
+          got: :paper (using ==)
+```
+
+Remove the short circuit statement:      
+
+```ruby
+return other if other.move == :paper 
+```
+
+from angry_rock.rb. The spec will now pass.
+
+Let's add the third spec:
+
+```ruby
+it "picks rock as the winner over scissors " do
+  choice_1 = Game::AngryRock.new(:rock)
+  choice_2 = Game::AngryRock.new(:scissors)
+  winner = choice_1.play(choice_2)
+  result = winner.move
+  
+  result.should == :rock      
+end
+```
+
+This spec also passes without failing. Add a short circuit statement for the third spec and make the test fail and then make it pass again.
+
+Let's now add the spec for the tie case:
+
+```ruby
+it "results in a tie when both players pick rock" do
+  choice_1 = Game::AngryRock.new(:rock)
+  choice_2 = Game::AngryRock.new(:rock)
+  winner = choice_1.play(choice_2)
+  result = winner.move
+
+  winner.should be_false
+end
+```
+
+This fails with the error:
+
+```ruby
+1) Game::AngryRock results in a tie when both players pick rock
+   Failure/Error: winner.should be_false
+     expected: false value
+          got: #<Game::AngryRock:0x007fdc7ba157c0 @move=:rock>
+```
+
+Change the implementation of play method like this:
+
+```ruby
+def play(other)
+  return false if self.move == other.move
+  self
+end
+```
+
+Now all the specs will pass. This implementation of play method is a lousy design. The false case breaks the consistency of the returned value and violates the semantics of the API. Also the play method is a “Command” not a “Query”. This method violates the “Command Query Separation Principle”.
 
 ### Fixing the Bad Design ###
 
-angry_rock_spec.rb
+Change the spec for tie case to:
 
 ```ruby
-require 'spec_helper'
-
-module Game
-  describe AngryRock do
-   it "should pick paper as the winner over rock" do
-     choice_1 = Game::AngryRock.new(:paper)
-     choice_2 = Game::AngryRock.new(:rock)
-     winner = choice_1.play(choice_2)
-     result = winner.move
-     
-     result.should == "paper"
-   end 
-   it "picks scissors as the winner over paper" do
-     choice_1 = Game::AngryRock.new(:scissors)
-     choice_2 = Game::AngryRock.new(:paper)
-     winner = choice_1.play(choice_2)
-     result = winner.move
-     
-     result.should == "scissors"   
-   end
-   it "picks rock as the winner over scissors " do
-     choice_1 = Game::AngryRock.new(:rock)
-     choice_2 = Game::AngryRock.new(:scissors)
-     winner = choice_1.play(choice_2)
-     result = winner.move
-     
-     result.should == "rock"      
-   end
-   it "results in a tie when the same choice is made by both players" do
-     choice_1 = Game::AngryRock.new(:rock)
-     choice_2 = Game::AngryRock.new(:rock)
-     winner = choice_1.play(choice_2)
-     result = winner.move
-       
-     result.should == "TIE!"     
-   end
-  end
+it "results in a tie when both players pick rock" do
+  choice_1 = Game::AngryRock.new(:rock)
+  choice_2 = Game::AngryRock.new(:rock)
+  winner = choice_1.play(choice_2)
+  result = winner.move
+    
+  result.should == "TIE!"     
 end
 ```
 
-angry_rock.rb
+This fails with the error:
 
 ```ruby
-module Game
-  class AngryRock
-    include Comparable
-
-    WINS = [ %w{rock scissors}, %w{scissors paper}, %w{paper rock}]
-
-    attr_accessor :move
-
-    def initialize(move)
-      @move = move.to_s
-    end
-    def <=>(other)
-      if move == other.move
-        0
-      elsif WINS.include?([move, other.move])
-        1
-      elsif WINS.include?([other.move, move])
-        -1
-      else
-        raise ArgumentError, "Something's wrong"
-      end
-    end
-    # Fixed design : Returns AngryRock Tie object for the Tie case.
-    def play(other)
-      if self > other
-        self
-      elsif other > self
-        other
-      else
-        AngryRock.new("TIE!")
-      end
-    end
-  end
-end  
+1) Game::AngryRock results in a tie when both players pick rock
+   Failure/Error: result = winner.move
+   NoMethodError:
+     undefined method `move' for false:FalseClass
 ```
 
-The play method now returns a AngryRock tie object for the tie case.
-
-### Tie Cases : Spec Duplication ###
-
-angry_rock_spec.rb
+Change the implementation of the play method as follows:
 
 ```ruby
-require 'spec_helper'
-
-module Game
-  describe AngryRock do
-   it "should pick paper as the winner over rock" do
-     choice_1 = Game::AngryRock.new(:paper)
-     choice_2 = Game::AngryRock.new(:rock)
-     winner = choice_1.play(choice_2)
-     result = winner.move
-     
-     result.should == "paper"
-   end 
-   it "picks scissors as the winner over paper" do
-     choice_1 = Game::AngryRock.new(:scissors)
-     choice_2 = Game::AngryRock.new(:paper)
-     winner = choice_1.play(choice_2)
-     result = winner.move
-     
-     result.should == "scissors"   
-   end
-   it "picks rock as the winner over scissors " do
-     choice_1 = Game::AngryRock.new(:rock)
-     choice_2 = Game::AngryRock.new(:scissors)
-     winner = choice_1.play(choice_2)
-     result = winner.move
-     
-     result.should == "rock"      
-   end
-   it "results in a tie when the same choice is made by both players : rock" do
-     choice_1 = Game::AngryRock.new(:rock)
-     choice_2 = Game::AngryRock.new(:rock)
-     winner = choice_1.play(choice_2)
-     result = winner.move
-       
-     result.should == "TIE!"     
-   end
-
-   it "results in a tie when the same choice is made by both players : paper" do
-     choice_1 = Game::AngryRock.new(:paper)
-     choice_2 = Game::AngryRock.new(:paper)
-     winner = choice_1.play(choice_2)
-     result = winner.move
-       
-     result.should == "TIE!"     
-   end
-   it "results in a tie when the same choice is made by both players : scissors" do
-     choice_1 = Game::AngryRock.new(:scissors)
-     choice_2 = Game::AngryRock.new(:scissors)
-     winner = choice_1.play(choice_2)
-     result = winner.move
-       
-     result.should == "TIE!"     
-   end
-  end
+def play(other)
+  return AngryRock.new("TIE!") if self.move == other.move
+  self
 end
 ```
 
-The last three specs show three possible tie scenarios. 
+Now all specs pass. The play method now returns a AngryRock tie object for the tie case. Add two more specs for the remaining tie cases one by one. 
+
+```ruby
+it "results in a tie when both players pick paper" do
+  choice_1 = Game::AngryRock.new(:paper)
+  choice_2 = Game::AngryRock.new(:paper)
+  winner = choice_1.play(choice_2)
+  result = winner.move
+    
+  result.should == "TIE!"     
+end
+it "results in a tie when both players pick scissors" do
+  choice_1 = Game::AngryRock.new(:scissors)
+  choice_2 = Game::AngryRock.new(:scissors)
+  winner = choice_1.play(choice_2)
+  result = winner.move
+    
+  result.should == "TIE!"     
+end
+```
+
+Make them fail and then make it pass one by one. The last three specs show three possible tie scenarios.
 
 ### Removing the Duplication in Specs : The Before Picture ###
 
-angry_rock_spec.rb
-
 ```ruby
-require 'spec_helper'
-
-module Game
-  describe AngryRock do
-   it "should pick paper as the winner over rock" do
-     choice_1 = Game::AngryRock.new(:paper)
-     choice_2 = Game::AngryRock.new(:rock)
-     winner = choice_1.play(choice_2)
-     result = winner.move
-     
-     result.should == "paper"
-   end    
-   it "picks scissors as the winner over paper" do
-     choice_1 = Game::AngryRock.new(:scissors)
-     choice_2 = Game::AngryRock.new(:paper)
-     winner = choice_1.play(choice_2)
-     result = winner.move
-     
-     result.should == "scissors"   
-   end
-   it "picks rock as the winner over scissors " do
-     choice_1 = Game::AngryRock.new(:rock)
-     choice_2 = Game::AngryRock.new(:scissors)
-     winner = choice_1.play(choice_2)
-     result = winner.move
-     
-     result.should == "rock"      
-   end
-   it "results in a tie when the same choice is made by both players" do
-     [:rock, :paper, :scissors].each do |choice|
-       choice_1 = Game::AngryRock.new(choice)
-       choice_2 = Game::AngryRock.new(choice)
-       winner = choice_1.play(choice_2)
-       result = winner.move
-       
-       result.should == "TIE!"      
-     end     
-   end   
-  end
-end
+it "results in a tie when the same choice is made by both players" do
+  [:rock, :paper, :scissors].each do |choice|
+    choice_1 = Game::AngryRock.new(choice)
+    choice_2 = Game::AngryRock.new(choice)
+    winner = choice_1.play(choice_2)
+    result = winner.move
+    
+    result.should == "TIE!"      
+  end     
+end   
 ```
 
-The duplication in specs is removed by using a loop.
+The duplication in specs is removed by using a loop. We can do better than that, let's apply what we learned in Eliminating Loops chapter.
 
 ### Removing the Duplication in Specs : The After Picture ###
 
-angry_rock_spec.rb
+Replace the loop version of the tie case with the following spec:
 
 ```ruby
-require 'spec_helper'
-
-module Game
-  describe AngryRock do
-   it "should pick paper as the winner over rock" do
-     choice_1 = Game::AngryRock.new(:paper)
-     choice_2 = Game::AngryRock.new(:rock)
-     winner = choice_1.play(choice_2)
-     result = winner.move
-     
-     result.should == "paper"
-   end    
-   it "picks scissors as the winner over paper" do
-     choice_1 = Game::AngryRock.new(:scissors)
-     choice_2 = Game::AngryRock.new(:paper)
-     winner = choice_1.play(choice_2)
-     result = winner.move
-     
-     result.should == "scissors"   
-   end
-   it "picks rock as the winner over scissors " do
-     choice_1 = Game::AngryRock.new(:rock)
-     choice_2 = Game::AngryRock.new(:scissors)
-     winner = choice_1.play(choice_2)
-     result = winner.move
-     
-     result.should == "rock"      
-   end   
-   it "results in a tie when the same choice is made by both players" do
-     data_driven_spec([:rock, :paper, :scissors]) do |choice|
-       choice_1 = Game::AngryRock.new(choice)
-       choice_2 = Game::AngryRock.new(choice)
-       winner = choice_1.play(choice_2)
-       result = winner.move
-       
-       result.should == "TIE!"      
-     end     
-   end   
-  end
-end
+it "results in a tie when the same choice is made by both players" do
+  data_driven_spec([:rock, :paper, :scissors]) do |choice|
+    choice_1 = Game::AngryRock.new(choice)
+    choice_2 = Game::AngryRock.new(choice)
+    winner = choice_1.play(choice_2)
+    result = winner.move
+    
+    result.should == "TIE!"      
+  end     
+end   
 ```
 
-spec_helper.rb
+Add a helper method in spec_helper.rb
 
 ```ruby
-require 'game/angry_rock'
-
 def data_driven_spec(container)
   container.each do |element|
    yield element
@@ -352,324 +332,248 @@ def data_driven_spec(container)
 end
 ```
 
-Original solution had the following logic :
+Add :
 
 ```ruby
-if winner
-  result = winner.move 
-else
-  result = "TIE!" 
-end
+require_relative 'spec_helper'
 ```
 
-with play returning false for a tie scenario.
+to the top of the angry_rock_spec.rb.
+
+Now all the specs should still pass. Let's now improve the design. To make the specs more readable change specs and production code as follows:
+
+require_relative 'angry_rock'
+require_relative 'spec_helper'
+
+module AngryRock
+  describe Choice do
+   it "should pick paper as the winner over rock" do
+     choice_1 = AngryRock::Choice.new(:paper)
+     choice_2 = AngryRock::Choice.new(:rock)
+     winner = choice_1.play(choice_2)
+     result = winner.move
+     
+     result.should == :paper
+   end    
+   
+   it "picks scissors as the winner over paper" do
+     choice_1 = AngryRock::Choice.new(:scissors)
+     choice_2 = AngryRock::Choice.new(:paper)
+     winner = choice_1.play(choice_2)
+     result = winner.move
+     
+     result.should == :scissors   
+   end
+   
+   it "picks rock as the winner over scissors " do
+     choice_1 = AngryRock::Choice.new(:rock)
+     choice_2 = AngryRock::Choice.new(:scissors)
+     winner = choice_1.play(choice_2)
+     result = winner.move
+     
+     result.should == :rock      
+   end
+   
+   it "results in a tie when the same choice is made by both players" do
+     data_driven_spec([:rock, :paper, :scissors]) do |choice|
+       choice_1 = AngryRock::Choice.new(choice)
+       choice_2 = AngryRock::Choice.new(choice)
+       winner = choice_1.play(choice_2)
+       result = winner.move
+
+       result.should == "TIE!"      
+     end     
+   end   
+      
+  end
+end
+
+module AngryRock 
+  class Choice
+    attr_accessor :move
+    
+    def initialize(move)
+      @move = move
+    end
+    
+    def play(other)
+      return Choice.new("TIE!") if self.move == other.move
+      self
+    end    
+  end
+end
+
+The specs should still pass. The specs now read well and make much more sense than the previous version.
 
 ### Command Query Separation Principle ###
 
-angry_rock.rb
+Is the play() method a command or a query? It is ambiguous because play seems to be a name of a command and it is returning the winning AngryRock object (result of a query operation). It combines command and query. Let's refactor while we stay green. What if the specs that we wrote was intelligent enough to use CQS principle like this:
 
-```ruby
-module Game
-  class AngryRock
-    include Comparable
 
-    WINS = [ %w{rock scissors}, %w{scissors paper}, %w{paper rock}]
+require_relative 'angry_rock'
+require_relative 'spec_helper'
 
-    attr_accessor :move
-
-    def initialize(move)
-      @move = move.to_s
-    end
-    def <=>(other)
-      if move == other.move
-        0
-      elsif WINS.include?([move, other.move])
-        1
-      elsif WINS.include?([other.move, move])
-        -1
-      else
-        raise ArgumentError, "Something's wrong"
-      end
-    end
-    def play(other)
-      if self > other
-        self
-      elsif other > self
-        other
-      else
-        AngryRock.new("TIE!")
-      end
-    end
-  end
-end  
-```
-
-Is the play() method a command and a query? It is ambiguous because play seems to be a name of a command and it is returning the winning AngryRock object (result of a query operation). It combines command and query.
-
-### Refactoring While Staying Green ###
-
-angry_rock.rb
-
-```ruby
-module Game
-  class AngryRock
-    include Comparable
-
-    WINS = [ %w{rock scissors}, %w{scissors paper}, %w{paper rock}]
-
-    attr_accessor :move
-
-    def initialize(move)
-      @move = move.to_s
-    end
-    def <=>(other)
-      if move == other.move
-        0
-      elsif WINS.include?([move, other.move])
-        1
-      elsif WINS.include?([other.move, move])
-        -1
-      else
-        raise ArgumentError, "Something's wrong"
-      end
-    end
-    # Problem : Is this method is a command and a query?
-    # It is ambiguous because play seems to be a name of a command and 
-    # it is returning the winning AngryRock object
-    def play(other)
-      if self > other
-        self
-      elsif other > self
-        other
-      end
-    end
-    def winner(other)
-      if self > other
-        self
-      elsif other > self
-        other
-      end
-    end
-  end
-  
-  class Play
-    def initialize(first_choice, second_choice)
-      @winner = first_choice.winner(second_choice)
-    end
-    def has_winner?
-      !@winner.nil?
-    end    
-    def winning_move
-      @winner.move
-    end
-  end
-end  
-```
-
-Retaining the old interface and the new one at the same time to avoid old tests from failing. Start refactoring in green state and end refactoring in green state (version 8).
-
-### Dealing With Violation of Command Query Separation ###
-
-angry_rock.rb
-
-```ruby
-module Game
-  class AngryRock
-    include Comparable
-
-    WINS = [ %w{rock scissors}, %w{scissors paper}, %w{paper rock}]
-
-    attr_accessor :move
-
-    def initialize(move)
-      @move = move.to_s
-    end
-    def <=>(other)
-      if move == other.move
-        0
-      elsif WINS.include?([move, other.move])
-        1
-      elsif WINS.include?([other.move, move])
-        -1
-      else
-        raise ArgumentError, "Something's wrong"
-      end
-    end
-    # Problem : Is this method a command and a query?
-    # It is ambiguous because play seems to be a name of a command and 
-    # it is returning the winning AngryRock object
-    # play method that violated Command Query Separation is now gone.
-    # This is a query method 
-    def winner(other)
-      if self > other
-        self
-      elsif other > self
-        other
-      end
-    end
-  end
-  
-  class Play
-    def initialize(first_choice, second_choice)
-      @winner = first_choice.winner(second_choice)
-    end
-    def has_winner?
-      !@winner.nil?
-    end
-    def winning_move
-      @winner.move
-    end
-  end
-end  
-```
-
-The play() method that violated Command Query Separation is now gone. The new winner method is a query method.
-
-### Using Domain Specific Term ###
-
-angry_rock.rb
-
-```ruby
-module Game
-  class AngryRock
-    include Comparable
-
-    WINS = [ %w{rock scissors}, %w{scissors paper}, %w{paper rock}]
-
-    attr_accessor :move
-
-    def initialize(move)
-      @move = move.to_s
-    end
-    def <=>(opponent)
-      if move == opponent.move
-        0
-      elsif WINS.include?([move, opponent.move])
-        1
-      elsif WINS.include?([opponent.move, move])
-        -1
-      else
-        raise ArgumentError, "Something's wrong"
-      end
-    end
-    def winner(opponent)
-      if self > opponent
-        self
-      elsif opponent > self
-        opponent
-      end
-    end
-  end
-  
-  class Play
-    def initialize(first_choice, second_choice)
-      @winner = first_choice.winner(second_choice)
-    end
-    def has_winner?
-      !@winner.nil?
-    end    
-    def winning_move
-      @winner.move
-    end
-  end
-end  
-```
-
-This version (10) the variable other is renamed to opponent. This reveals the intent of the variable.
-
-### Refactoring the Specs ###
-
-angry_rock_spec.rb
-
-```ruby
-require 'spec_helper'
-
-module Game
-  describe AngryRock do
+module AngryRock
+  describe Game do
    it "should pick paper as the winner over rock" do
-     play = Play.new(:paper, :rock)
+     game = AngryRock::Game.new(:paper, :rock)
+     game.play
+     winning_move = game.winning_move
      
-     play.should have_winner
-     play.winning_move.should == "paper"     
-   end 
-   it "picks scissors as the winner over paper" do
-     play = Play.new(:scissors, :paper)
-     
-     play.should have_winner
-     play.winning_move.should == "scissors"     
-   end   
-   it "picks rock as the winner over scissors " do
-     play = Play.new(:rock, :scissors)
-     
-     play.should have_winner
-     play.winning_move.should == "rock"          
+     winning_move.should == :paper
    end
-   it "results in a tie when the same choice is made by both players" do
-     data_driven_spec([:rock, :paper, :scissors]) do |choice|
-       play = Play.new(choice, choice)
+end
 
-       play.should_not have_winner
-     end     
-   end   
+We create a game object by providing two choices, we play the game by using the command method play and we query the winning_move. Then we make our assertion on the winning move. To make this spec pass, change the implementation of the game as follows:
+
+module AngryRock 
+  class Game
+    WINS = {rock: :scissors, scissors: :paper, paper: :rock}
+    
+    def initialize(choice_1, choice_2)
+      @choice_1 = choice_1
+      @choice_2 = choice_2
+    end
+    
+    def play
+      @winner = winner
+    end
+    
+    def winning_move
+      @winner
+    end
+    
+    def winner
+      if WINS[@choice_1]
+        @choice_1
+      else
+        @choice_2
+      end
+    end
+  end
+  
+end
+
+Let's add the second and third specs and make sure they pass:
+
+it "picks scissors as the winner over paper" do
+  game = AngryRock::Game.new(:scissors, :paper)
+
+  game.play
+
+  winning_move = game.winning_move  
+  winning_move.should == :scissors
+end
+
+it "picks rock as the winner over scissors " do
+  game = AngryRock::Game.new(:rock, :scissors)
+
+  game.play
+
+  winning_move = game.winning_move  
+  winning_move.should == :rock
+end
+
+Let's add the tie case spec:
+
+it "results in a tie when the same choice is made by both players" do
+  data_driven_spec([:rock, :paper, :scissors]) do |choice|
+    game = AngryRock::Game.new(choice, choice)
+
+    game.play
+
+    winning_move = game.winning_move       
+    winning_move.should == :tie
+  end     
+end
+
+To make it pass change the production code as follows:
+
+def winner
+  return :tie if @choice_1 == @choice_2
+  if WINS[@choice_1]
+    @choice_1
+  else
+    @choice_2
   end
 end
-```
 
-angry_rock.rb
-
-```ruby
-module Game
-  class AngryRock
-    include Comparable
-
-    WINS = [ %w{rock scissors}, %w{scissors paper}, %w{paper rock}]
-
-    attr_accessor :move
-
-    def initialize(move)
-      @move = move.to_s
-    end
-    def <=>(opponent)
-      if move == opponent.move
-        0
-      elsif WINS.include?([move, opponent.move])
-        1
-      elsif WINS.include?([opponent.move, move])
-        -1
-      else
-        raise ArgumentError, "Something's wrong"
-      end
-    end
-    def winner(opponent)
-      if self > opponent
-        self
-      elsif opponent > self
-        opponent
-      end
-    end
-  end
-  
-  class Play
-    def initialize(first_choice, second_choice)
-      choice_1 = AngryRock.new(first_choice)
-      choice_2 = AngryRock.new(second_choice)
-      
-      @winner = choice_1.winner(choice_2)
-    end
-    def has_winner?
-      !@winner.nil?
-    end
-    def winning_move
-      @winner.move
-    end
-  end
-end  
-```
-
-The specs are now simplified.
+Now all specs should pass. Now the play is a command and winner is a query. The command and query are now separated and the code obeys the CQS principle.
 
 ### Handling Illegal Inputs ###
 
+Let's make the code robust by checking for illegal inputs. Add the following spec:
+
+it "should raise exception when illegal input is provided" do
+  expect do
+    game = AngryRock::Game.new(:punk, :hunk)
+    game.play
+  end.to raise_error
+end
+
+It fails with the following error:
+
+1) AngryRock::Game should raise exception when illegal input is provided
+    Failure/Error: expect do
+      expected Exception but nothing was raised
+
+To make this spec pass change the winner method like this:
+
+def winner
+  return :tie if @choice_1 == @choice_2
+  if WINS.fetch(@choice_1)
+    @choice_1
+  else
+    @choice_2
+  end
+end
+
+All specs will now pass. Let's hide the implementation details by making the winner method private. All specs should still pass.
+
+Let's make the exception user friendly, change the illegal input spec as follows:
+
+it "should raise exception when illegal input is provided" do
+  expect do
+    game = AngryRock::Game.new(:punk, :hunk)
+    game.play
+  end.to raise_error(IllegalChoice)
+end
+
+This fails with the error:
+
+1) AngryRock::Game should raise exception when illegal input is provided
+   Failure/Error: end.to raise_error(IllegalChoice)
+   NameError:
+     uninitialized constant AngryRock::IllegalChoice
+
+Change the angry_rock.rb as follows:
+
+module AngryRock 
+  class IllegalChoice < Exception ; end;
+  
+  class Game
+   ...   
+    def winner
+      return :tie if @choice_1 == @choice_2
+      begin
+        if WINS.fetch(@choice_1)
+          @choice_1
+        else
+          @choice_2
+        end
+      rescue
+        raise IllegalChoice
+      end
+    end
+  end  
+end
+
+All specs now pass. This concise solution is based on Sinatra Up and Running By Alan Harris, Konstantin Haase. 
+
+## Exercise ##
+
+1. Look at the following alternative specs and implementation. This solution is based on Well Grounded Rubyist by David Black. It has been refactored to a better design. Make it even better by making the code expressive with readable specs. Compare your solution with the solutions given in the appendix.
+
 angry_rock_spec.rb
 
 ```ruby
@@ -702,16 +606,9 @@ module Game
        play.should_not have_winner
      end     
    end   
-   it "should raise exception when illegal input is provided" do
-     expect do
-       play = Play.new(:junk, :hunk)
-     end.to raise_error
-   end
   end
 end
 ```
-
-This version now has specs for illegal inputs.
 
 angry_rock.rb
 
@@ -735,7 +632,7 @@ module Game
       elsif WINS.include?([opponent.move, move])
         -1
       else
-        raise ArgumentError, "Only rock, paper, scissors are valid choices"
+        raise ArgumentError, "Something's wrong"
       end
     end
     def winner(opponent)
@@ -756,207 +653,13 @@ module Game
     end
     def has_winner?
       !@winner.nil?
-    end    
+    end
     def winning_move
       @winner.move
     end
   end
 end  
 ```
-
-This implementation has domain specific error message instead of vague error message that is not helpful during troubleshooting.
-
-### Hiding the Implementation ###
-
-angry_rock.rb
-
-```ruby
-module Game  
-  class Play
-    def initialize(first_choice, second_choice)
-      choice_1 = Internal::AngryRock.new(first_choice)
-      choice_2 = Internal::AngryRock.new(second_choice)
-      
-      @winner = choice_1.winner(choice_2)
-    end
-    def has_winner?
-      !@winner.nil?
-    end    
-    def winning_move
-      @winner.move
-    end
-  end
-  
-  module Internal # no-rdoc
-    # This is implementation details. Not for client use.
-    class AngryRock
-      include Comparable
-
-      WINS = [ %w{rock scissors}, %w{scissors paper}, %w{paper rock}]
-
-      attr_accessor :move
-
-      def initialize(move)
-        @move = move.to_s
-      end
-      def <=>(opponent)
-        if move == opponent.move
-          0
-        elsif WINS.include?([move, opponent.move])
-          1
-        elsif WINS.include?([opponent.move, move])
-          -1
-        else
-          raise ArgumentError, "Only rock, paper, scissors are valid choices"
-        end
-      end
-      def winner(opponent)
-        if self > opponent
-          self
-        elsif opponent > self
-          opponent
-        end
-      end
-    end
-  end
-end  
-```
-
-angry_rock_spec.rb
-
-```ruby
-require 'spec_helper'
-
-module Game
-  describe Play do
-   
-   it "should pick paper as the winner over rock" do
-     play = Play.new(:paper, :rock)
-     
-     play.should have_winner
-     play.winning_move.should == "paper"     
-   end 
-   it "picks scissors as the winner over paper" do
-     play = Play.new(:scissors, :paper)
-     
-     play.should have_winner
-     play.winning_move.should == "scissors"     
-   end
-   it "picks rock as the winner over scissors " do
-     play = Play.new(:rock, :scissors)
-     
-     play.should have_winner
-     play.winning_move.should == "rock"          
-   end
-   it "results in a tie when the same choice is made by both players" do
-     data_driven_spec([:rock, :paper, :scissors]) do |choice|
-       play = Play.new(choice, choice)
-
-       play.should_not have_winner
-     end     
-   end   
-   it "should raise exception when illegal input is provided" do
-     expect do
-       play = Play.new(:junk, :hunk)
-     end.to raise_error
-   end
-  end
-end
-```
-
-### Concise Solution ###
-
-play_spec.rb
-
-```ruby
-require 'spec_helper'
-require 'angryrock/play'
-
-module AngryRock
-  describe Play do
-   it "should pick paper as the winner over rock" do
-     play = Play.new(:paper, :rock)
-     
-     play.should have_winner
-     play.winning_move.should == :paper
-   end    
-   it "picks scissors as the winner over paper" do
-     play = Play.new(:scissors, :paper)
-     
-     play.should have_winner
-     play.winning_move.should == :scissors     
-   end
-   it "picks rock as the winner over scissors " do
-     play = Play.new(:rock, :scissors)
-     
-     play.should have_winner
-     play.winning_move.should == :rock          
-   end
-   it "results in a tie when the same choice is made by both players" do
-     data_driven_spec([:rock, :paper, :scissors]) do |choice|
-       play = Play.new(choice, choice)
-
-       play.should_not have_winner
-     end     
-   end   
-   it "should raise exception when illegal input is provided" do
-     expect do
-       play = Play.new(:junk, :hunk)
-     end.to raise_error
-   end
-  end
-end
-```
-
-play.rb
-
-```ruby
-module AngryRock
-  class Play
-    def initialize(first_choice, second_choice)
-      @choice_1 = Internal::AngryRock.new(first_choice)
-      @choice_2 = Internal::AngryRock.new(second_choice)
-      
-      @winner = @choice_1.winner(@choice_2)
-    end
-    def has_winner?
-      @choice_1.has_winner?(@choice_2)
-    end
-    def winning_move
-      @winner.move
-    end
-  end
-  
-  module Internal # no-rdoc
-    # This is implementation details. Not for client use. Don't touch me.
-    class AngryRock
-      WINS = {rock: :scissors, scissors: :paper, paper: :rock}
-
-      attr_accessor :move
-
-      def initialize(move)
-        @move = move
-      end
-      def has_winner?(opponent)
-        self.move != opponent.move
-      end
-      # fetch will raise exception when the key is not one of the allowed choice
-      def winner(opponent)
-        if WINS.fetch(self.move)
-          self
-        else
-          opponent
-        end
-      end
-    end
-  end
-end
-```
-
-This concise solution is based on Sinatra Up and Running book example. In this chapter, we saw Rock Paper Scissors Game Engine. It has two solutions:
  
-1. Well Grounded Rubyist by David Black based solution refactored to a better design.
-2. Sinatra Up and Running By Alan Harris, Konstantin Haase based concise solution.
-
 \newpage
 
