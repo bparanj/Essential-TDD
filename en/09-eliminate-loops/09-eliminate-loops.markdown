@@ -138,6 +138,7 @@ describe 'Vowel checker' do
   end
 end
 ```
+
 This mixes what and how. It is not clear. Since the implementation details buries the intent of the spec. It passes with the message:
 
 ```ruby

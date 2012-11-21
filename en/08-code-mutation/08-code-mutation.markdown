@@ -8,6 +8,7 @@ To illustrate the need to mutate the code when the test passes without failing t
 
 Create a ruby_extensions_spec.rb with the following contents:
 
+```ruby
 require_relative 'ruby_extensions'
 
 describe 'Ruby extensions' do
@@ -19,18 +20,22 @@ describe 'Ruby extensions' do
     result.should == [1,3]
   end    
 end
+```
 
 To make the test pass, create ruby_extensions.rb with the following contents:
 
+```ruby
 class Array  
   # & operator is used for intersection operation in Array.
   def intersection(another)  
     self & another  
   end  
 end
+```
 
 Add the second spec for the boundary condition like this:
 
+```ruby
 require_relative 'ruby_extensions'
 
 describe 'Array extensions' do
@@ -43,28 +48,35 @@ describe 'Array extensions' do
     result.should == []    
   end
 end
+```
 
 This test passes without failing. The question is how do you know if this test is correct? To validate the test, we have to mutate the production code to make it fail for the scenario under test.
 
 Change the ruby_extensions.rb so that only the second spec fails like this:
 
+```ruby
 class Array  
   def intersection(another)  
     return [10] if another.size == 2
     self & another  
   end  
 end
+```
 
 Now the second spec breaks with the error:
 
+```ruby
 1) Array Array extensions should return an empty array if there is no common elements to both arrays
    Failure/Error: result.should == []
      expected: []
           got: [10] (using ==)
+```
 
 Delete the short circuiting condition from the ruby_extensions.rb: 
 
+```ruby
 return [10] if another.size == 2
+```
 
 Now both the specs should pass.
 

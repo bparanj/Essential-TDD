@@ -32,12 +32,12 @@ class Week
 end
 
 describe Week do
-  it "should return monday as the first day of the week" do
+  it "return monday as the first day of the week" do
     day = Week.day("1")
     
     day.should == :monday
   end
-  it "should return false for numbers that does not correspond to week day" do
+  it "return false for numbers that does not correspond to week day" do
     day = Week.day("7")
     
     day.should be_false
@@ -70,12 +70,12 @@ class Week
 end
 
 describe Week do
-  it "should return monday as the first day of the week" do
+  it "return monday as the first day of the week" do
     day = Week.day("1")
     
     day.should == :monday
   end
-  it "should return false for numbers that does not correspond to week day" do
+  it "return false for numbers that does not correspond to week day" do
     day = Week.day("7")
     
     day.should be_false
@@ -153,22 +153,25 @@ class Week
 end
 
 describe Week do
-  it "should return monday as the first day of the week" do
+  it "return monday as the first day of the week" do
     day = Week.day("1")
     
     day.should == :monday
   end
-  it "should return false for numbers that does not correspond to week day (contract test)" do
+  # contract test
+  it "return false for numbers that does not correspond to week day" do
     day = Week.day("7")
     
     day.should be_false
   end
-  it "should throw exception for numbers that does not correspond to week end (contract test)" do
+  # contract test
+  it "should throw exception for numbers that does not correspond to week end" do
     expect do
       week_end = Week.end("4")
     end.to raise_error
   end
-  it "should throw exception for numbers that is out of range (contract test)" do
+  # contract test
+  it "should throw exception for numbers that is out of range" do
     expect do
       week_end = Week.end("40")
     end.to raise_error    

@@ -41,8 +41,10 @@ The first spec does not do much. The main purpose of writing the first spec is t
 
 In your home directory create a .rspec directory with the following contents:
 
+```ruby
 --color
 --format documentation
+```
 
 This will show the output in color and formatted to read as documentation. The doc string says that the barcode is the input parameter. Let’s add this detail to our spec:
 
@@ -57,8 +59,6 @@ describe Scanner do
   end
 end
 ```
-
-\newpage
 
 Run the spec again, watch it fail due to the input parameter and change the scanner.rb as follows :
 
@@ -247,3 +247,5 @@ end
 ```
 
 The display method is under our control so we can mock it. Mock is a design technique that is used to discover API. This is an example of right way to Mock. The 'and' part of the doc string has been deleted. It is now clear the purpose of Scanner object is to scan items and the Display objects is to display given line items. See the appendix for notes on mocks.
+
+\newpage

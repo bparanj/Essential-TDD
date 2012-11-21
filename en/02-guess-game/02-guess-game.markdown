@@ -32,7 +32,7 @@ guess_game_spec.rb
 require_relative 'guess_game'
 
 describe GuessGame do
-  it "should generate random number between 1 and 100 inclusive" do
+  it "generate random number between 1 and 100 inclusive" do
     game = GuessGame.new
     result = game.random
 
@@ -63,7 +63,7 @@ guess_game_spec.rb
 require_relative 'guess_game'
 
 describe GuessGame do
-  it "should generate random number between 1 and 100 inclusive" do
+  it "generate random number between 1 and 100 inclusive" do
     game = GuessGame.new
     result = game.random
 
@@ -88,7 +88,7 @@ require_relative 'guess_game'
 
 describe GuessGame do
   ...  
-  it "should display greeting when the game begins" do
+  it "display greeting when the game begins" do
     fake_console = mock('Console')
     fake_console.should_receive(:output).with("Welcome to the Guessing Game")
     game = GuessGame.new(fake_console)
@@ -111,11 +111,13 @@ end
 
 Define an empty start method. Run the spec again, you will see:
 
+```ruby
 1) GuessGame should display greeting when the game begins
    Failure/Error: fake_console.should_receive(:output).with("Welcome to the Guessing Game")
      (Mock "Console").output("Welcome to the Guessing Game")
          expected: 1 time
          received: 0 times
+```
 
 We are failing now because the console object never received the output(string) method call. GuessGame class now looks like this:
 
@@ -141,10 +143,12 @@ GuessGame class now has a constructor that takes a console object. It then deleg
 
 Run the spec again, you will see the failure message:
 
+```ruby
 1) GuessGame should generate random number between 1 and 100 inclusive
    Failure/Error: game = GuessGame.new
    ArgumentError:
      wrong number of arguments (0 for 1)
+```
 
 This implementation broke our previous test which is not passing in the console object to the constructor. We can fix it by initializing the default value to standard output.
 
@@ -169,7 +173,7 @@ guess_game_spec.rb
 require_relative 'guess_game'
 
 describe GuessGame do
-  it "should generate random number between 1 and 100 inclusive" do
+  it "generate random number between 1 and 100 inclusive" do
     game = GuessGame.new
     result = game.random
     
@@ -177,7 +181,7 @@ describe GuessGame do
     expected.should cover(result)
   end
   
-  it "should display greeting when the game begins" do
+  it "display greeting when the game begins" do
     fake_console = double('Console')
     fake_console.should_receive(:output).with('Welcome to the Guessing Game')
     game = GuessGame.new(fake_console)
@@ -218,7 +222,7 @@ Using mock that complies with Gerard Meszaros standard. Use double and if expect
 guess_game_spec.rb
 
 ```ruby
-  it "should display greeting when the game begins" do
+  it "display greeting when the game begins" do
     fake_console = double('Console')
     fake_console.should_receive(:output).with("Welcome to the Guessing Game")
     game = GuessGame.new(fake_console)
@@ -241,7 +245,9 @@ NoMethodError: undefined method ‘output’ for #<IO:<STDOUT>>
 	
 If you run:
 
+```ruby
 STDOUT.puts 'hi' 
+```ruby
 
 It will print 'hi' on the standard output. But it does not recognize output(string) method.	To fix this problem, let's wrap the output method in a StandardOutput class. Like this:
 
@@ -286,14 +292,14 @@ guess_game_spec.rb
 require_relative 'guess_game'
 
 describe GuessGame do
-  it "should generate random number between 1 and 100 inclusive" do
+  it "generate random number between 1 and 100 inclusive" do
     game = GuessGame.new
     result = game.random
     
     expected = 1..100
     expected.should cover(result)
   end
-  it "should display greeting when the game begins" do
+  it "display greeting when the game begins" do
     fake_console = double('Console')
     fake_console.should_receive(:output).with('Welcome to the Guessing Game')
     game = GuessGame.new(fake_console)
@@ -361,13 +367,13 @@ require_relative 'guess_game'
 
 describe GuessGame do
   ...  
-  it "should display greeting when the game begins" do
+  it "display greeting when the game begins" do
     fake_console = double('Console')
     fake_console.should_receive(:output).with('Welcome to the Guessing Game')
     game = GuessGame.new(fake_console)
     game.start
   end
-  it "should prompt the user to enter the number representing their guess." do
+  it "prompt the user to enter the number representing their guess." do
     fake_console = double('Console')
     fake_console.should_receive(:prompt).with('Enter a number between 1 and 100')
     game = GuessGame.new(fake_console)
@@ -378,9 +384,11 @@ end
 
 When you run the spec, you get the following error:
 
+```ruby
 GuessGame should prompt the user to enter the number representing their guess.
     Failure/Error: game.start
       Double "Console" received unexpected message :output with ("Welcome to the Guessing Game")
+```
 
 The third spec failed because of the second spec. To fix this, call as_null_object on fake_console like this:
 
@@ -391,7 +399,7 @@ require_relative 'guess_game'
 
 describe GuessGame do
   ...      
-  it "should prompt the user to enter the number representing their guess." do
+  it "prompt the user to enter the number representing their guess." do
     fake_console = double('Console').as_null_object
 	...
   end
@@ -400,11 +408,13 @@ end
 
 When you run the spec, we are now failing for the right reason:
 
+```ruby
 1) GuessGame should prompt the user to enter the number representing their guess.
     Failure/Error: fake_console.should_receive(:prompt).with('Enter a number between 1 and 100')
       (Double "Console").prompt("Enter a number between 1 and 100")
           expected: 1 time
           received: 0 times
+```
 
 Change the start method like this:
 
@@ -435,7 +445,7 @@ require_relative 'guess_game'
 
 describe GuessGame do
   ...
-  it "should display greeting when the game begins" do
+  it "display greeting when the game begins" do
     fake_console = double('Console').as_null_object
 	...
   end
@@ -453,6 +463,7 @@ $ irb
 003 > g.start
 Welcome to the Guessing Game
 NoMethodError: undefined method `prompt' for #<StandardOutput:0x007fc10a13aec0>
+```
 
 Let's add the prompt method to the standard_output.rb :
 
@@ -535,7 +546,7 @@ require_relative 'guess_game'
 
 describe GuessGame do
   ...  
-  it "should perform validation of the guess entered by the user : lower than 1" do
+  it "perform validation of the guess entered by the user : lower than 1" do
     game = GuessGame.new
     game.start
     
@@ -612,7 +623,7 @@ require_relative 'guess_game'
 
 describe GuessGame do
   ...    
-  it "should perform validation of the guess entered by the user : higher than 100" do
+  it "perform validation of the guess entered by the user : higher than 100" do
     game = GuessGame.new
     game.stub(:get_user_guess) { 101 }
     game.start
@@ -668,7 +679,7 @@ Change the validation for the lower bound like this:
 require_relative 'guess_game'
 
 describe GuessGame do
-  it "should perform validation of the guess entered by the user : lower than 1" do
+  it "perform validation of the guess entered by the user : lower than 1" do
     game = GuessGame.new
 	  game.stub(:get_user_guess) { 0 }
   	game.start
@@ -688,7 +699,7 @@ guess_game_spec.rb
 require_relative 'guess_game'
 
 describe GuessGame do
-  it "should give clue when the input is valid" do
+  it "give clue when the input is valid" do
     
   end
 end
@@ -701,7 +712,7 @@ require_relative 'guess_game'
 
 describe GuessGame do
   ...
-  it "should give clue when the input is valid and is less than the computer pick" do
+  it "give clue when the input is valid and is less than the computer pick" do
     fake_console = double('Console').as_null_object
     fake_console.should_receive(:output).with('Your guess is lower')
     game = GuessGame.new(fake_console)
@@ -786,7 +797,7 @@ All specs pass now.
 Let's make the spec use computer_pick instead of random. This makes the variable expressive of gaming domain instead of being implementation revealing.
 
 ```ruby
-it "should give clue when the input is valid and is less than the computer pick" do
+it "give clue when the input is valid and is less than the computer pick" do
   ...
   game.computer_pick = 25
   ...
@@ -823,7 +834,7 @@ end
 To make all the specs pass, make the following change to the spec:
 
 ```ruby
-it "should generate random number between 1 and 100 inclusive" do
+it "generate random number between 1 and 100 inclusive" do
   ...
   result = game.computer_pick
   ...
@@ -837,7 +848,7 @@ Now all specs will pass.
 Let's write the spec for giving clue when the valid input is higher than computer pick.
 
 ```ruby
-it "should give clue when the input is valid and is greater than the computer pick" do
+it "give clue when the input is valid and is greater than the computer pick" do
   fake_console = double('Console').as_null_object
   fake_console.should_receive(:output).with('Your guess is higher')
   game = GuessGame.new(fake_console)
@@ -887,7 +898,7 @@ require_relative 'guess_game'
 
 describe GuessGame do
   ...  
-  it "should recognize the correct answer when the guess is correct." do
+  it "recognize the correct answer when the guess is correct." do
     fake_randomizer = stub(:get => 25)
     fake_console = double('Console').as_null_object
     fake_console.should_receive(:output).with('Your guess is correct')
@@ -1032,6 +1043,7 @@ Run this spec:
 
 ```ruby
 $ rspec standard_output_spec.rb --color --format documentation
+```
 
 Now you get the output:
 
@@ -1077,7 +1089,7 @@ require_relative 'guess_game'
 
 describe GuessGame do  
  Delete the following spec :
- it "should generate random number between 1 and 100 inclusive" do
+ it "generate random number between 1 and 100 inclusive" do
    game = GuessGame.new
    result = game.computer_pick
    
@@ -1121,7 +1133,7 @@ randomizer_spec.rb
 ```ruby
 describe Randomizer do
 
-  it "should generate random number between 1 and 100 inclusive" do
+  it "generate random number between 1 and 100 inclusive" do
     result = Randomizer.new.get
   
     expected = 1..100
@@ -1193,12 +1205,12 @@ describe GuessGame do
   let(:fake_console) { double('Console').as_null_object }
         
   context 'Start the game' do
-    it "should display greeting when the game begins" do
+    it "display greeting when the game begins" do
       fake_console.should_receive(:output).with("Welcome to the Guessing Game")
       game = GuessGame.new(fake_console)
       game.start
     end
-    it "should prompt the user to enter the number representing their guess." do
+    it "prompt the user to enter the number representing their guess." do
       fake_console.should_receive(:prompt).with('Enter a number between 1 and 100')
       game = GuessGame.new(fake_console)
       game.start    
@@ -1206,14 +1218,14 @@ describe GuessGame do
   end      
   
   context 'Validation' do
-    it "should perform validation of the guess entered by the user : lower than 1" do
+    it "perform validation of the user guess : lower than 1" do
       game = GuessGame.new
       game.stub(:get_user_guess) { 0 }
       game.start
 
       game.error.should == 'The number must be between 1 and 100'            
     end
-    it "should perform validation of the guess entered by the user : higher than 100" do
+    it "perform validation of the user guess : higher than 100" do
       game = GuessGame.new
       game.stub(:get_user_guess) { 101 }
       game.start
@@ -1223,7 +1235,7 @@ describe GuessGame do
   end
   
   context 'Gaming Engine' do
-    it "should give clue when the input is valid and is less than the computer pick" do
+    it "give clue when the input is valid and is less than the computer pick" do
       fake_console.should_receive(:output).with('Your guess is lower')
       game = GuessGame.new(fake_console)
       game.computer_pick = 25
@@ -1231,7 +1243,7 @@ describe GuessGame do
 
       game.start
     end
-    it "should give clue when the input is valid and is greater than the computer pick" do
+    it "give clue when the input is valid and is greater than the computer pick" do
       fake_console.should_receive(:output).with('Your guess is higher')
       game = GuessGame.new(fake_console)
       game.computer_pick = 25
@@ -1239,7 +1251,7 @@ describe GuessGame do
 
       game.start
     end
-    it "should recognize the correct answer when the guess is correct" do
+    it "recognize the correct answer when the guess is correct" do
       fake_console.should_receive(:output).with('Your guess is correct')
       game = GuessGame.new(fake_console)
       game.computer_pick = 25
@@ -1385,13 +1397,13 @@ Change the guess_game_spec.rb to use the NullDeviceConsole class to suppress the
 context 'Validation' do
   let(:game) { game = GuessGame.new(NullDeviceConsole.new) }
   
-  it "should perform validation of the guess entered by the user : lower than 1" do
+  it "perform validation of the guess entered by the user : lower than 1" do
     game.stub(:get_user_guess) { 0 }
     game.start
 
     game.error.should == 'The number must be between 1 and 100'            
   end
-  it "should perform validation of the guess entered by the user : higher than 100" do
+  it "perform validation of the guess entered by the user : higher than 100" do
     game.stub(:get_user_guess) { 101 }
     game.start
 
@@ -1483,10 +1495,12 @@ end
 1. Play the game with Guess game and make sure you can use it's interface and it works as expected. Use any feedback to write new specs. 
 
 2. What if the client were to use the GuessGame like this :
+
 ```ruby
 	game = GuessGame.new
 	game.play
 ```
+
  This raises the level of abstraction and we use gaming domain specific method instead of reaching into implementation level 
  methods. What changes do you need to make for this to work? Can start and get_user_guess methods be made into private methods?
 
