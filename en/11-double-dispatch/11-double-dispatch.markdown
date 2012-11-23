@@ -27,7 +27,7 @@ Learn how to use double dispatch to make your code object oriented.
 
 Create angry_rock_spec.rb with the following contents:
 
-
+```ruby
 module AngryRock
   describe Game do
     it "picks paper as the winner over rock" do
@@ -41,110 +41,136 @@ module AngryRock
     end
   end
 end
+```
 
 Create angry_rock.rb with the following contents:
 
+```ruby
 module AngryRock
   class Game
 
   end  
 end
+```
 
 The spec fails with the error:
 
+```ruby
 1) AngryRock::Game picks paper as the winner over rock
     Failure/Error: player_one = Player.new("Green Day")
     NameError:
       uninitialized constant AngryRock::Player
+```
 
 Change the angry_rock.rb to :
 
+```ruby
 module AngryRock
   class Game
     
   end
-  
   class Player
     
   end
 end
+```
 
 The spec fails with the error:
 
+```ruby
 1) AngryRock::Game picks paper as the winner over rock
     Failure/Error: player_one = Player.new("Green Day")
     ArgumentError:
       wrong number of arguments(1 for 0)
+```
 
 Change the player class like this:
 
+```ruby
 class Player
   def initialize(name)
     @name = name
   end    
 end
+```
 
 The spec fails with the error:
 
+```ruby
 1) AngryRock::Game picks paper as the winner over rock
    Failure/Error: player_one.choice = :paper
    NoMethodError:
      undefined method `choice=' for #<AngryRock::Player:0x007fc92928e7f0 @name="Green Day">
+```
 
 Add the setter for choice by changing the player class as follows:
 
+```ruby
 class Player
   attr_writer :choice
   ...  
 end
+```
 
 The spec fails with the error:
 
+```ruby
 1) AngryRock::Game picks paper as the winner over rock
    Failure/Error: game = Game.new(player_one, player_two)
    ArgumentError:
      wrong number of arguments(2 for 0)
+```
 
 Change the game class as follows:
 
+```ruby
 class Game
   def initialize(player_1, player_2)
     
   end    
 end
+```
 
 The spec fails with the error:
 
+```ruby
 1) AngryRock::Game picks paper as the winner over rock
     Failure/Error: game.winner.should == 'Green Day'
     NoMethodError:
       undefined method `winner' for #<AngryRock::Game:0x007f8a84224280>
+```
 
 Define the winner method in the game class like this:
 
+```ruby
 class Game
   ...  
   def winner
     
   end 
 end
+```
 
 The spec fails with the error:
 
+```ruby
 1) AngryRock::Game picks paper as the winner over rock
    Failure/Error: game.winner.should == 'Green Day'
      expected: "Green Day"
           got: nil (using ==)
-
+```
 
 Change the winner method of the Game like this:
 
+```ruby
 def winner
   'Green Day'
 end
+```
 
 The first spec now passes. Let's add the second spec:
 
+```ruby
 it "picks scissors as the winner over paper" do
   player_one = Player.new("Green Day")
   player_one.choice = :paper
@@ -154,13 +180,16 @@ it "picks scissors as the winner over paper" do
   game = Game.new(player_one, player_two)
   game.winner.should == 'Blue Planet'   
 end
+```
 
 The spec fails with the error:
 
+```ruby
 1) AngryRock::Game picks scissors as the winner over paper
    Failure/Error: game.winner.should == 'Blue Planet'
      expected: "Blue Planet"
           got: "Green Day" (using ==)
+```
 
 Let's encapsulate the game rules in rock, paper and scissor classes like this:
 
@@ -223,6 +252,7 @@ end
 
 Change the angry_rock.rb implementation like this:
 
+```ruby
 require_relative 'paper'
 require_relative 'rock'
 require_relative 'scissor'
@@ -255,27 +285,36 @@ module AngryRock
     end    
   end
 end
+```
 
 Now both specs should pass. Go the irb console and type:
 
+```ruby
 Object.const_get("String")
  => String 
+```
 
 As you can see if you give a string as the parameter to the Object.const_get method you get back a constant. In Ruby the name of a class is a constant. So we instantiate the class by doing:
 
+```ruby
 Object.const_get(@player_1.choice.capitalize).new
+```
 
 If the first choice is :paper the receiver becomes and instance of the Paper class. We can now call the beats method on the receiver to check whether the receiver can beat the target object. If so, we know player one won otherwise player two won.
 
 When we first make the :
 
+```ruby
 receiver.beats(target)
+```
 
 call, it calls back one of the following methods on the appropriate game item:
 
+```ruby
 beatsPaper
 beatsRock
 beatsScissor
+```
 
 and inverts the boolean flag to return the result. This is double dispatch in action. Comparing this solution to the Angry Rock chapter, it might seem that this solution is complex. For this problem, it is true. If the problem involves objects with complicated logic, this solution will be better. By using double dispatch we minimized conditional statements like if.
 

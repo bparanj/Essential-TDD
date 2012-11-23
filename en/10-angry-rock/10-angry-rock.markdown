@@ -45,9 +45,7 @@ $ rspec angry_rock_spec.rb --color --format doc
 
 Game::AngryRock
   should pick paper as the winner over rock (FAILED - 1)
-
 Failures:
-
   1) Game::AngryRock should pick paper as the winner over rock
      Failure/Error: choice_1 = Game::AngryRock.new(:paper)
      ArgumentError:
@@ -342,6 +340,7 @@ to the top of the angry_rock_spec.rb.
 
 Now all the specs should still pass. Let's now improve the design. To make the specs more readable change specs and production code as follows:
 
+```ruby
 require_relative 'angry_rock'
 require_relative 'spec_helper'
 
@@ -355,7 +354,6 @@ module AngryRock
      
      result.should == :paper
    end    
-   
    it "picks scissors as the winner over paper" do
      choice_1 = AngryRock::Choice.new(:scissors)
      choice_2 = AngryRock::Choice.new(:paper)
@@ -364,7 +362,6 @@ module AngryRock
      
      result.should == :scissors   
    end
-   
    it "picks rock as the winner over scissors " do
      choice_1 = AngryRock::Choice.new(:rock)
      choice_2 = AngryRock::Choice.new(:scissors)
@@ -373,7 +370,6 @@ module AngryRock
      
      result.should == :rock      
    end
-   
    it "results in a tie when the same choice is made by both players" do
      data_driven_spec([:rock, :paper, :scissors]) do |choice|
        choice_1 = AngryRock::Choice.new(choice)
@@ -384,7 +380,6 @@ module AngryRock
        result.should == "TIE!"      
      end     
    end   
-      
   end
 end
 
@@ -395,13 +390,13 @@ module AngryRock
     def initialize(move)
       @move = move
     end
-    
     def play(other)
       return Choice.new("TIE!") if self.move == other.move
       self
     end    
   end
 end
+```
 
 The specs should still pass. The specs now read well and make much more sense than the previous version.
 
@@ -409,7 +404,7 @@ The specs should still pass. The specs now read well and make much more sense th
 
 Is the play() method a command or a query? It is ambiguous because play seems to be a name of a command and it is returning the winning AngryRock object (result of a query operation). It combines command and query. Let's refactor while we stay green. What if the specs that we wrote was intelligent enough to use CQS principle like this:
 
-
+```ruby
 require_relative 'angry_rock'
 require_relative 'spec_helper'
 
@@ -423,9 +418,11 @@ module AngryRock
      winning_move.should == :paper
    end
 end
+```
 
 We create a game object by providing two choices, we play the game by using the command method play and we query the winning_move. Then we make our assertion on the winning move. To make this spec pass, change the implementation of the game as follows:
 
+```ruby
 module AngryRock 
   class Game
     WINS = {rock: :scissors, scissors: :paper, paper: :rock}
@@ -434,15 +431,12 @@ module AngryRock
       @choice_1 = choice_1
       @choice_2 = choice_2
     end
-    
     def play
       @winner = winner
     end
-    
     def winning_move
       @winner
     end
-    
     def winner
       if WINS[@choice_1]
         @choice_1
@@ -450,12 +444,13 @@ module AngryRock
         @choice_2
       end
     end
-  end
-  
+  end  
 end
+```
 
 Let's add the second and third specs and make sure they pass:
 
+```ruby
 it "picks scissors as the winner over paper" do
   game = AngryRock::Game.new(:scissors, :paper)
 
@@ -464,7 +459,6 @@ it "picks scissors as the winner over paper" do
   winning_move = game.winning_move  
   winning_move.should == :scissors
 end
-
 it "picks rock as the winner over scissors " do
   game = AngryRock::Game.new(:rock, :scissors)
 
@@ -473,9 +467,11 @@ it "picks rock as the winner over scissors " do
   winning_move = game.winning_move  
   winning_move.should == :rock
 end
+```
 
 Let's add the tie case spec:
 
+```ruby
 it "results in a tie when the same choice is made by both players" do
   data_driven_spec([:rock, :paper, :scissors]) do |choice|
     game = AngryRock::Game.new(choice, choice)
@@ -486,9 +482,11 @@ it "results in a tie when the same choice is made by both players" do
     winning_move.should == :tie
   end     
 end
+```
 
 To make it pass change the production code as follows:
 
+```ruby
 def winner
   return :tie if @choice_1 == @choice_2
   if WINS[@choice_1]
@@ -497,6 +495,7 @@ def winner
     @choice_2
   end
 end
+```
 
 Now all specs should pass. Now the play is a command and winner is a query. The command and query are now separated and the code obeys the CQS principle.
 
@@ -504,21 +503,26 @@ Now all specs should pass. Now the play is a command and winner is a query. The 
 
 Let's make the code robust by checking for illegal inputs. Add the following spec:
 
+```ruby
 it "should raise exception when illegal input is provided" do
   expect do
     game = AngryRock::Game.new(:punk, :hunk)
     game.play
   end.to raise_error
 end
+```
 
 It fails with the following error:
 
+```ruby
 1) AngryRock::Game should raise exception when illegal input is provided
     Failure/Error: expect do
       expected Exception but nothing was raised
 
 To make this spec pass change the winner method like this:
+```
 
+```ruby
 def winner
   return :tie if @choice_1 == @choice_2
   if WINS.fetch(@choice_1)
@@ -527,27 +531,33 @@ def winner
     @choice_2
   end
 end
+```
 
 All specs will now pass. Let's hide the implementation details by making the winner method private. All specs should still pass.
 
 Let's make the exception user friendly, change the illegal input spec as follows:
 
+```ruby
 it "should raise exception when illegal input is provided" do
   expect do
     game = AngryRock::Game.new(:punk, :hunk)
     game.play
   end.to raise_error(IllegalChoice)
 end
+```
 
 This fails with the error:
 
+```ruby
 1) AngryRock::Game should raise exception when illegal input is provided
    Failure/Error: end.to raise_error(IllegalChoice)
    NameError:
      uninitialized constant AngryRock::IllegalChoice
+```
 
 Change the angry_rock.rb as follows:
 
+```ruby
 module AngryRock 
   class IllegalChoice < Exception ; end;
   
@@ -567,6 +577,7 @@ module AngryRock
     end
   end  
 end
+```
 
 All specs now pass. This concise solution is based on Sinatra Up and Running By Alan Harris, Konstantin Haase. 
 

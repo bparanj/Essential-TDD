@@ -242,7 +242,8 @@ game.start
 gives us the error:
 
 NoMethodError: undefined method ‘output’ for #<IO:<STDOUT>>
-	
+```
+
 If you run:
 
 ```ruby
@@ -432,9 +433,11 @@ end
 
 When you run the spec, now it fails with :
 
+```ruby
 1) GuessGame should display greeting when the game begins
    Failure/Error: game.start
      Double "Console" received unexpected message :prompt with ("Enter a number between 1 and 100")
+```
 
  Spec 3 passes but it breaks existing spec 2. To fix this, call as_null_object which ignores any messages not set as expectation in spec 2 as show below:
 
@@ -557,10 +560,12 @@ end
 
 When you run the specs, you get:
 
+```ruby
 1) GuessGame should perform validation of the guess entered by the user : lower than 1
    Failure/Error: game.error.should == 'The number must be between 1 and 100'
    NoMethodError:
      undefined method `error' for #<GuessGame:0x007ff3b2a420d8>
+```
 
 Add the attr_accessor for error in guess_game.rb :
 
@@ -575,11 +580,13 @@ end
 
 Now we fail for the right reason:
 
+```ruby
 1) GuessGame should perform validation of the guess entered by the user : lower than 1
    Failure/Error: game.error.should == 'The number must be between 1 and 100'
      expected: "The number must be between 1 and 100"
           got: nil (using ==)
 
+```
 
 Change the guess_game.rb as shown below:
 
@@ -612,9 +619,7 @@ class GuessGame
 end
 ```
 
-All the specs now pass.
-
-Let's now add the spec to validate the guess that is higher than 100.
+All the specs now pass. Let's now add the spec to validate the guess that is higher than 100.
 
 guess_game_spec.rb
 
@@ -635,10 +640,12 @@ end
 
 We don't want to worry about how we are going to get the user input because our focus now is on testing the validation logic. So we stub the get_user_guess method to return a value that will help us to test the validation logic. This spec fails for the right reason with the error:
 
+```ruby
 1) GuessGame should perform validation of the guess entered by the user : higher than 100
    Failure/Error: game.error.should == 'The number must be between 1 and 100'
      expected: "The number must be between 1 and 100"
           got: nil (using ==)
+```
 
 Change the guess_game.rb validate method like this:
 
@@ -655,9 +662,7 @@ class GuessGame
 end
 ```
 
-All specs now pass. 
-
-The standard_output.rb remains unchanged.
+All specs now pass. The standard_output.rb remains unchanged.
 
 ```ruby
 class StandardOutput
@@ -689,9 +694,7 @@ describe GuessGame do
 end
 ```
 
-We want to express the relationship between the doc string and the data set used to test clearly.
-
-Let's now move on to the next spec.
+We want to express the relationship between the doc string and the data set used to test clearly.Let's now move on to the next spec.
 
 guess_game_spec.rb
 
@@ -726,10 +729,12 @@ end
 
 Run the spec, watch it fail:
 
+```ruby
 1) GuessGame should give clue when the input is valid and is less than the computer pick
    Failure/Error: game.random = 25
    NoMethodError:
      undefined method `random=' for #<GuessGame:0x007fb701acb218>
+```
 
 Change the guess_game.rb to:
 
@@ -743,6 +748,7 @@ class GuessGame
 end
 ```
 
+```ruby
 Now the error message is: 
 
 1) GuessGame should give clue when the input is valid and is less than the computer pick
@@ -750,6 +756,7 @@ Now the error message is:
      Double "Console" received :output with unexpected arguments
        expected: ("Your guess is lower")
             got: ("Welcome to the Guessing Game")
+```
 
 Change the guess_game.rb as shown below:
 
@@ -806,10 +813,12 @@ end
 
 This gives the error:
 
+```ruby
 1) GuessGame should give clue when the input is valid and is less than the computer pick
    Failure/Error: game.computer_pick = 25
    NoMethodError:
      undefined method `computer_pick=' for #<GuessGame:0x007fff3c990ca8>
+```
 
 Change the guess_game.rb implementation to:
 
@@ -826,10 +835,14 @@ class GuessGame
 end
 ```
 
+It fails with:
+
+```ruby
 1) GuessGame should generate random number between 1 and 100 inclusive
    Failure/Error: result = game.random
    NoMethodError:
      undefined method `random' for #<GuessGame:0x007fe8419dbd28>
+```
 
 To make all the specs pass, make the following change to the spec:
 
@@ -861,12 +874,13 @@ end
 
 The failure message now is :
 
+```ruby
 1) GuessGame should give clue when the input is valid and is greater than the computer pick
    Failure/Error: fake_console.should_receive(:output).with('Your guess is higher')
      Double "Console" received :output with unexpected arguments
        expected: ("Your guess is higher")
             got: ("Welcome to the Guessing Game"), ("Your guess is lower")
-
+```
 
 Change the guess_game.rb as follows:
 
@@ -910,12 +924,13 @@ end
 
 This gives the failure message:
 
+```ruby
 1) GuessGame should recognize the correct answer when the guess is correct
     Failure/Error: fake_console.should_receive(:output).with('Your guess is correct')
       Double "Console" received :output with unexpected arguments
         expected: ("Your guess is correct")
              got: ("Welcome to the Guessing Game"), ("Your guess is higher")
-
+```
 
 Change the guess_game.rb as follows:
 
@@ -1005,10 +1020,12 @@ end
 
 If you are run this spec, you get:
 
+```ruby
 No examples found.
 
 Finished in 0.00008 seconds
 0 examples, 0 failures
+```
 
 The shared examples are meant to be shared. So create standard_output_spec.rb like this:
 
@@ -1047,6 +1064,7 @@ $ rspec standard_output_spec.rb --color --format documentation
 
 Now you get the output:
 
+```ruby
 StandardOutput
   behaves like Console Interface
     Console Interface
@@ -1055,6 +1073,7 @@ StandardOutput
 
 Finished in 0.00258 seconds
 2 examples, 0 failures
+```
 
 This Console Interface spec illustrates how to write contract specs. This avoids the problem of specs passing / failing due to mocks going out of synch with the code. When to use them? If you are using lot of mocks you man not be able to write contract tests for all of them. In this case, think about writing contract tests for the most dependent and important module of your application.
 
@@ -1501,8 +1520,7 @@ end
 	game.play
 ```
 
- This raises the level of abstraction and we use gaming domain specific method instead of reaching into implementation level 
- methods. What changes do you need to make for this to work? Can start and get_user_guess methods be made into private methods?
+ This raises the level of abstraction and we use gaming domain specific method instead of reaching into implementation level methods. What changes do you need to make for this to work? Can start and get_user_guess methods be made into private methods?
 
 3. Version 2 of our game with satisfy the following new requirements:
  
