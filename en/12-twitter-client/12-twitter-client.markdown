@@ -4,20 +4,28 @@
 
 - Dealing with third party API.
 - Thin adapter layer to insulate your application from external API.
-- What abusing mocks looks like.
+- What abusing mocks look like?
 - Brittle tests that break even when the behavior does not change, caused by mock abuse.
 - Integration tests should test the layer that interacts with external API.
 - Using too many mocks indicate badly designed API. So called fluent interface is actually a train wreck. Fluent interface is ok for languages like Java where it is the only option.
 
-## Running the Specs ##
+## Installation ##
 
-Run
-$ autotest
-from the root of the project to run the specs.
+$ gem install jeweler
+$ jeweler --rspec twits
+$ cd twits
+$ bundle
+$ gem install ZenTest
+
+The source code for this chapter can be found at : https://github.com/bparanj/twits
 
 ## Version 1 ##
 
-Initial commit to twits.
+Run
+
+$ autotest
+
+from the root of the project to run the specs.
 
 ## Version 2 ##
 
@@ -50,7 +58,7 @@ describe "Twitter User" do
 end
 ```
 
-user.rb
+Create user.rb under lib directory with the following code:
 
 ```ruby
 require 'twitter'
@@ -68,7 +76,7 @@ end
 
 ## Version 3 ##
 
-Abuse of mocks. Spec is coupled to the implementation of the method. Spec is brittle. It will break even when the behavior does not change but when the implementation changes. That is likely to happen when you upgrade Twitter gem.
+There is too much mocking and the intent of the test gets lost in the noise. This version abuses mocks. Spec is coupled to the implementation of the method and is brittle. It will break even when the behavior does not change but the implementation changes. That can happen when you upgrade Twitter gem.
 
 twits_spec.rb
 
@@ -104,21 +112,7 @@ describe "Twitter User" do
 end
 ```
 
-user.rb
-
-```ruby
-require 'twitter'
-
-class User
-  attr_accessor :twitter_username
-  
-  def last_five_tweets
-    return Twitter::Search.new.per_page(5).from(@twitter_username).map do |tweet|
-      tweet[:text]
-    end.to_a
-  end
-end
-```
+There is no change to user.rb from previous version.
 
 ## Version 4 ##
 
@@ -136,8 +130,7 @@ describe "Twitter User" do
       @user = User.new
       @user.twitter_username = 'logosity'
     end
-    # The test now depends on our API fetch_tweets in our Twits Twitter client class
-    # This is stable than directly depending on a third party API.
+
     it "provides the last five tweets from twitter" do
       tweets = %w{tweet1 tweet2 tweet3 tweet4 tweet5} 
       Twits.stub(:fetch_tweets).and_return(tweets)
@@ -148,16 +141,14 @@ describe "Twitter User" do
 end
 ```
 
-twits.rb
+The test now depends on our API fetch_tweets in our Twits Twitter client class. This is stable than directly depending on a third party API.
+
+Create twits.rb with the following code:
 
 ```ruby
 require 'twitter'
 
 class Twits
-  # The following method must hit the Twitter sandbox in the integration test.
-  # It is now in Twits (TwitterClient). Ideally nested within a module. 
-  # This API is a thin wrapper around the actual Twitter API. 
-  # It insulates the changes in Twitter API from impacting the application.
   def self.fetch_tweets(username)
     Twitter::Search.new.per_page(5).from(username).map do |tweet|
       tweet[:text]
@@ -166,7 +157,9 @@ class Twits
 end
 ```
 
-user.rb
+The fetch_tweets method must hit the Twitter sandbox in the integration test. This API is a thin wrapper around the actual Twitter API. It insulates the changes in Twitter API from impacting the application.
+
+Change the user.rb to delegate the fetching of tweets to the Twits class like this:
 
 ```ruby
 require 'twits'
@@ -182,7 +175,7 @@ end
 
 ## Version 5 ##
 
-Used dependency injection to inject a fake twitter client to break the dependency. Also refactored to move the method from domain model to the service layer object Twits.
+The spec now uses dependency injection to inject a fake twitter client to break the dependency. 
 
 twits_spec.rb
 
@@ -198,13 +191,11 @@ describe "Twitter User" do
       @user.twitter_username = 'logosity'
     end 
 
-    # The following is not a good idea due to the headache of keeping the fake 
-    # object in synch with Twitter API changes. Shows dependency injection.
     it "should provide the last five tweets from twitter" do
       twits = Twits.new(FakeTwitterClient.new)
 			
 			expected_tweets = %w{tweet1 tweet2 tweet3 tweet4 tweet5} 
-      twits.fetch_five(@user.twitter_username).should == expected_tweets
+      @user.last_five_tweets.should == expected_tweets
     end
   end
 end
@@ -218,28 +209,15 @@ class Twits
   def initialize(client)
     @client = client
   end
-  # The following method must hit the Twitter sandbox in the integration test.
-  # It is now in Twits (TwitterClient). Ideally nested within a module. 
-  # This API is a thin wrapper around the actual Twitter API. It 
-  # insulates the changes in Twitter API from impacting the application.
+ 
   def fetch_five(username)
-    @client.per_page(5).from(username).map do |tweet|
-      tweet[:text]
-    end.to_a    
+   @client.per_page(5).from(username).map do |tweet|
+     tweet[:text]
+   end.to_a  
   end
 end
 ```
-
-user.rb
-
-```ruby
-require 'twits'
-
-class User
-  attr_accessor :twitter_username
-  
-end
-```
+This now does not hard code the name of the class. So we don't have dependency on a specific class. This technique gives us more flexibility.
 
 fake_twitter_client.rb
 
@@ -259,83 +237,7 @@ class FakeTwitterClient
 end
 ```
 
-## Version 6 ##
-
-Deleted unnecessary code.
-
-user.rb
-
-```ruby
-require 'twits'
-
-class User
-  attr_accessor :twitter_username
-  
-end
-```
-
-twits.rb
-
-```ruby
-class Twits
-   
-  def initialize(client)
-    @client = client
-  end
-  # The following method must hit the Twitter sandbox in the integration test.
-  # It is now in Twits (TwitterClient). Ideally nested within a module. 
-  # This API is a thin wrapper around the actual Twitter API. 
-  # It insulates the changes in Twitter API from impacting the application.
-  def fetch_five(username)
-    @client.per_page(5).from(username).map do |tweet|
-      tweet[:text]
-    end
-  end
-end
-```
-
-fake_twitter_client.rb
-
-```ruby
-class FakeTwitterClient
-  def per_page(n)
-    self
-  end
-  
-  def from(username)
-    tweets = [{ :text => 'tweet1'},
-              { :text => 'tweet2'},
-              { :text => 'tweet3'},
-              { :text => 'tweet4'},
-              { :text => 'tweet5'}]
-  end
-end
-```
-
-twits_spec.rb
-
-```ruby
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
-require 'user'
-require 'fake_twitter_client'
-
-describe "Twitter User" do
-  context "with a username" do
-    before(:each) do
-      @user = User.new
-      @user.twitter_username = 'logosity'
-    end 
-
-    # The following is not a good idea due to the headache of keeping the fake 
-    # object in synch with Twitter API changes. Shows dependency injection
-    it "should provide the last five tweets from twitter" do
-      twits = Twits.new(FakeTwitterClient.new)
-			expected_tweets = %w{tweet1 tweet2 tweet3 tweet4 tweet5} 
-      twits.fetch_five(@user.twitter_username).should == expected_tweets
-    end
-  end
-end
-```
+If there are lot of methods, then the FakeTwitterClient is not a good idea due to the headache of keeping the fake class in synch with Twitter API changes. The focus here is to show how to use dependency injection.
 
 ## Discussion ##
 
