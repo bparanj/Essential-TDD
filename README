@@ -7,6 +7,7 @@ TODO: Change all before(:each) to before
 TODO: Example for over-riding the stubs in individual tests. Pg : 203 RSpec Book.
 TODO: DAS screencast for example on why nested doubles indicate problem with design and how to fix it.
 TODO: Run the double dispatch solution in appendix and remove the hard coded 'scissor' in production code.
+TODO: Create a Virtual Machine that has all the software required to run the examples. Gems, Ruby, RVM, exercises with instructions.
 
 BOOKMARK: Start from 12-Twitter Client
 

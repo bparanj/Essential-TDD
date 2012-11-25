@@ -2,12 +2,12 @@
 
 ## Objectives ##
 
-- Dealing with third party API.
-- Thin adapter layer to insulate your application from external API.
-- What abusing mocks look like?
-- Brittle tests that break even when the behavior does not change, caused by mock abuse.
+- How to deal with third party API?
+- How to use thin adapter layer to insulate domain code from external API?
+- What does abusing mocks look like?
+- Example of brittle tests that break even when the behavior does not change, caused by mock abuse.
 - Integration tests should test the layer that interacts with external API.
-- Using too many mocks indicate badly designed API. So called fluent interface is actually a train wreck. Fluent interface is ok for languages like Java where it is the only option.
+- Using too many mocks indicate badly designed API. 
 
 ## Installation ##
 
@@ -15,7 +15,6 @@ $ gem install jeweler
 $ jeweler --rspec twits
 $ cd twits
 $ bundle
-$ gem install ZenTest
 
 The source code for this chapter can be found at : https://github.com/bparanj/twits
 
@@ -23,13 +22,22 @@ The source code for this chapter can be found at : https://github.com/bparanj/tw
 
 Run
 
-$ autotest
+```ruby
+$ rspec spec/twits_spec.rb 
+```
 
-from the root of the project to run the specs.
+from the root of the project to run the specs. The generated code fails with the error:
+
+```ruby
+1) Twits fails
+   Failure/Error: fail "hey buddy, you should probably rename this file and start specing for real"
+   RuntimeError:
+     hey buddy, you should probably rename this file and start specing for real
+```
 
 ## Version 2 ##
 
-Test hits the live server.
+The following spec hits the live server.
 
 twits_spec.rb
 
@@ -53,7 +61,6 @@ describe "Twitter User" do
       
       @user.last_five_tweets.should == tweets 
     end
-    
   end
 end
 ```
@@ -76,9 +83,7 @@ end
 
 ## Version 3 ##
 
-There is too much mocking and the intent of the test gets lost in the noise. This version abuses mocks. Spec is coupled to the implementation of the method and is brittle. It will break even when the behavior does not change but the implementation changes. That can happen when you upgrade Twitter gem.
-
-twits_spec.rb
+There is no change to user.rb from previous version. The twits_spec.rb now looks like this:
 
 ```ruby
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
@@ -107,16 +112,15 @@ describe "Twitter User" do
       
       @user.last_five_tweets.should == %w{tweet1 tweet2 tweet3 tweet4 tweet5} 
     end
-    
   end
 end
 ```
 
-There is no change to user.rb from previous version.
+There is too much mocking in this version. The intent of the test gets lost in the noise. This version abuses mocks. Spec is tightly coupled to the implementation of the method and is brittle. It will break even when the behavior does not change but the implementation changes. That can happen when you upgrade Twitter gem.
 
 ## Version 4 ##
 
-Fixed the mock abuse. Stub used to disconnect from Twitter client API. Twits must hit the Twitter sandbox in an integration test.
+Let's fix the mock abuse problem. 
 
 twits_spec.rb
 
@@ -134,14 +138,14 @@ describe "Twitter User" do
     it "provides the last five tweets from twitter" do
       tweets = %w{tweet1 tweet2 tweet3 tweet4 tweet5} 
       Twits.stub(:fetch_tweets).and_return(tweets)
-      @user.last_five_tweets.should == %w{tweet1 tweet2 tweet3 tweet4 tweet5} 
+
+      @user.last_five_tweets.should == tweets 
     end
-    
   end
 end
 ```
 
-The test now depends on our API fetch_tweets in our Twits Twitter client class. This is stable than directly depending on a third party API.
+Stub is used to disconnect from Twitter client API. The test now depends on our API, fetch_tweets in our Twits class. This is stable than having a direct dependency on a third party API.
 
 Create twits.rb with the following code:
 
@@ -157,7 +161,7 @@ class Twits
 end
 ```
 
-The fetch_tweets method must hit the Twitter sandbox in the integration test. This API is a thin wrapper around the actual Twitter API. It insulates the changes in Twitter API from impacting the application.
+The fetch_tweets method must hit the Twitter sandbox in the integration test so that we can make sure our code can integrate with the third-party API. The API provided by Twits is a thin wrapper around the actual Twitter API. It insulates the changes in Twitter API from impacting the domain code.
 
 Change the user.rb to delegate the fetching of tweets to the Twits class like this:
 
@@ -168,10 +172,12 @@ class User
   attr_accessor :twitter_username
   
   def last_five_tweets
-     Twits.fetch_tweets(@twitter_username)
+    Twits.fetch_tweets(@twitter_username)
   end
 end
 ```
+
+Now the domain object user does not directly deal with communicating to a remote service. That is the job of the service layer implemented in Twits class.
 
 ## Version 5 ##
 
@@ -217,7 +223,7 @@ class Twits
   end
 end
 ```
-This now does not hard code the name of the class. So we don't have dependency on a specific class. This technique gives us more flexibility.
+This version does not hard code the name of the class. So we don't have dependency on a specific class. This technique gives us more flexibility.
 
 fake_twitter_client.rb
 
@@ -237,7 +243,7 @@ class FakeTwitterClient
 end
 ```
 
-If there are lot of methods, then the FakeTwitterClient is not a good idea due to the headache of keeping the fake class in synch with Twitter API changes. The focus here is to show how to use dependency injection.
+If there are lot of methods, then using the FakeTwitterClient is not a good idea due to the headache of keeping the fake class in synch with Twitter API changes. The focus in this version is to show how to use dependency injection.
 
 ## Discussion ##
 
@@ -245,10 +251,10 @@ The book Continuous Testing with Ruby, Rails and Javascript by Ben Rady & Rod Co
 
 Using mocks in this case is improper usage of mocks. Because you cannot drive the design of a third-party API (Mongodb API in this case). There is a better way to breaking the external dependencies. 
 	
-1. First write learning tests. 
-2. Then create a thin adapter layer that has well defined interface. This adapter layer will encapsulate the interaction with Mongodb. Now you can mock the thin adapter layer in your code and write integration tests for the adapter tests that will interact with Mongodb. 
+1. First write learning specs. 
+2. Then create a thin adapter layer that has well defined interface. This adapter layer will encapsulate the interaction with Mongodb. Now you can mock the thin adapter layer in your code and write integration tests for the adapter that will interact with Mongodb. 
 
-This prevents the changes in Mongodb API from impacting the domain code. See https://github.com/bparanj/mongodb_specs for example of learning specs.
+This prevents the changes in Mongodb API from impacting the domain code. It also prevents technical terminology from leaking into our domain code. See https://github.com/bparanj/mongodb_specs for example of learning specs.
 
 \newpage
 
