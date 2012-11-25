@@ -186,6 +186,24 @@ Create instances of Mock Objects
 With this style, the test makes clear what the domain code is expecting from its environment, in effect documenting its preconditions, postconditions, and intended use. All these aspects are defined in executable test code, next to the domain code to which they refer. Sometimes arguing about which objects to verify gives us better insight into a test and, hence, the domain. This style makes it easy for new readers to understand the unit tests as it reduces the amount of context they have to remember. It is also useful for demonstrating to new programmers how to write effective unit tests.
 
 Testing with Mock Objects improves domain code by preserving encapsulation, reducing global dependencies, and clarifying the interactions between classes.
+
+# Tautology #
+
+## Objective ##
+
+To illustrate common beginner’s mistake of stubbing yourself out.
+
+```ruby
+describe "Don't mock yourself out" do
+  it "should illustrate tautology" do
+    paul = stub(:paul, :age => 20)
+    
+    expect(paul.age).to eq(20) 
+  end
+end
+```
+
+This test does not test anything. It will always pass.
 	
 ## Reference ##
 
