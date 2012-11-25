@@ -9,7 +9,7 @@
 
 ## Version 1 ##
 
-Contract test, first version that passes when return value is checked for false
+Contract test, first version that passes when return value is checked for false.
 
 week_spec.rb
 
@@ -179,6 +179,6 @@ describe Week do
 end
 ```
 
-"A program must be able to deal with exceptions. A good design rule is to list explicitly the situations that may cause a program to break down" -- Jorgen Knudsen (Object Design : Roles, Responsibilities and Collaborations)
+"A program must be able to deal with exceptions. A good design rule is to list explicitly the situations that may cause a program to break down" -- Jorgen Knudsen from Object Design : Roles, Responsibilities and Collaborations
 
 \newpage
