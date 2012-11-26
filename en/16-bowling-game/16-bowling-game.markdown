@@ -10,17 +10,265 @@
 - Scoring description and examples were translated to specs.
 - BDD style tests read like sentences in a specification. 
 
-## Screencast ##
-
-git co a781d7c3b6542e89ef73707e3bf21d40956704b0 to get the screencast. Watch the demo screencast : BDD_Basics_I.mov 
-
-## Question ##
-
-Do you always need to take small steps when writing tests ?
-
 ## Version 1 ##
 
-Initial commit. Just bundle gem generated files
+Create a file bowling_game_spec.rb with the following contents:
+
+describe BowlingGame do
+  
+end
+
+Run the spec:
+
+$ rspec bowling_game_spec.rb --color
+
+You get the error:
+
+bowling_game_spec.rb:1:in `<top (required)>': uninitialized constant Object::BowlingGame (NameError)
+
+Add the following code to the top of the bowling_game_spec.rb:
+
+class BowlingGame
+  
+end
+
+Run the spec :
+
+	$ rspec bowling_game_spec.rb --color
+	No examples found.
+
+	Finished in 0.00005 seconds
+	0 examples, 0 failures
+	
+Let's write our first spec:
+
+describe BowlingGame do
+  it 'scores all gutters with 0'
+end
+
+When you run the spec, you now get the output:
+
+BowlingGame
+  scores all gutters with 0 (PENDING: Not yet implemented)
+
+Pending:
+  BowlingGame scores all gutters with 0
+    # Not yet implemented
+    # ./bowling_game_spec.rb:6
+
+Finished in 0.00029 seconds
+1 example, 0 failures, 1 pending
+
+You can use the 'it' block as a to do list of things to implement out of your head. Add another spec:
+
+describe BowlingGame do
+  it 'scores all gutters with 0'
+  it "scores all 1's with 20"
+end
+
+When you run the specs, you now get the output:
+
+BowlingGame
+  scores all gutters with 0 (PENDING: Not yet implemented)
+  scores all 1's with 20 (PENDING: Not yet implemented)
+
+Pending:
+  BowlingGame scores all gutters with 0
+    # Not yet implemented
+    # ./bowling_game_spec.rb:6
+  BowlingGame scores all 1's with 20
+    # Not yet implemented
+    # ./bowling_game_spec.rb:7
+
+Finished in 0.0003 seconds
+2 examples, 0 failures, 2 pending
+
+Let's now express our first requirement as follows:
+
+it 'scores all gutters with 0' do
+  game = BowlingGame.new
+  
+  20.times { game.roll(0) }
+  
+  expect(game.score).to eq(0)
+end
+
+
+When you run the specs, you now get the output:
+
+1) BowlingGame scores all gutters with 0
+   Failure/Error: 20.times { game.roll(0) }
+   NoMethodError:
+     undefined method `roll' for #<BowlingGame:0x000001011674c8>
+
+The test is not failing for the right reason because it is due to an error in not defining roll method. We are in yellow state. Let's do the minimal thing to get past this error message by defining the roll method in BowlingGame class :
+
+class BowlingGame
+  def roll
+  end
+end
+
+When you run the specs, you now get the output:
+
+1) BowlingGame scores all gutters with 0
+   Failure/Error: def roll
+   ArgumentError:
+     wrong number of arguments (1 for 0)
+
+The test is not failing for the right reason because it is due to an error in the definition of roll method. We are in yellow state. Let's do the minimal thing required to get past this error by changing the roll method to take an input argument:
+
+class BowlingGame
+  def roll(number)
+    
+  end
+end
+
+When you run the specs, you now get the output:
+
+1) BowlingGame scores all gutters with 0
+    Failure/Error: expect(game.score).to eq(0)
+    NoMethodError:
+      undefined method `score' for #<BowlingGame:0x00000101165f38>
+
+The test is not failing for the right reason because it is due to an error in the syntax of score method. We are in yellow state. Let's define a score method for the BowlingGame class.
+
+class BowlingGame
+  def roll(number)
+    
+  end
+  def score
+    
+  end
+end
+
+When you run the specs, you now get the output:
+
+1) BowlingGame scores all gutters with 0
+    Failure/Error: expect(game.score).to eq(0) 
+      expected: 0
+           got: nil
+
+Our test is failing for the right reason. We are now in red state. Let's change the score method like this:
+
+def score
+  0
+end
+
+When you run the specs, you now get the output:
+
+BowlingGame
+  scores all gutters with 0
+  scores all 1's with 20 (PENDING: Not yet implemented)
+
+Pending:
+  BowlingGame scores all 1's with 20
+    # Not yet implemented
+    # ./bowling_game_spec.rb:20
+
+Finished in 0.00138 seconds
+2 examples, 0 failures, 1 pending
+
+The first spec now passes. We are now green. Let's now express our second requirement:
+
+it "scores all 1's with 20" do
+  game = BowlingGame.new
+  
+  20.times { game.roll(1) }
+  
+  expect(game.score).to eq(20)    
+end
+
+When you run the specs, you now get the output:
+
+1) BowlingGame scores all 1's with 20
+    Failure/Error: expect(game.score).to eq(20)
+      
+      expected: 20
+           got: 0
+
+The spec is failing for the right reason. Change the implementation as follows:
+
+class BowlingGame
+  
+  def initialize
+    @score = 0
+  end
+  def roll(number)
+    @score += number
+  end
+  def score
+    @score
+  end
+end
+
+When you run the specs, you now get the output:
+
+BowlingGame
+  scores all gutters with 0
+  scores all 1's with 20
+
+Finished in 0.00145 seconds
+2 examples, 0 failures
+
+We are now green. We did not go to the yellow state before we went green. This is ok. Let's cleanup our code like this:
+
+class BowlingGame
+  attr_reader :score
+  
+  def initialize
+    @score = 0
+  end
+  def roll(number)
+    @score += number
+  end
+end
+
+All the specs still pass. Now there is no duplication in the production code, but what can we do to make it more expressive of the domain? Let's rename the number argument to pin like this:
+
+class BowlingGame
+  attr_reader :score
+  
+  def initialize
+    @score = 0
+  end
+  def roll(pins)
+    @score += pins
+  end
+end
+
+The specs still passes since it does not depend on this implementation detail. Let's move the BowlingGame class into its own file bowling_game.rb. Add the require_relative to the top of the bowling_game_spec.rb:
+
+require_relative 'bowling_game'
+
+Run the specs again. It should pass. We cleaned up one thing after another, we were green before refactoring and ended in green after refactoring. Why should we not refactor in red state? Refer the appendix for the answer.
+
+Now let's look the spec and see if we can refactor. The refactored specs look like this:
+
+require_relative 'bowling_game'
+
+describe BowlingGame do
+  before do
+    @game = BowlingGame.new
+  end
+  
+  it 'scores all gutters with 0' do
+    20.times { @game.roll(0) }
+    
+    expect(@game.score).to eq(0)
+  end
+  
+  it "scores all 1's with 20" do
+    20.times { @game.roll(1) }
+    
+    expect(@game.score).to eq(20)    
+  end
+end
+
+The specs still pass. Here is a little exercise: Replace the before method with let and make all the specs pass.
+
+Do you always need to take small steps when writing tests ? If you notice, we change either production code or the spec but not both at the same time. Regardless of whether we are refactoring or driving the design of our code. If we change both the spec and the production code at the same time we will not know which file is causing the problem. If we take small steps, we will be able to immediately fix the problem. Because we know what we just changed. If you are confident you can take bigger steps as long as the duration of the red state is minimum and you get to green and stay in green longer.
+
+Let's review the production code. What's the 20.times { something } code doing? Can we raise the level of abstraction? Missing all the pins is a gutter game and striking all the pins is strike. Can we change the first spec to call a gutter method and the second spec to call the strike method? If we do so, then we will be focusing on the 'What' instead of 'How'. Looping is a sign that the spec is focusing on the implementation rather than specifying the behavior.
 
 ## Version 2 ##
 
@@ -2487,6 +2735,10 @@ end
 ## Question ##
 
 Private methods are not tested. Why?
+
+## Screencast ##
+
+git co a781d7c3b6542e89ef73707e3bf21d40956704b0 to get the screencast. Watch the demo screencast : BDD_Basics_I.mov
 
 \newpage
 

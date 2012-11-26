@@ -122,16 +122,19 @@ Open Closed Principle.
 2. Composing objects occurs in the Game.new(fake_console) step. The mock is basically an interface that plays
    the role of console. 
 
-3. In the refactoring stage, you must look beyond just eliminating duplication. You must apply OO principles 
-   and make sure the classes are cohesive and loosely coupled.
+3. In the refactoring stage, you must look beyond just eliminating duplication. You must apply OO principles and make sure the classes are cohesive and loosely coupled.
 
-4. Specs should read like a story with a beginning, middle and an end. 
+4. Why you should not begin refactoring in red state?
+If you start refactoring in the red state then you will not know which of the changes you made is causing the problem. It becomes difficult to fix the problem. 
+
+5. Specs should read like a story with a beginning, middle and an end. 
    Once upon a time... lot of exciting things happen... then they lived happily ever after.
 
-5. How do you know the code is working?
+6. How do you know the code is working?
    A test should fail when the code is broken. It should pass when it is good.
 
-6. Do not tie the test to the data structure. It will lead to brittle test.
+7. Do not tie the test to the data structure. It will lead to brittle test.
+
 
 ## Difficulty in Writing a Test ##
 
