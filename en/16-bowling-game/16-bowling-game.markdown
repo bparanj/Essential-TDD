@@ -1196,6 +1196,8 @@ module Bowling
 end
 ``` 
 
+Notice that I did't jump into rspec tricks like let, nested contexts, one-liner specs etc. My focus has always been on improving the design of the domain code. At the end, I group the specs to make it more readable. Feel free to make this version use any rspec constructs that you think makes it better. 
+
 ## Exercise ##
 
 1. Use bundler gem command to generate a skeleton for bowling gem and covert the final bowling game version to a gem.
