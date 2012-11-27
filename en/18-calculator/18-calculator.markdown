@@ -1,11 +1,11 @@
-# Calculator #
+# String Calculator #
 
 ## Objectives ##
 
 - Triangulate to solve the problem
 - Experiment to learn and explore possible solution
 - Refactoring when there is no duplication to write intent revealing code
-- Simplifying method signatures
+- Simplifying method signature
 
 ### String Calculator ###
 
@@ -26,7 +26,7 @@
 	- To change a delimiter, the beginning of the string will contain a separate line that looks like this: '//[delimiter]\n[numbers...]' for example '//;\n1;2' should return three where the default delimiter is ';'
 	- The first line is optional. All existing scenarios should still be supported.
 
-Source : http://osherove.com/tdd-kata-1/
+This TDD Kata is by Roy Osherove found at : http://osherove.com/tdd-kata-1/. Follow the guidelines and write the specs. Compare your solution to the following solution.
 
 ### Version 1 ###
 
@@ -55,7 +55,13 @@ describe Calculator do
 end
 ```
 
-About to triangulate and implement the solution in a real way. 
+From David Bernstein blog post at: http://tobeagile.com/2009/12/08/triangulation/
+
+"If I get stuck and I don’t know how a complex algorithm should work I’ll write a test for an error case. Then I’ll write a test for the simplest non-error case I can think of and return a hard coded value. Then I’ll write another test case and see if I can figure out the algorithm at that point. In doing so I gain some momentum and perhaps some insight in how the algorithm should behave on an edge case and a few normal cases.
+
+This is called triangulation and it was used in celestial navigation for thousands of years. It is easier to see you are moving when you compare your position to two or more points on the horizon rather than just one. The same applies to coding; it is often easier to figure out the behavior of an algorithm by examining a couple of test cases instead of just one.""
+
+Let's now triangulate and implement the real solution. 
 
 ### Version 2 ###
 
@@ -177,13 +183,13 @@ end
 
 ### Version 6 ###
 
-Add
+Add the following statement to the calculator_spec.rb:
 
 ```ruby
 require_relative 'calculator' 
 ```
 
-statement to the calculator_spec.rb. Move the calculator class to its own file. All specs should pass.
+Move the calculator class to its own file. All specs should pass.
 
 ### Version 7 ###
 
@@ -195,7 +201,7 @@ it 'allows new line also as a delimiter' do
 end
 ```
 
-This test fails. To make it pass the calculator method now calls normalize_delimiter method:
+This test fails. To make it pass the calculator method now calls normalize_delimiter() method:
 
 ```ruby
 class Calculator
@@ -306,6 +312,6 @@ class Calculator
 end
 ```
 
-We are not passing in the string to be processed into methods anymore. Since it is needed by most of the methods, it is now an instance variable. It simplifies the interface of the private methods by eliminating the argument.
+We are not passing in the string to be processed into methods anymore. Since it is needed by most of the methods, it is now an instance variable. We removed the argument to the private methods to simplify the interface.
 
 \newpage

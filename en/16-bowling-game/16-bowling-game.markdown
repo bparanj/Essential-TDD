@@ -318,7 +318,7 @@ describe BowlingGame do
 end
 ```
 
-The specs still pass. Here is a little exercise: Replace the before method with let and make all the specs pass.
+The specs still pass. Here is a little exercise: Replace the before method with let() method and make all the specs pass.
 
 Do you always need to take small steps when writing tests ? If you notice, we change either production code or the spec but not both at the same time. Regardless of whether we are refactoring or driving the design of our code. If we change both the spec and the production code at the same time we will not know which file is causing the problem. If we take small steps, we will be able to immediately fix the problem. Because we know what we just changed. If you are confident you can take bigger steps as long as the duration of the red state is minimum and you get to green and stay in green longer.
 
@@ -365,7 +365,7 @@ Run the spec:
 $ rspec game_spec.rb --color
 ```
 
-The miss method implementation helped to setup the require statements and get the spec working. When you are in a green state, you can checkin the code on a regular basis as you make progress. If you want to experiment with an alternative solution you can revert to an older version. This gives us the courage to experiment since we don't have to worry about losing our previous work. Here, we intelligently update our specs to reflect our understanding as we learn more about our gaming domain. 
+The miss() method implementation helped to setup the require statements and get the spec working. When you are in a green state, you can checkin the code on a regular basis as you make progress. If you want to experiment with an alternative solution you can revert to an older version. This gives us the courage to experiment since we don't have to worry about losing our previous work. Here, we intelligently update our specs to reflect our understanding as we learn more about our gaming domain. 
 
 ## Version 3 ##
 
@@ -407,7 +407,7 @@ def spare(pins)
 end
 ```
 
-The spec now passes. We took a bigger step by providing a non-trival implementation of the spare method. When the implementation is straight forward you can just type in the real implementation. There is no need to triangulate or fake it till you make it. Since this method is just a one-liner we went ahead and implemented it. Let's write the fourth spec.
+The spec now passes. We took a bigger step by providing a non trival implementation of the spare() method. When the implementation is straight forward you can just type in the real implementation. There is no need to triangulate or fake it till you make it. Since this method is just a one-liner we went ahead and implemented it. Let's write the fourth spec.
 
 ```ruby
 it "when a strike is bowled, the total score is 10 + 
@@ -482,8 +482,10 @@ module Bowling
 end
 ```
 
-In this version we have implemented miss, strike, spare and roll methods. We deleted the spec that gave momentum but is no longer needed.
+In this version we have implemented miss(), strike(), spare() and roll() methods. We deleted the spec that gave momentum but is no longer needed.
 
+"The purpose of TDD is to express the intent of code in as few tests as possible."
+		-- David Bernstein blog post at: http://tobeagile.com/2009/12/08/triangulation/
 
 ## Version 4 ##
 
