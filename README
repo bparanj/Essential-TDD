@@ -9,7 +9,7 @@ TODO: DAS screencast for example on why nested doubles indicate problem with des
 TODO: Run the double dispatch solution in appendix and remove the hard coded 'scissor' in production code.
 TODO: Create a Virtual Machine that has all the software required to run the examples. Gems, Ruby, RVM, exercises with instructions.
 TODO: Create a new chapter for Open Closed Principle and illustrate is using Scanner example that can work with new types of displays.
-TODO: Table of Contents
+TODO: Table of Contents : From scanner, group the rest of the book in Section 2 : Advanced Topics
 
 BOOKMARK: Start from 17-role
 
