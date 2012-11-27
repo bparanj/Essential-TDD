@@ -1,4 +1,4 @@
-# Calculator Example #
+# Calculator #
 
 ## Objective ##
 

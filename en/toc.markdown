@@ -1,39 +1,39 @@
-## First Test ##
+## 1. Calculator ##
 - Learn about assertion
 
-## Canonical Test Structure ##
+## 2. Canonical Test Structure ##
 - What is Canonical Test Structure
 - Practice Canonical Test Structure 
 
-## Code Mutation ##
+## 3. Code Mutation ##
 To illustrate the need to mutate the code when the test passes without failing the first time.
 
-## Eliminate Loops ##
+## 4. Eliminate Loops ##
 - How to eliminate loops in specs
 - Focus on “What” instead of implementation, the “How”
 
-## Role ##
+## 5. Role ##
 - Being minimal when implementing the production code.
 
-## Fibonacci ##
+## 6. Fibonacci ##
 - To learn TDD Cycle : Red, Green, Refactor.
 - Focus on getting it to work first, cleanup by refactoring and then focus on optimization.
 - When refactoring, start green and end in green.
 - Learn recursive solution and optimize the execution by using non-recursive solution.
 - Using existing tests as regression tests when making major changes to existing code.
 
-## Scanner ##
+## 7. Scanner ##
 - How to use Fakes and Mocks ?
 - When to delete a test ?
 - Learn about Open Closed Principle and how to apply it 
 
-## Week ##
+## 8. Week ##
 - Introduction to Contract tests. 
 - How to write Contract tests? 
 - Using Contract tests to explicitly document the behavior of an API for invalid inputs.
 - Learn about reliable test. A test that fails when it should.
 
-## Guess Game ##
+## 9. Guess Game ##
 - How to test random behavior ?
 - Illustrate inverting dependencies.
 - How to make your code depend on abstractions instead of concrete implementation ?
@@ -47,25 +47,25 @@ To illustrate the need to mutate the code when the test passes without failing t
 - How to use as_null_object ?
 - How to write contract specs to keep mocks in sync with production code ?
 
-## Uncommenter ##
+## 10. Uncommenter ##
 - Using fake objects to speed up test
 
-## Test Spy ##
+## 11. Test Spy ##
 - Using Stubs with Test Spy in Ruby
 
-## Command Query Separation ##
+## 12. Command Query Separation ##
 - How to fix violation of Command Query Separation principle  ?
 - How to fix abuse of mocks ?
 - How to write focused tests ? 
 - How to deal with external dependencies in your domain code ?
 
-## Angry Rock ##
+## 13. Angry Rock ##
 - How to fix Command Query Separation violation?
 - Refactoring : Retaining the old interface and the new one at the same time to avoid old tests from failing.
 - Semantic quirkiness of Well Grounded Rubyist solution exposed by specs.
 - Using domain specific terms to make the code expressive
 
-## Bowling Game ##
+## 14. Bowling Game ##
 - Using domain specific term and eliminating implementation details in the spec.
 - Focus on the 'What' instead of 'How'. Declarative vs Imperative.
 - Fake it till you make it.
@@ -75,10 +75,10 @@ To illustrate the need to mutate the code when the test passes without failing t
 - BDD style tests read like sentences in a specification. 
 - Updating the specs as we learn more about the bowling game instead of blindly appending specs to the existing specs.
 
-## Double Dispatch ##
+## 15. Double Dispatch ##
 - Learn how to use double dispatch to make your code object oriented.
 
-## Twitter Client ##
+## 16. Twitter Client ##
 - How to deal with third party API?
 - How to use thin adapter layer to insulate domain code from external API?
 - What does abusing mocks look like?
@@ -86,11 +86,11 @@ To illustrate the need to mutate the code when the test passes without failing t
 - Integration tests should test the layer that interacts with external API.
 - Using too many mocks indicate badly designed API. 
 
-## Learning Specs ##
+## 17. Learning Specs ##
 - Why do we need learning specs?
 - How to write learning specs?
 
-## Calculator ##
+## 18. String Calculator ##
 - Triangulate to solve the problem
 - Experiment to learn and explore possible solution
 - Refactoring when there is no duplication to write intent revealing code
