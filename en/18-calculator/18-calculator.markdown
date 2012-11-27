@@ -9,21 +9,21 @@
 
 ### String Calculator ###
 
-▪ Try not to read ahead.
-▪ Do one task at a time. The trick is to learn to work incrementally.
-▪ Make sure you only test for correct inputs. There is no need to test for invalid inputs for this kata.
+- Try not to read ahead.
+- Do one task at a time. The trick is to learn to work incrementally.
+- Make sure you only test for correct inputs. There is no need to test for invalid inputs for this kata.
 
 1. Create a simple String calculator with a method int add(string numbers).
- - The method can take 0,1 or 2 numbers, and will return their sum (for an empty string it will return 0) for example “” or “1” or “1,2”.
+ - The method can take 0,1 or 2 numbers, and will return their sum (for an empty string it will return 0) for example '' or '1' or '1,2'.
  - Start with the simplest test case of an empty string and move to 1 and two numbers.
  - Remember to solve things as simply as possible so that you force yourself to write tests you did not think about.
  - Remember to refactor after each passing test.
 2. Allow the add method to handle an unknown amount of numbers.
 3. Allow the add method to handle newlines between numbers (instead of commas).
-		- The following input is ok: “1\n2,3” (will equal 6).
-		- The following input is NOT ok: “1,\n” (not need to prove it - just clarifying).
+		- The following input is ok: "1\n2,3" (will equal 6).
+		- The following input is NOT ok: "1,\n" (not need to prove it - just clarifying).
 4. Support different delimiters
-  - To change a delimiter, the beginning of the string will contain a separate line that looks like this: “// [delimiter]\n[numbers...]” for example “//;\n1;2” should return three where the default delimiter is ‘;’ .
+  - To change a delimiter, the beginning of the string will contain a separate line that looks like this: "// [delimiter]\n[numbers...]" for example "//;\n1;2" should return three where the default delimiter is ‘;’ .
   - The first line is optional. all existing scenarios should still be supported.
 
 Source : http://osherove.com/tdd-kata-1/
@@ -92,9 +92,7 @@ describe Calculator do
 end
 ```
 
-Started with the simplest test case of an empty string and moved to 1 and two numbers.
-Experimented in irb to get the generic solution working. Copied the code to calculate 
-method to get the test passing. This broke the test 1. Let's fix that now.
+Started with the simplest test case of an empty string and moved to 1 and two numbers. Experimented in irb to get the generic solution working. Copied the code to calculate method to get the test passing. This broke the test 1. Let's fix that now.
 
 ### Version 3 ###
 
@@ -298,8 +296,6 @@ class Calculator
 end
 ```
 
-We are not passing in the string to be processed into methods anymore. Since it is
-needed by most of the methods, it is now an instance variable. It simplifies the interface
-of the private methods by eliminating the argument.
+We are not passing in the string to be processed into methods anymore. Since it is needed by most of the methods, it is now an instance variable. It simplifies the interface of the private methods by eliminating the argument.
 
 \newpage

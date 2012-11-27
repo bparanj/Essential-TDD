@@ -104,10 +104,12 @@ end
 
 The test fails with the error:
 
+```ruby
 1) Scanner scan & display the name & price of the scanned item on a cash register display
    Failure/Error: scanner = Scanner.new(real_display)
    ArgumentError:
      wrong number of arguments(1 for 0)
+```
 
 We have two options we can delete the first spec or we can move it to a contract spec. Contract specs are discussed in a later chapter. Moving this to a contract spec will be the right choice if we expect our system to be able to deal with different types of scanners which must comply to the same interface.
 
@@ -129,10 +131,12 @@ end
 
 The spec fails with:
 
+```ruby
 1) Scanner scan & display the name & price of the scanned item on a cash register display
      Failure/Error: real_display.last_line_item.should == "Milk $3.99"
      NoMethodError:
        undefined method `last_line_item' for #<RealDisplay:0x007f87bd0bf0d0>
+```
 
 Change the real_display.rb like this:
 
@@ -150,10 +154,12 @@ end
 
 The spec fails with:
 
+```ruby
 1) Scanner scan & display the name & price of the scanned item on a cash register display
    Failure/Error: real_display.last_line_item.should == "Milk $3.99"
      expected: "Milk $3.99"
           got: nil (using ==)
+```
 
 Change the real_display.rb like this:
 
