@@ -1,11 +1,12 @@
 # Scanner #
 
-This example is about a scanner that is used in a checkout counter. When you can scan an item, the name and price of the item is sent to the output console.
+Let's consider a scanner that is used in a checkout counter. When you can scan an item, the name and price of the item is sent to the output console.
 
 ## Objectives ##
 
 - How to use Fakes and Mocks ?
 - When to delete a test ?
+- Learn about Open Closed Principle and how to apply it 
 
 ## Writing the First Test ##
 
@@ -253,5 +254,48 @@ end
 ```
 
 The display method is under our control so we can mock it. Mock is a design technique that is used to discover API. This is an example of right way to Mock. The 'and' part of the doc string has been deleted. It is now clear the purpose of Scanner object is to scan items and the Display objects is to display given line items. See the appendix for notes on mocks.
+
+## Open Closed Principle ##
+
+Move fake_display.rb and scanner_spec.rb into spec directory. Move real_display.rb and scanner.rb into lib directory. Change the scanner_spec.rb require_relative statement like this:
+
+```ruby
+require_relative '../lib/scanner'
+```
+
+The spec will pass. We now have a new requirement where we need to use a touch screen display. Let's write the spec for this new requirement.
+
+```ruby
+it 'scans the name & price of an item to display on a touch display' do
+  touch_display = TouchDisplay.new
+  scanner = Scanner.new(touch_display)
+  
+  scanner.scan("1")
+  
+  expect(touch_display.last_line_item).to eq("Milk $3.99")
+end
+```
+
+Add the :
+
+```ruby
+require_relative '../lib/touch_display'
+```
+
+to the top of the scanner_spec.rb. Create a touch_display.rb in lib directory with the following contents:
+
+```ruby
+class TouchDisplay
+  attr_reader :last_line_item
+  
+  def display(line_item)
+    p "Allows users to interact by touch"
+     
+    @last_line_item = "Milk $3.99"
+  end
+end
+```
+
+All specs will pass. To satisfy our new requirement we added new code, we did not modify the existing production code. Open Closed Principle states that a module should be open for extension and closed for modification. Our scanner class satisfies this principle. We were able to achieve this by using dependency injection to decouple the display from the scanner.
 
 \newpage
