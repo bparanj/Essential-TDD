@@ -1,4 +1,11 @@
-# Learning Tests #
+# Learning Specs #
+
+## Objectives ##
+
+ - Why do we need learning specs?
+ - How to write learning specs?
+
+## Discussion ##
 
 J. B. Rainsberger says in this blog post at http://blog.thecodewhisperer.com/2011/12/14/when-to-write-learning-tests/: 
 

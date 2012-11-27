@@ -4,6 +4,8 @@
 
 To illustrate how to eliminate loops in specs. The tests must specify and focus on “What” instead of implementation, the “How”.
 
+## Example ##
+
 Read the following code for meszaros gem (https://github.com/bparanj/meszaros.git) to see how to eliminate loops in specs:
 
 loop_spec.rb
