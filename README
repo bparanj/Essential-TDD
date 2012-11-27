@@ -1,11 +1,9 @@
 ## To Do List ##
 
 TODO: Read the book out aloud and make the description flows smoothly.
-TODO: Show only the diff in the source code from one version to the next.
 TODO: Example for over-riding the stubs in individual tests. Pg : 203 RSpec Book.
 TODO: DAS screencast for example on why nested doubles indicate problem with design and how to fix it.
 TODO: Run the double dispatch solution in appendix and remove the hard coded 'scissor' in production code.
-TODO: From scanner, group the rest of the book in Section 2 : Advanced Topics
 
 Delegate
 
@@ -15,14 +13,13 @@ Based on Feedback
 
 TODO: Create a Virtual Machine that has all the software required to run the examples. Gems, Ruby, RVM etc. Add exercises with instructions, before and after directory. After directory consisting of solution for a specific version.
 
-
-BOOKMARK: Start from 17-role
+BOOKMARK: Finish 17-role
 
 ## How to Generate the Book ##
 
 pandoc -S --epub-metadata=metadata.xml -o etdd.epub title.txt 01-introduction/01-chapter1.markdown 
 
-~/projects/essential-tdd/en $ pandoc -S --epub-metadata=metadata.xml -o etdd.pdf title.txt toc.markdown 01-Section/01-section-1.markdown 19-first-test/19-first-test.markdown 07-canonical-test-structure/07-canonical-test-structure.markdown 08-code-mutation/08-code-mutation.markdown 09-eliminate-loops/09-eliminate-loops.markdown 17-role/15-role.markdown 01-fibonacci/01-finbonacci.markdown  05-scanner/05-scanner.markdown 14-week/14-week.markdown 02-guess-game/02-guess-game.markdown 06-uncommenter/06-uncommenter.markdown 04-test-spy/04-test-spy.markdown 03-command-query-separation/03-command-query-separation.markdown 10-angry-rock/10-angry-rock.markdown 16-bowling-game/16-bowling-game.markdown 11-double-dispatch/11-double-dispatch.markdown 12-twitter-client/12-twitter-client.markdown  13-learning-specs/13-learning-specs.markdown 18-calculator/18-calculator.markdown appendix/appendix.markdown; open etdd.pdf
+~/projects/essential-tdd/en $ pandoc -S --epub-metadata=metadata.xml -o etdd.pdf title.txt toc.markdown 01-Section/01-section-1.markdown 19-first-test/19-first-test.markdown 07-canonical-test-structure/07-canonical-test-structure.markdown 08-code-mutation/08-code-mutation.markdown 09-eliminate-loops/09-eliminate-loops.markdown 17-role/15-role.markdown 01-fibonacci/01-finbonacci.markdown 02-section/02-section-2.markdown 05-scanner/05-scanner.markdown 14-week/14-week.markdown 02-guess-game/02-guess-game.markdown 06-uncommenter/06-uncommenter.markdown 04-test-spy/04-test-spy.markdown 03-command-query-separation/03-command-query-separation.markdown 10-angry-rock/10-angry-rock.markdown 16-bowling-game/16-bowling-game.markdown 11-double-dispatch/11-double-dispatch.markdown 12-twitter-client/12-twitter-client.markdown  13-learning-specs/13-learning-specs.markdown 18-calculator/18-calculator.markdown appendix/appendix.markdown; open etdd.pdf
 
 ## Syntax ##
 

@@ -13,7 +13,7 @@
 
 ## Scoring the Bowling Game ##
 
-The specs we write will use the scoring rules found here http://www.bowling2u.com/trivia/game/scoring.asp. You can also refer Scoring Bowling.html at https://github.com/bparanj/polgar/tree/master/13-bowling-game-gem
+The specs we write will use the scoring rules found at http://www.bowling2u.com/trivia/game/scoring.asp. You can also refer the rules Scoring Bowling.html at https://github.com/bparanj/polgar/tree/master/13-bowling-game-gem
 
 ## Version 1 ##
 
