@@ -19,6 +19,25 @@ pandoc -S --epub-metadata=metadata.xml -o etdd.epub title.txt 01-introduction/01
 
 ~/projects/essential-tdd/en $ pandoc -S --epub-metadata=metadata.xml -o etdd.pdf title.txt 01-Section/01-section-1.markdown 19-first-test/19-first-test.markdown 07-canonical-test-structure/07-canonical-test-structure.markdown 08-code-mutation/08-code-mutation.markdown 09-eliminate-loops/09-eliminate-loops.markdown 17-role/15-role.markdown 01-fibonacci/01-finbonacci.markdown  05-scanner/05-scanner.markdown 14-week/14-week.markdown 02-guess-game/02-guess-game.markdown 06-uncommenter/06-uncommenter.markdown 04-test-spy/04-test-spy.markdown 03-command-query-separation/03-command-query-separation.markdown 10-angry-rock/10-angry-rock.markdown 16-bowling-game/16-bowling-game.markdown 11-double-dispatch/11-double-dispatch.markdown 12-twitter-client/12-twitter-client.markdown  13-learning-specs/13-learning-specs.markdown 18-calculator/18-calculator.markdown appendix/appendix.markdown; open etdd.pdf
 
+
+- Try not to read ahead.
+- Do one task at a time. The trick is to learn to work incrementally.
+- Make sure you only test for correct inputs. There is no need to test for invalid inputs for this kata.
+
+1. Create a simple String calculator with a method int add(string numbers).
+ - The method can take 0,1 or 2 numbers, and will return their sum (for an empty string it will return 0) for example '' or '1' or '1,2'.
+ - Start with the simplest test case of an empty string and move to 1 and two numbers.
+ - Remember to solve things as simply as possible so that you force yourself to write tests you did not think about.
+ - Remember to refactor after each passing test.
+2. Allow the add method to handle an unknown amount of numbers.
+3. Allow the add method to handle newlines between numbers (instead of commas).
+		- The following input is ok: "1\n2,3" (will equal 6).
+		- The following input is NOT ok: "1,\n" (not need to prove it - just clarifying).
+4. Support different delimiters
+  - To change a delimiter, the beginning of the string will contain a separate line that looks like this: "// [delimiter]\n[numbers...]" for example "//;\n1;2" should return three where the default delimiter is ‘;’ .
+  - The first line is optional. all existing scenarios should still be supported.
+
+
 ## Chapter Sequence ##
 
 Arrange chapters in a progressive way.

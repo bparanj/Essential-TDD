@@ -1,5 +1,32 @@
 # Appendix #
 
+## RSpec Test Structure ##
+
+1. 
+```ruby
+describe Movie, "Definition. Make sure Single Responsibility Principle is obeyed." do
+
+end
+```
+
+The first argument of the describe block in a spec is name of the class or module under test. It is the subject. It can also be a string. The second is an optional string. It is a good practice to include the second 
+string argument that describes the class and make sure that it does not have 'And', 'Or' or 'But'.
+If it obeys Single Responsibility Principle that it will not contain those words.
+
+2.
+```ruby
+specify "[Method Under Test] [Scenario] [Expected Behavior]" do
+
+end
+```
+Same thing can be accomplished by using describe, context and specify methods together. Refer the RSpec book to learn more.
+
+3. 
+
+Given
+When 
+Then
+
 ## 1. Fibonacci Exercise Answer ##
 
 fibonacci_spec.rb
@@ -67,18 +94,6 @@ Rails:
 
 \newpage
 
-## 3. Side Effect ##
-
-A function or expression modifies some state or has an observable interaction with calling functions or the outside world in addition to returning a value. For example, a function might modify a global or static variable, modify one of its arguments, raise an exception, write data to a display or file, read data, or call other side-effecting functions. In the presence of side effects, a program's behavior depends on history; that is, the order of evaluation matters. Understanding a program with side effects requires knowledge about the context and its possible histories; and is therefore hard to read, understand and debug.
-
-Side effects are the most common way to enable a program to interact with the outside world (people, filesystems, other computers on networks). But the degree to which side effects are used depends on the programming paradigm. Imperative programming is known for its frequent utilization of side effects. In functional programming, side effects are rarely used. 
-
-Source: Wikipedia
-
-## 4. dev/null in Unix ##
-
-In Unix, /dev/null represents a null device that is a special file. It discards all data written to it and provides no data to anyone that read from it.
-
 ## 5. Gist by Pat Maddox at https://gist.github.com/730609 ##
 
 ```ruby
@@ -143,6 +158,33 @@ If you start refactoring in the red state then you will not know which of the ch
 
 \newpage
 
+## 3. Side Effect ##
+
+A function or expression modifies some state or has an observable interaction with calling functions or the outside world in addition to returning a value. For example, a function might modify a global or static variable, modify one of its arguments, raise an exception, write data to a display or file, read data, or call other side-effecting functions. In the presence of side effects, a program's behavior depends on history; that is, the order of evaluation matters. Understanding a program with side effects requires knowledge about the context and its possible histories; and is therefore hard to read, understand and debug.
+
+Side effects are the most common way to enable a program to interact with the outside world (people, filesystems, other computers on networks). But the degree to which side effects are used depends on the programming paradigm. Imperative programming is known for its frequent utilization of side effects. In functional programming, side effects are rarely used. 
+
+Source: Wikipedia
+
+## 4. dev/null in Unix ##
+
+In Unix, /dev/null represents a null device that is a special file. It discards all data written to it and provides no data to anyone that read from it.
+
+## Stub ##
+
+1. In irb: 
+
+```ruby
+> require 'rspec/mocks/standalone'
+> s = stub.as_null_object
+```
+
+acts as a UNIX's dev/null equivalent for tests. It ignores any messages. Useful for incidental interactions that is not relevant to what is being tested. It implements the Null Object pattern.
+
+In E-R modeling you have relationships such as 1-n, n-n, 1-1 and so on. In domain modeling you have relationships such as aggregation, composition, inheritance, delegation etc. Most of these have constructs provided by the language or the framework such as Rails. Example: composed_of in Rails, delegate in Ruby, symbol < for inheritance. The interface relationship for roles has to be explicitly specified in the specs to make the relationship between objects explicit.
+
+\newpage
+
 ## Notes from Martin Fowler's article and jMock Home Page ##
 
 ### Testing and Command Query Separation Principle ###
@@ -190,6 +232,8 @@ With this style, the test makes clear what the domain code is expecting from its
 
 Testing with Mock Objects improves domain code by preserving encapsulation, reducing global dependencies, and clarifying the interactions between classes.
 
+\newpage
+
 # Tautology #
 
 ## Objective ##
@@ -214,33 +258,6 @@ Working Effectively with Legacy Code
 
 \newpage
 
-## RSpec Test Structure ##
-
-1. 
-```ruby
-describe Movie, "Definition. Make sure Single Responsibility Principle is obeyed." do
-
-end
-```
-
-The first argument of the describe block in a spec is name of the class or module under test. It is the subject. It can also be a string. The second is an optional string. It is a good practice to include the second 
-string argument that describes the class and make sure that it does not have 'And', 'Or' or 'But'.
-If it obeys Single Responsibility Principle that it will not contain those words.
-
-2.
-```ruby
-specify "[Method Under Test] [Scenario] [Expected Behavior]" do
-
-end
-```
-Same thing can be accomplished by using describe, context and specify methods together. Refer the RSpec book to learn more.
-
-3. 
-
-Given
-When 
-Then
-
 ## Interactive Spec ##
 
 Standalone:
@@ -262,19 +279,6 @@ Rails:
 > User.new(:name => 'matz').should_not be_valid
 > irspec 'spec/requests/users_spec.rb'
 ```
-
-## Stub ##
-
-1. In irb: 
-
-```ruby
-> require 'rspec/mocks/standalone'
-> s = stub.as_null_object
-```
-
-acts as a UNIX's dev/null equivalent for tests. It ignores any messages. Useful for incidental interactions that is not relevant to what is being tested. It implements the Null Object pattern.
-
-In E-R modeling you have relationships such as 1-n, n-n, 1-1 and so on. In domain modeling you have relationships such as aggregation, composition, inheritance, delegation etc. Most of these have constructs provided by the language or the framework such as Rails. Example: composed_of in Rails, delegate in Ruby, symbol < for inheritance. The interface relationship for roles has to be explicitly specified in the specs to make the relationship between objects explicit.
 
 \newpage
 
@@ -309,7 +313,7 @@ When the behavior of the SUT includes actions that cannot be observed through th
 
 Source : xUnit Test Patterns: Refactoring Test Code by Gerard Meszaros
 
-### Angry Rock : Hiding the Implementation ###
+## Angry Rock : Possible Solution ##
 
 angry_rock.rb
 
@@ -407,7 +411,7 @@ module Game
 end
 ```
 
-### Angry Rock : Concise Solution ###
+## Angry Rock : Concise Solution ##
 
 play_spec.rb
 
@@ -496,7 +500,7 @@ module AngryRock
 end
 ```
 
-### Double Dispatch : Angry Rock Game Solution ###
+## Double Dispatch : Angry Rock Game Solution ##
 
 game.rb
 

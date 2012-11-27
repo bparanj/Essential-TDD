@@ -9,6 +9,7 @@
 - State Verification
 - Scoring description and examples were translated to specs.
 - BDD style tests read like sentences in a specification. 
+- Updating the specs as we learn more about the bowling game instead of blindly appending specs to the existing specs.
 
 ## Scoring the Bowling Game ##
 
