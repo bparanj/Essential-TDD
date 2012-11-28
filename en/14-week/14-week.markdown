@@ -97,14 +97,15 @@ Failures:
      Failure/Error: day.should be_false
        expected: false value
             got: ""
-     # ./week_spec.rb:27:in `block (2 levels) in <top (required)>'
+      ./week_spec.rb:27:in `block (2 levels) in <top (required)>'
 
 Finished in 0.00488 seconds
 2 examples, 1 failure
 
 Failed examples:
 
-rspec ./week_spec.rb:24 # Week returns false for numbers that does not correspond to a week day
+rspec ./week_spec.rb:24 
+ Week returns false for numbers that does not correspond to a week day
 ```
 
 Test breaks when the production code changes the return value from nil to blank string. Test fails when it should. This is good. If the clients use a conditional statement to check the true/false value, they will be protected by this failing test, since the defect is localized. Violating the contract between the client and library results in a failing test. We have to fix this problem so that the existing clients using our library don’t break.
@@ -190,13 +191,13 @@ describe Week do
     day.should be_false
   end
   # new contract test
-  it "should throw exception for numbers that does not correspond to week end" do
+  it "throw exception for numbers that does not correspond to week end" do
     expect do
       week_end = Week.end("4")
     end.to raise_error
   end
   # new contract test
-  it "should throw exception for numbers that is out of range" do
+  it "throw exception for numbers that is out of range" do
     expect do
       week_end = Week.end("40")
     end.to raise_error    

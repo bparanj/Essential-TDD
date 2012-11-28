@@ -11,10 +11,12 @@
 
 ## Installation ##
 
+```ruby
 $ gem install jeweler
 $ jeweler --rspec twits
 $ cd twits
 $ bundle
+```
 
 The source code for this chapter can be found at : https://github.com/bparanj/twits
 
@@ -30,9 +32,10 @@ from the root of the project to run the specs. The generated code fails with the
 
 ```ruby
 1) Twits fails
-   Failure/Error: fail "hey buddy, you should probably rename this file and start specing for real"
+   Failure/Error: fail 
+     "hey buddy, you should probably rename this file and start specing for real"
    RuntimeError:
-     hey buddy, you should probably rename this file and start specing for real
+      hey buddy, you should probably rename this file and start specing for real
 ```
 
 ## Version 2 ##
@@ -223,6 +226,7 @@ class Twits
   end
 end
 ```
+
 This version does not hard code the name of the class. So we don't have dependency on a specific class. This technique gives us more flexibility.
 
 fake_twitter_client.rb

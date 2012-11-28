@@ -36,7 +36,9 @@ end
 
 You can run this spec by typing the following command from the root of the project:
 
+```ruby
 $ rspec scanner_spec.rb
+```
 
 The first spec does not do much. The main purpose of writing the first spec is to help setup the directory structure, require statements etc to get the specs running. 
 
@@ -85,7 +87,8 @@ require_relative 'real_display'
 
 describe Scanner do
   ...
-  it "scan & display the name & price of the scanned item on a cash register display" do
+  it "scan & display the name & price of the scanned item 
+       on a cash register display" do
     real_display = RealDisplay.new
     scanner = Scanner.new(real_display)
     scanner.scan("1")
@@ -136,7 +139,7 @@ The spec fails with:
 1) Scanner scan & display the name & price of the scanned item on a cash register display
      Failure/Error: real_display.last_line_item.should == "Milk $3.99"
      NoMethodError:
-       undefined method `last_line_item' for #<RealDisplay:0x007f87bd0bf0d0>
+       undefined method `last_line_item' for #<RealDisplay:0xd0>
 ```
 
 Change the real_display.rb like this:
@@ -201,7 +204,8 @@ require_relative 'scanner'
 require_relative 'fake_display'
 
 describe Scanner do
-  it "scan & display the name & price of the scanned item on a cash register display" do
+  it "scan & display the name & price of the scanned item 
+      on a cash register display" do
     fake_display = FakeDisplay.new
     scanner = Scanner.new(fake_display)
     scanner.scan("1")
@@ -296,6 +300,6 @@ class TouchDisplay
 end
 ```
 
-All specs will pass. To satisfy our new requirement we added new code, we did not modify the existing production code. Open Closed Principle states that a module should be open for extension and closed for modification. Our scanner class satisfies this principle. We were able to achieve this by using dependency injection to decouple the display from the scanner.
+All specs will pass. To satisfy our new requirement we added new code, we did not modify the existing production code. Open Closed Principle states that a module should be open for extension and closed for modification. Our scanner class satisfies this principle. We were able to achieve this by using dependency injection to decouple the display from the scanner. As long as any new concrete implementation of the display implements our interface, display() with an accessor for last_line_item, we can extend our program without violating Open Closed Principle.
 
 \newpage

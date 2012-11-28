@@ -4,9 +4,9 @@
 
 - Canonical test structure practice for Given, When, Then 
 
-Step 1 - Given : Precondition
+Step 1 - Given : Precondition (System is in a known state)
 Step 2 - When  : Exercise the System Under Test
-Step 3 - Then  : Postcondition
+Step 3 - Then  : Postcondition (Check the outcome is as expected)
 
 stack_spec.rb
 

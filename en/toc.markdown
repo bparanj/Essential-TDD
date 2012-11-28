@@ -97,27 +97,28 @@ To illustrate the need to mutate the code when the test passes without failing t
 - Simplifying method signatures
 
 ## Appendix ##
-- A. RSpec Test Structure 
-- B. Fibonacci Exercise Answer
-- C. Interactive Spec
-- D. Gist by Pat Maddox at https://gist.github.com/730609
-- E. FAQ
-- F. Difficulty in Writing a Test
-- G. Side Effect
-- H. dev/null in Unix 
-- I. Stub
-- J. Notes from Martin Fowler's article and jMock Home Page
-- K. Notes on Mock Objects
-- L. Why use mock objects?
-- M. A Pattern for Unit Testing
-- N. Tautology
-- O. Interactive Spec
-- P. The Rspec Book
-- Q. Direct Input
-- R. Indirect Input
-- S. Direct Output
-- T. Indirect Output
-- U. Angry Rock : Possible Solution
-- V. Angry Rock : Concise Solution
-- W. Double Dispatch : Angry Rock Game Solution
+* A. RSpec Test Structure 
+* B. Fibonacci Exercise Answer
+* C. Interactive Spec
+* D. Gist by Pat Maddox at https://gist.github.com/730609
+* E. FAQ
+* F. Difficulty in Writing a Test
+* G. Side Effect
+* H. dev/null in Unix 
+* I. Stub
+* J. Notes from Martin Fowler's article and jMock Home Page
+* K. Notes on Mock Objects
+* L. Why use mock objects?
+* M. A Pattern for Unit Testing
+* N. Tautology
+* O. Interactive Spec
+* P. The Rspec Book
+* Q. Direct Input
+* R. Indirect Input
+* S. Direct Output
+* T. Indirect Output
+* U. Angry Rock : Possible Solution
+* V. Angry Rock : Concise Solution
+* W. Double Dispatch : Angry Rock Game Solution
 
+\newpage

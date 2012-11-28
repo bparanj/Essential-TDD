@@ -83,7 +83,9 @@ StringIO is a ruby builtin class that mimics the interface of the file. This ver
 
 To run the spec:
 
+```ruby
 rspec uncommenter/uncommenter_spec.rb --format doc --color
+```
 
 ## Reference ##
 

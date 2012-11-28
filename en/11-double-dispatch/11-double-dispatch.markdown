@@ -6,24 +6,24 @@ Learn how to use double dispatch to make your code object oriented.
 
 ## Analysis ##
 
-> Possible combinations = 9
->
-> Rock  Rock
-> Rock  Paper
-> Rock  Scissor
+ Possible combinations = 9
 
-> Paper Rock
-> Paper Paper
-> Paper Scissor
+ Rock  Rock
+ Rock  Paper
+ Rock  Scissor
 
-> Scissor Rock
-> Scissor Paper
-> Scissor Scissor
+ Paper Rock
+ Paper Paper
+ Paper Scissor
 
-> Number of items
-> Rock 
-> Paper
-> Scissor
+ Scissor Rock
+ Scissor Paper
+ Scissor Scissor
+
+ Number of items
+ Rock 
+ Paper
+ Scissor
 
 Create angry_rock_spec.rb with the following contents:
 
@@ -100,7 +100,7 @@ The spec fails with the error:
 1) AngryRock::Game picks paper as the winner over rock
    Failure/Error: player_one.choice = :paper
    NoMethodError:
-     undefined method `choice=' for #<AngryRock::Player:0x007fc92928e7f0 @name="Green Day">
+     undefined method `choice=' for #<AngryRock::Player:0xf0 @name="Green Day">
 ```
 
 Add the setter for choice by changing the player class as follows:
@@ -137,7 +137,7 @@ The spec fails with the error:
 1) AngryRock::Game picks paper as the winner over rock
     Failure/Error: game.winner.should == 'Green Day'
     NoMethodError:
-      undefined method `winner' for #<AngryRock::Game:0x007f8a84224280>
+      undefined method `winner' for #<AngryRock::Game:0x80>
 ```
 
 Define the winner method in the game class like this:

@@ -70,7 +70,7 @@ Now we get the error:
 1) Game::AngryRock should pick paper as the winner over rock
    Failure/Error: winner = choice_1.play(choice_2)
    NoMethodError:
-     undefined method `play' for #<Game::AngryRock:0x007fc594955db0 @move=:paper>
+     undefined method `play' for #<Game::AngryRock:0xb0 @move=:paper>
 ```
 
 So, let's define a empty play method as follows:
@@ -124,7 +124,7 @@ Change the play method like this:
 1) Game::AngryRock should pick paper as the winner over rock
     Failure/Error: result = winner.move
     NoMethodError:
-      undefined method `move' for #<Game::AngryRock:0x007fe39a8bedd8 @move=:paper>
+      undefined method `move' for #<Game::AngryRock:0xd8 @move=:paper>
 ```
 
 Change the angry_rock.rb as follows:
@@ -216,7 +216,7 @@ This fails with the error:
 1) Game::AngryRock results in a tie when both players pick rock
    Failure/Error: winner.should be_false
      expected: false value
-          got: #<Game::AngryRock:0x007fdc7ba157c0 @move=:rock>
+          got: #<Game::AngryRock:0xc0 @move=:rock>
 ```
 
 Change the implementation of play method like this:

@@ -207,9 +207,11 @@ end
 
 It now fails with the error message:
 
+```ruby
 1) Vowel Checker a, e, i, o, u are the vowel set
     Failure/Error: letter.should be_vowel
       expected vowel? to return true, got false
+```
 
 Now revert back the change. The spec should pass.
 

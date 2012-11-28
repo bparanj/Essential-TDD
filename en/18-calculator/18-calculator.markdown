@@ -13,6 +13,7 @@
 - Do one task at a time. The trick is to learn to work incrementally.
 - Make sure you only test for correct inputs. There is no need to test for invalid inputs for this kata.
 
+```ruby
 1. Create a simple String Calculator with a method add(string containing numbers)
   - The method can take 0, 1 or 2 numbers, and will return their sum (for an empty string it will return 0) for example '', '1' or '1,2'.
   - Start with the simplest test case of an empty string and move to 1 and two numbers.
@@ -25,6 +26,7 @@
 4. Support different delimiters
 	- To change a delimiter, the beginning of the string will contain a separate line that looks like this: '//[delimiter]\n[numbers...]' for example '//;\n1;2' should return three where the default delimiter is ';'
 	- The first line is optional. All existing scenarios should still be supported.
+```
 
 This TDD Kata is by Roy Osherove found at : http://osherove.com/tdd-kata-1/. Follow the guidelines and write the specs. Compare your solution to the following solution.
 

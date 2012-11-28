@@ -2,7 +2,6 @@
 
 ## RSpec Test Structure ##
 
-1. 
 ```ruby
 describe Movie, "Definition. Make sure Single Responsibility Principle is obeyed." do
 
@@ -13,15 +12,12 @@ The first argument of the describe block in a spec is name of the class or modul
 string argument that describes the class and make sure that it does not have 'And', 'Or' or 'But'.
 If it obeys Single Responsibility Principle that it will not contain those words.
 
-2.
 ```ruby
 specify "[Method Under Test] [Scenario] [Expected Behavior]" do
 
 end
 ```
 Same thing can be accomplished by using describe, context and specify methods together. Refer the RSpec book to learn more.
-
-3. 
 
 Given
 When 
@@ -149,7 +145,6 @@ If you start refactoring in the red state then you will not know which of the ch
    A test should fail when the code is broken. It should pass when it is good.
 
 7. Do not tie the test to the data structure. It will lead to brittle test.
-
 
 ## Difficulty in Writing a Test ##
 

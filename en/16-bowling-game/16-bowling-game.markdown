@@ -333,7 +333,7 @@ require_relative 'game'
 
 module Bowling
   describe Game do
-    it "should return 0 for a miss (no pins are knocked down)" do
+    it "return 0 for a miss (no pins are knocked down)" do
       game = Game.new
       game.miss
       
@@ -372,7 +372,7 @@ The miss() method implementation helped to setup the require statements and get 
 Let's add the second spec:
 
 ```ruby
-it "should return 10 for a strike (knocking down all ten pins)" do
+it "return 10 for a strike (knocking down all ten pins)" do
   game = Game.new
   game.strike
   
@@ -391,7 +391,7 @@ end
 The spec now passes. Let's write the third spec:
 
 ```ruby
-it "should return the number of pins hit for a spare" do
+it "return the number of pins hit for a spare" do
   game = Game.new
   game.spare(8)
   
@@ -453,14 +453,14 @@ require_relative 'game'
 
 module Bowling
   describe Game do
-    it "should return 0 for a miss (not knocking down any pins)" do
+    it "return 0 for a miss (not knocking down any pins)" do
       game = Game.new
       game.miss
       
       expect(game.score).to eq(0)
     end
         
-    it "should return the number of pins hit for a spare" do
+    it "return the number of pins hit for a spare" do
       game = Game.new
       game.spare(8)
       
@@ -498,7 +498,7 @@ Let's update our second spec to reflect our understanding of the spare concept a
 game_spec.rb
 
 ```ruby
-it "should return 10 + number of pins knocked down in next roll for a spare" do
+it "return 10 + number of pins knocked down in next roll for a spare" do
   game = Game.new
   game.spare
   game.roll(2)
@@ -526,7 +526,7 @@ Let's write a spec to find the score for a perfect game, like this:
 game_spec.rb
 
 ```ruby
-    it "should return 300 for a perfect game" do
+    it "return 300 for a perfect game" do
       game = Game.new
       30.times { game.strike }
       
@@ -537,7 +537,7 @@ game_spec.rb
 This fails with the error:
 
 ```ruby
-1) Bowling::Game should return 300 for a perfect game
+1) Bowling::Game return 300 for a perfect game
    Failure/Error: game.score.should == 300
      expected: 300
           got: 10 (using ==)
@@ -579,7 +579,7 @@ Change the spec to use the repeat method like this:
 game_spec.rb
 
 ```ruby    
-    it "should return 300 for a perfect game" do
+    it "return 300 for a perfect game" do
       game = Game.new
       repeat(30) { game.strike } 
       
@@ -630,7 +630,7 @@ attr_accessor :frame
 to the game.rb. The game ignores the frame during score calculation. We will drive the implementation to use the frame now by adding the following spec:
 
 ```ruby
-it "should return the score for a given frame to allow display of score" do
+it "return the score for a given frame to allow display of score" do
   game = Game.new
   
   game.roll(6)
@@ -699,7 +699,7 @@ require_relative 'game'
 module Bowling
   describe Game do
     ...    
-    it "should return the total score for first two frames of a game" do
+    it "return the total score for first two frames of a game" do
       g = Game.new
       # Frame #1
       g.roll(6)
@@ -718,7 +718,7 @@ end
 This new spec passes without failing. Feature already implemented. Comments in the spec is bugging me. How can we make the code expressive so that we don't need any comments to clarify it's intention? To make the intent clear, we can make the second argument in the roll method a hash like this: roll(pins, args)
 
 ```ruby
-it "should return the total score for first two frames of a game" do
+it "return the total score for first two frames of a game" do
   game = Game.new
   game.roll(6)
   game.roll(2)
@@ -732,9 +732,9 @@ end
 The error is now:
 
 ```ruby
-1) Bowling::Game should return the total score for first two frames of a game
-    Failure/Error: g.roll(7, frame: 2)
-    TypeError:
+Bowling::Game return the total score for first two frames of a game
+  Failure/Error: g.roll(7, frame: 2)
+  TypeError:
       can't convert Hash into Integer
 ```
 
@@ -802,7 +802,7 @@ it "Rolling a strike : should return the score upto a given frame that is
 end
 ```
 
-We get undefined method score_total_upto_frame error. Let' implement this method as follows:
+We get undefined method score_total_upto_frame error. Let's implement this method as follows:
 
 ```ruby
 def score_total_upto_frame(n)
@@ -810,7 +810,7 @@ def score_total_upto_frame(n)
 end
 ```
 
-After fixing off by one error due to array index in frame numbers and fixing scoring logic bug for a strike, the solution is :
+After fixing off by one error due to array index in frame numbers and fixing scoring logic bug for a strike, the solution is:
 
 game.rb
 
@@ -889,7 +889,7 @@ end
 Let's consider a scenario where we hit a strike and then a spare. Add the following spec:
 
 ```ruby
-it "should return the score_total_upto_frame for a game that includes a strike and a spare" do
+it "return the score_total_upto_frame for a game that includes a strike and a spare" do
   game = Game.new
   game.roll(6)
   game.roll(2)
@@ -915,8 +915,8 @@ end
 This fails with the error:
 
 ```ruby
-expected: 55
-           got: 56 (using ==)
+   expected: 55
+        got: 56 (using ==)
 ```
 
 Let's change the implementation of game.rb as follows:
@@ -1055,14 +1055,14 @@ require_relative 'game'
 
 module Bowling
   describe Game do
-    it "should return 0 for a miss (not knocking down any pins)" do
+    it "return 0 for a miss (not knocking down any pins)" do
       game = Game.new
       game.miss
       
       expect(game.score).to eq(0)
     end
             
-    it "should return a score of 8 for first hit of 6 pins and the
+    it "return a score of 8 for first hit of 6 pins and the
  				second hit of 2 pins for the first frame" do
       game = Game.new
       game.frame = 1
@@ -1073,7 +1073,7 @@ module Bowling
       expect(game.score).to eq(8)
     end
     
-    it "should return the score for a given frame to allow display of score" do
+    it "return the score for a given frame to allow display of score" do
       game = Game.new
 
       game.roll(6)
@@ -1082,7 +1082,7 @@ module Bowling
       game.score_for(1).should == [6, 2]      
     end
     
-    it "should return the total score for first two frames of a game" do
+    it "return the total score for first two frames of a game" do
       game = Game.new
       game.roll(6)
       game.roll(2)
@@ -1092,7 +1092,7 @@ module Bowling
       expect(game.score).to eq(16)
     end
     
-    it "should return 10 + number of pins knocked down in next roll for a spare" do
+    it "return 10 + number of pins knocked down in next roll for a spare" do
       game = Game.new
       game.spare
       game.roll(2)
@@ -1101,7 +1101,7 @@ module Bowling
     end
     
     context 'Strike' do
-      it "should return 300 for a perfect game" do
+      it "return 300 for a perfect game" do
         game = Game.new
         repeat(30) { game.strike }
 
@@ -1149,7 +1149,8 @@ module Bowling
     end
     
     context 'Strike and a Spare' do
-      it "should return the score_total_upto_frame for a game that includes a strike and a spare" do
+      it "return the score_total_upto_frame for a game that 
+          includes a strike and a spare" do
         game = Game.new
         game.roll(6)
         game.roll(2)
@@ -1171,7 +1172,7 @@ module Bowling
   			(6 + 2) + (7 + 1) + (10 + 9 + 0) + (9 + 0) + (8 + 2 + 1)      
       end
 
-      it "should return the score for a game that includes a strike and a spare" do
+      it "return the score for a game that includes a strike and a spare" do
         game = Game.new
         game.roll(6)
         game.roll(2)

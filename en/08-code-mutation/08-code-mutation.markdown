@@ -66,7 +66,8 @@ end
 Now the second spec breaks with the error:
 
 ```ruby
-1) Array Array extensions should return an empty array if there is no common elements to both arrays
+1) Array Array extensions should return an empty array 
+     if there is no common elements to both arrays
    Failure/Error: result.should == []
      expected: []
           got: [10] (using ==)
@@ -100,7 +101,7 @@ describe 'Array Extensions' do
 
     result.should == [1,3]
   end
-  it "should return an empty array if there is no common elements to both arrays" do
+  it "return an empty array if there is no common elements to both arrays" do
     a = [1,1,3,5]
     b = [7,9]
     result = a.intersection(b)
@@ -114,7 +115,7 @@ describe 'Array Extensions' do
     
     result.should == [1,2,3,4,5]
   end
-  it "should return a comma separated list of items when to_s is called" do
+  it "return a comma separated list of items when to_s is called" do
     a = [1,2,3,4]
     result = a.to_s
     

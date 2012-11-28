@@ -54,7 +54,9 @@ Second version is the solution to all the exercises. You can compare your soluti
 
 1. Download learning Mongodb specs:
 
+```ruby
 $ git clone https://github.com/bparanj/mongodb_specs
+```
 
 2. The specs needs Mongodb version v1.6.2. to be running. Follow the installation instructions for Mongodb on its home page. To run Mongo daemon:
 

@@ -183,6 +183,7 @@ end
 
 This fails with the error:
 
+```ruby
   1) TweetAnalyzer asks the user for recent tweets
      Failure/Error: analyzer.histogram["two"].should == 2
        expected: 2
@@ -191,6 +192,7 @@ This fails with the error:
 
 Finished in 0.00128 seconds
 2 examples, 1 failure
+```
 
 Let's now implement the word_frequency for real. Change the word_frequency implementation like this:
 
@@ -210,16 +212,18 @@ end
 
 Run the spec:
 
+```ruby
 $ rspec tweet_analyzer_spec.rb --color --format documentation
+```
 
 We get the failure message:
 
+```ruby
 TweetAnalyzer
   finds the frequency of words in a user's tweets (FAILED - 1)
   should return 2 as the frequency for the word two
 
 Failures:
-
   1) TweetAnalyzer finds the frequency of words in a user's tweets
      Failure/Error: @user.recent_tweets.each do |tweet|
        Double "user" received unexpected message :recent_tweets with (no args)
@@ -232,6 +236,7 @@ Finished in 0.00132 seconds
 Failed examples:
 
 rspec ./tweet_analyzer_spec.rb:19 # TweetAnalyzer finds the frequency of words in a user's tweets
+```
 
 We see that the second spec passed but now our first spec is broken. Let's fix this broken spec.
 
