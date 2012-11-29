@@ -1,0 +1,14 @@
+= render :partial => "/users/tabs", :locals => { :active_tab => "affiliate_info" }
+
+.content#affiliates.edit
+
+  %h3 Edit Affiliate Info
+  - form_for @user, :url => affiliate_url(@user) do |user|
+    = error_messages :object => @user, :object_name => "Affiliate"
+    = render :partial => "form", :object => user
+    
+%aside.sidebar.account
+  .sidebar-wrapper
+    .border
+      .sidebar-container
+        %p If you are a business owner interested in becoming a future vendor, please <a href="https://spreadsheets.google.com/viewform?formkey=dDFDTU53U2M1cTVxX2pCSktlLUthdHc6MQ">apply here</a>. Or, to become a Local Business Consultant (LBC) <a href="https://spreadsheets.google.com/viewform?formkey=dFlKX3hFTDhmUTg0Rzl4WVlEUFB3MGc6MA">apply here</a> .

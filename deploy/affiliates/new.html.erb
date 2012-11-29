@@ -1,0 +1,14 @@
+<% if @user.affiliate? %>
+<div class="content new" id="affiliates-new">
+<h3>You are already an affiliate</h3>
+<p><a href="/affiliates/new">View your affiliate information.</a></p>
+
+<% else %>
+<div class="content new" id="affiliates-new">
+<h3>Become an Affiliate</h3>
+	<% form_for :user, @user, :url => { :controller => "affiliates", :action => "create" } do |user| %>
+
+		<%= render :partial => "form", :object => user %>
+	<% end %>
+<% end %>
+</div>
