@@ -1091,7 +1091,7 @@ Finished in 0.00258 seconds
 2 examples, 0 failures
 ```
 
-This Console Interface spec illustrates how to write contract specs. This avoids the problem of specs passing / failing due to mocks going out of synch with the code. When to use them? If you are using lot of mocks you man not be able to write contract tests for all of them. In this case, think about writing contract tests for the most dependent and important module of your application.
+This Console Interface spec illustrates how to write contract specs. This avoids the problem of specs passing / failing due to mocks going out of synch with the code. Contract specs are a way to express design intent in code. It makes design intent explicit. When to use them? If you are using lot of mocks you may not be able to write contract specs for all of them. In this case, think about writing contract specs for the most dependent and important module of your application.
 
 ## Single Responsibility Principle ##
 
