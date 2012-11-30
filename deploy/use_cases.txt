@@ -1,0 +1,11 @@
+1. User Management Module 			----> Devise
+2. eCommerce Module
+ 	- Paypal API for Payment    	----> Pro Paypal eCommerce by Damon Williams
+	- IPN
+3. Affiliate Management Module
+	- Create affiliate account
+	- Credit affiliate for sale
+	- Debit affiliate for refund
+	- Make payouts 					----> Manual
+	- Real-time Sales Report
+
