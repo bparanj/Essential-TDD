@@ -133,36 +133,59 @@ class AffiliatesController < ApplicationController
 
 end
 
-create_table "affiliates", :force => true do |t|
-  t.integer  "user_id",                                                                     :null => false
-  t.decimal  "affiliate_rate",            :precision => 3,  :scale => 3
-  t.integer  "payout_days"
-  t.decimal  "payout_minimum",            :precision => 11, :scale => 2
-  t.string   "status",                                                   :default => "new", :null => false
-  t.datetime "status_updated_at"
-  t.integer  "status_updated_by_user_id"
-  t.datetime "created_at"
-  t.datetime "updated_at"
-  t.decimal  "subscriber_referrer_fee",   :precision => 11, :scale => 2
-  t.decimal  "payable_earnings",          :precision => 11, :scale => 2, :default => 0.0,   :null => false
-  t.integer  "affiliate_subscriber_days"
+Affiliate :
+has_many :payables
+has_many :payouts
+
+Payout:
+belongs_to :affiliate
+has_many :payables
+
+Payable:
+belongs_to :payout
+belongs_to :affiliate
+belongs_to :product
+
+class CreatePayouts < ActiveRecord::Migration
+  def self.up
+    create_table :payouts do |t|
+      t.integer  :affiliate_id,   :null => false
+      t.decimal  :amount,         :precision => 11, :scale => 2, :null => false
+      t.string   :status,         :null => false, :default => "new" # "new", "batched" (final)
+
+      t.timestamps
+    end
+    add_index :payouts, :status
+  end
 end
 
-  add_index "affiliates", ["status_updated_by_user_id"], :name => "affiliates_status_updated_at_by_user_id"
-  add_index "affiliates", ["user_id"], :name => "affiliates_user_id_unique", :unique => true
-
-  create_table "payables",   :force => true do |t|
-    t.integer  "user_id",                                             :null => false
-    t.decimal  "amount",     :precision => 11, :scale => 2,           :null => false
-    t.string   "status",     :default => "new", :null => false
-    t.date     "due_on",                                              :null => false
-    t.integer  "payout_id"
-    t.datetime "paid_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "account"
-    t.string   "notes"
+class CreatePayables < ActiveRecord::Migration
+  def self.up
+    create_table :payables do |t|
+      t.integer  :affiliate_id, :null => false
+      t.decimal  :amount,       :precision => 11, :scale => 2, :null => false
+      t.string   :status,       :null => false, :default => "new" # "new", "paid" (final)
+      t.integer  :product_id,   :null => false
+      t.date     :due_on,       :null => false
+      t.integer  :payout_id
+      t.datetime :paid_at
+      t.timestamps
+    end
+    add_index :payables, [:status, :due_on]
   end
+
+end
+
+class CreateAffiliates < ActiveRecord::Migration
+  def self.up
+  	create_table :affiliates do |t|
+		  t.integer :user_id,             :null => false
+      t.string  :referrer_code
+      
+		  t.timestamps
+	  end
+	end
+end
 
   create_table "payment_refunds", :force => true do |t|
     t.integer  "refund_id",                                                               :null => false
@@ -207,14 +230,6 @@ end
   end
 
   add_index "payments", ["sale_id"], :name => "payments_sale_id"
-
-  create_table "payouts", :force => true do |t|
-    t.integer  "user_id",                                                           :null => false
-    t.decimal  "amount",          :precision => 11, :scale => 2,                    :null => false
-    t.string   "status",                                         :default => "new", :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "refunds", :force => true do |t|
     t.integer  "sale_id",                                                        :null => false
