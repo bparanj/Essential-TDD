@@ -11,7 +11,57 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121130211221) do
+ActiveRecord::Schema.define(:version => 20121203212352) do
+
+  create_table "affiliates", :force => true do |t|
+    t.integer  "user_id",       :null => false
+    t.string   "referrer_code"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "bounties", :force => true do |t|
+    t.integer  "affiliate_id",  :null => false
+    t.integer  "sale_id",       :null => false
+    t.integer  "payable_id",    :null => false
+    t.integer  "product_price", :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "payables", :force => true do |t|
+    t.integer  "affiliate_id",                                                   :null => false
+    t.decimal  "amount",       :precision => 11, :scale => 2,                    :null => false
+    t.string   "status",                                      :default => "new", :null => false
+    t.integer  "payout_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.datetime "paid_at"
+    t.datetime "created_at",                                                     :null => false
+    t.datetime "updated_at",                                                     :null => false
+  end
+
+  create_table "payouts", :force => true do |t|
+    t.integer  "affiliate_id",                                                   :null => false
+    t.decimal  "amount",       :precision => 11, :scale => 2,                    :null => false
+    t.string   "status",                                      :default => "new", :null => false
+    t.datetime "created_at",                                                     :null => false
+    t.datetime "updated_at",                                                     :null => false
+  end
+
+  create_table "products", :force => true do |t|
+    t.decimal  "amount",     :precision => 11, :scale => 2, :null => false
+    t.string   "name",                                      :null => false
+    t.integer  "user_id",                                   :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+  end
+
+  create_table "sales", :force => true do |t|
+    t.integer  "product_id", :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

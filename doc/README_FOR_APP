@@ -1,1 +1,6 @@
-1. Bala_Vio wireframe is the starting point. Create paper prototype and delegate the CSS design to Elance.
+IceBox
+
+1. Create paper prototype and delegate the CSS design to Elance.
+2. Debit refunds when calculating payable_commission for affiliates.
+	t.decimal  "payable_commission",          :precision => 11, :scale => 2, :default => 0.0,   :null => false
+   Monthly CRON will populate this field.
