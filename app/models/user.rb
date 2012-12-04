@@ -9,5 +9,11 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :remember_me
   
   has_many :products
-
+  has_one :affiliate
+    
+  def is_affiliate?
+    affiliate = Affiliate.find_by_user_id(id)
+    !affiliate.nil?
+  end
+  
 end
