@@ -4,4 +4,5 @@ class Payable < ActiveRecord::Base
   belongs_to :affiliate
   belongs_to :product
   
+  has_many :bounties
 end
