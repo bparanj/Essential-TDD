@@ -1,6 +1,15 @@
+1. How to get buyer email from Paypal. [Needed to send fulfillment email]
+2. Populate product_id in orders table.
+3. Cancel return url must be a page where you can persuade the buyer.
+4. Product price in cents must be returned. Order price_in_cents method.
+5. Allow user to download the book when the payment is success. When sale object status is 'Completed'.
+6. Verify that callback_url does the same job as notify_url for IPN callback.
+
+
 IceBox
 
 1. Create paper prototype and delegate the CSS design to Elance.
 2. Debit refunds when calculating payable_commission for affiliates.
 	t.decimal  "payable_commission",          :precision => 11, :scale => 2, :default => 0.0,   :null => false
    Monthly CRON will populate this field.
+

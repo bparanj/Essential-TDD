@@ -1,10 +1,10 @@
 Cahor::Application.routes.draw do
-  get "sales/create"
+
+  resources :sales, :only => [:create] 
 
   resources :orders, :only => [:new, :create] 
   get '/express' => 'orders#express', as: :express
   
-  get "affiliates/create"
 
   match "/welcome" => "welcome#index"
   match "/affiliate_signup" => "affiliates#create"
