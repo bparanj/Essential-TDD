@@ -1,4 +1,6 @@
 class Sale < ActiveRecord::Base
-  # attr_accessible :title, :body
   belongs_to :product
+  attr_accessible :params, :status, :transaction_id
+  serialize :params
+  
 end

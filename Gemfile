@@ -17,5 +17,7 @@ end
 
 gem 'jquery-rails'
 gem 'devise'
+gem 'activemerchant'
 
+# gem 'activemerchant', :require => 'active_merchant'
 

@@ -1,0 +1,25 @@
+** API Signature for Production **
+
+API Username	bala.paranj_api1.zepho.com
+API Password	LFNTAKV7DAX5GTG7
+Signature			A1Y.ieaXsVB7fPpmX4MoztiCQiOwAIBUvL8S.gDArThX6u6lBw.DjG0E
+Request Date	Jul 15, 2012 18:15:15 PDT
+
+** API Signature for Sandbox **
+
+Sandbox Buyer
+
+User: amy_1342401985_per@gmail.com
+Password: 342401932
+
+Sandbox Seller
+
+Test Account Login : sell_1342421142_biz@gmail.com
+Sandbox Login Password : 342421041
+API Username:		sell_1342421142_biz_api1.gmail.com
+API Password:	1342421182
+Signature:	 AFcWxV21C7fd0v3bYYYRCpSSRl31AmYTMnOXJuR64BeQRmX.k-qC1-OP
+
+1. Create your selling test account using the Preconfigured option.
+2. Under Account Type, select Website Payments Pro.
+3. My Account --> Profile --> API access to get API username, API Password and Signature
