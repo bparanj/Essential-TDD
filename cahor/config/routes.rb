@@ -1,4 +1,8 @@
 Cahor::Application.routes.draw do
+  get "sales/create"
+
+  resources :orders, :only => [:new, :create] 
+  get '/express' => 'orders#express', as: :express
   
   get "affiliates/create"
 

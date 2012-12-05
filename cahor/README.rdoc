@@ -1,18 +1,15 @@
 1. Draw ER Diagram for the existing schema to clarify the design.
 2. Integrate the revised UI with the existing code base of Viognier.
+3. PayPal Express Digital Goods Instant Payment without popup window. (No shipping address required)
 
 New Vio Arun Deliverable UI Changes
 
-1. Remove 'Actions' and 'S.No' headings
-2. Remove 'Create Landing Page' button from the inventory list page. It will go to the Landing Page tab. Like shown
+1. Create the paper prototype for version 1 and mail it to Arun.
+2. Remove 'Actions' and 'S.No' headings
+3. Remove 'Create Landing Page' button from the inventory list page. It will go to the Landing Page tab. Like shown
 in the attached image.
 
+Before Going Live
 
+1. Regenerate Paypal Credentials and delete paypal.rdoc document.
 
-
-
-Done
-
-Dec 3, 12
-
-1. New_Vio wireframe is the starting point. Combine feedback and mail it to Arun.
