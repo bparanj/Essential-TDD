@@ -1,9 +1,12 @@
-1. How to get buyer email from Paypal. [Needed to send fulfillment email]
-2. Populate product_id in orders table.
-3. Cancel return url must be a page where you can persuade the buyer.
-4. Product price in cents must be returned. Order price_in_cents method.
-5. Allow user to download the book when the payment is success. When sale object status is 'Completed'.
-6. Verify that callback_url does the same job as notify_url for IPN callback.
+1. Pass custom variable during purchase process and retrieve it when details_for is called.
+2. Drop db and recreate all tables
+3. Send fulfillment email to buyer_email in orders table
+
+1. Populate product_id in orders table.
+2. Cancel return url must be a page where you can persuade the buyer.
+3. Product price in cents must be returned. Implement Order price_in_cents method.
+4. Allow user to download the book when the payment is success. When sale object status is 'Completed'.
+5. Verify that callback_url does the same job as notify_url for IPN callback.
 
 
 IceBox

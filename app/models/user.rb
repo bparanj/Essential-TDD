@@ -12,8 +12,7 @@ class User < ActiveRecord::Base
   has_one :affiliate
     
   def is_affiliate?
-    affiliate = Affiliate.find_by_user_id(id)
-    !affiliate.nil?
+    !self.affiliate.nil?
   end
   
 end

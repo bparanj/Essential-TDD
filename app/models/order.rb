@@ -1,6 +1,7 @@
 class Order < ActiveRecord::Base
   attr_accessible :express_token, :express_payer_id
   attr_protected :ip_address
+  serialize :details
 
   belongs_to :product
   has_many :transactions
@@ -23,7 +24,7 @@ class Order < ActiveRecord::Base
   def process_purchase
     ZephoPaypalExpress.purchase(price_in_cents, express_purchase_options)
   end
-
+  
   def express_purchase_options
     {
       ip: ip_address,
