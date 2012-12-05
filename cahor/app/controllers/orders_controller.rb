@@ -7,11 +7,26 @@ class OrdersController < ApplicationController
     
     if @order.save
       if @order.purchase
+        response = ZephoPaypalExpress.details_for(express_token)
+        if response.success?
+          @order.buyer_email = response.email
+          @order.first_name = response.params['first_name']
+          @order.last_name = response.params['last_name']
+          @order.details = response.params
+          unless @order.save
+            logger.error("Could not save order : #{@order.to_yaml} due to #{@order.errors.full_messages}")
+            logger.error("Response of details_for call : #{response.to_yaml}")
+          end
+        else
+          logger.error("Could not get details for order : #{@order.to_yaml}")
+        end
         render action: 'success'
       else
+        logger.error("Could not process order - purchase failed : #{@order.to_yaml}")
         render action: 'failure'
       end
     else
+      logger.error("Could not save order : #{@order.to_yaml} due to #{@order.errors.full_messages}")
       render action: 'new'
     end
   end
