@@ -4,10 +4,12 @@
 
 New Vio Arun Deliverable UI Changes
 
-1. Create the paper prototype for version 1 and mail it to Arun.
-2. Remove 'Actions' and 'S.No' headings
-3. Remove 'Create Landing Page' button from the inventory list page. It will go to the Landing Page tab. Like shown
+1. Remove 'Actions' and 'S.No' headings
+2. Remove 'Create Landing Page' button from the inventory list page. It will go to the Landing Page tab. Like shown
 in the attached image.
+3. Tabs before login : Home, Pricing, Sign Up, Sign In, Contact
+Home tab will have list of features, demo video and quick signup form with big ass button 'Create Account' like this: http://newrelic.com/product/real-user-monitoring
+Contact tab will have company address and feedback form.
 
 Before Going Live
 
