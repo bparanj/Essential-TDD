@@ -7,9 +7,13 @@ New Vio Arun Deliverable UI Changes
 1. Remove 'Actions' and 'S.No' headings
 2. Remove 'Create Landing Page' button from the inventory list page. It will go to the Landing Page tab. Like shown
 in the attached image.
-3. Tabs before login : Home, Pricing, Sign Up, Sign In, Contact
+
+UI Design
+
+1. Tabs before login : Home, Pricing, Sign Up, Sign In, Contact
 Home tab will have list of features, demo video and quick signup form with big ass button 'Create Account' like this: http://newrelic.com/product/real-user-monitoring
 Contact tab will have company address and feedback form.
+2. 'Become an affiliate' link will be at the bottom navigation links.
 
 Before Going Live
 
