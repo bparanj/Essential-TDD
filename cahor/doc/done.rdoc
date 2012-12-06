@@ -7,6 +7,8 @@ def add_payment_details(xml, money, currency_code, options = {})
   xml.tag! 'n2:Custom', options[:custom] unless options[:custom].blank?
 end
 3. Drop db and recreate all tables
+4. Verify that callback_url does the same job as notify_url for IPN callback. 
+	[It does not. Use notify_url]
 
 Dec 4, 12
 
