@@ -7,7 +7,7 @@ class OrdersController < ApplicationController
     
     if @order.save
       if @order.purchase
-        response = ZephoPaypalExpress.details_for(express_token)
+        response = ZephoPaypalExpress.details_for(params[:token])
         if response.success?
           @order.buyer_email = response.email
           @order.first_name = response.params['first_name']
@@ -37,7 +37,11 @@ class OrdersController < ApplicationController
                  ip: request.remote_ip,
                  return_url: new_order_url,
                  cancel_return_url: welcome_url,
-                 callback_url: sales_url)
+                 notify_url: sales_url,
+                 custom: 'COOKIE-VALUE-GOES-HERE')
+    
+    logger.info("Response is : #{response.to_yaml}")
+    # Custom field Character length and limitations: 256 single-byte alphanumeric characters
       
     redirect_to ZephoPaypalExpress.redirect_url_for(response.token)
   end
