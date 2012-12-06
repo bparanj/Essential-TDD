@@ -1,3 +1,8 @@
+Dec 6, 12
+
+1. Encapsulate payment processing logic in PaypalGateway
+2. Display receipt after successful order in orders/success.html.erb file. 
+
 Dec 5, 12
 
 1. How to get buyer email from Paypal. 
