@@ -1,5 +1,5 @@
-Order # 12345
-
+<h1> Order #<%= @order.id %> </h1> 
+<hr>
 Thank you for ordering!
-
-An order confirmation email will be sent to xzy@example.com shortly.
+<br/>
+An order confirmation email will be sent to <%= @order.buyer_email %> shortly.

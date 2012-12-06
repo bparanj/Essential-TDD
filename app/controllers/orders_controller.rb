@@ -1,13 +1,14 @@
 class OrdersController < ApplicationController
   # http://localhost:3010/orders/new?token=EC-6JK45894P8656060H&PayerID=R6TPVW2ZMCR9Q
   def new
-    result = PaypalGateway.checkout(request.remote_ip,
-                                    express_token: params[:token],
-                                    express_payer_id: params[:PayerID],
-                                    amount: amount)
+    result, @order = PaypalGateway.checkout(request.remote_ip,
+                                            express_token: params[:token],
+                                            express_payer_id: params[:PayerID],
+                                            amount: amount)
     if result.success?
       render action: 'success'
     else
+      # TODO : Email the admin about order processing failure with details
       render action: 'failure'
     end    
   end

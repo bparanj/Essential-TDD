@@ -50,7 +50,7 @@ class PaypalGateway
     order.transactions.create!(action: Order::PURCHASE, 
                                amount: options[:amount], 
                                response: response)
-    response
+    [response, order]
   end    
       
   def self.redirect_url_for(token)
