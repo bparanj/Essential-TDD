@@ -31,3 +31,22 @@ Signature:	 AFcWxV21C7fd0v3bYYYRCpSSRl31AmYTMnOXJuR64BeQRmX.k-qC1-OP
 
 1. Copy transaction_id from the Paypal Thank You page : 0UB45589MG4871049
 2. Plug into : curl -d "txn_id=0UB45589MG4871049&invoice=1&payment_status=Completed" http://localhost:3020/sales
+
+curl -d "txn_id= &invoice=1&payment_status=Completed" http://localhost:3020/sales
+
+** Making a Request on Behalf of Third Part **
+
+In ActiveMerchant gem, paypal_common_api.rb add_credentials method, the subject field must be the value of the 
+seller email.
+
+def add_credentials(xml)
+   xml.tag! 'RequesterCredentials', CREDENTIALS_NAMESPACES do
+     xml.tag! 'n1:Credentials' do
+       xml.tag! 'n1:Username', @options[:login]
+       xml.tag! 'n1:Password', @options[:password]
+       xml.tag! 'n1:Subject', @options[:subject]
+       xml.tag! 'n1:Signature', @options[:signature] unless @options[:signature].blank?
+     end
+   end
+ end
+

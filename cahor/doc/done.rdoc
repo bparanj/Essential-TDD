@@ -1,6 +1,12 @@
 Dec 5, 12
 
 1. How to get buyer email from Paypal. 
+2. Pass custom variable during purchase process and retrieve it when details_for is called.
+
+def add_payment_details(xml, money, currency_code, options = {})
+  xml.tag! 'n2:Custom', options[:custom] unless options[:custom].blank?
+end
+3. Drop db and recreate all tables
 
 Dec 4, 12
 

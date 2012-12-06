@@ -34,12 +34,10 @@ ActiveRecord::Schema.define(:version => 20121205015957) do
     t.string   "ip_address"
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "card_type"
-    t.date     "card_expires_on"
-    t.string   "token"
     t.string   "express_token"
     t.string   "express_payer_id"
     t.text     "buyer_email"
+    t.text     "details"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
   end
