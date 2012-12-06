@@ -3,7 +3,7 @@ class CreateSales < ActiveRecord::Migration
     create_table :sales do |t|
       t.integer  :product_id,     :null => false
       t.string   :invoice
-      t.text     :params
+      t.text     :details
       t.string   :status
       t.string   :transaction_id
             

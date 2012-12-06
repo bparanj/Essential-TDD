@@ -3,7 +3,7 @@ class SalesController < ApplicationController
   
   # TODO: Do we need product_id? Should not be hard coded
   def create
-    Sale.create!(params: params, 
+    Sale.create!(details: params, 
                  invoice: params[:invoice],
                  status: params[:payment_status], 
                  transaction_id: params[:txn_id],

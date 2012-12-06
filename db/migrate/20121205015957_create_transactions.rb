@@ -7,7 +7,7 @@ class CreateTransactions < ActiveRecord::Migration
       t.boolean :success
       t.string :authorization
       t.string :message
-      t.text :params
+      t.text :details
 
       t.timestamps
     end
