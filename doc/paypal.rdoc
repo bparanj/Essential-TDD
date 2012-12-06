@@ -34,7 +34,7 @@ Signature:	 AFcWxV21C7fd0v3bYYYRCpSSRl31AmYTMnOXJuR64BeQRmX.k-qC1-OP
 
 curl -d "txn_id= &invoice=1&payment_status=Completed" http://localhost:3020/sales
 
-** Making a Request on Behalf of Third Part **
+** Making a Request on Behalf of Third Party **
 
 In ActiveMerchant gem, paypal_common_api.rb add_credentials method, the subject field must be the value of the 
 seller email.
@@ -50,3 +50,32 @@ def add_credentials(xml)
    end
  end
 
+1. By default, a PayPal account is not eligible to use Website Payments Pro. You must submit an online application and have your application approved by PayPal. 
+2. Does Express Checkout require granting Third-Party API permission?
+
+Express Checkout
+
+• SetExpressCheckout (required): Initiates an Express Checkout transaction
+• GetExpressCheckoutDetails (optional): Retrieves buyer details about an Express Checkout transaction
+• DoExpressCheckoutPayment (required): Completes an Express Checkout transaction
+
+SetExpressCheckout
+
+The first API call, SetExpressCheckout, is made as soon as buyers click to indicate that they wish to pay with PayPal. PayPal’s response to a SetExpressCheckout contains a single value, a token, which you retain and include in the other two Express Checkout API calls to indicate
+that they belong to the same checkout flow. When you get the token back in the API response, you redirect the customer’s browser to PayPal so that the buyer can log in and validate his shipping and financial information.
+
+The request for SetExpressCheckout has three required parameters that you include with the API call:
+
+• The total amount of the order
+• The return URL that PayPal will return buyers to after they log in to PayPal and validate their shipping and financial information
+• The cancel URL that PayPal will return buyers to if they decide to cancel the transaction after being redirected to the PayPal website
+
+The URL that you redirect the buyer’s browser to in order to authenticate him to PayPal is https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-0W8920957N684880R. This is just an example token value; you would obviously replace this with the token value returned to you in the response to SetExpressCheckout.
+
+** PayPal Express Accelerated Boarding **
+
+PayPal Express Accelerated Boarding ? Do I need to be a registered shopping cart provider in this case?
+
+You can register at www.paypal.com/partnerprogram and click the “Join Now” button. Let me know once you have that completed and I’ll set you up in our Program so you can implement Accelerated Boarding. I can also set you up with the technical information/help.
+
+Contact : "Campagnolo, Greg" <gcampagnolo@paypal.com>
