@@ -73,7 +73,7 @@ ActiveRecord::Schema.define(:version => 20121205015957) do
   create_table "sales", :force => true do |t|
     t.integer  "product_id",     :null => false
     t.string   "invoice"
-    t.text     "params"
+    t.text     "details"
     t.string   "status"
     t.string   "transaction_id"
     t.datetime "created_at",     :null => false
@@ -87,7 +87,7 @@ ActiveRecord::Schema.define(:version => 20121205015957) do
     t.boolean  "success"
     t.string   "authorization"
     t.string   "message"
-    t.text     "params"
+    t.text     "details"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
