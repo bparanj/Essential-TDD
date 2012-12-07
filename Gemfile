@@ -18,6 +18,7 @@ end
 gem 'jquery-rails'
 gem 'devise'
 gem 'activemerchant'
+gem 'rails-footnotes', '>= 3.7.5.rc4', :group => :development
 
 # gem 'activemerchant', :require => 'active_merchant'
 

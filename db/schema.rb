@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121205015957) do
+ActiveRecord::Schema.define(:version => 20121207183202) do
 
   create_table "affiliates", :force => true do |t|
     t.integer  "user_id",       :null => false
@@ -27,6 +27,27 @@ ActiveRecord::Schema.define(:version => 20121205015957) do
     t.integer  "product_price", :null => false
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+  end
+
+  create_table "clicks", :force => true do |t|
+    t.integer  "affiliate_id"
+    t.integer  "product_id"
+    t.integer  "landing_page_id"
+    t.string   "referral_cookie"
+    t.string   "domain"
+    t.string   "ip_address"
+    t.string   "referral_code"
+    t.string   "payer_cookie"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  create_table "landing_pages", :force => true do |t|
+    t.text     "link"
+    t.string   "name",       :default => "", :null => false
+    t.integer  "product_id"
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
   end
 
   create_table "orders", :force => true do |t|

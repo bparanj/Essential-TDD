@@ -22,7 +22,7 @@ class OrdersController < ApplicationController
                                                   return_url: new_order_url,
                                                   cancel_return_url: welcome_url,
                                                   notify_url: sales_url,
-                                                  custom: 'COOKIE-VALUE-GOES-HERE')
+                                                  custom: cookies.signed[:referral_code])
           
     redirect_to PaypalGateway.redirect_url_for(response.token)
   end
