@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(:version => 20121205015957) do
   end
 
   create_table "products", :force => true do |t|
-    t.decimal  "amount",     :precision => 11, :scale => 2, :null => false
+    t.decimal  "price",      :precision => 11, :scale => 2, :null => false
     t.string   "name",                                      :null => false
     t.integer  "user_id",                                   :null => false
     t.datetime "created_at",                                :null => false
@@ -71,7 +71,6 @@ ActiveRecord::Schema.define(:version => 20121205015957) do
   end
 
   create_table "sales", :force => true do |t|
-    t.integer  "product_id",     :null => false
     t.string   "invoice"
     t.text     "details"
     t.string   "status"

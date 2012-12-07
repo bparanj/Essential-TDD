@@ -4,16 +4,19 @@ class OrdersController < ApplicationController
     result, @order = PaypalGateway.checkout(request.remote_ip,
                                             express_token: params[:token],
                                             express_payer_id: params[:PayerID],
-                                            amount: amount)
+                                            amount: amount,
+                                            product_id: session[:product_id])
     if result.success?
       render action: 'success'
     else
       # TODO : Email the admin about order processing failure with details
       render action: 'failure'
     end    
+    session[:product_id] = nil
   end
   
   def express
+    session[:product_id] = params[:product_id]
     response = PaypalGateway.set_express_checkout(amount,
                                                   ip: request.remote_ip,
                                                   return_url: new_order_url,
@@ -27,7 +30,7 @@ class OrdersController < ApplicationController
   private
   
   def amount
-    # load current_product from session and return its price in cents
-    100
+    product = Product.find(session[:product_id])
+    product.price * 100
   end
 end

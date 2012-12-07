@@ -2,6 +2,7 @@ Dec 6, 12
 
 1. Encapsulate payment processing logic in PaypalGateway
 2. Display receipt after successful order in orders/success.html.erb file. 
+3. product_id is not an IPN variable. Removed from sales table.
 
 Dec 5, 12
 
