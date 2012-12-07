@@ -31,7 +31,8 @@ class PaypalGateway
           
   def self.checkout(ip_address, options = {})        
     order = Order.new(express_token: options[:express_token], 
-                      express_payer_id: options[:express_payer_id])    
+                      express_payer_id: options[:express_payer_id],
+                      product_id: options[:product_id])    
     order.ip_address = ip_address
     
     response = do_express_checkout_payment(options[:amount], 
