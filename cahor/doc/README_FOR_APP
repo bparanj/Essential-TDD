@@ -1,9 +1,7 @@
 1. Send fulfillment email to buyer_email in orders table
-2. Populate product_id in orders table.
-3. Cancel return url must be a page where you can persuade the buyer.
-4. Product price in cents must be returned. Implement Order price_in_cents method.
-5. Allow user to download the book when the payment is success. When sale status is 'Completed'.
-6. Integrate IPN Handler with Cahor. Needed to get refund notification, fraud report etc.
+2. Cancel return url must be a page where you can persuade the buyer.
+3. Allow user to download the book when the payment is success. When sale status is 'Completed'.
+4. Integrate IPN Handler with Cahor. Needed to get refund notification, fraud report etc.
 	
 IceBox
 
