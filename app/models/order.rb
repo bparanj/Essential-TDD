@@ -7,10 +7,5 @@ class Order < ActiveRecord::Base
   has_many :transactions
   
   PURCHASE = 'purchase'
-
-  def product_price
-    # TODO: product.price_in_cents
-    100
-  end
   
 end

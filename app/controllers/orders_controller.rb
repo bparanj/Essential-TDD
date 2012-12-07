@@ -30,7 +30,6 @@ class OrdersController < ApplicationController
   private
   
   def amount
-    product = Product.find(session[:product_id])
-    product.price * 100
+    Product.price_in_cents(session[:product_id])
   end
 end

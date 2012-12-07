@@ -1,3 +1,13 @@
+
+
+
+
+Dec 7, 12
+
+1. Send and receive affiliate referrer_code as the custom pass through variable to Paypal.
+2. Populate product_id in orders table.
+3. Product price in cents must be returned. Implement Produce price_in_cents method.
+
 Dec 6, 12
 
 1. Encapsulate payment processing logic in PaypalGateway
