@@ -1,6 +1,9 @@
 
+Dec 8, 12
 
-
+1. Removed 'Actions' and 'S.No' headings
+2. Design reviewed and feedback sent to Arun
+3. Sales controller should be renamed to PaypalNotifications controller with paypal_notifications table. Delete sales model.
 
 Dec 7, 12
 

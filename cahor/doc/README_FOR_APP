@@ -1,11 +1,17 @@
 1. Cancel return url must be a page where you can persuade the buyer.
 2. Allow user to download the book when the payment is success. When sale status is 'Completed'.
 3. Integrate IPN Handler with Cahor. Needed to get refund notification, fraud report etc.
+   If mc_gross and payment_gross is negative. It is a refund. 
+4. Test checkout manually. Hit payment_notifications with curl to make sure it works.
 	
 IceBox
 
 1. Create paper prototype and delegate the CSS design to Elance.
 2. Debit refunds when calculating payable_commission for affiliates.
-	t.decimal  "payable_commission",  :precision => 11, :scale => 2, :default => 0.0,   :null => false
+	   t.decimal  "payable_commission",  :precision => 11, :scale => 2, :default => 0.0,   :null => false
    Monthly CRON will populate this field.
 3. Refer pragmatic-order.pdf. Generate pdf receipt.
+
+
+
+
