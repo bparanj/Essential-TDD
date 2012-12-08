@@ -1,6 +1,6 @@
 Cahor::Application.routes.draw do
 
-  resources :sales, :only => [:create] 
+  resources :payment_notifications, :only => [:create] 
 
   resources :orders, :only => [:new, :create] 
   get '/express' => 'orders#express', as: :express

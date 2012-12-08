@@ -1,12 +1,15 @@
 1. Draw ER Diagram for the existing schema to clarify the design.
-2. Integrate the revised UI with the existing code base of Viognier.
-3. PayPal Express Digital Goods Instant Payment without popup window. (No shipping address required)
+2. PayPal Express Digital Goods Instant Payment without popup window. (No shipping address required)
+3. Check the transaction record with success = false. Display them in admin dashboard.
 
-New Vio Arun Deliverable UI Changes
+UI Changes
 
-1. Remove 'Actions' and 'S.No' headings
-2. Remove 'Create Landing Page' button from the inventory list page. It will go to the Landing Page tab. Like shown
+1. Remove 'Create Landing Page' button from the inventory list page. It will go to the Landing Page tab. Like shown
 in the attached image.
+2. Integrate the revised UI with the existing code base of Viognier.
+3. User Management module screen design will be similar to Cabernet screens. 
+	 Take screenshots of those screens, make corrections in skitch or hand draw and send it to Arun.
+   Arun will take those existing screens and implement it with new look and feel.
 
 UI Design
 

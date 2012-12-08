@@ -11,7 +11,7 @@ class OrdersController < ApplicationController
       
       render action: 'success'
     else
-      # TODO : Email the admin about order processing failure with details
+      logger.error("Failed to process order : #{@order}.")
       render action: 'failure'
     end    
     session[:product_id] = nil
@@ -23,7 +23,7 @@ class OrdersController < ApplicationController
                                                   ip: request.remote_ip,
                                                   return_url: new_order_url,
                                                   cancel_return_url: welcome_url,
-                                                  notify_url: sales_url,
+                                                  notify_url: payment_notifications_url,
                                                   custom: cookies.signed[:referral_code])
           
     redirect_to PaypalGateway.redirect_url_for(response.token)
