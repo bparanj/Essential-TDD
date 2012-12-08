@@ -7,6 +7,8 @@ class OrdersController < ApplicationController
                                             amount: amount,
                                             product_id: session[:product_id])
     if result.success?
+      ProductMailer.confirmation_email(@order).deliver
+      
       render action: 'success'
     else
       # TODO : Email the admin about order processing failure with details
