@@ -2,8 +2,11 @@
 2. Allow user to download the book when the payment is success. When sale status is 'Completed'.
 3. Integrate IPN Handler with Cahor. Needed to get refund notification, fraud report etc.
    If mc_gross and payment_gross is negative. It is a refund. 
-4. Test checkout manually. Hit payment_notifications with curl to make sure it works.
-	
+4. Drop the database, recreate all tables and run the test.
+5. Test checkout manually. Hit payment_notifications with curl to make sure it works.
+6. Measure time taken from click to getting to the landing page. Monitor this constantly. Make this very fast.
+7. Replace hard coded product name and link with variables in the product mailer emails.
+
 IceBox
 
 1. Create paper prototype and delegate the CSS design to Elance.
@@ -11,6 +14,7 @@ IceBox
 	   t.decimal  "payable_commission",  :precision => 11, :scale => 2, :default => 0.0,   :null => false
    Monthly CRON will populate this field.
 3. Refer pragmatic-order.pdf. Generate pdf receipt.
+4. Make email customizable. Users can enter details about bonus links.
 
 
 

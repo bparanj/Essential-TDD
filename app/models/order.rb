@@ -6,6 +6,17 @@ class Order < ActiveRecord::Base
   belongs_to :product
   has_many :transactions
   
+  before_validation :generate_order_number, :on => :create
+  
   PURCHASE = 'purchase'
   
+  def generate_order_number
+    record = true
+    while record
+      random = "R#{Array.new(9){rand(9)}.join}"
+      record = self.class.where(:number => random).first
+    end
+    self.number = random if self.number.blank?
+    self.number
+  end
 end

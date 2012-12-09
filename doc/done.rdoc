@@ -1,4 +1,9 @@
 
+Dec 9, 12
+
+1. Decided that there is no need to display quantity or product name on the paypal checkout page.
+2. Order id should not be used in the confirmation page. Generate a unique confirmation number and use that in the email and success page. Add a new field to order called : confirmation_number.
+
 Dec 8, 12
 
 1. Removed 'Actions' and 'S.No' headings
