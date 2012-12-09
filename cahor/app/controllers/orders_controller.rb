@@ -1,20 +1,25 @@
 class OrdersController < ApplicationController
   # http://localhost:3010/orders/new?token=EC-6JK45894P8656060H&PayerID=R6TPVW2ZMCR9Q
   def new
-    result, @order = PaypalGateway.checkout(request.remote_ip,
-                                            express_token: params[:token],
-                                            express_payer_id: params[:PayerID],
-                                            amount: amount,
-                                            product_id: session[:product_id])
-    if result.success?
-      ProductMailer.confirmation_email(@order).deliver
+    begin
+      result, @order = PaypalGateway.checkout(request.remote_ip,
+                                              express_token: params[:token],
+                                              express_payer_id: params[:PayerID],
+                                              amount: amount,
+                                              product_id: session[:product_id])
+      if result.success?
+        ProductMailer.confirmation_email(@order).deliver
       
-      render action: 'success'
-    else
-      logger.error("Failed to process order : #{@order}.")
-      render action: 'failure'
-    end    
-    session[:product_id] = nil
+        render action: 'success'
+      else
+        logger.error("Failed to process order : #{@order}.")
+        render action: 'failure'
+      end    
+      session[:product_id] = nil
+    rescue Exception => e
+      logger.error("#{e.class.name}: #{e.message}")
+      logger.error(e.backtrace * "\n")
+    end
   end
   
   def express
