@@ -4,8 +4,8 @@
 
 To Do for Dec 10, 12
 
-1. Create bounty when the sale completes for a referral.
-2. Replace hard coded product name and link with variables in the product mailer emails.
+1. Create bounty when the sale completes for a referral. This is part of IPN.
+2. Replace hard coded product link with variables in the product mailer emails.
 3. Drop the database, recreate all tables and run the test.
 4. Test checkout manually. Hit payment_notifications with curl to make sure it works. 
 
