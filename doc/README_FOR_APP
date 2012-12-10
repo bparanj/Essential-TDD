@@ -1,11 +1,13 @@
-1. Cancel return url must be a page where you can persuade the buyer.
-2. Allow user to download the book when the payment is success. When sale status is 'Completed'.
-3. Integrate IPN Handler with Cahor. Needed to get refund notification, fraud report etc.
-   If mc_gross and payment_gross is negative. It is a refund. 
-4. Drop the database, recreate all tables and run the test.
-5. Test checkout manually. Hit payment_notifications with curl to make sure it works.
-6. Measure time taken from click to getting to the landing page. Monitor this constantly. Make this very fast.
-7. Replace hard coded product name and link with variables in the product mailer emails.
+1. Allow user to download the book when the payment is success. When sale status is 'Completed'.
+2. Integrate IPN Handler with Cahor. Needed to get refund notification, fraud report etc.
+3. Create refund. If mc_gross and payment_gross is negative. It is a refund. It cannot exceed the payment amount.
+
+To Do for Dec 10, 12
+
+1. Create bounty when the sale completes for a referral.
+2. Replace hard coded product name and link with variables in the product mailer emails.
+3. Drop the database, recreate all tables and run the test.
+4. Test checkout manually. Hit payment_notifications with curl to make sure it works. 
 
 IceBox
 
@@ -15,7 +17,8 @@ IceBox
    Monthly CRON will populate this field.
 3. Refer pragmatic-order.pdf. Generate pdf receipt.
 4. Make email customizable. Users can enter details about bonus links.
-
+5. Cancel return url must be a page where you can persuade the buyer.
+6. Measure time taken from click to getting to the landing page. Monitor this constantly. Make this very fast.
 
 
 
