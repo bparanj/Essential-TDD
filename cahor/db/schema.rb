@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121207183202) do
+ActiveRecord::Schema.define(:version => 20121208180736) do
 
   create_table "affiliates", :force => true do |t|
     t.integer  "user_id",       :null => false
@@ -21,12 +21,12 @@ ActiveRecord::Schema.define(:version => 20121207183202) do
   end
 
   create_table "bounties", :force => true do |t|
-    t.integer  "affiliate_id",  :null => false
-    t.integer  "sale_id",       :null => false
-    t.integer  "payable_id",    :null => false
-    t.integer  "product_price", :null => false
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.integer  "affiliate_id",           :null => false
+    t.integer  "paypal_notification_id", :null => false
+    t.integer  "payable_id",             :null => false
+    t.integer  "product_price",          :null => false
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
   end
 
   create_table "clicks", :force => true do |t|
@@ -59,8 +59,9 @@ ActiveRecord::Schema.define(:version => 20121207183202) do
     t.string   "express_payer_id"
     t.text     "buyer_email"
     t.text     "details"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.string   "number",           :limit => 15
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
   create_table "payables", :force => true do |t|
@@ -73,6 +74,15 @@ ActiveRecord::Schema.define(:version => 20121207183202) do
     t.datetime "paid_at"
     t.datetime "created_at",                                                     :null => false
     t.datetime "updated_at",                                                     :null => false
+  end
+
+  create_table "payment_notifications", :force => true do |t|
+    t.text     "details"
+    t.string   "status"
+    t.string   "transaction_id"
+    t.integer  "invoice"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "payouts", :force => true do |t|
@@ -89,15 +99,6 @@ ActiveRecord::Schema.define(:version => 20121207183202) do
     t.integer  "user_id",                                   :null => false
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
-  end
-
-  create_table "sales", :force => true do |t|
-    t.string   "invoice"
-    t.text     "details"
-    t.string   "status"
-    t.string   "transaction_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
   end
 
   create_table "transactions", :force => true do |t|

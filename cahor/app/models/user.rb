@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :remember_me
   
   has_many :products
-  has_one :affiliate
+  has_one :affiliate, dependent: :destroy
     
   def is_affiliate?
     !self.affiliate.nil?

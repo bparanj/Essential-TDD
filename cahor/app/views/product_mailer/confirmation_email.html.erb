@@ -4,7 +4,7 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   </head>
   <body>
-    <h1>Your Purchase of <%= order.product.name %></h1>
+    <h1>Your Purchase of <%= @order.product.name %></h1>
     <p>
       Your order confirmation number is <%= @order.number %>
       <br/>
@@ -17,7 +17,7 @@
   
     <p>Thanks for your purchase and have a great day!</p>
 
-Please note that your purchase will appear as 'JKASS' on your credit card.
+Please note that your purchase will appear as 'PAYPAL' on your credit card.
 
   </body>
 </html>

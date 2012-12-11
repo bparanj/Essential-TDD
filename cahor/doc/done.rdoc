@@ -1,3 +1,10 @@
+Dec 10, 12
+
+1. Drop the database, recreate all tables and run the test.
+2. Replace hard coded product name with variable in the product mailer emails.
+3. Wrote the checkout with affiliate referrer code set test case.
+4. Test checkout manually. Hit payment_notifications with curl to make sure it works. 
+5. Replace JKASS in the confirmation emails with Paypal.
 
 Dec 9, 12
 

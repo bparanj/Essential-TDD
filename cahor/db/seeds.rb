@@ -9,6 +9,12 @@
 user = User.new(email: 'bparanj@gmail.com', password: 'secret')
 user.password_confirmation = 'secret'
 user.products << Product.new(price: 2.00, name: 'Essential TDD') 
+affiliate = Affiliate.new
+user.affiliate = affiliate
 user.save!
+
+affiliate.referrer_code = 'nibj5o3q4m'
+affiliate.save!
+
 
 
