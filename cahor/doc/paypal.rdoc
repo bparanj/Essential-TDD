@@ -73,6 +73,23 @@ You can register at www.paypal.com/partnerprogram and click the “Join Now” b
 
 Contact : "Campagnolo, Greg" <gcampagnolo@paypal.com>
 
+You use your application's PayPal API credentials and you pass the
+merchant's PayPal account email in with the :subject option when
+instantiating the gateway:
+gateway = ActiveMerchant::Billing::PaypalExpressGateway.new(
+  :login => 'your apps login',
+  :password => 'your apps password',
+  :signature => 'your apps signature',
+  :subject => 'merchant@example.com'
+)
+
+They have to have granted your account the appropriate permissions
+previously, unless you're using PayPal Express Accelerated Boarding.
+It is a bit more involved, but works around having everyone grant
+their API permissions to you up front:
+https://cms.paypal.com/cms_content/US/en_US/files/developer/PP_AcceleratedBoarding_Guide.pdf
+
+============================================================================================
 
 # Paypal variables posted:
 # "custom=89CVZ&mc_gross=500.00&address_status=confirmed&payer_id=EVMXCLDZJV77Q&tax=0.00
@@ -84,3 +101,61 @@ Contact : "Campagnolo, Greg" <gcampagnolo@paypal.com>
 # payment_type=instant&last_name=Luetke&address_state=Ontario&receiver_email=tobi%40leetsoft.com&
 # payment_fee=&receiver_id=UQ8PDYXJZQD9Y&txn_type=web_accept&item_name=Store+Purchase&
 # mc_currency=CAD&test_ipn=1&payment_gross=&shipping=0.00"
+
+** Third-party authentication: Grant your cart the appropriate API authentication permissions ** 
+
+Log in to your PayPal account and click the Profile subtab.
+Click the API Access link in the Account Information column.
+Click the Grant API Permission link.
+In the Enter an API Partner Username field, enter <insert your API Partner Username>.
+Check Express_Checkout and any other APIs the customer needs to access:
+Direct_Payment
+Express_Checkout
+Admin_API
+Auth_Settle
+Click the Save button.
+
+** How to Set Name to Appear on Credit Card Statement **
+
+A PayPal Business account is identical to a Premiere account except that a business name, rather than an individual name, appears as the account name wherever it's shown. Both are free except for transaction fees. 
+
+You can set a name to appear on credit card statements, but it will be prefixed with "PAYPAL *". For example, charges made by my company, Awio Web Services LLC, appear as "PAYPAL *AWIO". You also get to set the "extended" name that only some banks show in their interfaces, and usually includes your phone number in case someone needs to contact you about the charge.
+
+To set this, go to Profile > Website Payment Preferences > Payment Receiving Preferences and you have two boxes to fill in.. "Credit Card Statement Name" and "Extended Credit Card Statement Name".
+
+** Paypal Credentials **
+
+Paypal Sandbox Login:
+
+bparanj+shorey@gmail.com
+shorey22
+
+curl -d “txn_id=0LS863412N467403U&invoice=4&payment_status=Completed”
+
+localhost:3010/payment_notifications
+
+** API Signature for Production **
+
+API Username bala.paranj_api1.zepho.com API Password LFNTAKV7DAX5GTG7 Signature
+
+A1Y.ieaXsVB7fPpmX4MoztiCQiOwAIBUvL8S.gDArThX6u6lBw.DjG0E Request Date Jul 15, 2012
+
+18:15:15 PDT
+
+** API Signature for Sandbox **
+
+Sandbox Buyer
+
+User: amy_1342401985_per@gmail.com Password: 342401932
+
+Sandbox Seller
+
+Test Account Login : sell_1342421142_biz@gmail.com
+Sandbox Login Password : 342421041
+API Username: sell_1342421142_biz_api1.gmail.com
+API Password: 1342421182
+Signature: AFcWxV21C7fd0v3bYYYRCpSSRl31AmYTMnOXJuR64BeQRmX.k-qC1-OP
+
+    Create your selling test account using the Preconfigured option.
+    Under Account Type, select Website Payments Pro.
+    My Account –> Profile –> API access to get API username, API Password and Signature
