@@ -19,11 +19,13 @@ class PaypalGateway
   
   # Custom field Character length and limitations: 256 single-byte alphanumeric characters  
   def self.set_express_checkout(amount, options = {})
+    @confirmation_number = Order.generate_order_number
     response = ZephoPaypalExpress.setup_purchase(amount,
                                                  ip: options[:ip],
                                                  return_url: options[:return_url],
                                                  cancel_return_url: options[:cancel_return_url],
                                                  notify_url: options[:notify_url],
+                                                 order_id: @confirmation_number,
                                                  custom: options[:custom])    
     Rails.logger.info("set_express_checkout response : #{response.to_yaml}") unless response.success?
     response
@@ -34,6 +36,7 @@ class PaypalGateway
                       express_payer_id: options[:express_payer_id],
                       product_id: options[:product_id])    
     order.ip_address = ip_address
+    order.number = @confirmation_number
     
     response = do_express_checkout_payment(options[:amount], 
                                            ip: order.ip_address,
