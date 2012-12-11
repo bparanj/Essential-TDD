@@ -1,0 +1,20 @@
+Paypal Express Checkout with Affiliate Referral
+
+1. Create a user with an affiliate. Check rake db:seed.
+2. Open the affiliate_site.html. The referrer_code should be the same as the above user affiliate referrer_code.
+3. Click on the link to buy the book. 
+4. Click on the Paypal checkout button.
+5. Complete the paypal transaction by using:
+    email : amy_1342401985_per@gmail.com
+    password : 342401932
+6. Check that the order was created with details text variable having custom variable value
+the same as the affiliate referrer_code.
+7. Check that the transactions table success value is true.
+
+** Simulate IPN Notification in Development **
+
+1. Copy transaction_id from the Paypal Thank You page : 0UB45589MG4871049. This is the same as 
+   the transaction.details['transaction_id'] value.
+2. Plug into : 
+
+curl -d "txn_id=6KD44981DM039372A&invoice=1&payment_status=Completed" http://localhost:3020/payment_notifications

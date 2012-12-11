@@ -27,13 +27,6 @@ Signature:	 AFcWxV21C7fd0v3bYYYRCpSSRl31AmYTMnOXJuR64BeQRmX.k-qC1-OP
 2. Under Account Type, select Website Payments Pro.
 3. My Account --> Profile --> API access to get API username, API Password and Signature
 
-** Simulate IPN Notification in Development **
-
-1. Copy transaction_id from the Paypal Thank You page : 0UB45589MG4871049
-2. Plug into : curl -d "txn_id=0UB45589MG4871049&invoice=1&payment_status=Completed" http://localhost:3020/sales
-
-curl -d "txn_id= &invoice=1&payment_status=Completed" http://localhost:3020/sales
-
 ** Making a Request on Behalf of Third Party **
 
 In ActiveMerchant gem, paypal_common_api.rb add_credentials method, the subject field must be the value of the 
