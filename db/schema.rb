@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121208180736) do
+ActiveRecord::Schema.define(:version => 20121211184316) do
 
   create_table "affiliates", :force => true do |t|
     t.integer  "user_id",       :null => false
@@ -60,8 +60,9 @@ ActiveRecord::Schema.define(:version => 20121208180736) do
     t.text     "buyer_email"
     t.text     "details"
     t.string   "number",           :limit => 15
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.string   "status",                         :default => "open"
+    t.datetime "created_at",                                         :null => false
+    t.datetime "updated_at",                                         :null => false
   end
 
   create_table "payables", :force => true do |t|
@@ -83,6 +84,22 @@ ActiveRecord::Schema.define(:version => 20121208180736) do
     t.integer  "invoice"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+  end
+
+  create_table "payments", :force => true do |t|
+    t.string   "transaction_id"
+    t.decimal  "gross",          :precision => 8, :scale => 2
+    t.string   "currency"
+    t.decimal  "amount",         :precision => 8, :scale => 2
+    t.string   "payment_method"
+    t.string   "description"
+    t.string   "status"
+    t.string   "test"
+    t.string   "payer_email"
+    t.string   "payment_date"
+    t.string   "payer_id"
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
   end
 
   create_table "payouts", :force => true do |t|
@@ -124,6 +141,7 @@ ActiveRecord::Schema.define(:version => 20121208180736) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "primary_paypal_email"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
   end

@@ -5,6 +5,22 @@ Dec 11, 12
 3. Email a password to your customer for downloading digital media. NOT REQUIRED.
 4. Setup Paypal Sandbox accounts for seller and buyer with credit card and bank accounts.
     payer_status - Whether the customer has a verified PayPal account. NOT REQUIRED.
+5. invoice is one of the IPN variable (params['invoice'])
+6. How to send invoice id during express checkout?
+	 pass order confirmation number as the value for invoice_id (passed in as order_id)
+
+	 Paypal::Notification methods
+	 
+	 def account
+	   params['business'] || params['receiver_email']
+	 end
+	 
+	 # This is the item number which we submitted to paypal 
+	 # The custom field is also mapped to item_id because PayPal
+	 # doesn't return item_number in dispute notifications
+	 def item_id
+	   params['item_number'] || params['custom']
+	 end
 
 Dec 10, 12
 

@@ -10,3 +10,4 @@ class CreatePaymentNotifications < ActiveRecord::Migration
     end
   end
 end
+
