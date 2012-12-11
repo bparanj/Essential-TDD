@@ -1,3 +1,11 @@
+Dec 11, 12
+
+1. Reviewed and gave feedback on Vio Wireframe version 3 to Arun
+2. Find the subject field in the latest Paypal API docs
+3. Email a password to your customer for downloading digital media. NOT REQUIRED.
+4. Setup Paypal Sandbox accounts for seller and buyer with credit card and bank accounts.
+    payer_status - Whether the customer has a verified PayPal account. NOT REQUIRED.
+
 Dec 10, 12
 
 1. Drop the database, recreate all tables and run the test.

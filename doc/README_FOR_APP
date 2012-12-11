@@ -3,41 +3,10 @@
 3. Integrate IPN Handler with Cahor. Needed to get refund notification, fraud report etc.
 4. Create refund. If mc_gross and payment_gross is negative. It is a refund. It cannot exceed the payment amount.
 
-To Do for Dec 10, 12
+To Do for Dec 11, 12
  
 1. Replace hard coded product link with variables in the product mailer emails.
 2. Admin dashboard : Admin can create affiliates for a given user.
 3. has_many :paypal_notifications Do you need this? Refer railscast.
 
-IceBox
 
-1. Debit refunds when calculating payable_commission for affiliates.
-   t.decimal  "payable_commission",  :precision => 11, :scale => 2, :default => 0.0, :null => false
-   Monthly CRON will populate this field.
-2. Create paper prototype and delegate the CSS design to Elance.
-3. Refer pragmatic-order.pdf. Generate pdf receipt.
-4. Make email customizable. Users can enter details about bonus links.
-5. Cancel return url must be a page where you can persuade the buyer.
-6. Measure time taken from click to getting to the landing page. Monitor this constantly. Make this very fast.
-7. Instructions on how to set name as it appears on cc statement. How to get the merchant name as it appears on credit card? This should be used in the confirmation emails.
- Replace PAYPAL in the confirmation emails with the actual text for Paypal charge as seen on cc statement.
-8. Affiliate login with sales report
-9. Udemy for low priced version of the book. Can book be included?
-10. Kindle format in Kindle store (lower priced version)
-11. Test 'Click here to buy screencasts'. Measure click through rate.
-12. Use Chef to deploy the site. Get peepcode.
-
-
-Sales Copy
-
-1. List of benefits with yellow highlighter for important points
-2. More chapters will be included and price will increase
-
-
-** How to Set Name to Appear on Credit Card Statement **
-
-A PayPal Business account is identical to a Premiere account except that a business name, rather than an individual name, appears as the account name wherever it's shown. Both are free except for transaction fees. 
-
-You can set a name to appear on credit card statements, but it will be prefixed with "PAYPAL *". For example, charges made by my company, Awio Web Services LLC, appear as "PAYPAL *AWIO". You also get to set the "extended" name that only some banks show in their interfaces, and usually includes your phone number in case someone needs to contact you about the charge.
-
-To set this, go to Profile > Website Payment Preferences > Payment Receiving Preferences and you have two boxes to fill in.. "Credit Card Statement Name" and "Extended Credit Card Statement Name".
