@@ -1,3 +1,8 @@
+Dec 12, 12
+
+1. There is a chance that the order confirmation number generated could be duplicate between the time it was generated and it was saved in the db. Fix this issue.
+2. Save payer_email to send order confirmation and fulfillment emails.
+
 Dec 11, 12
 
 1. Reviewed and gave feedback on Vio Wireframe version 3 to Arun

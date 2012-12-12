@@ -6,18 +6,10 @@ class Order < ActiveRecord::Base
   belongs_to :product
   has_many :transactions
   
-  PURCHASE = 'purchase'
+  validates_uniqueness_of :number
   
-  def self.generate_order_number
-    random = ''
-    record = true
-    while record
-      random = "R#{Array.new(9){rand(9)}.join}"
-      record = Order.where(:number => random).first
-    end
-    random
-  end
-    
+  PURCHASE = 'purchase'
+      
   def self.mark_ready_for_fulfillment(id)
     order = find(id)
     order.status = 'fulfill'

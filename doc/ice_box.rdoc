@@ -39,8 +39,6 @@
 		    If the verified response passes the checks,take action based on the value of the txn_type variable if it exists; otherwise, take action based on the value of the reason_code variable.
 32. receiver_id - Unique account ID of the payment recipient (i.e., the merchant). This is the same as the recipient’s referral ID. Length: 13 characters
 33. Refine the controller to handle all cases. If the response code is not 200, save the message for further investigation.
-34. Save payer_email to send order confirmation and fulfillment emails. I THINK THIS IS DONE - CHECK THE CODE
-35. There is a chance that the order confirmation number generated could be duplicate between the time it was generated and it was saved in the db. Fix this issue.
 
 Cabernet : To Do
 
