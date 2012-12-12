@@ -1,4 +1,4 @@
-Paypal Express Checkout with Affiliate Referral
+** Paypal Express Checkout with Affiliate Referral **
 
 1. Create a user with an affiliate. Check rake db:seed.
 2. Open the affiliate_site.html. The referrer_code should be the same as the above user affiliate referrer_code.
@@ -18,3 +18,10 @@ the same as the affiliate referrer_code.
 2. Plug into : 
 
 curl -d "txn_id=6KD44981DM039372A&invoice=1&payment_status=Completed" http://localhost:3020/payment_notifications
+
+** Checkout **
+
+1. Click 'Buy Now' button.
+2. Make payment
+3. Allow user to download the book when the payment is success.
+

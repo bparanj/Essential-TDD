@@ -27,5 +27,3 @@ Payout
 -------
 has many payables
 
-
-

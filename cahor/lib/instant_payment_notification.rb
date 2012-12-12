@@ -6,7 +6,11 @@ class InstantPaymentNotification
   def initialize(raw_post)
     @notify = Paypal::Notification.new(raw_post) 
   end
-
+  
+  def acknowledge
+    @notify.acknowledge
+  end
+  
   def process_payment
     return unless @notify.complete?
 
