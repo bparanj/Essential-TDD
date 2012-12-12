@@ -240,4 +240,13 @@ Decide whether category model must be removed.
 
 Basecamp (style button)
 
+Questions Posted on Paypal Forum
 
+Express Checkout Confirm Step
+In the Getting Started with Express Checkout guide, the flow for the buyer step 4 is 'Confirms the order and pays from your site'. I will be using the API as a third party shopping cart provider. Can I skip this step?
+
+Express Checkout API Third Party API Model
+I will be using the Paypal Accelerated Boarding to speed up the onboarding of the merchants on my site as a third-party shopping cart provider. The integration guide says if I use the Accelerated boarding then I need to use the Third-Party API model. It does not explain the third-party API model. Where can I find more details?
+
+Passing Custom Variable in Express Checkout
+I am using the Express Checkout as a third party shopping cart provider. I read the integration guide but I could not find any details on how to pass a custom variable in Express Checkout API. Where can I get more details?
