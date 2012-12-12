@@ -21,6 +21,7 @@ Dec 11, 12
 	 def item_id
 	   params['item_number'] || params['custom']
 	 end
+7. Integrate IPN Handler with Cahor. Needed to get refund notification, fraud report etc.
 
 Dec 10, 12
 

@@ -1,12 +1,12 @@
-1. Create bounty when the sale completes for a referral. This is part of IPN.
-2. Allow user to download the book when the payment is success. When sale status is 'Completed'.
-3. Integrate IPN Handler with Cahor. Needed to get refund notification, fraud report etc.
-4. Create refund. If mc_gross and payment_gross is negative. It is a refund. It cannot exceed the payment amount.
+1. IPN : Create bounty when the sale completes for a referral. 
+2. IPN : Create refund. If mc_gross and payment_gross is negative. It is a refund. It cannot exceed the payment amount.
+3. Allow user to download the book when the payment is success. When sale status is 'Completed'.
 
 To Do for Dec 11, 12
- 
-1. Replace hard coded product link with variables in the product mailer emails.
-2. Admin dashboard : Admin can create affiliates for a given user.
-3. has_many :paypal_notifications Do you need this? Refer railscast.
+
+1. Simulate IPN notification via curl and check if the latest version works. 
+2. Replace hard coded product link with variables in the product mailer emails.
+3. Admin dashboard : Admin can create affiliates for a given user.
+4. has_many :paypal_notifications Do you need this? Refer railscast.
 
 
