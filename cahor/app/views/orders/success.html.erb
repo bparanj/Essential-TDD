@@ -1,5 +1,5 @@
 <h1> Order Confirmation #<%= @order.number %> </h1> 
 <hr>
-Thank you for ordering!
+Your purchase of <%= @order.product.name %> is complete. Thank you for ordering!
 <br/>
 An order confirmation email will be sent to <%= @order.buyer_email %> shortly.
