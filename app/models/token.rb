@@ -6,9 +6,10 @@ class Token < ActiveRecord::Base
     record = true
     while record
       random = "R#{Array.new(9){rand(9)}.join}"
-      record = self.class.where(:number => random).first
+      record = self.class.where(:confirmation_number => random).first
     end
     self.confirmation_number = random if self.confirmation_number.blank?
   end
 
 end
+

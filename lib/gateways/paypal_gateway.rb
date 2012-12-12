@@ -20,7 +20,7 @@ class PaypalGateway
   # Custom field Character length and limitations: 256 single-byte alphanumeric characters  
   def self.set_express_checkout(amount, options = {})
     token = Token.create!
-    @confirmation_number = token.order_confirmation_number
+    @confirmation_number = token.confirmation_number
     response = ZephoPaypalExpress.setup_purchase(amount,
                                                  ip: options[:ip],
                                                  return_url: options[:return_url],
