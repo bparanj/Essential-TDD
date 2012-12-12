@@ -9,13 +9,13 @@ class Order < ActiveRecord::Base
   PURCHASE = 'purchase'
   
   def self.generate_order_number
+    random = ''
     record = true
     while record
       random = "R#{Array.new(9){rand(9)}.join}"
-      record =  where(:number => random).first
+      record = Order.where(:number => random).first
     end
-    self.number = random if self.number.blank?
-    self.number
+    random
   end
     
   def self.mark_ready_for_fulfillment(id)
