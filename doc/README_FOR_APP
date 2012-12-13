@@ -3,8 +3,8 @@
 3. Allow user to download the book when the payment is success. When sale status is 'Completed'.
 
 To Do for Dec 12, 12
-0. Create Token model and move order confirmation generation to it.
-1. Simulate IPN notification via curl and check if the latest version works. 
+
+1. Test IPN notification on staging and check if the latest version works. 
 2. Replace hard coded product link with variables in the product mailer emails.
 3. Admin dashboard : Admin can create affiliates for a given user.
 4. has_many :paypal_notifications Do you need this? Refer railscast.
