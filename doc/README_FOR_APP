@@ -1,12 +1,38 @@
-1. IPN : Create bounty when the sale completes for a referral. 
-2. IPN : Create refund. If mc_gross and payment_gross is negative. It is a refund. It cannot exceed the payment amount.
+IPN 
+
+1. Create bounty when the sale completes for a referral. 
+2. Create refund. If mc_gross and payment_gross is negative. It is a refund. It cannot exceed the payment amount.
+
+Backlog
+
+1. File upload feature.
+2. Replace hard coded product link with variables in the product mailer emails.
 3. Allow user to download the book when the payment is success. When sale status is 'Completed'.
 
-To Do for Dec 12, 12
+To Do for Dec 13, 12
 
-1. Test IPN notification on staging and check if the latest version works. 
-2. Replace hard coded product link with variables in the product mailer emails.
-3. Admin dashboard : Admin can create affiliates for a given user.
-4. has_many :paypal_notifications Do you need this? Refer railscast.
+1. Since IPN messages can be delayed—hence not exactly “instant”—IPN should not be exclusively relied on when immediate order fulfillment is necessary, such as in the case of a digital download service. Use Express checkout response code to check the purchase is complete and kick-off the fulfillment.
+2. Admin dashboard : Admin can create affiliates for a given user.
+3. has_many :paypal_notifications Do you need this? Refer railscast.
+
+
+---------------------------------------------------------------------------------------
+
+Deploy
+
+1. Use Chef to deploy the site. Get peepcode.
+2. Deploy the IPN handler code.
+3. Turn on IPN and specify the URL to which PayPal posts the notifications.
+4. Test IPN Handler using Paypal Sandbox : # seanbehan.com/business/paypal-ipn-simulator/
+5. Sanbox Users Guide has instructions on testing IPN using simulator.
+6. Testing IPN messages. You can test your IPN receiver script using the IPN Simulator under Test Tools in your sandbox account. Since you cannot observe the request (it is sent from Paypal), you can save it to a file or send it to your Email account for verifying and debugging your script.
+
+---------------------------------------------------------------------------------------
+
+After Deployment
+
+1) Check if domain field gets populated for clicks table when a new visitor clicks on a affiliate link.
+2) Subscribe for wordpress account for affiliatelogic.biz and write articles once a week. Delegate this task.
+3) Make release announcement on SVRM group, Rubyflow, Rubyinside, Ruby podcast etc.
 
 
