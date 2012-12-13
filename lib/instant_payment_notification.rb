@@ -20,7 +20,7 @@ class InstantPaymentNotification
     if Payment.transaction_has_correct_amount?(@notify.transaction_id, @notify.gross, @notify.currency)
       Order.mark_ready_for_fulfillment(@notify.item_id)
     else
-      Rails.logger.error("FRAUD ALERT : Payment transaction amount does not match #{@notify.to_yaml}")
+      PaypalLogger.error("FRAUD ALERT : Payment transaction amount does not match #{@notify.to_yaml}")
     end
 
   end
