@@ -3,6 +3,7 @@ Dec 13, 12
 1. Selenium IDE and Selenium Flow Control FF plugin. Problem installing on FF 17.0. Ditched it.
 2. * Passing Custom Variable in Express Checkout *
 I am using the Express Checkout as a third party shopping cart provider. I read the integration guide but I could not find any details on how to pass a custom variable in Express Checkout API. Where can I get more details?
+3. Setup Capybara for blackbox testing.
 
 Dec 12, 12
 

@@ -28,7 +28,7 @@ class PaypalGateway
                                                  notify_url: options[:notify_url],
                                                  order_id: @confirmation_number,
                                                  custom: options[:custom])    
-    Rails.logger.info("set_express_checkout response : #{response.to_yaml}") unless response.success?
+    PaypalLogger.info("set_express_checkout response : #{response.to_yaml}") unless response.success?
     response
   end
           
@@ -74,9 +74,9 @@ class PaypalGateway
                                            token: options[:token], 
                                            payer_id: options[:payer_id])
     if response.success?
-      Rails.logger.info 'Purchase success. Allow user to download the book.'
+      PaypalLogger.info 'Purchase success. Allow user to download the book.'
     else
-      Rails.logger.info("Purchase failed. Response is : #{response.to_yaml}")
+      PaypalLogger.info("Purchase failed. Response is : #{response.to_yaml}")
     end
     response
   end
