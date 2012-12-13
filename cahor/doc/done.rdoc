@@ -1,8 +1,10 @@
 Dec 12, 12
 
-1. There is a chance that the order confirmation number generated could be duplicate between the time it was generated and it was saved in the db. Fix this issue.
+1. There is a chance that the order confirmation number generated could be duplicate between the time it was generated and it was saved in the db. Fix this issue. Create Token model and move order confirmation generation to it.
 2. Save payer_email to send order confirmation and fulfillment emails.
 3. Use a separate logger for IPN messages in Paypal IPN controller. Refer : https://gist.github.com/2453949 and custom-logger.txt
+4. Simulate IPN notification via curl and check if the latest version works. 
+5. Wrote a rake task to create the IPN notification query parameters to be used in Curl in development.
 
 Dec 11, 12
 
