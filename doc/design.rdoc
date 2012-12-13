@@ -14,8 +14,7 @@ such as "products", "account" etc.
 
     1) Dashboard
     2) Products
-    3) Bonuses
-    4) Affiliate Links
+    3) Affiliate 
 
     Right Side
 
