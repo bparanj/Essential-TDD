@@ -11,7 +11,7 @@ Backlog
 
 To Do for Dec 13, 12
 
-1. Selenium IDE and Selenium Flow Control FF plugin. Automate checkout process testing.
+1. Automate checkout process testing.
 2. Since IPN messages can be delayed—hence not exactly “instant”—IPN should not be exclusively relied on when immediate order fulfillment is necessary, such as in the case of a digital download service. Use Express checkout response code to check the purchase is complete and kick-off the fulfillment.
 3. Admin dashboard : Admin can create affiliates for a given user.
 4. has_many :paypal_notifications Do you need this? Refer railscast.
