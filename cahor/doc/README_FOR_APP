@@ -11,10 +11,11 @@ Backlog
 
 To Do for Dec 14, 12
 
-1. Implement process refund
-2. Admin dashboard : Admin can create affiliates for a given user.
-3. Since IPN messages can be delayed—hence not exactly “instant”—IPN should not be exclusively relied on when immediate order fulfillment is necessary, such as in the case of a digital download service. Use Express checkout response code to check the purchase is complete and kick-off the fulfillment.
-4. Automate checkout process testing.
+1. Upgrade FF to latest version and install Selenium IDE. Check if the automated test can run in this setup.
+2. Implement process_refund
+3. Admin dashboard : Admin can create affiliates for a given user.
+4. Since IPN messages can be delayed—hence not exactly “instant”—IPN should not be exclusively relied on when immediate order fulfillment is necessary, such as in the case of a digital download service. Use Express checkout response code to check the purchase is complete and kick-off the fulfillment.
+5. Automate checkout process testing.
 
 # @notify.status == 'Partially-Refunded'          
 # What is partial refund? how to handle partial refund?
