@@ -6,6 +6,7 @@ Signature			A1Y.ieaXsVB7fPpmX4MoztiCQiOwAIBUvL8S.gDArThX6u6lBw.DjG0E
 Request Date	Jul 15, 2012 18:15:15 PDT
 
 ** Paypal Sandbox Developer Login **
+URL : https://developer.paypal.com/
 
 bparanj+shorey@gmail.com
 shorey22

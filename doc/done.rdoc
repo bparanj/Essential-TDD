@@ -1,7 +1,10 @@
 Dec 14, 12
 
 1. Get peepcode. Chef & Scaling episodes.
-2. Watch peepcode.
+2. http://release.seleniumhq.org/selenium-ide/1.9.0/selenium-ide-1.9.0.xpi
+   Selenium IDE FF plugin installed on FF 17.0.1 
+3. Upgrade FF to latest version and install Selenium IDE. 
+4. Record Paypal Sandbox Login. Check if the automated test can run in this setup.
 
 Dec 13, 12
 
@@ -13,6 +16,7 @@ I am using the Express Checkout as a third party shopping cart provider. I read 
 txn_id - The merchant’s original transaction identification number for the payment from the buyer, against which the case was registered.
 5. Verify that the payment amount actually matches what you intend to charge.
 6. has_many :paypal_notifications. Do you need this? Refer railscast. Not needed.
+7. Automate checkout process testing. Selenium IDE checkout test case exported as html and Ruby scripts.
 
 Dec 12, 12
 

@@ -54,8 +54,10 @@ class InstantPaymentNotification
     # amount is negative, it signifies a refund or reversal, and either of those payment 
     # statuses can be for the full or partial amount of the original transaction.
     
-      # if amount does not exceed transaction on our site
-      #   then create refund
+    # Get abs value of @notify.gross.abs
+    # Check if amount matches transaction on our site
+    # If ok, then create refund
+    # Otherwise log on PaypalLogger for fraud alert
       # if @notify.gross 
   end
   
