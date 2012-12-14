@@ -11,6 +11,7 @@ class InstantPaymentNotification
     @notify.acknowledge
   end
   
+  # Only unique transactions are processed (txn_id store processed only once)
   def process_payment
     return unless @notify.complete?
 
@@ -22,11 +23,8 @@ class InstantPaymentNotification
     else
       PaypalLogger.error("FRAUD ALERT : Payment transaction amount does not match #{@notify.to_yaml}")
     end
-
   end
-  # Store txn_id in database so that only unique transactions are processed
-  # txn_id - The merchant’s original transaction identification number for 
-  # the payment from the buyer, against which the case was registered.
+  
   # mc_gross - Full amount of the customer's payment, before transaction 
   # fee is subtracted. Equivalent to payment_gross for USD payments. If this
   # amount is negative, it signifies a refund or reversal, and either of those payment 
