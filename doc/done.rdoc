@@ -1,3 +1,5 @@
+Dec 14, 12
+
 Dec 13, 12
 
 1. Selenium IDE and Selenium Flow Control FF plugin. Problem installing on FF 17.0. Ditched it.
@@ -7,6 +9,7 @@ I am using the Express Checkout as a third party shopping cart provider. I read 
 4. Store txn_id in database. Stored in order#details['PaymentRequestInfo']['TransactionId'] and transaction#details['PaymentInfo']['TransactionID']
 txn_id - The merchant’s original transaction identification number for the payment from the buyer, against which the case was registered.
 5. Verify that the payment amount actually matches what you intend to charge.
+6. has_many :paypal_notifications. Do you need this? Refer railscast. Not needed.
 
 Dec 12, 12
 

@@ -5,6 +5,7 @@ class Payment < ActiveRecord::Base
 
   COMPLETE = 'Completed'
   PENDING = 'Pending'
+  REFUNDED = 'Refunded'
   
   def has_correct_amount?
     transaction = Transaction.find_by_transaction_id(self.transaction_id)
