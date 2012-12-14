@@ -2,7 +2,7 @@ class CreateTransactions < ActiveRecord::Migration
   def change
     create_table :transactions do |t|
       t.integer :order_id
-      t.integer :transaction_id
+      t.string :transaction_id
       t.string :action
       t.integer :amount
       t.boolean :success
