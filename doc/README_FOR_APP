@@ -41,7 +41,7 @@ end
 
 Deploy
 
-1. Use Chef to deploy the site. Get peepcode.
+1. Use Chef to deploy the site. 
 2. Deploy the IPN handler code.
 3. Turn on IPN and specify the URL to which PayPal posts the notifications.
 4. Test IPN Handler using Paypal Sandbox : # seanbehan.com/business/paypal-ipn-simulator/
