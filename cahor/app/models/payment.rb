@@ -6,8 +6,12 @@ class Payment < ActiveRecord::Base
   COMPLETE = 'Completed'
   PENDING = 'Pending'
   
-  def has_correct_amount?(gross, currency)
-    paid = Money.new(BigDecimal.new(gross), currency)
+  def has_correct_amount?
+    transaction = Transaction.find_by_transaction_id(self.transaction_id)
+    paid_gross = transaction.details['gross_amount']
+    paid_currency = transaction.details['gross_amount_currency_id']
+    
+    paid = Money.new(BigDecimal.new(paid_gross), paid_currency)
     price = Money.new(self.gross, self.currency)
     price == paid
   end
@@ -21,9 +25,9 @@ class Payment < ActiveRecord::Base
   # Verify that the price, item description, and so on, match the transaction on your website.
   # Verify that the payment amount actually matches what you intend to charge.
   # This check provides additional protection against fraud.
-  def self.transaction_has_correct_amount?(transaction_id, gross, currency)
+  def self.transaction_has_correct_amount?(transaction_id)
     payment = find_by_transaction_id(transaction_id)
-    payment.has_correct_amount?(gross, currency)
+    payment.has_correct_amount?
   end
     
   def self.new_transaction?(transaction_id)
