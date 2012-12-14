@@ -1,8 +1,8 @@
 require 'money'
 
 class Payment < ActiveRecord::Base
-  attr_accessible :currency, :gross, :transaction_id
-  
+  attr_accessible :transaction_id, :amount, :payment_method, :description, :payer_id, :status, :test, :gross, :currency, :payer_email, :details, :invoice
+
   COMPLETE = 'Completed'
   PENDING = 'Pending'
   
@@ -23,7 +23,6 @@ class Payment < ActiveRecord::Base
   end
   
   # Verify that the price, item description, and so on, match the transaction on your website.
-  # Verify that the payment amount actually matches what you intend to charge.
   # This check provides additional protection against fraud.
   def self.transaction_has_correct_amount?(transaction_id)
     payment = find_by_transaction_id(transaction_id)
@@ -43,6 +42,3 @@ class Payment < ActiveRecord::Base
     self.status == COMPLETE
   end
 end
-
-# Payment
-# - order_id

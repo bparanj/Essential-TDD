@@ -18,8 +18,10 @@ class InstantPaymentNotification
     return if  Payment.previously_processed?(@notify.transaction_id)  
     return if  User.spoofed_receiver_email?(@notify['invoice'], @notify.account)      	
 
-    if Payment.transaction_has_correct_amount?(@notify.transaction_id, @notify.gross, @notify.currency)
+    if Payment.transaction_has_correct_amount?(@notify.transaction_id)
       Order.mark_ready_for_fulfillment(@notify.item_id)
+      # credit Affiliate
+      # record refunds
     else
       PaypalLogger.error("FRAUD ALERT : Payment transaction amount does not match #{@notify.to_yaml}")
     end
@@ -40,7 +42,9 @@ class InstantPaymentNotification
                      test: @notify.test?,
                      gross: @notify.gross, 
                      currency: @notify.currency,
-                     payer_email: @notify.params['payer_email'])
+                     payer_email: @notify.params['payer_email'],
+                     details: @notify.params,
+                     invoice: @notify.invoice)
     end
 
   end
