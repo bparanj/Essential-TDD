@@ -6,6 +6,7 @@ I am using the Express Checkout as a third party shopping cart provider. I read 
 3. Setup Capybara for blackbox testing.
 4. Store txn_id in database. Stored in order#details['PaymentRequestInfo']['TransactionId'] and transaction#details['PaymentInfo']['TransactionID']
 txn_id - The merchant’s original transaction identification number for the payment from the buyer, against which the case was registered.
+5. Verify that the payment amount actually matches what you intend to charge.
 
 Dec 12, 12
 

@@ -12,6 +12,9 @@ class CreatePayments < ActiveRecord::Migration
       t.string   :payer_email
       t.string   :payment_date
       t.string   :payer_id
+      t.text     :details
+      t.integer  :invoice
+      
       
       t.timestamps
     end
