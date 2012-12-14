@@ -77,16 +77,6 @@ ActiveRecord::Schema.define(:version => 20121212192714) do
     t.datetime "updated_at",                                                     :null => false
   end
 
-  create_table "payment_notifications", :force => true do |t|
-    t.text     "details"
-    t.integer  "invoice"
-    
-    t.string   "status"
-    t.string   "transaction_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
-  end
-
   create_table "payments", :force => true do |t|
     t.string   "transaction_id"
     t.decimal  "gross",          :precision => 8, :scale => 2
@@ -99,6 +89,8 @@ ActiveRecord::Schema.define(:version => 20121212192714) do
     t.string   "payer_email"
     t.string   "payment_date"
     t.string   "payer_id"
+    t.text     "details"
+    t.integer  "invoice"
     t.datetime "created_at",                                   :null => false
     t.datetime "updated_at",                                   :null => false
   end
@@ -127,14 +119,15 @@ ActiveRecord::Schema.define(:version => 20121212192714) do
 
   create_table "transactions", :force => true do |t|
     t.integer  "order_id"
+    t.string   "transaction_id"
     t.string   "action"
     t.integer  "amount"
     t.boolean  "success"
     t.string   "authorization"
     t.string   "message"
     t.text     "details"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "users", :force => true do |t|

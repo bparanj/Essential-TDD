@@ -39,22 +39,9 @@ GEM
     activesupport (3.2.9)
       i18n (~> 0.6)
       multi_json (~> 1.0)
-    addressable (2.3.2)
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
     builder (3.0.4)
-    capybara (1.1.4)
-      mime-types (>= 1.16)
-      nokogiri (>= 1.3.3)
-      rack (>= 1.0.0)
-      rack-test (>= 0.5.4)
-      selenium-webdriver (~> 2.0)
-      xpath (~> 0.1.4)
-    capybara-webkit (0.13.0)
-      capybara (>= 1.0.0, < 1.2)
-      json
-    childprocess (0.3.6)
-      ffi (~> 1.0, >= 1.0.6)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -70,7 +57,6 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    ffi (1.2.0)
     hike (1.2.1)
     i18n (0.6.1)
     journey (1.0.4)
@@ -78,9 +64,6 @@ GEM
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.7.5)
-    libwebsocket (0.1.7.1)
-      addressable
-      websocket
     mail (2.4.4)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -119,17 +102,11 @@ GEM
     rake (10.0.3)
     rdoc (3.12)
       json (~> 1.4)
-    rubyzip (0.9.9)
     sass (3.2.3)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
-    selenium-webdriver (2.27.2)
-      childprocess (>= 0.2.5)
-      libwebsocket (~> 0.1.3)
-      multi_json (~> 1.0)
-      rubyzip
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -147,17 +124,12 @@ GEM
       multi_json (~> 1.0, >= 1.0.2)
     warden (1.2.1)
       rack (>= 1.0)
-    websocket (1.0.4)
-    xpath (0.1.4)
-      nokogiri (~> 1.3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   activemerchant
-  capybara
-  capybara-webkit
   coffee-rails (~> 3.2.1)
   devise
   jquery-rails

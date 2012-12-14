@@ -6,7 +6,8 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-user = User.new(email: 'bparanj@gmail.com', password: 'secret', primary_paypal_email: 'what-should@go-here.com')
+user = User.new(email: 'bparanj@gmail.com', password: 'secret')
+user.primary_paypal_email = 'lookup-receiver-email-from-orders-or-transaction'
 user.password_confirmation = 'secret'
 user.products << Product.new(price: 2.00, name: 'Essential TDD') 
 affiliate = Affiliate.new
