@@ -26,6 +26,7 @@ Deploy
 4. Test IPN Handler using Paypal Sandbox : Refer seanbehan.com/business/paypal-ipn-simulator/
 5. Sanbox Users Guide has instructions on testing IPN using simulator.
 6. Testing IPN messages. You can test your IPN receiver script using the IPN Simulator under Test Tools in your sandbox account. Since you cannot observe the request (it is sent from Paypal), you can save it to a file or send it to your Email account for verifying and debugging your script.
+7. Regenerate Paypal Credentials and delete paypal.rdoc document.
 
 ---------------------------------------------------------------------------------------
 
@@ -33,3 +34,6 @@ After Deployment
 
 1. Check if domain field gets populated for clicks table when a new visitor clicks on a affiliate link.
 2. Customer Test Purchase : To do some basic testing in the real world you can temporarily change the charged amount, make a purchase then issue a refund through paypal.
+
+---------------------------------------------------------------------------------------
+
