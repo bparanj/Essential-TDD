@@ -26,7 +26,7 @@ class InstantPaymentNotification
       process_refund if refund?
     end
   end
-  
+  # TODO : notify.amount and notify.gross are the same. Delete one of these fields after testing.
   def handle_new_transaction(transaction_id)
     if Payment.new_transaction?(transaction_id)
       Payment.create(transaction_id: transaction_id, 
@@ -77,7 +77,7 @@ class InstantPaymentNotification
       affiliate = Affiliate.find_by_referrer_code(referrer_code)
       # TODO : product_price is decimal. Test it is stored correctly.
       if affiliate
-        Bounty.create(affiliate_id: affiliate.id, product_price: @notify.gross)
+        Bounty.create(affiliate_id: affiliate.id, product_price: @notify.gross, currency: @notify.currency)
       else
         PaypalLogger.error("FRAUD ALERT : Could not create bounty. Affiliate not found for referrer_code : #{referrer_code}.")
       end
