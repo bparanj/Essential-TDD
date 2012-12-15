@@ -15,6 +15,9 @@
     IPN script should make sure to respond to the HTTP response with a 200 OK message to prevent additional attempts by PayPal to send the IPN.
 10. Provide instructions for product buy now link to vendor
 11. Email verification using Devise for account activation. Use Sendgrid for email. Refer : send-grid.txt
+12. Draw ER Diagram for the existing schema to clarify the design.
+13. PayPal Express Digital Goods Instant Payment without popup window. (No shipping address required)
+14. Check the transaction record with success = false and orders with fail status. Display them in admin dashboard.
 
 ---------------------------------------------------------------------------------------
 

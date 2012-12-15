@@ -1,5 +1,23 @@
-Delegate Task : #1
+UI Changes
+---------------------------------------------------------------------------------------
+1. Remove 'Create Landing Page' button from the inventory list page. It will go to the Landing Page tab. Like shown
+in the attached image.
+2. Integrate the revised UI with the existing code base of Viognier.
+3. User Management module screen design will be similar to Cabernet screens. 
+	 Take screenshots of those screens, make corrections in skitch or hand draw and send it to Arun.
+   Arun will take those existing screens and implement it with new look and feel.
 
+---------------------------------------------------------------------------------------
+UI Design
+---------------------------------------------------------------------------------------
+1. Tabs before login : Home, Pricing, Sign Up, Sign In, Contact
+Home tab will have list of features, demo video and quick signup form with big ass button 'Create Account' like this: http://newrelic.com/product/real-user-monitoring
+Contact tab will have company address and feedback form.
+2. 'Become an affiliate' link will be at the bottom navigation links.
+
+---------------------------------------------------------------------------------------
+Delegate Task : #1
+---------------------------------------------------------------------------------------
 Instructions for Elance Site Redesign Project
 
 You will receive the html and css of a site that you can use as a reference to style my site. You must replace the "todos", "messages" etc in the CSS with the corresponding name of the tabs in my application
@@ -52,8 +70,9 @@ Decide whether category model must be removed.
 
 Basecamp (style button)
 
+---------------------------------------------------------------------------------------
 Cabernet : To Do
-
+---------------------------------------------------------------------------------------
 Design
 
 1. Redesign the pages using paper. Create paper prototype and delegate the CSS design to Elance.
@@ -67,3 +86,4 @@ Design
     Affiliate (Marketer)
     What does the site look like for each of these actors?
 7. Draw data flow diagrams.
+---------------------------------------------------------------------------------------
