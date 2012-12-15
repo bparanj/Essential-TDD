@@ -19,8 +19,7 @@ class InstantPaymentNotification
     if @notify.complete? 
       if Payment.transaction_has_correct_amount?(@notify.transaction_id)
         Order.mark_ready_for_fulfillment(@notify.item_id)
-        # create_bounty 
-        # credit Affiliate
+        process_bounty
       else
         PaypalLogger.error("FRAUD ALERT : Payment transaction amount does not match #{@notify.to_yaml}")
       end
@@ -69,8 +68,20 @@ class InstantPaymentNotification
   def refund_amount
     @notify.gross.abs
   end
+  # create_bounty & credit affiliate, record the product price at the time of purchase not current price.  
+  def process_bounty
+    transaction_id = transaction.details['transaction_id']
+    order = Order.find_by_transaction_id(transaction_id)
+    referrer_code = order.details['custom']
+    
+    if referrer_code
+      affiliate = Affiliate.find_by_referrer_code(referrer_code)
+      # TODO : product_price is decimal. Test it is stored correctly.
+      if affiliate
+        Bounty.create(affiliate_id: affiliate.id, product_price: @notify.gross)
+      else
+        PaypalLogger.error("FRAUD ALERT : Could not create bounty. Affiliate not found for referrer_code : #{referrer_code}.")
+      end
+    end
+  end
 end
-  
-
-
-
