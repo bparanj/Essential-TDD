@@ -1,17 +1,10 @@
 IPN 
 
 1. Create bounty when the sale completes for a referral. 
-2. Create refund. If mc_gross and payment_gross is negative. It is a refund. It cannot exceed the payment amount.
 
-Backlog
+To Do for Dec 15, 12
 
-1. File upload feature.
-2. Replace hard coded product link with variables in the product mailer emails.
-3. Allow user to download the book when the payment is success. When sale status is 'Completed'.
-
-To Do for Dec 14, 12
-
-1. Implement process_refund
+1. Test process_refund
 2. Admin dashboard : Admin can create affiliates for a given user.
 3. Since IPN messages can be delayed—hence not exactly “instant”—IPN should not be exclusively relied on when immediate order fulfillment is necessary, such as in the case of a digital download service. Use Express checkout response code to check the purchase is complete and kick-off the fulfillment.
 
@@ -19,25 +12,12 @@ Enjoyment
 
 Watch peepcode.
 
-# @notify.status == 'Partially-Refunded'          
-# What is partial refund? how to handle partial refund?
+Backlog
 
-# Status of transaction. List of possible values:
-# <tt>Canceled-Reversal</tt>::
-# <tt>Completed</tt>::
-# <tt>Denied</tt>::
-# <tt>Expired</tt>::
-# <tt>Failed</tt>::
-# <tt>In-Progress</tt>::
-# <tt>Partially-Refunded</tt>::
-# <tt>Pending</tt>::
-# <tt>Processed</tt>::
-# <tt>Refunded</tt>::
-# <tt>Reversed</tt>::
-# <tt>Voided</tt>::
-def status
-  params['payment_status']
-end
+1. File upload feature.
+2. Replace hard coded product link with variables in the product mailer emails.
+3. Allow user to download the book when the payment is success. When sale status is 'Completed'.
+
 
 ---------------------------------------------------------------------------------------
 
