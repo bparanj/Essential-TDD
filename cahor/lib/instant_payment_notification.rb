@@ -5,21 +5,25 @@ class InstantPaymentNotification
 
   def initialize(raw_post)
     @notify = Paypal::Notification.new(raw_post) 
-  end
+  end  
   
   # Only unique transactions are processed (txn_id store processed only once)
   def process_payment
     return if payment_previously_processed?
     return if spoofed_receiver_email?
     
-    if @notify.complete? 
-      if transaction_has_correct_amount?
-        process_bounty
+    begin
+      if @notify.complete? 
+        if transaction_has_correct_amount?
+          process_bounty
+        else
+          PaypalLogger.error("FRAUD ALERT : Payment transaction amount does not match #{@notify.to_yaml}")
+        end
       else
-        PaypalLogger.error("FRAUD ALERT : Payment transaction amount does not match #{@notify.to_yaml}")
+        process_refund if refund?
       end
-    else
-      process_refund if refund?
+    rescue => e
+      ZephoLogger.error('Failed to process payment due to : ', e, PaypalLogger)
     end
   end
   # TODO : notify.amount and notify.gross are the same. Delete one of these fields after testing.

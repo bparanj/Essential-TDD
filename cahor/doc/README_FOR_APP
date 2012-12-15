@@ -1,8 +1,12 @@
 
-To Do for Dec 15, 12
+To Do for Dec 16, 12
 
 1. Test process_refund, process_bounty
 2. Admin dashboard : Admin can create affiliates for a given user.
+3. Check other transaction details, such as the item number and price, to confirm that the price has not been changed by a malicious third party.
+4. If you receive an INVALID response, then either you’ve done something wrong or the original IPN should be treated as suspicious and investigated.
+5. Update the password script to generate shadow compatible password using openssl. Prompt for the password, generate the password without showing it on the screen.
+   Refer Peepcode chef 2 screencast.
 
 Backlog
 
@@ -17,7 +21,7 @@ Deploy
 1. Use Chef to deploy the site. 
 2. Deploy the IPN handler code.
 3. Turn on IPN and specify the URL to which PayPal posts the notifications.
-4. Test IPN Handler using Paypal Sandbox : # seanbehan.com/business/paypal-ipn-simulator/
+4. Test IPN Handler using Paypal Sandbox : Refer seanbehan.com/business/paypal-ipn-simulator/
 5. Sanbox Users Guide has instructions on testing IPN using simulator.
 6. Testing IPN messages. You can test your IPN receiver script using the IPN Simulator under Test Tools in your sandbox account. Since you cannot observe the request (it is sent from Paypal), you can save it to a file or send it to your Email account for verifying and debugging your script.
 
