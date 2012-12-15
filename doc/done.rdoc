@@ -1,6 +1,6 @@
 Dec 14, 12
 
-1. Get peepcode. Chef & Scaling episodes.
+1. Get peepcode, Chef & Scaling episodes.
 2. http://release.seleniumhq.org/selenium-ide/1.9.0/selenium-ide-1.9.0.xpi
    Selenium IDE FF plugin installed on FF 17.0.1 
 3. Upgrade FF to latest version and install Selenium IDE. 
@@ -9,6 +9,8 @@ Dec 14, 12
 6. Create refund. If mc_gross and payment_gross is negative. It is a refund. It cannot exceed the payment amount.
 7. Customized generators to use rspec for testing.
 8. Implement process_bounty
+9. Since IPN messages can be delayed—hence not exactly “instant”—IPN should not be exclusively relied on when immediate order fulfillment is necessary, such as in the case of a digital download service. Use Express checkout response code to check the purchase is complete and kick-off the fulfillment.
+
 
 Dec 13, 12
 
