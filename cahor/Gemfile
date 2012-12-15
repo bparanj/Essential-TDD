@@ -21,6 +21,7 @@ gem 'activemerchant', :require => 'active_merchant'
 gem 'rails-footnotes', '>= 3.7.5.rc4', :group => :development
 
 group :development, :test do
+  gem 'rspec-rails'
   # gem 'capybara'
   # gem 'capybara-webkit'
    
