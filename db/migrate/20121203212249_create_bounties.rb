@@ -4,6 +4,7 @@ class CreateBounties < ActiveRecord::Migration
       t.integer  :affiliate_id,   :null => false
       t.integer  :payable_id,   
       t.decimal  :product_price,      :precision => 11, :scale => 2, :null => false
+      t.string   :currency
       
       # DECISION: amount is calculated field based on commission rate
       # DECISION: commission rate is left to the seller and they will multiply it by that amount and make 
