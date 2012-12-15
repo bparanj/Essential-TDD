@@ -3,6 +3,13 @@ Dec 15, 12
 1. Confirmation email can be sent outside of the webrequest. Remove it to a rake task.
 2. Create bounty when the sale completes for a referral. 
 3. If checkout fails, set the order status to failed.
+4. Write Integration Test that hits the Paypal sandbox. Selenium test cases for sandbox login and express checkout.
+5. Upon IPN message processing completion:
+		1. Update the database with a new customer order  _/
+		2. Send a confirmation email                      _/ (Since we are providing digital service, this will be kicked off by
+		response code of express checkout)
+6. 	Use the item id to find the order id that is combined with other pass through variables.
+		If the verified response passes the checks,take action based on the value of the txn_type variable if it exists; otherwise, take action based on the value of the reason_code variable. [Right now only one pass through variable is used]
 
 Dec 14, 12
 
