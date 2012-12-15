@@ -7,6 +7,8 @@ Dec 14, 12
 4. Record Paypal Sandbox Login. Check if the automated test can run in this setup.
 5. Implement process_refund
 6. Create refund. If mc_gross and payment_gross is negative. It is a refund. It cannot exceed the payment amount.
+7. Customized generators to use rspec for testing.
+8. Implement process_bounty
 
 Dec 13, 12
 
