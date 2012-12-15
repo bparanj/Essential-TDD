@@ -9,10 +9,10 @@ class Order < ActiveRecord::Base
   validates_uniqueness_of :number
   
   PURCHASE = 'purchase'
+  FULFILL = 'fulfill'
       
-  def self.mark_ready_for_fulfillment(id)
-    order = find(id)
-    order.status = 'fulfill'
+  def mark_ready_for_fulfillment
+    self.status = FULFILL
     save
   end
   

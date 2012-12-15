@@ -18,7 +18,6 @@ class InstantPaymentNotification
     
     if @notify.complete? 
       if Payment.transaction_has_correct_amount?(@notify.transaction_id)
-        Order.mark_ready_for_fulfillment(@notify.item_id)
         process_bounty
       else
         PaypalLogger.error("FRAUD ALERT : Payment transaction amount does not match #{@notify.to_yaml}")

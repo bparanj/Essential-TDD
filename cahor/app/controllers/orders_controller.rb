@@ -9,16 +9,17 @@ class OrdersController < ApplicationController
                                               product_id: session[:product_id])
       if result.success?
         ProductMailer.confirmation_email(@order).deliver
-      
+        @order.mark_ready_for_fulfillment
+        
         render action: 'success'
       else
-        logger.error("Failed to process order : #{@order}.")
+        PaypalLogger.error("Failed to process order : #{@order}.")
         render action: 'failure'
       end    
       session[:product_id] = nil
     rescue Exception => e
-      logger.error("#{e.class.name}: #{e.message}")
-      logger.error(e.backtrace * "\n")
+      PaypalLogger.error("#{e.class.name}: #{e.message}")
+      PaypalLogger.error(e.backtrace * "\n")
     end
   end
   
