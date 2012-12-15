@@ -7,17 +7,13 @@ class InstantPaymentNotification
     @notify = Paypal::Notification.new(raw_post) 
   end
   
-  def acknowledge
-    @notify.acknowledge
-  end
-  
   # Only unique transactions are processed (txn_id store processed only once)
   def process_payment
-    return if Payment.previously_processed?(@notify.transaction_id)  
-    return if User.spoofed_receiver_email?(@notify['invoice'], @notify.account)      	
+    return if payment_previously_processed?
+    return if spoofed_receiver_email?
     
     if @notify.complete? 
-      if Payment.transaction_has_correct_amount?(@notify.transaction_id)
+      if transaction_has_correct_amount?
         process_bounty
       else
         PaypalLogger.error("FRAUD ALERT : Payment transaction amount does not match #{@notify.to_yaml}")
@@ -27,6 +23,7 @@ class InstantPaymentNotification
     end
   end
   # TODO : notify.amount and notify.gross are the same. Delete one of these fields after testing.
+  # Note : payment_gross ipn variable is a deprecated field. mc_gross must be used.
   def handle_new_transaction(transaction_id)
     if Payment.new_transaction?(transaction_id)
       Payment.create(transaction_id: transaction_id, 
@@ -42,6 +39,10 @@ class InstantPaymentNotification
                      details: @notify.params,
                      invoice: @notify.invoice)
     end
+  end
+  
+  def acknowledge
+    @notify.acknowledge
   end
 
   private
@@ -82,5 +83,17 @@ class InstantPaymentNotification
         PaypalLogger.error("FRAUD ALERT : Could not create bounty. Affiliate not found for referrer_code : #{referrer_code}.")
       end
     end
+  end
+  
+  def spoofed_receiver_email?
+    User.spoofed_receiver_email?(@notify['invoice'], @notify.account)      	
+  end
+  
+  def payment_previously_processed?
+    Payment.previously_processed?(@notify.transaction_id)
+  end
+  
+  def transaction_has_correct_amount?
+    Payment.transaction_has_correct_amount?(@notify.transaction_id)
   end
 end

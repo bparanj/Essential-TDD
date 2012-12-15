@@ -1,3 +1,9 @@
+Dec 15, 12
+
+1. Confirmation email can be sent outside of the webrequest. Remove it to a rake task.
+2. Create bounty when the sale completes for a referral. 
+3. If checkout fails, set the order status to failed.
+
 Dec 14, 12
 
 1. Get peepcode, Chef & Scaling episodes.

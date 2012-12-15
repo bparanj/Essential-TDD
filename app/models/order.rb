@@ -10,10 +10,15 @@ class Order < ActiveRecord::Base
   
   PURCHASE = 'purchase'
   FULFILL = 'fulfill'
-      
+  FAILED = 'failed'
+  
   def mark_ready_for_fulfillment
     self.status = FULFILL
     save
   end
   
+  def mark_as_failed
+    self.status = FAILED
+    save
+  end
 end
