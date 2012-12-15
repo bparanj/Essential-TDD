@@ -127,3 +127,25 @@ In the Getting Started with Express Checkout guide, the flow for the buyer step 
 * Express Checkout API Third Party API Model *
 I will be using the Paypal Accelerated Boarding to speed up the onboarding of the merchants on my site as a third-party shopping cart provider. The integration guide says if I use the Accelerated boarding then I need to use the Third-Party API model. It does not explain the third-party API model. Where can I find more details?
 
+---------------------------------------------------------------------------------------
+
+# @notify.status == 'Partially-Refunded'          
+# What is partial refund? how to handle partial refund?
+
+# Status of transaction. List of possible values:
+# <tt>Canceled-Reversal</tt>::
+# <tt>Completed</tt>::
+# <tt>Denied</tt>::
+# <tt>Expired</tt>::
+# <tt>Failed</tt>::
+# <tt>In-Progress</tt>::
+# <tt>Partially-Refunded</tt>::
+# <tt>Pending</tt>::
+# <tt>Processed</tt>::
+# <tt>Refunded</tt>::
+# <tt>Reversed</tt>::
+# <tt>Voided</tt>::
+def status
+  params['payment_status']
+end
+

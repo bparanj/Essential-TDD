@@ -5,6 +5,8 @@ Dec 14, 12
    Selenium IDE FF plugin installed on FF 17.0.1 
 3. Upgrade FF to latest version and install Selenium IDE. 
 4. Record Paypal Sandbox Login. Check if the automated test can run in this setup.
+5. Implement process_refund
+6. Create refund. If mc_gross and payment_gross is negative. It is a refund. It cannot exceed the payment amount.
 
 Dec 13, 12
 

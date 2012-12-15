@@ -2,6 +2,7 @@ class Transaction < ActiveRecord::Base
   attr_accessible :action, :amount, :authorization, :message, :order_id, :details, :success, :action, :amount, :response, :transaction_id
   belongs_to :order
   serialize :details
+  # This is the transaction that happened on our site.
   
   def response=(response)
     self.success = response.success?
