@@ -8,18 +8,19 @@ class OrdersController < ApplicationController
                                               amount: amount,
                                               product_id: session[:product_id])
       if result.success?
-        ProductMailer.confirmation_email(@order).deliver
         @order.mark_ready_for_fulfillment
         
         render action: 'success'
       else
-        PaypalLogger.error("Failed to process order : #{@order}.")
+        @order.mark_as_failed
+        PaypalLogger.error("Checkout failed for order : #{@order}.")
+        
         render action: 'failure'
       end    
+
       session[:product_id] = nil
     rescue Exception => e
-      PaypalLogger.error("#{e.class.name}: #{e.message}")
-      PaypalLogger.error(e.backtrace * "\n")
+      ZephoLogger.error("ORDER ERROR : Unable to process order due to : ", e, PaypalLogger)      
     end
   end
   
