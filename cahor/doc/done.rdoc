@@ -1,3 +1,9 @@
+Dec 16, 12
+
+1. Drop db and create schema from scratch and run automated integration scripts.
+2. Add Selenium test case to simulate affiliate referral.
+3. Organized project to do lists.
+
 Dec 15, 12
 
 1. Confirmation email can be sent outside of the webrequest. Remove it to a rake task.

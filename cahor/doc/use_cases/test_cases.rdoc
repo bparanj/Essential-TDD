@@ -11,6 +11,12 @@
 the same as the affiliate referrer_code.
 7. Check that the transactions table success value is true.
 
+Testing this using Scripts
+
+1. Run Selenium test case to simulate affiliate referral.
+2. Run Express checkout Selenium test case.
+3. Run rake paypal:ipn to check transaction status and custom variable values. The value of custom must be the same as the affiliate_site.html value nibj5o3q4m.
+
 ** Simulate IPN Notification in Development **
 
 1. Copy transaction_id from the Paypal Thank You page : 0UB45589MG4871049. This is the same as 
