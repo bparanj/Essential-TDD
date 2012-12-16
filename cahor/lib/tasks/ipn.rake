@@ -27,6 +27,8 @@ namespace :paypal do
     ipn['receiver_email'] = receiver_email
    
     p ipn.to_query + '&address_status=confirmed&tax=0.00&address_street=164+Waverley+Street&payment_date=15%3A23%3A54+Apr+15%2C+2005+PDT&payment_status=Completed&address_zip=K2P0V6&first_name=Tobias&mc_fee=15.05&address_country_code=CA&address_name=Tobias+Luetke&notify_version=1.7&address_country=Canada&address_city=Ottawa&quantity=1&verify_sign=AEt48rmhLYtkZ9VzOGAtwL7rTGxUAoLNsuf7UewmX7UGvcyC3wfUmzJP&payment_type=instant&last_name=Luetke&address_state=Ontario&payment_fee=&receiver_id=UQ8PDYXJZQD9Y&txn_type=web_accept&item_name=Store+Purchase&test_ipn=1&payment_gross=&shipping=0.00'
+
+    p "Is Transaction success : #{transaction.success}"
     p "payer id : #{payer_id}"
     p "payer status : #{payer_status}"
     p "payer email : #{payer_email}"

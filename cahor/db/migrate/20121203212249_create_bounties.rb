@@ -2,7 +2,7 @@ class CreateBounties < ActiveRecord::Migration
   def change
     create_table :bounties do |t|
       t.integer  :affiliate_id,   :null => false
-      t.integer  :payable_id,   
+      t.integer  :payable_id   
       t.decimal  :product_price,      :precision => 11, :scale => 2, :null => false
       t.string   :currency
       
