@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121212192714) do
+ActiveRecord::Schema.define(:version => 20121215000902) do
 
   create_table "affiliates", :force => true do |t|
     t.integer  "user_id",       :null => false
@@ -21,12 +21,12 @@ ActiveRecord::Schema.define(:version => 20121212192714) do
   end
 
   create_table "bounties", :force => true do |t|
-    t.integer  "affiliate_id",           :null => false
-    t.integer  "paypal_notification_id", :null => false
-    t.integer  "payable_id",             :null => false
-    t.integer  "product_price",          :null => false
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
+    t.integer  "affiliate_id",                                 :null => false
+    t.integer  "payable_id"
+    t.decimal  "product_price", :precision => 11, :scale => 2, :null => false
+    t.string   "currency"
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
   end
 
   create_table "clicks", :force => true do |t|
@@ -109,6 +109,14 @@ ActiveRecord::Schema.define(:version => 20121212192714) do
     t.integer  "user_id",                                   :null => false
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
+  end
+
+  create_table "refunds", :force => true do |t|
+    t.string   "transaction_id"
+    t.string   "currency"
+    t.decimal  "amount",         :precision => 8, :scale => 2
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
   end
 
   create_table "tokens", :force => true do |t|
