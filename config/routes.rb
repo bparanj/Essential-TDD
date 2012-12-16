@@ -7,7 +7,7 @@ Cahor::Application.routes.draw do
   
   match "/welcome" => "welcome#index"
   match "/affiliate_signup" => "affiliates#create"
-  match "/api" => "clicks#create"
+  match "/asp" => "clicks#create"
   
   devise_for :users
 
