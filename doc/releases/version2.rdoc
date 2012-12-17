@@ -46,3 +46,7 @@ http://coding.smashingmagazine.com/2011/09/05/getting-started-with-the-paypal-ap
   a) How to Add Zepho Inc as New Third Party Permissions in production ?
   b) Getting error : Please enter valid API username. Post this problem in Paypal forum.
   c) Find the Third-Party API Grant access screen in the current Paypal website.
+
+	1) Run promotions for specific period without making changes to Buy Now button. Set up promotions for your products in your Affiliate Logic account.
+	2) Test sales copy, PPC, newsletter, banner ads etc by setting up 0% affiliate commission cookie duration = 100 years and assigning a dummy ppc_affiliate to that account.
+	3) Click / Impression Tracking charts

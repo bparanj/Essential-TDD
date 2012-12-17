@@ -1,0 +1,108 @@
+Affiliate Logic is a collaborative tool for selling, tracking, and managing of digital products. 
+
+Affiliate Logic provides affiliate tracking for people who want to sell digital products online. Revenue is generated for both the product vendor and the marketing affiliate through a pay-for-performance revenue sharing model.
+
+1) Actors : Affiliate, Buyer, Vendor, Tracker
+
+Affiliate
+
+1) Signup for an affiliate account.
+2) Get affiliate links for products.
+3) View products, referral commission, cookie duration, payment policy etc
+4) View sales reports showing bounties
+5) Email daily and weekly reports - Set Options
+
+Buyer
+
+1) Browse the store
+2) Purchase product
+3) Get refund 
+
+Vendor
+
+1) Signup for a seller account
+2) Setup products, referral commission rate, payment policy, refund policy and cookie duration
+3) View sales reports showing payments to be made
+4) View affiliate details for mailing payments, sending newsletters etc
+5) Email daily and weekly reports - Set options
+
+Tracker
+
+1) Record click, set cookie and redirect to payment processor
+2) Record purchase, credit affiliate and redirect to payment confirmation page
+3) Process refunds
+4) Secure https connection
+5) Email reports to sellers, affiliates and Zepho
+
+http://clickbank.net/sell.cgi?YOURID_MERCHANTID/ProductNumber/ProductName
+
+
+1. Free Account - All features are available. Limited to 1 eBook and unlimited downloads.
+2. xzy Account - Limited to 5 eBooks and 2 domains and x downloads per month. Price $15 + 0.10 per additional download every 3 months.
+3.       Account - Limited to 10 eBooks and 4 domains and y downloads per month. Price $25 + 0.10 per additional download every 3 months.
+4. Premium Account - Unlimited eBooks, domains and downloads per month. $ 300 + 0.02 per download every 3 months.
+
+Downloads, Domains, Number of eBooks, Features
+
+ Pricing: 
+
+Should it based on percentage of the sales amount or something else? Clickbank vs WP Affiliate vs ???
+
+
+PDF book generation using HTML. Password protection, enable / disable printing. Email as password or random password. Stamping of purchased user's detail
+to prevent sharing.
+
+No install
+No maintenance. 
+Free software upgrades
+Focus on growing your business not running your business.
+No waiting period and minimum amount to get paid. Immediate access to cash - use cash to grow your business
+Export customer data as csv file into newsletter management services
+Promotion tracking, Testing sales copy and email newsletter campaigns.
+
+Lower cost than clickbank
+Extend - more than WP Affiliate plugin
+
+Order confirmation email can have link to newsletter subscription
+
+
+Eliminate Reduce Raise Create Grid
+
+Raise : Which factors should be raised well above the industry's standard?
+Create : Which factors should be created that industry has never offered?
+Reduce : Which factors should be reduced well below the industry's standard?
+Eliminate : Which factors should be eliminated that the industry takes for granted?
+
+
+
+Increase value and decrease cost
+
+More value than WP Affiliate Plugin and Lower cost than Clickbank
+
+Strategy Canvas
+
+Create a feature matrix using iPad.
+
+Create the diagram for Clickbank, WP Affiliate Plugin and other comeptitors
+
+Download Click2Sell affiliate guide and merchant guide. Take notes.
+
+http://www.pluggd.in/sell-digital-goods-online-ejunkie-297/
+http://www.e-junkie.com/ej/pricing.htm
+http://www.e-junkie.com/ej/reseller.htm
+https://application.blinksale.com/firms/new#plans
+http://www.infoq.com/presentations/availability-consistency
+http://www.associateprograms.com/articles/618/1/Click2Sell-new-ClickBank-competitor/
+http://www.click2sell.eu/en/home/companies-comparison.html
+http://www.clickbank.com/blog/tag/competitors/
+http://www.paygear.com/contents/compare/
+http://www.authorpalace.com/internet-marketing/clickbank/paygear-the-clickbank-competitor-with-more-to-offer.html
+https://www.click2sell.eu/signup-click2sell.html
+
+For anyone who's interested I've updated a gist with a working example of multiple file attachments using Paperclip.
+http://gist.github.com/33011
+Notes about the gist:
+1. Page has many Assets
+2. Asset has Paperclip attachment
+3. Paperclip attachment is called 'file'
+http://www.webyfi.com/?p=11

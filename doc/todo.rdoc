@@ -7,6 +7,8 @@ To Do for Dec 16, 12
 4. If you receive an INVALID response, then either you’ve done something wrong or the original IPN should be treated as suspicious and investigated.
 5. Update the password script to generate shadow compatible password using openssl. Prompt for the password, generate the password without showing it on the screen.
    Refer Peepcode chef 2 screencast.
+6. 	Generate a unique SHA hash using seller's name and append with random number, use this url as the confirmation URL after purchase. Then redirect the buyer to Thank You page on affiliate's site.
+
 
 ---------------------------------------------------------------------------------------
 
