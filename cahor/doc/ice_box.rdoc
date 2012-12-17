@@ -47,3 +47,65 @@ Operations
 1. Measure time taken from click to getting to the landing page. Monitor this constantly. Make this very fast.
 
 ---------------------------------------------------------------------------------------
+
+
+The first thing I did was set up a model to manage affiliate redirects.
+script/generate model affiliate_redirect path:string location:string 
+
+rake db:migrate 
+
+Then I set up a Rails Metal instance called affiliate_redirects.
+script/generate metal affiliate_redirects 
+
+From there, programming Rails Metal was pretty simple. You just have to find an AffiliateRedirect with the path visited and redirect to the AffiliateRedirect’s location. Here’s the code:
+require(File.dirname(__FILE__) + "/../../config/environment") unless defined?(Rails) class AffiliateRedirects def self.call(env) redirect = AffiliateRedirect.connection.select_all("SELECT * FROM affiliate_redirects WHERE path = '#{env["PATH_INFO"]}'").first if redirect && (location = redirect["location"]) [302, {"Content-Type" => "text/html", "Location" => location}, ["You are being redirected."]] else [404, {"Content-Type" => "text/html"}, ["Not Found"]] end end end
+
+---------------------------------------------------------------------------------------
+
+How to display html in rails views
+
+http://www.w3schools.com/html/
+
+ You could just use a standard rhtml template and render it to a string, then pop it into a 
+pre tag to display it. If you need a more programmatic approach,  Builder works well.
+
+Or, for something small, I'd just use a helper with content_tag.
+Having it all as a seperate template/partial is quite nice though.
+
+<table class="example" border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td>
+<h2 class="example">Example</h2>
+
+<table class="example_code" border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td>
+&lt;html&gt;<br />
+
+&lt;body&gt;<br /><br />
+
+&lt;h1&gt;My First Heading&lt;/h1&gt;<br />
+
+<br />
+&lt;p&gt;My first paragraph.&lt;/p&gt;<br />
+
+<br />
+&lt;/body&gt;<br />
+
+&lt;/html&gt; 
+</td></tr></table>
+
+http://guides.rubyonrails.org/contributing_to_rails.html
+
+---------------------------------------------------------------------------------------
+
+Amazon S3
+
+http://github.com/rightscale/right_aws
+http://www.codeulatescreencasts.com/products/build-an-app-with-rails-and-s3
+http://github.com/contrast/rails-uploadify-s3
+http://github.com/contrast/uploadify-s3 
+
+1) Sign up for S3 at http://aws.amazon.com
+2) Get Access key and secret access key (Web services account -> AWS access identifiers)
+3) sudo gem install aws-s3
+4) export AMAZON_ACCESS_KEY_ID='abcdefghijklmnop'
+export AMAZON_SECRET_ACCESS_KEY='12367891012345'
+
+---------------------------------------------------------------------------------------

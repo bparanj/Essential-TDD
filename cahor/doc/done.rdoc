@@ -3,6 +3,8 @@ Dec 16, 12
 1. Drop db and create schema from scratch and run automated integration scripts.
 2. Add Selenium test case to simulate affiliate referral.
 3. Organized project to do lists.
+4. Set cookie only once on first time visit
+5. clickance.com and clickance.net registered on namecheap.com
 
 Dec 15, 12
 
