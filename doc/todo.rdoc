@@ -1,5 +1,5 @@
 
-To Do for Dec 16, 12
+To Do for Dec 17, 12
 
 1. Test process_refund, process_bounty
 2. Admin dashboard : Admin can create affiliates for a given user.
