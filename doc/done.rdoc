@@ -26,6 +26,8 @@ options[:items].each do |item|
   end
 end
 
+7. Update the password script to generate shadow compatible password using openssl. Prompt for the password, generate the password without showing it on the screen.
+
 Dec 16, 12
 
 1. Drop db and create schema from scratch and run automated integration scripts.

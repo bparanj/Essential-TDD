@@ -1,11 +1,11 @@
 
-To Do for Dec 17, 12
+To Do for Dec 18, 12
 
-1. Test process_refund, process_bounty
-2. Admin dashboard : Admin can create affiliates for a given user.
-3. If you receive an INVALID response, then either you’ve done something wrong or the original IPN should be treated as suspicious and investigated.
-4. Update the password script to generate shadow compatible password using openssl. Prompt for the password, generate the password without showing it on the screen.
-   Refer Peepcode chef 2 screencast.
+1. Drop db and test from scratch.
+2. Test process_refund, process_bounty. Use sample IPN message in paypal/paypal.rdoc to write unit tests.
+3. Admin dashboard : Admin can create affiliates for a given user.
+4. If you receive an INVALID response, then either you’ve done something wrong or the original IPN should be treated as suspicious and investigated.
+5. openssl passwd -1 12345 is generating different shadow compatible password on every run.
 
 ---------------------------------------------------------------------------------------
 
