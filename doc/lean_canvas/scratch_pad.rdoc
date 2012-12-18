@@ -1,6 +1,6 @@
-Affiliate Logic is a collaborative tool for selling, tracking, and managing of digital products. 
+Click Plan is a collaborative tool for selling, tracking, and managing of digital products. 
 
-Affiliate Logic provides affiliate tracking for people who want to sell digital products online. Revenue is generated for both the product vendor and the marketing affiliate through a pay-for-performance revenue sharing model.
+Click Plan provides affiliate tracking for people who want to sell digital products online. Revenue is generated for both the product vendor and the marketing affiliate through a pay-for-performance revenue sharing model.
 
 1) Actors : Affiliate, Buyer, Vendor, Tracker
 
@@ -37,18 +37,6 @@ Tracker
 http://clickbank.net/sell.cgi?YOURID_MERCHANTID/ProductNumber/ProductName
 
 
-1. Free Account - All features are available. Limited to 1 eBook and unlimited downloads.
-2. xzy Account - Limited to 5 eBooks and 2 domains and x downloads per month. Price $15 + 0.10 per additional download every 3 months.
-3.       Account - Limited to 10 eBooks and 4 domains and y downloads per month. Price $25 + 0.10 per additional download every 3 months.
-4. Premium Account - Unlimited eBooks, domains and downloads per month. $ 300 + 0.02 per download every 3 months.
-
-Downloads, Domains, Number of eBooks, Features
-
- Pricing: 
-
-Should it based on percentage of the sales amount or something else? Clickbank vs WP Affiliate vs ???
-
-
 PDF book generation using HTML. Password protection, enable / disable printing. Email as password or random password. Stamping of purchased user's detail
 to prevent sharing.
 
@@ -66,24 +54,6 @@ Extend - more than WP Affiliate plugin
 Order confirmation email can have link to newsletter subscription
 
 
-Eliminate Reduce Raise Create Grid
-
-Raise : Which factors should be raised well above the industry's standard?
-Create : Which factors should be created that industry has never offered?
-Reduce : Which factors should be reduced well below the industry's standard?
-Eliminate : Which factors should be eliminated that the industry takes for granted?
-
-
-
-Increase value and decrease cost
-
-More value than WP Affiliate Plugin and Lower cost than Clickbank
-
-Strategy Canvas
-
-Create a feature matrix using iPad.
-
-Create the diagram for Clickbank, WP Affiliate Plugin and other comeptitors
 
 Download Click2Sell affiliate guide and merchant guide. Take notes.
 

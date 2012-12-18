@@ -38,12 +38,19 @@ class PaypalGateway
                       product_id: options[:product_id])    
     order.ip_address = ip_address
     order.number = @confirmation_number
-    
+        
     response = do_express_checkout_payment(options[:amount], 
                                            ip: order.ip_address,
                                            token: order.express_token,
-                                           payer_id: order.express_payer_id)
-                                           
+                                           payer_id: order.express_payer_id,
+                                           items: payment_details(product_id))
+
+    if response.success?
+       order.mark_ready_for_fulfillment
+    else
+       order.mark_as_failed
+    end    
+                                          
     checkout_response = get_express_checkout_details(order.express_token)
     if checkout_response.success?
       order.buyer_email = checkout_response.email
@@ -81,4 +88,13 @@ class PaypalGateway
     response
   end
     
+  def payment_details(id)
+    product = Product.find(id)
+    items = []
+    details = {}
+    details['name'] = product.name
+    details['number'] = id
+
+    items << details
+  end
 end

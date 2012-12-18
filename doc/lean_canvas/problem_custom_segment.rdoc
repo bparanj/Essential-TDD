@@ -1,19 +1,23 @@
 Customer Segment : eBook Self Publishers 
 
 1. List top 3 problems
-For the customer segment you are working with, describe the top 1-3 problems they need solved.
+   For the customer segment you are working with, describe the top 1-3 problems they need solved.
 
-1.
-2.
-3.
+	a) Ease of Use
+	b) Pricing
+	c) Customized features for their needs.
 
 2. List existing alternatives
 
-
+	a) Click Bank
+	b) eJunkie
+	c) Click 2 Sell
+	d) Wordpress Plugins
 
 3. Identify other user roles
 
-	 Buyer of ebooks. Affiliates promoting ebooks.
+	a) Buyer of ebooks. 
+	b) Affiliates promoting ebooks.
 	
 4. Hone in on possible early adopters
 

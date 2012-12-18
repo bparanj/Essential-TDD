@@ -7,12 +7,9 @@ class OrdersController < ApplicationController
                                               express_payer_id: params[:PayerID],
                                               amount: amount,
                                               product_id: session[:product_id])
-      if result.success?
-        @order.mark_ready_for_fulfillment
-        
+      if result.success?        
         render action: 'success'
       else
-        @order.mark_as_failed
         PaypalLogger.error("Checkout failed for order : #{@order}.")
         
         render action: 'failure'
@@ -26,6 +23,7 @@ class OrdersController < ApplicationController
   
   def express
     session[:product_id] = params[:product_id]
+        
     response = PaypalGateway.set_express_checkout(amount,
                                                   ip: request.remote_ip,
                                                   return_url: new_order_url,

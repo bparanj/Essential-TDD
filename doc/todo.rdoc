@@ -3,12 +3,9 @@ To Do for Dec 17, 12
 
 1. Test process_refund, process_bounty
 2. Admin dashboard : Admin can create affiliates for a given user.
-3. Check other transaction details, such as the item number and price, to confirm that the price has not been changed by a malicious third party.
-4. If you receive an INVALID response, then either you’ve done something wrong or the original IPN should be treated as suspicious and investigated.
-5. Update the password script to generate shadow compatible password using openssl. Prompt for the password, generate the password without showing it on the screen.
+3. If you receive an INVALID response, then either you’ve done something wrong or the original IPN should be treated as suspicious and investigated.
+4. Update the password script to generate shadow compatible password using openssl. Prompt for the password, generate the password without showing it on the screen.
    Refer Peepcode chef 2 screencast.
-6. 	Generate a unique SHA hash using seller's name and append with random number, use this url as the confirmation URL after purchase. Then redirect the buyer to Thank You page on affiliate's site.
-
 
 ---------------------------------------------------------------------------------------
 

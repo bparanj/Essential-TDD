@@ -11,14 +11,18 @@ class Order < ActiveRecord::Base
   PURCHASE = 'purchase'
   FULFILL = 'fulfill'
   FAILED = 'failed'
+  FRAUD = 'fraud'
   
   def mark_ready_for_fulfillment
     self.status = FULFILL
-    save
   end
   
   def mark_as_failed
     self.status = FAILED
+  end
+  
+  def set_fraud_alert
+    self.status = FRAUD
     save
   end
 end

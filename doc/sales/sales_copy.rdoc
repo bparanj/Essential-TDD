@@ -3,4 +3,18 @@
 
 Pricing
 
+Test Plan #1
+
 Pay as you go pricing. 20% of the total affiliate commission paid.
+
+Test Plan #2
+
+Should it based on percentage of the sales amount or something else? Clickbank vs WP Affiliate vs ???
+
+Test Plan #3
+
+1. xzy Account - Limited to 5 eBooks and 2 domains and x downloads per month. Price $15 + 0.10 per additional download every 3 months.
+2. Account - Limited to 10 eBooks and 4 domains and y downloads per month. Price $25 + 0.10 per additional download every 3 months.
+3. Premium Account - Unlimited eBooks, domains and downloads per month. $ 300 + 0.02 per download every 3 months.
+
+Downloads, Domains, Number of eBooks, Features
