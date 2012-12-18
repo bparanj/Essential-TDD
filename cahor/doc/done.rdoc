@@ -4,6 +4,8 @@ Dec 18, 12
 2. Drop db and test Express Checkout from scratch.
 3. openssl passwd -1 12345 is generating different shadow compatible password on every run. Use salt to generate
    the same password.
+4. If you receive an INVALID response, then either you’ve done something wrong or the original IPN should be treated as suspicious and investigated. 
+
 
 
 Dec 17, 12
