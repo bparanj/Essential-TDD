@@ -6,7 +6,8 @@ class OrdersController < ApplicationController
                                               express_token: params[:token],
                                               express_payer_id: params[:PayerID],
                                               amount: amount,
-                                              product_id: session[:product_id])
+                                              product_id: session[:product_id],
+                                              item_name: product_name(session[:product_id]))
       if result.success?        
         render action: 'success'
       else
@@ -38,5 +39,10 @@ class OrdersController < ApplicationController
   
   def amount
     Product.price_in_cents(session[:product_id])
+  end
+  
+  def product_name(id)
+    product = Product.find(id)
+    product.name
   end
 end

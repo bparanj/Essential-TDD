@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20121215000902) do
 
   create_table "orders", :force => true do |t|
     t.integer  "product_id"
+    t.string   "item_name"
     t.string   "ip_address"
     t.string   "first_name"
     t.string   "last_name"
