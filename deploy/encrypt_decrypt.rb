@@ -36,6 +36,17 @@ choose do |menu|
     say("Deploy password copied.") 
   end
   
-end
+  # Generate shadow compatible password using openssl
+  menu.choice :shadow do 
+    password = ask("Enter your password : ") do |q|
+      q.echo = false
+    end
 
+    command = "openssl passwd -1 #{password}"
+    shadow = `#{command}`
+    
+    say("Shadow compatible password is : #{shadow}") 
+  end
+  
+end
 
