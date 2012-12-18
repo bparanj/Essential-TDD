@@ -25,9 +25,41 @@ namespace :paypal do
     ipn['mc_currency'] = mc_currency
     ipn['txn_id'] = txn_id
     ipn['receiver_email'] = receiver_email
-   
-    p ipn.to_query + '&address_status=confirmed&tax=0.00&address_street=164+Waverley+Street&payment_date=15%3A23%3A54+Apr+15%2C+2005+PDT&payment_status=Completed&address_zip=K2P0V6&first_name=Tobias&mc_fee=15.05&address_country_code=CA&address_name=Tobias+Luetke&notify_version=1.7&address_country=Canada&address_city=Ottawa&quantity=1&verify_sign=AEt48rmhLYtkZ9VzOGAtwL7rTGxUAoLNsuf7UewmX7UGvcyC3wfUmzJP&payment_type=instant&last_name=Luetke&address_state=Ontario&payment_fee=&receiver_id=UQ8PDYXJZQD9Y&txn_type=web_accept&item_name=Store+Purchase&test_ipn=1&payment_gross=&shipping=0.00'
-
+    ipn['protection_eligibility'] = 'Eligible'
+    ipn['address_status'] = 'confirmed'
+    ipn['tax'] = 0.00
+    ipn['address_street'] = '1 Main St'
+    ipn['payment_status'] = 'Completed'
+    ipn['address_zip'] = '95131'
+    ipn['first_name'] = 'Test'
+    ipn['mc_fee'] = '0.88'
+    ipn['address_country_code'] = 'US' 
+    ipn['address_name'] = 'Test User'
+    ipn['notify_version'] = '2.6'
+    ipn['custom'] = 'nibj5o3q4m'
+    ipn['payer_status'] = 'verified'
+    ipn['address_country'] = 'United States'
+    ipn['address_city'] = 'San Jose'
+    ipn['quantity'] = 1
+    ipn['payment_type'] = 'instant'
+    ipn['last_name'] = 'User'
+    ipn['address_state'] = 'CA'
+    ipn['payment_fee'] = 0.88
+    ipn['receiver_id'] = 'S8XGHLYDW9T3S'
+    ipn['txn_type'] = 'express_checkout'
+    ipn['item_name'] = 'product.name'
+    ipn['mc_currency'] = 'USD'
+    ipn['item_number'] =
+    ipn['residence_country'] = 'US'
+    ipn['test_ipn'] = 1
+    ipn['handling_amount'] = 0.00
+    ipn['transaction_subject'] =
+    ipn['payment_gross'] = 2.00
+    ipn['shipping'] = 0.00
+        
+    p 'Copy the following query:'
+    p ipn.to_query + 'payment_date=15%3A23%3A54+Apr+15%2C+2012+PDT&verify_sign=AEt48rmhLYtkZ9VzOGAtwL7rTGxUAoLNsuf7UewmX7UGvcyC3wfUmzJP'
+    p '--------------'
     p "Is Transaction success : #{transaction.success}"
     p "payer id : #{payer_id}"
     p "payer status : #{payer_status}"
