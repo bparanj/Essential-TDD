@@ -90,7 +90,7 @@ class PaypalGateway
   end
   # Send the right values to Paypal, so that IPN class can do fraud check by checking 
   # the order with the Paypal posted variables.
-  def payment_details(options)
+  def self.payment_details(options)
     items = []
     details = {}
     details['name'] = options[:item_name]
