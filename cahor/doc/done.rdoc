@@ -1,7 +1,30 @@
+Dec 18, 12
+
+
+
 Dec 17, 12
 
 1. Clarified design questions for Arun.
 2. Registered clickplan.net, clickplan.biz, clickplan.info & clickplan.mobi on namecheap.com
+3. Completed problem and customer segment sections of the lean canvas.
+4. Generate a unique SHA hash using seller's name and append with random number, use this url as the confirmation URL after purchase. Then redirect the buyer to Thank You page on affiliate's site. [Not required now]
+5. Compare the product id and name of the incoming posted variables with the product id and name of 
+   the transaction that took place on our site : no_malicious_price_change implemented
+6. Major refactorings of InstantPaymentNotification, PaypalGateway & OrdersController
+
+options[:items].each do |item|
+  xml.tag! 'n2:PaymentDetailsItem' do
+    xml.tag! 'n2:Name', item[:name]
+    xml.tag! 'n2:Number', item[:number]
+    xml.tag! 'n2:Quantity', item[:quantity]
+    if item[:amount]
+      xml.tag! 'n2:Amount', localized_amount(item[:amount], currency_code), 'currencyID' => currency_code
+    end
+    xml.tag! 'n2:Description', item[:description]
+    xml.tag! 'n2:ItemURL', item[:url]
+    xml.tag! 'n2:ItemCategory', item[:category] if item[:category]
+  end
+end
 
 Dec 16, 12
 
