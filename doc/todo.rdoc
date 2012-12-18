@@ -3,7 +3,6 @@ To Do for Dec 18, 12
 
 1. Test process_refund, process_bounty. Use sample IPN message in paypal/paypal.rdoc to write unit tests.
 2. Admin dashboard : Admin can create affiliates for a given user.
-3. If you receive an INVALID response, then either you’ve done something wrong or the original IPN should be treated as suspicious and investigated. 
 
 ---------------------------------------------------------------------------------------
 
