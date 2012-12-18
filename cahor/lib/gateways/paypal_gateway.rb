@@ -35,7 +35,8 @@ class PaypalGateway
   def self.checkout(ip_address, options = {})        
     order = Order.new(express_token: options[:express_token], 
                       express_payer_id: options[:express_payer_id],
-                      product_id: options[:product_id])    
+                      product_id: options[:product_id],
+                      item_name: options[:item_name])    
     order.ip_address = ip_address
     order.number = @confirmation_number
         
@@ -43,7 +44,7 @@ class PaypalGateway
                                            ip: order.ip_address,
                                            token: order.express_token,
                                            payer_id: order.express_payer_id,
-                                           items: payment_details(product_id))
+                                           items: payment_details(options))
 
     if response.success?
        order.mark_ready_for_fulfillment
@@ -87,13 +88,13 @@ class PaypalGateway
     end
     response
   end
-    
-  def payment_details(id)
-    product = Product.find(id)
+  # Send the right values to Paypal, so that IPN class can do fraud check by checking 
+  # the order with the Paypal posted variables.
+  def payment_details(options)
     items = []
     details = {}
-    details['name'] = product.name
-    details['number'] = id
+    details['name'] = options[:item_name]
+    details['number'] = options[:product_id]
 
     items << details
   end

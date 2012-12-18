@@ -1,5 +1,5 @@
 class Order < ActiveRecord::Base
-  attr_accessible :express_token, :express_payer_id, :product_id, :status
+  attr_accessible :express_token, :express_payer_id, :product_id, :status, :item_name
   attr_protected :ip_address
   serialize :details
 
