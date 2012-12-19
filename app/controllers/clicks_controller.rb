@@ -4,6 +4,7 @@ class ClicksController < ApplicationController
     _handle_cookie    
     _record_click
     
+    # TODO : Comment out these lines before going live
     logger.info("Params are : #{params[:r]} - #{params[:p]} - #{params[:l]}")
     logger.info("http referrer (Domain is): #{request.env["HTTP_REFERER"]}")
     logger.info("IP is : #{request.ip}")
@@ -36,11 +37,12 @@ class ClicksController < ApplicationController
   end
   
   def _handle_cookie
-    cookie_manager = ZephoCookieManager.new(cookies)
-    if cookie_manager.first_time_visit?   
-      cookie_manager.set_referral_cookie(params[:r])
-      cookie_manager.set_payer_cookie
+    cookie_jar = CookieJar.new(cookies)
+    if cookie_jar.first_time_visit?   
+      cookie_jar.set_referral_cookie(params[:r])
+      cookie_jar.set_payer_cookie
     else
+      # TODO : Comment out these two lines before going live
       logger.info("Referral cookie has already been set. The value is : #{cookies[:referral_code]}")
       logger.info("Payer cookie has already been set. The value is : #{cookies[:payer_cookie]}")
     end

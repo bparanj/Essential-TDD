@@ -1,4 +1,4 @@
-class ZephoCookieManager
+class CookieJar
   
   def initialize(cookies)
     @cookies = cookies
