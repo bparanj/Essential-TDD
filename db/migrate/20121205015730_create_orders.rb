@@ -9,6 +9,7 @@ class CreateOrders < ActiveRecord::Migration
       t.string  :express_token
       t.string  :express_payer_id
       t.text    :buyer_email
+      t.string  :custom
       t.text    :details
       t.string  :number,     :limit => 15
       t.string  :status,     :default => "open"

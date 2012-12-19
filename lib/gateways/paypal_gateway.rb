@@ -57,6 +57,7 @@ class PaypalGateway
       order.buyer_email = checkout_response.email
       order.first_name = checkout_response.params['first_name']
       order.last_name = checkout_response.params['last_name']
+      order.custom = checkout_response.params['custom']
       order.details = checkout_response.params      
     end
     order.save!
