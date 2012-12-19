@@ -5,6 +5,7 @@ class CreateTransactions < ActiveRecord::Migration
       t.string :transaction_id
       t.string :action
       t.integer :amount
+      t.string  :currency
       t.boolean :success
       t.string :authorization
       t.string :message
