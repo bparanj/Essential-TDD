@@ -10,7 +10,7 @@ class PaypalNotificationMapper
   end
 
   def item_number
-    @notify.params['item_number'])
+    @notify.params['item_number']
   end
   
   def payer_id
