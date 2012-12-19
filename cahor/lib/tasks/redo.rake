@@ -11,6 +11,7 @@ namespace :zepho do
       Rake::Task['db:migrate'].invoke
       p 'Seeding database'
       Rake::Task['db:seed'].invoke
+      Rake::Task['db:test:clone_structure'].invoke
       p 'Done'
     else
       p 'This task can only be run in development'
