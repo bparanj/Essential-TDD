@@ -5,7 +5,7 @@ class InstantPaymentNotification
 
   def initialize(raw_post)
     @notify = Paypal::Notification.new(raw_post) 
-    @payment = Payment.find_by_tranasction_id(@notify.transaction_id)
+    @payment = Payment.find_by_transaction_id(@notify.transaction_id)
     @transaction = Transaction.find(@notify.transaction_id)
     @order = @transaction.order
   end  
@@ -118,7 +118,7 @@ class InstantPaymentNotification
   end
 
   def spoofed_receiver_email?
-    User.spoofed_receiver_email?(@notify['invoice'], @notify.account)      	
+    User.spoofed_receiver_email?(@notify.invoice, @notify.account)      	
   end
 
 end

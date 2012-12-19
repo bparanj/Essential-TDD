@@ -1,4 +1,12 @@
+** Falsifiable Hypothesis **
+
+Our hypothesis is that digital self publishers type people have a problem doing effective marketing of their products.
+
+** Tagline **
+
 Click Plan is a collaborative tool for selling, tracking, and managing of digital products. 
+
+** 30 Seconds Elevator Pitch ** 
 
 Click Plan provides affiliate tracking for people who want to sell digital products online. Revenue is generated for both the product vendor and the marketing affiliate through a pay-for-performance revenue sharing model.
 
@@ -37,8 +45,10 @@ Tracker
 http://clickbank.net/sell.cgi?YOURID_MERCHANTID/ProductNumber/ProductName
 
 
-PDF book generation using HTML. Password protection, enable / disable printing. Email as password or random password. Stamping of purchased user's detail
-to prevent sharing.
+PDF book generation using HTML. 
+Password protection, enable / disable printing. 
+Email as password or random password. 
+Stamping of purchased ebook with user's detail to prevent sharing.
 
 No install
 No maintenance. 
@@ -52,8 +62,6 @@ Lower cost than clickbank
 Extend - more than WP Affiliate plugin
 
 Order confirmation email can have link to newsletter subscription
-
-
 
 Download Click2Sell affiliate guide and merchant guide. Take notes.
 
@@ -69,10 +77,4 @@ http://www.paygear.com/contents/compare/
 http://www.authorpalace.com/internet-marketing/clickbank/paygear-the-clickbank-competitor-with-more-to-offer.html
 https://www.click2sell.eu/signup-click2sell.html
 
-For anyone who's interested I've updated a gist with a working example of multiple file attachments using Paperclip.
-http://gist.github.com/33011
-Notes about the gist:
-1. Page has many Assets
-2. Asset has Paperclip attachment
-3. Paperclip attachment is called 'file'
-http://www.webyfi.com/?p=11
+

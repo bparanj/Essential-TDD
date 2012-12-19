@@ -63,7 +63,6 @@ Account
 
 Remove CSS for existing design. Copy all pages and ask designer to apply the new style.
 Check basecamp to see if right section is always present
-Decide whether category model must be removed.
 
 1) Images under icon directory needs to be dark to show up in the white background
 2) Create Another Product link in products#index page should go to the right side like
@@ -85,5 +84,7 @@ Design
     Buyer  (Customer)
     Affiliate (Marketer)
     What does the site look like for each of these actors?
-7. Draw data flow diagrams.
+7. Draw data flow diagrams. 	
+8. Draw ER Diagram for the existing schema to clarify the design.
+
 ---------------------------------------------------------------------------------------

@@ -34,6 +34,10 @@ def status
   params['payment_status']
 end
 
+10. Category will be added when Click Plan becomes a marketplace.
+
+---------------------------------------------------------------------------------------
+
 Paypal Partner
 
 1. Complete the application using the link sent by Greg to become a certified shopping cart provide and enable accelerated boarding.
