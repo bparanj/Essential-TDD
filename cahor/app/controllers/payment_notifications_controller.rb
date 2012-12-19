@@ -7,7 +7,7 @@ class PaymentNotificationsController < ApplicationController
     if ipn.acknowledge
       ipn.process_payment
     else 
-      PaypalLogger.info("Received an INVALID response, either you’ve done something wrong or the original IPN should be treated as suspicious and investigated : #{request.raw_post}")
+      PaypalLogger.info("Received an INVALID response, either you have done something wrong or the original IPN should be treated as suspicious and investigated : #{request.raw_post}")
     end
 
     render :text => '', :status => :no_content  

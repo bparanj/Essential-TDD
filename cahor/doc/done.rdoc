@@ -5,8 +5,11 @@ Dec 18, 12
 3. openssl passwd -1 12345 is generating different shadow compatible password on every run. Use salt to generate
    the same password.
 4. If you receive an INVALID response, then either you’ve done something wrong or the original IPN should be treated as suspicious and investigated. 
-
-
+5. Use sample IPN message in paypal/paypal.rdoc to write rake task. Enhanced rake task paypal:ipn
+6. Decide whether category model must be removed. Postponed to a version when Click Plan becomes a marketplace.
+7.  - description != notify.params[‘item_name] 
+(Use custom variable to store the id of the record that contains the pass through variable, fields stored locally). Currently PaypalService class, description contains the item_name value, change it to match the API call. _/
+		 [Product name is passed in item_name.]
 
 Dec 17, 12
 

@@ -7,7 +7,7 @@ class OrdersController < ApplicationController
                                               express_payer_id: params[:PayerID],
                                               amount: amount,
                                               product_id: session[:product_id],
-                                              item_name: product_name(session[:product_id]))
+                                              item_name: product_name)
       if result.success?        
         render action: 'success'
       else
@@ -15,10 +15,10 @@ class OrdersController < ApplicationController
         
         render action: 'failure'
       end    
-
-      session[:product_id] = nil
     rescue Exception => e
       ZephoLogger.error("ORDER ERROR : Unable to process order due to : ", e, PaypalLogger)      
+    ensure
+      session[:product_id] = nil
     end
   end
   
@@ -41,8 +41,8 @@ class OrdersController < ApplicationController
     Product.price_in_cents(session[:product_id])
   end
   
-  def product_name(id)
-    product = Product.find(id)
+  def product_name
+    product = Product.find(session[:product_id])
     product.name
   end
 end

@@ -1,34 +1,34 @@
 1. Debit refunds when calculating payable_commission for affiliates.
    t.decimal  "payable_commission",  :precision => 11, :scale => 2, :default => 0.0, :null => false
    Monthly CRON will populate this field.
-2. Instructions on how to set name as it appears on cc statement. How to get the merchant name as it appears on credit card? This should be used in the confirmation emails.
- Replace PAYPAL in the confirmation emails with the actual text for Paypal charge as seen on cc statement.
-3. Affiliate login with sales report
-4. Review Paypal IPN Up and Running. Create task list based on this book.
-5. Read IPN guide and implement the validation rules for fields.
-6. Read Paypal Sandbox Users Guide and Create a task list.
-7. - description != notify.params[‘item_name] 
-(Use custom variable to store the id of the record that contains the pass through variable, fields stored locally). Currently PaypalService class, description contains the item_name value, change it to match the API call.
-8. receiver_id - Unique account ID of the payment recipient (i.e., the merchant). This is the same as the recipient’s referral ID. Length: 13 characters
-9. Refine the controller to handle all cases. If the response code is not 200, save the message for further investigation.
+2. receiver_id - Unique account ID of the payment recipient (i.e., the merchant). This is the same as the recipient’s referral ID. Length: 13 characters
+3. Refine the controller to handle all cases. If the response code is not 200, save the message for further investigation.
     How to check the HTTP response code in ActiveMerchant? Post in ActiveMerchant Google group forum
     IPN script should make sure to respond to the HTTP response with a 200 OK message to prevent additional attempts by PayPal to send the IPN.
-10. Provide instructions for product buy now link to vendor
-11. Email verification using Devise for account activation. Use Sendgrid for email. Refer : send-grid.txt
-12. Draw ER Diagram for the existing schema to clarify the design.
-13. PayPal Express Digital Goods Instant Payment without popup window. (No shipping address required)
-14. Check the transaction record with success = false and orders with fail status. Display them in admin dashboard.
+4. 	Instructions on how to set name as it appears on cc statement. How to get the merchant name as it appears on credit card? This should be used in the confirmation emails.
+	 Replace PAYPAL in the confirmation emails with the actual text for Paypal charge as seen on cc statement. 
 
----------------------------------------------------------------------------------------
+Vendor 
 
-PayPal IPN using Active merchant
+1. Provide instructions for product buy now link to vendor
+2. Email verification using Devise for account activation. Use Sendgrid for email. Refer : send-grid.txt
 
-gist.github.com/1502215
+Affiliate
 
-github.com/Shopify/active_merchant/blob/master/lib/active_merchant/billing/integrations/paypal/notification.rb
-activemerchant.rubyforge.org/classes/ActiveMerchant/Billing/Integrations/Paypal/Notification.html
-www.fortytwo.gr/blog/14/Using-Paypal-with-Rails
+1. Affiliate login with sales report
+2. Create AffiliateLinkController to provide affiliate links to products
 
+Admin
+
+1. Check the transaction record with success = false and orders with fail status. Display them in admin dashboard.
+2. Admin can create affiliates for a given user.
+
+Research
+
+1. Review Paypal IPN Up and Running. Create task list based on this book.
+2. Read IPN guide and implement the validation rules for fields.
+3. Read Paypal Sandbox Users Guide and Create a task list.
+4. PayPal Express Digital Goods Instant Payment without popup window. (No shipping address required)
 
 ---------------------------------------------------------------------------------------
 
@@ -42,12 +42,11 @@ I will be using the Paypal Accelerated Boarding to speed up the onboarding of th
 
 ---------------------------------------------------------------------------------------
 
-Operations
+** Operations **
 
 1. Measure time taken from click to getting to the landing page. Monitor this constantly. Make this very fast.
 
 ---------------------------------------------------------------------------------------
-
 
 The first thing I did was set up a model to manage affiliate redirects.
 script/generate model affiliate_redirect path:string location:string 
@@ -58,7 +57,19 @@ Then I set up a Rails Metal instance called affiliate_redirects.
 script/generate metal affiliate_redirects 
 
 From there, programming Rails Metal was pretty simple. You just have to find an AffiliateRedirect with the path visited and redirect to the AffiliateRedirect’s location. Here’s the code:
-require(File.dirname(__FILE__) + "/../../config/environment") unless defined?(Rails) class AffiliateRedirects def self.call(env) redirect = AffiliateRedirect.connection.select_all("SELECT * FROM affiliate_redirects WHERE path = '#{env["PATH_INFO"]}'").first if redirect && (location = redirect["location"]) [302, {"Content-Type" => "text/html", "Location" => location}, ["You are being redirected."]] else [404, {"Content-Type" => "text/html"}, ["Not Found"]] end end end
+require(File.dirname(__FILE__) + "/../../config/environment") unless defined?(Rails) 
+
+class AffiliateRedirects 
+  def self.call(env) 
+    redirect = AffiliateRedirect.connection.select_all("SELECT * FROM affiliate_redirects WHERE path = '#{env["PATH_INFO"]}'").first
+    if redirect && (location = redirect["location"]) 
+      [302, {"Content-Type" => "text/html", "Location" => location}, 
+			["You are being redirected."]] 
+	else 
+	  [404, {"Content-Type" => "text/html"}, ["Not Found"]] 
+	end 
+  end 
+end
 
 ---------------------------------------------------------------------------------------
 
@@ -107,5 +118,19 @@ http://github.com/contrast/uploadify-s3
 3) sudo gem install aws-s3
 4) export AMAZON_ACCESS_KEY_ID='abcdefghijklmnop'
 export AMAZON_SECRET_ACCESS_KEY='12367891012345'
+
+---------------------------------------------------------------------------------------
+
+For anyone who's interested I've updated a gist with a working example of multiple file attachments using Paperclip.
+http://gist.github.com/33011
+Notes about the gist:
+1. Page has many Assets
+2. Asset has Paperclip attachment
+3. Paperclip attachment is called 'file'
+http://www.webyfi.com/?p=11
+
+---------------------------------------------------------------------------------------
+
+
 
 ---------------------------------------------------------------------------------------

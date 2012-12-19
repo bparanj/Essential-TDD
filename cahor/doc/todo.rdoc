@@ -1,8 +1,8 @@
 
-To Do for Dec 18, 12
+To Do for Dec 19, 12
 
-1. Test process_refund, process_bounty. Use sample IPN message in paypal/paypal.rdoc to write unit tests.
-2. Admin dashboard : Admin can create affiliates for a given user.
+
+ 
 
 ---------------------------------------------------------------------------------------
 
@@ -11,6 +11,7 @@ Backlog
 1. File upload feature.
 2. Replace hard coded product link with variables in the product mailer emails.
 3. Allow user to download the book when the payment is success. When sale status is 'Completed'.
+4. Amazon S3
 
 ---------------------------------------------------------------------------------------
 
@@ -19,10 +20,11 @@ Deploy
 1. Use Chef to deploy the site. 
 2. Deploy the IPN handler code.
 3. Turn on IPN and specify the URL to which PayPal posts the notifications.
-4. Test IPN Handler using Paypal Sandbox : Refer seanbehan.com/business/paypal-ipn-simulator/
-5. Sanbox Users Guide has instructions on testing IPN using simulator.
-6. Testing IPN messages. You can test your IPN receiver script using the IPN Simulator under Test Tools in your sandbox account. Since you cannot observe the request (it is sent from Paypal), you can save it to a file or send it to your Email account for verifying and debugging your script.
-7. Regenerate Paypal Credentials and delete paypal.rdoc document.
+4. Test process_refund, process_bounty on production server.
+5. Test IPN Handler using Paypal Sandbox : Refer seanbehan.com/business/paypal-ipn-simulator/
+6. Sanbox Users Guide has instructions on testing IPN using simulator.
+7. Testing IPN messages. You can test your IPN receiver script using the IPN Simulator under Test Tools in your sandbox account. Since you cannot observe the request (it is sent from Paypal), you can save it to a file or send it to your Email account for verifying and debugging your script.
+8. Regenerate Paypal Credentials and delete paypal.rdoc document.
 
 ---------------------------------------------------------------------------------------
 
