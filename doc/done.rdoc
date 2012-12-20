@@ -1,3 +1,17 @@
+Dec 20, 12
+
+1. Added paypal_gateway specs.
+2. Added BillingResponseMapper class to simplify paypal_gateway class.
+3. Added CookieJar specs
+
+Dec 19, 12
+
+1. Added bounty processor specs 
+2. Added specs for fraud policy
+3. Added specs for instant payment notification
+4. Added paypal notifications mapper specs
+5. Added refund processor specs
+
 Dec 18, 12
 
 1. Rake task to drop db, create db, migrate and populate with seed data.
