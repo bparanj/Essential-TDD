@@ -25,4 +25,10 @@ class Order < ActiveRecord::Base
     self.status = FRAUD
     save
   end
+  
+  def create_purchase_transaction(amount, response)
+    self.transactions.create!(action: PURCHASE, 
+                              amount: amount, 
+                              response: response)
+  end
 end

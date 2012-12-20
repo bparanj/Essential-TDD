@@ -17,7 +17,6 @@ class PaypalGateway
   #   'DoExpressCheckoutPayment'
   # end
   
-  # Custom field Character length and limitations: 256 single-byte alphanumeric characters  
   def self.set_express_checkout(amount, options = {})
     token = Token.create!
     @confirmation_number = token.confirmation_number
@@ -54,16 +53,18 @@ class PaypalGateway
                                           
     checkout_response = get_express_checkout_details(order.express_token)
     if checkout_response.success?
-      order.buyer_email = checkout_response.email
-      order.first_name = checkout_response.params['first_name']
-      order.last_name = checkout_response.params['last_name']
-      order.custom = checkout_response.params['custom']
-      order.details = checkout_response.params      
+      checkout_mapper = BillingResponseMapper.new(checkout_response)
+      order.buyer_email = checkout_mapper.email
+      order.first_name = checkout_mapper.first_name
+      order.last_name = checkout_mapper.last_name
+      order.custom = checkout_mapper.custom
+      order.details = checkout_mapper.details  
+    else
+      PaypalLogger.error("get_express_checkout_details failed response : #{checkout_response.to_yaml}")         
     end
     order.save!
-    order.transactions.create!(action: Order::PURCHASE, 
-                               amount: options[:amount], 
-                               response: response)
+    order.create_purchase_transaction(options[:amount], response)
+    
     [response, order]
   end    
       

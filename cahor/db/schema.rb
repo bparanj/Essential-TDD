@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(:version => 20121215000902) do
     t.string   "express_token"
     t.string   "express_payer_id"
     t.text     "buyer_email"
+    t.string   "custom"
     t.text     "details"
     t.string   "number",           :limit => 15
     t.string   "status",                         :default => "open"
@@ -131,6 +132,7 @@ ActiveRecord::Schema.define(:version => 20121215000902) do
     t.string   "transaction_id"
     t.string   "action"
     t.integer  "amount"
+    t.string   "currency"
     t.boolean  "success"
     t.string   "authorization"
     t.string   "message"
