@@ -6,8 +6,15 @@ class FraudPolicy
     @order = order
   end  
   
+  # Validate that the receiver’s email address is registered to you.
+  # This check provides additional protection against fraud.
   def spoofed_receiver_email?
-    User.spoofed_receiver_email?(@notify.invoice, @notify.account)      	
+    confirmation_number = @notify.invoice
+    receiver_email = @notify.account
+    
+    order = Order.find_by_confirmation_number(confirmation_number)
+    seller_email = order.product.user.primary_paypal_email
+    seller_email != receiver_email
   end
   
   def no_fraudulent_change?

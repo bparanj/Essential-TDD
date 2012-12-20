@@ -17,12 +17,5 @@ class User < ActiveRecord::Base
     !self.affiliate.nil?
   end
   
-  # Validate that the receiver’s email address is registered to you.
-  # This check provides additional protection against fraud.
-  def self.spoofed_receiver_email?(confirmation_number, receiver_email)
-    order = Order.find_by_confirmation_number(confirmation_number)
-    seller_email = order.product.user.primary_paypal_email
-    seller_email != receiver_email
-  end
   
 end
