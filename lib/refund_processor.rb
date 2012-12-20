@@ -29,6 +29,6 @@ class RefundProcessor
   # I think this ActiveMerchant gives this as a string. 
   # TODO : Convert string to numeric then take abs.
   def refund_amount
-    @notify.gross.abs
+    @notify.gross.to_f.abs
   end
 end
