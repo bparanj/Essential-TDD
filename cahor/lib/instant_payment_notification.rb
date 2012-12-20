@@ -11,7 +11,11 @@ class InstantPaymentNotification
   # Only unique transactions are processed (txn_id store processed only once)
   def process_payment
     return if @transaction.previously_processed?
-    return if @fraud_policy.spoofed_receiver_email?
+    
+    if @fraud_policy.spoofed_receiver_email?
+      PaypalLogger.error("FRAUD ALERT : Receiver email spoof for #{@notify.to_yaml}")
+      return 
+    end
     
     create_payment if @transaction.new_payment?
       
