@@ -1,6 +1,7 @@
 Dec 21, 12
 
 1. Replace hard coded product link with variables in the product mailer emails.
+2. Reduce duplication in instant_payment_notification_mapper
 
 Dec 20, 12
 
