@@ -1,11 +1,11 @@
 1. Debit refunds when calculating payable_commission for affiliates.
    t.decimal  "payable_commission",  :precision => 11, :scale => 2, :default => 0.0, :null => false
    Monthly CRON will populate this field.
-2. receiver_id - Unique account ID of the payment recipient (i.e., the merchant). This is the same as the recipient’s referral ID. Length: 13 characters
-3. Refine the controller to handle all cases. If the response code is not 200, save the message for further investigation.
+
+2. Refine the controller to handle all cases. If the response code is not 200, save the message for further investigation.
     How to check the HTTP response code in ActiveMerchant? Post in ActiveMerchant Google group forum
     IPN script should make sure to respond to the HTTP response with a 200 OK message to prevent additional attempts by PayPal to send the IPN.
-4. 	Instructions on how to set name as it appears on cc statement. How to get the merchant name as it appears on credit card? This should be used in the confirmation emails.
+3. 	Instructions on how to set name as it appears on cc statement. How to get the merchant name as it appears on credit card? This should be used in the confirmation emails.
 	 Replace PAYPAL in the confirmation emails with the actual text for Paypal charge as seen on cc statement. 
 
 Vendor 
