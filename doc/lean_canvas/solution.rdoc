@@ -1,0 +1,11 @@
+Sketch out the top features or capabilities next to each problem.
+Bind a solution to your problem as late as possible.
+
+Problem
+Solution
+
+Problem
+Solution
+
+Problem
+Solution
