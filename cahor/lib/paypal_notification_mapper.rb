@@ -21,49 +21,16 @@ class PaypalNotificationMapper
     @notify.params['payer_email']
   end
   
-  def complete?
-    @notify.complete? 
+  %w(complete? transaction_id amount status test? gross currency params invoice acknowledge account).each do |m|
+     class_eval %(
+       def #{m}
+         (@notify.send(:#{m}))
+       end
+     )
   end
   
-  def transaction_id
-    @notify.transaction_id
-  end
-
-  def amount
-    @notify.amount
-  end
-  
-  def status
-    @notify.status
-  end
-
-  def test?
-    @notify.test?
-  end
-  
-  def gross
-    # This is the right one to use instead of notify.amount
-    @notify.gross
-  end
-  
-  def currency
-    @notify.currency
-  end
-  
-  def params
-    @notify.params
-  end
-  
-  def invoice
-    @notify.invoice
-  end
-
-  def acknowledge
-    @notify.acknowledge
-  end
-
-  def account
-    @notify.account
-  end
-
+  # This is the right one to use instead of notify.amount
+  # def gross
+  #   @notify.gross
+  # end
 end
