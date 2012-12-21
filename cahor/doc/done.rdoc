@@ -4,7 +4,8 @@ Dec 20, 12
 2. Added BillingResponseMapper class to simplify paypal_gateway class.
 3. Added CookieJar specs
 4. Added billing response mapper specs
-5. receiver_id is not used in this version.
+5. File upload feature.
+6. receiver_id is not used in this version.
 
 This is part of IPN post variables:
 receiver_id - Unique account ID of the payment recipient (i.e., the merchant). This is the same as the recipient’s referral ID. Length: 13 characters
@@ -15,8 +16,6 @@ is the same as
 transaction.details['secure_merchant_account_id']
 
 These two values should be checked to make sure they are the same if you are using the receiver_id to credit a merchant for a transaction. 
-
-
 
 Dec 19, 12
 

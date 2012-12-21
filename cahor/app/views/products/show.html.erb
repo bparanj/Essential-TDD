@@ -10,11 +10,11 @@
   <%= @product.price %>
 </p>
 
-<% if @product.product.file %>
+<% if @product.file.file %>
 
 <p>
 	<b>Uploaded File</b>
-	<%= @product.product.file.filename %>
+	<%= @product.file.file.filename %>
 </p>
 
 <% end %>

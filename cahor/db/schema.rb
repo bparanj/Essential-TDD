@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(:version => 20121215000902) do
     t.decimal  "price",      :precision => 11, :scale => 2, :null => false
     t.string   "name",                                      :null => false
     t.integer  "user_id",                                   :null => false
+    t.string   "file"
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
   end
