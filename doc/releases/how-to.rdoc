@@ -1,0 +1,153 @@
+Using Amazon S3
+
+1. Signup for Amazon S3 account
+2. Copy the secret access key and access key id.
+3. Add to Gemfile:
+	gem "fog"
+4. Create a bucket in Amazon S3 called clickplan.net
+5. In the config/initializers :
+
+CarrierWave.configure do |config|
+  config.fog_credentials = {
+    :provider               => 'AWS',                        # required
+    :aws_access_key_id      => 'xxx',                        # required
+    :aws_secret_access_key  => 'yyy',                        # required
+    :region                 => 'eu-west-1'                   # optional, defaults to 'us-east-1'
+    :hosts                  => 's3.example.com'              # optional, defaults to nil
+    :endpoint               => 'https://s3.example.com:8080' # optional, defaults to nil
+  }
+  config.fog_directory  = 'name_of_directory'                     # required
+  config.fog_public     = false                                   # optional, defaults to true
+  config.fog_attributes = {'Cache-Control'=>'max-age=315576000'}  # optional, defaults to {}
+end
+
+4. In the FileUploader class, set the storage to :fog
+	storage :fog
+5. Use the CarrierWave::Uploader#url method to return the url to the file on Amazon S3.
+
+---------------------------------------------------------------------------------------
+
+How to hookup file stamping with Amazon S3 ?
+
+0. Research
+1. Download File
+2. Stamp it
+3. Provide a link to it (hosted on our servers)
+4. Delete after a certain period of time.
+
+---------------------------------------------------------------------------------------
+How to use CDN to speed up the site?
+
+1. Add gem "fog" to Gemfile.
+2. Signup for Amazon Cloud Front account.
+3. Copy the credentials to initialize a connection to the service.
+
+require 'fog'
+
+# create a connection to the service
+cdn = Fog::CDN.new({
+  :provider               => 'AWS',
+  :aws_access_key_id      => AWS_ACCESS_KEY_ID,
+  :aws_secret_access_key  => AWS_SECRET_ACCESS_KEY
+}
+
+4. Setting up your CDN
+
+data = cdn.post_distribution({
+  'CustomOrigin' => {
+    'DNSName'               => 'www.clickplan.net',
+    'OriginProtocolPolicy'  => 'match-viewer'
+  }
+})
+
+# parse the response for stuff you'll need later
+distribution_id   = data.body['Id']
+caller_reference  = data.body['CallerReference']
+etag              = data.headers['ETag']
+cdn_domain_name   = data.body['DomainName']
+
+# wait for the updates to propogate
+Fog.wait_for {
+  cdn.get_distribution(distribution_id).body['Status'] ## 'Deployed'
+}
+
+5. Serving : Replace urls like : http://www.example.com/stylesheets/foo.css with #{cdn_domain_name}/stylesheets/foo.css
+   Replace urls that serve images, javascripts and stylesheets.
+6. By default the urls aren’t very pretty, something like http://d1xdx2sah5udd0.cloudfront.net/stylesheets/foo.css. You can use CNAME config options to utilize something like http://assets.clickplan.net/stylesheets/foo.css.
+
+---------------------------------------------------------------------------------------
+How to Configure DNS using Linode API
+
+1. Create a connection to the service.
+	dns = Fog::DNS.new(
+	  :provider               => 'AWS',
+	  :aws_access_key_id      => AWS_ACCESS_KEY_ID,
+	  :aws_secret_access_key  => AWS_SECRET_ACCESS_KEY
+	)
+Replace AWS with Linode variables.
+
+2. Create a zone.
+
+	zone = @dns.zones.create(:domain => 'clickplan.net',
+	  						 :email  => 'admin@clickplan.net')
+3. Update your registrar with DNS servers responsible for your domain. Query the zone to see what values to use:
+   zone.nameservers
+4. Create a www version of your site and point to the right IP.
+
+	record = @zone.records.create(
+	  :value   => '1.2.3.4',
+	  :name => 'clickplan.net',
+	  :type => 'A'
+	)
+
+	To make www.clickplan.net go to the same place, use a cname record:
+	
+	record = @zone.records.create(
+	  :value   => 'clickplan.net',
+	  :name => 'www',
+	  :type => 'CNAME'
+	)
+	
+	You might want to have your blog elsewhere:
+	
+	record = @zone.records.create(:value   => '4.3.2.1',
+								  :name => 'blog.clickplan.net',
+								  :type => 'A')
+
+---------------------------------------------------------------------------------------
+
+How to create api.clickplan.net, assets.clickplan.net (to be used with CloudFront) ?
+
+---------------------------------------------------------------------------------------
+
+How to create Heroku add-on for Click Plan
+
+
+---------------------------------------------------------------------------------------
+
+Serving Rails Assets over S3
+
+1. Add gem 'asset_sync' to Gemfile.
+2. bundle
+3. Create a bucket to synchronize the compiled assets. assets.clickplan.net
+4. Enable the asset pipeline in config/application.rb :
+    # Enable the asset pipeline
+	config.assets.enabled = true
+	config.assets.digest = true
+5. Also, if you have more than one top-level manifest file under your stylesheets, make sure you also add them in config/application.rb or they will not be compiled and synchronized to S3 and they will break your app.
+   config.assets.precompile += %w( blogs.css firmhouse.css inbound_marketing.css )
+
+6. Test:
+	export AWS_ACCESS_KEY_ID=xxx
+	export AWS_SECRET_ACCESS_KEY=yyy
+	export FOG_DIRECTORY=beeblebroxblog
+	export FOG_PROVIDER=AWS
+	
+	bundle exec rake assets:precompile
+	
+7. Modify config/environments/production.rb :
+	  config.action_controller.asset_host = "http://assets.clickplan.net.s3.amazonaws.com"
+8. Refer http://blog.firmhouse.com/complete-guide-to-serving-your-rails-assets-over-s3-with-asset_sync
+	(Covers S3 and CDN)
+
+	

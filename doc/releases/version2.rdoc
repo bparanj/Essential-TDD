@@ -36,7 +36,8 @@ end
 
 10. Category will be added when Click Plan becomes a marketplace.
 11. PDF stamper from Cabernet
-12 SSL
+12. SSL
+13. CDN using Fog gem
 
 
 ---------------------------------------------------------------------------------------
