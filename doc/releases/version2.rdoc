@@ -35,6 +35,8 @@ def status
 end
 
 10. Category will be added when Click Plan becomes a marketplace.
+11. PDF stamper from Cabernet
+
 
 ---------------------------------------------------------------------------------------
 
