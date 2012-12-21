@@ -1,11 +1,11 @@
 
 To Do for Dec 20, 12
 
-1. File upload feature.
+1. Upload the file to Amazon S3
 2. Replace hard coded product link with variables in the product mailer emails.
 3. Allow user to download the book when the payment is success. When sale status is 'fulfill'.
-4. Amazon S3
- 
+4. Design screen to remove file for a given product.
+
 ---------------------------------------------------------------------------------------
 
 Deploy
