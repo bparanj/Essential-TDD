@@ -5,20 +5,12 @@ class PaypalNotificationMapper
     @notify = Paypal::Notification.new(raw_post) 
   end  
   
-  def item_name
-    @notify.params['item_name']
-  end
-
-  def item_number
-    @notify.params['item_number']
-  end
-  
-  def payer_id
-    @notify.params['payer_id']
-  end
-                
-  def payer_email
-    @notify.params['payer_email']
+  %w(item_name item_number payer_id payer_email).each do |m|
+     class_eval %(
+       def #{m}
+         (@notify.params['#{m}'])
+       end
+     )
   end
   
   %w(complete? transaction_id amount status test? gross currency params invoice acknowledge account).each do |m|
