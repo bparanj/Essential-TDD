@@ -1,7 +1,8 @@
 
 To Do for Dec 21, 12
 
-Allow user to download the book when the payment is success. When sale status is 'fulfill'.
+Allow user to download the book when the payment is success and order status is 'fulfill'.
+order.status = Order::DELIVERED after they download the product
 
 1. Upload the file to Amazon S3. http://railscasts.com/episodes/383-uploading-to-amazon-s3?view=asciicast
 2. Test if product link points to file in Amazon S3.
