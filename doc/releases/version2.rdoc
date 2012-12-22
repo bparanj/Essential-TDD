@@ -40,6 +40,19 @@ end
 13. CDN using Fog gem
 
 
+Vendor 
+
+1. Email verification using Devise for account activation. Use Sendgrid for email. Refer : send-grid.txt [VERSION 2]
+
+Affiliate
+
+1. Affiliate login with sales report [VERSION 2]
+
+Admin
+
+1. Check the transaction record with success = false and orders with fail status. Display them in admin dashboard.
+	[VERSION 2]
+
 ---------------------------------------------------------------------------------------
 
 Paypal Partner
