@@ -1,5 +1,5 @@
 class ProductMailer < ActionMailer::Base
-  default from: "do-not-reply@promoterlogic.com"
+  default from: "do-not-reply@clickplan.net"
   
   def confirmation_email(order)
     @order = order

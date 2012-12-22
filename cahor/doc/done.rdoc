@@ -9,6 +9,13 @@ Dec 21, 12
 		This is done by ActiveMerchant
     IPN script should make sure to respond to the HTTP response with a 200 OK message to prevent additional attempts by PayPal to send the IPN. 
  	--> This is handled by ActiveMerchant.
+4. 	Fulfillment Module
+
+	Give link to the downloads controller /confirmation_number
+	Lookup in the db and check for payment status and order status
+	Redirect the user to the actual product download url that is pointing to S3 file
+	Allow user to download the book when the payment is success and order status is 'fulfill'.
+	Set order.status = Order::DELIVERED after they download the product
 
 
 Dec 20, 12
