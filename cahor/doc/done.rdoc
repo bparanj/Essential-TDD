@@ -2,6 +2,14 @@ Dec 21, 12
 
 1. Replace hard coded product link with variables in the product mailer emails.
 2. Reduce duplication in instant_payment_notification_mapper
+3. Refine the controller to handle all cases. If the response code is not 200, save the message for further investigation.
+	--> This is done by the ipn.acknowledge else clause
+    How to check the HTTP response code in ActiveMerchant? 
+	--> Looking at the ActiveUtil gem, it the response status code is 200..300 then response.body is returned.
+		This is done by ActiveMerchant
+    IPN script should make sure to respond to the HTTP response with a 200 OK message to prevent additional attempts by PayPal to send the IPN. 
+ 	--> This is handled by ActiveMerchant.
+
 
 Dec 20, 12
 

@@ -7,7 +7,11 @@ Allow user to download the book when the payment is success. When sale status is
 2. Test if product link points to file in Amazon S3.
 3. Design screen to remove file for a given product.
 4. Install Google Analytics
-
+5. Instructions on how to set name as it appears on cc statement. How to get the merchant name as it appears on credit card? This should be used in the confirmation emails.
+	 Replace PAYPAL in the confirmation emails with the actual text for Paypal charge as seen on cc statement. 
+	
+	Post this question on Paypal forum.
+	
 ---------------------------------------------------------------------------------------
 
 Deploy
