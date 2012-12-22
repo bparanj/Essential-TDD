@@ -12,6 +12,8 @@ class Order < ActiveRecord::Base
   FULFILL = 'fulfill'
   FAILED = 'failed'
   FRAUD = 'fraud'
+  DELIVERED = 'delivered'
+  CONFIRMED = 'confirmed'
   
   def mark_ready_for_fulfillment
     self.status = FULFILL
