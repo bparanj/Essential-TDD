@@ -6,6 +6,7 @@ in the attached image.
 3. User Management module screen design will be similar to Cabernet screens. 
 	 Take screenshots of those screens, make corrections in skitch or hand draw and send it to Arun.
    Arun will take those existing screens and implement it with new look and feel.
+4. Design screen to remove file for a given product.
 
 ---------------------------------------------------------------------------------------
 UI Design

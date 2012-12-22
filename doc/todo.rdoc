@@ -1,17 +1,12 @@
 
-To Do for Dec 21, 12
-
-Allow user to download the book when the payment is success and order status is 'fulfill'.
-order.status = Order::DELIVERED after they download the product
+To Do for Dec 22, 12
 
 1. Upload the file to Amazon S3. http://railscasts.com/episodes/383-uploading-to-amazon-s3?view=asciicast
 2. Test if product link points to file in Amazon S3.
-3. Design screen to remove file for a given product.
-4. Install Google Analytics
-5. Instructions on how to set name as it appears on cc statement. How to get the merchant name as it appears on credit card? This should be used in the confirmation emails.
+3. Post this question on Paypal forum.
+     Instructions on how to set name as it appears on cc statement. How to get the merchant name as it appears on credit card? This should be used in the confirmation emails.
 	 Replace PAYPAL in the confirmation emails with the actual text for Paypal charge as seen on cc statement. 
-	
-	Post this question on Paypal forum.
+4. Is there a way to find out if S3 download was successful?	
 	
 ---------------------------------------------------------------------------------------
 
@@ -32,6 +27,7 @@ After Deployment
 
 1. Check if domain field gets populated for clicks table when a new visitor clicks on a affiliate link.
 2. Customer Test Purchase : To do some basic testing in the real world you can temporarily change the charged amount, make a purchase then issue a refund through paypal.
+3. Install Google Analytics
 
 ---------------------------------------------------------------------------------------
 
