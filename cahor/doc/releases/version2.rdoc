@@ -38,6 +38,9 @@ end
 11. PDF stamper from Cabernet
 12. SSL
 13. CDN using Fog gem
+14. Post this question on Paypal forum.
+     Instructions on how to set name as it appears on cc statement. How to get the merchant name as it appears on credit card? This should be used in the confirmation emails.
+	 Replace PAYPAL in the confirmation emails with the actual text for Paypal charge as seen on cc statement. 
 
 
 Vendor 

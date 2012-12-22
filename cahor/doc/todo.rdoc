@@ -1,13 +1,10 @@
 
 To Do for Dec 22, 12
 
-1. Upload the file to Amazon S3. http://railscasts.com/episodes/383-uploading-to-amazon-s3?view=asciicast
+1. Upload the file to Amazon S3. 
+	 http://railscasts.com/episodes/383-uploading-to-amazon-s3?view=asciicast
 2. Test if product link points to file in Amazon S3.
-3. Post this question on Paypal forum.
-     Instructions on how to set name as it appears on cc statement. How to get the merchant name as it appears on credit card? This should be used in the confirmation emails.
-	 Replace PAYPAL in the confirmation emails with the actual text for Paypal charge as seen on cc statement. 
-4. Is there a way to find out if S3 download was successful?	
-	
+
 ---------------------------------------------------------------------------------------
 
 Deploy
