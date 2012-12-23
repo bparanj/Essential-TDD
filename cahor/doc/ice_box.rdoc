@@ -1,7 +1,3 @@
-1. Debit refunds when calculating payable_commission for affiliates.
-   t.decimal  "payable_commission",  :precision => 11, :scale => 2, :default => 0.0, :null => false
-   Monthly CRON will populate this field.
-   Write a rake task.
 
 ---------------------------------------------------------------------------------------
 
@@ -16,15 +12,6 @@ Affiliate
 Admin
 
 1. Admin can create affiliates for a given user.
-
----------------------------------------------------------------------------------------
-
-Research
-
-1. Review Paypal IPN Up and Running. Create task list based on this book.
-2. Read IPN guide and implement the validation rules for fields.
-3. Read Paypal Sandbox Users Guide and Create a task list.
-4. PayPal Express Digital Goods Instant Payment without popup window. (No shipping address required)
 
 ---------------------------------------------------------------------------------------
 
