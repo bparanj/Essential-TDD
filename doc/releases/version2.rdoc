@@ -41,6 +41,42 @@ end
 14. Post this question on Paypal forum.
      Instructions on how to set name as it appears on cc statement. How to get the merchant name as it appears on credit card? This should be used in the confirmation emails.
 	 Replace PAYPAL in the confirmation emails with the actual text for Paypal charge as seen on cc statement. 
+15. Debit refunds when calculating payable_commission for affiliates.
+	   t.decimal  "payable_commission",  :precision => 11, :scale => 2, :default => 0.0, :null => false
+	   Monthly CRON will populate this field.
+	   Write a rake task.
+16. Wizard 
+17. Subdomain for API server
+18. Heroku add on
+https
+
+	Amazon S3
+	
+	1. Upload the file to Amazon S3. 
+		 http://railscasts.com/episodes/383-uploading-to-amazon-s3?view=asciicast
+	2. Test if product link points to file in Amazon S3.
+
+
+	Deploy
+
+	1. Use Chef to deploy the site. 
+	2. Deploy the IPN handler code.
+	3. Turn on IPN and specify the URL to which PayPal posts the notifications.
+	4. Test process_refund, process_bounty on production server.
+	5. Test IPN Handler using Paypal Sandbox : Refer seanbehan.com/business/paypal-ipn-simulator/
+	6. Sanbox Users Guide has instructions on testing IPN using simulator.
+	7. Testing IPN messages. You can test your IPN receiver script using the IPN Simulator under Test Tools in your sandbox account. Since you cannot observe the request (it is sent from Paypal), you can save it to a file or send it to your Email account for verifying and debugging your script.
+	8. Regenerate Paypal Credentials and delete paypal.rdoc document.
+	9. CDN using CloudFront and Fog
+	---------------------------------------------------------------------------------------
+	Research
+
+	1. Review Paypal IPN Up and Running. Create task list based on this book.
+	2. Read IPN guide and implement the validation rules for fields.
+	3. Read Paypal Sandbox Users Guide and Create a task list.
+	4. PayPal Express Digital Goods Instant Payment without popup window. (No shipping address required)
+
+	---------------------------------------------------------------------------------------
 
 
 Vendor 
