@@ -15,6 +15,9 @@ Click Plan provides affiliate tracking for people who want to sell digital produ
 
 1. Infrastructure Automation
 2. Fast Build Measure Learn Loop
+		- Deploy every two weeks
+
+Build remarkable product first then, create an army of super affiliates selected by admin motivated by recurring commission. Done in accelerate phase.
 
 1) Actors : Affiliate, Buyer, Vendor, Tracker
 
