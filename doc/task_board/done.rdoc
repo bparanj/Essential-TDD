@@ -1,3 +1,9 @@
+Dec 23, 12
+
+1. Finished SCRUM book.
+2. Revised planning documents.
+3. Bought EC2 screencasts.
+
 Dec 22, 12
 
 1. Signup for Amazon S3 account at http://aws.amazon.com 																	
