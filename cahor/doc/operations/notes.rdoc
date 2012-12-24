@@ -1,0 +1,4 @@
+
+1. Measure time taken from click to getting to the landing page. Monitor this constantly. Make this very fast.
+
+---------------------------------------------------------------------------------------

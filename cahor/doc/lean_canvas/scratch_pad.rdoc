@@ -11,6 +11,11 @@ Click Plan is a collaborative tool for selling, promoting and managing of digita
 
 Click Plan provides affiliate tracking for people who want to sell digital products online. Revenue is generated for both the product vendor and the marketing affiliate through a pay-for-performance revenue sharing model.
 
+** Unfair Advantage **
+
+1. Infrastructure Automation
+2. Fast Build Measure Learn Loop
+
 1) Actors : Affiliate, Buyer, Vendor, Tracker
 
 Affiliate
