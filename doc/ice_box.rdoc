@@ -25,12 +25,6 @@ I will be using the Paypal Accelerated Boarding to speed up the onboarding of th
 
 ---------------------------------------------------------------------------------------
 
-** Operations **
-
-1. Measure time taken from click to getting to the landing page. Monitor this constantly. Make this very fast.
-
----------------------------------------------------------------------------------------
-
 The first thing I did was set up a model to manage affiliate redirects.
 script/generate model affiliate_redirect path:string location:string 
 

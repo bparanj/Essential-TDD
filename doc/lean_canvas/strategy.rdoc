@@ -1,0 +1,20 @@
+Implementation Plan
+
+
+Analogs
+
+  - Google Play UI
+	- Drink Our Own Champagne like AWS
+	
+	Blog
+	- Useful resource like 'Fat Sick and Nearly Dead' movie.
+		* How to articles
+		* Link to useful sites
+		* Product and Book Reviews
+
+Antilogs
+
+  - Crappy UI like godaddy
+	- Annoying ads, upsells and cross sells.
+	- Poor performance
+	- Confusing design, inability to accomplish user goal easily.
