@@ -1,5 +1,5 @@
 class Product < ActiveRecord::Base
-  attr_accessible :price, :name, :remove_file, :file
+  attr_accessible :price, :name, :file, :sales_page, :thanks_page, :cancel_page
   belongs_to :user
   
   mount_uploader :file, FileUploader
