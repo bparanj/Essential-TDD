@@ -21,28 +21,20 @@ class ProductsController < ApplicationController
     # TODO : This should be current_user.id
     @product.user_id = 1
     
-    respond_to do |format|
-      if @product.save
-        format.html { redirect_to @product, notice: 'Product was successfully created.' }
-        format.json { render json: @product, status: :created, location: @product }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
-      end
+    if @product.save
+      redirect_to @product, notice: 'Product was successfully created.'
+    else
+      render action: "new" 
     end
   end
 
   def update
     @product = Product.find(params[:id])
 
-    respond_to do |format|
-      if @product.update_attributes(params[:product])
-        format.html { redirect_to @product, notice: 'Product was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
-      end
+    if @product.update_attributes(params[:product])
+      redirect_to @product, notice: 'Product was successfully updated.'
+    else
+      render action: "edit"
     end
   end
 
@@ -50,9 +42,6 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
     @product.destroy
 
-    respond_to do |format|
-      format.html { redirect_to products_url }
-      format.json { head :no_content }
-    end
+    redirect_to products_url
   end
 end
