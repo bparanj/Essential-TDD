@@ -1,4 +1,4 @@
-<section id="vio-all-forms" >
+<section id="vio-all-forms">
 
 <%= form_for(@product, :html => {:multipart => true, id: "vio-product-edit-form", class: "vio-section vio-form"}) do |f| %>
   <legend> New Product </legend>
@@ -17,16 +17,31 @@
 	<fieldset>
 		<div class="form-element">
 			<%= f.label :name %>
-			<%= f.text_field :name, id: "form-edit-input-name" %>
+			<%= f.text_field :name, required: 'required' %>
 		</div>
 
 		<div class="form-element">
  			<%= f.label :price %>
- 			<%= f.text_field :price %>
+ 			<%= f.text_field :price, style: 'width: 100px', required: 'required' %>
+		</div>
+		
+		<div class="form-element">
+			<%= f.label :sales_page, 'Sales Page' %>
+			<%= f.text_field :sales_page %>
 		</div>
 
 		<div class="form-element">
-			<%= f.label :upload_file %>
+			<%= f.label :thanks_page, 'Thanks Page' %>
+			<%= f.text_field :thanks_page %>
+		</div>
+
+		<div class="form-element">
+			<%= f.label :cancel_page, 'Cancel Page' %>
+			<%= f.text_field :cancel_page %>
+		</div>
+
+		<div class="form-element">
+			<%= f.label :upload_file, 'Upload File' %>
 	    <%= f.file_field :file %>
 		</div>
 
@@ -34,7 +49,8 @@
 			<%= f.submit('Save', :class => 'btn btn-cant-think-of-a-name-5')%>
 			<button data-toggle="dropdown" class="btn btn-cant-think-of-a-name-5 edit-form-btn-cancel"> Cancel </button>				
 		</div>
-	</fieldset>					
+	</fieldset>	
+					
 <% end %>
 
 </section>

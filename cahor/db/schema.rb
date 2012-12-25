@@ -106,12 +106,16 @@ ActiveRecord::Schema.define(:version => 20121215000902) do
   end
 
   create_table "products", :force => true do |t|
-    t.decimal  "price",      :precision => 11, :scale => 2, :null => false
-    t.string   "name",                                      :null => false
-    t.integer  "user_id",                                   :null => false
+    t.string   "name",                                         :null => false
+    t.decimal  "price",         :precision => 11, :scale => 2, :null => false
+    t.integer  "user_id",                                      :null => false
     t.string   "file"
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.string   "thanks_page"
+    t.string   "cancel_page"
+    t.string   "sales_page"
+    t.string   "download_page"
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
   end
 
   create_table "refunds", :force => true do |t|

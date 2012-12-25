@@ -17,19 +17,29 @@
 	<fieldset>
 				<div class="form-element">
 					<%= f.label :name %>
-					<%= f.text_field :name, id: "form-edit-input-name" %>
+					<%= f.text_field :name, required: 'required' %>
 				</div>
 
 				<div class="form-element">
 	  			<%= f.label :price %>
-	  			<%= f.text_field :price %>
+	  			<%= f.text_field :price, required: 'required' %>
 				</div>
 
 				<div class="form-element">
-					<%= f.label :landing_page  %>
-	  			<input type="text" id="form-edit-input-price" />
+					<%= f.label :sales_page, 'Sales Page' %>
+					<%= f.text_field :sales_page %>
 				</div>
 
+				<div class="form-element">
+					<%= f.label :thanks_page, 'Thanks Page' %>
+					<%= f.text_field :thanks_page %>
+				</div>
+
+				<div class="form-element">
+					<%= f.label :cancel_page, 'Cancel Page' %>
+					<%= f.text_field :cancel_page %>
+				</div>
+				
 				<div class="form-element form-option-buttons">
 					<%= f.submit('Save', :class => 'btn btn-cant-think-of-a-name-5')%>
 					<%= link_to 'Cancel', products_path, class: "btn btn-cant-think-of-a-name-5 edit-form-btn-cancel" %>
