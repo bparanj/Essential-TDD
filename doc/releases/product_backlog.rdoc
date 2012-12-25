@@ -47,8 +47,8 @@ end
 	   Write a rake task.
 16. Wizard 
 17. Subdomain for API server
-18. Heroku add on
-https
+18. Heroku add on https
+19. Ask sysadmin for good resource on MySQL replication how-to guides.
 
 	Amazon S3
 	

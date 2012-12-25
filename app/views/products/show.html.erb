@@ -1,23 +1,25 @@
-<p id="notice"><%= notice %></p>
+			
+<div class="vio-product-grid clearfix vio-section">
 
-<p>
-  <b>Name:</b>
-  <%= @product.name %>
-</p>
+	<h1> <%= @product.name %> </h1>
 
-<p>
-  <b>Price:</b>
-  <%= @product.price %>
-</p>
+	<div class="vio-grid-price"> <%= number_to_currency(@product.price) %> </div>
+		
+	<div>
+		<%= link_to 'Edit', edit_product_path(@product), class: 'btn btn-green-3' %>	
+		<%= link_to 'Delete',
+              product_path(@product),
+              :method => :delete,
+              :confirm => 'Are you sure?',
+              :class => 'btn btn-red-3' %>
+  </div>
 
-<% if @product.file.file %>
-
-<p>
-	<b>Uploaded File</b>
-	<%= @product.file.file.filename %>
-</p>
-
-<% end %>
-
-<%= link_to 'Edit', edit_product_path(@product) %> |
+</div>
+<br/>
 <%= link_to 'Back', products_path %>
+	
+<% if @product.file.file %>
+	<div>
+		<%= @product.file.file.filename %>
+	</div>
+<% end %>
