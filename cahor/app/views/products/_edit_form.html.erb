@@ -1,4 +1,7 @@
-<%= form_for(@product, :html => {:multipart => true}) do |f| %>
+<section id="vio-all-forms" >
+
+<%= form_for(@product, :html => {:multipart => true, id: "vio-product-edit-form", class: "vio-section vio-form"}) do |f| %>
+  <legend> Edit Product </legend>
   <% if @product.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@product.errors.count, "error") %> prohibited this product from being saved:</h2>
@@ -11,25 +14,28 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :price %><br />
-    <%= f.text_field :price %>
-  </div>
-	<div>
-    <%= f.file_field :file %>
-	</div>
-	<p>
-	  <label>
-	    <%= f.check_box :remove_file %>
-	    Remove product file
-	  </label>
-	</p>
-	<p></p>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+	<fieldset>
+				<div class="form-element">
+					<%= f.label :name %>
+					<%= f.text_field :name, id: "form-edit-input-name" %>
+				</div>
+
+				<div class="form-element">
+	  			<%= f.label :price %>
+	  			<%= f.text_field :price %>
+				</div>
+
+				<div class="form-element">
+					<%= f.label :landing_page  %>
+	  			<input type="text" id="form-edit-input-price" />
+				</div>
+
+				<div class="form-element form-option-buttons">
+					<%= f.submit('Save', :class => 'btn btn-cant-think-of-a-name-5')%>
+					<%= link_to 'Cancel', products_path, class: "btn btn-cant-think-of-a-name-5 edit-form-btn-cancel" %>
+				</div>
+
+	</fieldset>					
 <% end %>
+
+</section>

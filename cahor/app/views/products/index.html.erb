@@ -1,25 +1,36 @@
-<h1>Listing products</h1>
+<section >
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Price</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+	<div class="clearfix">
+  	<div style="float:right;padding-bottom:10px;">
+	    <%= link_to 'Add New Product', new_product_path, class: 'btn btn-cant-think-of-a-name-5 btn-xlarge'  %>
+  	</div>
+	</div>
 
-<% @products.each do |product| %>
-  <tr>
-    <td><%= product.name %></td>
-    <td><%= product.price %></td>
-    <td><%= link_to 'Show', product %></td>
-    <td><%= link_to 'Edit', edit_product_path(product) %></td>
-    <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
-</table>
+	<ul id="vio-home-table" class="vio-table-maximized vio-table vio-section">
 
-<br />
+		<li class="widget-header clearfix">
 
-<%= link_to 'New Product', new_product_path %>
+			<div class="vio-table-td vio-product-id"> &nbsp; </div>
+			<div class="vio-table-td vio-product-name"> Name </div>
+			<div class="vio-table-td vio-product-price"> Price </div>
+			<div class="vio-table-td vio-product-actions"> </div>
+
+	 	</li>
+
+		<% @products.each_with_index do |product, index| %>
+		<li class="<%= cycle("even clearfix", "odd clearfix") -%>">
+
+			<div class="vio-table-td vio-product-id"> <%= index + 1 %> </div>
+			<div class="vio-table-td vio-product-name"> <%= link_to product.name, product_path(product) %> <br/> </div>
+			<div class="vio-table-td vio-product-price"> <%= number_to_currency(product.price) %> </div>
+			<div class="vio-table-td vio-product-actions"> 
+				<%= link_to 'Edit', edit_product_path(product), class: 'btn btn-green-4 btn-primary edit' %>
+				<%= link_to 'Delete', product, method: :delete, data: { confirm: 'Are you sure?' }, class: "vio-btn-delete-product btn btn-fire-bird-5" %>
+			</div>
+
+		</li>
+		<% end %>
+		
+	</ul>
+
+</section>
