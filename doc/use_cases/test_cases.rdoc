@@ -31,3 +31,13 @@ curl -d "txn_id=6KD44981DM039372A&invoice=1&payment_status=Completed" http://loc
 2. Make payment
 3. Allow user to download the book when the payment is success.
 
+** Write a Request spec for the following story **
+
+1) Customer browses affiliate site
+2) Customer clicks on referral link : affiliatelogic.net?affid=1&pid=2&lp=4
+3) Affiliate Logic records click
+4) Affiliate Logic sets cookie on client browser : cookies[:affiliate_id] = { :value => @affiliate_id + " " @product_id
+ 	:expires => @cookie_duration_for_vendor }
+5) Affiliate Logic redirects the customer to product sales copy page or any of the landing page on vendor site by	looking up the lp value in the database.
+
+

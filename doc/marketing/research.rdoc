@@ -1,0 +1,124 @@
+** WP Affiliate Plugin **
+
+http://www.tipsandtricks-hq.com/wordpress-affiliate/plain-paypal-button-and-affiliate-plugin-integration-168
+
+The WP Affiliate software tracks referrals (knows who is a referred customer and who is not) and manages all the affiliates side of things but it depends on the e-commerce plugin (eg. WP eStore) that does the actual payment processing for the awarding of the affiliate commission. The reason is that you want to award the commission after a confirmed sale (this prevents customers from clicking the checkout button and getting commission without going through the full checkout) and only the plugin that processed the payment knows when the customer’s payment has been processed successfully.
+
+The same principal applies to “Rewarding affiliates when they refer a customer and he/she registers” situation. The affiliate software will be able to track who is referred by who but the script that handles the registration will have to award the commission after a customer successfully registers. You just need to add a small bit of code that I will provide you in the registration handling script so it can award commission to the affiliate after someone registers.
+
+So the first thing you have to ask yourself is when (for what action of the customer) do you want to award the affiliate with the commission and then identify where in your 3rd party plugin it is handling this action. Once you can identify that then it is just a matter of adding a small bit of code in that place that will do the commission awarding for you.
+
+
+The WP Affiliate Platform  can be used to capture leads (potential customers) so you can award the appropriate commission to the referrer later once you have made some money from the lead.
+
+The WP Affiliate Platform can be setup to be used with the following two types of Pay Per Lead affiliate model
+
+   1. You pay the referrer a commission for every lead that the affiliate sends your way (the commission is awarded when the lead takes an action on your site e.g. submits a contact form)
+   2. You pay the referrer when you make actual money from the lead that the affiliate sent your way (the commission is awarded when a sale is made to that lead later). For this model you need to capture the lead so you know who originally referred that lead. This allows you to award the appropriate commission later.
+
+--------------------------------------------------------------------------------
+
+** Need for Multiple Landing Pages Feature ** 
+
+The big marketing gurus don’t sell their products directly through a sales letter. They use a variety of ‘soft-sell’ content pieces to build a relationship with a prospective customer before giving them the big sales pitch.
+
+This approach is great for the guru’s affiliates because they don’t have to spend a lot of time ‘warming-up’ their audiences before sending them to the guru’s website. They just have to point to the awesome new freebie that the guru has released and let the guru do the selling.
+
+Big Problem for E-Junkie Users
+
+It would be great to let your affiliates refer their audience to free videos, special reports, webinars, etc.when they promote your product rather than sending them straight to a sales pitch. But, there is a big problem for E-Junkie users…
+
+…E-Junkie only allows you to designate 1 landing page per product in their affiliate tools.
+
+You either send your hoplink to your product sales page or some other page – but that is it. No chance to let your affiliates choose the best way to promote to their audience. No way to create customized landing pages for special JV promotions or let affiliates promote a post on your blog and still set their affiliate cookie.
+
+Fortunately, there is a workaround that is easy to setup.
+Adding Alternate Landing Pages for E-Junkie Affiliates
+
+E-Junkie is a very flexible shopping cart solution, but they don’t make it easy for the average person to customize their account. If you aren’t comfortable tweaking website code, it can be tough to take advantage of this flexibility…
+
+…but I’m about to show you everything you need to know!
+
+The workaround is this: add a unique identifier to the end of your promotional URL’s for each freebie your affiliates can promote. Whenever E-Junkie comes across an extra code in an affiliate link that it does not recognize, it just passes it along by adding it to the end of your landing page URL.
+
+To take advantage of this and create alternate landing pages, we will setup a simple php script as the default landing page which will re-direct traffic based on custom landing page identification code that we will create.
+
+When an affiliate link comes into e-Junkie, they pass along any code that isn’t e-Junkie specific by appending it to the end of the landing page URL you set for the product.
+The Step-By-Step Breakdown
+
+To show you how this all works, I will demonstrate how to create an alternate landing page for my copywriting course that leads to a free report.
+
+It all works like this:
+
+This is the standard code provided through the e-Junkie affiliate tools for an affiliate link to the Meatball Copywriting course…
+
+    Code:
+
+    https://www.e-junkie.com/ecom/gb.php?ii=283940&c=ib&aff=7144
+
+To use this technique, I would first create a short PHP script that will look for a unique code added to the URL for the landing page. Then, when it finds the code, it will forward the visitor to an alternate landing page. If the code isn’t found, it sends the visitor to the default landing page for the product. This is the basic code for this script…
+Code:
+<?php
+if ($alp=="uniquepagecode")
+$redirect="http://www.urlforalternatepage.com";
+/*
+To add additional alternate landing pages to the script, copy the code
+below, update the Unique Page Code and the URL for the Alternate
+Landing Page, and then paste it just before the final 'else' code.
+
+elseif ($alp=="uniquepagecode")
+$redirect="http://www.urlforalternatepage.com";
+*/
+else
+$redirect="http://www.defaultlandingpage.com";
+header( 'Location: '.$redirect ) ;
+?>
+
+The portions of the text in red need to be modified to include your unique page codes and the specific URLs to your alternate landing pages.
+
+At the bottom of this article is a link to a script generator program I created to simplify the process of creating this script (and helping avoid problems due to typing errors.)
+
+Just follow the prompts in the software, copy the results to a text document, and save the file with a ‘.php’ file extension.
+
+For this example, I’ve named my file ‘redirectscript.php’ and uploaded it to the main directory for the Meatball Copywriting website. This is the direct link to the script…
+
+    Code:
+
+    http://www.MeatballCopywriting.com/redirectscript.php
+
+Inside the e-Junkie Shopping cart, I will set this page to be the affiliate hoplink landing page for the product.
+
+Next, I made a special free copywriting report for my affiliates to promote to their lists. To give them the ability to direct their visitors to the report opt-in page, I setup a unique code for them to add to the hoplink that will tell the redirect script where to send the visitors.
+
+The code is ‘report01′ and the variable name I use is ‘alp’ (for Alternate Landing Page – clever, hey?) The resulting bit of code that my affiliates will add to the hoplink is this…
+
+    Code:
+    &alp=report01
+
+When that code is added to the original affiliate hoplink, you get this…
+
+    Code:
+
+    https://www.e-junkie.com/ecom/gb.php?ii=283940&c=ib&aff=7144&alp=report01
+
+When an affiliate uses that hoplink to direct people to my product, e-Junkie sets the tracking cookie, identifies the non e-Junkie code (‘&alp=report01′), and appends it to the product’s designated landing page URL.
+
+In the case of this example, the visitor would be sent to this URL by e-Junkie…
+
+    Code:
+
+    http://www.MeatballCopywriting.com/redirectscript.php?alp=report01
+
+From there, the PHP script checks for the alternate page code and forward the visitor to the appropriate page on the Meatball Copywriting site.
+
+The whole thing is active on my server, so you can copy and past the page links and see the process in action. (If you want to actually promote Meatball Copywriting – a guy can dream, can’t he – just replace the affiliate id with your own e-Junkie affiliate id where the link says ‘&aff=7144′. Click here join Go-To Guy! Enterprises’s affiliate program).
+An Imperfect Solution That Works
+
+This is not the most user friendly way too manage multiple landing pages for a product, but it’s not horribly complicated to implement and gives you a lot of flexibility when giving tools to your affiliates to promote your products.
+
+You can add as many alternate pages as you want by just copying the ‘elseif’ line of code and adding a new code and landing page URL.
+
+Reference: http://www.gotoguyenterprises.com/blog/772/sell-like-a-guru-with-e-junkie/
+
+--------------------------------------------------------------------------------
+

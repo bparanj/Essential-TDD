@@ -25,7 +25,7 @@ Using Amazon S3
 
 CarrierWave.configure do |config|
   config.fog_credentials = {
-    :provider               => 'AWS',                        									# required
+    :provider               => 'AWS',          								  # required
     :aws_access_key_id      => '1GMHRBTC2650KV22TK02',                        # required
     :aws_secret_access_key  => 'RrTVuJoKsTSx291e9Z5/tqhC4XvQrzVoRt93ajvA',    # required
     :region                 => 'eu-west-1'                   # optional, defaults to 'us-east-1'
@@ -162,7 +162,44 @@ http://guides.rubyonrails.org/contributing_to_rails.html
 	
 ---------------------------------------------------------------------------------------	
 
-	
+Sending Emails using SendGrid 
 
+1.
+First, install Devise and SendGrid.
+
+Then, for production, add this to your files:
+
+config/initializers/devise.rb :
+
+config.mailer_sender = "mail-to-send@from.com"
+
+2.
+
+config/environments/production.rb :
+
+config.action_mailer.default_url_options = { :host => 'your.websitedomain.com' }
+ActionMailer::Base.smtp_settings = {
+  :address        => "smtp.sendgrid.net",
+  :port           => "25",
+  :authentication => :plain,
+  :user_name      => ENV['SENDGRID_USERNAME'],
+  :password       => ENV['SENDGRID_PASSWORD'],
+  :domain         => ENV['SENDGRID_DOMAIN']
+}
+
+3. :confirmable method must be enabled
+
+4. Use Postfix on production outgoing emails for faster deliver:
+
+http://docs.sendgrid.com/documentation/get-started/integrate/examples/postfix/
+
+5. Use the sendgrid gem for advanced features : https://github.com/stephenb/sendgrid
+
+http://docs.sendgrid.com/documentation/get-started/integrate/examples/rails-example-using-smtp/
+http://docs.sendgrid.com/documentation/get-started/integrate/examples/smtp-vs-rest/
+
+Account must be provisioned to send emails?
+	
+---------------------------------------------------------------------------------------	
 
 
