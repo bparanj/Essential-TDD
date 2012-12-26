@@ -8,7 +8,7 @@ class LandingPagesController < ApplicationController
     _find_product
     @landing_page = LandingPage.new
   end
-  # TODO : Format the validation error in the view (show in red box the validation errors)
+
   def create
     _find_product
     landing_page = LandingPage.new(params[:landing_page]) 
@@ -18,7 +18,7 @@ class LandingPagesController < ApplicationController
     else
       flash[:error] = "Name and link are required for a landing page"
     end
-    redirect_to @product
+    redirect_to landing_pages_home_path
   end
 
   def edit
