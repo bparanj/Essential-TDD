@@ -1,3 +1,13 @@
+Dec 25, 12
+
+1. Integrate the new UI with Cahor.
+2. Integrated Devise 
+3. Layout for logged in and general use.
+4. Upload file to root level directory not available to public
+5. Show product page grid design
+6. Landing page grid design
+7. New product page design
+
 Dec 24, 12
 
 1. Integrated CSS for the inventory tab.

@@ -1,5 +1,5 @@
 
-To Do for Dec 23, 12
+To Do for Dec 26, 12
 
 1. Moonshine
 2. Heroku for CRON, if it is a problem on Linode.
@@ -9,7 +9,6 @@ To Do for Dec 23, 12
 6. Fog script to create DNS entries.
 7. Copy all scripts to deploy folder
 8. POST from Heroku on successful delivery of emails.
-9. Integrate the new UI with Cahor.
 
 ---------------------------------------------------------------------------------------
 
