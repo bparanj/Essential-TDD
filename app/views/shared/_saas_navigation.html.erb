@@ -1,0 +1,9 @@
+<nav class="navbar">
+	<div class="navbar-inner">
+	 <ul id="vio-tab-links" class="nav">
+	   <li class="<%= is_active?('products')%>"> <%= link_to 'Inventory', products_path %>  </li>
+	   <li class="<%= is_active?('landing_pages')%>"> <%= link_to 'Landing Page', landing_pages_home_path %> </li>
+	   <li class="<%= is_active?('profiles')%>"> <%= link_to 'My Profile', profile_path %> </li>
+	 </ul>
+	</div>
+</nav>

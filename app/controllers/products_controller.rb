@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  before_filter :authenticate_user!
 
   def index
     @products = Product.all
@@ -18,8 +19,7 @@ class ProductsController < ApplicationController
 
   def create
     @product = Product.new(params[:product])
-    # TODO : This should be current_user.id
-    @product.user_id = 1
+    @product.user_id = current_user.id
     
     if @product.save
       redirect_to @product, notice: 'Product was successfully created.'

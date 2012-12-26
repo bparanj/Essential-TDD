@@ -9,9 +9,10 @@ Cahor::Application.routes.draw do
   resources :orders, :only => [:new, :create] 
   
   get '/profile' => 'profiles#show'
+  put '/profile' => 'profiles#update'
+  post '/profile' => 'profiles#create'
   get '/profile/new' => 'profiles#new'
   get '/profile/edit' => 'profiles#edit'
-  put '/profile' => 'profiles#update'
   
   get '/landing_pages_home' => 'landing_pages#home'
   get '/express' => 'orders#express', as: :express
