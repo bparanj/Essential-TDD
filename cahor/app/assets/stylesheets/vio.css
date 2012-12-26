@@ -250,6 +250,15 @@ body {
 	margin-bottom: 40px;
 }
 
+.vio-grid-element {
+	display:inline-block;
+	font-size: 20px;
+
+	height:20px;
+	margin-top:20px;
+	margin-bottom: 20px;
+}
+
 .widget-header {
   background: -moz-linear-gradient(center top , #FAFAFA 0%, #E9E9E9 100%) repeat scroll 0 0 transparent;
   border: 1px solid #D5D5D5;

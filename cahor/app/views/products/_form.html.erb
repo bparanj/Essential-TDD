@@ -16,12 +16,16 @@
 
 	<fieldset>
 		<div class="form-element">
-			<%= f.label :name %>
+			<label class="string required control-label" for="name">
+				<abbr title="required">*</abbr> Name				
+			</label>
 			<%= f.text_field :name, required: 'required' %>
 		</div>
 
 		<div class="form-element">
- 			<%= f.label :price %>
+			<label class="string required control-label" for="price">
+				<abbr title="required">*</abbr> Price				
+			</label>
  			<%= f.text_field :price, style: 'width: 100px', required: 'required' %>
 		</div>
 		
