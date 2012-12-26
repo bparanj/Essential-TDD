@@ -1,0 +1,31 @@
+<div class="tab-pane active" id="#landing page">
+
+<!-- This is not the ideal way to do this but have to figure a way to do this properly. -->
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+	$('ul.nav li').removeClass('active');
+	$('.landing-home-link').parent('li').addClass('active');
+});
+
+</script>
+<%= simple_form_for([@product, @landing_page], :html => { :url => product_landing_pages_path, :class => 'form-horizontal' }) do |f| %>
+
+	<fieldset>
+		<legend> Create a Landing Page </legend>
+
+	<%= f.input :name %>
+	<%= f.input :link %>
+
+  <div class="form-actions">
+    <%= f.submit 'Create', :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                products_path, :class => 'btn' %>
+  </div>
+
+	<% end %>
+
+</fieldset>
+
+</div>

@@ -1,0 +1,23 @@
+<div class="login">
+<h2>Editing Landing Page</h2>
+
+<%= form_for([@product, @landing_page], :url => product_landingpage_path, :method => :put  ) do |f| %>
+
+ <p>
+  <b>Name</b><br />
+  <%= f.text_field :name, :size => 40   %>
+ </p>
+
+ <p>
+   <b>Link</b><br />
+   <%= f.text_field :link, :size => 40   %>
+ </p>
+
+ <p>
+    <%= f.submit %> or <%= link_to 'Cancel', products_path %>
+	
+ </p>
+
+<% end %>
+</div>
+
