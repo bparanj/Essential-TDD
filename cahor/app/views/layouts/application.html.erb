@@ -18,9 +18,19 @@
 <body>
 
 	<div id="page-wrapper">
-	  <%= render partial: 'shared/header' %>
+
+		<% if user_signed_in? %> 
+  	  <%= render partial: 'shared/saas_header' %>		
+		<% else %>
+  	  <%= render partial: 'shared/header' %>
+		<% end %>
+
 		<section id="page-content">
-			<%= render partial: 'shared/navigation' %>
+			<% if user_signed_in? %> 
+				<%= render partial: 'shared/saas_navigation' %>		
+			<% else %>
+	  	  <%= render partial: 'shared/navigation' %>
+			<% end %>
 			
 			<%= yield %>
 			

@@ -1,4 +1,5 @@
 class LandingPagesController < ApplicationController
+  before_filter :authenticate_user!
 
   def home
     @products = Product.all
