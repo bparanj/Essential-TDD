@@ -1,7 +1,8 @@
 Cahor::Application.routes.draw do
 
   resources :payment_notifications, :only => [:create] 
-
+  resources :affiliate_links, :only => [:index, :show] 
+  
   resources :products do
     resources :landing_pages, :except => [:index, :show] 
   end

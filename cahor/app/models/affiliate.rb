@@ -14,4 +14,9 @@ class Affiliate < ActiveRecord::Base
     self.referrer_code = code
   end
   
+  # TODO : Test if question mark is required in the aid and pid params
+  def self.link(user, product_id)
+    "#{HOST_NAME}/r=#{user.affiliate.referrer_code}&p=#{product_id}"
+  end
+  
 end

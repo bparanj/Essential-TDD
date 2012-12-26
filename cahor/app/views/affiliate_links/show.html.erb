@@ -1,0 +1,58 @@
+<% if @landing_pages.blank? %>
+
+<fieldset>
+<legend>Affiliate Link </legend>	
+
+<p class="notice"><%= notice %></p>
+
+<p>
+  <b>Product Name:</b>
+  <%= @product.name %>
+</p>
+
+<p>
+  <b>Affiliate Link:</b><br>
+   
+  <textarea rows="2" cols="50"> <%= @affiliate_link %> </textarea>
+</p>
+
+<p>
+	Copy the "Affiliate Link" above and paste this link in email newsletters, your website etc to promote your affiliate program. If you want to promote your products through other affiliates then they must <%= link_to "Sign up", new_user_registration_path %> and the link tracking code will change. This will ensure that your affiliates
+	will get the credit for their referral. In other words if you are the vendor of this product
+	then aid in the link above will be the same as shown in the above link. If you are not the vendor then you will be able to earn commission on this product.
+	
+</p>
+</fieldset>
+
+<% else %>
+
+
+<fieldset>
+<legend>Affiliate Link </legend>	
+
+<p>
+  <b>Product Name:</b>
+  <%= @product.name %>
+</p>
+
+	<% @landing_pages.each do |page| %>
+
+	<p>
+	  <b>Affiliate Link for <%= page.name %> Landing Page : </b>
+  
+		<%= page.append_landing_page_parameter(@affiliate_link) %> 
+
+	</p>
+
+	<% end  %>
+<% end  %>
+
+<p>
+	Copy the "Affiliate Link" above and paste this link in email newsletters, your website etc to promote your affiliate program. If you want to promote your products through other affiliates then they must <%= link_to "Sign up", new_user_registration_path %> and the link tracking code will change. This will ensure that your affiliates
+	will get the credit for their referral. In other words if you are the vendor of this product
+	then aid in the link above will be the same as shown in the above link. If you are not the vendor then you will be able to earn commission on this product.
+	
+</p>
+</fieldset>
+
+<%= link_to "Back", products_path %>
