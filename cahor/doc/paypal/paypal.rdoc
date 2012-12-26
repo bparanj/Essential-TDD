@@ -112,6 +112,12 @@ Admin_API
 Auth_Settle
 Click the Save button.
 
+** Granting Third-Party Permission **
+
+To grant another account access to make API calls on your behalf, on this page you must enter the API Username of the account you are granting the permission to in the Enter an API Partner Username text field.
+
+In general, you only need to set up your account to grant third-party API permissions if you are using an application that informs you that you will need to do this. If you are developing an application that relies on the use of third-party API calls, you need to provide explicit instructions to your users about how to grant your application the required permissions it needs in order to function correctly. The process should be clearly explained in your documentation in a step-by-step fashion.
+
 ** How to Set Name to Appear on Credit Card Statement **
 
 A PayPal Business account is identical to a Premiere account except that a business name, rather than an individual name, appears as the account name wherever it's shown. Both are free except for transaction fees. 
@@ -158,3 +164,5 @@ Signature: AFcWxV21C7fd0v3bYYYRCpSSRl31AmYTMnOXJuR64BeQRmX.k-qC1-OP
     Create your selling test account using the Preconfigured option.
     Under Account Type, select Website Payments Pro.
     My Account –> Profile –> API access to get API username, API Password and Signature
+
+
