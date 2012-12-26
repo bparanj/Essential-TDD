@@ -39,3 +39,5 @@ Cahor::Application.configure do
     ActiveMerchant::Billing::Base.mode = :test
   end
 end
+
+HOST_NAME="http://localhost:3000"

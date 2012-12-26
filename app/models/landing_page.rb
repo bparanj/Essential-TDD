@@ -5,4 +5,9 @@ class LandingPage < ActiveRecord::Base
   
   belongs_to :product
   # TODO: Create a before save to strip out http:// in the link
+  
+  def append_landing_page_parameter(link)
+    link + "&l=#{id}"
+  end
+  
 end
