@@ -2,7 +2,7 @@
 
 	<div class="clearfix">
   	<div style="float:right;padding-bottom:10px;">
-	    <%= link_to 'Add New Product', new_product_path, class: 'btn btn-cant-think-of-a-name-5 btn-xlarge'  %>
+	    <%= link_to 'Add New Product', new_product_path, class: 'btn btn-green-4 btn-xlarge'  %>
   	</div>
 	</div>
 
@@ -24,7 +24,7 @@
 			<div class="vio-table-td vio-product-name"> <%= link_to product.name, product_path(product) %> <br/> </div>
 			<div class="vio-table-td vio-product-price"> <%= number_to_currency(product.price) %> </div>
 			<div class="vio-table-td vio-product-actions"> 
-				<%= link_to 'Edit', edit_product_path(product), class: 'btn btn-green-4 btn-primary edit' %>
+				<%= link_to 'Edit', edit_product_path(product), class: 'btn btn-primary' %>
 				<%= link_to 'Delete', product, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-red-3" %>
 			</div>
 
