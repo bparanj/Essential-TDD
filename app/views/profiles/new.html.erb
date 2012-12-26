@@ -1,0 +1,16 @@
+<legend> Payment Settings </legend>
+	
+<%= form_tag(profile_url) do %>
+
+ <p>
+   <b>PayPal Email</b><br />
+   <%= text_field_tag "primary_paypal_email", "", :size => 40   %><p>
+ </p>
+
+ <p>
+    <%= submit_tag "Save" %> or <%= link_to 'Cancel', :back %>
+ </p>
+
+<% end %>
+</fieldset>
+
