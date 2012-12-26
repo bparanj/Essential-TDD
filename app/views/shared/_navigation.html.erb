@@ -1,11 +1,13 @@
 <nav class="navbar">
 	<div class="navbar-inner">
 	 <ul id="vio-tab-links" class="nav">
-	   <li class="<%= is_active?('products')%>"> <%= link_to 'Home', root_path %>  </li>
-	   <li class="<%= is_active?('landing_pages')%>"> <%= link_to 'Pricing', landing_pages_home_path %> </li>
+	   <li class="<%= is_active?('home')%>"> <%= link_to 'Home', root_path %>  </li>
 	   <li class="<%= is_active?('devise/sessions')%>"> <%= link_to 'Signin', new_user_session_path %> </li>
 	   <li class="<%= is_active?('devise/registrations')%>"> <%= link_to 'Sign Up', new_user_registration_path %> </li>
 	   <li class="<%= is_active?('profiles')%>"> <%= link_to 'Contact', profile_path %> </li>
 	 </ul>
 	</div>
 </nav>
+
+<!--  
+   <li class="<%= is_active?('landing_pages')%>"> <%= link_to 'Pricing', landing_pages_home_path %> </li> -->
