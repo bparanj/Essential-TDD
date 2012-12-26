@@ -2,7 +2,7 @@ class ProductsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @products = Product.all
+    @products = current_user.products
   end
 
   def show

@@ -13,7 +13,7 @@ class FileUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # Define store_dir as nil if you'd like to store files at the root level.
   def store_dir
-    nil
+    "#{Rails.root}/upload/files/#{model.id}"
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
