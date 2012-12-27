@@ -3,6 +3,7 @@ Dec 26, 12
 1. Does the affiliate promote individual products or a particular vendor?
 	Individual products
 2. Move append_landing_page parameter(link) method to affiliate_links_helper ? Moved to LandingPage model.
+3. Implement contact tab copy the code from Cabernet feedbacks using Ponymail
 
 Dec 25, 12
 
