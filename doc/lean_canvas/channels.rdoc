@@ -14,4 +14,4 @@ About
 
 This blog is focused on solving just one problem. What items can you order in a particular Indian restaurant? One of the problems I had was forgetting what items were good in a restaurant. 
 
-The rating is based on authenticity. Bland Americanized food will be rated poorly whereas food that is true to its roots will be rated highly. In order for a dish to considered good it must also have consistency which is something that is difficult to find in Indian restaurants. 
+The rating is based on authenticity. Bland Americanized food will be rated poorly whereas food that is true to its roots will be rated highly. In order for a dish to considered good it must also have consistency which is difficult to find in Indian restaurants. 

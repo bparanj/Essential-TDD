@@ -1,3 +1,7 @@
+Dec 27, 12
+
+1. Copy all scripts to deploy folder
+
 Dec 26, 12
 
 1. Does the affiliate promote individual products or a particular vendor?

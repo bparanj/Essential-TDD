@@ -1,17 +1,17 @@
 
-To Do for Dec 26, 12
+To Do for Dec 27, 12
 
 1. Moonshine
 2. Heroku for CRON, if it is a problem on Linode.
-3. Send emails using SendGrid Heroku add-on. Order confirmation and fulfillment emails.
-4. Backup db and uploaded files. Use Linode. Can migrate to Amazon Glacier later.
-5. Capistrano for deployment
-6. Fog script to create DNS entries.
-7. Copy all scripts to deploy folder
-8. POST from Heroku on successful delivery of emails.
-9. Style affiliate_links pages
-10. Display the affiliate link show page with easy copy to clipboard feature like Github.
-	Make the html copy/paste feature similar to Paypal. Use the Javascript to automatically select the text. 
+3. Backup db and uploaded files. Use Linode. Can migrate to Amazon Glacier later.
+4. Capistrano for deployment
+5. Fog script to create DNS entries. 
+
+UI 
+
+1. Style affiliate_links pages
+2. Display the affiliate link show page with easy copy to clipboard feature like Github.
+	 Make the html copy/paste feature similar to Paypal. Use the Javascript to automatically select the text. 
 
 ---------------------------------------------------------------------------------------
 
@@ -20,9 +20,12 @@ After Deployment
 1. Check if domain field gets populated for clicks table when a new visitor clicks on a affiliate link.
 2. Customer Test Purchase : To do some basic testing in the real world you can temporarily change the charged amount, make a purchase then issue a refund through paypal.
 3. Install Google Analytics
+4. POST from Heroku on successful delivery of emails.
 
 ---------------------------------------------------------------------------------------
 
+
+1. Send emails using SendGrid Heroku add-on. Order confirmation and fulfillment emails.
 
 ---------------------------------------------------------------------------------------
 
