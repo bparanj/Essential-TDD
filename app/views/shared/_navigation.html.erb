@@ -4,7 +4,7 @@
 	   <li class="<%= is_active?('home')%>"> <%= link_to 'Home', root_path %>  </li>
 	   <li class="<%= is_active?('devise/sessions')%>"> <%= link_to 'Signin', new_user_session_path %> </li>
 	   <li class="<%= is_active?('devise/registrations')%>"> <%= link_to 'Sign Up', new_user_registration_path %> </li>
-	   <li class="<%= is_active?('profiles')%>"> <%= link_to 'Contact', profile_path %> </li>
+	   <li class="<%= is_active?('feedbacks')%>"> <%= link_to 'Contact', new_feedback_path %> </li>
 	 </ul>
 	</div>
 </nav>

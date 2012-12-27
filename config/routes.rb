@@ -8,6 +8,7 @@ Cahor::Application.routes.draw do
   end
   
   resources :orders, :only => [:new, :create] 
+  resources :feedbacks, :only => [:new, :create]
   
   get '/profile' => 'profiles#show'
   put '/profile' => 'profiles#update'

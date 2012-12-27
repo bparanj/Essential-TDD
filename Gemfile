@@ -18,6 +18,7 @@ end
 gem 'jquery-rails'
 gem 'devise'
 gem 'carrierwave'
+gem 'pony'
 gem 'activemerchant', :require => 'active_merchant'
 gem 'rails-footnotes', '>= 3.7.5.rc4', :group => :development
 
