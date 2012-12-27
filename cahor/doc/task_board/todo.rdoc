@@ -9,11 +9,9 @@ To Do for Dec 26, 12
 6. Fog script to create DNS entries.
 7. Copy all scripts to deploy folder
 8. POST from Heroku on successful delivery of emails.
-9. Implement contact tab copy the code from Cabernet feedbacks using Ponymail
-10. Style affiliate_links pages
-11. Display the affiliate link show page with easy copy to clipboard feature like Github.
-	Make the html copy/paste feature similar to Paypal. Use the Javascript to automatically select the text.
-12. 
+9. Style affiliate_links pages
+10. Display the affiliate link show page with easy copy to clipboard feature like Github.
+	Make the html copy/paste feature similar to Paypal. Use the Javascript to automatically select the text. 
 
 ---------------------------------------------------------------------------------------
 
