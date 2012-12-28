@@ -1,0 +1,58 @@
+Notes from Object Design : Roles, Responsibilities and Collaborations
+
+Responsibilities
+
+A good test of whether an object is well formed is that its responsibilities form a cohesive unit. 
+
+1. Does it stick to its purpose?
+2. Are its responsibilities clearly stated?
+3. Do they match its role?
+
+Describing Collaborations
+
+Design the way objects collaborate. Explain how things work. Describe the interplay of objects as they collectively accomplish system responsibilities. Tell a story.
+
+Reliable Collaborations
+
+Carve your software into regions where trusted communications occur. Generally, objects located within the same trust region can communicate collegially, although they may still encounter exceptions and errors. There are several cases of collaborations among objects to consider:
+
+1. Interface to the user
+2. Interface with external systems
+3. Different layers
+4. Different abstraction levels
+5. Objects designed by someone else
+6. External library
+
+Trusted vs Untrusted Collaborations
+
+When objects are within the same trust region, their collaborations can be conscientiously designed to be more collegial. Both client and service provider can be designed to assume that if any conditions or values are to be validated, they need be done only once, by the designated responsible party.
+
+In general, when objects are in the same layer or neighborhood, they can be more trusting of their collaborators. And they can assume that objects that use their services call on them appropriately.
+
+If a request is from an untrusted or unknown source, extra checks may be made before a request is honored. There are several situations to consider:
+
+1. When an object sends a request to a trusted collaborator.
+2. When an object receives a request from a trusted collaborator.
+3. When an object uses an untrusted collaborator.
+4. When an object receives a request from an unknown source.
+5. When an object receives a request from a known trusted source.
+
+In a trusted collaboration there is no need to check for invalid collaborations. When using an untrusted collaborator, extra precautions may need to be taken. You may pass along a copy of data instead of sharing it with an untrusted collaborator. You may check on conditions after the request completes.
+
+Implications of Trust
+
+Determine trust regions for a system and decide where to place extra responsibilities for making collaborations more reliable.
+
+In a large system, distinguish whether collaborations among components can be trusted and furthermore to identify the guarantees, obligations, and responsibilities of each component. After these constraints are agreed on, each component can be designed to do its part to ensure that the system as a whole works reliably.
+
+Distinguish Between Exceptions and Errors
+
+Errors are things that are wrong. Errors can result from malformed data, bad programs, logic errors or broken hardware. There is little that can be done to fix things and proceed. For the most part, errors can be ignored.
+
+Exceptions are not normal, but they happen and you should design your software to handle them. Recast lower-level exceptions to higher-level ones whenever you raise your abstraction level.
+
+Contractual relations between collaborators are an important specification tool. A contract specification is a job description for the service provider. Its work will start from the initial state of the system as characterized by the preconditions, and it will deliver results defined by the postconditions.
+
+Defining contracts is a good way to reason about the obligations and benefits of a particular collaboration. But it's also a lot of work. Not all collaborations warrant this extra attention. Contracts are especially useful for defining the obligations and benefits between your software and external systems.
+
+Contracts make absolutely clear what is expected. They are especially important for describing collaborations that need to be reliable and that cross trust boundaries. When you need to be very precise, define contracts between collaborators.

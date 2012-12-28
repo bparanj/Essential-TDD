@@ -1,0 +1,71 @@
+
+<% @products.each do |product| %>
+  <% if product.landing_pages.size > 0 %>
+    <%= product.name %></br> 
+		<% product.landing_pages.each do |landing_page| %>
+			<%= landing_page.name %>
+		<% end %>
+	<% end %>
+<% end %>
+
+		<% @products.each_with_index do |product, index| %>
+		<li>
+			<div class="column-order-number"><%= index + 1 %></div>
+			<div class="column-product-name-noprice"><%= link_to product.name, product_path(product) %></div>
+			<div class="column-edit-options">
+		      <%= link_to t('.create', :default => 'Create Landing Page'),
+                      new_product_landing_page_path(product), :class => 'btn btn-mini create-landing-link' %>
+		    </div>
+		</li>
+		 <% end %>
+	</ul>
+</div>
+
+
+<nav class="secondary-menu clearfix">
+
+	<div style="float:right;vertical-align:middle;padding:0 20px;">
+
+		<a href="#"> Add Landing Page <a/> | <a href="#"> Create New Page </a>
+
+	</div>
+</nav>
+
+
+<section >
+
+	<div id="add-landing-page-section" class="clearfix">
+		<span style="font-weight:bold;font-size:16px"> Product Name goes here </span>
+	</div>
+
+	<ul id="vio-home-table" class="vio-table-maximized vio-table vio-section">
+
+		<li class="odd clearfix">
+
+			<div class="vio-table-td vio-product-landingpage"> www.landingpage1.com </div>
+			<button class="btn btn-red-3">Delete</button>
+			
+	 	</li>
+
+		<li class="even clearfix">
+			<div class="vio-table-td vio-product-landingpage"> www.landingpage2.com </div>
+			<button class="btn btn-red-3">Delete</button>
+			
+
+		</li>
+
+
+		<li class="odd clearfix"> 
+			<div class="vio-table-td vio-product-landingpage"> www.landingpage3.com </div>
+			<button class="btn btn-red-3">Delete</button>
+			
+
+		</li>
+		<li class="even clearfix"> 
+			<div class="vio-table-td vio-product-landingpage"> www.landingpage4.com </div>
+			<button class="btn btn-red-3">Delete</button>
+		</li>
+
+	</ul>
+
+</section>

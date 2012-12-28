@@ -1,0 +1,267 @@
+## Twitter Client ##
+
+## Objectives ##
+
+- How to deal with third party API?
+- How to use thin adapter layer to insulate domain code from external API?
+- What does abusing mocks look like?
+- Example of brittle tests that break even when the behavior does not change, caused by mock abuse.
+- Integration tests should test the layer that interacts with external API.
+- Using too many mocks indicate badly designed API. 
+
+## Installation ##
+
+```ruby
+$ gem install jeweler
+$ jeweler --rspec twits
+$ cd twits
+$ bundle
+```
+
+The source code for this chapter can be found at : https://github.com/bparanj/twits
+
+## Version 1 ##
+
+Run
+
+```ruby
+$ rspec spec/twits_spec.rb 
+```
+
+from the root of the project to run the specs. The generated code fails with the error:
+
+```ruby
+1) Twits fails
+   Failure/Error: fail 
+     "hey buddy, you should probably rename this file and start specing for real"
+   RuntimeError:
+      hey buddy, you should probably rename this file and start specing for real
+```
+
+## Version 2 ##
+
+The following spec hits the live server.
+
+twits_spec.rb
+
+```ruby
+require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'user'
+
+describe "Twitter User" do
+  context "with a username" do
+    before(:each) do
+      @user = User.new
+      @user.twitter_username = 'logosity'
+    end
+    
+    it "provides the last five tweets from twitter" do
+      tweets = ["race day! http://t.co/nHVyd7s3 #fb",
+                "toy to inspire: http://t.co/koMadie2 #fb",
+                "just drove the route: http://t.co/nHVyd7s3 #fb",
+                "Son is declaring that the Honey Badger is his second favorite animal.",
+                "If you want to sail your ship in a different direction."]
+      
+      @user.last_five_tweets.should == tweets 
+    end
+  end
+end
+```
+
+Create user.rb under lib directory with the following code:
+
+```ruby
+require 'twitter'
+
+class User
+  attr_accessor :twitter_username
+  
+  def last_five_tweets
+    return Twitter::Search.new.per_page(5).from(@twitter_username).map do |tweet|
+      tweet[:text]
+    end.to_a
+  end
+end
+```
+
+## Version 3 ##
+
+There is no change to user.rb from previous version. The twits_spec.rb now looks like this:
+
+```ruby
+require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'user'
+
+describe "Twitter User" do
+  context "with a username" do
+    before(:each) do
+      @user = User.new
+      @user.twitter_username = 'logosity'
+    end
+    
+    it "provides the last five tweets from twitter" do
+      tweets = [
+        {text: 'tweet1'},
+        {text: 'tweet2'},
+        {text: 'tweet3'},
+        {text: 'tweet4'},
+        {text: 'tweet5'},
+        ]
+      
+      mock_client = mock('client')
+      mock_client.should_receive(:per_page).with(5).and_return(mock_client)
+      mock_client.should_receive(:from).with('logosity').and_return(tweets)
+      Twitter::Search.should_receive(:new).and_return(mock_client)
+      
+      @user.last_five_tweets.should == %w{tweet1 tweet2 tweet3 tweet4 tweet5} 
+    end
+  end
+end
+```
+
+There is too much mocking in this version. The intent of the test gets lost in the noise. This version abuses mocks. Spec is tightly coupled to the implementation of the method and is brittle. It will break even when the behavior does not change but the implementation changes. That can happen when you upgrade Twitter gem.
+
+## Version 4 ##
+
+Let's fix the mock abuse problem. 
+
+twits_spec.rb
+
+```ruby
+require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'user'
+
+describe "Twitter User" do
+  context "with a username" do
+    before(:each) do
+      @user = User.new
+      @user.twitter_username = 'logosity'
+    end
+
+    it "provides the last five tweets from twitter" do
+      tweets = %w{tweet1 tweet2 tweet3 tweet4 tweet5} 
+      Twits.stub(:fetch_tweets).and_return(tweets)
+
+      @user.last_five_tweets.should == tweets 
+    end
+  end
+end
+```
+
+Stub is used to disconnect from Twitter client API. The test now depends on our API, fetch_tweets in our Twits class. This is stable than having a direct dependency on a third party API.
+
+Create twits.rb with the following code:
+
+```ruby
+require 'twitter'
+
+class Twits
+  def self.fetch_tweets(username)
+    Twitter::Search.new.per_page(5).from(username).map do |tweet|
+      tweet[:text]
+    end.to_a
+  end
+end
+```
+
+The fetch_tweets method must hit the Twitter sandbox in the integration test so that we can make sure our code can integrate with the third-party API. The API provided by Twits is a thin wrapper around the actual Twitter API. It insulates the changes in Twitter API from impacting the domain code.
+
+Change the user.rb to delegate the fetching of tweets to the Twits class like this:
+
+```ruby
+require 'twits'
+
+class User
+  attr_accessor :twitter_username
+  
+  def last_five_tweets
+    Twits.fetch_tweets(@twitter_username)
+  end
+end
+```
+
+Now the domain object user does not directly deal with communicating to a remote service. That is the job of the service layer implemented in Twits class.
+
+## Version 5 ##
+
+The spec now uses dependency injection to inject a fake twitter client to break the dependency. 
+
+twits_spec.rb
+
+```ruby
+require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'user'
+require 'fake_twitter_client'
+
+describe "Twitter User" do
+  context "with a username" do
+    before(:each) do
+      @user = User.new
+      @user.twitter_username = 'logosity'
+    end 
+
+    it "should provide the last five tweets from twitter" do
+      twits = Twits.new(FakeTwitterClient.new)
+			
+			expected_tweets = %w{tweet1 tweet2 tweet3 tweet4 tweet5} 
+      @user.last_five_tweets.should == expected_tweets
+    end
+  end
+end
+```
+
+twits.rb
+
+```ruby
+class Twits
+   
+  def initialize(client)
+    @client = client
+  end
+ 
+  def fetch_five(username)
+   @client.per_page(5).from(username).map do |tweet|
+     tweet[:text]
+   end.to_a  
+  end
+end
+```
+
+This version does not hard code the name of the class. So we don't have dependency on a specific class. This technique gives us more flexibility.
+
+fake_twitter_client.rb
+
+```ruby
+class FakeTwitterClient
+  def per_page(n)
+    self
+  end
+  
+  def from(username)
+    tweets = [{ :text => 'tweet1'},
+              { :text => 'tweet2'},
+              { :text => 'tweet3'},
+              { :text => 'tweet4'},
+              { :text => 'tweet5'}]
+  end
+end
+```
+
+If there are lot of methods, then using the FakeTwitterClient is not a good idea due to the headache of keeping the fake class in synch with Twitter API changes. The focus in this version is to show how to use dependency injection.
+
+## Discussion ##
+
+The book Continuous Testing with Ruby, Rails and Javascript by Ben Rady & Rod Coffin uses mocks in the tests to write the tests for Mongodb. Because we have never used this db before, it shows breaking dependencies by testing against a real service and then replacing those interactions with mocks. This results in lot of mocks in the tests. 
+
+Using mocks in this case is improper usage of mocks. Because you cannot drive the design of a third-party API (Mongodb API in this case). There is a better way to breaking the external dependencies. 
+	
+1. First write learning specs. 
+2. Then create a thin adapter layer that has well defined interface. This adapter layer will encapsulate the interaction with Mongodb. Now you can mock the thin adapter layer in your code and write integration tests for the adapter that will interact with Mongodb. 
+
+This prevents the changes in Mongodb API from impacting the domain code. It also prevents technical terminology from leaking into our domain code. See https://github.com/bparanj/mongodb_specs for example of learning specs.
+
+\newpage
+
+
+
+

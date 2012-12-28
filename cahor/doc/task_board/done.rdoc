@@ -1,0 +1,290 @@
+Dec 27, 12
+
+1. Copy all scripts to deploy folder
+
+Dec 26, 12
+
+1. Does the affiliate promote individual products or a particular vendor?
+	Individual products
+2. Move append_landing_page parameter(link) method to affiliate_links_helper ? Moved to LandingPage model.
+3. Implement contact tab copy the code from Cabernet feedbacks using Ponymail
+
+Dec 25, 12
+
+1. Integrate the new UI with Cahor.
+2. Integrated Devise 
+3. Layout for logged in and general use.
+4. Upload file to root level directory not available to public
+5. Show product page grid design
+6. Landing page grid design
+7. New product page design
+
+Dec 24, 12
+
+1. Integrated CSS for the inventory tab.
+2. Layout for the site.
+
+Dec 23, 12
+
+1. Finished SCRUM book.
+2. Revised planning documents.
+3. Bought EC2 screencasts.
+
+Dec 22, 12
+
+1. Signup for Amazon S3 account at http://aws.amazon.com 																	
+2. Get Access key and secret access key (Web services account -> AWS access identifiers)  
+		https://portal.aws.amazon.com/gp/aws/securityCredentials
+3. Copy the secret access key and access key id. 																					
+4. Create a bucket in Amazon S3 called clickplan.net																			
+5. Is there a way to find out if S3 download was successful? 
+
+ Does Amazon S3 support data access auditing?
+Yes, customers can optionally configure Amazon S3 buckets to create access log records for all requests made against it. These access log records can be used for audit purposes and contain details about the request, such as the request type, the resources specified in the request, and the time and date the request was processed.
+
+Dec 21, 12
+
+1. Replace hard coded product link with variables in the product mailer emails.
+2. Reduce duplication in instant_payment_notification_mapper
+3. Refine the controller to handle all cases. If the response code is not 200, save the message for further investigation.
+	--> This is done by the ipn.acknowledge else clause
+    How to check the HTTP response code in ActiveMerchant? 
+	--> Looking at the ActiveUtil gem, it the response status code is 200..300 then response.body is returned.
+		This is done by ActiveMerchant
+    IPN script should make sure to respond to the HTTP response with a 200 OK message to prevent additional attempts by PayPal to send the IPN. 
+ 	--> This is handled by ActiveMerchant.
+4. 	Fulfillment Module
+
+	Give link to the downloads controller /confirmation_number
+	Lookup in the db and check for payment status and order status
+	Redirect the user to the actual product download url that is pointing to S3 file
+	Allow user to download the book when the payment is success and order status is 'fulfill'.
+	Set order.status = Order::DELIVERED after they download the product
+
+
+Dec 20, 12
+
+1. Added paypal_gateway specs.
+2. Added BillingResponseMapper class to simplify paypal_gateway class.
+3. Added CookieJar specs
+4. Added billing response mapper specs
+5. File upload feature.
+6. receiver_id is not used in this version.
+
+This is part of IPN post variables:
+receiver_id - Unique account ID of the payment recipient (i.e., the merchant). This is the same as the recipient’s referral ID. Length: 13 characters
+
+Express Checkout :
+transaction.details['PaymentInfo']['SellerDetails']['SecureMerchantAccountID'] gives 13 digit SLLS4V95L43LN
+is the same as
+transaction.details['secure_merchant_account_id']
+
+These two values should be checked to make sure they are the same if you are using the receiver_id to credit a merchant for a transaction. 
+
+Dec 19, 12
+
+1. Added bounty processor specs 
+2. Added specs for fraud policy
+3. Added specs for instant payment notification
+4. Added paypal notifications mapper specs
+5. Added refund processor specs
+
+Dec 18, 12
+
+1. Rake task to drop db, create db, migrate and populate with seed data.
+2. Drop db and test Express Checkout from scratch.
+3. openssl passwd -1 12345 is generating different shadow compatible password on every run. Use salt to generate
+   the same password.
+4. If you receive an INVALID response, then either you’ve done something wrong or the original IPN should be treated as suspicious and investigated. 
+5. Use sample IPN message in paypal/paypal.rdoc to write rake task. Enhanced rake task paypal:ipn
+6. Decide whether category model must be removed. Postponed to a version when Click Plan becomes a marketplace.
+7.  - description != notify.params[‘item_name] 
+(Use custom variable to store the id of the record that contains the pass through variable, fields stored locally). Currently PaypalService class, description contains the item_name value, change it to match the API call. _/
+		 [Product name is passed in item_name.]
+
+Dec 17, 12
+
+1. Clarified design questions for Arun.
+2. Registered clickplan.net, clickplan.biz, clickplan.info & clickplan.mobi on namecheap.com
+3. Completed problem and customer segment sections of the lean canvas.
+4. Generate a unique SHA hash using seller's name and append with random number, use this url as the confirmation URL after purchase. Then redirect the buyer to Thank You page on affiliate's site. [Not required now]
+5. Compare the product id and name of the incoming posted variables with the product id and name of 
+   the transaction that took place on our site : no_malicious_price_change implemented
+6. Major refactorings of InstantPaymentNotification, PaypalGateway & OrdersController
+
+options[:items].each do |item|
+  xml.tag! 'n2:PaymentDetailsItem' do
+    xml.tag! 'n2:Name', item[:name]
+    xml.tag! 'n2:Number', item[:number]
+    xml.tag! 'n2:Quantity', item[:quantity]
+    if item[:amount]
+      xml.tag! 'n2:Amount', localized_amount(item[:amount], currency_code), 'currencyID' => currency_code
+    end
+    xml.tag! 'n2:Description', item[:description]
+    xml.tag! 'n2:ItemURL', item[:url]
+    xml.tag! 'n2:ItemCategory', item[:category] if item[:category]
+  end
+end
+
+7. Update the password script to generate shadow compatible password using openssl. Prompt for the password, generate the password without showing it on the screen.
+
+Dec 16, 12
+
+1. Drop db and create schema from scratch and run automated integration scripts.
+2. Add Selenium test case to simulate affiliate referral.
+3. Organized project to do lists.
+4. Set cookie only once on first time visit
+5. clickance.com and clickance.net registered on namecheap.com
+
+Dec 15, 12
+
+1. Confirmation email can be sent outside of the webrequest. Remove it to a rake task.
+2. Create bounty when the sale completes for a referral. 
+3. If checkout fails, set the order status to failed.
+4. Write Integration Test that hits the Paypal sandbox. Selenium test cases for sandbox login and express checkout.
+5. Upon IPN message processing completion:
+		1. Update the database with a new customer order  _/
+		2. Send a confirmation email                      _/ (Since we are providing digital service, this will be kicked off by
+		response code of express checkout)
+6. 	Use the item id to find the order id that is combined with other pass through variables.
+		If the verified response passes the checks,take action based on the value of the txn_type variable if it exists; otherwise, take action based on the value of the reason_code variable. [Right now only one pass through variable is used]
+
+Dec 14, 12
+
+1. Get peepcode, Chef & Scaling episodes.
+2. http://release.seleniumhq.org/selenium-ide/1.9.0/selenium-ide-1.9.0.xpi
+   Selenium IDE FF plugin installed on FF 17.0.1 
+3. Upgrade FF to latest version and install Selenium IDE. 
+4. Record Paypal Sandbox Login. Check if the automated test can run in this setup.
+5. Implement process_refund
+6. Create refund. If mc_gross and payment_gross is negative. It is a refund. It cannot exceed the payment amount.
+7. Customized generators to use rspec for testing.
+8. Implement process_bounty
+9. Since IPN messages can be delayed—hence not exactly “instant”—IPN should not be exclusively relied on when immediate order fulfillment is necessary, such as in the case of a digital download service. Use Express checkout response code to check the purchase is complete and kick-off the fulfillment.
+
+
+Dec 13, 12
+
+1. Selenium IDE and Selenium Flow Control FF plugin. Problem installing on FF 17.0. Works on FF 15.0. 
+2. * Passing Custom Variable in Express Checkout *
+I am using the Express Checkout as a third party shopping cart provider. I read the integration guide but I could not find any details on how to pass a custom variable in Express Checkout API. Where can I get more details?
+3. Setup Capybara for blackbox testing.
+4. Store txn_id in database. Stored in order#details['PaymentRequestInfo']['TransactionId'] and transaction#details['PaymentInfo']['TransactionID']
+txn_id - The merchant’s original transaction identification number for the payment from the buyer, against which the case was registered.
+5. Verify that the payment amount actually matches what you intend to charge.
+6. has_many :paypal_notifications. Do you need this? Refer railscast. Not needed.
+7. Automate checkout process testing. Selenium IDE checkout test case exported as html and Ruby scripts.
+
+Dec 12, 12
+
+1. There is a chance that the order confirmation number generated could be duplicate between the time it was generated and it was saved in the db. Fix this issue. Create Token model and move order confirmation generation to it.
+2. Save payer_email to send order confirmation and fulfillment emails.
+3. Use a separate logger for IPN messages in Paypal IPN controller. Refer : https://gist.github.com/2453949 and custom-logger.txt
+4. Simulate IPN notification via curl and check if the latest version works. 
+5. Wrote a rake task to create the IPN notification query parameters to be used in Curl in development.
+6. Create Payment model and store
+        - Paypal transaction_id.              _/
+        - user_id (most likely payer_email)   _/
+        - order_id -                          ><     (order id not stored, transaction id is stored instead) 
+        - payment_date - Time/Date stamp generated by PayPal. Length: 28 characters _/
+7. Asynchronous process - IPN allows you to automatically update a database with the transaction details, send a customized order confirmation email message to the buyer. 
+8. The following is now handled by IPN handler:
+
+Orders controller will handle the 'Buy Now' button clicked on the sales page and handle the bounty :
+
+Copy the OrdersController from zstore and fill in the TODO line:
+
+if @order.save
+  if @order.purchase
+    # TODO : Read the cookie value here, find the affiliate who had set this cookie and record the bounty here.
+    render action: 'success'
+  else
+    render action: 'failure'
+  end
+else
+  render action: 'new'
+end
+9. Integrate the app to Paypal Express Checkout.
+10. Create account for Paypal developer forum x.com
+11. Paypal logger should have time stamp
+12. https://cms.paypal.com/cms_content/US/en_US/files/developer/PP_AcceleratedBoarding_Guide.pdf is now part of repo.
+13. Validate that the receiver_email is an email address registered in your PayPal account, to prevent the payment from being sent to a fraudster’s account. This is the user#spoofed_receiver_email? fraud check.
+
+Dec 11, 12
+
+1. Reviewed and gave feedback on Vio Wireframe version 3 to Arun
+2. Find the subject field in the latest Paypal API docs
+3. Email a password to your customer for downloading digital media. NOT REQUIRED.
+4. Setup Paypal Sandbox accounts for seller and buyer with credit card and bank accounts.
+    payer_status - Whether the customer has a verified PayPal account. NOT REQUIRED.
+5. invoice is one of the IPN variable (params['invoice'])
+6. How to send invoice id during express checkout?
+	 pass order confirmation number as the value for invoice_id (passed in as order_id)
+
+	 Paypal::Notification methods
+	 
+	 def account
+	   params['business'] || params['receiver_email']
+	 end
+	 
+	 # This is the item number which we submitted to paypal 
+	 # The custom field is also mapped to item_id because PayPal
+	 # doesn't return item_number in dispute notifications
+	 def item_id
+	   params['item_number'] || params['custom']
+	 end
+7. Integrate IPN Handler with Cahor. Needed to get refund notification, fraud report etc.
+
+Dec 10, 12
+
+1. Drop the database, recreate all tables and run the test.
+2. Replace hard coded product name with variable in the product mailer emails.
+3. Wrote the checkout with affiliate referrer code set test case.
+4. Test checkout manually. Hit payment_notifications with curl to make sure it works. 
+5. Replace JKASS in the confirmation emails with Paypal.
+
+Dec 9, 12
+
+1. Decided that there is no need to display quantity or product name on the paypal checkout page.
+2. Order id should not be used in the confirmation page. Generate a unique confirmation number and use that in the email and success page. Add a new field to order called : confirmation_number.
+
+Dec 8, 12
+
+1. Removed 'Actions' and 'S.No' headings
+2. Design reviewed and feedback sent to Arun
+3. Sales controller should be renamed to PaypalNotifications controller with paypal_notifications table. Delete sales model.
+
+Dec 7, 12
+
+1. Send and receive affiliate referrer_code as the custom pass through variable to Paypal.
+2. Populate product_id in orders table.
+3. Product price in cents must be returned. Implement Produce price_in_cents method.
+4. Send fulfillment email to buyer_email in orders table.
+
+Dec 6, 12
+
+1. Encapsulate payment processing logic in PaypalGateway
+2. Display receipt after successful order in orders/success.html.erb file. 
+3. product_id is not an IPN variable. Removed from sales table.
+
+Dec 5, 12
+
+1. How to get buyer email from Paypal. 
+2. Pass custom variable during purchase process and retrieve it when details_for is called.
+
+def add_payment_details(xml, money, currency_code, options = {})
+  xml.tag! 'n2:Custom', options[:custom] unless options[:custom].blank?
+end
+3. Drop db and recreate all tables
+4. Verify that callback_url does the same job as notify_url for IPN callback. 
+	[It does not. Use notify_url]
+
+Dec 4, 12
+
+1. Create the paper prototype for version 1 and mail it to Arun.
+
+Dec 3, 12
+
+1. New_Vio wireframe is the starting point. Combine feedback and mail it to Arun.
+
+

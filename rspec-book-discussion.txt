@@ -1,0 +1,8 @@
+When I register on the site:
+
+1. Activation email should be sent.
+2. Account must be verified
+3. User record must be created
+4. I must be able to login 
+
+Which one of the above is useful to test?

@@ -1,0 +1,120 @@
+<%= render :partial => "/users/tabs", :locals => { :active_tab => "affiliate_info" } %>
+
+<div class="content" id="affiliates">
+	<h3>Affiliate Information</h3>
+    <p>The following is the information we have on record for your affiliate account.</p>	
+
+	<section>
+		<% if @user.payee %>
+			<div id="affiliate-contact">
+					<ul>
+						<li><%= @user.payee.full_name %></li>
+						<% if @user.payee.business_name? %><li><%= @user.payee.business_name %></li><% end %>
+						<li><%= @user.payee.address.try(:gsub,"\n","<br />") %></li>
+					</ul>
+			</div>
+		<% end %>
+		<div class="edit-affiliate-info">
+            <%= link_to image_tag("/images/edit-icon.png"), edit_affiliate_url(current_user) %>
+            <%= link_to "Edit Affiliate Information", edit_affiliate_url(current_user), :class => "edit" %>
+		</div>
+		<table cellpadding="0" cellspacing="0" width="100%" id="affiliate-info">
+			<tr class="top-header">
+				<th colspan="2">Payment Information</th>
+			</tr>
+			<tr>
+				<td class="left-col"><span>Payee Type:</span><%= @user.payee.payee_type if @user.payee %></td>
+				<td><span>Exempt:</span><%= @user.payee.is_exempt if @user.payee %></td>
+			</tr>
+			<tr class="even">
+				<td class="left-col"><span>LLC Tax Classification:</span><%= @user.payee.llc_classification if @user.payee %></td>
+				<td><span>Taxpayer ID Number:<br /><small>(SSN or Employer ID Number)</small></span><%= @user.payee.tin.gsub(/[0-9]/, '*') if @user.payee and !@user.payee.tin.blank? %></td>
+			</tr>
+			<tr>
+				<td class="left-col"><span>Affiliate Fee:</span><%=  number_to_percentage(@user.affiliate.affiliate_rate*100,  :precision => 1) if @user.affiliate and !@user.affiliate.affiliate_rate.blank? %></td>
+				<td><span></span></td>
+			</tr>
+		</table>
+
+        <% if @user.blogs %>
+            <table cellpadding="0" cellspacing="0" width="100%" id="blog-info">
+                <% @user.blogs.each do |blog| %>
+                    <tr class="top-header">
+                        <th colspan="2">Blog Information</th>
+                    </tr>
+                    <tr>
+                        <td><span>Url:</span><%= blog.url %></td>
+                    </tr>
+                    <tr class="even">
+                        <td><span>Monthly Unique Visitors:</span><%= blog.monthly_unique_visitor_count %></td>
+                    </tr>
+                    <tr>
+                        <td><span>Topic / Genre of Your Website or Blog:</span><%= blog.other_category %></td>
+                    </tr>
+                <% end %>
+            </table>
+        <% end %>
+    </section>
+
+    <section class="affiliate-links">
+        <% if @user.is_affiliate? && @user.payee && @user.affiliate.approved? %>
+            <h4>Affiliate Links</h4>
+            <fieldset class="form">
+            	<ul>
+            		<li>
+            			<label class="input-text">
+                            <span class="label">Referral Link</span>
+                            <input type="text" value="<%= @user.affiliate_url %>" onclick="this.select();" />
+                        </label>
+                    </li>
+                    <li>	
+                        <label class="input-text">	
+                            <span class="label">Large Widget (300x350)</span>
+                            <input type="text" value="<%= @user.affiliate_iframe_large %>" onclick="this.select();"  />
+                        </label>
+                    </li>
+                    <li>
+                        <label class="input-text">		
+                            <span class="label">Medium Widget (250x300)</span>
+                            <input type="text" value="<%= @user.affiliate_iframe_medium %>" onclick="this.select();"  />
+                        </label>
+                    </li>
+                    <li>
+                        <label class="input-text">		
+                            <span class="label">Small Widget (150x230)</span>
+                            <input type="text" value="<%= @user.affiliate_iframe_small %>" onclick="this.select();"  />
+                        </label>
+                    </li>
+                    <li>
+                        <label class="input-text">		
+                            <span class="label">Medium Rectangle (300x250)</span>
+                            <input type="text" value="<%= @user.affiliate_iframe_medium_rectangle %>" onclick="this.select();"  />
+                        </label>
+                    </li>
+                </ul>
+            </fieldset>
+         <% else %>
+			<h4>Affiliate Links</h4>
+			<p>Once you are approved as an affiliate, you will be able to see your affiliate links</p>
+        <% end %>
+    </section>
+	
+</div>
+
+<aside class="sidebar account">
+	<section class="sidebar-wrapper">
+		<div class="border">
+			<div class="sidebar-container">
+  			<h3>Affiliate Terms and Conditions</h3>
+  			<p>As an affiliate, you agree to the <%= link_to "Affiliate Terms and Conditions", affiliate_terms_and_conditions_url, :target => "_blank" %> and certify that:</p>
+  			<small>
+  				<ul>
+  					<li>1. The taxpayer identification number shown on this form is my correct taxpayer identification number (or I am waiting for a number to be issued to me), and</li>
+  					<li>2. I am not subject to backup withholding because: (a) I am exempt from backup withholding, or (b) I have not been notified by the Internal Revenue Service (IRS) that I am subject to backup withholding as a result of a failure to report all interest or dividends, or (c) the IRS has notified me that I am no longer subject to backup withholding, and</li>
+  					<li>3. I am a U.S. citizen or other U.S. person.</li>
+  				</ul>
+  			</small>
+  		</div>
+  	</div>
+  </section>
+</aside>

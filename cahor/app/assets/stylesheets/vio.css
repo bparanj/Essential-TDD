@@ -1,0 +1,386 @@
+/******************************
+* Page Specific CSS
+*******************************/
+
+body {
+  width:100%;
+  height:100%;
+}
+
+#page-wrapper {
+  width:940px;
+  height:1024px;
+  margin:0 auto;
+}
+
+.initial-hide {
+	display: none;
+}
+
+/*********************
+*	Header CSS
+*********************/
+#vio-header {
+	padding:10px;
+	/*
+	border-bottom: 1px solid #eeeeee;
+	*/
+}
+
+.login-info {
+	float:right;
+}
+
+/*****************************
+ * Nav bar CSS
+ *****************************/
+
+.navbar-inner {
+	padding-left: 0;
+}
+
+.secondary-menu {
+	background: none repeat scroll 0 0 #F4F4F4;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+  padding: 5px 0;
+  margin-bottom:20px;
+}
+/*****************************
+* Vio Tabs
+*******************************/
+
+#vio-tab-links li {
+	width : 120px;
+	text-align: center;
+}
+
+/***********************
+ *	Content CSS
+ **********************/
+
+#page-content {
+	/*padding:20px 10px;*/
+}
+
+.vio-section {
+	box-shadow: 2px 2px 5px #888888;
+}
+
+/*************** Table to be Used in Vio *****************/
+
+#vio-home-table {
+	border-radius: 4px;
+	clear:both;
+}
+
+.vio-table li {
+	line-height:30px;
+	padding:5px 0;
+	clear:both;
+}
+
+.vio-table li div {
+	background: transparent;
+}
+
+#vio-home-table .vio-table li:hover {
+	background: #888888;
+}
+
+.vio-table li.odd {
+	background: #eeeeee;
+}
+
+.vio-table li.even {
+	background:white;
+}
+
+.vio-table .vio-table-td {
+	float:left;
+	padding-left: 5px;
+}
+
+.vio-table li.table-header {
+	line-height: 40px;
+	font-weight: bold;
+	border-bottom: 1px solid #cccccc;
+}
+
+.vio-table div.vio-product-id{
+	width:60px;
+	text-align: center;
+}
+
+.vio-table div.vio-product-name {
+	width:480px;
+}
+
+.vio-table div.vio-product-price {
+	width:60px;
+}
+
+.vio-table div.vio-product-actions {
+	width:200px;
+}
+
+.vio-table div.vio-product-landingpage {
+	width : 600px;
+}
+/*****************************************************/
+
+
+/****************** Vio Forms ***************************/
+
+
+
+.vio-table-minimized {
+	padding:0 20px;
+	display:none;
+
+}
+
+.form-option-buttons {
+	/*margin-left: 50px;*/
+}
+
+.form-option-buttons > * {
+	margin-right: 10px;
+}
+
+.vio-table-minimized .btn {
+	float:right;
+	padding-right: 20px;
+}
+
+
+#vio-all-forms {
+	margin:20px 0;
+}
+
+#vio-all-forms form {
+	background: #F2F2F2;
+	padding:20px;
+}
+
+#vio-all-forms legend {
+	font-weight: bold;
+	border-bottom: 1px solid #cccccc;
+}
+
+#vio-all-forms label {
+	
+	display:inline-block;
+	width: 100px;
+
+}
+
+.form-element {
+	padding-bottom:10px;
+}
+
+#vio-create-landing-form label {
+	width:130px;
+}
+
+/******************************************************/
+
+/*******************************
+* Icons
+*******************************/
+
+.img-close-btn {
+	float:right;
+	background: url("../images/close_button.png");
+	width: 20px;
+	height: 20px;
+}
+
+/***************************************************
+* Landing Pages
+****************************************************/
+#add-landing-page-section{
+	padding:10px;
+}
+
+.listgrid-menu {
+	float:right;
+}
+
+#add-landing-page-section button {
+	float:right;
+}
+
+/********************************************
+* Grid Section
+**********************************************/
+
+
+
+
+.landing-grid-section {
+	width:100%;
+	padding-top:20px;
+	display:none;
+}
+
+.vio-product-grid {
+	display:inline-block;
+	width:380px;
+  height:200px;
+  border-radius: 4px;
+  padding:10px;
+  margin: 0 10px 10px 0;
+}
+
+
+.vio-product-grid:hover {
+	box-shadow: 2px 2px 5px #70b8fb;
+}
+
+.vio-product-grid h1 {
+	font-size:18px;
+	border-bottom: 1px solid #ccc;
+}
+.vio-grid-price {
+	display:inline-block;
+	font-size: 60px;
+
+	height:60px;
+	margin-top:40px;
+	margin-bottom: 40px;
+}
+
+.vio-grid-element {
+	display:inline-block;
+	font-size: 20px;
+
+	height:20px;
+	margin-top:20px;
+	margin-bottom: 20px;
+}
+
+.widget-header {
+  background: -moz-linear-gradient(center top , #FAFAFA 0%, #E9E9E9 100%) repeat scroll 0 0 transparent;
+  border: 1px solid #D5D5D5;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  height: 30px;
+  line-height: 30px;
+  position: relative;
+}
+
+.widget-header div {
+	font-weight:bold;
+}
+
+.left-outer-nav {
+	width:100px;
+	float:left;
+}
+
+.right-outer-content-section {
+	float:right;
+	width:800px;
+}
+
+ p.lmain {
+ 	text-align: center;
+  color: #666666;
+  font-size: 25px;
+  line-height: 45px;
+}
+
+
+
+.breadcrumb {
+  background-color: #FBFBFB;
+  background-image: -moz-linear-gradient(center top , #FFFFFF, #F5F5F5);
+  background-repeat: repeat-x;
+  border: 1px solid #DDDDDD;
+  border-radius: 3px 3px 3px 3px;
+  box-shadow: 0 1px 0 #FFFFFF inset;
+  list-style: none outside none;
+  margin: 0 0 18px;
+  padding: 7px 14px;
+}
+
+
+.breadcrumb li {
+  display: inline-block;
+  text-shadow: 0 1px 0 #FFFFFF;
+}
+
+
+.box h4.box-header {
+    cursor: move;
+    list-style: none outside none;
+    margin: 0;
+    padding: 7px;
+    size: 10px;
+}
+.box h4.box-header {
+    background-color: #FBFBFB;
+    background-image: -moz-linear-gradient(center top , #FFFFFF, #F5F5F5);
+    background-repeat: repeat-x;
+    border: 1px solid #DDDDDD;
+    box-shadow: 0 1px 0 #FFFFFF inset;
+}
+.round-top {
+    border-radius: 3px 3px 0 0;
+}
+
+
+.box .box-container-toggle {
+  border-bottom: 1px solid #DDDDDD;
+  border-left: 1px solid #DDDDDD;
+  border-radius: 0 0 3px 3px;
+  border-right: 1px solid #DDDDDD;
+}
+
+.box-content {
+  padding: 10px;
+}
+
+
+/*************************************
+* Forms
+**************************************/
+
+.control-group input,textarea,input[type="file"] {
+	width:600px;
+}
+
+.control-group label {
+	font-weight: bold;
+}
+
+
+.form-actions {
+	float:right;
+	padding-right:200px;
+}
+
+
+.fileinput-button input {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: transparent;
+    border-image: none;
+    border-style: solid;
+    border-width: 0 0 100px 200px;
+    cursor: pointer;
+    direction: ltr;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(-300px, 0px) scale(4);
+}
+
+
+#box-1 {
+	display:none;
+}

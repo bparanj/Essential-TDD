@@ -1,0 +1,25 @@
+			
+<div class="vio-product-grid clearfix vio-section">
+
+	<h1> <%= @product.name %> </h1>
+
+	<div class="vio-grid-price"> <%= number_to_currency(@product.price) %> </div>
+		
+	<div>
+		<%= link_to 'Edit', edit_product_path(@product), class: 'btn btn-green-3' %>	
+		<%= link_to 'Delete',
+              product_path(@product),
+              :method => :delete,
+              :confirm => 'Are you sure?',
+              :class => 'btn btn-red-3' %>
+  </div>
+
+</div>
+<br/>
+<%= link_to 'Back', products_path %>
+	
+<% if @product.file.file %>
+	<div>
+		<%= @product.file.file.filename %>
+	</div>
+<% end %>

@@ -1,0 +1,8 @@
+Pricing 
+
+1. Create a testable hypothesis, time-box the experiment, and validate qualitatively, then verify quantitatively. 
+2. Start with a single “Free Trial” pricing plan.
+3. Time-based trials help time-box your pricing experiments so you can force a conversion decision which allows you to learn and iterate faster.
+4. Pick a price to test
+5. Existing alternatives create “reference points” in the minds of customers that they will use to rank your solution, so understand and position your price against them.
+6. Ensure the lifetime value of your customers exceeds the cost of customer acquisition by at least a factor of three.
