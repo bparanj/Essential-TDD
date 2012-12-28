@@ -1,6 +1,6 @@
 <section id="vio-all-forms" >
 
-<%= form_for(@product, :html => {:multipart => true, id: "vio-product-edit-form", class: "vio-section vio-form"}) do |f| %>
+<%= form_for(@product, html: {multipart: true, id: "vio-product-edit-form", class: "vio-section vio-form"}) do |f| %>
   <legend> Edit Product </legend>
   <% if @product.errors.any? %>
     <div id="error_explanation">
