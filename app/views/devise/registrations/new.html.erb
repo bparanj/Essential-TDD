@@ -1,7 +1,7 @@
 <section id="vio-all-forms">
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name),
-					   :html => {:multipart => true, class: "vio-section vio-form"}) do |f| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name),
+					   html: {multipart: true, class: "vio-section vio-form"}) do |f| %>
 	<legend> Sign Up </legend>
   <%= devise_error_messages! %>
 	
