@@ -34,6 +34,18 @@ You can use knife bootstrap host instead of logging in and installing everything
 
 Check out knife help bootstrap http://docs.opscode.com/knife_bootstrap.html
 
+Check if the build-essential is installed (it already is anyway)
+Install git
+Configure a restrictive iptables configuration well suited for a web server
+Install a non-root user account for the web app
+Configure sudo for this non-root user and authorize your local ssh public key
+Install Ruby Enterprise Edition from source (it already is anyway, just as an example)
+Install ImageMagick
+Install a bunch of useful gems
+Install Phusion Passenger and Nginx
+Install MySQL client and server
+Prepare the home directory to support a Rails app
+
 ** Cookbooks **
 
  - apache2

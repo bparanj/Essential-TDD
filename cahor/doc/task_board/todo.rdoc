@@ -1,8 +1,10 @@
 
 To Do for Dec 27, 12
 
-1. Moonshine
+1. Moonshine, provides configuration control. It is 80-20 way of achieving the result. 
+	 Chef is a blocker, due to high learning curve for Rails stack.
 2. Heroku for CRON, if it is a problem on Linode.
+3. Send emails using SendGrid Heroku add-on. Order confirmation and fulfillment emails.
 3. Backup db and uploaded files. Use Linode. Can migrate to Amazon Glacier later.
 4. Capistrano for deployment
 5. Fog script to create DNS entries. 
@@ -24,8 +26,6 @@ After Deployment
 
 ---------------------------------------------------------------------------------------
 
-
-1. Send emails using SendGrid Heroku add-on. Order confirmation and fulfillment emails.
 
 ---------------------------------------------------------------------------------------
 
