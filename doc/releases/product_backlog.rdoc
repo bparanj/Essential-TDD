@@ -1,0 +1,100 @@
+1. Trigger an investigation into a claim made by a dissatisfied customer. 
+2. Send frequency and period limited download link in the email.
+3. Make email customizable. Users can enter details about bonus links.
+4. Refer pragmatic-order.pdf. Generate pdf receipt.
+5. Custom Payment Pages
+
+You can customize the checkout screens that your customers see in order to match the style of your website. In the Custom Payment Pages section of your Profile, you can create new page styles and specify settings such as the image users see at the top of the pages, the background color for the pages, and the border colors. You can create and maintain multiple page styles, but only one style at a time can be the primary style used.
+
+Every account comes with a default style: the traditional blue-and-white pages that PayPal customers are used to seeing.
+6. Does the Authorize.Net API support custom fields?
+
+Yes, you can create and submit merchant-defined fields. To do this, simply send your own name value pairs. Authorize.Net will return the value in the transaction response as well as include the value on the merchant e-mail receipt (if your account is configured for merchant e-mail receipts). However, merchant-defined fields are not stored in our database.
+7. Do we need Thank You email customization in the app? Business name is required in this case.
+8. Add Instructions to Seller. You can choose whether to offer your customers the ability to send you specific instructions when placing an order.
+9. Partial refund handling?
+
+# @notify.status == 'Partially-Refunded'          
+# What is partial refund? how to handle partial refund?
+
+# Status of transaction. List of possible values:
+# <tt>Canceled-Reversal</tt>::
+# <tt>Completed</tt>::
+# <tt>Denied</tt>::
+# <tt>Expired</tt>::
+# <tt>Failed</tt>::
+# <tt>In-Progress</tt>::
+# <tt>Partially-Refunded</tt>::
+# <tt>Pending</tt>::
+# <tt>Processed</tt>::
+# <tt>Refunded</tt>::
+# <tt>Reversed</tt>::
+# <tt>Voided</tt>::
+def status
+  params['payment_status']
+end
+
+10. Category will be added when Click Plan becomes a marketplace.
+11. PDF stamper from Cabernet
+12. SSL
+13. CDN using Fog gem
+14. Post this question on Paypal forum.
+     Instructions on how to set name as it appears on cc statement. How to get the merchant name as it appears on credit card? This should be used in the confirmation emails.
+	 Replace PAYPAL in the confirmation emails with the actual text for Paypal charge as seen on cc statement. 
+15. Debit refunds when calculating payable_commission for affiliates.
+	   t.decimal  "payable_commission",  :precision => 11, :scale => 2, :default => 0.0, :null => false
+	   Monthly CRON will populate this field.
+	   Write a rake task.
+16. Wizard 
+17. Subdomain for API server
+18. Heroku add on https
+19. Ask sysadmin for good resource on MySQL replication how-to guides.
+
+	Amazon S3
+	
+	1. Upload the file to Amazon S3. 
+		 http://railscasts.com/episodes/383-uploading-to-amazon-s3?view=asciicast
+	2. Test if product link points to file in Amazon S3.
+
+	---------------------------------------------------------------------------------------
+	Research
+
+	1. Review Paypal IPN Up and Running. Create task list based on this book.
+	2. Read IPN guide and implement the validation rules for fields.
+	3. Read Paypal Sandbox Users Guide and Create a task list.
+	4. PayPal Express Digital Goods Instant Payment without popup window. (No shipping address required)
+
+	---------------------------------------------------------------------------------------
+
+
+Vendor 
+
+1. Email verification using Devise for account activation. Use Sendgrid for email. Refer : send-grid.txt [VERSION 2]
+
+Affiliate
+
+1. Affiliate login with sales report [VERSION 2]
+
+Admin
+
+1. Check the transaction record with success = false and orders with fail status. Display them in admin dashboard.
+	[VERSION 2]
+
+---------------------------------------------------------------------------------------
+
+Paypal Partner
+
+1. Complete the application using the link sent by Greg to become a certified shopping cart provide and enable accelerated boarding.
+2. How to use Express Checkout via third party API model? Follow up to question :Does this allow using third-party API model when I use Accelerated Boarding for my merchants as a shopping cart provider? here :
+
+http://coding.smashingmagazine.com/2011/09/05/getting-started-with-the-paypal-api/comment-page-1/#comment-592186
+
+3. What is the purpose of Certification Test Plan document? Is it possible to skip the payment confirmation page to avoid additional click?
+4. The following items are gone if Zepho Inc becomes a partner with certified shopping cart that uses Accelerated Onboarding.
+  a) How to Add Zepho Inc as New Third Party Permissions in production ?
+  b) Getting error : Please enter valid API username. Post this problem in Paypal forum.
+  c) Find the Third-Party API Grant access screen in the current Paypal website.
+
+	1) Run promotions for specific period without making changes to Buy Now button. Set up promotions for your products in your Affiliate Logic account.
+	2) Test sales copy, PPC, newsletter, banner ads etc by setting up 0% affiliate commission cookie duration = 100 years and assigning a dummy ppc_affiliate to that account.
+	3) Click / Impression Tracking charts

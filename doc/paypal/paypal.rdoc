@@ -1,0 +1,168 @@
+** API Signature for Production **
+
+API Username	bala.paranj_api1.zepho.com
+API Password	LFNTAKV7DAX5GTG7
+Signature			A1Y.ieaXsVB7fPpmX4MoztiCQiOwAIBUvL8S.gDArThX6u6lBw.DjG0E
+Request Date	Jul 15, 2012 18:15:15 PDT
+
+** Paypal Sandbox Developer Login **
+URL : https://developer.paypal.com/
+
+bparanj+shorey@gmail.com
+shorey22
+
+** Sandbox Buyer **
+
+User: amy_1342401985_per@gmail.com
+Password: 342401932
+
+** Sandbox Seller ** 
+
+Test Account Login : sell_1342421142_biz@gmail.com
+Sandbox Login Password : 342421041
+API Username:		sell_1342421142_biz_api1.gmail.com
+API Password:	1342421182
+Signature:	 AFcWxV21C7fd0v3bYYYRCpSSRl31AmYTMnOXJuR64BeQRmX.k-qC1-OP
+
+1. Create your selling test account using the Preconfigured option.
+2. Under Account Type, select Website Payments Pro.
+3. My Account --> Profile --> API access to get API username, API Password and Signature
+
+** Making a Request on Behalf of Third Party **
+
+In ActiveMerchant gem, paypal_common_api.rb add_credentials method, the subject field must be the value of the 
+seller email.
+
+def add_credentials(xml)
+   xml.tag! 'RequesterCredentials', CREDENTIALS_NAMESPACES do
+     xml.tag! 'n1:Credentials' do
+       xml.tag! 'n1:Username', @options[:login]
+       xml.tag! 'n1:Password', @options[:password]
+       xml.tag! 'n1:Subject', @options[:subject]
+       xml.tag! 'n1:Signature', @options[:signature] unless @options[:signature].blank?
+     end
+   end
+ end
+
+1. By default, a PayPal account is not eligible to use Website Payments Pro. You must submit an online application and have your application approved by PayPal. 
+2. Does Express Checkout require granting Third-Party API permission?
+
+Express Checkout
+
+• SetExpressCheckout (required): Initiates an Express Checkout transaction
+• GetExpressCheckoutDetails (optional): Retrieves buyer details about an Express Checkout transaction
+• DoExpressCheckoutPayment (required): Completes an Express Checkout transaction
+
+SetExpressCheckout
+
+The first API call, SetExpressCheckout, is made as soon as buyers click to indicate that they wish to pay with PayPal. PayPal’s response to a SetExpressCheckout contains a single value, a token, which you retain and include in the other two Express Checkout API calls to indicate
+that they belong to the same checkout flow. When you get the token back in the API response, you redirect the customer’s browser to PayPal so that the buyer can log in and validate his shipping and financial information.
+
+The request for SetExpressCheckout has three required parameters that you include with the API call:
+
+• The total amount of the order
+• The return URL that PayPal will return buyers to after they log in to PayPal and validate their shipping and financial information
+• The cancel URL that PayPal will return buyers to if they decide to cancel the transaction after being redirected to the PayPal website
+
+The URL that you redirect the buyer’s browser to in order to authenticate him to PayPal is https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-0W8920957N684880R. This is just an example token value; you would obviously replace this with the token value returned to you in the response to SetExpressCheckout.
+
+Express Checkout IPN Sample Post Variables
+
+mc_gross=19.95&protection_eligibility=Eligible&address_status=confirmed&payer_id=LPLWNMTBWMFAY&tax=0.00&address_street=1+Main+St&payment_date=20%3A12%3A59+Jan+13%2C+2009+PST&payment_status=Completed&charset=windows-1252&address_zip=95131&first_name=Test&mc_fee=0.88&address_country_code=US&address_name=Test+User&notify_version=2.6&custom=&payer_status=verified&address_country=United+States&address_city=San+Jose&quantity=1&verify_sign=AtkOfCXbDm2hu0ZELryHFjY-Vb7PAUvS6nMXgysbElEn9v-1XcmSoGtf&payer_email=gpmac_1231902590_per%40paypal.com&txn_id=61E67681CH3238416&payment_type=instant&last_name=User&address_state=CA&receiver_email=gpmac_1231902686_biz%40paypal.com&payment_fee=0.88&receiver_id=S8XGHLYDW9T3S&txn_type=express_checkout&item_name=&mc_currency=USD&item_number=&residence_country=US&test_ipn=1&handling_amount=0.00&transaction_subject=&payment_gross=19.95&shipping=0.00
+
+** PayPal Express Accelerated Boarding **
+
+PayPal Express Accelerated Boarding ? Do I need to be a registered shopping cart provider in this case?
+
+You can register at www.paypal.com/partnerprogram and click the “Join Now” button. Let me know once you have that completed and I’ll set you up in our Program so you can implement Accelerated Boarding. I can also set you up with the technical information/help.
+
+Contact : "Campagnolo, Greg" <gcampagnolo@paypal.com>
+
+You use your application's PayPal API credentials and you pass the
+merchant's PayPal account email in with the :subject option when
+instantiating the gateway:
+gateway = ActiveMerchant::Billing::PaypalExpressGateway.new(
+  :login => 'your apps login',
+  :password => 'your apps password',
+  :signature => 'your apps signature',
+  :subject => 'merchant@example.com'
+)
+
+They have to have granted your account the appropriate permissions
+previously, unless you're using PayPal Express Accelerated Boarding.
+It is a bit more involved, but works around having everyone grant
+their API permissions to you up front:
+https://cms.paypal.com/cms_content/US/en_US/files/developer/PP_AcceleratedBoarding_Guide.pdf
+
+============================================================================================
+
+# Paypal variables posted:
+"custom=nibj5o3q4m&mc_gross=2.00&address_status=confirmed&payer_id=EVMXCLDZJV77Q&tax=0.00&address_street=164+Waverley+Street&payment_date=15%3A23%3A54+Apr+15%2C+2005+PDT&payment_status=Completed&address_zip=K2P0V6&first_name=Tobias&mc_fee=15.05&address_country_code=CA&address_name=Tobias+Luetke&notify_version=1.7&payer_status=unverified&business=tobi%40leetsoft.com&address_country=Canada&address_city=Ottawa&quantity=1&payer_email=tobi%40snowdevil.ca&verify_sign=AEt48rmhLYtkZ9VzOGAtwL7rTGxUAoLNsuf7UewmX7UGvcyC3wfUmzJP&txn_id=6G996328CK404320L&payment_type=instant&last_name=Luetke&address_state=Ontario&receiver_email=tobi%40leetsoft.com&payment_fee=&receiver_id=UQ8PDYXJZQD9Y&txn_type=web_accept&item_name=Store+Purchase&mc_currency=CAD&test_ipn=1&payment_gross=&shipping=0.00"
+
+** Third-party authentication: Grant your cart the appropriate API authentication permissions ** 
+
+Log in to your PayPal account and click the Profile subtab.
+Click the API Access link in the Account Information column.
+Click the Grant API Permission link.
+In the Enter an API Partner Username field, enter <insert your API Partner Username>.
+Check Express_Checkout and any other APIs the customer needs to access:
+Direct_Payment
+Express_Checkout
+Admin_API
+Auth_Settle
+Click the Save button.
+
+** Granting Third-Party Permission **
+
+To grant another account access to make API calls on your behalf, on this page you must enter the API Username of the account you are granting the permission to in the Enter an API Partner Username text field.
+
+In general, you only need to set up your account to grant third-party API permissions if you are using an application that informs you that you will need to do this. If you are developing an application that relies on the use of third-party API calls, you need to provide explicit instructions to your users about how to grant your application the required permissions it needs in order to function correctly. The process should be clearly explained in your documentation in a step-by-step fashion.
+
+** How to Set Name to Appear on Credit Card Statement **
+
+A PayPal Business account is identical to a Premiere account except that a business name, rather than an individual name, appears as the account name wherever it's shown. Both are free except for transaction fees. 
+
+You can set a name to appear on credit card statements, but it will be prefixed with "PAYPAL *". For example, charges made by my company, Awio Web Services LLC, appear as "PAYPAL *AWIO". You also get to set the "extended" name that only some banks show in their interfaces, and usually includes your phone number in case someone needs to contact you about the charge.
+
+To set this, go to Profile > Website Payment Preferences > Payment Receiving Preferences and you have two boxes to fill in.. "Credit Card Statement Name" and "Extended Credit Card Statement Name".
+
+** Paypal Credentials **
+
+Paypal Sandbox Login:
+
+bparanj+shorey@gmail.com
+shorey22
+
+curl -d "txn_id=0LS863412N467403U&invoice=4&payment_status=Completed"
+
+ curl -d "custom=nibj5o3q4m&mc_gross=2.00&address_status=confirmed&payer_id=EVMXCLDZJV77Q&tax=0.00&address_street=164+Waverley+Street&payment_date=15%3A23%3A54+Apr+15%2C+2005+PDT&payment_status=Completed&address_zip=K2P0V6&first_name=Tobias&mc_fee=15.05&address_country_code=CA&address_name=Tobias+Luetke&notify_version=1.7&payer_status=unverified&business=tobi%40leetsoft.com&address_country=Canada&address_city=Ottawa&quantity=1&payer_email=tobi%40snowdevil.ca&verify_sign=AEt48rmhLYtkZ9VzOGAtwL7rTGxUAoLNsuf7UewmX7UGvcyC3wfUmzJP&txn_id=6G996328CK404320L&payment_type=instant&last_name=Luetke&address_state=Ontario&receiver_email=tobi%40leetsoft.com&payment_fee=&receiver_id=UQ8PDYXJZQD9Y&txn_type=web_accept&item_name=Store+Purchase&mc_currency=CAD&test_ipn=1&payment_gross=&shipping=0.00" http://localhost:3020/payment_notifications
+
+localhost:3010/payment_notifications
+
+** API Signature for Production **
+
+API Username bala.paranj_api1.zepho.com API Password LFNTAKV7DAX5GTG7 Signature
+
+A1Y.ieaXsVB7fPpmX4MoztiCQiOwAIBUvL8S.gDArThX6u6lBw.DjG0E Request Date Jul 15, 2012
+
+18:15:15 PDT
+
+** API Signature for Sandbox **
+
+Sandbox Buyer
+
+User: amy_1342401985_per@gmail.com Password: 342401932
+
+Sandbox Seller
+
+Test Account Login : sell_1342421142_biz@gmail.com
+Sandbox Login Password : 342421041
+API Username: sell_1342421142_biz_api1.gmail.com
+API Password: 1342421182
+Signature: AFcWxV21C7fd0v3bYYYRCpSSRl31AmYTMnOXJuR64BeQRmX.k-qC1-OP
+
+    Create your selling test account using the Preconfigured option.
+    Under Account Type, select Website Payments Pro.
+    My Account –> Profile –> API access to get API username, API Password and Signature
+
+

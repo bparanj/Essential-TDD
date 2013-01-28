@@ -1,0 +1,2 @@
+Return URL: The page (URL) you want your customer to see when your customer returns from Paypal site.
+Cancel URL: The page (URL) you want your customer to see in case your customer clicks cancel on Paypal site.

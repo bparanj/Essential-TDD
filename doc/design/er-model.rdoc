@@ -1,0 +1,29 @@
+
+Product
+-------
+has many sales
+
+Sale
+-------
+product_id
+sold_at
+
+belongs_to :product
+
+Bounty
+------
+Credit an affiliate for a sale (affiliate_id, sale_id)
+payable_id
+
+  belongs_to :affiliate
+  belongs_to :sale
+  belongs_to :payable
+
+Payable
+-------
+has many bounties
+
+Payout
+-------
+has many payables
+

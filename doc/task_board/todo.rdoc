@@ -1,0 +1,38 @@
+
+To Do for Dec 27, 12
+
+1. Moonshine, provides configuration control. It is 80-20 way of achieving the result. 
+	 Chef is a blocker, due to high learning curve for Rails stack.
+2. Heroku for CRON, if it is a problem on Linode.
+3. Send emails using SendGrid Heroku add-on. Order confirmation and fulfillment emails.
+3. Backup db and uploaded files. Use Linode. Can migrate to Amazon Glacier later.
+4. Capistrano for deployment
+5. Fog script to create DNS entries. 
+
+UI 
+
+1. Style affiliate_links pages
+2. Display the affiliate link show page with easy copy to clipboard feature like Github.
+	 Make the html copy/paste feature similar to Paypal. Use the Javascript to automatically select the text. 
+
+---------------------------------------------------------------------------------------
+
+After Deployment
+
+1. Check if domain field gets populated for clicks table when a new visitor clicks on a affiliate link.
+2. Customer Test Purchase : To do some basic testing in the real world you can temporarily change the charged amount, make a purchase then issue a refund through paypal.
+3. Install Google Analytics
+4. POST from Heroku on successful delivery of emails.
+
+---------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
