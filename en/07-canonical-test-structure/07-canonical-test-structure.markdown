@@ -118,4 +118,10 @@ Identify the Given, When, Then steps for the second spec “should pop from the 
 
 Ideally a method should be small and do just one thing. If a method has three steps with different scenarios, then you will write three different specs for each scenario.
 
+2. What if I want to test push and pop in one test?
+
+The structure of the test is Arrange, Act, Assert. There should be only one Arrange, one Act and one Assert per test. In this case you would have multiple of each of these steps. So it does not follow the best practice. Why do we need just one AAA in our test?
+
+Because if you had multiple of each of the steps, you would have the state at the end of the first assertion interact with the state at the end of the second assertion. Ideally we want each test to be isolated. Isolation means that the state is clean in the beginning of each test and it cleans up the state at the end of each test.
+
 \newpage
