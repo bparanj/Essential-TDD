@@ -92,4 +92,6 @@ rspec calculator_spec.rb
 
 What do you see as the output in the terminal?
 
+5. Read the Code Simplicity book by Max Kanat-Alexander. It explains Incremental Development and Incremental Design with the calculator as an example in chapter 5 : Change. It is less than 100 pages, very easy to read and filled with great insights on software development.
+
 \newpage
