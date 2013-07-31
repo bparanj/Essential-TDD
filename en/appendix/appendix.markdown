@@ -13,8 +13,10 @@ string argument that describes the class and make sure that it does not have 'An
 If it obeys Single Responsibility Principle that it will not contain those words.
 
 ```ruby
-specify "[Method Under Test] [Scenario] [Expected Behavior]" do
+describe Movie, 'Definition' do
+  specify "[Method Under Test] [Scenario] [Expected Behavior]" do
 
+  end
 end
 ```
 Same thing can be accomplished by using describe, context and specify methods together. Refer the RSpec book to learn more.
