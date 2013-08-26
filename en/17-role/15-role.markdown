@@ -113,7 +113,7 @@ We get the error:
 expected in_role?("some role") to return true, got nil
 ```
 
-We are now failing for the right reason. Notice that each small step we took was guided by the failure messages given by running the test. We only did just enough to get pass the current error message. We were lazy in writing the production code. Change the in_role? implementation like this:
+We are now failing for the right reason. Notice that each small step we took was guided by the failure messages given by running the test. We only did just enough to get past the current error message. We were lazy in writing the production code. Change the in_role? implementation like this:
 
 ```ruby
 def in_role?(role)
@@ -150,7 +150,7 @@ class User
 end
 ```
 
-The specs will pass.
+The specs will pass. Why do we need to be minimal when writing the production code? Because, the goal of TDD is to end up with a minimal system. Simplicity is the goal. Why do we aim for a minimal system? Because it will be easy to maintain.
 
 ## Exercises ##
 

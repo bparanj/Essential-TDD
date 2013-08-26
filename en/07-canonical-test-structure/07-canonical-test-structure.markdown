@@ -6,7 +6,7 @@
 
 According to the Dictionary, the term canonical is defined as:
 
-	• Mathematics : relating to a general rule or standard formula.
+Mathematics : relating to a general rule or standard formula.
 
 In our case, the following the three steps is a standard formula for writing any test.
 
@@ -62,10 +62,10 @@ Run the specs. You should see them all pass.
 Instead of thinking about 'How do I write a test?'. Ask yourself the following questions: 
 
 * What is the given condition?
-* How do I excercise the system under test?
+* How do I exercise the system under test?
 * How do I verify the outcome?
 
-The answers to these questions will help you write the test.
+The answers to these questions will help you write the test. For example, if you have a class called Car, you need to have gas in order to drive the car. The given condition in this case is that it has gas. The 'drive' is the behavior you are testing so you invoke drive() on the instance of a car in order to exercise the system under test. When you drive you expect to travel. So, you can verify the outcome by checking the distance traveled for a given amount of time and average speed.
 
 ## Identifying Given, When, Then ##
 
@@ -86,8 +86,7 @@ def Then
   yield
 end
 ```
-
-The following code identifies the three steps for the stack_spec.rb:
+These are just methods and do not contain any class. The following code identifies the three steps for the stack_spec.rb:
 
 ```ruby
 require_relative 'stack'
@@ -110,9 +109,9 @@ Run the stack_spec.rb. It should pass. This is an example for State Verification
 
 ## Exercise ##
 
-Identify the Given, When, Then steps for the second spec “should pop from the stack”.
+Identify the Given, When, Then steps for the second spec "Make sure Single Responsibility Principle is obeyed.".
 
-## Question ##
+## Q&A ##
 
 1. What if the method does many things that needs to be tested?
 

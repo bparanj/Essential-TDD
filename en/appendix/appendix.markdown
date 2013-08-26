@@ -1,16 +1,16 @@
 # Appendix #
 
-## RSpec Test Structure ##
+## 1. RSpec Test Structure ##
 
 ```ruby
-describe Movie, "Definition. Make sure Single Responsibility Principle is obeyed." do
+describe Movie, "Define the class or module here" do
 
 end
 ```
 
 The first argument of the describe block in a spec is name of the class or module under test. It is the subject. It can also be a string. The second is an optional string. It is a good practice to include the second 
 string argument that describes the class and make sure that it does not have 'And', 'Or' or 'But'.
-If it obeys Single Responsibility Principle that it will not contain those words.
+If it obeys Single Responsibility Principle then it will not contain those words.
 
 ```ruby
 describe Movie, 'Definition' do
@@ -19,7 +19,7 @@ describe Movie, 'Definition' do
   end
 end
 ```
-Same thing can be accomplished by using describe, context and specify methods together. Refer the RSpec book to learn more.
+Same thing can be accomplished by using describe, context and specify methods together. Refer 'The RSpec Book' to learn more.
 
 Given
 When 

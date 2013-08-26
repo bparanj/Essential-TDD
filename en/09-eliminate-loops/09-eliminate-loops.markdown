@@ -119,7 +119,7 @@ end
 
 From the specs, you can see the cases 0, 1 and n. We gradually increase the complexity of the tests and extend the solution to a generic case of n. It also documents the behavior for illegal inputs. The developer can see how the API works by reading the specs. Data driven spec and repeat methods are available in meszaros gem.
 
-The 'What' is like a blue print for a house. Blue print does not get buried under implementation details of a house. Why is the mechanics of 'How' something is implemented.
+The 'What' is like a blue print for a house. Blue print does not get buried under implementation details of a house. Why is the mechanics of 'How' something is implemented. When you see the blue print for a house you can answer questions like: What is the size of master bed room? What is the size of the door? Where is the living room? It does not specify the material used to build the house, paint color, whether the floor will be hardwood floors or carpeted etc. These are implementation details. 
 
 Let's take a look at an example to see how the code would look like when it mixes the "What" with "How". The code for before section is stolen from Alex Chaffe's presentation: https://github.com/alexch/test-driven
 
