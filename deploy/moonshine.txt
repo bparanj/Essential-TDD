@@ -29,6 +29,7 @@ Host clickplan
   User rails
 14. Save & close that file. Now you should be able to connect to your server by just typing:
     ssh clickplan
+    If that doesn't work: ssh rails@clickplan.net
 15. $ ssh clickplan
     $ ssh-keygen -t rsa
 		Leave password fields empty.
