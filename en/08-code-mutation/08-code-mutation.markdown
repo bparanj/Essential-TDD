@@ -50,7 +50,7 @@ describe 'Array extensions' do
 end
 ```
 
-This test passes without failing. The question is how do you know if this test is correct? To validate the test, we have to mutate the production code to make it fail for the scenario under test.
+This test passes without failing. The question is how do you know if this test is correct? We don't have a test to test this test. To validate the test, we have to mutate the production code to make it fail for the scenario under test.
 
 Change the ruby_extensions.rb so that only the second spec fails like this:
 
@@ -157,7 +157,7 @@ When the test passes without failing, you must modify the production code to mak
 
 - What to do when the test passes without failing the first time.
 - How to open classes that preserves the semantics of the core classes.
-- Intention revealing variable names.
+- Intention revealing variable and method names.
 
 ## Exercise ##
 

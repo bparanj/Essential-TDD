@@ -1,3 +1,8 @@
+14. Save & close that file. Now you should be able to connect to your server by just typing:
+    ssh clickplan
+    If that doesn't work: ssh rails@clickplan.net
+Edited moonshine.txt
+
 ## To Do List ##
 
 TODO: Read the book out aloud and make the description flows smoothly.
@@ -5,8 +10,6 @@ TODO: Example for over-riding the stubs in individual tests. Pg : 203 RSpec Book
 TODO: DAS screencast for example on why nested doubles indicate problem with design and how to fix it.
 TODO: Run the double dispatch solution in appendix and remove the hard coded 'scissor' in production code.
 TODO: Generate free version with TOC and few chapters
-TODO: Decide on buying essentialtdd.com
-TODO: Update CC on godaddy
 
 Delegate
 
@@ -15,13 +18,15 @@ TODO: Double Dispatch : Possible combinations diagram
 
 Based on Feedback
 
-TODO: Create a Virtual Machine that has all the software required to run the examples. Gems, Ruby, RVM etc. Add exercises with instructions, before and after directory. After directory consisting of solution for a specific version.
+TODO: In Rails 4 VM : Add exercises with instructions, before and after directory. After directory consisting of solution for a specific version.
+
+DONE 
+
+Create a Virtual Machine that has all the software required to run the examples. Gems, Ruby, RVM etc.
 
 BOOKMARK: Revise IPN Handler chapter
 
 ## How to Generate the Book ##
-
-pandoc -S --epub-metadata=metadata.xml -o etdd.epub title.txt 01-introduction/01-chapter1.markdown 
 
 cd ~/projects/essential-tdd/en 
 $ pandoc -S --variable fontsize=12pt --epub-metadata=metadata.xml -o etdd.pdf title.txt toc.markdown 01-Section/01-section-1.markdown 19-first-test/19-first-test.markdown 07-canonical-test-structure/07-canonical-test-structure.markdown 08-code-mutation/08-code-mutation.markdown 09-eliminate-loops/09-eliminate-loops.markdown 17-role/15-role.markdown 01-fibonacci/01-finbonacci.markdown 02-section/02-section-2.markdown 05-scanner/05-scanner.markdown 14-week/14-week.markdown 02-guess-game/02-guess-game.markdown 06-uncommenter/06-uncommenter.markdown 04-test-spy/04-test-spy.markdown 03-command-query-separation/03-command-query-separation.markdown 10-angry-rock/10-angry-rock.markdown 16-bowling-game/16-bowling-game.markdown 11-double-dispatch/11-double-dispatch.markdown 12-twitter-client/12-twitter-client.markdown  13-learning-specs/13-learning-specs.markdown 18-calculator/18-calculator.markdown appendix/appendix.markdown; open etdd.pdf
@@ -73,3 +78,18 @@ In this sixth example (frame 6) when John rolled his first ball he knocked down 
 Scores continue to accumulate as each bowler takes turns (frames) until all ten frames have been played by each bowler. If a bowler should get a strike or a spare in the 10th frame, the bowlers scoring continues as the bowler throws their bonus shots. The bowler who throws a strike in the tenth frame must roll two additional balls to complete the score for the tenth frame. The bowler who throws a spare in the tenth frame frame must roll one additional ball to complete the score for the tenth frame.
 
 In bowling a perfect game will score "300" pins, you roll ten strikes, one for each frame, and then two bonus shots at the end are also strikes.
+
+
+TDD Book
+------------------------------------------------------------------------------------
+
+1. Car example for data and behavior. 
+2. What level of testing is sufficient? Example : 
+	respond_to?(:comments) instead of testing the Rails framework.
+3. Focus only on testing application logic.
+4. How to test by only doing just enough. 
+	Example: Article.new instead of Article.create.
+5. Focusing on one test :
+	focus: true
+   --tag focus
+

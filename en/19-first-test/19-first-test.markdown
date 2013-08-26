@@ -16,6 +16,7 @@ Let's write a spec for this statement. Create a file called calculator_spec.rb w
 describe Calculator do
   it "should add given two numbers" do
     calculator = Calculator.new
+		
     result = calculator.add(1,2)
     
     result.should == 3
@@ -28,16 +29,25 @@ We first create an instance of Calculator class. The second step is invoking the
 According to the dictionary assertion is a confident and forceful statement of fact or belief. If we did not write any test then we would manually check the result for correctness. We automate this manual check by using an assertion. Go to the directory where the spec file resides and run the test like this:
 
 ```ruby
-$ rspec calculator_spec.rb --color
+$ rspec calculator_spec.rb --color --format documentation
+     or
+$ rspec calculator_spec.rb --color --format nested
 ```
 
 This test fails. Define Calculator class at the top of the calculator_spec.rb file with the code shown below:
 
 ```ruby
 class Calculator
-  def add(x,y)
-    x+y
-  end
+end
+```
+
+The error message you get now is different. It is because you have not defined the add method. Add the method to the class :
+
+```ruby
+class Calculator
+	def add(x,y)
+	  x+y
+	end
 end
 ```
 
@@ -47,7 +57,11 @@ Run the test again. Now the test passes. You can now move the Calculator class t
 require_relative 'calculator'
 ```
 
-to the top of the calculator_spec.rb. Run the test again. It should pass.
+to the top of the calculator_spec.rb. Run the test again. It should pass. 
+
+## Conclusion ##
+
+In this first excercise we took little baby steps. We wrote code with the intent to change the error message. Initially your error messages are related to setting up the environment. Once you get past that, you can make the test fail for the right reason. Failing for the right reason means, the test will fail to satisfy the requirments instead of syntax mistakes, missing require statements etc.
 
 ## Exercises ##
 
@@ -59,8 +73,25 @@ to the top of the calculator_spec.rb. Run the test again. It should pass.
 
 2. Refactor the duplication you see by using let() or before() method.
 
+Refer the [rspec documentation](https://www.relishapp.com/rspec/rspec-core/docs) for examples on how to use the rspec API. You can search for let and look at the examples on how to use it. It is a good idea to run the examples to learn the API. Then you can incorporate the changes to your specs.
+
 3. Write specs for edge cases such as invalid input, division by 0 etc.
 
-Refer the rspec documentation at https://www.relishapp.com/rspec/rspec-core/docs for examples on how to use the rspec API.
+4. Create a .rspec file with the following contents:
+
+```ruby
+--color
+--format documentation
+```
+
+Now you can run the specs without giving it any options like this:
+
+```ruby
+rspec calculator_spec.rb 
+```
+
+What do you see as the output in the terminal?
+
+5. Read the Code Simplicity book by Max Kanat-Alexander. It explains Incremental Development and Incremental Design with the calculator as an example in chapter 5 : Change. It is less than 100 pages, very easy to read and filled with great insights on software development.
 
 \newpage

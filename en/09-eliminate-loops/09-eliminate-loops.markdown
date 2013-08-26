@@ -6,7 +6,7 @@ To illustrate how to eliminate loops in specs. The tests must specify and focus 
 
 ## Example ##
 
-Read the following code for meszaros gem (https://github.com/bparanj/meszaros.git) to see how to eliminate loops in specs:
+Just quickly read the following code for meszaros gem (https://github.com/bparanj/meszaros.git) to see the utility methods that help to eliminate loops in specs:
 
 loop_spec.rb
 
@@ -119,7 +119,9 @@ end
 
 From the specs, you can see the cases 0, 1 and n. We gradually increase the complexity of the tests and extend the solution to a generic case of n. It also documents the behavior for illegal inputs. The developer can see how the API works by reading the specs. Data driven spec and repeat methods are available in meszaros gem.
 
-Let's take a look at an example to see how the code would look when it mixes the "What" with "How". From Alex Chaffe's presentation: https://github.com/alexch/test-driven
+The 'What' is like a blue print for a house. Blue print does not get buried under implementation details of a house. Why is the mechanics of 'How' something is implemented.
+
+Let's take a look at an example to see how the code would look like when it mixes the "What" with "How". The code for before section is stolen from Alex Chaffe's presentation: https://github.com/alexch/test-driven
 
 ## Before ##
 
@@ -214,5 +216,11 @@ It now fails with the error message:
 ```
 
 Now revert back the change. The spec should pass.
+
+## Exercise ##
+
+1. Can you think of another way to mutate the vowel? method so that the test fails first?
+2. Bonus : Can you use a custom matcher for the vowel check?
+3. Can we use the utility method in the Loop class to square or cube all elements in a given array?
 
 \newpage
