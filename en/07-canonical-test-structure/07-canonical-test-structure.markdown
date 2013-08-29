@@ -86,7 +86,7 @@ def Then
   yield
 end
 ```
-These are just methods and do not contain any class. The following code identifies the three steps for the stack_spec.rb:
+These are just methods. Do not create a class for given_when_then.rb. The following code identifies the three steps for the stack_spec.rb:
 
 ```ruby
 require_relative 'stack'

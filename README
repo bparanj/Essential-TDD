@@ -1,7 +1,10 @@
-14. Save & close that file. Now you should be able to connect to your server by just typing:
-    ssh clickplan
-    If that doesn't work: ssh rails@clickplan.net
 Edited moonshine.txt
+
+1. Structure of the test, move it before the first test. 
+
+2. Copy paste for comma, comma is weird and gives syntax error. Link to github.
+
+3. Answer on the next page, work out few of the exercises.
 
 ## To Do List ##
 
