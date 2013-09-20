@@ -4,7 +4,26 @@
 
 - Learn about assertion
 
-## Dicussion ##
+## Discussion ##
+
+Lets write a calculator program that can add two numbers. Here is the calculator class with a add method:
+
+class Calculator
+  def add(x, y)
+    x + y  
+  end
+end
+
+Here is the client code for the calculator program:
+
+calculator = Calculator.new
+result = calculator.add(1, 1)
+
+puts result
+
+In this case we print the result and check if the result is equal to the expected value, which is 2. If it is correct we know it works as expected otherwise we either debug our code using a debugger or add print statements to troubleshoot and fix the problem. This manual verification of the results will become tedious when our programs grow and become big. So the question is how can we write a test that will automate the manual verification?
+
+
 
 Let's write a simple calculator program driven by test. What statements can you make about the calculator program that is true? How about :
 

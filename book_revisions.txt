@@ -1,0 +1,24 @@
+TDD Book Revisions
+------------------------------------------------------------------------------------
+
+1. Car example for data and behavior. 
+2. What level of testing is sufficient? Example : 
+	respond_to?(:comments) instead of testing the Rails framework.
+3. Focus only on testing application logic.
+4. How to test by only doing just enough. 
+	Example: Article.new instead of Article.create.
+5. Focusing on one test :
+	focus: true
+   --tag focus
+6. First example using calculator. 
+	Write the program with no tests. 
+	Explain why manual verification is not a good idea.
+	Modify the program to automate the manual verification.
+	Then write the program with TDD using MiniTest or any framework that is lightweight.
+	Focus on the essentials and not on any test framework.
+	Explain the skeleton of the Minitest, how to write, and run the test.
+	Explain why we choose the sequence of +, -, * and / (Reference : Code Simplicity)
+7. Structure of the test, move it before the first test. 
+8. Copy paste for comma, comma is weird and gives syntax error. Link to github.
+9. Answer on the next page, work out few of the exercises.
+10. keywords : when, then

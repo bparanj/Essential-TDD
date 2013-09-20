@@ -1,0 +1,33 @@
+
+1. Course Introduction
+2. Who is Bala Paranj
+3. What Will You Learn
+4. Chapters Overview
+
+
+
+
+Notes from How to create an awesome online course
+
+Hardware
+Software
+Recording
+Voice Over
+Editing
+
+Laptop with Webcam
+Keynote
+Screenflow
+SnowBall by BlueMic
+
+Course --> Chapters --> Sections
+Curriculum --> Sections --> Lectures
+
+Use Google spreadsheet to track the progress of the product development.
+Green header is complete.
+Yellow is not complete.
+
+Refer Section 3 Recording Your Course
+
+
+Wistia gives very good analytics for first version of the video.

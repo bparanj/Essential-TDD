@@ -1,0 +1,33 @@
+Course Introduction
+--------------------------------------------------------------------------------
+
+The objective of this course is to teach you test driven development so that you can become a better developer. 
+
+When I am through, what I hope to accomplish is to objective 1, objective 2, objective 3.
+
+1. Outline on the slide with checkboxes.
+2. Start with a promise
+
+Say something to the audience that indicates to them how they will be empowered by the talk, how they will be better people by the time you are finished.
+
+--------------------------------------------------------------------------------
+Chapter Introduction
+--------------------------------------------------------------------------------
+
+Slide heading 'You Will Learn'. List what they will learn.
+
+Explain the concept using images and videos.
+Demonstrate the concept using live coding examples.
+
+
+--------------------------------------------------------------------------------
+Summary
+--------------------------------------------------------------------------------
+Slide heading 'Summary'. Briefly summarize the concepts learned.
+
+
+--------------------------------------------------------------------------------
+Exercises
+--------------------------------------------------------------------------------
+Add exercises with instructions, before and after directory. After directory consisting of solution for a specific version.
+

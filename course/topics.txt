@@ -1,0 +1,4 @@
+1. Demo of classic TDD using Rabbit message queue.
+2. Example for over-riding the stubs in individual tests. Pg : 203 RSpec Book.
+3. DAS screencast for example on why nested doubles indicate problem with design and how to fix it.
+4. Common interview questions.

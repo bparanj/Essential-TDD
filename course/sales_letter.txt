@@ -1,0 +1,22 @@
+Sales Letter Outline
+------------------------------------------------------------------------------------------
+
+3 months of full-time studying books and videos. Without structure could not finish it. The result was crappy videos recorded during TDD bootcamps. Lack of packaging skills means no sales.
+
+No travel expenses.
+No need to take days off or use your vacation time.
+Learn from the comfort of your home.
+
+$ 250 for all-inclusive package. Includes book, videos, work book and 6 months of email support.
+
+
+Why toy examples in the beginning?
+By making the example trivial we focus on understanding the concept.
+
+Deep dive is where solving problems with TDD becomes real.
+
+Deep Dive : We will walk through a detailed case study to make the tools and rules of TDD come alive.
+
+
+
+

@@ -1,0 +1,20 @@
+
+
+
+How to
+--------------------------------------------------------------------------------
+1. Download notes from 'How to create awesome online course'. Make a checklist. 
+2. Take notes from Patrick Winston video. 'http://bparanj.blogspot.com/2008/03/how-to-speak-lecture-tips-from-patrick.html'
+3. Take notes from 'How to give presentations' video bought from ? and Peepcode 17 screencasting.mov.
+
+--------------------------------------------------------------------------------
+Editing
+--------------------------------------------------------------------------------
+
+1. Read the book out aloud and make the description flows smoothly.
+2. Run the double dispatch solution in appendix and remove the hard coded 'scissor' in production code.
+3. Generate free version with TOC and few chapters
+4. In Rails 4 VM : Add exercises with instructions, before and after directory. After directory consisting of solution for a specific version.
+5. Replace free images in the presentation with paid and quality ones or with those that allows use.
+6. Replace wikipedia image with hand drawn image and scanner.
+
