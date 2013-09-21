@@ -1,0 +1,113 @@
+
+Analyze your audience
+------------------------
+
+1. You already know programming.
+2. You know basic Ruby.
+3. You are new to TDD or only heard about TDD. 
+
+
+List the prerequisites for the course.
+--------------------------------------
+
+Specify the outcome for the course
+
+
+Set the scope of the course (how much you will cover and in what depth)
+--------------------------------------
+
+Beginners Course
+Create a good short course
+Do not cover all topics. Cover only essential concepts. 
+
+Questions to Determine Scope
+
+Is this topic critical to the course?
+What is the worst that will happen if I don't include this topic?
+Should this topic be a prerequisite rather than a part of the course?
+
+
+List the steps they need to take to accomplish the goal - Content Sequence
+------------------------
+
+List the steps, starting where your students are starting (remember the curse of knowledge)
+
+Identify the steps to take the learner from the beginning to the outcome.
+Ask : 'What is the next logical step that the student needs to take to reach the course outcome?'
+This ensures that the steps are in correct order and don't leave anything out.
+
+Final check of the sequence is working backwards. Ask : 'What step do I need to take before I get to this one ?' This will show you any gaps that you missed in the forward sequence.
+
+
+Judge whether or not they have achieved the course outcome - Evaluation
+
+Generate ideas of ways you can help them learn the content - Brainstorming Tool
+------------------------
+
+Use index cards. Group them to find categories. Arrange them to find sequence. 
+Transfer them to a hand drawn mind map.
+
+
+Write first and then edit later. This optimized the creativity power of your brain.
+
+
+Course Structure
+------------------------
+
+Course Overview
+  Lesson 1
+	Overview
+	Content
+	Summary
+  Lesson 2
+	Overview
+	Content
+	Summary
+  Lesson 3
+	Overview
+	Content
+	Summary
+Course Summary	
+
+Course Overview
+------------------------
+
+Set the stage for why they want to take the course. What they'll be able to do when they are finished.
+Include any prior knowledge or skills they need to have before they start the course. Include the types of resources they will receive in the course. By the time they finish the Course Overview, they should feel excited about getting started with the course.
+
+(Tell them they can apply these skills to any language. Once they learn this skill, it will be useful in their programming career)
+
+Lesson Overview
+------------------------
+
+If it's a second lesson or later, recall prior learning by saying : "in the last lesson you did...". This ties into what they already know.
+
+If you have resources for this lesson, point them out. 
+
+Lesson Content
+------------------------
+
+You can have multiple pieces to the content. Keep the segments 10-15 minutes in length. It makes revising also easy. Take break down the lesson into 15-minute segments. This will expand the course outline. This will provide the level of detail you will need to create the course.
+
+Lesson Summary
+------------------------
+
+Review the steps that you took to finish the lesson. Provide them with the next steps they can take. For internal lessons, the next step is the next lesson. It's a good idea to provide a preview of the next lesson. For the last lesson, next step is to finish the course. This leads them into course summary.
+
+Course Summary
+------------------------
+
+Review the outcome for the course, the lessons they went through to achieve the outcome and the next steps they need to take after this course. Next courses to take or books to read. Congratulate them for finishing the content.
+
+
+
+
+
+
+
+
+
+
+
+
+
