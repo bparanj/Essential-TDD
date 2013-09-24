@@ -1,16 +1,78 @@
+Course Development Process
+------------------------
+
+1. Look at the first topic on your course outline
+2. Plan how you will teach it
+3. Develop the instructional materials
+4. Repeat for next topic
+
 Iterative Development
 ------------------------
 
 Publish Now. Polish Later.
 Keep it Simple. Get it Done.
 
-Develop the first version of all the materials. Then go back and upgrade all of the materials to the second level. Test the market for the course content before spending time on creating a full course. This development model lets you release a small version of the course. 
+Develop the first version of all the materials. Then go back and upgrade all of the materials to the second level. Test the market for the course content before spending time on creating a full course. Create a pdf ebook to test the market. Sell tickets to a limited number of students to the live course. Based on their questions and feedback, revisit each part of the course and improve the content. Make it simple to upgrade a lesson in the course. 
 
+Each time you revisit the course, you are working your way around to all of the course materials, upgrading each of them as you go. This development model lets you release a small version of the course. 
+
+Start Development
+Outcome : Sample Course
+First Version of Course
+Enhanced Version
+Completed Course
+Revised Course
+Ongoing Development
 
 Existing Resources
 ------------------------
 
+Materials You Created
+
+- Articles
+- Blog posts
+- Notes
+- Bookmarks
+- Presentations
+- Recordings
+
+Materials Others Created
+
+- Books
+- Videos
+- Training Courses
+
 Pull all of content you created into a single folder. Put other reference material also into the same folder. With the course outline in hand, review your existing materials. Note on your course outline which of these materials you could use for each topic.
 
-
 HD Video 1280x720
+
+
+Types of Written Materials
+------------------------
+
+- Checklists - List of tasks that are checked off as completed
+- Job Aids - How to for each task
+- Workbook - Students have to fill out as they watch the lesson
+- Resource Lists
+- Transcripts
+- Articles
+- Background Reading
+- FAQs
+- Case Studies
+
+Production Tips for Written Materials
+------------------------------------------------
+
+1. Use templates
+2. Brand each page
+3. Add a cover
+4. Add back pages (about the author, related resources)
+5. Break up larger documents into smaller documents for easy reference.
+
+Provide a download all option to download all documents as a zip file.
+
+Screen Based Demos
+------------------------
+
+Have a list of what you do in the demo and what you say in the script. Have a cheat sheet for copy pasting the content quickly to the editor.
+

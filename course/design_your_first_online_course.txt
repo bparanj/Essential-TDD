@@ -2,13 +2,15 @@
 Analyze your audience
 ------------------------
 
-1. You already know programming.
-2. You know basic Ruby.
-3. You are new to TDD or only heard about TDD. 
 
 
 List the prerequisites for the course.
 --------------------------------------
+Each item that is required before a starting step is a prerequisite.
+
+1. You already know programming.
+2. You know basic Ruby.
+3. You are new to TDD or only heard about TDD. 
 
 Specify the outcome for the course
 
@@ -100,9 +102,14 @@ Course Summary
 Review the outcome for the course, the lessons they went through to achieve the outcome and the next steps they need to take after this course. Next courses to take or books to read. Congratulate them for finishing the content.
 
 
+Evaluation
+------------------------
 
 
+Your Next Steps
+------------------------
 
+Congratulations! You now have finished your TDD course. Now you are ready for TDD. So where do you go from here?
 
 
 
