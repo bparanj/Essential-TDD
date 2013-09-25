@@ -1,3 +1,0 @@
-As a <role>
-I want to <do something>
-So that I get <some business value>

@@ -1,9 +1,0 @@
-<header id="vio-header" class="clearfix">
-
-	<div class="vio-logo"></div>
-	<div class="login-info"> 
-		<span> Signed in as <%= current_user.email %>, Not you? </span>
-		<%= link_to "Logout", destroy_user_session_path, method: :delete %>
-	</div>
-
-</header>

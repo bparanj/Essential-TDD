@@ -1,6 +1,0 @@
-1. Code Review
-2. Design Review
-3. Refactoring
-4. Unit Tests
-5. Regression Tests
-6. Performance Tests
