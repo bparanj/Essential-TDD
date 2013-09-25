@@ -21,7 +21,83 @@ result = calculator.add(1, 1)
 
 puts result
 
-In this case we print the result and check if the result is equal to the expected value, which is 2. If it is correct we know it works as expected otherwise we either debug our code using a debugger or add print statements to troubleshoot and fix the problem. This manual verification of the results will become tedious when our programs grow and become big. So the question is how can we write a test that will automate the manual verification?
+In this case we print the result and check if the result is equal to the expected value, which is 2. If it is correct we know it works otherwise we either debug our code using a debugger or add print statements to troubleshoot and fix the problem. This manual verification of the result will become tedious when our programs grow and become big. So the question is how can we write a test that will automate the manual verification?
+
+Let's modify the program :
+
+test_calculator.rb
+
+  calculator = Calculator.new
+  result = calculator.add(1,2)
+
+  if result == 3
+	puts "Addition passed"
+  else
+	puts "Addition failed"
+  end
+
+In this version we have removed the manual verification step where we check the result is equal to the expected value by the conditional check in the if statement. Let's make the output easier to recognize.
+
+calculator = Calculator.new
+result = calculator.add(1,2)
+
+if result == 3
+	print "\033[32m Addition passed \033[0m"
+else
+	print "\e[31m Addition failed \e[0m"
+end
+
+Now the output message will be red when it fails and green when it passes.
+
+Let's now implement the subtraction:
+
+class Calculator
+  def subtract(x, y)
+ 	x - y
+  end
+end
+
+calculator = Calculator.new
+result = calculator.subtract(2, 1)
+
+if result == 1
+	print "\033[32m Subtraction passed \033[0m"
+else
+	print "\e[31m Subtraction failed \e[0m"
+end
+
+This works. Now we see duplication in our code. Let's create a utility method that we can reuse.
+
+def	assert(expected, actual, message)
+	if actual == expected
+		print "\033[32m #{message} passed \033[0m"
+	else
+		print "\e[31m #{message} failed \e[0m"
+	end
+end
+
+
+We can now simplify our test program :
+
+calculator = Calculator.new
+result = calculator.add(1, 2)
+
+assert(3, result, 'Addition')
+
+calculator = Calculator.new
+result = calculator.subtract(2, 1)
+
+assert(1, result, 'Subtraction')
+
+
+The assert method that we have developed is called assertion. It automates the manual verification of the test result.
+
+Exercise : Implement multiplication and division similar to the addition and subtraction examples.
+
+
+
+Convert the addition and subtraction to use MiniTest framework.
+Exercises : Use MiniTest framework to implement multiplication and division.
 
 
 
