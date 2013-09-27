@@ -14,16 +14,16 @@ class Calculator
   end
 end
 
-Here is the client code for the calculator program:
+Here is the code to manually test the calculator add feature:
 
 calculator = Calculator.new
 result = calculator.add(1, 1)
 
 puts result
 
-In this case we print the result and check if the result is equal to the expected value, which is 2. If it is correct we know it works otherwise we either debug our code using a debugger or add print statements to troubleshoot and fix the problem. This manual verification of the result will become tedious when our programs grow and become big. So the question is how can we write a test that will automate the manual verification?
+In this case we print the result. We know 1 + 1 = 2. So, we check if the result is equal to the expected value, which is 2. If it is correct we know it works otherwise we either debug our code using a debugger or add print statements to troubleshoot and fix the problem. This manual verification of the result will become tedious when our programs grow and become big. 
 
-Let's modify the program :
+So the question is : How can we write a test that will automate the manual verification? Let's modify the program :
 
 test_calculator.rb
 
@@ -94,7 +94,7 @@ The assert method that we have developed is called assertion. It automates the m
 
 Exercise : Implement multiplication and division similar to the addition and subtraction examples.
 
-
+Right now our assert method can only be used for integer values. If we need to compare boolean, strings, decimals etc we need to revise our simple assert method to handle those types. Wouldn't it be nice if there was already a library that provided this feature? Well, that's where the test frameworks such as minitest, rspec etc come into picture.
 
 Convert the addition and subtraction to use MiniTest framework.
 Exercises : Use MiniTest framework to implement multiplication and division.
