@@ -1,27 +1,27 @@
 Speech
 -------------------
 
-Convey Necessary Information
-Target Audience
-Define Terms
-Support Assertions
-Control Tone
-Give Examples
+ Convey Necessary Information
+ Target Audience
+ Define Terms
+ Support Assertions
+ Control Tone
+ Give Examples
 
 Structure
 -------------------
 
-Organization of Beginning
+Beginning
 	Define Scope
 	Justify Topic
 	Given Proper Background
 	Map Talk Memorably
 	
-Organization of Middle
+Middle
 	Logical Divisions of Middle
 	Make Arguments Methodically
 	
-Organization of Conclusion
+Conclusion
 	Summarize Main Points
 	Achieve Closure
 	
@@ -47,7 +47,7 @@ Delivery
 -------------------
  Control Nervousness
  Show Energy
- Excudes Confidence
+ Exudes Confidence
  Engaging Voice
  Appropriate Speed
  Avoid Filler Phrases ('Uh')
@@ -55,7 +55,7 @@ Delivery
  Contribute Movements
  Handle Equipment Smoothly
  Handle Questions Convincingly
- Handle Questions Succintly
+ Handle Questions Succinctly
  Appropriate TIme
 	
 	
