@@ -20,3 +20,4 @@ Deep Dive : We will walk through a detailed case study to make the tools and rul
 
 
 
+The process is learnable and repeatable

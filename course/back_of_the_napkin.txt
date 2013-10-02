@@ -227,6 +227,47 @@ There are three steps to show :
 2. Use that framework to create the picture
 3. Explain the picture
 
+1. Select the right framework
+	To get started, we need two tools to select the right framework. We've already used the SQVID to help focus our idea. Now, we'll use it again to select the best framework for composing our picture. There are only six frameworks to choose from.
+	
+2. Use the framework to create our picture
+	Start by laying in the appropriate coordinate system, then gradually add in the data and visual details that make our picture show and tell the right story.
+	
+3. Present and explain our picture
+	A good problem-solving picture is straightforward to explain, regardless of complexity.
+	
+The <6><6> Rule
+
+For every one of the six ways of seeing, there is one corresponding way of showing. For each one of these six ways of showing, there is a single visual framework that serves as a starting point.
+
+Who / What becomes a portrait, how many becomes a chart, where becomes a map, when becomes a timeline, how becomes a flowchart, and why becomes a multiple-variable plot.
+
+To solve a problem, simply ask : Which of the six frameworks maps to the problem I see?
+
+The six ways we see and the six ways we show
+
+			See												Show
+Who / What			Qualitative Representation			Portrait
+How much			Quantitative Representation			Chart
+Where				Position in Space					Map
+When 				Position in Time					Timeline
+How 				Cause / Effect						Flowchart
+Why					Deduction / Prediction				Multiple-variable plot
+
+Criteria to Defining and Differentiating Frameworks
+
+1. What the framework shows
+2. The framework's underlying coordinate system
+3. The relationship between the objects contained within the framework	
+4. The framework's starting point
+
+The Visual Thinking Codex
+
+We now have two different ways to think about showing our problem: 
+  The six frameworks derived from the <6><6> model 
+  The 5 imagination-focusing questions of the SQVID.
+
+To use the codex, first select the appropriate framework on the vertical axis, then slide across the horizontal axis using the points of the SQVID to select the best version of that framework. 
 
 	
 	
