@@ -1,3 +1,6 @@
+1. Delegate the task of finding equivalent images with permission to use to Elance.
+
+
 1. --color --format documentation
 
 
