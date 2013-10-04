@@ -6,7 +6,7 @@
 
 ## Discussion ##
 
-Lets write a calculator program that can add two numbers. Here is the calculator class with a add method:
+Lets write a calculator program that can add two numbers. Here is the calculator class with an add method:
 
 class Calculator
   def add(x, y)
@@ -89,16 +89,29 @@ result = calculator.subtract(2, 1)
 
 assert(1, result, 'Subtraction')
 
-
 The assert method that we have developed is called assertion. It automates the manual verification of the test result.
 
 Exercise : Implement multiplication and division similar to the addition and subtraction examples.
 
 Right now our assert method can only be used for integer values. If we need to compare boolean, strings, decimals etc we need to revise our simple assert method to handle those types. Wouldn't it be nice if there was already a library that provided this feature? Well, that's where the test frameworks such as minitest, rspec etc come into picture.
 
-Convert the addition and subtraction to use MiniTest framework.
-Exercises : Use MiniTest framework to implement multiplication and division.
+Exercise : Convert the addition and subtraction to use rspec framework.
 
+Ruby version : Ruby 2.0
+
+calculator.rb
+
+class Calculator
+  def add(x, y)
+    x + y  
+  end
+  
+  def subtract(x, y)
+ 	  x - y
+  end
+end
+
+Exercises : Use MiniTest framework to implement multiplication and division.
 
 
 Let's write a simple calculator program driven by test. What statements can you make about the calculator program that is true? How about :
