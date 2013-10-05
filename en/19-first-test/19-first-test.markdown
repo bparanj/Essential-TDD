@@ -14,7 +14,7 @@ class Calculator
   end
 end
 
-Here is the code to manually test the calculator add feature:
+Add the following code to calculator.rb to manually test the calculator add feature:
 
 calculator = Calculator.new
 result = calculator.add(1, 1)
@@ -76,51 +76,40 @@ def	assert(expected, actual, message)
 	end
 end
 
-
 We can now simplify our test program :
+
+require_relative 'calculator'
 
 calculator = Calculator.new
 result = calculator.add(1, 2)
-
 assert(3, result, 'Addition')
 
-calculator = Calculator.new
 result = calculator.subtract(2, 1)
-
 assert(1, result, 'Subtraction')
 
 The assert method that we have developed is called assertion. It automates the manual verification of the test result.
 
-Exercise : Implement multiplication and division similar to the addition and subtraction examples.
+According to the dictionary assertion is a confident and forceful statement of fact or belief. If we did not write any test then we would manually check the result for correctness. 
 
-Right now our assert method can only be used for integer values. If we need to compare boolean, strings, decimals etc we need to revise our simple assert method to handle those types. Wouldn't it be nice if there was already a library that provided this feature? Well, that's where the test frameworks such as minitest, rspec etc come into picture.
+Exercise : Add code to test_calculator.rb to implement multiplication and division similar to the addition and subtraction examples.
 
-Exercise : Convert the addition and subtraction to use rspec framework.
+Right now our assert method can only be used for integer values. If we need to compare boolean, strings, decimals etc we need to revise our simple assert method to handle those types. Wouldn't it be nice if there was already a library that provided this feature? Well, that's where the test frameworks such as minitest and rspec come into picture.
 
-Ruby version : Ruby 2.0
+## Objective ##
 
-calculator.rb
+- Learn Test First Programming
 
-class Calculator
-  def add(x, y)
-    x + y  
-  end
-  
-  def subtract(x, y)
- 	  x - y
-  end
-end
-
-Exercises : Use MiniTest framework to implement multiplication and division.
-
+## Discussion ##
 
 Let's write a simple calculator program driven by test. What statements can you make about the calculator program that is true? How about :
 
 *  It should add given two numbers.
 
-Let's write a spec for this statement. Create a file called calculator_spec.rb with the following contents:
+Let's write a specification for this statement. Create a file called calculator_spec.rb with the following contents:
 
 ```ruby
+require_relative 'calculator'
+
 describe Calculator do
   it "should add given two numbers" do
     calculator = Calculator.new
@@ -132,15 +121,16 @@ describe Calculator do
 end
 ```
 
-Here we are describing the Calculator class. We are expressing the requirement in the method 'it' that takes a string as its argument.
+
+
+In line 1, the require_relative makes the calculator.rb available to the calculator_spec.rb file. This allows us to describe Calculator class in line #3. The 'describe' is a RSpec method, in this case we are describing the Calculator class. We are expressing the requirement in the method 'it()' that takes a string as its argument. The do-end block has the test. 
 
 In the block of the 'it' method, we first create an instance of Calculator class. The second step is invoking the method add() to calculate sum of two numbers. The third step is checking if the result is the same as we expect. In this step, we have converted the statement that is true to an assertion.
-
-According to the dictionary assertion is a confident and forceful statement of fact or belief. If we did not write any test then we would manually check the result for correctness. We automate this manual check by using an assertion. 
 
 Go to the directory where the spec file resides and run the test like this:
 
 ```ruby
+$ gem install rspec
 $ rspec calculator_spec.rb --color --format documentation
      or
 $ rspec calculator_spec.rb --color --format nested
@@ -169,11 +159,15 @@ Run the test again. Now the test passes. You can now move the Calculator class t
 require_relative 'calculator'
 ```
 
-to the top of the calculator_spec.rb. Run the test again. It should pass. 
+to the top of the calculator_spec.rb. Run the test again. It should now pass. 
+
+Note : You can also use expect() method instead of 'should' method like this :
+
+expect(result).to eq(3)
 
 ## Conclusion ##
 
-In this first exercise we took little baby steps. We wrote code with the intent to change the error message. Initially your error messages are related to setting up the environment. Once you get past that, you can make the test fail for the right reason. Failing for the right reason means, the test will fail to satisfy the requirements instead of syntax mistakes, missing require statements etc.
+In this first chapter we took little baby steps. We first learned about assertion. We wrote the test first. Initially your error messages are related to setting up the environment. Once you get past that, you can make the test fail for the right reason. Failing for the right reason means, the test will fail to satisfy the requirements instead of syntax mistakes, missing require statements etc.
 
 ## Exercises ##
 
