@@ -16,6 +16,8 @@ Develop the first version of all the materials. Then go back and upgrade all of 
 
 Each time you revisit the course, you are working your way around to all of the course materials, upgrading each of them as you go. This development model lets you release a small version of the course. 
 
+Straw-Hat, Wood-Man, Tin-Man and Iron-Man
+
 Start Development
 Outcome : Sample Course
 First Version of Course

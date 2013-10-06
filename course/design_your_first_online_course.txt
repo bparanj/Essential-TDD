@@ -15,7 +15,7 @@ Each item that is required before a starting step is a prerequisite.
 Specify the outcome for the course
 
 
-Set the scope of the course (how much you will cover and in what depth)
+Set the scope of the course (What topics you will cover and in what depth)
 --------------------------------------
 
 Beginners Course
@@ -61,11 +61,13 @@ Course Overview
 	Overview
 	Content
 	Summary
+	
   Lesson 2
 	Overview
 	Content
 	Summary
-  Lesson 3
+  
+	Lesson 3
 	Overview
 	Content
 	Summary
