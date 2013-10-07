@@ -1,0 +1,47 @@
+Positive Factors
+-----------------
+
+Practical and hands-on, Step by step approach
+Readability - Easy to Understand, Clear, Easy-to-follow, Plain spoken explanation
+
+Very concise and educational.
+Tiny Chapters. Small book.
+
+A book that took you through exercises while explaining the the thought process behind each step.
+Non-linear Method of Covering Topics, Thought process explained
+
+Shows misconceptions and mistakes
+Gives a feel for how he has learned this method of development
+
+basic introduction to test-driven development
+Coverage of topics - Well Defined Scope
+Depth of coverage 
+Question and Answer Section on Common Patterns in TDD cycle
+Collection of notes and useful tips on TDD
+
+Head First Style
+
+Credibility 
+Accuracy 
+Relevance to software quality 
+
+
+Negative Factors
+-----------------
+
+Digressions, Noisy chatter
+Developing Framework is hard to follow and confusing.
+Unknown language distracts from the TDD lessons
+Sophisticated techniques not covered
+Failed Humor
+None of the sample projects are really complicated enough to do more than get us going on the path of TDD.
+Lack of a complete, working summary of the code developed in the examples (final, authoritative version)
+The only issues I ran in to was using the newer 3rd party Frameworks that the book talks about. This is only due to version differences and changes since the book was written.
+
+
+Where to go next
+-----------------
+
+Read more. Design Patterns. Refactoring.
+Take courses
+Work with an experienced TDD practitioner to apply TDD to real world projects

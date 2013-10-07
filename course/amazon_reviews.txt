@@ -1,0 +1,413 @@
+Quite simply, test-driven development is meant to eliminate fear in application development. While some fear is healthy (often viewed as a conscience that tells programmers to "be careful!"), the author believes that byproducts of fear include tentative, grumpy, and uncommunicative programmers who are unable to absorb constructive criticism. When programming teams buy into TDD, they immediately see positive results. They eliminate the fear involved in their jobs, and are better equipped to tackle the difficult challenges that face them. TDD eliminates tentative traits, it teaches programmers to communicate, and it encourages team members to seek out criticism However, even the author admits that grumpiness must be worked out individually! In short, the premise behind TDD is that code should be continually tested and refactored. Kent Beck teaches programmers by example, so they can painlessly and dramatically increase the quality of their work.
+
+Back Cover
+
+Clean code that works--now. This is the seeming contradiction that lies behind much of the pain of programming. Test-driven development replies to this contradiction with a paradox--test the program before you write it.
+
+A new idea? Not at all. Since the dawn of computing, programmers have been specifying the inputs and outputs before programming precisely. Test-driven development takes this age-old idea, mixes it with modern languages and programming environments, and cooks up a tasty stew guaranteed to satisfy your appetite for clean code that works--now.
+
+Developers face complex programming challenges every day, yet they are not always readily prepared to determine the best solution. More often than not, such difficult projects generate a great deal of stress and bad code. To garner the strength and courage needed to surmount seemingly Herculean tasks, programmers should look to test-driven development (TDD), a proven set of techniques that encourage simple designs and test suites that inspire confidence.
+
+By driving development with automated tests and then eliminating duplication, any developer can write reliable, bug-free code no matter what its level of complexity. Moreover, TDD encourages programmers to learn quickly, communicate more clearly, and seek out constructive feedback.
+
+Readers will learn to:
+
+Solve complicated tasks, beginning with the simple and proceeding to the more complex.
+Write automated tests before coding.
+Grow a design organically by refactoring to add design decisions one at a time.
+Create tests for more complicated logic, including reflection and exceptions.
+Use patterns to decide what tests to write.
+Create tests using xUnit, the architecture at the heart of many programmer-oriented testing tools.
+This book follows two TDD projects from start to finish, illustrating techniques programmers can use to easily and dramatically increase the quality of their work. The examples are followed by references to the featured TDD patterns and refactorings. With its emphasis on agile methods and fast development strategies, Test-Driven Development is sure to inspire readers to embrace these under-utilized but powerful techniques.
+
+
+Reviews
+
+TDD is not a normal way to program. It's not taught at university. This book however helps you to see the way that it is best done. You can really get a feel for the way that TDD can help make your project better. 
+
+
+Very practical and hands on. You can see a Test-Driven Development from the beginning with some iterations. You don't get the JUnit speech, but the mind set required to embrace test-first development, with examples in Java and Python and, of course, using xUnit, but not depending on it. You'll also get some design patterns and a refactoring techiques. 
+
+
+
+Before this book, I was doing unit testing - test-after - and had not done any TDD. As a result of reading this book, I am now writing new code in a test-driven fashion - writing my tests first, as a sort of spec, then writing code to pass the tests. It's a great feeling, writing code and knowing that it is correct.
+
+Test-Driven Development by Example is an introduction to the practice of test-driven design. The book explains the what, when, where, how, and why of TDD. Through some running examples, Kent Beck steps through the thought process of adding code and changing functionality after writing tests. The steps are explained clearly along the way.
+
+ Kent regularly shifts into mentioning things that aren't related to the subject matter; this gets a little annoying. Also, this book is very slim, and reads quickly. This is in some ways a good thing, but from another viewpoint it ends too soon. I was left wishing for more chapters. That makes this book an introduction to TDD, not an in-depth exploration of the subject.
+
+The book is a great read, an easy one, and it is a success in my view. I recommend it for anyone looking to start with TDD.
+
+
+2 pages drawn out to 200 pages of bs. Test-Driven Development is not very complicated. You can fully understand it just reading the wikipedia article on it. This book doesn't explain much more than that. There are a ton of examples for just about any situation you can think of inside this book, but any decent programmer could just look at an example or two online and be just as well off.
+This book would be most helpful to someone who has just started learning programming on their own (no degree or job experience).
+
+
+TDD "By Example" is a book that tries to persuade you to write tests before writing the code. In the first six chapters, the author takes you through an example of generating code through this method. Along the way, he makes several pertinent points:
+
+ His tedious, non-linear, haphazard method is not meant to be followed precisely, but only meant to allow you to say you CAN do it that way. He makes this point numerous times. 
+
+The book is easy to understand, making it quite simple to dislike the content thereof.
+
+
+The book's scope is well-defined and its methodology (including a running "task list" that is updated at the end of each chapter with strikeouts and new items) is innovative. But it falls sadly short in execution.
+
+The digressions only serve to obscure the topic at hand and irritate the reader. Not like "Head First" title.
+
+Still, there is no other book quite like it on this subject. Beck's does not focus on clarity.
+
+
+Overall, this was a great read. I love books with tiny chapters, giving you good stopping points where you can meditate on what you just read. Beck goes into TDD as well as design concepts such as you might find in Scott Bain's Emergent Design book. Patterns are also lightly discussed.
+
+I also love Kent Beck's casual writing style. For those of us who don't have 16 hours a day to devote to our computer, it's nice to have some humor and casual speaking happening in a book.
+
+First, there is no introductory chapter on using JUnit or any other *Unit. You have to give the reader something to go on, even if you just merely assume the reader will use JUnit in a CLI dev environment. Or discuss all the assert calls.
+
+Second, why on Earth Kent would choose as an example writing xUnit for the second section. He hints later that he likes to write a *Unit library for each new language he learns, as an exercise. But, it's so hard to wrap your brain around incestuous "writing yourself" concept -- couldn't he just written something else? We're trying to learn TDD here. I mostly skimmed the whole section as it was too hard to follow.
+
+Third, in that same section, Kent decides he will move away from Java, a language most of us already know and, if not, looks like a whole host of other languages so it's easy to follow and fairly verbose. Right, he decides to use -- ready? -- PYTHON! A language very few people know and has some strange idioms. The whole second section has you trying to catch up on the language and the recursive xUnit example so much that it completely distracts from the TDD lessons.
+
+OK, here's a fourth. Two very good examples for TDD are practically side notes. I used his late-book example of a Triangle class to do TDD for real for the first time and it was an excellent example! I did it all and only when I completed it did I read his tests. It was great, and I look forward to trying out the Fibonacci Sequence which is an *appendix*. Why not put these in the book and explain them?
+
+
+
+This is a short, detailed, easy-to-follow introduction to TDD. Nothing on the market is a better first book on the subject. This book will be only your first step on a long journey; you'll probably have to read more, or take some course(s), or work with an experienced TDD practitioner, to apply TDD to real world projects.
+
+But there's a zeroth step Kent Beck could have given a lot more help with. You can't use TDD on a medium-to-large sized project without getting approval from the project's leaders. They might well ask, "Exactly what is the primary benefit from using TDD?" Does it directly increase project velocity? Does it improve the quality of software developed with it? This book doesn't answer that question. 
+
+It tells you how much TDD supports refactoring, but that leads back to the same question. I just couldn't convince management of that, based on this book. Read this, but look elsewhere for justification on using TDD.
+
+
+Many other reviewers have bemoaned the slow pace of this book. Yes, the book moves through its examples slowly. Keep in mind that this is a book about a _process_, not a _result_.
+
+The first example takes up almost half the book just to go through a pretty minimal implementation of a multi-currency representation for money.  The point is to use an example that's simple (so as not to be distracting), but just complex enough to produce adequate talking points to drive a discussion about test-driven development (TDD).
+
+TDD is incredibly important. Beck certainly gets points (cf. the review about "90% is just showing up") for producing a good straightforward introduction. Nobody's going to come away from this book feeling filled to the brim with facts and sophisticated techniques. It's a short book (around 200 pages), and its pace is unhurried. What it does is focus on _fundamentals_.
+
+TDD is all about buyin -- once you "get religion" and become "test-infected", you've got a solid basis to grow from. It's about habits, and habits can be hard to teach. What's obvious to one person is mysterious to the next. Beck's approach of "sit here with me and listen to my thoughts on a simple, representative problem" is perfectly adequate. It concedes that some of the steps are obvious, but the pages quickly and one never feels truly bogged down. He's really just teaching a handful of concepts throughout the whole book. You could write the concepts in a single paragraph; that's how much real, critical information is here. But it's really good information, and sometimes the key to grasping a fundamentally new viewpoint or idea is just hearing it rephrased for the 101st time, this time in words your brain is prepared to listen to.
+
+So... it's a quick read, maybe a little pricey on that count. TDD is an incredibly beneficial infection; it's worth exposing yourself to a plainspoken explanation like this.
+
+
+
+ Regardless of how simple the concept of TDD, its practice takes some finesse, which this book helps to provide.
+
+The examples are quite effective at demonstrating where the traps are and how to avoid them. His appendix also includes a very simple example that is a simple explanation to give a taste to someone who is considering the technique.
+
+The examples show not only how to do things correctly but also how to recover when you make a mistake. This practice provides both information about recovery and why certain practices are good, such as only writing new code when there is a single red light and only improving code when all the lights are green.
+
+Finally, the book was very enjoyable. Kent uses a humorous, self-effacing style that illustrates thought processes, both "good" and "bad". It kept me completely engaged for the first eight chapters or so. It does tend to get more technical after that but I just see that as speaking to all levels of TDD practitioners - beginners to experts.
+
+
+
+This was a disappointment. I feel TDD is important topic and way to go, but this book is not the one I would recommend to anyone. It's kind of reference book, but quite poor one.
+
+The book was well written and used examples effectively to demonstrate the main concept. 
+
+
+Non-coders will have problems with this book because Test Driven Development is about the process of development. Specifically, this book expounds, in fine detail, the XP concept of writing tests before the implementation and how to use the results from the tests to drive another XP concept: emergent design.
+
+This book is excellent for any developer who wants to use the concepts of writing tests first along with emergent design and has absolutely no clue where to begin. Few competent developers can comprehend emergent design along with test first and not know where to begin.
+
+Kent Beck 'There is no formula for flashes of design insight'. Combined with the noisy chatter is a tediously slow pace. Reading the book, is like standing behind a programmer who is a perfectionist. You admire what they are doing and appreciate its elegance, but you realize this person is going to produce nothing useful anytime soon.
+
+
+
+I liked the step by step approach of this book, because it profoundly demonstrates how TDD looks and feels. No endless pages of theories and theorems, but a real-world example end-to-end.
+
+
+ Test Driven Development is an important skill that a lot of developers need to master. It is great to see a book devoted to the topic that provides some good examples on how to do it. In addition to the examples, the test patterns are also very useful. Most of the examples in the book use Java, with the rest in Python. Personally, I would have preferred that the book used Ruby exclusively.
+
+
+
+While the first two parts of the book: "The Money Example" and "The xUnit Example" may seem discontenting for an experienced XP'er, the third part: "Patterns for Test-Driven Development" is amazingly impressive. It brings lot of valuable patterns: Test-Driven Development Patterns, Red Bar Patterns, Testing Patterns, Green Bar Patterns, xUnit Patterns and Design Patterns. Despite the book "Design Patterns" seems to be provisioning, design in test-driven-development requires a slightly different look at design patterns, and Kent Beck has done his best in providing not only the common vocabulary, but a gainful technique not known to be described anywhere else before.
+
+Before the publication of this book, there was a lack of a good manual for xUnit testing framework. The title "Testing Extreme Programming" by Lisa Crispin and Tip House, released a couple of month before this book, didn't fill the gap. This book is the first significant guidebook for xUnit ever released. While the work "Extreme Programming Installed" exposes most valuable testing experience among other XP titles, it didn't focus on xUnit as well.
+
+I would recommend "Design Pattern" and "Refactoring" in addition to this book, assuming that you are aware of the XP manifesto: "Extreme Programming Explained".
+
+
+
+ The first part of the book is the good part, when the author works through his 'money' example. At the end of it, there's a great moment when Beck acknowledges the importance of metaphor, claiming that he'd done the same exercise a number of times, though this time, he had picked a better metaphor and it subsequently went a lot faster. 
+
+He proceeds to just meander through the rest of the book. Then, the book just goes down the rathole. The section on patterns is abominable, ending with a thing on Singleton that says something like 'Don't use global variables, your programs will be happier,' which is a ridiculous capsulization of an issue that a lot of people have discussed many times before.
+
+ I am really fed up with Kent Beck's Opi Taylor writing style. It's ok when the focus is on the KISS side of the equation and generally positive, but his snides throughout this book on everything from the open-closed principle to the idea of doing specifications are really laughable. Makes me say, who needs a spec if all they are doing is the 10 millionth payroll program or a currency converter. Don't look to Kent Beck for big answers, as a matter of fact, by his own half-conscious admission, he's as much in search of them as we are.
+
+ Another hysterical part of this book is at the very end he shows a list of things someone else suggested, none of which are covered in the book, as if he had to tell us that he knew just how much was missing.
+
+Test-driven development (or as I prefer to call it, test-driven-design) helps you figure out the most useful interface to your class-under-test, without getting you into the psychological trap of not "really" wanting to test (and thus prove faulty) your "wonderful" code, because your code doesn't exist yet. The tests help you think about the implementation in small, mostly painless, steps.
+
+TDD also helps you write portable code. By getting portions of the logical parts of your application done first (the "model" of "model-view-controller"), you easily keep the logic code OUT of the GUI code. Typically, programming without test-driven-design makes it too easy to put all your logic into your GUI class. Almost all books on how to use MFC and other GUI class frameworks mix the logic code with view code -- you should read this book so you can be a better programmer.
+
+
+The are a small number of writers who can teach programming skills effectively. Kent Beck is one of them. There are a small set of practices that you can adopt on your own that will have an clearly observable impact on the quality of your results and the quality of your work day. Test Driven Develoment (TDD) is one of them. 
+
+TDD fits development into a three micro-phase cycle: create a test that embodies your requirement, write code that passes the test, make the code run clean. Each phase has different goals, patterns and pitfalls. Like any good coach, Beck walks you through these in detail. He uses multiple examples: most notably a business model in Java and a unit testing framework in Phython. He follows up with a question and answer section that reviews common patterns in test driven development cycle.
+
+The level of learning involved in doing TDD is profound. The best way to read the book is to do the book. Skills come from doing not reading. I did the examples (in another language) and it made all the difference in what I learned.
+
+A footnote for managers: TDD is the opening wedge for a set of practices known as extreme programming (XP) or agile development. Test driven development is powerful enough to work on its own for the single delevoper. If you want to realize its full value, however, you need to embrace the full set of XP practices for the whole organization.
+
+
+
+It feels like Kent Beck is right beside you teaching you the concepts in a way that rings true. Beck does not simply present the techniques in a set of dry rules to be followed. You get a feel for how he has learned this method of development, which is a better way for me to learn as well.
+
+The only complaint about the book that I have is that the second larger example on xUnit is disappointing. It comes across as though Beck wanted to play with Python and as he states, the way he learns a new language is to implement xUnit. However, from a reader's perspective, I found the chapter confusing and not very helpful over the first money example. I would really have liked to see a more realistic example dealing with a business application and the issues of test-driving databases and GUIs.
+
+However, the book is a joy to read and is nice and small. I hate 1000 page tech books, and this one is easy to carry. 
+
+
+
+Let me say first off that I agree with much that Kent Beck has to say: 
+1. Testing should be done along with the coding. 
+2. Use regression tests to be confident of making changes. 
+3. In many ways testing can be used as documentation since it is much more definitive than specification documents. 
+4. Testing should be used to have the client sign off on a product. 
+
+In reading the book I learned the specifics of how tests are designed in TDD. It seems reasonable and I am going to make a conscious effort at designing my tests in the way suggested.
+Where I disagree is in the use of the tests to drive software design. In the first part of the book, which I think is the most important part, a very good coding problem is analyzed - it is realistic, limited in scope and far from trivial. I followed along until I reached a point where things stopped making sense. I skipped ahead to see where things were headed and then things became clear.
+
+What is being advocated is a type of bottom up design approach. This may work for some. It may even be that the book faithfully reproduced Beck's reasoning process. It does not work for me. I first have to see the larger picture, what he refers to as the "metaphor." The whole thing would have been much clearer to me if at the beginning I was told that one approach to summing money in different currencies would be to use an array to store the information but that instead the implementation would create a list similar to how things are done in LISP.
+
+ Like I said this is a good example to go through. I even learned some things about more advanced uses of object oriented programming. As for software design I am going to stick with dataflow diagrams. They are still the best tool that I know of for putting together software.
+
+
+ You know you should test your code. You know that you should make sure changes don't break things. I'll bet that you haven't actually taken the steps to make sure that you do this though.
+Kent walks you through a good way to develop code: write the test code as you write the actual code. I've actually put this into practice and it's surprisingly easy to follow the recommendations. As you write a new function, write some code that calls it in a few different ways. When it comes time to give your code to someone else (check in to source control, deliver to customer, use on a bigger project), you have a fair sense that things will work.
+
+Again, you already know that you should test things. This book presents one really great way to do that. 
+
+
+ And it's sometimes thrilling to read his strange ideas. Having seen so many projects skip unit testing completely the idea of writing tests first strikes me as very good. Mr Beck presents his ideas very clearly and leads the reader through all subtleties and traps of a small example. That's exactly the point where things become interesting for me: How does the academic idea scale when being faced with Web apps, EJBs, XML/XSLT and so on? Hardly any hints about that which makes me wondering if the approach can be used for real projects.
+
+
+I bought this book for two reasons: it teaches TDD and it's spine has the thickness of a deck of cards.
+I'll bet the XP adage "testEverythingThatCouldPossiblyBreak" is what prevents most programmers from taking up TDD. Who could blame them? If they truly tested all combinations and permutations they would take years to complete coding assignments and never stay employed.
+
+Without being explicit, the author breaks that adage and introduces a practical, simple means for adopting a habit of writing tests first. "Red/Green/Refactor" is the mantra that he shows through the money example, this is the path towards a "Clean Code that Works" objective.
+
+"The Money Example" helped me clear the hurdles of tedium that you imagine in TDD.
+
+
+
+The book start with example that involves teeny, weeny steps of test driven development that made me think this is really for people who don't know how to write test. And I consider myself to be a fully test-infected developer -- well, until I finally understand the idea that Kent is trying to convey here. It shows not only how to create a test case for a class, but also how to use test as the driving tool to assist refactoring for a better cleaner code. Because the development process is so much different from the normal way, Kent carefully makes sure that the user doesn't get ahead of himself. With little jokes here and little comments there, it really feels like being pair-programming with an XP mentor, who paitiently explains everything that is going on in his mind.
+
+The second part of the book is also very unique. It goes through a process of using TDD to write a unit test framework. It shows, nicely, how to do TDD before the testing framework is in place, thus really tells what is the heart of TDD, and teaches a great lesson that TDD is not just writing test cases, but also a revolutionary development process.
+
+The third part summrized patterns used in TDD.
+
+
+
+TDD development involves a totaly different mind set than traditional coding and requires some personal dicipline until the habits kick in. Author focuses on using TDD realisticly in your current practices. The results are well worth it.
+
+The text mostly assumes you have access to one of the xUnit testing frameworks but at the end there is a whole section on developing your own testing framework. I was really puzzled at first as to why the author would include this section. The obvious answer is that perhaps there isn't a testing framework in your current development environment. 
+
+After further thought I realized that TDD is a mindset. For instance I have intermittently used assertions and although TDD focuses on external testing of functons, I could use assertions to test assumptions about parameters passed into functions. Although the assertions wouldn't be as robust as the unit tests they would add to the overall quality. I don' know if I would have made that connection before.
+
+
+This is a short and fast read. You regret it that the book is already finished.
+
+This is one of the few books where you read about the authors' misconceptions and mistakes - not about the glorious final elegant solution at the end. Usually this is pretty annoying, not with this author. It is pure enjoyment to be taken along the intellectual journeys of writing a program with Kent Beck.
+
+
+
+I enjoyed reading this book, however I must advise that non-coders will probably have difficulty. It's obvious that the intended audience is the developer who is trying to understand the concept of test-driven development. A tester, however, would learn in this book that test-driven development uses tests that are different in nature and rigor than those commonly thought of as "unit tests."
+
+I think Beck does a good job in explaining test-driven development in a way that is easy to understand. I still have some concerns about the nature of test-driven development, such as the emphasis on function over design. But I think Beck achieved a reasonable goal of presenting by example what test-driven development is all about.
+
+The goal of test-driven development is a reasonable way to achieve "clean code that works - now."  I also think that this technique must be combined with other methods, such as getting quality requirements, verification and validation, to achieve a final result that meets the users' needs.
+
+Readability - 4
+Coverage of topics - 5
+Depth of coverage - 5
+Credibility - 5
+Accuracy - 5
+Relevance to software quality - 5
+Overall - 5
+
+
+This Kent Beck title is an introduction to the world of Test-Driven Development (TDD). The book teaches the concepts of TDD by working through two complete sample projects. Along the way, Beck gives the reader valuable insight into the thought process and techniques behind successful test-driven development. When the reader has finished working through these sample projects, he should know enough about TDD to get started working on a TDD project.
+
+The book is divided into three sections. The first two sections are each walkthroughs of sample projects using TDD. The third section is a collection of notes and useful tips to try to get the most out of TDD. The text flows smoothly and is fairly pleasant to read.
+
+It would help to be familiar with some member of the xUnit family prior to reading this book. Beck uses Java and JUnit for the first section, but never really goes into discussing the JUnit API. Readers unfamiliar with xUnit may have no idea how to proceed with writing their own tests using one of these frameworks. True the API is simple enough that its functions may be ascertained simply by reading the code, but this is no reason not to provide explanation. 
+
+The second sample project is an actual implementation of xUnit, so a bit more information may be gleaned here. Beck made the curious decision to use Python as the language of implementation for the second project, although he does provide explanation of the language's fundamentals. Finally, none of the sample projects are really complicated enough to do more than get us going on the path of TDD. There will still be many hurdles to climb when working on a real-world project.
+
+If you are seeking a basic introduction to test-driven development, then you might enjoy this title. If you are a Java developer interested in exploring TDD more in-depth, there are better books out there.
+
+
+This book does a remarkable job of covering the philosophy behind good unit tests and frequent automated builds. If you want to get up to speed quickly then buy this book.
+
+
+
+If you've never done or are curious about TDD, this is a great book to walk you through learning how and why to do it. However, the book doesn't address what happens when:
+- The code base is old, and doesn't have any tests or isn't designed testable. It makes it hard to do anything other than introduce integration-level tests and tweak to success.
+	[Working Effectively with Legacy Code]
+- You're writing UI code for a serious application. It's straightforward to solve for a dialog framework, but when you're integrating with a major windowing framework that embeds serious functionality (Avalon, in my case), there are a whole set of issues he doesn't talk about.
+- Design is part of your deliverable. I don't disagree that you can get pretty reasonble designs out of TDD & refactor. But I disagree that, in practice, you get designs intended to version well, that your company is willing to support for the next decade or more. I've seen the code produced, and it just doesn't happen.
+A good introduction, nonetheless. But watch out before you put on the preacher-hat after reading it and doing the exercises -- at least try to do it in part of one large, real-world product.
+
+
+
+OK, I understand the need for a simple example to demonstrate the concept, but how much do I have to read about adding, multiplying, and checking equality of dollars and francs before getting to the real meat? Besides, the last time I checked, most compilers were pretty good at floating point arithmetic. It's not as if that's where I spend most of my coding time.
+
+After reading about 30 pages of introductory material I was getting desperate for some real-life examples, especially involving databases. I searched the table of contents, but all the chapters have cute names that give little or no indication of the contents. I checked the index for terms like "database", "entity", "record", "query" - zero, nada, zilch. But hey, I did learn that it's more important to have an expensive chair than an expensive desk!
+
+I'm sure I can take what I learned in this book and extrapolate it to real-world application development. But if I have to do all the heavy lifting, why do I need a book?
+
+
+After reading Continuous Integration: Improving Software Quality and Reducing Risk, i picked up this book and was expecting a book with TDD advocate material (and/or recipes, anecdotes, do's and dont-do's etc.) but was sadly disappointed by the content. 
+
+No, i do not want to learn Groovy while i write a test case tool to test drive my tests and have to think about bootstrapping my test cases. Sorry, this is too much for my little brain when a nice set of scenarios depicting usage of TDD would have been much easier to follow.
+
+ Basically, I think the techniques have merit, but the presentation was lacking.
+ Attempts at humor fell flat and were distracting. The biggest disappointment was that a chapter on how to integrate these techniques into the processes of a project, especially a large project, was ommitted.
+
+At one point, the book states rather flippantly something to the effect that "You'll have to come up with your own argument to convince your boss to let you spend the time writing all these tests." I think that since he's the one promoting these techniques, he should be able to come up with those arguments. Personally, I think the argument is something like this:
+- helps produce clean, modular code by forcing the designer to think about interfaces of the objects first. Coming up with good interfaces is half the battle.
+- reduces defects tremendously because automated tests are available from the beginning and are used constantly.
+- combines aspects of design and testing into the construction phase. So, the argument is that the "added" time spent writing tests saves time in the design and testing phases.
+
+I would have also like a section on the dangers of stubbed out code. Since the technique causes you to stub out a lot of methods, as you go through the process and people are fallable, it warrants discussion. Sometimes they forget that some of the code is stubbed. I've seen situations where stubbed out code (ie, return true) provided the correct answer for a surprisingly long time. It wasn't until it got into system testing that some of the less frequently encountered data caused mysterious problems to come up in supposedly working code.
+
+
+
+This book is a must have if you want to dig into the practice of TDD. Kent Beck describes how you should begin, how to step through tests and production code and comes with handy examples.
+
+The book begins with a full example of how to create and evolve software completely test driven. You'll learn how to write the tests, how to fill leaps if you don't have any clue how to write the next test on the list with intermediate tests and you see, how easy design decisions can be applied or reverted if necessary.
+
+At the end of the book there is also a discussion about what TDD is all about, how you can apply it to your own skills/practices and what you have to look for when applying it onto new but also existing applications.
+
+
+ Beck's book was better than _Test-Driven Development: A Practical Guide_ by David Astels. Astels book is over 500 pages long, and TDD just isn't really that complicated. Beck's book, at ~200 pages of fairly spacious typesetting, is much more proportional to the complexity of the topic.
+
+In short, if you are interested in learning about TDD -- and I think it's an approach all programmer should learn about and apply judiciously. Read Beck's book, if you want to see a extended example.
+
+
+I purchased it expecting an actionable introduction to the style. So I'm surprised to find it's not only unusable for such purpose, but bad enough that I document the reasons here.
+
+In particular, a lack of a complete, working summary of the code developed in the examples. Beck continually revises a single function (the test assertions) over the course of the first example (seventeen chapters), but nowhere presents a final, authoritative version. As well, Beck fails to mention the possibility that the tests could suffer from the same incorrect assumptions as the target code.
+
+ Beck's particular style of iterative development leaves me questioning the value of the methodology toward building reliable and robust systems. Continually revising the test framework -- allowing for amendment or culling at any moment -- allows for tests that are manipulated until they pass whatever happens to compile at a given moment. This might be admissible in a team environment, but by itself, can't be more reliable than other approaches. And the singular focus of this book does nothing to explain the importance of using TDD within a larger development approach (one which probably includes revision control, pair-programming, and UX testing, say).
+
+ It does not give a complete, clear path, despite being 'by example'. I would welcome any references to actionable expositions of TDD.
+
+ 
+ A good starting point for TDD. Kent starts with a fairly simple example, that is useful to start learning the red/green/refactor paradigm. I would put more accuracy to the pattern chapter.
+ 
+ Whether this book solves the challenge is another question, but the contention that "any decent programmer could just look at an example or two online and be just as well off" only holds true because of the adjective "decent." Unfortunately, there aren't many "decent" programmers, as witnessed by the large amount of people who completely botch their attempts at doing TDD. 
+
+
+ The empirical data : The most recent result from Microsoft Research suggests 40-90% reduction in errors at a cost of 15-30% additional development time, which looks like a worthwhile investment.
+
+
+ I've written code test-first, and let me tell you: even for small project, the suite of tests you write give you a feeling of security, because you not only feel safe changing things (because you'll know if your change broke something else), but you can also test your entire application in an instant, in case something external changed.
+
+
+ The "extremely small steps" are explicitly iterated in the text because that's one of the things that makes TDD work well. As an experienced developer, you might try coding along with the example to see what this really feels like. I continue to code in this manner (after having done TDD for many years) and find it to be very effective.
+
+
+ Thanks for answering a question that most reviews never do: what assumptions about knowledge of specific technologies are made by a given book. It's all too common for a book that appears to take a generalist, or generic, approach to a given programming skill to actually rely heavily on a single specific language, and specific tools within that language, to the point that not having extensive experience with that language and those tools will make the book all but useless to the reader. It is almost always Java or C# that is the offending language, though I have seen some that rely on an assumption of C++ expertise as well.
+
+ That this book's usefulness is diminished for a reader that is not familiar with Java's xUnit test frameworks (and JUnit in particular) is an incredibly useful piece of information to have when deciding whether to invest the money to buy it.
+
+
+ This book is not a practical how-to for JUnit - it describes the abstract xUnit approach applied to OO languages in general. For me the key example is how Beck reinvents the xUnit framework in a different language (Python) with little understanding of the language itself, which speaks of its strengths. You really don't need to understand Python, and it's much less verbose than Java, and hence suitable for understanding the concepts.
+ So the '...: By example' moniker is perhaps misleading, but it is a great explanation of the *philosophy* of TDD.
+ Learning about the JUnit classes alone is of very little use in actually writing useful tests and code. Of course, in practise with Java you'd probably be using a feature-heavy IDE to drive the test-refactor cycle.
+ Finally, the examples in the book are based on financial software which the author actually wrote, and of course JUnit itself. How much more 'real world' do you want?
+ 
+
+ 
+Professional Test Driven Development with C#: Developing Real World Applications with TDD
+------------------------------------------------------------------------------------------
+ Test-driven development (TDD) practice helps developers recognize a well-designed application, and encourages writing a test before writing the functionality that needs to be implemented. This hands-on guide provides invaluable insight for creating successful test-driven development processes. With source code and examples featured in both C# and .NET, the book walks you through the TDD methodology and shows how it is applied to a real-world application. You’ll witness the application built from scratch and details each step that is involved in the development, as well as any problems that were encountered and the solutions that were applied.
+
+ Clarifies the motivation behind test-driven development (TDD), what it is, and how it works
+ Reviews the various steps involved in developing an application and the testing that is involved prior to implementing the functionality
+ Discusses unit testing and refactoring
+ Professional Test-Driven Development with C# shows you how to create great TDD processes right away.
+
+
+ Start working with test driven development processes to build better applications
+ If you want to write robust software that is simple to implement and maintain, you need to use Test Driven Development (TDD). This hands-on guide shows you how, providing invaluable insight for creating effective TDD processes. With the help of source code and examples featured in C#, the authors walk you through the TDD methodology and show you how to apply it to a real-world application. You'll explore the application as it's built from scratch and follow each step involved in development, including problems that arise and the solutions to apply. Within no time, you'll be designing your own successful TDD processes.
+
+ Professional Test Driven Development with C#:
+
+ Describes common software problems and provides refactoring practices that resolve them
+
+ Shows patterns that can be used to test WPF and Silverlight applications
+
+ Helps you ensure that when a defect is fixed it stays fixed without causing unexpected side effects
+
+ Shows how to structure your MVC application for testability
+
+ Shares the easy steps that can be taken to test WCF services
+
+ Explains how to run integration tests to ensure that everything works as planned
+
+ Uncovers best practices for writing good tests that are readable and maintainable
+
+ Wrox Professional guides are planned and written by working programmers to meet the real-world needs of programmers, developers, and IT professionals. Focused and relevant, they address the issues technology professionals face every day. They provide examples, practical solutions, and expert education in new technologies, all designed to help programmers do a better job.
+
+ wrox.com
+
+ Programmer Forums
+ Join our Programmer to Programmer forums to ask and answer programming questions about this book, join discussions on the hottest topics in the industry, and connect with fellow programmers from around the world.
+
+ Code Downloads
+ Take advantage of free code samples from this book, as well as code samples from hundreds of other books, all ready to use.
+
+ Read More
+ Find articles, ebooks, sample chapters, and tables of contents for hundreds of books, and more reference resources on programming topics that matter to you.
+ 
+ I LOVE THIS BOOK. Very concise and educational. Introduces very accurate the TDD, and also introduces another great principles, like SOLID, DRY.
+
+
+ Overall the book was exactly what I wanted. It was exactly what I was looking for. A book that took you through exercises while explaining the the thought process behind each step. The only issues I ran in to was using the newer 3rd party Frameworks that the book talks about. This is only due to version differences and changes since the book was written.
+
+ Some could argue that I learned to work with those 3rd party framework better than if I just followed the book and I think I agree with that. However it can be frustrating if you're not a very experienced programmer.
+
+
+ Perfect range of subjects for an enterprise level .Net Developer. Covers the variety required to truly overview and instruct on the topic of TDD in .NET with C#.
+
+
+ This book cover all you need to make test in your application and to make it tastable.
+ Everything is covered unit test(with nUnit and Visual Studio Test) integration test,moq,ninject,caliburn.micro ect.
+ The book also cover how to test web application,wcf service and wpf-silverlight projects.
+
+
+
+ This book may not be helpful for Architect and other highly experienced Developers. However, for others, this books is great. It basically teaches you how to be a good developer and write good code. Its text is clear, concise and practical. You see how to shows you step-by-step on how to program the right way and does a great job at it.
+
+ As regards to the content, this book shows you how to use Test driven development in a real applications as opposed to showing you just theory or just lingering on principles. It also covers supporting topics like mocks and Object oriented development principles. It is one of the best development books I have read and I highly recommend it. I hope the authors comes out with more books.
+
+
+
+ I would like to think that I do test driven development, but this book puts a twist on my idea of the subject. While my method is more" test as you go", this book defines it more like test before you develop. It's a concept that those like myself are not use to. In other words, the book helps you write the code to call the methods you need to get your results before you actually write those methods. It helps you keep your mind focused on the goal of your code without getting side tracked. The book is also full of coding best practices that will help you as you better yourself as a programmer. I know we may not always agree with each and every one, but they are helpful to keep in the back of your mind.
+
+
+ This is the kind of book that pays by itself on the first few pages. It's very well written and easy to follow. The Authors really knows how to approach the subject on a step-by-step basis. Highly recommended if you really want to deep dive into Test-Driven-Development, but the readers should be aware that some previous knowledge on C# Development and Design Patterns are required to really enjoy the book, otherwise you will miss most of the important concepts.
+
+
+ I took something specific for the .net platform (and C# as a language) not just to get a faster understanding of how TDD can technically work...but also because there's always something to learn also in things you've been using for years!
+ Great book indeed.
+
+
+ Before I read this book I did not know the benefits of TDD and how to execute it properly and it sounded to me like the next agile-scrum-XP hype. I am happy that I was not that sloppy to miss TDD and I am happy that I started with this book. These guys really have a sense for teaching. But why you may ask?
+ The book starts at very very slow pace - for a novice - and the examples looked to me a little bloated, but afterwards I got it right and I do not think they are anymore. The firsts chapter, which is an elaboration on the benefits of TDD is thorough and after reading it every developer should be convinced to use TDD in his developing process. But then the question is "How to do it properly rather then sloppy?". The answer comes with the introduction of the SOLID principles and refactoring in a way that they are very easy to remember and to use in practice which I think are in the core of TDD - "Red, Green, Refactor". Then comes Dependency Injection with ninject which was introduced very brightly for the novice. The next chapters go in faster pace but with the knowledge from the previous the material is easy comprehended.
+ The examples are near-real, very well thought and useful. This books combines in itself knowledge from a broad spectrum and makes really good foundation for any further study of Refactoring, DI, OOP design and Unit testing. The book make you see where is right place and the right time for every step - a really nice flow.
+ I rarely find such a useful book. I will say that it has very high text-to-read*quality-of-material/money-to-buy ratio. I recommend this book for novice programmers and for experienced which wants to start TDD the right way. It will be best if novice programmers are thought TDD in the rails of SCRUM from the start the way this book teaches. After reading this book I have decided to integrate teaching of TDD for our freshmen in the company so they start their work the right way, which for me is TDD in the rails of scrum.
+
+
+ Thanks for your review. I'm the principle author of the book, and I agree that some of the framework specific knowledge is probably starting to get a little dated. That's an unfortunate eventuality when it comes to books and with more and more frameworks pushing a faster release cycle, it's starting to happen sooner rather than later. 
+
+ I'm trying to get the publisher to do a "second edition", or failing that, I've got some interest from another publisher to do a new book. In the meantime I am in the middle of a 30 Days of TDD series on my blog (http://blogs.telerik.com/james-bender) in which I'm using some updated frameworks and covering a few things that didn't make it into the book. The series may be a good adjunct to the book and some of the upcoming posts may fill in some of the blanks on the third party frameworks.
+ 
+
+It’s a fact that the more lines of code you have in a method or class, the greater the chance that defects will emerge. Keeping your methods shorter and more focused reduces the complexity and the likelihood that the code has a flaw.
+
+Agile methodologies are not a silver bullet. They are also not about chaos or “cowboy coding.” In fact, agile methodologies require a larger degree of discipline to administer correctly. Furthermore, no one true agile methodology exists. Ultimately, each team needs to do what works best for them. This may mean starting with a branded agile methodology and changing it, or combining aspects of several. You should constantly evaluate your methodology and do more of what works and less of what doesn’t.
+

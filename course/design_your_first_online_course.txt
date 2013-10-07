@@ -73,6 +73,33 @@ Course Overview
 	Summary
 Course Summary	
 
+------------------------------------------------
+Presentation Topic
+
+  History? Who?
+	What? Where used?
+		
+	Basic Example - pre hello world
+	
+	Hellow World Example
+	
+	More Complex Example
+
+	  Who uses it most?
+		Why should you care?
+		
+	Introduce Tool
+	
+	More Complex Examples
+	
+	Benefits
+	Any reason NOT to?
+	Any other things that go with it?
+	Why is Test First not Test Last?
+	
+Action - What can I do TODAY to apply TDD?
+------------------------------------------------
+
 Course Overview
 ------------------------
 

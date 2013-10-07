@@ -1,0 +1,1 @@
+"Red/Green/Refactor" is the mantra that he shows through the money example, this is the path towards a "Clean Code that Works" objective.

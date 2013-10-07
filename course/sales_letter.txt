@@ -17,7 +17,23 @@ Deep dive is where solving problems with TDD becomes real.
 
 Deep Dive : We will walk through a detailed case study to make the tools and rules of TDD come alive.
 
-
-
-
 The process is learnable and repeatable
+
+
+
+TDD practice takes some finesse
+Kent Beck 'There is no formula for flashes of design insight'
+The are few writers who can teach programming skills effectively. 
+There are few practices that you can adopt on your own that will have an impact on the quality of your results and the quality of your work day. 
+Skills come from doing not reading.
+TDD development involves a totaly different mind set than traditional coding and requires some personal dicipline until the habits kick in.
+TDD is a mindset.
+The intended audience is the developer who is trying to understand the concept of test-driven development.
+A tester, however, would learn in this book that test-driven development uses tests that are different in nature and rigor than those commonly thought of as "unit tests."
+When the reader has finished working through these sample projects, he should know enough about TDD to get started working on a TDD project.
+There will still be many hurdles to climb when working on a real-world project.
+If you want to get up to speed quickly then buy this book.
+actionable introduction
+
+The book begins with a full example of how to create and evolve software completely test driven. You'll learn how to write the tests, how to fill leaps if you don't have any clue how to write the next test on the list with intermediate tests and you see, how easy design decisions can be applied or reverted if necessary.
+
