@@ -4,11 +4,12 @@ How to
 1. Download notes from 'How to create awesome online course'. Make a checklist. 
 2. Take notes from Patrick Winston video. 'http://bparanj.blogspot.com/2008/03/how-to-speak-lecture-tips-from-patrick.html'
 3. Take notes from Peepcode 17 screencasting.mov
-4. Create ERRC grid based on Amazon reviews of Kent Beck's book.
+4. Create ERRC grid based on Amazon reviews of Dave Astel's book.
 5. Market Research : Take notes from other best selling TDD books : http://www.amazon.com/s/ref=nb_sb_noss_1?url=search-alias%3Daps&field-keywords=tdd
 6. Write a blog post on Straw-Man, Wood-Man, Tin-Man, Iron-Man phases to book development.
-	 Getting quick feedback to write a compelling book that readers want to buy.
-
+	 1. Getting quick feedback to write a compelling book that readers want to buy.
+	 2. Customize the ERRC grid questions for publishing
+	
 --------------------------------------------------------------------------------
 Editing
 --------------------------------------------------------------------------------

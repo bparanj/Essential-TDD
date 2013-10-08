@@ -1,3 +1,5 @@
+
+--------------------------------------------------------------------------------
 Quite simply, test-driven development is meant to eliminate fear in application development. While some fear is healthy (often viewed as a conscience that tells programmers to "be careful!"), the author believes that byproducts of fear include tentative, grumpy, and uncommunicative programmers who are unable to absorb constructive criticism. When programming teams buy into TDD, they immediately see positive results. They eliminate the fear involved in their jobs, and are better equipped to tackle the difficult challenges that face them. TDD eliminates tentative traits, it teaches programmers to communicate, and it encourages team members to seek out criticism However, even the author admits that grumpiness must be worked out individually! In short, the premise behind TDD is that code should be continually tested and refactored. Kent Beck teaches programmers by example, so they can painlessly and dramatically increase the quality of their work.
 
 Back Cover
@@ -136,7 +138,7 @@ He proceeds to just meander through the rest of the book. Then, the book just go
 
  Another hysterical part of this book is at the very end he shows a list of things someone else suggested, none of which are covered in the book, as if he had to tell us that he knew just how much was missing.
 
-Test-driven development (or as I prefer to call it, test-driven-design) helps you figure out the most useful interface to your class-under-test, without getting you into the psychological trap of not "really" wanting to test (and thus prove faulty) your "wonderful" code, because your code doesn't exist yet. The tests help you think about the implementation in small, mostly painless, steps.
+Test-driven development (I prefer to call it, test-driven-design) helps you figure out the most useful interface to your class-under-test, without getting you into the psychological trap of not "really" wanting to test (and thus prove faulty) your "wonderful" code, because your code doesn't exist yet. The tests help you think about the implementation in small, mostly painless, steps.
 
 TDD also helps you write portable code. By getting portions of the logical parts of your application done first (the "model" of "model-view-controller"), you easily keep the logic code OUT of the GUI code. Typically, programming without test-driven-design makes it too easy to put all your logic into your GUI class. Almost all books on how to use MFC and other GUI class frameworks mix the logic code with view code -- you should read this book so you can be a better programmer.
 
@@ -191,19 +193,19 @@ Without being explicit, the author breaks that adage and introduces a practical,
 
 
 
-The book start with example that involves teeny, weeny steps of test driven development that made me think this is really for people who don't know how to write test. And I consider myself to be a fully test-infected developer -- well, until I finally understand the idea that Kent is trying to convey here. It shows not only how to create a test case for a class, but also how to use test as the driving tool to assist refactoring for a better cleaner code. Because the development process is so much different from the normal way, Kent carefully makes sure that the user doesn't get ahead of himself. With little jokes here and little comments there, it really feels like being pair-programming with an XP mentor, who paitiently explains everything that is going on in his mind.
+The book start with example that involves teeny, weeny steps of test driven development that made me think this is really for people who don't know how to write test. And I consider myself to be a fully test-infected developer -- well, until I finally understand the idea that Kent is trying to convey here. It shows not only how to create a test case for a class, but also how to use test as the driving tool to assist refactoring for a better cleaner code. Because the development process is so much different from the normal way, Kent carefully makes sure that the user doesn't get ahead of himself. With little jokes here and little comments there, it really feels like being pair-programming with an XP mentor, who patiently explains everything that is going on in his mind.
 
 The second part of the book is also very unique. It goes through a process of using TDD to write a unit test framework. It shows, nicely, how to do TDD before the testing framework is in place, thus really tells what is the heart of TDD, and teaches a great lesson that TDD is not just writing test cases, but also a revolutionary development process.
 
-The third part summrized patterns used in TDD.
+The third part summarized patterns used in TDD.
 
 
 
-TDD development involves a totaly different mind set than traditional coding and requires some personal dicipline until the habits kick in. Author focuses on using TDD realisticly in your current practices. The results are well worth it.
+TDD development involves a totaly different mind set than traditional coding and requires some personal discipline until the habits kick in. Author focuses on using TDD realistically in your current practices. The results are well worth it.
 
 The text mostly assumes you have access to one of the xUnit testing frameworks but at the end there is a whole section on developing your own testing framework. I was really puzzled at first as to why the author would include this section. The obvious answer is that perhaps there isn't a testing framework in your current development environment. 
 
-After further thought I realized that TDD is a mindset. For instance I have intermittently used assertions and although TDD focuses on external testing of functons, I could use assertions to test assumptions about parameters passed into functions. Although the assertions wouldn't be as robust as the unit tests they would add to the overall quality. I don' know if I would have made that connection before.
+After further thought I realized that TDD is a mindset. For instance I have intermittently used assertions and although TDD focuses on external testing of functions, I could use assertions to test assumptions about parameters passed into functions. Although the assertions wouldn't be as robust as the unit tests they would add to the overall quality. I don' know if I would have made that connection before.
 
 
 This is a short and fast read. You regret it that the book is already finished.
@@ -270,7 +272,7 @@ At one point, the book states rather flippantly something to the effect that "Yo
 - reduces defects tremendously because automated tests are available from the beginning and are used constantly.
 - combines aspects of design and testing into the construction phase. So, the argument is that the "added" time spent writing tests saves time in the design and testing phases.
 
-I would have also like a section on the dangers of stubbed out code. Since the technique causes you to stub out a lot of methods, as you go through the process and people are fallable, it warrants discussion. Sometimes they forget that some of the code is stubbed. I've seen situations where stubbed out code (ie, return true) provided the correct answer for a surprisingly long time. It wasn't until it got into system testing that some of the less frequently encountered data caused mysterious problems to come up in supposedly working code.
+I would have also like a section on the dangers of stubbed out code. Since the technique causes you to stub out a lot of methods, as you go through the process and people are fallible, it warrants discussion. Sometimes they forget that some of the code is stubbed. I've seen situations where stubbed out code (ie, return true) provided the correct answer for a surprisingly long time. It wasn't until it got into system testing that some of the less frequently encountered data caused mysterious problems to come up in supposedly working code.
 
 
 
@@ -316,11 +318,11 @@ In particular, a lack of a complete, working summary of the code developed in th
 
  This book is not a practical how-to for JUnit - it describes the abstract xUnit approach applied to OO languages in general. For me the key example is how Beck reinvents the xUnit framework in a different language (Python) with little understanding of the language itself, which speaks of its strengths. You really don't need to understand Python, and it's much less verbose than Java, and hence suitable for understanding the concepts.
  So the '...: By example' moniker is perhaps misleading, but it is a great explanation of the *philosophy* of TDD.
- Learning about the JUnit classes alone is of very little use in actually writing useful tests and code. Of course, in practise with Java you'd probably be using a feature-heavy IDE to drive the test-refactor cycle.
+ Learning about the JUnit classes alone is of very little use in actually writing useful tests and code. Of course, in practice with Java you'd probably be using a feature-heavy IDE to drive the test-refactor cycle.
  Finally, the examples in the book are based on financial software which the author actually wrote, and of course JUnit itself. How much more 'real world' do you want?
  
 
- 
+------------------------------------------------------------------------------------------
 Professional Test Driven Development with C#: Developing Real World Applications with TDD
 ------------------------------------------------------------------------------------------
  Test-driven development (TDD) practice helps developers recognize a well-designed application, and encourages writing a test before writing the functionality that needs to be implemented. This hands-on guide provides invaluable insight for creating successful test-driven development processes. With source code and examples featured in both C# and .NET, the book walks you through the TDD methodology and shows how it is applied to a real-world application. You’ll witness the application built from scratch and details each step that is involved in the development, as well as any problems that were encountered and the solutions that were applied.
@@ -410,4 +412,204 @@ Professional Test Driven Development with C#: Developing Real World Applications
 It’s a fact that the more lines of code you have in a method or class, the greater the chance that defects will emerge. Keeping your methods shorter and more focused reduces the complexity and the likelihood that the code has a flaw.
 
 Agile methodologies are not a silver bullet. They are also not about chaos or “cowboy coding.” In fact, agile methodologies require a larger degree of discipline to administer correctly. Furthermore, no one true agile methodology exists. Ultimately, each team needs to do what works best for them. This may mean starting with a branded agile methodology and changing it, or combining aspects of several. You should constantly evaluate your methodology and do more of what works and less of what doesn’t.
+
+
+--------------------------------------------------------------------------------
+Test-Driven Development: A Practical Guide: A Practical Guide [Paperback
+--------------------------------------------------------------------------------
+Test-Driven Development: A Practical Guide presents TDD from the perspective of the working programmer: real projects, real challenges, real solutions, ...real code. Dave Astels explains TDD through a start-to-finish project written in Java and using JUnit. He introduces powerful TDD tools and techniques; shows how to utilize refactoring, mock objects, and "programming by intention"; even introduces TDD frameworks for C++, C#/.NET, Python, VB6, Ruby, and Smalltalk. Invaluable for anyone who wants to write better code... and have more fun doing it!
+
+Test-Driven Development: A Practical Guide: A Practical Guide [Paperback]
+David Astels (Author)
+4.2 out of 5 stars  
+List Price:	$59.99
+Price:	$41.99 
+You Save:	$18.00 (30%)
+
+Book Description
+Publication Date: July 12, 2003 | ISBN-10: 0131016490 | ISBN-13: 978-0131016491 | Edition: 1
+
+Test-Driven Development: A Practical Guide presents TDD from the perspective of the working programmer: real projects, real challenges, real solutions, ...real code. Dave Astels explains TDD through a start-to-finish project written in Java and using JUnit. He introduces powerful TDD tools and techniques; shows how to utilize refactoring, mock objects, and "programming by intention"; even introduces TDD frameworks for C++, C#/.NET, Python, VB6, Ruby, and Smalltalk. Invaluable for anyone who wants to write better code... and have more fun doing it!
+
+  
+Test Driven Development: By Example by Kent Beck Paperback $34.08
+Refactoring: Improving the Design of Existing Code by Martin Fowler Hardcover $41.96
+Test Driven Development: By Example
+Refactoring: Improving the Design of Existing …
+How Google Tests Software
+Clean Code: A Handbook of Agile Software …
+Working Effectively with Legacy Code
+Refactoring to Patterns
+Agile Testing: A Practical Guide for …
+
+From the Back Cover
+Test-Driven Development: A Practical Guide
+
+David R. Astels
+
+Foreword by Ron Jeffries
+
+The relentlessly practical TDD guide: real problems, real solutions, real code
+Includes a start-to-finish project written in Java and using JUnit
+Introduces TDD frameworks for C++, C#/.NET, Python, VB6, and more
+For every developer and project manager interested test-driven development
+Make Test-Driven Development work for you!
+
+Test-Driven Development: A Practical Guide enables developers to write software that's simpler, leaner, more reliable... just plain better.
+
+Now, there's a TDD guide focused on real projects, real developers, real implementation challenges, and real code.
+
+Renowned agile development expert Dave Astels shows TDD at work in a start-to-finish project written in Java and using the JUnit testing framework. You'll learn how "test first" works, why it works, what obstacles you'll encounter, and how to transform TDD's promise into reality.
+
+o Relentlessly practical! Full of downloadable code examples, hands-on exercises, and a fully hyperlinked version of the "resources" appendix
+o Introduces powerful TDD tools and techniques--including key JUnit extensions, presented by their creators (Scott Ambler, Tim Bacon, Mike Bowler, Mike Clark, Bryan Dollery, James Newkirk, Bob Payne, Kay Pentacost, and Jens Uwe Pipka)
+o Covers refactoring, "programming by intention," mock objects, and much more
+o Discusses TDD frameworks for C++, C#/.NET, Python, VB6, Ruby, and Smalltalk
+o Introduces previously unpublished test-first techniques for GUI software
+o Contains appendices introducing eXtreme Programming and Agile Modeling
+o For all programmers and project managers
+Read this book if you're ready to write code that's clearer, more robust, and easier to extend & maintain--in short, if you're ready to write better code!
+
+About the Author
+Dave Astels has close to twenty years' experience as a software developer in areas ranging from embedded environment control to intellectual property protection systems to electrical energy trading systems. For more than a decade, he has been working exclusively with object technology. He runs his own consulting company specializing in Extreme Programming and pervasive Java solutions. He is the co-author of A Practical Guide to extreme Programming.
+
+
+
+What's great about this book? It is easy to understand, even for someone who has never learned TDD before. Also, it is extremely thorough. The book goes through the entire process of developing a complete although simple application. I think many authors would have just shown how TDD works with a variety of examples, but this book goes through the creation of the entire application, step by step. It's actually a very long book, 562 pages, with fairly small type. The desire to write the whole application when a set of examples would have been quicker and easier shows us that the author is really committed to being thorough. I guess that's what TDD is all about.
+
+Another great thing about the book is that although the lengthy application is written in Java, the book works for any object oriented language. I develop in C# and C++, and it is immediately obvious how to translate the Java to C# or C++. So the book really works for any object oriented language, as long as you have an intermediate level of ability so you can understand what he is doing.
+
+Besides that, there is a chapter on how to do TDD in a variety of languages: C#, C++, Smalltalk, Ruby, Python, and Visual Basic.
+
+Although I am a beginner at TDD, I would agree that the tests that the author describes may not test 100% of the code. However, I think his approach is probably more thorough and better than the vast majority of programmers'. Besides, I'm sure the tests can be expanded to provide better code coverage.
+
+
+
+David Astels' book gave me a chance to get a little down and dirty with the technique and some of its associated frameworks.
+
+As others have said, the source code in Part III of the book doesn't do what the book describes; you need to go to Mr. Astels' web site and get updated source code.
+
+I found the coverage of Java frameworks (in part II) to be very helpful; it expanded my understanding of what TDD techniques can be used.
+
+
+
+Whether you are a novice or have been practicing TDD, this book is worth reading. It is really well organized, has great examples and explains how to use available TDD tools.
+
+
+
+
+Dave Astels' book is a comprehensive work covering TDD from the ground up to advanced topics. While most of the book examples use Java and JUnit, it does cover unit testing frameworks in several other languages as well. I've read two books on the topic (the other one is Kent Beck's "TDD By Example") and I liked Dave's book better. The basics of TDD can be explained in 10 minutes however when it is applied on practice it gets complicated in at least 3 areas: 
+
+1) testing UI 
+2) testing with database - data setup, isolation, etc. and 
+3) mocks. 
+
+Kent's book is more about a philosophy of TDD but it only goes through a very simple "toy" example. Dave's book really helped me to understand mocks and it does cover UI testing in great length. Mocks are an advanced topic, so it does require a good knowledge of Java and OOP. The rest of the book seems to be on intermediate technical level.
+
+The only thing this book is missing is a discussion about data setup and database-related testing, dbUnit, etc., other than an advice to avoid it altogether (p. 83). While you can indeed use mocks to avoid it, on the large real projects some kind of integration testing (including testing with the database) will be necessary. I hope the second edition will come out at some point!
+
+Overall, it's a great book for both newcomers and developers with unit testing experience. BTW, it won SD West 2004 Jolt Award.
+
+
+This book is about Test-Driven Development. Its purpose is to help you write better code by having more tests and give you a head start with existing tools to achieve this.
+
+The book falls short of these goals: 
+1. The explanations about writing tests are short on advice and are sometimes misleading. 
+2. The presentation of the tools is long, with little useful facts.
+
+The book is organized into four parts: Background on TDD, refactoring and programming by intention; A look at JUnit and related tools used to write and run tests; A lengthy example of TDD; An overview of other tools in the xUnit family. The book is targeted at a Java audience but programmers using other languages should have little difficulties understanding the code.
+
+I have a major problem with the background section. The author repeatedly claims that TDD provides exhaustive test coverage and ensures that you can refactor your code with confidence. Any error will be caught by the tests. This is foolish. First, tests rarely reach 100% code coverage. Even the sample that the author provides in the book ends up with less than 90% coverage. This leaves many gaps where tests will fail to detect errors. Even if tests cover 100% branches in the code tests are not exhaustive. Depending on the data used, the same branch may exhibit different behavior. Not to speak about race conditions and other sources of hard to find bugs. 
+
+I fully agree with the author that writing unit tests will improve the quality of the code and help find bugs. But claiming that this is a silver bullet is not wise. I would recommend reading books about tests (e.g., Myers' The Art of Software Testing and McConnell's Code Complete chapter on unit testing) in addition to this book. The section on refactoring is a summary of Martin Fowler's Refactoring book which I recommend.
+
+The second part presents JUnit. JUnit is a framework used to write and run tests. It is a good presentation. However I would have liked to get pieces of advices on what tests to write in addition to how to write them. The author briefly mentions boundary testing but does not have much to say about the tests themselves. Again a test book is invaluable for this. The author recommends using a test coverage tool as well as Jester to measure the tests coverage. This is a great idea.
+
+The third section is an overly extended example: the author walks us through writing TDD code. This could have been a great part, giving meaning to the `practical' adjective in the book title. Unfortunately it is a long rambling, showing lots of code but short on insights. The actual `meat' of this part could be summarized in less than five pages.
+
+The last section presents variations on the JUnit tool. Many languages (C++, C#, VB, Python, etc) are discussed. This part would have been better put on a website rather than printed in the book. Given the changes in some of these frameworks the information is obsolete.
+
+The books ends with several appendices dealing with extreme programming and agile modeling.
+
+Unit tests are a great tool to improve code quality. Whether or not you actively practice TDD, a good book on it can provide insights into improving your code. This book contains some interesting bits of wisdom. However much of it is buried by the rest of the material.
+
+
+Dave's book does one thing that most other books in this field do not do: it avoids the web application. 
+This book provides a good foundation for understanding TDD: the programming cycle, refactoring, tools, mock objects... it is possible to begin applying TDD for yourself after reading the first 1/3 or so of this book.
+
+Writing effectively about programming sessions is not easy. Only a few authors can do it well, and Dave does an admirable job. My only beef with the case study which makes up the bulk of the book is that, after a while, it becomes somewhat repetitive. This isn't Dave's fault: it's the nature of programming. Sometimes we just need to add another button or another text field. We don't necessarily learn anything new doing it, but if we want a finished product, we have to do it. I understand Dave's desire to present a complete if small project, and so applaud his willingness to risk some duplication in the name of finishing what he started.
+
+The experience of learning from this book is similar to learning from real project experience: not every page contains something new and exciting, but if you follow along and ask questions, then you will have learned a great deal by the end.
+
+
+The single best thing that distinguishes this book from the other TDD books on the market is its effort to produce a believable application during the course of using TDD. It even showed a way of unit testing GUI applications, which is easily the hardest thing in-practice about TDD.
+
+On the bad side, some nicer abstractions around the UI and any patterns he'd come up with to make UI TDD better would've been a great takeaway. Also, he said that he'd be using Smalltalk-style names because that was what it was familiar with, which is totally bogus. The book should be written for the reader, not for the writer -- if he was that attached to and unwilling to give up Smalltalk, then why write it using Java?
+
+
+For the first time I now understand the following mock object related frameworks,
+- Mock Objects Framework
+- Mock Maker
+- Easy Mock
+Alone, the chapter that explained these frameworks was well worth the purchase price of the book.
+
+
+ It clearly states why you should do test-driven development and what tools are available, then backs this up with 200+ pages of how to do it with real code and text that captures the experience of developing a complex Java project test first.
+
+I'm a pragmatic person, so seeing the actual code and screenshots made concepts that I thought were difficult to achieve like writing tests before writing the implementation or testing GUIs (a subject that most people avoid) look surprisingly easy. All of the code in the book can be downloaded, but I found that it was more instructive to actually type in the code into an IDE. Following along with the project shows you how to proceed with test-driven development and what to expect. For example, you'll see when you need to refactor your tests or why you should test-drive most, but not all of your GUI code.
+
+After reading this book and implementing what I have learned in it, I absolutely agree with something that Ron Jeffries another XP guru wrote in the preface to this book: "If you're like me, using the techniques in this book, you will find that your programs are more clear, that they come into being more easily, and that you'll have fewer defects than you used to."
+
+
+Kent Beck's book is good, but this book really provides more practical advice on doing TDD development with JUnit. If you are using JUnit, then this book will provide tips, tricks, and strategies to using JUnit and other supplemental open source and commercial programs. The book has more than paid for itself already and I'm not finished reading it yet.
+If you are new to JUnit or TDD don't waste your time trying to come up the learning curve alone - buy this book.
+
+
+This book contains a lot of valuable information. Unfortunately, it is VERY much a first edition.
+The bulk of the book is a TDD project of realistic scope. It includes approaches to GUI TDD, which I've not seen addressed in any other book. However, users beware! I found the "annotated walk through the development" to be so poorly written that I was ready to give up in frustration about 20% of the way through.
+
+It was often difficult to determine the targets for the code snippets presented. Particularly since method names are often duplicated amongst the various classes. The style used in Kent Beck's TDD book (bolded class name above each snippet) was infinitely superior to that of this book.
+
+Another source of frustration was omissions and sequence problems. Often it would be stated that the code compiles, when in fact it would not compile without additional variables, stubs, exception handlers, etc. This was very annoying and disrupted the flow of the sessions. Of course these things will no doubt happen during real world development, but I found it distracting and counterproductive for a tutorial. Sometimes these compilation issues were cited in subsequent tests, long after my compiler voiced disapproval of the omissions.
+
+Beck's book had a few similar problems, but they were not terribly distracting. I found myself sailing through his examples with ease. With this book, however, I often had to walk away for a while to cool down.
+
+The source code for the completed project is provided on the author's web site. And that's a good thing, because there were many points at which it would have been difficult and time-consuming to resolve the omissions and target problems without it. However, even with this resource, it was often still difficult to resolve the problems due to all of the refactoring that took place over the course of the development.
+
+Beck did not provide the source code for his book, but his examples were small enough that typing the code was not time-consuming. The project in this book is of sufficient scope that having the source code is a valuable timesaving, especially with all the refactoring that occurs. 
+
+Refactoring is fundamental to good code and TDD provides the security to facilitate the process. But just having the final product to document the track of the development leaves a lot to be desired on a project of this scope. It probably would have been better if the author had provided a code repository to document the evolution of the code, checking the code in at the end of each test. This would be standard operating procedure for XP practices. That way a snapshot of the code would available as a starting point for each test in the tutorial.
+
+This is still a useful book covering a subject for which few books exist. It provides good introductions to TDD, refactoring, and programming by intention. It discusses the use of JUnit, extensions, related tools, and various xUnit family members. The coverage of mock objects is far deeper than that of Beck's book. And its coverage of GUI TDD is unique. There are also good presentations on XP and Agile Modeling.
+
+My motivation for purchasing this book in addition to Beck's book was the realistic scope of the example project. However, my enthusiasm to complete this example has deteriorated rapidly in the face of the shortcomings of its presentation. Perhaps a reformatted, corrected second edition will allow the true potential of this book to be evident.
+
+
+This was my first book on TDD, and I thought it did a great job of explaining the concept and working through it step-by-step. Really practical if you take the time to walk through his sample application development process. I work through it in detail for the first few chapters then skimmed the rest. But the explanation of the method and its benefits is great.
+
+
+This books provide a very compact but nevertheless broad overview how to apply test driven development in practice. In contrast to the other books that were published within the last month, this book concentrates on the more practical aspects of test driven development, e.g. what tools could be used. Thus, it supports the daily development work as well as the planning of a forthcoming project that should follow the test first trail.
+
+
+
+ Unfortunately, there aren't too many texts currently available that take an in-depth look at the subject. David Astels jumps into the fray with his new book, "Test-Driven Development: A Practical Guide", in order to help fill that void. Giving a nod to Kent Beck's "Test Driven Development By Example", Astels views his work as a complement to Beck's, focusing on the practical techniques and tools necessary to best make use of TDD.
+
+The book first touches on some topics fundamental to TDD, such as refactoring, programming by intention, and of course the basic theory behind TDD. Appendices further flesh out this material by addressing extreme programming and agile modeling.
+
+Although other members of the xUnit family are looked at, this book is squarely focused on JUnit and Java. As such, the text goes into detail about using JUnit, including the API, and how to go about the task of writing tests. Along with the JUnit coverage, the reader is presented with information on several JUnit extensions and JUnit related tools designed to aid the TDD process. Where this book really shines is in its coverage of mock objects and techniques for testing GUIs within JUnit.
+
+The meat of this book rests in a very detailed walkthrough of a project using TDD. Astels leads the reader through every test and every refactoring along the way, from inception to the finished product. This is probably the next best thing to sitting down for a pair-programming session with a TDD guru.
+
+Unfortunately, there are a couple of complaints I feel the need to point out. The project presented is a Swing application that persists its data in a flat file. There is no coverage provided for testing web based enterprise applications. While mention is made of DatabaseChecker, a test utility suitable for simple database tests, Astels chose not to have the example project use a database for persistence. As a consequence of this decision, this common task is left unaddressed.
+
+Despite these omissions, there is still much to be gained from this book. I feel a reader may obtain the most benefit by downloading the sample code and working through the example project step-by-step along with the text. If you are interested in a practical guide to TDD, this book is definitely worth a look.
+
+
+Maybe I'd be more enthusiastic about this book if it wasn't the third one about TDD in a row (K. Beck: "Test-Driven Development: By Example"; J. Link: "Unit Testing in Java - How Tests Drive the Code"). The first two parts of the book explain the basics of TDD, JUnit, a couple of add-on tools and special techniques; hardly anything there which hasn't been covered equally well - and sometimes better - before. 
+
+It seems to me that a beginner will have a hard time to grasp the chapters about mocks and GUI testing without additional reading. The third part describes the test-driven development of a small Swing application from start to end. These chapters are easy to read and make sense, they come with lots of repetition though. I like chapter 20 which reviews design and quality of the final piece of software using coverage metrics and alike. There are additional chapters on xUnit for other programming languages and appendices on unrelated stuff like Extreme Programming and Agile Modeling. Those make the book somewhat too bloated for my taste (500+ pages).
+
+It's an okay book but with too little focus on coherence and didactics. Moreover it misses out some important topics like databases, Web applications and EJBs. Go with the competition if you are interested in that. 
+
+
 

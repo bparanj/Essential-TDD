@@ -36,4 +36,7 @@ If you want to get up to speed quickly then buy this book.
 actionable introduction
 
 The book begins with a full example of how to create and evolve software completely test driven. You'll learn how to write the tests, how to fill leaps if you don't have any clue how to write the next test on the list with intermediate tests and you see, how easy design decisions can be applied or reverted if necessary.
+if you follow along and ask questions, then you will have learned a great deal by the end.
+If you are new to JUnit or TDD don't waste your time trying to come up the learning curve alone - buy this book.
+This is probably the next best thing to sitting down for a pair-programming session with a TDD guru.
 

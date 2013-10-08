@@ -4,7 +4,7 @@
 4. Common interview questions.
 
 
-
+--------------------------------------------------------------------------------
 XP manifesto: "Extreme Programming Explained"
 What is the primary benefit from using TDD?
 Does it directly increase project velocity? 
@@ -32,6 +32,10 @@ Section on dangers of stubbing.
 Design Concepts            Design principles : SOLID
 The LSP states that an object used in your application should be replaceable by the super class without breaking the application. This is also commonly called design by contract
 
+Background on TDD
+why you should do test-driven development and what tools are available
+
+--------------------------------------------------------------------------------
 The Open/Close Principle (OCP) is the concept that software (methods, classes, and so on) should be open for extension but closed for modification.
 
 The Interface Segregation Principle (ISP) states that clients should not be forced to rely on interfaces they do not use.

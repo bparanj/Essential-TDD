@@ -19,11 +19,34 @@ Depth of coverage
 Question and Answer Section on Common Patterns in TDD cycle
 Collection of notes and useful tips on TDD
 
-Head First Style
-
 Credibility 
 Accuracy 
 Relevance to software quality 
+
+
+
+Process of developing a complete application
+From inception to the finished product
+Supports the daily development work as well as the planning for a TDD project
+
+Downloadable code examples
+Hands-on exercises
+
+Good presentations on XP and Agile Modeling
+It is easy to understand for a beginner
+A good foundation for understanding TDD
+Explanation of the TDD process and its benefits
+
+Well organized
+In-depth coverage of the subject
+Chapter on how to do TDD in different languages
+Explains how to use TDD tools
+Tips, tricks and strategies to using JUnit and other tools
+Practical advice
+In depth coverage of mocks
+UI Testing material is unique
+Discussion on test coverage tool
+Avoids web application
 
 
 Negative Factors
@@ -39,9 +62,48 @@ Lack of a complete, working summary of the code developed in the examples (final
 The only issues I ran in to was using the newer 3rd party Frameworks that the book talks about. This is only due to version differences and changes since the book was written.
 
 
+
+
+
+Database related testing
+The explanations about writing tests are short on advice
+The presentation of the tools is long, with little useful facts
+Does not discuss race conditions
+Claims that TDD is a silver bullet
+No discussion on what tests to write
+Rambling with lots of code but short on insights
+Framework related discussion is out of date         [Put them on the website where it can be updated]
+Wisdom / Insights is buried in rest of the material
+Case study becomes repetitive [Avoid duplication, Cycle only 3 times]
+Annotated walk through the development section is poorly written
+Code format is not clear
+Example code has compilation problems
+Code download only provides the final version and not intermediate versions needed to walk through the case study [Provide code Before / After like Lynda]
+No code repository to document the evolution of the code, checking the code in at the end of each test. [Snapshot of the code would be available as a starting point for each test in the tutorial]
+No web application
+No database (common task is unaddressed)
+Review of design and quality of software using coverage metrics and other tools
+Appendices on unrelated stuff like XP and Agile modeling
+No coherence and no didactics
+Very bloated
+Beginners need additional reading material to understand Mocks and GUI testing
+
+
+
+Create
+---------------
+Domain Driven Design
+Heckle
+Head First Style
+
+
 Where to go next
 -----------------
 
 Read more. Design Patterns. Refactoring.
 Take courses
 Work with an experienced TDD practitioner to apply TDD to real world projects
+Myers' The Art of Software Testing 
+McConnell's Code Complete chapter on unit testing
+Unit Testing in Java - How Tests Drive the Code
+

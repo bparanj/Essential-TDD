@@ -1,3 +1,4 @@
 Oct 6
 
 1. Take notes from 'How to give presentations' video bought from Tekpub
+2. Create ERRC grid based on Amazon reviews of Kent Beck's book.

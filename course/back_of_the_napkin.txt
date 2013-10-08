@@ -6,8 +6,9 @@ Developing Ideas --> Visual Thinking in Action
 
 Selling Ideas  --> Create Effective Visuals
 
-The 6 W's
 
+The 6 W's
+--------------------------------------------------------------------------------
 1. Who and What - Things, people and roles
 
 	What is going on around me, and where do I fit in?
@@ -40,14 +41,15 @@ The 6 W's
 	
 Visual thinking is about how comfortable we are in thinking with our eyes.
 
+
 The Visual Thinking Process
-
+--------------------------------------------------------------------------------
 Looking
-
+--------------------------------------------------------------------------------
 Process of taking in the visual information around us. It's about collecting inputs and making initial rough assessments of what's out there, so that we know how to respond. It involves scanning the environment in order to build an initial big picture.
 
 Questions
-
+--------------------------------------------------------------------------------
 - What is there? Is there a lot of it? What is not there?
 - How far am I able to look? What are the edges and limits of my vision in this situation?
 - What do I recognize right away, and what throws me off?
@@ -55,65 +57,65 @@ Questions
 
 	
 Activities
-
+--------------------------------------------------------------------------------
 - Scan across the whole landscape. Build a big picture, note that there are forests and trees... and leaves, as well.
 - Find the edges and determine which way is up. Establish the limits of our view and the fundamental coordinates of the data in front of us.
 - Make an initial pass at screening out the noise, separate the visual wheat from the chaff.
 
 Seeing
-
+--------------------------------------------------------------------------------
 We are selecting which inputs are worth more detailed inspection. This is based on recognizing patterns. 
 
 Questions
-
+--------------------------------------------------------------------------------
 - Do I know what I'm seeing? Have I seen this before?
 - Are any patterns emerging? Does anything in particular stand out?
 - What can I take away from what I see - what patters, what priorities, what interactions - to help me make enough sense of this environment in order to make decisions about it?
 - Do I have enough visual inputs collected to make sense of what I see, or do I need to go back and keep looking?
 
 Activities
-
+--------------------------------------------------------------------------------
 - Filter for relevance: Actively select those visual inputs worth another look and dismiss others. Then later go back and check again.
 - Categorize and make distinctions: Separate the wheat into different categories by type.
 - Notice patterns and clump creatively; identify visual commonalities among inputs and larger commonalities among categories.
 
 Imagining
-
+--------------------------------------------------------------------------------
 It is either the act of seeing with our eyes closed or the act of seeing something that isn't there.
 
 Questions
-
+--------------------------------------------------------------------------------
 - Where have I seen this before? Can I make any analogies to things I've seen in the past?
 - Are there better ways to configure the patterns I see? Can I rearrange them to make more sense?
 - Can I manipulate the patterns so that something invisible becomes visible?
 - Is there a hidden framework connecting everything I saw? Can I use that framework as a place to put other things that I've seen?
 
 Activities
-
+--------------------------------------------------------------------------------
 - Close your eyes to see more: With all visual inputs fresh in the mind, look with your eyes closed and see if new connections emerge.
 - Find analogies: Ask, 'Where have I seen this before?' and then imagine how analogous solutions might work in this new situation.
 - Manipulate the patterns: Turn pictures upside down, flop them left to right, switch coordinates to turn them inside out. See if something new becomes visible.
 - Alter the obvious: Push visual ideas by finding multiple ways to show the same thing.
 
 Showing
-
+--------------------------------------------------------------------------------
 We summarize what we've seen. Find the best framework for visually representing our ideas, nail things down on paper, point out what we imagined and then answer our audience's questions.
 
 Questions
-
+--------------------------------------------------------------------------------
 - Of all I've imagined, what are the three most important pictures that emerged - both for me and for my audience?
 - What is the best way to visually convey my idea? Which visual framework will be most appropriate for sharing what I've seen?
 - When I go back to what I originally looked at, does what I'm now showing still make sense?
 - Say, 'This is what I saw.' Then ask your audience, 'Does it make sense to you? Do you see the same things, or do you see something different?
 
 Activities
-
+--------------------------------------------------------------------------------
 - Clarify your best ideas: Prioritize all visual ideas so that the most relevant come to the top.
 - Nail things down: Pick the appropriate visual framework and get your ideas down on paper or up on the board.
 - Cover all the W's: Make sure that who/what, how much, where and when are always visible; let how and why emerge as the visual punch line.
 
 Four Rules to Develop Looking Skill
-
+--------------------------------------------------------------------------------
 1. Collect everything we can to look at - the more the better (at least at first)
 2. Have a place where we can lay out everything and really look at it all, side by side
 	Everything looks different when we can see it all at once
@@ -122,7 +124,7 @@ Four Rules to Develop Looking Skill
 
 
 Six Ways of Seeing
-
+--------------------------------------------------------------------------------
 We start with looking at a problem. We need to see what's broken to fix it.
 
 Seeing is the flip side of looking: Looking is the open process of collecting visual information, seeing is the narrowing process of putting the visual pieces together in order to make sense of them. Looking is collecting; seeing is selecting and identifying patterns. And really good seeing is even more than just pattern recognition; good seeing is problem recognition.
@@ -162,11 +164,11 @@ The Click Plan Marketplace as Seen According to the 6 W's
 Picture goes here.
 
 SQVID - Visual Imagination Activation Tool
-
+--------------------------------------------------------------------------------
 A series of five questions that we walk our initial idea through in order to bring it to visual clarity and to refine its focus - both according to what's most important to us and our audience. This tool helps us to imagine what visual messages we'd like to convey before we start worrying about which picture we're going to draw.
 
 Five SQVID Questions Are : Do I want to Show
-
+--------------------------------------------------------------------------------
 S : Simple vs Elaborate
 Q : Quality vs Quantity
 V : Vision vs Execution
@@ -184,19 +186,19 @@ By setting the graphic equalizer sliders toward the views we think will be most 
 We fully activate both the left and right sides of our brain. 
 
 Simple Vs Elaborate
-
+--------------------------------------------------------------------------------
 Something can be both complex and simple at the same time. The real goal of visual thinking is to make the complex understandable by making it visible - not by making it simple. We use simple or elaborate picture based on the audience and their familiarity with the subject.
 
 Qualitative vs Quantitative
-
+--------------------------------------------------------------------------------
 You could combine qualitative and quantitative information to create visuals.
 
 Vision vs Execution
-
+--------------------------------------------------------------------------------
 The opposite of the 'where we are going' statement of vision is the 'how we are going to get there, step-by-step process' chart. Gantt chart shows how we're going to get there.
 
 Individual vs Comparison
-
+--------------------------------------------------------------------------------
 The Way Things Are vs The Way They Could Be
 
 Sketch out the status quo.
@@ -204,7 +206,7 @@ Create a view of the perfect world.
 On the second pass of 'what might be', get to a realistic solution.
 
 SQVID Example
-
+--------------------------------------------------------------------------------
 1. Pick an idea
 2. Draw a circle and give it a name
 	Get a stack of six sheets of blank paper and a black pen. On the first sheet, draw a circle in the center of the page.
@@ -221,7 +223,7 @@ SQVID Example
 	On each of the five sheets, make a quick sketch of how you might visually represent your idea according to each word. Complete a simple set of sketches for each sheet.
 
 Frameworks for Showing
-
+--------------------------------------------------------------------------------
 There are three steps to show : 
 1. Select the right framework
 2. Use that framework to create the picture
@@ -236,8 +238,9 @@ There are three steps to show :
 3. Present and explain our picture
 	A good problem-solving picture is straightforward to explain, regardless of complexity.
 	
+	
 The <6><6> Rule
-
+--------------------------------------------------------------------------------
 For every one of the six ways of seeing, there is one corresponding way of showing. For each one of these six ways of showing, there is a single visual framework that serves as a starting point.
 
 Who / What becomes a portrait, how many becomes a chart, where becomes a map, when becomes a timeline, how becomes a flowchart, and why becomes a multiple-variable plot.
@@ -254,15 +257,17 @@ When 				Position in Time					Timeline
 How 				Cause / Effect						Flowchart
 Why					Deduction / Prediction				Multiple-variable plot
 
-Criteria to Defining and Differentiating Frameworks
 
+Criteria to Defining and Differentiating Frameworks
+--------------------------------------------------------------------------------
 1. What the framework shows
 2. The framework's underlying coordinate system
 3. The relationship between the objects contained within the framework	
 4. The framework's starting point
 
-The Visual Thinking Codex
 
+The Visual Thinking Codex
+--------------------------------------------------------------------------------
 We now have two different ways to think about showing our problem: 
   The six frameworks derived from the <6><6> model 
   The 5 imagination-focusing questions of the SQVID.
