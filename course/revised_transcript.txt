@@ -1,0 +1,8 @@
+Learning levels should be based on standardized definition
+
+Contract test example
+False Positive example
+False Negative example
+
+Layered Architecture 
+Structuring tests such that defect localization is achieved. How do you structure the tests? Assign work according to layers. Work in parallel. Work assigned based on developer's strength. Versioning is one way to achieve defect localization. If you break the contract, release it as a major version of your library, because it is not backward compatible.

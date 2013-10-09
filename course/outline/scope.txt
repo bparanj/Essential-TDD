@@ -1,1 +1,17 @@
 "Red/Green/Refactor" is the mantra that he shows through the money example, this is the path towards a "Clean Code that Works" objective.
+
+
+			Know			1
+Know 		Don't Know		2
+
+Don't Know	Know			3
+			Don't Know		4
+			
+1 : Obvious Implementation
+2 : Spiking, Fake it Till you Make it, Triangulation, Learning Tests
+3 : Pair-Program
+4 : Mentoring
+
+2 & 4 : Experimentation, Discovery  
+
+Scope of the Course is 1 & 2

@@ -1,3 +1,16 @@
+
+
+Oct 9
+
+1. Customize the ERRC grid questions for publishing. Updated the article.
+	
+	
+Oct 7
+
+1. Market Research : Take notes from other best selling TDD books : http://www.amazon.com/s/ref=nb_sb_noss_1?url=search-alias%3Daps&field-keywords=tdd
+
+	Only 3 books was used.
+	
 Oct 6
 
 1. Take notes from 'How to give presentations' video bought from Tekpub

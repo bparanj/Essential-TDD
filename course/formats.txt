@@ -1,0 +1,8 @@
+1. Transcript
+2. Bookmarks of Video, Websites
+3. Quick links to demos
+4. Work book
+5. Cheat sheet
+6. References : 
+	Where to Go Next provided in conclusion of the course. (Books, videos etc)
+7. Before / After coding exercise files.
