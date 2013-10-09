@@ -5,20 +5,41 @@
 
 
 --------------------------------------------------------------------------------
+Big Picture
+------------
+Background on TDD
 XP manifesto: "Extreme Programming Explained"
+
+Specifically, this book expounds, in fine detail, the XP concept of writing tests before the implementation and how to use the results from the tests to drive another XP concept: emergent design.
+
+Why you should do test-driven development? 
+What tools are available?
+
+Tests are too large, they're not unit tests, they don't document anything well, they are not comprehensive, code magically appears without being driven in by the tests, and so on--there are myriad ways to do TDD poorly
+
+What is being advocated is a type of bottom up design approach.
+
+------------
+Why
+------------
 What is the primary benefit from using TDD?
 Does it directly increase project velocity? 
 Does it improve the quality of software developed with it?
+
  The empirical data : The most recent result from Microsoft Research suggests 40-90% reduction in errors at a cost of 15-30% additional development time, which looks like a worthwhile investment.
 
-What is being advocated is a type of bottom up design approach.
-Specifically, this book expounds, in fine detail, the XP concept of writing tests before the implementation and how to use the results from the tests to drive another XP concept: emergent design.
 The goal of test-driven development is a reasonable way to achieve "clean code that works - now." 
+
+------------
+------------
 
 Test First Programming
 Test Patterns
 Introductory chapter on using xUnit.
 
+------------
+Examples
+------------
 Triangle class is a good first example 
 Fibonacci Sequence
 Non trivial examples
@@ -26,15 +47,13 @@ Make examples available in different languages based on demand.
 The point is to use an example that's simple (so as not to be distracting), but just complex enough to produce adequate talking points to drive a discussion about test-driven development (TDD).
 Examples show how to do things correctly and how to recover when you make a mistake
 Used examples effectively to demonstrate the main concept. 
-Tests are too large, they're not unit tests, they don't document anything well, they are not comprehensive, code magically appears without being driven in by the tests, and so on--there are myriad ways to do TDD poorly
+
 Section on dangers of stubbing.
 
 Design Concepts            Design principles : SOLID
-The LSP states that an object used in your application should be replaceable by the super class without breaking the application. This is also commonly called design by contract
 
-Background on TDD
-why you should do test-driven development and what tools are available
-
+--------------------------------------------------------------------------------
+Design Principles
 --------------------------------------------------------------------------------
 The Open/Close Principle (OCP) is the concept that software (methods, classes, and so on) should be open for extension but closed for modification.
 
@@ -43,3 +62,7 @@ The Interface Segregation Principle (ISP) states that clients should not be forc
 The Dependency Inversion Principle (DIP) states that code should depend on abstractions, not concrete implementations, and that those abstractions should not depend on details; the details should depend on the abstractions.
 
 The Single Responsibility Principle (SRP) states that each method or class should have one and only one reason to change. This means by extension that each method or class should do one thing or have a single responsibility.
+
+The LSP states that an object used in your application should be replaceable by the super class without breaking the application. This is also commonly called design by contract.
+
+--------------------------------------------------------------------------------

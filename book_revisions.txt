@@ -22,3 +22,9 @@ TDD Book Revisions
 8. Copy paste for comma, comma is weird and gives syntax error. Link to github.
 9. Answer on the next page, work out few of the exercises.
 10. keywords : when, then
+
+
+To Do
+------------------------------------------------------------------------------------
+1. Draw the diagram for Know-Don't Know and explain problem solving techniques
+	Know --> Don't Know --> Explanation Test

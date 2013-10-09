@@ -100,7 +100,7 @@ Head First Style
 Where to go next
 -----------------
 
-Read more. Design Patterns. Refactoring.
+Read more on : Design Patterns, Refactoring.
 Take courses
 Work with an experienced TDD practitioner to apply TDD to real world projects
 Myers' The Art of Software Testing 

@@ -1,7 +1,1 @@
-- The code base is old, and doesn't have any tests or isn't designed testable. It makes it hard to do anything other than introduce integration-level tests and tweak to success.
-	[Working Effectively with Legacy Code]
-
-How to integrate these techniques into the processes of a project.
-Arguments to convince your boss to adopt TDD in your company.
-Realistic example dealing with a business application and the issues of test-driving databases and GUIs.
-the importance of using TDD within a larger development approach (one which probably includes revision control, pair-programming, and UX testing, say)
+Realistic example dealing with a business application -- > This might get included.
