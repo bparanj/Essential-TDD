@@ -1,0 +1,153 @@
+[Continue video 4 ("TDD bootcamp part 3") at 0:54:00] 
+A: Can you do like a stubbed customer and then say customer.new equals to your customer?
+S: No, that’s not the syntax. No, it’s kind of like very, very explicit, when-- they want this thing to read as like poetry. So the way you think as like customer.name equals something-
+A: Assign the name.
+S: Yeah. That syntax is not allowed. If you go back to a lot of slides before, I showed you three different ways of doing the same thing. That syntax was not there. One is using the hash rocket, those are the three different ways to do the same thing. But that syntax is not-- I don’t think it’s allowed. 
+A: You should [0:54:47]
+
+S: I said those are expensive, and you want to isolate from those external environment. Zero gravity is what you need. I cannot provide you that because it’s too expensive. You want to isolate your objects from those expensive resources. A stub is one way to accomplish that. 
+
+Another thing that’s helpful is: you have non-deterministic values. Like not only things I don’t have control over, you have like system services, like I said time, date, things which are always moving, but you cannot really make the test run at a specific time. Even the random values. It’s a non-deterministic behavior. In this test, test allows move to last square so many tests in the Ruby thing. You create a board that has 50 squares and the die is basically board as a die, if you call the die method, it’s going to return the mock. That mock has a role method; it’s going to expect the role. When you say I expect, it’s going to respond the role, and it’s going to return two always. 
+
+So non-deterministic thing has been made deterministic. I have isolated the non-deterministic thing. Tests become repeatable. Once I created this board object, now I have a piece. I created a new piece. All I’m trying to test is, if I’m on the 48th move, if it moves two things, I need to be on the 50th box. So board.place on the 48th square, board.move that piece, and then when you do that board.move, this is internally going to call the die thing, its implementation thing.  And then it’s just checking the board.squares-- this should be 50, contains a 50. Because it should have moved two pieces. Kind of like a bug in the code. So you can isolate the non-determinism.
+
+Now this time. You want more control over the time. You can’t really be dependent on your test being running in midnight every night because you want to run anytime. In this case, you’re describing an event . It’s not happening before the start time. It should not be happening before the start time. Anything before the start time, the event is not beginning yet. So time is time.now, which is like say, 5 pm. Start is now plus one, which is like 6 in the future. Start time is going to be one hour in the future. Look what I’m doing here: time.stub.now. I’m stubbing the real time object in Ruby. 
+
+Like you were asking me, Can I do a customer.new on stub? I’m stubbing the real object here. The system time, and I’m stubbing this class method, just like I did the person.find stub, I’m doing a built-in Ruby object, not now, and then return now. When somebody calls now, whenever this test runs, it will always test whatever this thing was. Whenever this thing ran. It will return 5 pm. The event.start-- it’s always one hour before, so it’s always going to be one hour after what is now. So the event should not be happening. Basically this is like an RSpec thing. Whenever you have something be underscore, it means it expects happening question mark in your event class.
+
+ You need to implement the happening question mark. That’s either going to return true or false. So event should not be happening. All I want you to focus on is-- you’re getting rid of the dependency on the time by using the stub. Stub is used if you want to make something non-deterministic deterministic, which has dependency on the randomness, random behavior, or dependency on the system services, like clock, time, date, and those kinds of things. You break those dependencies by canned responses to whatever input. We have more control over the responses that it’s giving. 
+
+It isolates us from those external dependencies. We achieve isolation. Again, isolation. Isolation from the network. Going over the network. I don’t want my unit test to be hitting the network. So in this case. Look at this network access. In this case, I’m actually using the test mode of the active merchant billing. I’m giving the login password and my login as well as the password. My credential is given. I’m creating a stub which is the item. There’s some item that I’m going to purchase, and the mock is some messenger. When I purchase an item, and I pay for it, that item should be shipped to me. So it says, messenger should expect ship that particular item. Because an item is kind of like-- okay, this customer has been charged, he needs to be shipped. It’s somebody else’s responsibility to ship it. But I just want to make sure that outgoing message is sent. I set the expectation here on this particular mock. And I just say purchase.new. This is my business object. This is going to take the gateway. This is active merchant billing gateway. It’s going to go through that. Get payment gateway. It’s going to charge for this item on this credit card for this customer, and it’s going to this messenger, which is basically going to handle the fulfillment aspect of it.
+
+ Here is actually-- do exercise. Purchase.finalize. So what happens in the purchase.finalize? It’s actually going to go to the network in the test sandbox more, and it does its thing. It’s going over the network and doing all this stuff. But once that is validated and it returns to me the true or false according to the logic here, okay payment was a success, and then this messenger is going to interact with the ship. Basically it’s going to ship that particular item. That’s how I know when the purchase is successful, customer has been shipped item. And the test passes. But this test, there is no gateway. You’re not going over the network anymore. See how we have stubbed the gateway. Gateway is just a stub. In this case we are not dealing with string, remember. 
+
+A: How come-- 
+S: This is just a stub. This probably is a mini test thing. Look, this is test, it’s not an RSpec thing. See, test successful shipping purchase. So this is mocca or stubba. They’re using a different library. Syntax is different. But the concept is the same. So gateway stub, you can actually pass in a string to make sure it’s a gateway. Gateway stub authorize method. So what is this authorize method? It’s an instance method, and it’s going to return this active merchant billing response new, because this is what we need in order to say, okay, this purchase was successful because it’s based on the return value. 
+
+So item is a stub. I don’t really care about the item. All I care about right now is C. It’s in the test. Successful purchase sends shipping message. So the behavior is what I’m actually concerned about. I’m concerned only about successful purchase-- I need to ship the item to the customer. It’s really important to make sure the customer gets the item once he has been charged successfully. That’s the main focus of the entire test. Everything else is irrelevant. That’s why I’m stubbing the item because I don’t really care what the item is. I don’t really care what the messenger is. All I need to make sure is the messenger is going to receive the ship message with this particular item, because that item is the one that needs to be shipped. It does matter to me if I ship the right item because once he has been successfully charged.
+
+Purchase.new and you have the similar where we did before. Purchase object is going to be the gateway item, credit card messenger and it’s going to say purchase finalized. That’s going to actually charge the customer on the credit card, and for that item whatever the total amount is, and the messenger ship is going to get called behind the scenes. It’s that indirect output that I’ve been showing you in all the slides before. It’s the indirect output, and the only way to verify is to set this expectation at the end of it. There is no explicit verification on the mock. It doesn’t say mock.verify. In dot net you will do that, in Java you will do that, in RSpec you don’t do that. It’s implicit verification.
+
+A: By the system?
+S: Yes. The RSpec framework does it for you. So if you don’t receive this ship message, the test will fail.
+A: So is it should receive?
+S: Yes. Should receive. It’s using a different library.
+A: The difference between a stub and a mock. So for example, gateway stub and messenger mock. So a stub defines a pre-determined return value of a call, whereas mock defines a pre-determined behavior of a call. Because-
+S: Almost right. Mock can also-- you can program the mock to return value also. If I go back to a few more slides, I showed you an example where syntax, remember? Person.find. If there is returned something-
+A: That would be a mock.
+S: It should receive something.
+A: So a mock is a stub with an expectation that something is called.
+S: Yes. That’s a more accurate definition. You can only set expectations on a mock. You cannot set expectations on a stub. That’s one thing.
+
+A: But that’s just semantics isn’t it?
+S: No. Mocks are not stubs.
+
+A: Say for instance you may stub something out but it’s never called. You wouldn’t know that unless you tell the mock to expect that it is called. For instance in the case here, if you just stubbed it, you may not know that the messenger was never sent shipped. If you just stubbed it, it may never be shipped. You may have a bug that you’re not actually shipping things.
+
+A: That means you can call something on mock, but you cannot call something on a stubbed object?
+A: You can call it, but you cannot make the framework require that it’s called. If a ship message isn’t received by that messenger, it will fail. And mock does that. A stub will just return a fake answer, but you have no guarantee it was ever called. You might have a bug that the purchase isn’t actually shipping. Mock says you have to call ship. 
+S: It’s very straight. Stub can never fail your test. Mocks can fail your test. And he explained.
+
+A: Mock expect statement has two parts. It requires the ship method to be called-
+S: With this particular item.
+A: It also defines the expected behavior of this call.
+A: Not the expected, the canned response it gives. When you call ship on the messenger, it will give you an item. No, sorry-
+S: Finalize.
+A: It expects the item to be given to ship as a parameter.
+A: Specify goes to calls-
+A: That it is called and was calls.
+S: With that particular argument.
+A: Whereas stub just-
+S: Stub is the canned input canned output. You have more control over what goes in. You can have a stubbed credit card. It’s a fake credit card. You don’t really need a real credit card to test your system, for instance.
+
+A: Let’s say if I would have retained messenger equals new stub, and then if I say messenger.expect, it won’t fail?
+S: No, because stub can never fail a test. Only mocks can fail a test. You can only set expectations on mocks. Stubs and mocks are two different concepts. Mocks are not stubs. Read Martin Fowler’s paper. He has a paper on his website. Martinfowler.com. 
+
+This confusion was started because of all this RSpec library not distinguishing difference between sub and mock. And then David Kimiski  realized, Let’s stick with the Gerard Meszaros terminology and use the double. When you use a double, it’s a fake object basically. Crash test dummy I was talking to you about. Double can be either a stub or a mock. If you set the expectation on the double, it becomes a mock. If you don’t, it’s basically a stub. And you cannot program a mock to return a value. You can set expectation. I can say message expects this with this, and return something, it will return that something.
+
+A: But that’s just a limited case.
+S: Yes, that’s-- what I was trying to get at is that you cannot say that as a distinguishing factor.
+A: So is messenger mocking a messenger object?
+S: Yes. That’s basically your fulfillment system. Something is going to fulfill.
+A: Pretending to be your messenger.
+S: Yes. It’s intercepting all your calls to a real messenger. It’s a fake messenger basically. It’s not going to really ship anything to anybody. It just makes the outgoing messages-- you’ve been looking at the outgoing messages from object, this is an outgoing message from this guy.
+
+A: What’s passing ship an item to messenger? Is it the purchase.new method?
+S: Purchase.finalize. It’s all the implementation details. It’s a side effect. If you want to think about this; it’s a side effect. All the side effects I want to use mocks to test the side effects. If it’s a state verification, I know the results are coming; I’m checking the state. I don’t need to use a double or mock for a state verification. It’s not behavior verification. Behavior verification is all about side effects. Behavior verification is what you’re setting expectations in mock is all about.
+
+A: So purchase finalize, the side effect of that is to change-
+S: Yes, exactly. Did you see the behind-the-curtain thing with hidden messages? The ship message is going to another dependent-on component. That’s going to take care of the fulfillment. That item is going to be shipped to that particular customer. But you do care that’s being done. I will test whether it’s actually doing the job in a separate test. Because it’s an incoming message to another fulfillment object, and I will test as part of the public API of that particular object. And I’ll make sure it’s really doing the job and it’s working. 
+
+But the focus of this test is somebody successfully purchases something; I just need to make sure they get sent shipping. I just assumed the other object is fulfilling its responsibility. My responsibility is I need to send the credit card of the customer with this item with this payment to the payment gateway, and I want to finalize the purchase. 
+
+Successfully-- if that scenario is handled, I need to make sure this customer gets that item shipped. That’s it. Whether it’s actually getting shipped or not is part of our other test. That’s not the concern of this test. It’s very focused. Things we’ve been talking about the entire day, being clear, focused, testing one thing at a time, one thing only, here is an example. The test does what it needs to do. Minimal amount.
+
+A: Will you always pass this string in mock or stub or can we mock, line without any string?
+S: No. In this case, even in RSpec you don’t have to pass string. It’s a good practice to pass a string because in the diagnostic messages you will be able to see if something goes wrong.
+A: In this test, what happens if you don’t have the last two lines with purchase and purchase.finalize?
+S: That’s a very good question. Let’s go back to the original slide I had setup. These are all setup code. These are all-- certain things I need before I can start. This is the exercise phase. 
+A: So expect-- it’s also-
+S: There is no verification-- fourth state, there is no verification. That is exercise phase. There is-- creating this object is part of the context setup. This setup-- I’m actually creating the SUT. Creating the SUT. I’m actually passing all the arguments it requires, and I’m also installing the mock look. Messenger is a mock. Stub is also another stub that it requires. It uses stub as well as mock. I’m installing stub as well as mock on the SUT. I create an SUT, I install them using dependency injection, so these mocks and stubs are what is going to intercept all the calls that’s going to happen. Not the real dependent-on component which will be used in the actual production system. Each one is a different-- this is the exercise phase, this is the setup phase, this is all the context, this is all fixture. 
+
+Because of the purchase finalize, internally the implementation is going to call the authorize. Because we first want to first authorize before we charge the customer. Okay, everything is fine, his credit card is valid, authorize will return true, will return this particular thing. 
+
+A: So everything except the last line is part of setup?
+S: Yes. These are all creating the stub. Let me go back a few slides. I’ll show you how it will work. Here is the stub part. In the setup, you see what we did. We create the stub. Item is the-- in setup phase, you create the item stub. Not only test stub, we also have another mock also. We are creating, again, another mock which is behind the messenger mock. Creating two things in the setup phase. 
+
+Installation is when I actually create an instance of an SUT. That is the payment-- purchase object. That is the SUT here. Installation is nothing but I am passing it as an argument to the constructor. It’s a dependency injection. Which means a-- purchase, use this test stub and use this mock object instead of the real messenger or the real item. Those things are irrelevant details. I don’t care what they are. I only want to emphasize when I exercise the finalize on the purchase object, you need to send an output called ship. You need to send the ship with that particular item to somebody, this particular customer.
+
+A: In this case, the code-- that last line purchase.finalize-- that’s the exercise part?
+S: Yes.
+A: If you leave that line out-
+S: Nothing-- it won’t work. Nothing will work.
+A:  RSpec will tell you that it’s an invalid test case?
+S: It will just pass. You do an assertion; it will just go through.
+A: It depends on what the shipping item value is. If by default, it matches what you’re expecting, it will pass?
+S: If you don’t have this purchase.finalize, if you don’t exercise the system, you’re not making an assertion, it will just go through, and it will say no failure.
+A: You only have a setup of the test which you never exercise-
+S: You don’t explicitly say mock.verify also. If you have the same mock.verify, like other languages require you to do that, explicitly call the mock.verify, that’s when it actually will run. But in this case, it’s an implicit thing.
+
+A: So it’s a good idea to always explicitly say a verify so that you avoid this?
+S: It’s more of a personal preference rather than a standard practice. The RSpec designers just decided okay, we’re just going to make it implicit. It takes me so much energy for me to explain, hey it’s an implicit thing. For advanced people, okay, I get this. But if you say, step one two three four and suddenly the verification state-- you don’t have mock.verify, it’s like I don’t have a framework to fit into this. It kind of throws you off. If you don’t have this exercise phase, exercise phase is what actually kicks off the implicit checking off that mock.verify is internally called or whether it caught the shipping message or not.
+
+A: Can we see the last slide? Just before that.
+S: This one is going to go to the actual payment gateway. Look. The active merchant-- billing mode is test. So it’s going to hit the sandbox of active merchant which is sandbox. Not active which is sandbox trust commerce gateway. That sandbox is going to go over the network. We don’t want that. We don’t want that in the unit test. We may want to do that in the integration test.
+A: How do you know that it is returning true or false?
+S: This guy? 
+A: In the next slide, you’re returning-- you’re stubbing the call, and you’re returning true and ignore.
+
+S: This is the canned response object. So I’m just saying, yes the customer-- it’s not even hitting the network, it’s not giving anything to trust commerce; it’s just faking actually. It’s a fake object. Fake object fakes. So it’s saying, yes, I did charge the customer. The point is not really making sure the customer has been successfully charged or not. The pre-condition is given that successfully the customer has been charged on his credit card, I ship the item to the customer. That is the focus of this test. 
+
+A: What my question, you’re writing it through. How did you know that it should return-
+S: I am the one programming it. I am the one faking it. This is the test part of this context. Given this context, given it’s successful. Let’s just assume that’s what’s coming back-- I’m just faking it. I am saying, Hey, don’t hit the real test sandbox. Don’t even go over the network. If somebody calls this, just say, yes, I charged them. Because testing whether the customer charged successfully or not is part of some other test. That’s not the focus of this test. That’s why-
+
+A: Should we write a different test for testing this service, or should we leave it aside? 
+S: Which service?
+A: This authorization service.  Do we have to write any tests in RSpec?
+S: Because it’s-- stub authorize is indirect input that this guy’s going to require. That’s why actually I’m having to program. If you see some of the slides I’ve been going through, the dependent-on component I’ve been showing you provides the indirect input. I showed you direct input that you provide. The programmer provides. Behind the scenes you cannot see. The reason you cannot see is it’s part of the implementation. When it finalizes internally, it’s going to do something, and it’s going to call the authorize on it. When the authorized is called, it depends on this particular what it is returning. This guy is what is required. Based on this is what I’m forcing a specific code path to go through. This is a successful code.
+
+A: How do you know that the service is correct? You’re stubbing it anyway. 
+S: I’m stubbing it because I’m simulating a successful charging of a customer.
+A: But then, will you be writing different tests for-
+S: Yes, exactly. Yes. Very good point. I will do authorize-- is actually authorizing it, as part of a different test. If you see this, the focus is only on shipping, so that authorizing will be a different test. Yes. Every test is focused on doing one thing and one thing only. 
+
+A: One more thing. How will that work? I see here two stubs and one mock, but for the credit card is what?
+S: Yes, you found a bug in the slide. You just assume that’s also a stub. It has to be a stub if it’s going to be. That’s a very good point. Nobody noticed this thing. They were not paying any attention!
+A: You’re saying that the credit card is not initialized right?
+A: No credit card. 
+S: Fake credit card.
+
+We saw how we can isolate the time, randomness, and going over network, so you don’t have slow tests. Now we are going to look at the collaborators. The shift weights . We have been talking about this duck typing and all that, this polymorphic collaborators is all about duck typing. I’ve been talking about the roles, how we can switch roles and compose the objects in a different way and reuse in a different context. The reuse is what we are trying to achieve. 
+
+So here is another code example.  Here is an employee. It delegates pay to payment strategy. I create a mock. It’s called payment strategy. He is creating a mock, and he is creating the SUT and installing this mock on the SUT. And here is a setting expectation on it, and here is the exercise phase. This is similar to the slide I showed you where I have a setup, I have expect, and I have exercise. That’s it. 
+
+You have a setup, you have expect, and you have exercise. That’s it. What will happen in this case? Payment strategy-- it says delegate pay to payment strategy. So the payment strategy. Somebody’s going to call pay on it. Who? The employee. So payment strategy has to get this pay method. Employee.pay. Employee should not pay himself. He’s going to defer that to the payment strategy. If he doesn’t this test will fail because the payment strategy mock will fail and the test will fail. 
+
+So this is only involving just mock. I showed one example where you only had test stub, here is only thing where you have just mock alone. No-- stub and mock has been combined. This is a three phase thing I showed you in the morning. 
+
+And here is the question he had in the morning. I’m going to go over this thing right now. You had age identifiable. And you’re describing whether that person can vote or not. It raises the exception if including does not respond to birth date.  You create an object. It’s just a plain, just a regular Ruby object, and you’re extending that with this age identifiable. This is actually a module. Module age identifiable. It’s your own module. And we have certain-
+
+A: Could that module have can_vote? method?
+S: Yes, it has can_vote? method on it. So this expect is basically a post-condition check. 
+
+[Stop video 4 ("TDD bootcamp part 3") at 1:24:26] 
