@@ -247,3 +247,139 @@ External fixture, what does external fixture? Most of the time you’re going to
 
 [Stop video 4 ("TDD bootcamp part 3") at 0:24:18]
 
+[Continue video 4 ("TDD bootcamp part 3") at 0:24:18] 
+A: I’m not too familiar with this concept, fixture.
+S: Fixture is basically-- let’s say I want to buy some books on Amazon. Amazon is like a black box. Before I can purchase the books, they need to have books in their inventory. I want to buy some software books. I’m interested in buying Gerard Meszaros’s xUnit Test Patterns. I’m searching. When I search, I need to find it. Only if it’s in the inventory, I can find it. So what is the pre-condition of the system?  The books I’m interested in should be in their inventory, in their database. 
+
+Let’s say I want to test the search feature. The pre-condition is, I need to create those objects in the database. So I can use factory girl for instance, and create xunit test patterns book and put it in the database. Those are the existing records. Those are the existing objects. Those are persistent objects in the system. 
+
+So if I do a search, if I come in as a user and I do a search for x unit Test Patterns, I need to see that as a result set. That is the expected outcome. The system should be in a certain state before I can start using it, so it needs to be in a certain state. That’s when you create those objects. 
+
+You really need a certain object. With Fibonacci, some of you created an instance of Fibonacci. Why? Because you need the object to call that number method. In this case, the fixture is that Fibonacci object you created. In the amazon case, that’s the book object I created, so that somebody searches, they’re able to find it so they can put it in the checking cart, they can check out, pay for it, the entire work flow depends on the pre-condition. 
+
+A: So basically to fake data, you create your own setup-
+S: Yes, that’s the data, and that’s-- the system needs to be in that state before you can invoke-- for instance, I add it to a shopping cart. That’s the thing I’m going to exercise. Before I can add a shopping cart, I need a certain book object.
+A: It’s a pre-condition?
+
+S: Yes, it’s a pre-condition. In DBC terms, it’s a pre-condition. And post-condition in RSpec is implemented as Expect. We will run through it. I will show you the code. It’s called expect. Whatever goes into the plug, that’s the post-condition. Pre-condition, post-condition, invariant. I don’t think there is an invariant as such. But it’s-- invariant is more DBC term. That’s always true. 
+
+So the outlines are basically-- you will never-- you have a lot of things to test. You basically create-- okay, this is your Fibonacci. You write outermost level, you put a comment, and then in the lesson under Fibonacci, I want to test this, this, this boundary condition for this, this, this. You put this thing. And then if you have something else at the same outer level, you put something else in there. You have some other specific thing. Different scenario, different context. And then you put whatever you want to think. It’s more like a comment thing. Whatever you have in your mind, you want to capture in the text editor. And then you can start writing tests based on that. It’s more like structuring your tests, basically. 
+
+Isolate tests, we already saw this. 
+
+Test list, is you have so many things to test, but you have to-- you can capture everything and put pending. “It should do something.” You can capture all of them. It’s your laundry list of test lists that you’re going to work on. So you already know how to pick the first test, how to pick the next test, and how to actually do this. We already discussed whether you should do a test first. 
+
+Test last results in actually code dictating what your test structure should be like. Test first, the main thing is you want to drive the test, use the test first actually, and drive the design of your code so you basically have a minimalistic system. You don’t speculate anything. You don’t come up with the waste nobody uses. Your test is first client basically. 
+
+We already saw going backwards. Do you remember different techniques for writing tests? We wrote the assertion first, so if you’re kind of stuck-- “How do I write this thing?” Try to assert first. That has to be the post-condition. In order to have this post-condition, what method should I call ? What should be the test context? What’s the minimal amount of objects you need before I can call this method? Because the method needs a pre-condition to be met before you can call. 
+
+And test data we already saw. Test context, how do you pick the test data? Sometimes the test data-- test data you use, you have to name it-- if you have in your factory method, valid customer, say valid user. I’ll have invalid user. I’m naming invalid user in my factory. So when I’m using the test data, when I’m looking at it I know I’m dealing with the invalid user scenario. Invalid/valid scenario. So I have a product, same thing. This is a premium product, a premium customer. I name the data itself I’m using. Test data, meaningful so that when I read the test code, it’s easier for me. I have a context to test. 
+
+That’s very evident by looking at it what it is. Child test, I kind of told you this child test. Let’s say you’re writing one test, controller test. And I know it’s like a thin controller, fat model. You’re having a lot of logic in your controller. You know what? This is better to be moved to the model level. So that is a child test. That logic moved into model you put this pending in your controller, you put the-- create a child test in your model, make that one pass, and then you go back to the pending test in your controller, and you make that one pass. 
+
+That is the crash test dummy, if you didn’t figure it out by this time. You can’t really make a real customer sit there and crash the car and make them die even if you’re in prison. That’s why you use crash test dummy and you test everything. It’s too expensive. Same thing in the software. 
+
+Sometimes the resources are very expensive even if they’re available. That’s when you actually use the crash test thing-- I’ll be going over stubs and mocks in this section. 
+
+What do you do when you have-- I know some of you guys do TDD by yourself. And when you’re programming alone, and you’re doing TDD, how do you end a programming session? The answer is on the slide. With a broken test. This is actually taken from writers’ habit. End of the day, they leave a sentence incomplete. They come back next day and start working. It’s kind of like a bookmark. When you’re reading a book, you have a bookmark. So when you’re programming by yourself, you always have a broken test. So when you come back, you have a failing test for the right reason and you continue from there. 
+
+It’s your bookmark. Instead of-- cucumber, you always have something work in progress, or you could have a bookmark kind of a thing. You can always go back and say, this is what I’m going to work on next. So what do you do when you are TDDing as part of a team? You are a pair programmer. How do you end the programming session? Answer is on the slide. You never leave it broken. You always check in when all the tests pass. When you’re working as a pair.
+
+The one to many is-- sometimes you have data structure.  And you have a collection of some items or something you’re testing. How do you deal with testing this? How should you go about testing this? First you write a test for one item. And then you extend it to many items. You go from one to many. It’s a one to many test. 
+
+We already saw refactoring. There are several ways to refactor. Refactor is always like a big topic. You can read the Martin Fowler’s book. This is only going to cover-
+
+Reconcile differences. Like, you see two methods kind of similar, but they’re different in a certain way. You gradually reconcile the differences. Because if you just abruptly do them, it’s going to break a lot of things. You need to gradually reconcile the differences. So you have to go step-by-step. 
+
+Sometimes you want to isolate the change. So you have like a 10, 15 line code, and the first four lines of things are what you want to refactor. You want to actually isolate the change by actually saying, Okay, I’m going to have-- this is focused on doing one thing. I’m going to take the entire thing, hide it behind a really well-defined private method, but the implementation is going to be nasty. But you’re actually making that method-- instead of 15 lines of code, you just want to have 4 or 5 small methods. Compose them of small methods. 
+
+A: Write the test for those methods?
+S: Yes. Private methods, you can test them later, and you can do one of them. But the private methods-- big methods you just want to make sure it’s easy to read and people can grab the things on the public API you want to make sure. You want to compose bigger methods out of smaller methods for private implementation. 
+
+And migrating data-- sometimes this can be really a pain. You abruptly break the data, you can break a lot of things. So this kind of-- keep the existing thing, and you have a new thing, but there is a transition to go to the new things as you gradually start writing more and more new tests. You don’t abruptly go from dropping the old thing to the new thing. You gradually do it over-- as you make more progress, you can make the transition even more bigger from migrating the old data to the new one.  It’s more like a gradual transition. 
+
+Those are some of the refactoring techniques. We don’t really have to go through all the refactoring techniques, but this section is really important: stubs and mocks.
+
+So the stubbing basics. We already saw the crash test dummy. A fake object can be either a stub or a mock. So we go back to the same four phase canonical test structure. In the setup phase, I actually create a fake object. In the test environment, fake object is the one which is used. Setup phase, also installs that fake object on the SUT. That’s what it actually tells the SUT, “Hey, you need to use this fake object, not the real one.” In the production system, this is the real object that is going to be used. And the setup actually is going to setup some data that this guy might need. And then you exercise the SUT. SUT is going to interact with the fake object from now on, instead of with the actual real component. And then you can verify. 
+
+A: So the fake object is a stub, or-
+S: It could be a stub; it could be a mock. 
+A: What about the fixture? Is the fixture real?
+
+S: This is data. This is just a data. Fixture is basically data. Context, objects, that the system needs. It needs to be in a certain state. You need to put this system in a certain state. That’s what fixture is all about. Test context is all about. 
+
+A: Basically, fixtures are stub data, instead of a real database?
+S: This data can be-- actually, if you’re using a library like factory girl, it’s actually inserting records into the database. You’re actually going to the database. Ideally what you want is, without hitting the database, you want the data to be inserting in memory. And if you read one of those books written by the X Unit pattern guys, in one of the projects, what they did was-- it’s just a hash-based data structure. It’s just in memory. All those database calls you’re making-- it seems as though you’re going to a real database, but you’re not. In test environment, it’s going to the hash. Giant hash in memory. So all the tests run much faster instead of hitting a real database.
+
+A: So it’d be like-- let’s say you have a user object-
+S: Yes, this can be a user object, this can be a credit card object.
+A: Credit card-- stub-
+S: Anything that the system needs. Stub the credit card, for instance.
+A: And return any fake object?
+
+S: Yes, fake object. Here is a test stub. Instead of fake object, now I have a test stub. I create a test stub, I install it in my SUT so that when I exercise,it’s actually going to use the test stub instead of this dependent-on component. And the verify phase, you’re going to verify whatever you need to verify. It’s state verification. We already saw what the state verification is. What I want you to see though-- see this indirect input? This indirect input is provided by the test stub. This indirect input is provided by the test stub. Think of the test stub as tax calculator. It’s a fake tax calculator. It won’t really go to the database. If somebody tells you, Okay, what is the calculator? You will immediately return-- okay, for this geographical location, for this, it’s 6%. Because you’re programming it. If somebody gives you this input, you return this output. That’s what you’re saying.
+
+A: So what is the difference between this and the one-
+S: This fake object can stand in for anything. It could be a mock or a stub. This fake object basically could be a test stub, but a test mock object. The first one is kind of like introduction to how you create the fake object. You can actually do this thing. Now you’re actually going into real programming. You’re actually programming. Hey, somebody gives you-- they’re from California and they’re purchasing four books with this much shipping weight. Return this. You’re actually programming. Your canned input, canned response. You’re actually programming. You have more control over it. And in this case, asking what is the tax in this shopping cart. For instance, he’s going to SUT the shopping cart. It’s asking in other words to calculate the tax. This guy’s going to return all the programmed values; that’s this add-on right here. Installs it, and this guy’s going to get whatever this guy provides. And the verification, do verification. 
+
+Now I want to quickly go through how it looks in the code. You have a book object, you are stubbing the title. The title is the name of the method. And this is what is returned. The RSpec book is the name of the title. So whenever there is a book dot title, it’s going to return this guy. This is the difference in tax. Same thing. Third one is also explicitly saying same thing. 
+
+You can also do a double. What is this double? What does this thing have to do with the stub and a mock? Double is actually a terminology that Meszaros came up with. He standardized all this terminology that’s being used. Everybody uses it in their own different way. This double can actually be a stub or a mock. This double is basically-- fake object I showed you in the very first slide. 
+
+In this case, look. Order.total. I’m stubbing the price of the book to this, and I’m having another stub price-- I’m actually making that-- if somebody calls this price method on it, I want to return this. If somebody calls the price on it, I want to return it. This order.total is going to loop through this collection, and it’s going to call the price on each of these items. To me, it looks like this stub is some product which has some price to it. So it’s going to order-- if you say call the total on it, it’s going to loop through each of the price it’s going to add. 
+
+In this case, I am going to take this team instance variable that holds a team object.  And players. If you call team.players, it’s going to return a collection. Each element in the collection is something that responds to this name. It gives actual name of that guy.
+
+So the validator in this case. Here is the mock; this is what the mock looks like. I just showed you the stub. Validator is a double. I said double can be either a stub or a mock. It becomes a mock when you set the expectations on it. Validator should receive validate message with-- this is the argument. So validate will have this zero, two, one, three, four as an argument. All I’m saying is that this validator is going to be a mock basically. And you create an instance of the zip code and you see what I’m doing here? I’m passing the validator as one of the arguments to the constructor here. 
+
+It’s basically a dependency injection. So when I showed you in the slide where I said, in the setup phase, I install the stub into the SUT. This is installing the stub-- mock into the SUT in this case. Is zip code valid? If I call the zip code valid, all I’m saying is, I have-- here I create a fake object. I set the expectation here. There’s another step. I create the SUT, and I install the fake object on the SUT. And then I invoke the method. This is the exercise phase. Zip code is valid; what should happen? There is no verification as such. This is similar to the three phase I showed you where you setup, you have expect, and then you exercise. There is an implicit verification done by the RSpec framework. When you call valid, it should actually receive validate with this parameter. If it did, the test will pass. Otherwise it will fail.
+
+Here is another example. I’ll be repeating the concept again. Just focus only on the syntax of the RSpec for now. I have a person double, and they always-- always it’s a good practice to pass the string of the object you’re actually stubbing or mocking. In this case it’s a person object, so I’m saying person because this is what will give you the diagnostic message when something goes wrong. You’ll know what object to look for. So it’s a person double, and then I’m going to stub the class method on-- find the class method on person class, and then return this stub value.
+
+A: So basically it’s creating a fake person object and then somebody’s finding person-
+S: This person is not creating an actual person object. This is basically a fake object. Fake person object. This person is a real person class. Like active record SS], you’re stubbing the class method find on it.
+A: And returning that-
+S: Yeah. If somebody says find on this, just return this fake person object.
+A:  Instead of mock we can use double.
+S: Yes, instead of mock, here I’m using stub actually. I’m using stub only.
+A: So are both stubs?
+S: This is a stub. This is a fake object, this is a fake object.
+A: So that’s a stub?
+S: Yes.  I’m stubbing the find method only. It’s a method level stub. 
+A: What is double? 
+A: But double you’re saying could be a mock or a stub? 
+S: Yes. It can be either a stub or a mock. If I set expectation, it becomes a mock. Otherwise, if it’s a canned value/canned response, it’s a stub. I’m going to be going over this thing again. 
+
+For now, just focus only on the syntax of the RSpec. I guarantee I’ll-- by the time we go through you’ll know what it is. Basically, all you need to know is this is a fake object. Don’t worry whether it’s a stub or a mock. All I’m doing is stubbing the method. Method level stub. All I’m saying is, if somebody calls a find on this person, just return this fake double object.
+Now look what happens. Double should receive this message and return some value. When you set expectation on a fake object, in this case a double object, it becomes a mock. This fake object is now a mock because I’ve set the expectation on it. 
+
+Should receive this, and I also said it also has to return this value because it’s important for me to return some value. 
+
+Here again I’m going to walk you through this stub concept. It should become clear once I go through this. What I’m describing-- I’m describing the statement object. Statement class. It uses the customer name in the header. That’s what I’m testing. It should use the customer name in the header. That’s the focused test right now. The first thing I’m doing is, I’m creating a stub. Just make it very simple. No double, no nothing. It’s very clear. The customer is a stubbed customer, and I’m passing in the string as customer, so that I know when something fails, the diagnostics will be clear on that. 
+
+Once I have the customer stub, what am I stubbing? I’m stubbing a name method on the customer. I’m saying, if somebody calls a name on this stub, I want you to say, okay, it’s a Joe customer. So whenever you call a name, it’s always going to be a Joe customer. So it’s a stub. It’s a canned input, canned response. I’m saying, okay, somebody calls this, return me this. So I created a stub, I’m going to say, okay, Joe customer return this. 
+
+Now I’m creating an instance of the statement object and installing the stub on the SUT on this line right here. So from now on, the statement object is not going to interact with the real customer object. That’s the DOC. It’s gone; it only happens in production. In the test code, from now on, the statement is going to interact with the stub only. 
+
+So now what am I doing here? Statement.header. This is the exercise phase. Statement.header is going to return a string for me. That should be statement for Joe customer. Statement for. See this? This is the customer. That’s Joe customer. I created a stub, and it’s a canned response, so this statement header is nothing but this guy-- statement header that’s generated is going to say statement for the customer name, because internally it’s calling the name on it. This is why? 
+
+Because this is how it’s implemented. Calling the statement, creating an instance of this, call the header on it. So I’m returning the statement for customer.name, but it’s calling the stub’s name method. I’ve already programmed that name to return Joe customer. 
+
+A: Couldn’t you make it more generic? Let’s say the header changes, except you still know the customer name is in there, but it could be header for a customer name. So wouldn’t you want to use a equals Tilda? Do you know what I mean? On the previous-- so you’re making it a little more generic instead of statement header should equal equal that-
+S: You want a regex match ? Yes, if it’s going to a logger, for instance, yes, I may do a regexp match. This example is more focused toward introducing to the stub concept.  Yes, you’re right. If it’s going to a logger, that will make more sense.
+
+A: I have a question about the syntax of the stub. The first line stub has to ring quote, so we pass into the stub the name of the class?
+S: It doesn’t really depend what you’re passing here, but it’s good practice to pass in the name of the thing you’re stubbing because that’s what provides you the diagnostics when something fails in the test. It’s always a good practice. You don’t really have to pass even in a string. You can just say stub without any argument. It will still be a stub. But it’s a good practice to pass in what you’re actually stubbing. 
+
+A: I see. Therefore, it’s passed in as a string-- used in diagnostics.
+S: In the diagnostics. That’s the main purpose. 
+
+When do we use stubs? I was saying, Mike is working on a particular object and I’m also working on some other project. But I need to use his stuff, but he’s not done yet. I want to use it. If that’s the case, I need to use a mock-- a stub-- because it’s not available yet. Another case is his object is available. Mike has everything done; he’s ahead of schedule. But setup is very expensive. It makes my test run slow, it’s very expensive. Then I really cannot use your real object. I want my test to be faster. 
+
+So how would you simulate something like this? If you really want to simulate this, it’s going to be really expensive. That’s where it’s applicable to use stubs. You have more control.
+
+A: But then in the last case, you were setting the name. Let’s say you created a customer class, and then you were stubbing the name. Wouldn’t it be--
+S: Yes. You can do that. You can just-- look, customer instead of stubbed customer. You can say customer.new. You can actually stub a real object. Yes, you can do that. A real object can also be stubbed. In that case, you’ll just say customer.new. It’s an empty object, and then you just say that customer, stub the name, and return this.
+
+[Stop video 4 ("TDD bootcamp part 3") at 0:54:00] 
+
