@@ -1,5 +1,13 @@
 1. TDD for newbies tutorial
 
+After Exercise 3 :
+
+Discussion
+
+Incremental Development and Design
+
+Testing positive and negative conditions. Introduce assert raises. 
+
 How to
 --------------------------------------------------------------------------------
 1. Download notes from 'How to create awesome online course'. Make a checklist. 
