@@ -1,0 +1,55 @@
+class Factorial
+    def factorial(x)
+#passing test for x from 0 to 1
+        # if x<2
+        #     1
+        # else
+        #     0
+        # end
+#failing test for x from 0 to 1
+        # if x==1
+        #     1
+        # else
+        #     0
+        # end
+#passing test for testing x from 0 to 2
+        if x<2
+            1
+        else 
+            if x>=2
+                proper_outcome==1;
+                for i in 1..x do
+                    proper_outcome=proper_outcome*i
+                end                
+            end
+        end
+    end
+end
+
+describe Factorial do 
+    it 'should return 1 given an input of 0' do
+        factorial=Factorial.new
+        output=factorial.factorial(0)
+        output.should==1
+    end
+    it 'should return 1 given an input of 1' do
+        factorial=Factorial.new
+        output=factorial.factorial(1)
+        output.should==1
+    end
+    it 'should return 2 given an input of 2' do
+        factorial=Factorial.new
+        output=factorial.factorial(2)
+        output.should==2
+    end
+    it 'should return 6 given an input of 3' do
+        factorial=Factorial.new
+        output=factorial.factorial(3)
+        output.should==6
+    end
+    it 'should return 24 given an input of 4' do
+        factorial=Factorial.new
+        output=factorial.factorial(4)
+        output.should==24
+    end
+end
