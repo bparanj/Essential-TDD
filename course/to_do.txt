@@ -8,6 +8,9 @@ Incremental Development and Design
 
 Testing positive and negative conditions. Introduce assert raises. 
 
+2. Review the recorded video of the TDD tutorial and make improvements to the book.
+
+
 How to
 --------------------------------------------------------------------------------
 1. Download notes from 'How to create awesome online course'. Make a checklist. 
