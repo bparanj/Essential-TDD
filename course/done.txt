@@ -1,9 +1,12 @@
 
 
+Oct 10
+
+1. Create ERRC grid based on Amazon reviews of Dave Astel's book.
+
 Oct 9
 
 1. Customize the ERRC grid questions for publishing. Updated the article.
-	
 	
 Oct 7
 

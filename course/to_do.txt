@@ -9,18 +9,18 @@ Incremental Development and Design
 Testing positive and negative conditions. Introduce assert raises. 
 
 2. Review the recorded video of the TDD tutorial and make improvements to the book.
-
+3. Take notes from Code Simplicity book.
+4. Delegate the task of finding equivalent images with permission to use to Elance.
 
 How to
 --------------------------------------------------------------------------------
 1. Download notes from 'How to create awesome online course'. Make a checklist. 
 2. Take notes from Patrick Winston video. 'http://bparanj.blogspot.com/2008/03/how-to-speak-lecture-tips-from-patrick.html'
 3. Take notes from Peepcode 17 screencasting.mov
-4. Create ERRC grid based on Amazon reviews of Dave Astel's book.
-5. Write a blog post on Straw-Man, Wood-Man, Tin-Man, Iron-Man phases to book development.
+4. Write a blog post on Straw-Man, Wood-Man, Tin-Man, Iron-Man phases to book development.
 	 1. Getting quick feedback to write a compelling book that readers want to buy.
-6. Create a hand drawn diagram for scope.txt, scan it and copy to figures folder in this project.
-7. Take notes from Code Simplicity. Use it to justify the coverage of topics.
+5. Create a hand drawn diagram for scope.txt, scan it and copy to figures folder in this project.
+6. Take notes from Code Simplicity. Use it to justify the coverage of topics.
 	
 --------------------------------------------------------------------------------
 Editing
@@ -33,3 +33,10 @@ Editing
 5. Replace free images in the presentation with paid and quality ones or with those that allows use.
 6. Replace wikipedia image with hand drawn image and scanner.
 
+--------------------------------------------------------------------------------
+KDP
+--------------------------------------------------------------------------------
+
+1. Learn how to format for Kindle
+	https://kdp.amazon.com/self-publishing/help?topicId=A2MB3WT2D0PTNK
+2. Can the book sold on KDP select be sold as video training on my website?
