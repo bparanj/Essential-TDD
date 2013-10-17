@@ -25,6 +25,12 @@ Images
 3. Replace wikipedia image with hand drawn image and scanner.
 4. Draw the diagram for Know-Don't Know and explain problem solving techniques
 	Know --> Don't Know --> Explanation Test         Refer scope.txt
+	
+--------------------------------------------------------------------------------
+Package
+--------------------------------------------------------------------------------
+
+1. Create a Virtual Machine that has all the software required to run the examples. Gems, Ruby, RVM etc.
 
 --------------------------------------------------------------------------------
 KDP
@@ -33,3 +39,4 @@ KDP
 1. Learn how to format for Kindle
 	https://kdp.amazon.com/self-publishing/help?topicId=A2MB3WT2D0PTNK
 2. Can the book sold on KDP select be sold as video training on my website? Post question on forum.
+

@@ -1,1 +1,0 @@
-1. Create a Virtual Machine that has all the software required to run the examples. Gems, Ruby, RVM etc.
