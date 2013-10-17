@@ -1,37 +1,30 @@
-1. TDD for newbies tutorial
 
-After Exercise 3 :
+1. Delegate the task of finding equivalent images with permission to use to Elance.
+2. Take notes from Code Simplicity. Use it to justify the coverage of topics.
 
-Discussion
 
-Incremental Development and Design
-
-Testing positive and negative conditions. Introduce assert raises. 
-
-2. Review the recorded video of the TDD tutorial and make improvements to the book.
-3. Take notes from Code Simplicity book.
-4. Delegate the task of finding equivalent images with permission to use to Elance.
-
-How to
+Learning
 --------------------------------------------------------------------------------
 1. Download notes from 'How to create awesome online course'. Make a checklist. 
 2. Take notes from Patrick Winston video. 'http://bparanj.blogspot.com/2008/03/how-to-speak-lecture-tips-from-patrick.html'
 3. Take notes from Peepcode 17 screencasting.mov
-4. Write a blog post on Straw-Man, Wood-Man, Tin-Man, Iron-Man phases to book development.
-	 1. Getting quick feedback to write a compelling book that readers want to buy.
-5. Create a hand drawn diagram for scope.txt, scan it and copy to figures folder in this project.
-6. Take notes from Code Simplicity. Use it to justify the coverage of topics.
 	
 --------------------------------------------------------------------------------
 Editing
 --------------------------------------------------------------------------------
 
-1. Read the book out aloud and make the description flows smoothly.
+1. Read the book out aloud and make the description flow smoothly.
 2. Run the double dispatch solution in appendix and remove the hard coded 'scissor' in production code.
 3. Generate free version with TOC and few chapters
 4. In Rails 4 VM : Add exercises with instructions, before and after directory. After directory consisting of solution for a specific version.
-5. Replace free images in the presentation with paid and quality ones or with those that allows use.
-6. Replace wikipedia image with hand drawn image and scanner.
+
+Images
+
+1. Create a hand drawn diagram for scope.txt, scan it and copy to figures folder in this project.
+2. Replace free images in the presentation with paid and quality ones or with those that allows use.
+3. Replace wikipedia image with hand drawn image and scanner.
+4. Draw the diagram for Know-Don't Know and explain problem solving techniques
+	Know --> Don't Know --> Explanation Test         Refer scope.txt
 
 --------------------------------------------------------------------------------
 KDP
@@ -39,4 +32,4 @@ KDP
 
 1. Learn how to format for Kindle
 	https://kdp.amazon.com/self-publishing/help?topicId=A2MB3WT2D0PTNK
-2. Can the book sold on KDP select be sold as video training on my website?
+2. Can the book sold on KDP select be sold as video training on my website? Post question on forum.
