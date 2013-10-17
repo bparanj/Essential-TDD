@@ -3,6 +3,9 @@ Goals
  - Convert earned income to passive income. 
 	 Specifically : Make 100,000 / year in passive income. 
 	 Why? To spend more time on building Click Plan.
+	 No politics
+	 Exercise daily
+	 Balanced Life
  - Develop unique and quality content for Essential TDD book and online course. Iterate by hosting live tutorials.
 	Why? It is a high priced online course that can generate $1 million a year. 10,000 x 10 x 10
 
@@ -11,6 +14,7 @@ Why KDP ?
  - Quick cash flow. 
  - Access to Amazon customers
  - Generate leads for TDD course
+ - Minimal marketing effort
 
 Develop books that can be sold on KDP. In the author page provide link to books.zepho.com where high priced books and courses can be sold directly to customers. Essential TDD ebook and course.
 
@@ -48,11 +52,12 @@ Option 2
 	
 Kindle Book Topics
 --------------------------------------------------------------------
-Basic Ruby for Rails
-Basic Rails 4 in 4 Hours
-Stripe Billing using Rails 4
-Regular Expression in ? Hours
-	
+1. Basic Ruby for Rails
+2. Basic Rails 4 in 4 Hours
+3. Stripe Billing using Rails 4
+4. Common Ruby interview questions.
+5. Common Rails interview questions.
+6. Regular Expression in ? Hours	
 
 Capturing Leads
 --------------------------------------------------------------------
