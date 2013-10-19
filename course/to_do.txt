@@ -1,6 +1,6 @@
 
-1. Delegate the task of finding equivalent images with permission to use to Elance.
-2. Take notes from Code Simplicity. Use it to justify the coverage of topics.
+
+1. Take notes from Code Simplicity. Use it to justify the coverage of topics.
 
 
 Learning
@@ -22,6 +22,7 @@ Images
 
 1. Create a hand drawn diagram for scope.txt, scan it and copy to figures folder in this project.
 2. Replace free images in the presentation with paid and quality ones or with those that allows use.
+	Delegate the task of finding equivalent images with permission to use to Elance.
 3. Replace wikipedia image with hand drawn image and scanner.
 4. Draw the diagram for Know-Don't Know and explain problem solving techniques
 	Know --> Don't Know --> Explanation Test         Refer scope.txt
