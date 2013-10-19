@@ -1,3 +1,7 @@
+Oct 19
+
+1. TDD tutorial introduction outline converted to a blog post. 
+2. What vs How blog post published.
 
 Oct 18
 
