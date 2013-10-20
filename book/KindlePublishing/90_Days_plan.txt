@@ -4,10 +4,13 @@ Goals
  - Convert earned income to passive income. 
 	 Specific : Make 100,000 / year in passive income. 
 	 Why? 
-	 	* To spend more time on building Click Plan.
+	 	* To spend more time on building Click Plan. 
+				Why? Location independence.
 	 	* No politics
 	 	* Exercise daily
 	 	* Balanced Life
+		* Avoid congested traffic
+		
  - Develop unique and quality content for Essential TDD book and online course. 
     How?
 		* Iterate by hosting live tutorials.
@@ -31,8 +34,8 @@ Goals
 --------------------------------------------------------------------
 	
 	100,000 / year = 1,000 customers x $2 x 24 products
-							or
-				   = 1,000 customers x $10 x 10 products
+															or
+				   	 		 = 1,000 customers x $10 x 10 products
 
 	Bottleneck : 
 	  How fast can I create quality content?
@@ -42,14 +45,22 @@ Goals
 
 	Time Constraints
 	
-		24 products --> 2 products per week : 12 weeks 20 hours / week time constraint 
-		1 Signature product --> 20 hours / week, 12 weeks time constraint
+		24 products
+			 2 products per week : 12 weeks 20 hours / week time constraint 
+		1 Signature product
+		   20 hours / week, 12 weeks time constraint
 
+	Sustainable Pace
+		
+		12 products in a year.
+		1 quality product per month. Priced at $10.
+		1,000 x 10 x 12 = 120,000
+		
 --------------------------------------------------------------------
 	Why Full Time Focus on business ?
 --------------------------------------------------------------------
 	
-	 - Stay out of california for two months to stay qualified for per-diem next year
+	 - Spend most productive time to create products
 	 - Speed up development of Essential TDD course.
 
 --------------------------------------------------------------------
@@ -81,27 +92,31 @@ Kindle Book Topics
 --------------------------------------------------------------------
 
 1. Basic Ruby for Rails
-2. Basic Rails 4 in 4 Hours (Blog)
+2. Basic Rails 4 in 4 Hours (Blog project)
 3. Stripe Billing using Rails 4
 4. Common Ruby interview questions.
 5. Common Rails interview questions.
-6. Regular Expression in ? Hours
+6. Integrate Rails 4 with Bootstrap 3
 7. Authentication from Scratch	
 8. BDD using Spinach 
 9. Rails 4 with Mongodb backend
-10. Integrate Rails 4 with Bootstrap 3
+10. Regular Expression in ? Hours
 
 --------------------------------------------------------------------
 Marketing
 --------------------------------------------------------------------
  
   * In the author page provide link to www.zepho.biz where high priced books and courses can be sold directly to customers. Essential TDD ebook and course.
-  * Use new domain zepho.biz Rails app to track and optimize conversion rate
+  * Use new domain zepho.biz Rails app to track and optimize conversion rate	
+	* Use Ruby meetup : Email the draft version of the book before the class. First half hour of the class will be Q&A session about the book. Training will continue from where the book stopped.
+		
+--------------------------------------------------------------------	
+	Trash Can
+--------------------------------------------------------------------
+
+Minimize taxes for 2014 is not a good reason. Because the invoices for nov and dec will be paid in 2014 for contract. It is applicable for w2 employee. Still it is a scarcity mentality.
+
   * Create a page on books.zepho.com
   *	Simple description of the book with call to action: 
 
-		Send me an email if you want to be notified of the book release to bala [dot] paranj [at] zepho [dot] com. You will not be added to any mailing list. You will get only one email notification when this book is available for purchase. 
-		
---------------------------------------------------------------------	
-	
-Minimize taxes for 2014 is not a good reason. Because the invoices for nov and dec will be paid in 2014 for contract. It is applicable for w2 employee. Still it is a scarcity mentality.
+		Send me an email if you want to be notified of the book release to bala [dot] paranj [at] zepho [dot] com. You will not be added to any mailing list. You will get only one email notification when this book is available for purchase.

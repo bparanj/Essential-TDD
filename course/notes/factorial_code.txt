@@ -53,3 +53,5 @@ describe Factorial do
         output.should==24
     end
 end
+
+\newpage

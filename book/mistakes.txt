@@ -1,0 +1,7 @@
+These are the mistakes that must be demonstrated in the video:
+
+1. No relationship between the Doc string and the test.
+2. Not recognizing the pattern to create an abstract solution.
+3. Changing the production code and test code before running the test.
+4. Writing tests that are semantically wrong.
+5. Getting stuck : Writing test that is too large.
