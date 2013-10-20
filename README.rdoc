@@ -5,7 +5,9 @@ Coworking Space
   - Conference room usage
   - Affordable price
   - Dedicated desk big enough for two 30'' monitors
-
+	- Location that is reachable to students (low priority)
+	- Very fast Internet (important to upload / download training videos)
+	
 
 Planning 		: 10 - 30 mins
 Learning 		: 2

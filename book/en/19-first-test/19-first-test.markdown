@@ -6,7 +6,9 @@
 
 ## Discussion ##
 
-This chapter does not use Test First Programming. It is introduced in the next chapter. Lets write a calculator program that can add two numbers. Here is the calculator class with an add method:
+In Test First Programming, you write the test before you write the code. This chapter does not use Test First Programming. Test First Programming is introduced in the next chapter. 
+
+Lets write a calculator program that can add two numbers. Create a calculator.rb file with Calculator class that has an add method as shown:
 
 ```ruby
 class Calculator
@@ -16,7 +18,7 @@ class Calculator
 end
 ```
 
-Add the following code to calculator.rb to manually test the calculator add feature:
+Add the following code to calculator.rb below the Calculator class to manually test the calculator add feature:
 
 ```ruby
 calculator = Calculator.new
@@ -35,16 +37,14 @@ In this case we print the result. We know 1 + 1 = 2. So, we check if the result 
 
 So the question is : How can we automate the manual verification? Let's modify the program :
 
-test_calculator.rb
-
 ```ruby
   calculator = Calculator.new
   result = calculator.add(1,2)
 
   if result == 3
-	puts "Addition passed"
+	  puts "Addition passed"
   else
-	puts "Addition failed"
+	  puts "Addition failed"
   end
 ```
 
@@ -73,9 +73,9 @@ class Calculator
 end
 
 calculator = Calculator.new
-result = calculator.subtract(2, 1)
+result2 = calculator.subtract(2, 1)
 
-if result == 1
+if result2 == 1
 	print "\033[32m Subtraction passed \033[0m"
 else
 	print "\e[31m Subtraction failed \e[0m"
@@ -85,7 +85,7 @@ end
 This works. Now we see duplication in our code. Let's create a utility method that we can reuse.
 
 ```ruby
-def	assert(expected, actual, message)
+def	verify(expected, actual, message)
 	if actual == expected
 		print "\033[32m #{message} passed \033[0m"
 	else
@@ -97,29 +97,43 @@ end
 We can now simplify our test program :
 
 ```ruby
-require_relative 'calculator'
-
 calculator = Calculator.new
 result = calculator.add(1, 2)
-assert(3, result, 'Addition')
+verify(3, result, 'Addition')
 
-result = calculator.subtract(2, 1)
-assert(1, result, 'Subtraction')
+result2 = calculator.subtract(2, 1)
+verify(1, result2, 'Subtraction')
 ```
 
-The assert method that we have developed is called assertion. It automates the manual verification of the test result.
+The verify method that we have developed is called assertion. It automates the manual verification of the test result. 
 
 According to the dictionary assertion is a confident and forceful statement of fact or belief. 
 
-Right now our assert method can only be used for integer values. If we need to compare boolean, strings, decimals etc we need to revise our simple assert method to handle those types. Wouldn't it be nice if there was already a library that provided this feature? Well, that's where the test frameworks such as Minitest and Rspec come into picture. 
+Our assert method verify can only be used for integer values. If we need to compare boolean, strings, decimals etc we need to revise our simple assert method to handle those types. Wouldn't it be nice if there was a library that provided this feature? Well, that's where the test frameworks such as Minitest and Rspec come into picture. In MiniTest the verify method is named 'assert' and in rspec it is named 'should'.
+
+## Exercise ##
+
+Add code to test_calculator.rb to implement multiplication and division similar to the addition and subtraction examples.
+
+## Diagnostics ##
+
+Let's improve the diagnostics message when something goes wrong.
+
+```ruby
+def	verify(expected, actual, message)
+	if actual == expected
+		print "\033[32m #{message} passed \033[0m"
+	else
+	  puts "Expected : #{expected} but got : #{actual} #{message}"
+		print "\e[31m #{message} failed \e[0m"
+	end
+end
+```
 
 ## Conclusion ##
 
 In this chapter you learned about assertion and why you need them. In the next chapter we will discuss Test First Programming.
 
-## Exercise ##
-
-Add code to test_calculator.rb to implement multiplication and division similar to the addition and subtraction examples.
 
 \newpage
 
