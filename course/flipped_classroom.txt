@@ -38,3 +38,25 @@ Problem Sets
 Real world problems
 Problem Based Learning in the class
 
+
+
+Must know basic programming.
+What kind of testing?
+This is developer testing. 
+Not performance testing, stress testing, usability testing, integration testing
+This course is focused only on automated unit testing.
+
+
+
+Write step by step instruction on what you are testing
+Write pseudo code of the test.
+
+
+Lesson Agenda
+1. Engaging activity
+	Students will watch a 2 minute video
+	Class will discuss why we study x
+2. Exploration (apply outside learning)
+	
+3. Group extension activity
+4. Individual Work
