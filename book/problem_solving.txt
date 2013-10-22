@@ -1,0 +1,9 @@
+Solving Programming Problems
+
+1. Write down your question.
+       This makes you think and clarify your thoughts.
+2. Design an experiment to answer that question.
+       Keep the variables to a minimum so that you can solve the problem easily.
+3. Run the experiment to learn.
+
+Scientists test their hypothesis by designing and running experiments to prove or disprove a hypothesis.

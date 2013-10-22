@@ -1,0 +1,2 @@
+This course introduces a test-first development style to build better software. We’ll discuss the value of unit testing and demonstrate the red-green-refactor workflow in the design and implementation of business requirements. Using tools like NUnit and JetBrains Resharper we’ll also demonstrate tips and practices for refactoring, and writing effective unit tests. This course is appropriate for developers new to the practice of writing unit tests.
+
