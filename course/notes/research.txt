@@ -1,0 +1,96 @@
+1. Use Spree as the realistic case study to apply design principles. https://github.com/spree/spree
+   Illustrate how it violates good design principles.
+2. Know which changes to guard against and resist premature abstraction
+
+TDD Bootcamp in .NET
+
+Let us help you master test-driven development in .NET!  TDD Boot Camp is a hands-on, three day, comprehensive training course that will teach you all of the skills, tools, frameworks that you will need to use test-driven development to develop real world .NET applications.
+In this hands-on course, you will learn:
+
+How to adopt a test-first mindset
+How TDD can help you create well-designed code
+Mocking frameworks and dependency injection
+How to effectively test and refactor legacy code
+TDD ninja tricks that we’ve picked up from doing TDD on real world projects
+
+Learning TDD takes a lot of practice, so we will do lots of hands-on coding exercises that will help you learn how to write your tests first and become familiar with the tools and techniques that you will need do to TDD on real-world projects. Our goal is to teach you everything that you will need to start practicing TDD at your day job, not just on little demo apps.
+
+TDD Boot Camp attendees will learn about the following topics:
+
+The TDD mindset
+Why is TDD important?
+Red/green/refactor
+Behavior driven development
+How TDD helps you design software
+Why testing first is better than testing after
+Testing frameworks (e.g. NUnit)
+Writing testable code
+How to write tests that run fast and are easy to maintain
+What makes code difficult or impossible to test
+The dependency inversion principle
+Using a dependency injection framework
+How to use StructureMap
+Advanced StructureMap configuration, tips, and tricks (things you need to know how to do if you use StructureMap on a real world project)
+Advanced TDD
+Single responsibility principle, and how TDD helps you design small classes
+How to use mocking frameworks (e.g. Moq)
+How to effectively translate technical specs into tests
+How to test legacy code
+Other TDD ninja tricks that we’ve learned over the years
+We’ll do plenty of hands-on coding along the way, because there is no substitute for trying it for yourself.
+
+The class will be taught using C#. If you would like to use VB.NET, you are welcome to do the code samples in VB.NET.
+
+
+TDD Immersion is a half-day session where we’ll cover what you need to know to do test-driven development on real .NET projects. We’ll go over stuff like:
+
+How to write tests first
+How to refactor your code to make it easier to test
+Mocking frameworks like Moq
+Dependency injection with StructureMap – what it is, how it works, and how to set it up in your project
+TDD tips and tricks
+We’ll also walk through a sample ASP.NET MVC web app and show you how you might set up an actual project, work with ORMs and data access layers, set up your test projects, and make things easy to test. We’ll then roll up our sleeves and do some live TDD practice so that you can begin to hone your TDD skills.
+
+Why should you care about test driven development?
+
+You’ve been writing software for many years. You’ve worked on several different projects that were very important to your company, and you were able to deliver them on time. So why should you change the way that you write code?
+
+I was in the same place at one time, but now I’ve found a better way. I got tired of things like:
+
+Fixing one bug only to create another bug
+Worrying about last minute changes leading to costly bugs
+Not being able to deploy very often because it takes too long to regression test the whole app
+Changing other people’s code and not knowing if it’s still working as it was originally intended
+Not being able to change other people’s code because I was afraid of breaking something
+Other people breaking my code
+Struggling to figure out how to create well-designed object-oriented code
+Feeling like the code base is starting to get out of control
+This is where TDD can help you. Now instead of all the stress and pain, my development experience has drastically improved:
+
+I write my tests first, so when they all pass, I know my code is working
+I (or anyone) can change my code without breaking it
+I do very little regression testing before deploying, and I deploy once or twice a week
+I very rarely write bugs
+TDD helps me create small classes and good object-oriented code bases
+Less stress and more peace of mind
+My code base is maintainable and under control
+Ask anyone who believes in TDD and they will tell you that they will never go back to the old way. This isn’t about head-in-the-clouds dogmatism or people who think that they are way smarter than you. It’s ordinary, everyday developers who know that they’re imperfect and have found a way to write better code.
+
+TDD can do the same for you. Mastering TDD requires discipline, time, and practice. But once you get there you’ll join the myriads of developers who have seen the light and will never go back.
+
+
+
+Dependencies
+
+Framework
+Third Party Libraries
+Database
+Email
+Web Services
+System Resources : Clock, File System, Threads
+Configuration
+Class creation new method
+Random
+Class methods
+
+Program that says 'good morning' in the morning.

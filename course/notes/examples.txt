@@ -1,0 +1,53 @@
+List of Coding Exercises from cyber-dojo.com
+
+1. 100 doors
+2. Anagrams
+3. Bowling Game
+4. Calc Stats
+5. Count Coins
+6. Diversion
+7. Fizz Buzz
+8. Game of Life
+9. Gray Code
+10. Haiku Review
+11. Harry Potter
+12. LCD Digits
+13. Leap Years
+14. Mine Field
+15. Monty Hall
+16. Number Chains
+17. Number Names
+18. Phone Numbers
+19. Poker Hands
+20. Prime Factors
+21. Print Diamond
+22. Recently Used List
+23. Reversi
+24. Roman Numerals
+25. Tennis
+26. Unsplice
+27. Verbal
+28. Yahtzee
+29. Yahtzee Cutdown
+30. Zeckendorf Number
+
+Re order this list based on level of difficulty.
+
+Problem Statement:
+
+Write a function that returns true or false depending on 
+whether its input integer is a leap year or not.
+
+Exercise :
+
+List the data set required to test this program.
+
+Details Not Given :
+
+A leap year is defined as one that is divisible by 4,
+but is not otherwise divisible by 100 unless it is
+also divisible by 400.
+
+For example, 2001 is a typical common year and 1996
+is a typical leap year, whereas 1900 is an atypical
+common year and 2000 is an atypical leap year.

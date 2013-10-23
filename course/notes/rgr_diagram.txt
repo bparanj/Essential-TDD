@@ -1,0 +1,10 @@
+Unit test should be a DSL to describe the behavior of the system.
+Transformation Priority Premise
+
+Evolution of the Red Green Refactor diagram
+
+1. Red Green Yellow ? Ahhh
+2. Red Green Blue ? Awww
+3. Separate state from activity : [Activity] Red [Activity] Green [Activity] . Show transitions due to different activities.
+4. Add Problem Domain & Solution Domain to the diagram. Change the color names to emphasize the focus to clarify what happens inside the mind during this activity.
+5. Add Transformation to the diagram.
