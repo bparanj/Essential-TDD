@@ -94,3 +94,14 @@ Random
 Class methods
 
 Program that says 'good morning' in the morning.
+
+1. Stack
+2. Fibonacci
+3. Prime Factors
+4. Bowling Game
+5. Word Wrap
+
+Don't test private methods. When to extract private methods to a separate class.
+Prove that parts interact correctly.
+Verify that interface is implemented correctly.
+
