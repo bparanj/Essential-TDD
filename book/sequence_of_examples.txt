@@ -1,0 +1,72 @@
+----------------------------------------
+Designing Test Cases
+----------------------------------------
+
+ - Gilded Rose
+ - Minesweeper
+ - Game of Life
+
+----------------------------------------
+Building an Object Graph
+----------------------------------------
+
+ - Medicine Clash
+ - Monty Hall
+ - Poker Hands
+ - Train Reservation
+
+----------------------------------------
+Driving Development with Tests
+----------------------------------------
+
+Easy
+
+ - String Calculator
+ - FizzBuzz
+ - Tennis
+
+Medium to Hard
+
+ - Prime Factors
+ - Yatzy
+ - Bowling Game
+ - Roman Numerals
+ - Potter
+
+----------------------------------------
+Applying Design Principles
+----------------------------------------
+
+ - Args
+ - Racing-Car Katas
+ - Game of Life
+
+----------------------------------------
+Refactoring
+----------------------------------------
+
+ - Tennis
+ - Yatzy
+ - Gilded Rose
+ - Racing-Car Katas
+ - Trivia
+
+----------------------------------------
+Designing Test Cases that Use a Test Double
+----------------------------------------
+
+ - Racing-Car Katas
+ - Monty Hall
+ - Medicine Clash
+ - Trivia
+ - Train Reservation
+
+----------------------------------------
+Mocks and Stubs
+----------------------------------------
+
+ - Racing-Car Katas
+ - Medicine Clash
+ - Monty Hall
+ - Greenfield Gilded Rose
+ - Train Reservation
