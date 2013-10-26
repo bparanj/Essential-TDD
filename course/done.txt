@@ -1,3 +1,7 @@
+Oct 20
+
+1. Take notes from Coding Dojo Handbook. Created list of coding exercised for each subskill to be developed.
+
 Oct 19
 
 1. TDD tutorial introduction outline converted to a blog post. 
