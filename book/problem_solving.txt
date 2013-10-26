@@ -1,4 +1,5 @@
 Solving Programming Problems
+----------------------------------------
 
 1. Write down your question.
        This makes you think and clarify your thoughts.
@@ -7,3 +8,5 @@ Solving Programming Problems
 3. Run the experiment to learn.
 
 Scientists test their hypothesis by designing and running experiments to prove or disprove a hypothesis.
+
+----------------------------------------
