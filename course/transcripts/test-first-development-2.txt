@@ -1,0 +1,16 @@
+In memory objects to speed up tests
+100% code coverage does not mean no defects
+Brian Marick Testing Quadrants
+Mike Cohen Testing Pyramid
+
+Scenarios work at many levels.
+BDD - Acceptance criteria, automate them, make the app match (Dan North's response to confusion about BDD)
+
+Inside Out Vs Outside In (Testing Styles)
+
+Improvise the Red-Green-Refactor diagram
+
+Coding Dojo
+
+Leap years Kata
+

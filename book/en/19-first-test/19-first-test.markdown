@@ -17,8 +17,7 @@ class Calculator
   end
 end
 ```
-
-Add the following code to calculator.rb below the Calculator class to manually test the calculator add feature:
+Code and test is in the same file because it is easier to see all the code at once. Add the following code to calculator.rb below the Calculator class to manually test the calculator add feature:
 
 ```ruby
 calculator = Calculator.new
