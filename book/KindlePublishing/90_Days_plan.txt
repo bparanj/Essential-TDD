@@ -97,6 +97,7 @@ Kindle Book Topics
 4. Common Ruby interview questions.
 5. Common Rails interview questions.
 6. Integrate Rails 4 with Bootstrap 3
+	Convert this to an ebook : http://www.youtube.com/user/meyghania/videos
 7. Authentication from Scratch	
 8. BDD using Spinach 
 9. Rails 4 with Mongodb backend

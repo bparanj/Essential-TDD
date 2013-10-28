@@ -40,3 +40,11 @@ if you follow along and ask questions, then you will have learned a great deal b
 If you are new to JUnit or TDD don't waste your time trying to come up the learning curve alone - buy this book.
 This is probably the next best thing to sitting down for a pair-programming session with a TDD guru.
 
+
+
+
+How to use Amazon reviews to do systematic market research before you write your book
+How to find out for free what content people want to consume  
+How to overcome the perfection obsession and finish your book on time
+How to quickly create your first version of your book
+
