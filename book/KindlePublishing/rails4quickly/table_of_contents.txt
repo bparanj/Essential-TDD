@@ -1,0 +1,11 @@
+Table of Contents
+
+1. About the Author
+2. About the Reader
+3. How to Read this Book
+4. Acknowlegments
+5. Hello Rails
+6. Model : Publish Articles
+7. Model View Controller
+
+Resources

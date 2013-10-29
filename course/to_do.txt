@@ -1,13 +1,25 @@
-
+1. Combine : How to design experiments notes with problem solving chapter.
 
 --------------------------------------------------------------------------------
 Learning
+=======
+Discussion
+
+Incremental Development and Design
+
+Testing positive and negative conditions. Introduce assert raises. 
+
+Analyze the problem
+Recognize the patterns that emerge
+Solve the problem --> Define the solution
+
+How to
 --------------------------------------------------------------------------------
 1. Download notes from 'How to create awesome online course'. Make a checklist. 
 2. Take notes from Patrick Winston video. 'http://bparanj.blogspot.com/2008/03/how-to-speak-lecture-tips-from-patrick.html'
 3. Take notes from Peepcode 17, screencasting.mov
 4. Take notes from Code Simplicity. Use it to justify the coverage of topics.
-5. Take notes from Coding Dojo Handbook
+
 	
 --------------------------------------------------------------------------------
 Editing

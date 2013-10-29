@@ -1,0 +1,20 @@
+Skills Required to do TDD
+
+My Customization :
+
+Designing Test Cases
+Designing Clean Code
+Driving Design with Tests
+Refactoring
+
+My Insights:
+
+TDD is not a series of moves from one state to another
+TDD is shift in focus from problem domain to solution domain. It depends on the state.
+Toy code? A code kata helps you focus on practicing a specific skill.
+
+Useful Websites
+
+cyber-dojo.com
+codersdojo.org
+
