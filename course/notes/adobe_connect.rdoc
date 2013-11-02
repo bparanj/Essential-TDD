@@ -4,7 +4,7 @@ Adobe Connect Lynda Training Notes
 
 1. Signup for 30 day trial for Adobe Connect
    You can enter Adobe ID for the signgup
-2. Account URL is the
+2. Account URL for students to join
 
 
 Creating a New Meeting
