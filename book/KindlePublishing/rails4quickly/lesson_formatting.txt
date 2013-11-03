@@ -1,0 +1,17 @@
+Lesson Title  Bold and Big Font
+
+Objective 		Bold and Big Font
+
+Steps					Bold and Big Font
+
+Step 1				Bold and Smaller Font
+
+Step 2				Bold and Smaller Font
+
+Step 3				Bold and Smaller Font
+
+Explanation		Bold and Big Font
+
+
+Formatting style for each lesson:
+http://docs.railsbridge.org/curriculum/running_your_application_locally
