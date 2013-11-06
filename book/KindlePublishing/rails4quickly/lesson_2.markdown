@@ -11,7 +11,7 @@
 Open the config/routes.rb file in your IDE, routes.rb defines the routes that is installed on your web application. Rails will recognize the routes you define in this configuration file.
 
 ### Step 2 ###
-	 
+
  Look for the line :   
  
 ```ruby
@@ -72,7 +72,7 @@ rails command takes the arguments g for generate, then the controller name and t
 
 Reload the web browser again. You will now see the following page:
 
-![Welcome Index](./figures/welcome_index.png)
+![Welcome Page](./figures/welcome_index.png)
 
 ### Step 8 ###
 
@@ -90,7 +90,7 @@ You can embed ruby in .html.erb files. In this case we have html only. We will s
 
 Reload the browser. Now you will see 'Hello Rails'.
  
-![Create Controller](./figures/hello_rails.png)
+![Hello Rails](./figures/hello_rails.png)
  
 
 ### Step 10 ###
@@ -103,8 +103,8 @@ Look at the terminal where you have the rails server running, you will see the r
 
 ![Server Output](./figures/server_output_1.png)
 
-You can see that the browser made a GET request for the resource '/' which is the home page of your site. The request was processed by the server where Rails recognized the request and it routed the request to the welcome controller index action. Since we did not do anything in the index action, Rails looks for the view that has the same name as the action and renders that view. In this case, it is index.html.erb.
-	 
+You can see that the browser made a GET request for the resource '/' which is the home page of your site. The request was processed by the server where Rails recognized the request and it routed the request to the welcome controller index action. Since we did not do anything in the index action, Rails looks for the view that has the same name as the action and renders that view. In this case, it is app/views/welcome/index.html.erb.
+
 ### Exercise ###
 
 Can you go to http://localhost:3000/welcome/index and explain why you see the contents shown in the page?
