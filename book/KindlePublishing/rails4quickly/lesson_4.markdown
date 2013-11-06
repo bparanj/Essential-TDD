@@ -91,6 +91,8 @@ end
 
 Here the @articles is an instance variable of the articles controller class. It is made available to the corresponding view class. In this case the view is app/views/articles/index.html.erb
 
+The class method all retrieves all the records from the articles table.
+
 ### Step 11 ###
 
 Open the app/views/articles/index.html.erb in your IDE and add the following code:
@@ -124,12 +126,12 @@ As you can see from the diagram Controller controls the flow of data into and ou
 
 ###  Summary ###
  
-In this chapter we went from the view (home page) to the controller for articles and to the article model and back to the view (index page for articles). So the MVC components interaction was : View --> Controller --> Model --> View. The data flow was from the database to the user. 
+In this lesson we went from the view (home page) to the controller for articles and to the article model and back to the view (index page for articles). So the MVC components interaction was : View --> Controller --> Model --> View. The data flow was from the database to the user. 
 
 \newpage
 
 
-In real world the user data comes from the user so we cannot create them in the rails console or in the database directly. In the next chapter we will see how we can capture data from the view provided by the user and save it in the database.
+In real world the user data comes from the user so we cannot create them in the rails console or in the database directly. In the next lesson we will see how we can capture data from the view provided by the user and save it in the database.
 
 ### Exercise ###
 
