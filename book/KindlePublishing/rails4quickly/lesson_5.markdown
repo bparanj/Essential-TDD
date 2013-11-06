@@ -15,7 +15,7 @@ Add the following code to the bottom of the app/views/articles/index.html file:
 ```ruby
 <%= link_to 'New Article', ? %>
 ```
-```
+
 ### Step 2 ###
 
 What is the url helper we should use? We know we need to display the articles/new.html.erb page. We also know that the action that is executed is new before new.html.erb is displayed. Take a look at the rake routes output:
@@ -105,7 +105,7 @@ def new
   @article = Article.new
 end
 ```
-```
+
 Here we are instantiating an instance of Article class, this gives Rails a clue that the form fields is for Article model.
 
 ### Step 11 ###
@@ -128,7 +128,7 @@ Look at the output of rake routes, the combination of the http verb and the URL 
 
 ![Identifying Resource Endpoint](./figures/creating_new_article.jpg)
 
-In this case we see that it maps the articles controller and create action.
+In this case we see that it maps to the articles controller and create action.
 
 ### Step 14 ###
 
@@ -151,7 +151,6 @@ def create
   
 end
 ```
-``````
 
 ### Step 16 ###
 
@@ -171,8 +170,7 @@ Before we fix the missing template issue, we need to save the data submitted by 
 def create
   Article.create(params[:article])
 end
-``````
-
+```
 
 ### Step 18 ###
 
