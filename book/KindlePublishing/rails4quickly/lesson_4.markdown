@@ -5,6 +5,12 @@
 - Learn how the View communicates with Controller 
 - Learn how Controller interacts with the Model and how Controller picks the next View to show to the user.
 
+## Context ##
+
+Why MVC architecture? The advantage of MVC is the clean separation of View from the Model and Controller allows you to allocate work to teams according to their strenghts. The View layer can be developed in parallel by the front-end developers without waiting for the Model and Controller parts to be completed by the back-end developers.
+
+If we agree on the contract between the front-end and back-end by defining the data representation exchanged between the client and server then we can develop in parallel.
+
 ## Steps ##
 
 ### Step 1 ###

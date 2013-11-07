@@ -223,3 +223,4 @@ Fill out the form and submit again. You will now see all the articles displayed 
 
 We saw how we can save the user submitted data in the database. We went from the View to the Controller to the Model. We also saw how the controller decides which view to render next. We learned about the http verb and identifying resource endpoint in our application. Now we know how the new and create works. In the next lesson we will see how edit and update works to make changes to an existing record in the database.
 
+\newpage
