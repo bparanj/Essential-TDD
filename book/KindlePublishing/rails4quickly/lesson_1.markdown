@@ -13,10 +13,10 @@ Check the versions of installed ruby, rails and ruby gems by running the followi
 ```ruby
 $ ruby -v
   ruby 2.0.0p247 (2013-06-27 revision 41674) [x86_64-darwin12.5.0]
-	 
+
  $ rails -v
    Rails 4.0.0
-	 
+ 
 $ gem env
   RUBYGEMS VERSION: 2.1.5
 ```		 
