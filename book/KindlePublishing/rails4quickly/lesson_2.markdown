@@ -1,4 +1,4 @@
-# Hello Rails #
+# 2. Hello Rails #
 
 ## Objective ##
 
@@ -48,17 +48,21 @@ Verb is the Http Verb such as GET, POST, PUT, DELETE etc.
 
 URI Pattern is what you see in the browser URL. In this case, it is www.example.com
 
+\newpage
+
 ### Step 5 ###
 
 Go to the browser and reload the page : http://localhost:3000
 
+![Create Controller](./figures/welcome_controller_absent.png)
+
 We see the uninitialized constant WelcomeController error. This happens because we don't have a welcome controller.
 
-![Create Controller](./figures/welcome_controller_absent.png)
+\newpage
 
 ### Step 6 ###
 
- Go the root of the project and type:
+Go the root of the project and type:
  
 ```ruby
 $ rails g controller welcome index
@@ -68,11 +72,15 @@ $ rails g controller welcome index
 
 rails command takes the arguments g for generate, then the controller name and the action.
 
+\newpage
+
 ### Step 7 ###
 
-Reload the web browser again. You will now see the following page:
+Reload the web browser again. 
 
 ![Welcome Page](./figures/welcome_index.png)
+
+You will now see the above page.
 
 ### Step 8 ###
 
@@ -86,12 +94,15 @@ Save the file.
 
 You can embed ruby in .html.erb files. In this case we have html only. We will see how to embed ruby in views in the next lesson.
 
+\newpage
+
 ### Step 9 ###
 
-Reload the browser. Now you will see 'Hello Rails'.
+Reload the browser. 
  
 ![Hello Rails](./figures/hello_rails.png)
  
+Now you will see 'Hello Rails'.
 
 ### Step 10 ###
 
@@ -121,10 +132,12 @@ get "welcome/index"
 
 This definition is used by the Rails router to handle this request. It knows the URI pattern of the format 'welcome/index' with http verb GET must be handled by the welcome controller index action.
  
-Delete the  get "welcome/index"  line in the routes.rb file. Reload the page : http://localhost:3000/welcome/index. You will now see the error page:
+Delete the  get "welcome/index"  line in the routes.rb file. Reload the page : http://localhost:3000/welcome/index. 
  
 ![Welcome Index](./figures/welcome_index_routing_error.png) 
  
+You will now see the error page.
+
 ## Summary ##
  
  In this lesson we wrote a simple Hello Rails program. We saw how the view and controller work in Rails to handle browser requests. We have seen just the VC part of MVC framework. We will see how the model fits in the MVC framework in the next lesson.

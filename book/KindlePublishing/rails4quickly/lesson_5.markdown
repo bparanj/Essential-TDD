@@ -1,4 +1,4 @@
-# View to Model #
+# 5. View to Model #
 
 ## Objective ##
 
@@ -16,6 +16,8 @@ Add the following code to the bottom of the app/views/articles/index.html file:
 <%= link_to 'New Article', ? %>
 ```
 
+\newpage
+
 ### Step 2 ###
 
 What is the url helper we should use? We know we need to display the articles/new.html.erb page. We also know that the action that is executed is new before new.html.erb is displayed. Take a look at the rake routes output:
@@ -28,17 +30,27 @@ The first column named Prefix gives us the URL helper we can use. We can either 
 <%= link_to 'New Article', new_article_path %>
 ```
 
+\newpage
+
 ### Step 3 ###
 
-Reload the page http://localhost:3000/articles in the browser. The hyperlink for creating a new article will now be displayed.
+Reload the page http://localhost:3000/articles in the browser. 
 
 ![New Article Link](./figures/new_article_link.png)
 
+The hyperlink for creating a new article will now be displayed.
+
+\newpage
+
 ### Step 4 ###
 
-Right click on the browser and click 'View Page Source', you will see 'New Article' link pointing to the resource "/articles/new".
+Right click on the browser and click 'View Page Source'. 
 
 ![View Page Source](./figures/view_page_source)
+
+You will see 'New Article' link pointing to the resource "/articles/new".
+
+\newpage
 
 ### Step 5 ###
 
@@ -46,9 +58,11 @@ Click the 'New Article' link. Go to the terminal and look at the server output.
 
 ![HTTP Verb Get](./figures/get_articles_new.png)
 
-You can see that the browser made a http GET request for the resource "/articles/new" and you see the following error page:
+You can see that the browser made a http GET request for the resource "/articles/new". 
 
 ![Action New Not Found](./figures/unknown_action_new)
+
+You will see the above error page.
 
 ### Step 6 ###
 
@@ -92,9 +106,11 @@ So lets create new.html.erb under app/views/articles directory with the followin
 
 ### Step 9 ###
 
-Reload the browser http://localhost:3000/articles/new page. You will now see the following error:
+Reload the browser http://localhost:3000/articles/new page. 
 
 ![Argument Error](./figures/argument_error)
+
+You will now see the above error.
 
 ### Step 10 ###
 
@@ -110,9 +126,11 @@ Here we are instantiating an instance of Article class, this gives Rails a clue 
 
 ### Step 11 ###
 
-Reload the browser http://localhost:3000/articles/new page. You will now see an empty form to create a new article.
+Reload the browser http://localhost:3000/articles/new page. 
 
 ![New Article Form](./figures/new_article_form)
+
+You will now see an empty form to create a new article.
 
 ### Step 12 ###
 
@@ -129,6 +147,8 @@ Look at the output of rake routes, the combination of the http verb and the URL 
 ![Identifying Resource Endpoint](./figures/creating_new_article.jpg)
 
 In this case we see that it maps to the articles controller and create action.
+
+\newpage
 
 ### Step 14 ###
 
@@ -162,6 +182,8 @@ You can see that the form values submitted by the user is sent to the server. Ra
 
 ![Article Create Missing Template](./figures/article_create_missing_template)
 
+You will see missing tempate error.
+
 ### Step 17 ###
 
 Before we fix the missing template issue, we need to save the data submitted by the user in the database. You already know how to use the ActiveRecord class method create to save a record. You also know how Rails populates the params hash, this hash is made available to you in the controller. So we can access it like this :
@@ -174,9 +196,11 @@ end
 
 ### Step 18 ###
 
-Fill out the form and submit again. Now we get a forbidden attributes error:
+Fill out the form and submit again. 
 
 ![Forbidden Attributes Error](./figures/forbidden_attributes_error)
+
+Now we get a forbidden attributes error.
 
 ### Step 19 ###
 
@@ -213,11 +237,15 @@ How do we know that we need to use articles_index_path url helper? We already sa
 
 ### Step 22 ###
 
-Fill out the form and submit again. You will now see all the articles displayed in the index page.
+Fill out the form and submit again. 
 
 ![Displaying All Articles](./figures/display_all_articles)
 
+You will now see all the articles displayed in the index page.
+
 ![Redirect to Articles Index Page](./figures/redirecting_to_articles_index)
+
+Redirecting user to the articles index page.
 
 ## Summary ##
 

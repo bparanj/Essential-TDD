@@ -1,4 +1,4 @@
-# Model #
+# 3. Model #
 
 ## Objective ##
 
@@ -128,9 +128,11 @@ Type :
 Article.count 
 ```
 
-in the rails console. You will see the count is 0. Let's create a row in the articles table. 
+in the rails console. 
 
 ![Rails Console](./figures/rails_console.png)
+
+You will see the count is 0. Let's create a row in the articles table. 
 
 ### Step 10 ##
 
@@ -157,6 +159,8 @@ $ article = Article.new(title: 'record two', description: 'second row')
 ```
 
 ![Article Instance](./figures/rails_console_4.png)
+
+Now it's time for the second exercise.
 
 ## Exercise 2 ##
 

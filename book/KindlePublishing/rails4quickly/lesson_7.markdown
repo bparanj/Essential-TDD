@@ -1,4 +1,4 @@
-# Show Article #
+# 7. Show Article #
 
 ## Steps ##
 
@@ -57,11 +57,17 @@ The app/views/articles/index.html.erb looks as shown below:
 <%= link_to 'New Article', new_article_path %>
 ```
 
+\newpage
+
 ### Step 2 ###
 
-Reload the articles index page http://localhost:3000/articles You will see the show link:
+Reload the articles index page http://localhost:3000/articles 
 
 ![Show Link](./figures/show_link.png)
+
+You will see the show link.
+
+\newpage
 
 ### Step 3 ###
 
@@ -69,9 +75,13 @@ If you view the page source for articles index page, you will see the hyperlink 
 
 ![Show Link Source](./figures/show_link_source.png)
 
+\newpage
+
 In the rails server log you will see the GET request for the resource '/articles/1'. In this case the value of :id is 1. Rails will automatically populate the params hash with :id as the key and the value as the primary key of the record which in this case is 1. We can retrieve the value of the primary key from the params hash and load the record from the database.
 
 ![Http GET Request](./figures/get_articles_server_log)
+
+Server log is another friend.
 
 ### Step 4 ###
 

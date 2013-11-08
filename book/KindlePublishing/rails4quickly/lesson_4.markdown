@@ -1,4 +1,4 @@
-# Model View Controller #
+# 4. Model View Controller #
 
 ## Objective ##
 
@@ -45,23 +45,39 @@ Go to the home page by going to the http://localhost:3000 in the browser.
 
 ![My Blog](./figures/my_blog_link.png)
 
+What do you see in the home page?
+
+\newpage
+
 ### Step 4 ###
 
-You will the hyper link in the home page. Right click and do 'View Page Source', you will the hyperlink which is a relative url. 
+You will see the hyper link in the home page. 
 
 ![Relative URL](./figures/hyperlink_source.png)
 
+Right click and do 'View Page Source', you will see the hyperlink which is a relative url. 
+
+\newpage
+
 ### Step 5 ###
 
-Change the articles_path to articles_url in the welcome/index.html.erb. View page source you will see the absolute URL.
+Change the articles_path to articles_url in the welcome/index.html.erb. 
 
 ![Absolute URL](./figures/hyperlink_source2.png)
 
+View page source to see the absolute URL.
+
+\newpage
+
 ### Step 6 ###
 
-Click on the 'My Blog' link. You will see the following error page.
+Click on the 'My Blog' link. 
 
 ![Missing Articles Controller](./figures/articles_controller_missing.png)
+
+You will see the above error page.
+
+\newpage
 
 ### Step 7 ###
 
@@ -81,9 +97,11 @@ $ rails g controller articles index
  
 ### Step 9 ###
 
-Go back to the home page and click on My Blog link. You will see a static page.
+Go back to the home page and click on My Blog link. 
 
 ![Articles Page](./figures/static_articles_list_page.png)
+
+You will see a static page.
 
 ### Step 10 ###
 
@@ -119,9 +137,11 @@ Here we are using the Ruby scriptlet tag <% %> for looping through all the recor
 
 ### Step 12 ###
 
-Go to the browser and reload the page for http://localhost:3000/articles You should see the list of articles now displayed in the browser.
+Go to the browser and reload the page for http://localhost:3000/articles 
 
 ![ ](./figures/listing_articles.png)
+
+You should see the list of articles now displayed in the browser.
 
 ## Explanation ##
 

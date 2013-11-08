@@ -1,4 +1,4 @@
-# Update #
+# 6. Update Article #
 
 ## Objective ##
 
@@ -51,23 +51,35 @@ The app/views/articles/index.html.erb will look like this :
 <%= link_to 'New Article', new_article_path %>
 ```
 
+\newpage
+
 ### Step 2 ###
 
-Reload the http://localhost:3000/articles page. You will now see the 'Edit' link for each article in the database.
+Reload the http://localhost:3000/articles page. 
 
 ![Edit Article Link](./figures/edit_article_link)
 
+You will now see the 'Edit' link for each article in the database.
+
+\newpage
+
 ### Step 3 ###
 
-Right click on the browser and select 'View Page Source', you will see the primary keys of the corresponding row for the :id variable.
+Right click on the browser and select 'View Page Source'. 
 
 ![Edit Article Page Source](./figures/edit_article_link_source)
 
+You will see the primary keys of the corresponding row for the :id variable.
+
+\newpage
+
 ### Step 4 ###
 
-Click on the 'Edit' link. You will see unknown action edit error page.
+Click on the 'Edit' link. 
 
 ![Unknown Action Edit](./figures/unknown_action_edit)
+
+You will see unknown action edit error page.
 
 ### Step 5 ###
 
@@ -129,11 +141,17 @@ end
 
 Here we find the record for the given primary key and save it in the instance variable @article. Since this variable is available in the view, we can now display the record with its existing values.
 
+\newpage
+
 ### Step 10 ###
 
-Click on the 'Edit' link. You will now see the form with values populated.
+Click on the 'Edit' link. 
 
 ![Edit Article Form](./figures/edit_article_form)
+
+You will now see the form with values populated.
+
+\newpage
 
 ### Step 11 ###
 
@@ -150,6 +168,8 @@ The question is how to overcome the inability of browsers to speak the entire RE
 The answer lies in the hidden field called method that has the value PATCH. Rails piggybacks on the POST http verb to actually sneak in a hidden variable that tells the server it is actually a PATCH http verb. If you look at the output of rake routes, for the combination of PATCH and '/articles/1' you will see that it maps to update action in the articles controller.
 
 ![HTTP Verb PATCH](./figures/patch_in_routes.png)
+
+The output of rake routes is your friend.
 
 ### Step 12 ##
 

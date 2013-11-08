@@ -1,4 +1,4 @@
-# Running the Server #
+# 1. Running the Server #
 
 ## Objective ##
 
