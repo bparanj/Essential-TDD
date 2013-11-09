@@ -1,4 +1,6 @@
+Nov 8
 
+1. Finished Rails 4 Quickly lesson 8.
 
 Nov 2
 

@@ -181,7 +181,7 @@ Define a class notice that will display the text in green. You can add the css t
 
 ## Summary ##
 
-In this lesson we learned how to delete a given article. We also learned about flash notice to provide user feedback. In the next lesson we will learn about relationships between models.
+In this lesson we learned how to delete a given article. We also learned about flash notice to provide user feedback. In the next lesson we will learn about eliminating duplication in views.
 
 
 \newpage

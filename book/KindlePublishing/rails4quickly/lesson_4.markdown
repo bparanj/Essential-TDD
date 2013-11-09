@@ -49,13 +49,17 @@ What do you see in the home page?
 
 \newpage
 
+You will see the hyper link in the home page. 
+
+\newpage
+
 ### Step 4 ###
 
-You will see the hyper link in the home page. 
+Right click and do 'View Page Source'.
 
 ![Relative URL](./figures/hyperlink_source.png)
 
-Right click and do 'View Page Source', you will see the hyperlink which is a relative url. 
+You will see the hyperlink which is a relative url. 
 
 \newpage
 
@@ -87,14 +91,20 @@ When you click on that link, you can see from rails server log that the client m
 
 GET '/articles' that was recognized by the Rails router and it looked for articles controller. Since we don't have the articles controller, we get the error message for the uninitialized constant. In Ruby class names are constant.
 
+\newpage
+
 ### Step 8 ###
 
 Create the articles controller by running the following command in the blog directory:
 
+![Generate Controller](./figures/generate_articles_controller.png)
+
 ```ruby
 $ rails g controller articles index 
 ```
- 
+
+\newpage 
+
 ### Step 9 ###
 
 Go back to the home page and click on My Blog link. 
@@ -102,6 +112,8 @@ Go back to the home page and click on My Blog link.
 ![Articles Page](./figures/static_articles_list_page.png)
 
 You will see a static page.
+
+\newpage
 
 ### Step 10 ###
 
@@ -135,6 +147,8 @@ Open the app/views/articles/index.html.erb in your IDE and add the following cod
 
 Here we are using the Ruby scriptlet tag <% %> for looping through all the records in the articles collection and the values of each record is displayed using <%= %> tags.
 
+\newpage
+
 ### Step 12 ###
 
 Go to the browser and reload the page for http://localhost:3000/articles 
@@ -150,7 +164,7 @@ View --> Controller --> Model
 
 As you can see from the diagram Controller controls the flow of data into and out of the database and also decides which View should be rendered next.
 
-###  Summary ###
+##  Summary ##
  
 In this lesson we went from the view (home page) to the controller for articles and to the article model and back to the view (index page for articles). So the MVC components interaction was : View --> Controller --> Model --> View. The data flow was from the database to the user. 
 
@@ -159,7 +173,7 @@ In this lesson we went from the view (home page) to the controller for articles 
 
 In real world the user data comes from the user so we cannot create them in the rails console or in the database directly. In the next lesson we will see how we can capture data from the view provided by the user and save it in the database.
 
-### Exercise ###
+## Exercise ##
 
 Go to the rails server log terminal, what is the http verb used to make the request for displaying all the articles? What is the resource that was requested?
 
