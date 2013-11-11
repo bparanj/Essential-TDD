@@ -132,6 +132,8 @@ Reload the browser http://localhost:3000/articles/new page.
 
 You will now see an empty form to create a new article.
 
+\newpage
+
 ### Step 12 ###
 
 Right click and select 'View Page Source' on the new article form page. 
@@ -139,6 +141,8 @@ Right click and select 'View Page Source' on the new article form page.
 ![New Article Page Source](./figures/new_article_page_source)
 
 As you can see form will be submitted to the url '/articles' and the http verb used is POST. When the user submits the form, which controller and which action will be executed?
+
+\newpage
 
 ### Step 13 ###
 
@@ -161,6 +165,8 @@ You can see that the browser made a post to the URL '/articles'.
 ![Unknown Action Create](./figures/unknown_action_create)
 
 This error is due to absence of create action in the articles controller.
+
+\newpage
 
 ### Step 15 ###
 
@@ -233,7 +239,6 @@ end
 ```
 
 How do we know that we need to use articles_index_path url helper? We already saw how to find the URL helper to use in the view, we can do the same. If you see the output of rake routes command, we know the resource end point, to find the URL helper we look at the Prefix column.
-
 
 ### Step 22 ###
 

@@ -321,7 +321,7 @@ Your app/views/articles/show.html.erb will now look like this:
 <% end %>
 ```
 
-### Step 19 ###
+### Step 20 ###
 
 Reload the article show page or click on the 'Show' link for the article with comments by going to the articles index page.
 
