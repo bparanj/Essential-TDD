@@ -80,13 +80,29 @@ The combination of the URI pattern and the http verb DELETE uniquely identifies 
 
 ### Step 4 ###
 
+Right click on the http://localhost:3000/articles page. Click on the jquery_ujs.js link. 
+
+![Data Confirm Link Element](./figures/data_confirm_ujs)
+
+Search for 'confirm'. The first occurrence shows you the link element bound by jquery-ujs. UJS stands for Unobtrusive Javascript. It is unobtrusive because you don't see any javascript code in the html page.
+
+![Data Confirm Popup](./figures/data_confirm_popup)
+
+The second occurrence of the 'confirm' shows you the default confirm dialog.
+
+![Data Method Delete](./figures/data_method_delete)
+
+You can search for 'method'. You can see handler method that handles 'data-method' on links.
+
+### Step 5 ###
+
 In the articles index page, click on the 'Delete' link.
 
 ![Confirmation Popup](./figures/delete_confirmation)
 
 Click 'Cancel'.
 
-### Step 5 ###
+### Step 6 ###
 
 Define the destroy method in articles controller as follows:
 
@@ -103,7 +119,7 @@ This method is very similar to update method. Instead of updating the record we 
 
 \newpage
 
-### Step 6 ###
+### Step 7 ###
 
 In the articles index page, click on the 'Delete' link. Click 'Ok' in the confirmation popup. The record will now be deleted from the database and you will be redirected back to the articles index page.
 
@@ -111,7 +127,7 @@ In the articles index page, click on the 'Delete' link. Click 'Ok' in the confir
 
 Did we really delete the record? 
 
-### Step 7 ###
+### Step 8 ###
 
 The record was deleted but there is no feedback to the user. Let's modify the destroy action as follows:
 
@@ -157,7 +173,7 @@ Your updated layout file will now look like this:
 
 \newpage
 
-### Step 8 ###
+### Step 9 ###
 
 In the articles index page, click on the 'Delete' link.
 
@@ -167,7 +183,7 @@ Now you see the feedback that is displayed to the user after delete operation.
 
 \newpage
 
-### Step 9 ###
+### Step 10 ###
 
 In the articles index page, do a 'View Page Source'.
 
