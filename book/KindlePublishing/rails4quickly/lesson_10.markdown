@@ -38,7 +38,9 @@ Let's install SQLiteManager Firefox plugin that we can use to open the SQLite da
 
 ### Step 4 ###
 
-Install sqlitemanager firefox plugin. Let's now see the structure of the comments table.
+Install sqlitemanager firefox plugin. You can find it here: https://addons.mozilla.org/en-US/firefox/addon/sqlite-manager/
+
+Let's now see the structure of the comments table.
 
 ### Step 5 ###
 
@@ -52,7 +54,7 @@ Click on the open folder icon, browse to blog/db folder, change the file extensi
 
 ![SQLite Manager All Files](./figures/format_all_files)
 
-Open the development.sqlite3 file. Select the comment table.
+Open the development.sqlite3 file. Select the comments table.
 
 \newpage
 

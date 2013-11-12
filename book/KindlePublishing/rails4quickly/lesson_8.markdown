@@ -1,5 +1,10 @@
 # 8. Delete Article #
 
+## Objectives ##
+
+- Learn how to delete a given article.
+- Learn how to use flash messages.
+
 ## Steps ##
 
 ### Step 1 ###

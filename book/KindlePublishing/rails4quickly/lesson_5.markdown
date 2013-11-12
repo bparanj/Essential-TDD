@@ -248,7 +248,9 @@ Fill out the form and submit again.
 
 You will now see all the articles displayed in the index page.
 
-![Redirect to Articles Index Page](./figures/redirecting_to_articles_index)
+\newpage
+
+![Redirect to Articles Index Page](./figures/redirecting_to_articles_index.png)
 
 Redirecting user to the articles index page.
 

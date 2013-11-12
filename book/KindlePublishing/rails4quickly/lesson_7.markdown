@@ -1,5 +1,9 @@
 # 7. Show Article #
 
+## Objective ##
+
+- Learn how to display a selected article in the article show page.
+
 ## Steps ##
 
 ### Step 1 ###

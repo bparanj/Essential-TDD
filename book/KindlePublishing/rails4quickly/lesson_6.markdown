@@ -129,6 +129,12 @@ Look at the server log:
 
 You can see that the primary key of the selected article id and it's value.
 
+![Params Hash Populated by Rails](./figures/populating_params_hash)
+
+Rails automatically populates params hash and makes it available to the controllers.
+
+\newpage
+
 ### Step 9 ###
 
 In the edit action we need to load the selected record from the database so that we can display it with the existing values for its columns. You already know that Rails populates params hash with the values submitted in the GET request for resource '/articles/1/edit'. We can now define the edit method as follows:

@@ -1,13 +1,13 @@
 # 4. Model View Controller #
 
-## Objective ##
+## Objectives ##
 
 - Learn how the View communicates with Controller 
 - Learn how Controller interacts with the Model and how Controller picks the next View to show to the user.
 
 ## Context ##
 
-Why MVC architecture? The advantage of MVC is the clean separation of View from the Model and Controller allows you to allocate work to teams according to their strenghts. The View layer can be developed in parallel by the front-end developers without waiting for the Model and Controller parts to be completed by the back-end developers.
+Why MVC architecture? The advantage of MVC is the clean separation of View from the Model and Controller. It allows you to allocate work to teams according to their strengths. The View layer can be developed in parallel by the front-end developers without waiting for the Model and Controller parts to be completed by the back-end developers.
 
 If we agree on the contract between the front-end and back-end by defining the data representation exchanged between the client and server then we can develop in parallel.
 
@@ -89,7 +89,27 @@ When you click on that link, you can see from rails server log that the client m
 
 ![Articles Http Request](./figures/articles_controller_output.png)
 
-GET '/articles' that was recognized by the Rails router and it looked for articles controller. Since we don't have the articles controller, we get the error message for the uninitialized constant. In Ruby class names are constant.
+GET '/articles' that was recognized by the Rails router and it looked for articles controller. Since we don't have the articles controller, we get the error message for the uninitialized constant. In Ruby, class names are constant.
+
+\newpage
+
+![Live HTTP Headers Client Server Interaction](./figures/live_http_headers_4.png)
+
+You can also use HTTP Live Headers Chrome plugin to see the client and server interactions.\
+
+\newpage
+
+![Live HTTP Headers Showing Client Server Interaction](./figures/live_http_headers.png)
+
+Here you see the client-server interaction details.
+
+\newpage
+
+![Live HTTP Headers Gives Ton of Information](./figures/live_http_headers_2.png)
+
+\newpage
+
+You can learn a lot by looking at the Live HTTP Header details such as Etag which is used for caching by Rails.
 
 \newpage
 
@@ -153,7 +173,7 @@ Here we are using the Ruby scriptlet tag <% %> for looping through all the recor
 
 Go to the browser and reload the page for http://localhost:3000/articles 
 
-![ ](./figures/listing_articles.png)
+![List of Articles](./figures/listing_articles.png)
 
 You should see the list of articles now displayed in the browser.
 
