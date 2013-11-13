@@ -1,12 +1,5 @@
 # Table of Contents #
 
-1. About the Author
-2. About the Reader
-3. How to Read this Book
-4. Acknowlegments
-
-# Lessons #
-
 1. Running the Server
 2. Hello Rails
 3. Model

@@ -9,4 +9,12 @@ This book is written in a step-by-step hands-on tutorial style. You must read an
  Ruby      : 2.0
  Rails     : 4.0
  
+# Source Code #
+
+Source code is available from bitbucket Git repo : https://bitbucket.org/bparanj/rails-4-blog
+ 
 \newpage
+
+
+
+
