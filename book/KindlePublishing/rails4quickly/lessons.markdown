@@ -10,3 +10,4 @@ debug helper that can take any variable and dump it in the view
 3. puts
 
 4. Reading the stack trace
+
