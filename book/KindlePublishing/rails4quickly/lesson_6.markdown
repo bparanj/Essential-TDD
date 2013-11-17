@@ -91,6 +91,8 @@ def edit
 end
 ```
 
+\newpage
+
 ### Step 6 ###
 
 Click on the 'Edit' link. You now get template is missing error. Let's create app/views/articles/edit.html.erb with the following contents:
@@ -113,6 +115,8 @@ Click on the 'Edit' link. You now get template is missing error. Let's create ap
 <% end %>
 ```
 
+\newpage
+
 ### Step 7 ###
 
 Click on the 'Edit' link. You now get the following error page:
@@ -120,6 +124,8 @@ Click on the 'Edit' link. You now get the following error page:
 ![Argument Error in Articles Edit](./figures/uninitialized_edit_form)
 
 We have already seen similar error when we implemented the create action. 
+
+\newpage
 
 ### Step 8 ###
 
@@ -201,7 +207,8 @@ To fix the forbidden attributes error, we can do the same thing we did for creat
 ```ruby
 def update
   @article = Article.find(params[:id])
-  @article.update_attributes(params.require(:article).permit(:title, :description))
+  permitted_columns = params.require(:article).permit(:title, :description)
+  @article.update_attributes(permitted_columns)
 end
 ```
 
@@ -211,22 +218,27 @@ Change the title and click 'Update Article'. We see the template is missing but 
 
 The ActiveRecord class method first retrieves the first record in the table. In this case we got the first row in the articles table.
 
-### Step 15 ##
+### Step 15 ###
 
 Let's address the template is missing error. We don't need update.html.erb, we can redirect the user to the index page where all the records are displayed. Change the update method as follows:
 
 ```ruby
 def update
   @article = Article.find(params[:id])
-  @article.update_attributes(params.require(:article).permit(:title, :description))
+  permitted_columns = params.require(:article).permit(:title, :description)
+  @article.update_attributes(permitted_columns)
   
   redirect_to articles_path
 end
 ```
 
+### Step 16 ###
+
 Edit the article and click 'Update Article'. You should see that it now updates the article.
 
-Note : An annoying thing about Rails 4 is that when you run the rails generator to create a controller with a given action it also creates an entry in the routes.rb which is not required for a RESTful route. Let's delete the following line: 
+### Step 17 ###
+
+An annoying thing about Rails 4 is that when you run the rails generator to create a controller with a given action it also creates an entry in the routes.rb which is not required for a RESTful route. Let's delete the following line: 
 
 ```ruby
 get "articles/index"

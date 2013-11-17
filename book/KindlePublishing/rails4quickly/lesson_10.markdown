@@ -14,13 +14,13 @@ Let's create a comment model by using the Rails generator command:
 
 $ rails g model comment commenter:string description:text article:references
 
-\newpage
-
 ### Step 2 ### 
 
 Open the db/migrate/xyz_create_comments.rb file in your IDE. You will see the create_table() method that takes comments symbol :comments as the argument and the description of the columns for the comments table. 
 
 What does references do? It creates the foreign key article_id in the comments table. We also create an index for this foreign key in order to make the SQL joins faster.
+
+\newpage
 
 ### Step 3 ###
 
@@ -38,7 +38,7 @@ Let's install SQLiteManager Firefox plugin that we can use to open the SQLite da
 
 ### Step 4 ###
 
-Install sqlitemanager firefox plugin. You can find it here: https://addons.mozilla.org/en-US/firefox/addon/sqlite-manager/
+Install SqliteManager Firefox plugin [SqliteManager Firefox plugin](https://addons.mozilla.org/en-US/firefox/addon/sqlite-manager/ "SqliteManager Firefox plugin")
 
 Let's now see the structure of the comments table.
 
@@ -48,21 +48,37 @@ In Firefox go to : Tools --> SQLiteManager
 
 ![SQLite Manager Firefox Plugin](./figures/SQLiteManager)
 
-Click on the open folder icon, browse to blog/db folder, change the file extensions to all files.
+\newpage
+
+### Step 6 ###
+
+Click on 'Database' in the navigation and select 'Connect Database', browse to blog/db folder.
+
+![Folder Icon](./figures/open_folder_icon.png)
+
+You can also click on the folder icon as shown in the screenshot.
 
 \newpage
+
+### Step 7 ###
+
+Change the file extensions to all files.
 
 ![SQLite Manager All Files](./figures/format_all_files)
 
-Open the development.sqlite3 file. Select the comments table.
-
 \newpage
+
+### Step 8 ###
+
+Open the development.sqlite3 file. Select the comments table.
 
 ![Comments Table Structure](./figures/comments_structure)
 
 You can see the foreign key article_id in the comments table. 
 
-### Step 6 ###
+\newpage
+
+### Step 9 ###
 
 Open the app/models/comment.rb file. You will see the 
 
@@ -72,7 +88,7 @@ belongs_to :article
 
 declaration. This means you have a foreign key article_id in the comments table.
 
-### Step 7 ###
+### Step 10 ###
 
 Open the app/models/article.rb file. Add the following declaration:
 
@@ -82,7 +98,7 @@ has_many :comments
 
 This means each article can have many comments. Each comment points to it's corresponding article. 
 
-### Step 8 ###
+### Step 11 ###
 
 Open the config/routes.rb and define the route for comments:
 
@@ -96,7 +112,7 @@ Since we have parent-children relationship between articles and comments we have
 
 \newpage
 
-### Step 9 ###
+### Step 12 ###
 
 Let's create the controller for comments.
 
@@ -108,7 +124,7 @@ $ rails g controller comments
 
 Readers can comment on any article. When someone comments we will display the comments for that article on the article's show page.
 
-### Step 10 ###
+### Step 13 ###
 
 Let's modify the app/views/articles/show.html.erb to let us make a new comment:
 
@@ -159,7 +175,7 @@ The app/views/show.html.erb file will now look like this:
 
 \newpage
 
-### Step 11 ###
+### Step 14 ###
 
 Go to http://localhost:3000/articles page and click on 'Show' for one of the article.
 
@@ -169,7 +185,7 @@ You will now see the form for filling out the comment for this specific article.
 
 \newpage
 
-### Step 12 ###
+### Step 15 ###
 
 View the page source for the article show page by clicking any of the 'Show' link in the articles index page.
 
@@ -183,7 +199,7 @@ You can see the URI pattern and the http method used when someone submits a comm
 
 Take a look at the output of rake routes and find out the resource endpoint for the URI pattern and http method combination found in step 12.
 
-### Step 13 ###
+### Step 16 ###
 
 Run rake routes in the blog directory.
 
@@ -191,11 +207,11 @@ Run rake routes in the blog directory.
 
 You can see how the rails router takes the comment submit form to the comments controller create action.
 
-### Step 14 ###
+### Step 17 ###
 
 Fill out the comment form and click on 'Create Comment'. You will get a unknown action create error page.
 
-### Step 15 ###
+### Step 18 ###
 
 Define the create method in comments controller as follows:
 
@@ -205,7 +221,7 @@ def create
 end
 ```
 
-### Step 16 ###
+### Step 19 ###
 
 Fill out the comment form and submit it again.
 
@@ -213,14 +229,32 @@ Fill out the comment form and submit it again.
 
 You can see the comment values in the server log.
 
-### Step 17 ###
+### Step 20 ###
+
+Copy the entire Parameters hash you see from the server log. Go to Rails console and type:
+
+```ruby
+params =  {"comment"=>{"commenter"=>"test", "description"=>"tester"}, 
+"commit"=>"Create Comment", "article_id"=>"5"}
+```
+
+![Parameters for Comment](./figures/params_comments)
+
+Here you initialize the params variable with the hash you copied in the rails server log.
+
+![Retrieving Comment](./figures/retrieving_comment)
+
+You can find the value for comment model by doing: params['comment'] in the Rails console
+
+### Step 21 ###
 
 Let's create a comment for a given article by changine the create action as follows:
 
 ```ruby
 def create
   @article = Article.find(params[:article_id])
-  @comment = @article.comments.create(params[:comment].permit(:commenter, :description))
+  permitted_columns = params[:comment].permit(:commenter, :description)
+  @comment = @article.comments.create(permitted_columns)
   
   redirect_to article_path(@article)
 end
@@ -256,7 +290,7 @@ The params[:comment] will retreive the comment column values.
 
 \newpage
 
-### Step 18 ###
+### Step 22 ###
 
 Fill out the comment form and submit it.
 
@@ -264,7 +298,7 @@ Fill out the comment form and submit it.
 
 You can now view the record in the MySQLite Manager or Rails dbconsole. Let's now display the comments made for a article in the articles show page.
 
-### Step 19 ###
+### Step 23 ###
 
 Add the following code to the app/views/articles/show.html.erb
 
@@ -323,7 +357,7 @@ Your app/views/articles/show.html.erb will now look like this:
 <% end %>
 ```
 
-### Step 20 ###
+### Step 24 ###
 
 Reload the article show page or click on the 'Show' link for the article with comments by going to the articles index page.
 

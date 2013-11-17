@@ -64,6 +64,8 @@ You can see that the browser made a http GET request for the resource "/articles
 
 You will see the above error page.
 
+\newpage
+
 ### Step 6 ###
 
 Let's create the new action in articles controller. Add the following code to articles controller:
@@ -81,6 +83,8 @@ Reload the browser http://localhost:3000/articles/new page. You will see the mis
 ![Missing Template](./figures/missing_template)
 
 After the new action is executed Rails looks for view whose name is the same as the action, in this case app/views/articles/new.html.erb
+
+\newpage
 
 ### Step 8 ###
 
@@ -104,6 +108,8 @@ So lets create new.html.erb under app/views/articles directory with the followin
 <% end %>
 ```
 
+\newpage
+
 ### Step 9 ###
 
 Reload the browser http://localhost:3000/articles/new page. 
@@ -123,6 +129,8 @@ end
 ```
 
 Here we are instantiating an instance of Article class, this gives Rails a clue that the form fields is for Article model.
+
+\newpage
 
 ### Step 11 ###
 

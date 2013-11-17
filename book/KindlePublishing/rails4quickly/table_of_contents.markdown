@@ -13,4 +13,8 @@
 11. Delete Comment
 12. Restricting Operations
 
+# Appendix #
+
+A. Self Learning
+
 \newpage

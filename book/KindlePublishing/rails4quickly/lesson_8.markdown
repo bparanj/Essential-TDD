@@ -99,6 +99,8 @@ The second occurrence of the 'confirm' shows you the default confirm dialog.
 
 You can search for 'method'. You can see handler method that handles 'data-method' on links.
 
+\newpage
+
 ### Step 5 ###
 
 In the articles index page, click on the 'Delete' link.
@@ -106,6 +108,8 @@ In the articles index page, click on the 'Delete' link.
 ![Confirmation Popup](./figures/delete_confirmation)
 
 Click 'Cancel'.
+
+\newpage
 
 ### Step 6 ###
 
@@ -159,10 +163,13 @@ Your updated layout file will now look like this:
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Blog</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
+<title>Blog</title>
+<%= stylesheet_link_tag "application", 
+media: "all", 
+"data-turbolinks-track" => true %>
+<%= javascript_include_tag "application", 
+"data-turbolinks-track" => true %>
+<%= csrf_meta_tags %>
 </head>
 <body>
 

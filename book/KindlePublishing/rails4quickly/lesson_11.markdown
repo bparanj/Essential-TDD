@@ -53,7 +53,9 @@ We need to pass two parameters to the URL helper because in the URI pattern colu
 There are other URI patterns which are similar to the comments controller destroy action. So we need to do the same thing we did for articles resource. So the link_to now becomes:
 
 ```ruby
-<%= link_to 'Delete Comment', article_comment(article, comment), method: :delete %>
+<%= link_to 'Delete Comment', 
+						article_comment(article, comment), 
+						method: :delete %>
 ```
 
 ### Step 5 ###
@@ -113,6 +115,8 @@ The app/views/articles/show.html.erb now looks as follows:
 <% end %>
 ```
 
+\newpage
+
 ### Step 6 ###
 
 Lets implement the destroy action in the comments controller as follows:
@@ -155,9 +159,15 @@ If you forget to use the instance variable @article, then you will get the above
 
 Click the 'Delete Comment' link in the articles show page. The confirmation popup will appear and if you click 'Ok' the record will be deleted from the database and you will be redirected back to the articles show page.
 
+\newpage
+
 ## Exercise 1 ##
 
 Change the destroy action redirect_to method to use notice that says 'Comment deleted'. If you are using MySQLite Manager you can click on the 'Refresh' icon which is the first icon in the top navigation bar to see the comments gets deleted.
+
+![Refresh Icon](./figures/refresh_icon.png)
+
+\newpage
 
 ### Exercise 2 ###
 

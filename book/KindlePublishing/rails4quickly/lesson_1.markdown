@@ -91,4 +91,8 @@ Click on the 'About' link and check the versions of software installed. If the b
 
 The rails generator automatically runs the Bundler command bundle to install your application dependencies by reading the Gemfile. The Gemfile contains all the gems that your application needs. rails s (s is a short-cut for server) runs your server on your machine on port 3000.
 
+## Summary ##
+
+In this lesson you learned how to run the server locally. We also saw how to check if everything is installed properly on our machine. In the next lesson you will learn how to create a home page for your web appliction.
+
 \newpage

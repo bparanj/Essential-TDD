@@ -27,6 +27,8 @@ This declaration protects the creating, editing and deleting functionality. Read
 
 Reload the articles index page : http://localhost:3000/articles 
 
+\newpage
+
 ### Step 3 ###
 
 Click 'Delete' for any of the article. 
