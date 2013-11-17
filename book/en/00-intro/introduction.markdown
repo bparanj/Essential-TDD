@@ -22,7 +22,7 @@ Refactoring by Martin Fowler
 
 ## When is TDD applicable? ## 
 
-Diagram of Know - Don't Know grid.
+Diagram of Know - Don't Know grid. TODO
 
 - Learning Tests
 - Obvious Implementation
