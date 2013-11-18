@@ -177,16 +177,21 @@ Go to the browser and reload the page for http://localhost:3000/articles
 
 You should see the list of articles now displayed in the browser.
 
-## Explanation ##
+\newpage
 
-View --> Controller --> Model
-						|__________ View
+![Model View Controller](./figures/mvc)
 
 As you can see from the diagram Controller controls the flow of data into and out of the database and also decides which View should be rendered next.
 
 ##  Summary ##
  
-In this lesson we went from the view (home page) to the controller for articles and to the article model and back to the view (index page for articles). So the MVC components interaction was : View --> Controller --> Model --> View. The data flow was from the database to the user. 
+In this lesson we went from the view (home page) to the controller for articles and to the article model and back to the view (index page for articles). So the MVC components interaction as shown in the diagram: 
+
+1. View to Controller 
+2. Controller to Model 
+3. Controller to View. 
+
+The data flow was from the database to the user. 
 
 \newpage
 
