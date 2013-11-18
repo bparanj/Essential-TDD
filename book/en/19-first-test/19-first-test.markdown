@@ -1,4 +1,4 @@
-# Chapter 1 : Calculator #
+# Chapter 3 : Calculator #
 
 ## Objective ##
 
@@ -8,7 +8,12 @@
 
 In Test First Programming, you write the test before you write the code. This chapter does not use Test First Programming. Test First Programming is introduced in the next chapter. 
 
-Lets write a calculator program that can add two numbers. Create a calculator.rb file with Calculator class that has an add method as shown:
+Lets write a calculator program that can add two numbers.
+
+## Steps ##
+### Step 1 ###
+
+Create a calculator.rb file with Calculator class that has an add method as shown:
 
 ```ruby
 class Calculator
@@ -17,7 +22,10 @@ class Calculator
   end
 end
 ```
-Code and test is in the same file because it is easier to see all the code at once. Add the following code to calculator.rb below the Calculator class to manually test the calculator add feature:
+
+### Step 2 ### 
+
+Add the following code to calculator.rb below the Calculator class to manually test the calculator add feature:
 
 ```ruby
 calculator = Calculator.new
@@ -26,13 +34,19 @@ result = calculator.add(1, 1)
 puts result
 ```
 
-Run this program.
+Code and test is in the same file because it is easier to see all the code at once. 
+
+### Step 3 ###
+
+Run this program as follows:
 
 ```ruby
 $ ruby calculator.rb
 ```
 
 In this case we print the result. We know 1 + 1 = 2. So, we check if the result is equal to the expected value, which is 2. If it is correct we know it works otherwise we either debug our code using a debugger or add print statements to troubleshoot and fix the problem. This manual verification of the result will become tedious when our programs grow and become big. 
+
+### Step 4 ###
 
 So the question is : How can we automate the manual verification? Let's modify the program :
 
@@ -47,7 +61,11 @@ So the question is : How can we automate the manual verification? Let's modify t
   end
 ```
 
-In this version we have removed the manual verification step where we check the result is equal to the expected value by the conditional check in the 'if' statement. Let's make the output easier to recognize.
+In this version we have removed the manual verification step where we check the result is equal to the expected value by the conditional check in the 'if' statement. 
+
+### Step 5 ###
+
+Let's make the output easier to recognize.
 
 ```ruby
 calculator = Calculator.new
@@ -61,6 +79,8 @@ end
 ```
 
 Now the output message will be red when it fails and green when it passes.
+
+### Step 6 ###
 
 Let's now implement the subtraction:
 
@@ -81,7 +101,11 @@ else
 end
 ```
 
-This works. Now we see duplication in our code. Let's create a utility method that we can reuse.
+This works. Now we see duplication in our code. 
+
+### Step 7 ###
+
+Let's create a utility method that we can reuse.
 
 ```ruby
 def	verify(expected, actual, message)
@@ -92,6 +116,8 @@ def	verify(expected, actual, message)
 	end
 end
 ```
+
+### Step 8 ###
 
 We can now simplify our test program :
 
@@ -105,6 +131,8 @@ verify(1, result2, 'Subtraction')
 ```
 
 The verify method that we have developed is called assertion. It automates the manual verification of the test result. 
+
+## Discussion ##
 
 According to the dictionary assertion is a confident and forceful statement of fact or belief. 
 
@@ -129,7 +157,7 @@ def	verify(expected, actual, message)
 end
 ```
 
-## Conclusion ##
+## Summary ##
 
 In this chapter you learned about assertion and why you need them. In the next chapter we will discuss Test First Programming.
 

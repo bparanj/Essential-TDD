@@ -1,4 +1,4 @@
-# Test Driven Development Background #
+# Chapter 1 : Background #
 
 ## What is Test Driven Development? ##
 
@@ -10,8 +10,8 @@ In Emergent Design you start delivering functionality that has business value an
 
 ## Origins of Test Driven Development ## 
 
-Extreme Programming Explained - Embrace Change by Kent Beck
-Refactoring by Martin Fowler
+- Extreme Programming Explained - Embrace Change by Kent Beck
+- Refactoring by Martin Fowler
 
 ## Why TDD ? ## 
 
@@ -30,7 +30,6 @@ Diagram of Know - Don't Know grid. TODO
 ## When is TDD not applicable? ## 
 
 - Multi-threading
-- Asynchronous Code
 - Prototyping
 - Exploratory work such as Architectural spike
 - Checking the structure of user interfaces such as HTML
@@ -43,8 +42,8 @@ Diagram of Know - Don't Know grid. TODO
 - Bad design
 - Dependencies
 
-## Conclusion ##
+## Summary ##
 
-In this chapter we learned the what, why, when, where of Test Driven Development.
+In this chapter we learned the what, why, when of Test Driven Development. In the next chapter you will about the specification and implementation.
 
 \newpage

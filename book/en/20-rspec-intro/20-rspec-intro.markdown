@@ -10,6 +10,10 @@ Let's write a simple calculator program driven by test. What statements can you 
 
 *  It should add given two numbers.
 
+## Steps ##
+
+### Step 1 ###
+
 Let's write a specification for this statement. Create a file called calculator_spec.rb with the following contents:
 
 ```ruby
@@ -30,6 +34,8 @@ In line 1, the require_relative makes the calculator.rb available to the calcula
 
 In the block of the 'it' method, we first create an instance of Calculator class. The second step is invoking the method add() to calculate sum of two numbers. The third step is checking if the result is the same as we expect. In this step, we have converted the statement that is true to an assertion.
 
+### Step 2 ###
+
 Go to the directory where the spec file resides and run the test like this:
 
 ```ruby
@@ -39,14 +45,22 @@ $ rspec calculator_spec.rb --color --format documentation
 $ rspec calculator_spec.rb --color --format nested
 ```
 
-This test fails. Define Calculator class at the top of the calculator_spec.rb file with the code shown below:
+This test fails. 
+
+### Step 3 ###
+
+Define Calculator class at the top of the calculator_spec.rb file with the code shown below:
 
 ```ruby
 class Calculator
 end
 ```
 
-The error message you get now is different. This is because you have not defined the add method. Add the method to the class :
+The error message you get now is different. This is because you have not defined the add method. 
+
+### Step 4 ###
+
+Add the method to the class :
 
 ```ruby
 class Calculator
@@ -56,19 +70,29 @@ class Calculator
 end
 ```
 
-Run the test again. Now the test passes. You can now move the Calculator class to its own file called calculator.rb. Add
+### Step 5 ###
+
+Run the test again. Now the test passes. 
+
+### Step 6 ###
+
+You can now move the Calculator class to its own file called calculator.rb. Add
 
 ```ruby
 require_relative 'calculator'
 ```
 
-to the top of the calculator_spec.rb. Run the test again. It should now pass. 
+to the top of the calculator_spec.rb. 
 
-Note : You can also use expect() method instead of 'should' method like this :
+### Step 7 ###
 
+Run the test again. It should now pass. You can also use expect() method instead of 'should' method like this :
+
+```ruby
 expect(result).to eq(3)
+```
 
-## Conclusion ##
+## Summary ##
 
 In this chapter we took little baby steps. We first learned about assertion. We wrote the test first. Initially your error messages are related to setting up the environment. Once you get past that, you can make the test fail for the right reason. Failing for the right reason means, the test will fail to satisfy the requirements instead of syntax mistakes, missing require statements etc.
 
