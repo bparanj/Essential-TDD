@@ -159,7 +159,7 @@ end
 
 ## Summary ##
 
-In this chapter you learned about assertion and why you need them. In the next chapter we will discuss Test First Programming.
+In this chapter you learned about assertion and why you need them. Assertion is at the heart of a test. You cannot write a test without an assertion.  In the next chapter we will discuss Test First Programming.
 
 
 \newpage

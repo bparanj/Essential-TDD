@@ -27,6 +27,8 @@ If you have followed the above two suggestions and you still have difficulties, 
 
 You can accelerate your learning by forming a study group that meets regularly. If you teach one concept that takes 10 minutes then having a group of 6 people, you can easily cover 6 concepts in one hour.
 
-## Practice, Practice, Practice ##
+## Practice Makes Perfect ##
 
-Learning is a process. Setup 30 mins or an hour everyday for learning. Repetition is key to gaining speed in your development.
+When learning anything new, you will make mistakes. You will go very slow. As you practice you will learn from your mistakes. Learning is a process. Setup 30 mins to an hour everyday for learning. You will get better and faster over time. Repetition is key to gaining development speed.
+
+\newpage
