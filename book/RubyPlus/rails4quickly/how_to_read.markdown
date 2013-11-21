@@ -1,6 +1,6 @@
 # How to Read this Book #
 
-This book is written in a step-by-step hands-on tutorial style. You must read and follow the instructions to work through the application we will be developing. It is written to be read sequentially. You must also make an attempt to do the exercises. This will make your brain more receptive to absorbing the concepts.
+This book is written in a step-by-step hands-on tutorial style. You must read and follow the instructions to work through the application we will be developing. It is written to be read sequentially. Learning by doing is the best way to understand something new. So, make an attempt to do the exercises. This will make your brain more receptive to absorbing the concepts.
 
 
 # Software Versions Used #
