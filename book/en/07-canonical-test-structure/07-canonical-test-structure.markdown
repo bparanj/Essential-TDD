@@ -4,6 +4,8 @@
 
 - To practice Canonical Test Structure : Given, When, Then 
 
+## Discussion ##
+
 According to the Dictionary, the term canonical is defined as:
 
 Mathematics : relating to a general rule or standard formula.
@@ -13,6 +15,9 @@ In our case, the following the three steps is a standard formula for writing any
 * Step 1 - Given : Precondition (System is in a known state)
 * Step 2 - When  : Exercise the System Under Test (SUT)
 * Step 3 - Then  : Postcondition (Check the outcome is as expected)
+
+## Steps ##
+### Step 1 ##
 
 Create a file stack_spec.rb with the following contents:
 
@@ -38,6 +43,8 @@ describe Stack do
 end
 ```
 
+### Step 2 ###
+
 Create stack.rb with a simple stack implementation that can push and pop as follows:
 
 ```ruby
@@ -57,7 +64,11 @@ class Stack
 end
 ```
 
+### Step 3 ###
+
 Run the specs. You should see them all pass.
+
+## Discussion ##
 
 Instead of thinking about 'How do I write a test?'. Ask yourself the following questions: 
 

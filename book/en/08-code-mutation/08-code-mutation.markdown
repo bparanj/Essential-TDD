@@ -2,9 +2,11 @@
 
 ## Objective ##
 
-To illustrate the need to mutate the code when the test passes without failing the first time.
+- To illustrate the need to mutate the code when the test passes without failing the first time.
 
-## Version 1 ##
+
+## Steps ##
+### Step 1 ###
 
 Create a ruby_extensions_spec.rb with the following contents:
 
@@ -22,6 +24,8 @@ describe 'Ruby extensions' do
 end
 ```
 
+### Step 2 ###
+
 To make the test pass, create ruby_extensions.rb with the following contents:
 
 ```ruby
@@ -32,6 +36,8 @@ class Array
   end  
 end
 ```
+
+### Step 3 ###
 
 Add the second spec for the boundary condition like this:
 
@@ -50,7 +56,11 @@ describe 'Array extensions' do
 end
 ```
 
+### Step 4 ###
+
 This test passes without failing. The question is how do you know if this test is correct? We don't have a test to test this test. To validate the test, we have to mutate the production code to make it fail for the scenario under test.
+
+### Step 5 ###
 
 Change the ruby_extensions.rb so that only the second spec fails like this:
 
@@ -63,6 +73,8 @@ class Array
 end
 ```
 
+### Step 6 ###
+
 Now the second spec breaks with the error:
 
 ```ruby
@@ -73,11 +85,15 @@ Now the second spec breaks with the error:
           got: [10] (using ==)
 ```
 
+### Step 7 ###
+
 Delete the short circuiting condition from the ruby_extensions.rb: 
 
 ```ruby
 return [10] if another.size == 2
 ```
+
+### Step 8 ###
 
 Now both the specs should pass.
 
