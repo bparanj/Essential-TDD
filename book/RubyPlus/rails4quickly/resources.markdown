@@ -6,4 +6,6 @@
 
 3. [Learning Git](http://gitimmersion.com/lab_01.html "Sublime Text 2")
 
+4. [Install SQLite3 Manager Firefox Addon](https://addons.mozilla.org/en-US/firefox/addon/sqlite-manager/ "Install SQLite3 Manager Firefox Addon") or  [Standalone tool for Mac](http://www.macupdate.com/app/mac/26079/mesasqlite "Standalone tool for Mac")
+
 \newpage

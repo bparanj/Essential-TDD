@@ -28,7 +28,7 @@ Conclusion
 Transitions
 	Beginning --> Middle
 	Between Main Points of Middle
-	Middle --> Ending
+	Middle    --> Ending
 	
 Emphasis
 	Use Repetition Effectively
