@@ -1,3 +1,7 @@
+Nov 25
+
+1. Completed Intermediate Rails Part 2 Thoughtbot video.
+
 Nov 24
 
 1. Finished 35 minutes of Intermediate Rails Part 2 Thoughtbot video.
