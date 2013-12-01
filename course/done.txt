@@ -1,3 +1,16 @@
+
+Dec 1
+
+1. Created an article for Syntax Highlighting for Rails and published it on blog.
+
+Nov 30
+
+1. Completed Intermediate Rails Part 4 Thoughtbot video.
+
+Nov 29
+
+1. Completed Intermediate Rails Part 3 Thoughtbot video.
+
 Nov 25
 
 1. Completed Intermediate Rails Part 2 Thoughtbot video.
