@@ -88,6 +88,8 @@ belongs_to :article
 
 declaration. This means you have a foreign key article_id in the comments table.
 
+The belongs_to declaration in the model will not create or manipulate database tables. The belongs_to or references in the migration will manipulate the database tables. Since your models are not aware of the database relationships, you need to declare them.
+
 ### Step 10 ###
 
 Open the app/models/article.rb file. Add the following declaration:

@@ -2,6 +2,7 @@
 Dec 1
 
 1. Created an article for Syntax Highlighting for Rails and published it on blog.
+2. Completed Intro to Ruby on Rails : Ruby Basics video
 
 Nov 30
 

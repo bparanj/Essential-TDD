@@ -171,7 +171,7 @@ Change the destroy action redirect_to method to use notice that says 'Comment de
 
 ### Exercise 2 ###
 
-Go to articles index page and delete an article that has comments. No go to either rails dbconsole or use MySQLite Manager to see if the comments associated with that articles is still in the database.
+Go to articles index page and delete an article that has comments. Now go to either rails dbconsole or use MySQLite Manager to see if the comments associated with that articles is still in the database.
 
 ### Step 9 ###
 
