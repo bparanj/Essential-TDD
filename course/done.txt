@@ -1,4 +1,92 @@
+Dec 3
 
+1. Add the resources discussed in live session to the book.
+2. Expand the MVC discussion.
+
+
+Table of Contents
+----------------------
+
+1. Running the Server
+	 To run your rails application on your machine.
+2. Hello Rails
+	 To create a home page for your web application.
+3. Model
+	 To learn the model part M of the MVC framework
+4. Model View Controller
+   Learn how the View communicates with Controller 
+   Learn how Controller interacts with the Model and how Controller picks the next View to show to the user.
+5. View to Model
+   Learn how to get data from the user and save it in the database
+
+6. Update Article
+   Learn how to update an existing record in the database
+
+7. Show Article
+   Learn how to display a selected article in the article show page.
+
+8. Delete Article
+   Learn how to delete a given article.
+   Learn how to use flash messages.
+
+9. View Duplication
+   Learn how to eliminate duplication in views by using partials
+
+10. Relationships
+   To learn relationships between models.
+
+11. Delete Comment
+   Learn how to work with nested resources
+
+12. Restricting Operations
+   To learn how to use simple HTTP authentication to restrict access to actions
+
+----------------------
+Privacy Policy
+----------------------
+
+Here is our simple policy.
+
+1. We'll never spam you with irrelevant silly emails. That's a promise.
+2. We will never sell or share your email address with ANYONE. That's not only illegal, but just plain rude. We're nice.
+3. You will receive one email for the ebook download after the inital welcome emails.
+4. We may send you further emails intermittantly if we create other useful guides like this one, and that's all. You can unsubscribe at any time (there will be a link in the each email you receive).
+
+No styling required, see : http://p.unbounce.com/ecourse-privacy-policy/
+
+----------------------
+Tabs
+----------------------
+Home, Articles, Log In, Sign Up, About, Contact.
+
+
+----------------------
+Contact Page Content
+----------------------
+
+Email : support@zepho.com
+Phone : 404 861 5540
+Address :
+Zepho Inc
+2484 Briarcliff Road, #22-119
+Atlanta GA 30329
+
+
+About Page Content
+----------------------
+Click Plan is a product of Zepho Inc, founded by Bala Paranj. He completed his MS in Electrical Engineering from Wichita State University. He has self published software development books. Over a period of 10 years he has used many software solutions for self publishers.
+
+However, he became frustrated with the existing solutions. He decided to develop a software as a service product to help self publishers succeed.
+
+----------------------
+Login and Sign Up Pages
+----------------------
+https://clickplan.net/users/sign_up
+https://clickplan.net/users/sign_in
+
+Use Bootstrap 3 to style the above two pages.
+----------------------
+----------------------
 Dec 1
 
 1. Created an article for Syntax Highlighting for Rails and published it on blog.
