@@ -6,6 +6,9 @@ Please take the time to answer the three questions below and email them to suppo
 2. What would you like to see added?
 3. What changes should be made and why?
 
+-----------------------------------
+￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼
+
 
 
 
@@ -33,16 +36,13 @@ Please take the time to answer the three questions below and email them to suppo
   Bala Paranj:I tried them few weeks ago. It seems to be well designed and the lessons have good structure.
   Bala Paranj:I think codeacademy does a good job for people who are new to programming.
   Bala Paranj:They can start learning without getting caught up with installation issues
-  Tom:I think he feels that way, but I don't see him anymore - he changed jobs and isn't where I used to see him.k
+  Tom:I think he feels that way, but I don't see him anymore - he changed jobs and isn't where I used to see him.
   Bala Paranj:Tom, are you a web developer?
-  Tom:Not yet.
+  Tom:Not yet.	
   Bala Paranj:You work primarily in the back-end?
   Tom:I started out programming in Folrtran at a lab, became a systems programmer, then later did Cobol programming, then went into a different field. Am now learning as much as possible about popular software systems.  Need to focus. I guess Java/Scala is for big banks, insurance companies, other places too (Dolby Sound for one), while Ruby/Rails is for web development with fast progress in development..
   Bala Paranj:You probably have 10,000 hours in programming by now
   Bala Paranj:But 10,000 hours of deliberate practice is different work experience
-
-
-  Bala Paranj:You know, I found out the reason for the small size of Textmate.
   Tom:This is the phonegap development webiste from last night. http://blog.asial.co.jp/1144?lang=en   I haven't been able to get too far with it.
   Bala Paranj:I saw my notes and realized that I need to change the resolution for screen sharing.
   Bala Paranj:Getting far is not the point.
@@ -65,9 +65,6 @@ Please take the time to answer the three questions below and email them to suppo
   Tom:As I understand it, the Aleksander and Marko Gargenta are both now in-house at Twitter. At The New Circle are some prior staff of Marakana, and probably some new people. DOn't know if the Gargenta brothers also own New Circle.  I would think so.
   Tom:Tech training is a growing field, big money.
   Bala Paranj:They created video training for ruby 
-  Bala Paranj:Ya
-  Bala Paranj:It's a multi-billion dollar industry
-
 
   Tom:I think tech trainers in SF at law firms make 5 figure salaries.
   Tom:Make that 6-figure
@@ -101,7 +98,7 @@ Please take the time to answer the three questions below and email them to suppo
   Tom:But that's negative, you develop relations with other students, and they have comments during class that illustrate difficult concepts.
   Bala Paranj:Questions definitely zoom in on difficult concepts.
   Bala Paranj:The challenge as an instructor is that developers have diverse backgrounds and are at different stages in their learning curve.
-  Tom:It's great you have written a Ruby/Rails book
+
   Tom:At the Railsbridge Saturday, we used Git routines to push a project to Heroku.  Heroku and Github must be similar. Wonder if Heroku doesn't have some routines to do the pushing.
 
   Brad:Its just too complicated, I sort of understand how everything works, but I cant seem to make anything on my own. maybe it is too easy, with scaffolding you can make a fully functioning twitter app in about 3 lines of console entrie
@@ -111,9 +108,9 @@ Please take the time to answer the three questions below and email them to suppo
   Brad:no, I cant seem to think beyond the twitter app layout, I guess thats why its hard, its too easy
   Bala Paranj:Looks like you are overwhelmed  with learning too many things at once.
   Brad:yes, honestly I dont know how to go beyond where I am at now, I guess I should just hang out here and watch you help other people
-  Al:Hi Brad and Bala
+
   Bala Paranj:Brad, have you worked through the Depot app in Agile Web Development book?
-  Brad:hi Al
+
   Bala Paranj:I can tell you what I did to learn Rails.
   Bala Paranj:I worked through a expense report application I found on Apple's site.
   Brad:Bala, no havent, I was so discouraged after completing the Hartl book and knowing nothing that I stopped there
@@ -121,29 +118,20 @@ Please take the time to answer the three questions below and email them to suppo
   Bala Paranj:Allocate 30 mins to an hour everyday and work through the Depot app.
   Bala Paranj:You have to practice.
 
-  Brad:is the rails file with the numbers your updated version of your tutorial?
   Bala Paranj:Just watching videos will not help you.
-  Bala Paranj:Yes.
   Bala Paranj:If you have questions with Depot app, you are welcome to post it here.
-
 
   Bala Paranj:One thing that made it easy for me to learn is I started with Rails 1.1 version.
   Bala Paranj:It was very easy.
   Bala Paranj:Because there was not that many things to learn at once.
-  Al:I did some of it
   Bala Paranj:I already had web app experience building apps in Java Struts framework.
   Bala Paranj:Right now, Rails 4 adds lot of things to a beginners learning curve
   Bala Paranj:Which is definitely an overload issue
   Brad:do you think that using generate is bad (I dont even know if that is part of scaffolding)
   Bala Paranj:Al, you can also just use pragmatic programmers book as a reference
   Bala Paranj:If you already have an app you want to work on for your business
-  Bala Paranj:Hi Rmona
-  Bala Paranj:Good to see you again
-  Bala Paranj:I really appreacite your honest feedback.
-  Ramona:Hi - sorry I'm late. We were putting all our little fruit trees inside before my husband left .
+
   Bala Paranj:It helped me to revise the book
-  Bala Paranj:No problem.
-  Ramona:Oh, I'm glad. I will need your red pen on my code I'll bet :-)
   Bala Paranj:What is a good next step for you Ramona?
   Bala Paranj:Are you developing your own web apps?
   Bala Paranj:Learning more?
@@ -154,39 +142,27 @@ Please take the time to answer the three questions below and email them to suppo
   Ramona:Wow
   Bala Paranj:I think it is called Taikeido or something
   Ramona:It must really meet a need
-  Ramona:Introduce me to the other attendees?
   Brad:yes, I have Rails 4 installed on my Macbook
   Bala Paranj:What version of Ruby ?
   Bala Paranj:I think so.
   Al:Ramona, what problems with windows? So far Ruby 2.0 was a lot easier than 1.9 to set up on Windows.
   Brad:Ruby 2.0
-  Bala Paranj:Besides, Yehuda has a reputation. He will deliver  a useful product.
   Bala Paranj:Brad, are you using RVM?
   Ramona:Yes, I used Ruby 2.0 and Rails 4 plus RubyMine IDE - most of the problems were around the SSH key to deploy to Heroku 
   Brad:yes, I installed RVM, but actually it was because I installed homebrew that uses Ruby that I got the latest version of Ruby installed automatically
   Bala Paranj:Ramona, do you have your own web apps in production?
   Ramona:All resolved now, that site is in the beginning stage of construction at 4sp2013.com - the first one I'm working on in Ubuntu is dadufix4me.com (nothing there yet)
-  Bala Paranj:I host on Linode.
   Ramona:Using text editors only on Ubuntu, they run really fast even in a VM
-  Bala Paranj:Pay only $20 / mo. I still get lot of juice for that price.
   Ramona:Yes I'd heard of them, and digital ocean
   Bala Paranj:Linode keeps increasing the hardware specs for the same plan, which is great.
-  Bala Paranj:I heard about digital ocean because railscasts.com is hosted by them.
   Bala Paranj:Ramona, are still learning Rails or working on getting your app to production?
   Ramona:I'll be looking for a better host for a site I want to build as soon as I get the hang of rails, easyofficeforms.com, which is a collaboration with someone who will design the forms..
   Bala Paranj:Sounds like a great idea
-  Brad:Al, if you have any questions about Bala's book, ask away, I finished, so I can help too
   Bala Paranj:If it is view intensive, I would consider using AngularJS instead of Rails
   Bala Paranj:Rails doesn't really shine in the view layer
   Bala Paranj:You could still have your backend in Rails
-  Bala Paranj:Thanks Brad.
-  Bala Paranj:Ramona also finished it.
-  Al:No questions so far, I just got to go through the rest..
   Brad:Bala, does Angular and Rails work well together? I would think that partials would interfere with Angular
-  Bala Paranj:She gave me lot of grammatical corrections.
-  Ramona:I have a question or two..
   Bala Paranj:Ramona, I also added the answer to your question to the book.
-  Bala Paranj:Yes, Brad.
   Ramona:I finished the book and Bala gave me a good explanation of belongs_to (good, it went in the book!)
   Bala Paranj:Brad, you basically use Rails backend as an API that provides the view with JSON.
   Bala Paranj:Very interactive Single Page Apps are a good fit for AngularJS.
@@ -245,15 +221,15 @@ Please take the time to answer the three questions below and email them to suppo
   Bala Paranj:I did not discuss in detail the RESTful design
   Bala Paranj:Sweetspot for Rails is the simple to medium sized projects.
   Bala Paranj:Curated set of design patterns.
-  Bala Paranj:Amy Hoy
+
   Brad:Bala- do you rely on generate to generate all your controllers and models, or do you do things by hand sometimes?
   Ramona:Yes, thanks for that link
   Bala Paranj:Hexagonal architecture
   Bala Paranj:Alaistair Coburn come up with this thing, also called as Ports and Adapter.
   Bala Paranj:http://alistair.cockburn.us/Hexagonal+architecture
-  Bala Paranj:Growsing OO system guided by Tests
+  Bala Paranj:Growing OO system guided by Tests
   Bala Paranj:by Nat Pryce
-  Bala Paranj:The use this architecture.
+  Bala Paranj:They use this architecture.
   Bala Paranj:concerns
   Bala Paranj:Domain Driven Design by Eric Evans
   Bala Paranj:Domain Driven Design Quickly
@@ -291,8 +267,7 @@ Please take the time to answer the three questions below and email them to suppo
   Brad:I think if you want real concurrency you have to use a multithreading language like Scala or Erlang, even node.js which uses Javascript does concurrency better than Rails
 
   Ramona:So you could use it to mockup larger apps, even if they didn't end up there?
-  Bala Paranj:Are you planning to join the next class ?
-  Ramona:That makes sense. I'm about to sign off also. It was good to have multiple participants. Yes, I'll attend again.
+
 
 
 

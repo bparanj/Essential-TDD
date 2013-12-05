@@ -2,6 +2,15 @@
 2. Expand the MVC discussion.
 
 
+Add calling the route helper in the rails console:
+
+> app.articles_path
+> app.articles_path(1)
+
+Dec 4
+
+1. Completed Rails Models video.
+
 Dec 3
 
 1. Completed Advanced Ruby  video of Intro to Rails thoughtbot course.
