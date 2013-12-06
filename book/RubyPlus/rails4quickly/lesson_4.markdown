@@ -169,6 +169,32 @@ Here we are using the Ruby scriptlet tag <% %> for looping through all the recor
 
 \newpage
 
+If you make a mistake and use <%= %> tags instead of Ruby scriptlet tag in app/views/index.html.erb like this:
+
+```ruby
+<%= @articles.each do |article| %>
+```
+
+You will see the objects in the array displayed on the browser.
+
+![Using the Wrong Tags](./figures/wrong_tags.png)
+
+Articles are displayed as objects inside an array.
+
+\newpage
+
+If you use the Ruby scriptlet tag :
+
+```ruby
+Title : 	<% article.title %>
+```
+
+instead of the tags used to evaluate expressions and display to the browser then you will not see it in the browser.
+
+![No Title Value in Browser](./figures/no_output_in_browser.png)
+
+\newpage
+
 ### Step 12 ###
 
 Go to the browser and reload the page for http://localhost:3000/articles 

@@ -23,7 +23,7 @@ to articles_controller.rb file like this:
 class ArticlesController < ApplicationController
   respond_to :xml
 
-  Rest of the code remains the same as before
+  # Rest of the code remains the same as before
 end
 ```
 
@@ -94,8 +94,6 @@ Format variable in the URI as seen in the output of 'rake routes' command.
 ## Exercise ##
 
 Modify the respond_to to handle JSON format. Use the symbol :json and view the JSON representation in the browser.
-
-\newpage
 
 ## Summary ##
 

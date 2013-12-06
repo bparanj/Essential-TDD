@@ -1,15 +1,7 @@
-1. Add the resources discussed in live session to the book.
-2. Expand the MVC discussion.
 
+Dec 6
 
-Add calling the route helper in the rails console:
-
-> app.articles_path
-> app.articles_path(1)
-
-app.edit_comment(article, comment)
-
-make mistakes for <%= and <% and show the results
+1. Completed all book revisions from Rails live training.
 
 Dec 5
 

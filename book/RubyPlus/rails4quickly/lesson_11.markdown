@@ -167,7 +167,7 @@ Change the destroy action redirect_to method to use notice that says 'Comment de
 
 ![Refresh Icon](./figures/refresh_icon.png)
 
-\newpage
+Refresh icon of Firefox Plugin MySQLite Manager.
 
 ### Exercise 2 ###
 
@@ -185,12 +185,31 @@ end
 
 Now if you delete the parent that has comments, all the comments associated with it will also be deleted. So you will not waste space in the database by retaining records that are no longer needed.
 
-### Exercise 3 ###
+\newpage
+
+### Step 10 ###
+
+![Polymorphic Path Method Error](./figures/nested_routes_polymorphic_path_error.png)
+
+The polymorphic_path method will throw an error when two arguments are passed. 
+
+![Polymorphic Path Method](./figures/nested_routes_polymorphic_path.png)
+
+Rails internally uses polymorphic_path method with an array containing the parent and child objects to generate the url helper.
 
 Change the second parameter, url helper to :
 
 ```ruby
 [@article, comment]
+```
+
+The link_to will now look like this:
+
+```ruby
+<%= link_to 'Delete Comment', 
+						 [@article, comment], 
+						 method: :delete,
+						 data: { confirm: 'Are you sure?' } %>	
 ```
 
 The delete functionality will still work. Since Rails allows passing the parent and child instances in an array instead of using the Prefix.
