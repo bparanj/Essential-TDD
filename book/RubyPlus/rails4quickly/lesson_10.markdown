@@ -381,6 +381,6 @@ You will now see the existing comments for an article.
 
 ## Summary ##
 
-We saw how to create parent-child relationship in the database and how to use ActiveRecord declarations in models. We learned about nested routes and how to make forms work in the parent-child relationship. In the next lesson we will implement the feature to delete comments to keep our blog clean from spam.
+We saw how to create parent-child relationship in the database and how to use ActiveRecord declarations in models to handle 1 to many relationship. We learned about nested routes and how to make forms work in the parent-child relationship. In the next lesson we will implement the feature to delete comments to keep our blog clean from spam.
 
 \newpage

@@ -98,7 +98,7 @@ Retrieving first article from database in Rails console.
 
 Experimenting in Rails console to check the generated URI for a given article resource.
 
-Rails internally uses the polymorphic_path method that takes an argument to generate the url_helper.
+Rails internally uses the polymorphic_path method that takes an argument to generate the url.
 
 \newpage
 
