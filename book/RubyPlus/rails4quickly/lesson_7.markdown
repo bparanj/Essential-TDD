@@ -14,19 +14,63 @@ Add the 'Show' link to each article in the index page. The hyperlink text will b
 <%= link_to 'Show', ? %>
 ```
 
-When the user clicks the 'Show' link we need to go the articles controller show action. We will retrieve the record from the database and display it in the view. What should be the url helper? You can view the output of rake routes to find the url helper to use in the view. In this case we know the resource end point. We go from the right most column to the left most column and find the url helper under the Prefix column.
+When the user clicks the 'Show' link we need to go the articles controller show action. We will retrieve the record from the database and display it in the view. 
+
+What should be the url helper? 
+
+\newpage
+
+You can view the output of rake routes to find the url helper to use in the view. In this case we know the resource end point. We go from the right most column to the left most column and find the url helper under the Prefix column.
 
 ![URL Helper For Show](./figures/rake_routes_show.png)
+
+So, we now have :
 
 ```ruby
 <%= link_to 'Show', article_path %>
 ```
 
-Since we need the primary key to load the selected article from the database, we need to pass the id as the parameter as below:
+\newpage
+
+### Step 2 ###
+
+Go to Rails console and type:
+
+```ruby
+app.article_path
+```
+
+![Article Path Error](./figures/article_path_error.png)
+
+Rails does not recognize the article_path. 
+
+\newpage
+
+### Step 3 ###
+
+Look at the output of rake routes command. You can see in the URI pattern column the :id variable for primary key. 
+
+![Show Article Path Primary Key](./figures/article_path_id.png)
+
+So we need to pass the id as the parameter as shown below:
 
 ```ruby
 <%= link_to 'Show', article_path(article.id) %>
 ```
+
+![Show Article Path](./figures/app_article_path.png)
+
+Rails recognizes article path when an id is passed in as the parameter to the url helper method.
+
+You can see the generated string is the same as the URI pattern in the output of the rake routes command.
+
+![Show Article Path](./figures/article_show_path.png)
+
+We can simplify it even further by letting Rails call the id method for us by just passing the article object.
+
+\newpage
+
+### Step 4 ###
 
 Since Rails automatically calls the id method of the ActiveRecord we can simplify it as follows:
 
@@ -34,11 +78,31 @@ Since Rails automatically calls the id method of the ActiveRecord we can simplif
 <%= link_to 'Show', article_path(article) %>
 ```
 
-Rails 4 has optimized this even further so you can do :
+\newpage
+
+### Step 5 ###
+
+Rails has optimized this even further so you can do :
 
 ```ruby
 <%= link_to 'Show', article %>
 ```
+
+Let's now see how Rails makes this magic happen. 
+
+![Loading First Article from Database](./figures/first_article.png)
+
+Retrieving first article from database in Rails console.
+
+![Show Article Path](./figures/show_article_path.png)
+
+Experimenting in Rails console to check the generated URI for a given article resource.
+
+Rails internally uses the polymorphic_path method that takes an argument to generate the url_helper.
+
+\newpage
+
+### Step 6 ###
 
 The app/views/articles/index.html.erb looks as shown below:
 
@@ -63,7 +127,7 @@ The app/views/articles/index.html.erb looks as shown below:
 
 \newpage
 
-### Step 2 ###
+### Step 7 ###
 
 Reload the articles index page http://localhost:3000/articles 
 
@@ -73,7 +137,7 @@ You will see the show link.
 
 \newpage
 
-### Step 3 ###
+### Step 8 ###
 
 If you view the page source for articles index page, you will see the hyperlink for 'Show' with the URI pattern '/articles/1'. Since this is a hyperlink the browser will use the http verb GET when the user clicks on show.
 
@@ -87,7 +151,7 @@ In the rails server log you will see the GET request for the resource '/articles
 
 Server log is another friend.
 
-### Step 4 ###
+### Step 9 ###
 
 If you click on the 'Show' link you will get the 'Unknown action' error.
 
@@ -103,7 +167,7 @@ end
 
 We already know the instance variable @article will be made available in the view.
 
-### Step 5 ###
+### Step 10 ###
 
 If you click the 'Show' link, you will get the 'Template is missing' error. 
 

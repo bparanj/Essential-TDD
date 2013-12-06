@@ -6,7 +6,7 @@
 
 ## Steps ##
 
-### Step 1 ##
+### Step 1 ###
 
 Let's add 'Edit' link to each record that is displayed in the index page. Open the app/views/index.html.erb and add the edit link:
 
@@ -24,12 +24,33 @@ So we now have:
 <%= link_to 'Edit', edit_article_path() %>
 ```
 
-In the URI Pattern column you see the pattern for edit as : /articles/:id/edit
+### Step 2 ###
+
+Go to Rails console and type:
+
+app.edit_article_path
+
+![Edit Article URL Helper Error](./figures/edit_article_path_error.png)
+
+Rails does not recognize edit_article_path helper method.
+
+### Step 3 ###
+
+Examine the output of rake routes command. In the URI Pattern column you see the pattern for edit as : /articles/:id/edit
+
 URI Pattern can consist of symbols which represent variable. You can think of it as a place holder. The symbol :id in this case represents the primary key of the record we want to update. So we pass an instance of article to url helper. We could call the id method on article, since Rails automatically calls id on this instance, we will just let Rails do its magic.
 
 ```ruby
 <%= link_to 'Edit', edit_article_path(article) %>
 ```
+
+![Edit Article URL Helper](./figures/edit_article_path.png)
+
+Rails recognizes edit_article_path when the primary key :id value is passed as the argument.
+
+\newpage
+
+### Step 4 ###
 
 The app/views/articles/index.html.erb will look like this :
 
@@ -53,7 +74,7 @@ The app/views/articles/index.html.erb will look like this :
 
 \newpage
 
-### Step 2 ###
+### Step 5 ###
 
 Reload the http://localhost:3000/articles page. 
 
@@ -63,7 +84,7 @@ You will now see the 'Edit' link for each article in the database.
 
 \newpage
 
-### Step 3 ###
+### Step 6 ###
 
 Right click on the browser and select 'View Page Source'. 
 
@@ -73,7 +94,7 @@ You will see the primary keys of the corresponding row for the :id variable.
 
 \newpage
 
-### Step 4 ###
+### Step 7 ###
 
 Click on the 'Edit' link. 
 
@@ -81,7 +102,7 @@ Click on the 'Edit' link.
 
 You will see unknown action edit error page.
 
-### Step 5 ###
+### Step 8 ###
 
 Let's define the edit action in the articles controller :
 
@@ -93,7 +114,7 @@ end
 
 \newpage
 
-### Step 6 ###
+### Step 9 ###
 
 Click on the 'Edit' link. You now get template is missing error. Let's create app/views/articles/edit.html.erb with the following contents:
 
@@ -117,7 +138,7 @@ Click on the 'Edit' link. You now get template is missing error. Let's create ap
 
 \newpage
 
-### Step 7 ###
+### Step 10 ###
 
 Click on the 'Edit' link. You now get the following error page:
 
@@ -127,7 +148,7 @@ We have already seen similar error when we implemented the create action.
 
 \newpage
 
-### Step 8 ###
+### Step 11 ###
 
 Look at the server log:
 
@@ -141,7 +162,7 @@ Rails automatically populates params hash and makes it available to the controll
 
 \newpage
 
-### Step 9 ###
+### Step 12 ###
 
 In the edit action we need to load the selected record from the database so that we can display it with the existing values for its columns. You already know that Rails populates params hash with the values submitted in the GET request for resource '/articles/1/edit'. We can now define the edit method as follows:
 
@@ -155,7 +176,7 @@ Here we find the record for the given primary key and save it in the instance va
 
 \newpage
 
-### Step 10 ###
+### Step 13 ###
 
 Click on the 'Edit' link. 
 
@@ -165,7 +186,7 @@ You will now see the form with values populated.
 
 \newpage
 
-### Step 11 ###
+### Step 14 ###
 
 Right click on the browser and click 'View Page Source'.
 
@@ -183,7 +204,7 @@ The answer lies in the hidden field called method that has the value PATCH. Rail
 
 The output of rake routes is your friend.
 
-### Step 12 ##
+### Step 15 ##
 
 Let's implement the update method that will take the new values provided by user for the existing record and update it in the database. 
 
@@ -196,11 +217,11 @@ end
 
 Before we update the record we need to load the existing record from the database. Why? Because the instance variable in the controller will only exist for one request-response cycle. Since http is stateless we need to retrieve it again before we can update it.
 
-### Step 13 ###
+### Step 16 ###
 
 Go to articles index page. Click on the 'Edit' link. In the edit form, you can change the value of either the title or description and click 'Update Article'.
 
-### Step 14 ###
+### Step 17 ###
 
 To fix the forbidden attributes error, we can do the same thing we did for create action. Change the update method as follows:
 
@@ -218,7 +239,7 @@ Change the title and click 'Update Article'. We see the template is missing but 
 
 The ActiveRecord class method first retrieves the first record in the table. In this case we got the first row in the articles table.
 
-### Step 15 ###
+### Step 18 ###
 
 Let's address the template is missing error. We don't need update.html.erb, we can redirect the user to the index page where all the records are displayed. Change the update method as follows:
 
@@ -232,11 +253,11 @@ def update
 end
 ```
 
-### Step 16 ###
+### Step 19 ###
 
 Edit the article and click 'Update Article'. You should see that it now updates the article.
 
-### Step 17 ###
+### Step 20 ###
 
 An annoying thing about Rails 4 is that when you run the rails generator to create a controller with a given action it also creates an entry in the routes.rb which is not required for a RESTful route. Let's delete the following line: 
 

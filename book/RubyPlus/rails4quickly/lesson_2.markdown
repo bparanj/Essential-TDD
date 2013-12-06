@@ -138,6 +138,8 @@ Delete the  get "welcome/index"  line in the routes.rb file. Reload the page : h
  
 You will now see the error page.
 
+ \newpage
+ 
 ## Summary ##
  
  In this lesson we wrote a simple Hello Rails program. We saw how the view and controller work in Rails to handle browser requests. We have seen just the VC part of MVC framework. We will see how the model fits in the MVC framework in the next lesson.

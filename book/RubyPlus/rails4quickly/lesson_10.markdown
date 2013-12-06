@@ -34,17 +34,15 @@ $ rake db:migrate
 
 Let's install SQLiteManager Firefox plugin that we can use to open the SQLite database, query, view table structure etc.
 
-\newpage
-
 ### Step 4 ###
 
 Install SqliteManager Firefox plugin [SqliteManager Firefox plugin](https://addons.mozilla.org/en-US/firefox/addon/sqlite-manager/ "SqliteManager Firefox plugin")
 
-Let's now see the structure of the comments table.
+\newpage
 
 ### Step 5 ###
 
-In Firefox go to : Tools --> SQLiteManager
+Let's now see the structure of the comments table. In Firefox go to : Tools --> SQLiteManager
 
 ![SQLite Manager Firefox Plugin](./figures/SQLiteManager)
 
@@ -126,6 +124,8 @@ $ rails g controller comments
 
 Readers can comment on any article. When someone comments we will display the comments for that article on the article's show page.
 
+\newpage
+
 ### Step 13 ###
 
 Let's modify the app/views/articles/show.html.erb to let us make a new comment:
@@ -146,6 +146,8 @@ Let's modify the app/views/articles/show.html.erb to let us make a new comment:
   </p>
 <% end %>
 ```
+
+\newpage
 
 The app/views/show.html.erb file will now look like this:
 
@@ -231,6 +233,8 @@ Fill out the comment form and submit it again.
 
 You can see the comment values in the server log.
 
+\newpage
+
 ### Step 20 ###
 
 Copy the entire Parameters hash you see from the server log. Go to Rails console and type:
@@ -247,6 +251,8 @@ Here you initialize the params variable with the hash you copied in the rails se
 ![Retrieving Comment](./figures/retrieving_comment)
 
 You can find the value for comment model by doing: params['comment'] in the Rails console
+
+\newpage
 
 ### Step 21 ###
 
@@ -300,6 +306,8 @@ Fill out the comment form and submit it.
 
 You can now view the record in the MySQLite Manager or Rails dbconsole. Let's now display the comments made for a article in the articles show page.
 
+\newpage
+
 ### Step 23 ###
 
 Add the following code to the app/views/articles/show.html.erb
@@ -318,6 +326,8 @@ Add the following code to the app/views/articles/show.html.erb
   </p>
 <% end %>
 ```
+
+\newpage
 
 Your app/views/articles/show.html.erb will now look like this:
 

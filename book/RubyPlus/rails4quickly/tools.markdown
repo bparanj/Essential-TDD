@@ -1,13 +1,4 @@
-# MySQLite Firefox Plugin #
-
-
-
-# HTTP Live Headers Chrome Plugin #
-
-
-
-
-
+#  Troubleshooting #
 
 1. rails console
 2. debug(params) in views

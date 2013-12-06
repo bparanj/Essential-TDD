@@ -7,6 +7,8 @@
 
 ## Context ##
 
+In Rails, model is a persistent object that can also contain business logic. Model is the Object Relational Mapping (ORM) layer that uses ActiveRecord design pattern. Router knows which controller can handle the incoming request. Controller is like a traffic cop who controls the flow of traffic on busy streets. Controller has the knowledge of which model can get the job done, so it delegates the work to the appropriate model object. Controller also knows which view to display to the user after the incoming request has been processed.
+
 Why MVC architecture? The advantage of MVC is the clean separation of View from the Model and Controller. It allows you to allocate work to teams according to their strengths. The View layer can be developed in parallel by the front-end developers without waiting for the Model and Controller parts to be completed by the back-end developers.
 
 If we agree on the contract between the front-end and back-end by defining the data representation exchanged between the client and server then we can develop in parallel.
@@ -50,8 +52,6 @@ What do you see in the home page?
 \newpage
 
 You will see the hyper link in the home page. 
-
-\newpage
 
 ### Step 4 ###
 
@@ -183,6 +183,12 @@ You should see the list of articles now displayed in the browser.
 
 As you can see from the diagram Controller controls the flow of data into and out of the database and also decides which View should be rendered next.
 
+\newpage
+
+## Exercise ##
+
+Go to the rails server log terminal, what is the http verb used to make the request for displaying all the articles? What is the resource that was requested?
+
 ##  Summary ##
  
 In this lesson we went from the view (home page) to the controller for articles and to the article model and back to the view (index page for articles). So the MVC components interaction as shown in the diagram: 
@@ -193,13 +199,7 @@ In this lesson we went from the view (home page) to the controller for articles 
 
 The data flow was from the database to the user. 
 
-\newpage
-
-
 In real world the user data comes from the user so we cannot create them in the rails console or in the database directly. In the next lesson we will see how we can capture data from the view provided by the user and save it in the database.
 
-## Exercise ##
-
-Go to the rails server log terminal, what is the http verb used to make the request for displaying all the articles? What is the resource that was requested?
 
 \newpage

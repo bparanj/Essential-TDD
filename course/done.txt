@@ -7,6 +7,14 @@ Add calling the route helper in the rails console:
 > app.articles_path
 > app.articles_path(1)
 
+app.edit_comment(article, comment)
+
+make mistakes for <%= and <% and show the results
+
+Dec 5
+
+1. Completed Rails Controller and Views Part 1 video.
+
 Dec 4
 
 1. Completed Rails Models video.

@@ -1,0 +1,220 @@
+Blog Post
+-----------------------------------
+
+Brad:Bala- do you rely on generate to generate all your controllers and models, or do you do things by hand sometimes?
+Al:Have you heard about DCI architecture? What do you think?
+Ramona:Are some of Rails db connectors more fully developed/ preferable to others? Or is it vendor neutral as to the db back-end?
+Ramona:yes
+Ramona:With SQL Server as the db you tend to tune the db itself by looking at the execution plan and determining if the query could be improved
+Ramona:Yes, and I'm curious whether you can adjust how your query executes in the model?
+BP:you can do find_by_sql
+Ramona:In the case of tuning  SQL Server you could then write a stored procedure or view to speed things up and query that directly, is that how it works in Rails?
+BP:that will take any arbitrary sql query
+Ramona:That makes sense
+Ramona:yes
+BP:Enterprise Rails Recipes
+BP:by pragmatic programmers
+
+Ramona:JRuby was suggested and I included it in the 4sp2013 project - does JRuby automate this? 
+Ramona:Does it accomplish the multi-threading simply by being included in the project or are more steps involved?
+Brad:I think if you want real concurrency you have to use a multithreading language like Scala or Erlang, even node.js which uses Javascript does concurrency better than Rails
+
+Ramona:So you could use it to mockup larger apps, even if they didn't end up there?
+Ramona:So if you were building an app that had to scale to either SMB or enterprise clients, would Rails be  sufficient?
+
+
+Ramona:So are you saying more/smaller controllers vs. larger complex ones are easier to maintain in a big app?
+BP:Subscription 
+BP:I did not discuss in detail the RESTful design
+BP:Sweetspot for Rails is the simple to medium sized projects.
+BP:Curated set of design patterns.
+BP:Hexagonal architecture
+BP:Alaistair Coburn come up with this thing, also called as Ports and Adapter.
+BP:http://alistair.cockburn.us/Hexagonal+architecture
+BP:Growing OO system guided by Tests
+BP:by Nat Pryce
+BP:They use this architecture.
+BP:concerns
+BP:Domain Driven Design by Eric Evans
+BP:Domain Driven Design Quickly
+BP:infoq.com
+BP:Aggregates
+BP:Gateways
+BP:Eric talks about Value Objects and other very useful patterns
+Brad:the book just seems very easy, you just run generate commands for controllers and models and just fill in the .erb files and routes function definitions
+
+-----------------------------------
+Rails 4 Quickly Revision
+-----------------------------------
+Al:Controller is go-between between Model and View?
+BP:Yes, Al.
+Brad:Ramona- I think the Model is what translates between SQL and Ruby, the Controller does routing
+BP:Controller controls the flow of data into the backend repository
+BP:And also data flowing from the db back to the view.
+
+BP:It basically controls the views and orchestrates the work that is done by the model
+Ramona:Thanks Brad and Bala - then in SQL Server for instance, if I'm joining multiple tables I'll create a bridge table which doesn't serve any purpose except to create relationships - is that similar to 'has_and_belongs_to_many?'
+BP:It depends whether you have 1-1, 1-N or N-N relationships
+Ramona:That was my next ? but you already answered
+BP:It provides the data required for the views to display them to the user.
+BP:controller does not query the db.
+BP:Only models will query the db.
+Ramona:RE the query engine being the model
+BP:No Brad. The relationships are defined in the model
+Al:Is the "View" in MVC the same as a "view = virtual table" in SQL?
+BP:No Al.
+
+BP:This View is the HTML, JSON or XML.
+BP:It is not related to the database view concept at all.
+BP:Ramona, is it clear now?
+Ramona:Yes
+
+Ramona:It's very good for the purpose of 'quickly'
+
+
+-----------------------------------
+Market Research
+-----------------------------------
+
+BP:There are very few developers who are proactive and learn on their own.
+BP:Most of them, want to consume the content in a passive way.
+BP:So, I have to provide them the content in a different way.
+BP:Probably, 10 minute presentation
+BP:Then some guided exercises
+BP:Then answering Q&A
+BP:Everyone progresses at their own pace.
+Tom:You are right about the "proactive" part. It's so easy to be distracted at home.	
+BP:Tom, you are in the top 2% of the developers who want to improved their skills by being proactive.
+BP:In my face-to-face tutorial class only 2% of the people actually complete the entire blog application tutorial found in 'Getting Started Rails Guide'
+BP:Only by investing time on developing our skills on a daily basis we will create better opportunities for ourselves.
+BP:I am also motivated by moving towards the 10,000 hours of practice to master programming skills.
+Tom:Attending meetups is one thing, but studying at home is very very difrficult.
+BP:Making complex things simple is not easy.
+Tom:http://docs.railsbridge.org/docs/
+Tom:Railsbridge uses Sublime Text 2;  in the past they used Komodo.  
+Tom:I was taking the CodeCademy course on Javascript, but havenk't been doing that lately.
+Tom:Codecademy, yes. Some frustration with the interactive: your code may be correct, but still get an error message. Maybe they've improved over the past year.
+BP:I tried them few weeks ago. It seems to be well designed and the lessons have good structure.
+BP:I think codeacademy does a good job for people who are new to programming.
+BP:They can start learning without getting caught up with installation issues
+BP:Tom, are you a web developer?
+Tom:Not yet.	
+BP:You work primarily in the back-end?
+Tom:I started out programming in Folrtran at a lab, became a systems programmer, then later did Cobol programming, then went into a different field. Am now learning as much as possible about popular software systems.  Need to focus. I guess Java/Scala is for big banks, insurance companies, other places too (Dolby Sound for one), while Ruby/Rails is for web development with fast progress in development..
+BP:You probably have 10,000 hours in programming by now
+BP:But 10,000 hours of deliberate practice is different work experience
+Tom:This is the phonegap development webiste from last night. http://blog.asial.co.jp/1144?lang=en   I haven't been able to get too far with it.
+BP:Getting far is not the point.
+BP:You are pushing yourself.
+BP:That's more important.
+BP:Twitter bought Marakana?
+Tom:https://thenewcircle.com/
+Tom:Something like that.  The brothers are at Twitter full time. Will get their names
+BP:Have you taken Marakana classes?
+Tom:No, no, way way too expensive.
+Tom:For wealthy corporate clients who can  pay $2,500 for a 3-day course.
+BP:Is it taught be professional developers?
+Tom:But Marakana used to run some meetup groups (same guys still do):  Java, Android, HTML5, etc. and they would post videos of the meetups.
+BP:I see lot of companies having trainers who are not real world developers
+BP:They don't understand developers, so the teaching is very poor
+Tom:The Gargenta brothers, Aleksander Gargenta and Marko Gargenta
+BP:That's the New Circle team?
+Tom:As I understand it, the Aleksander and Marko Gargenta are both now in-house at Twitter. At The New Circle are some prior staff of Marakana, and probably some new people. DOn't know if the Gargenta brothers also own New Circle.  I would think so.
+Tom:Tech training is a growing field, big money.
+BP:They created video training for ruby 
+Tom:I think tech trainers in SF at law firms make 5 figure salaries.
+Tom:Make that 6-figure
+BP:As a developer it is overwhelming to learn so many things
+BP:I think that is a problem for developers who want to learn.
+Tom:http://railscasts.com/
+BP:Too much information
+Tom:Yes, must learn so much, then constantly changing, upgrading, new versions as well.
+BP:Don't you think that front-end technologies change must faster?
+Tom:Javascript, Phonegap, Ruby/Rails, etc. have more changes than the databases
+BP:Things like Unix, SQL are stable.
+Tom:Always new frameworks being announced
+BP:That's a problem.
+BP:Too many frameworks
+BP:It's not possible to master all of them.
+BP:We could use Google Trends and only learn the best frameworks.
+Tom:There's a lot of turnover in jobs, no?
+Tom:companies must spend money on re-training employees.
+BP:In high-tech, yes.
+BP:These days, companies don't spend money on training or re-training.
+Tom:Or else companaies just dump the old employee and hire the new one who was recently trained.
+BP:That's true.
+BP:We as professional developers should take charge of our careers
+Tom:They prefer younger employees.
+BP:We also need to think in terms of ROI.
+BP:Where can I spend the least amount of time and learn the most valuable skills for the job market?
+Tom:I keep a list of training sources. codecademy, w3 schools, etc.  But classroom, face-to-face is best.
+BP:The interaction with others and the teacher definitely helps in learning.
+Tom:Yes, both input from other students and the teacher.
+Tom:But that's negative, you develop relations with other students, and they have comments during class that illustrate difficult concepts.
+BP:Questions definitely zoom in on difficult concepts.
+BP:The challenge as an instructor is that developers have diverse backgrounds and are at different stages in their learning curve.
+Tom:At the Railsbridge Saturday, we used Git routines to push a project to Heroku.  Heroku and Github must be similar. Wonder if Heroku doesn't have some routines to do the pushing.
+Brad:Its just too complicated, I sort of understand how everything works, but I cant seem to make anything on my own. maybe it is too easy, with scaffolding you can make a fully functioning twitter app in about 3 lines of console entrie
+BP:Brad, have you developed a paper prototype first?
+BP:If you break down the big problems into very small problems, then you can solve one small problem at a time
+Brad:no, I cant seem to think beyond the twitter app layout, I guess thats why its hard, its too easy
+BP:Looks like you are overwhelmed  with learning too many things at once.
+Brad:yes, honestly I dont know how to go beyond where I am at now, I guess I should just hang out here and watch you help other people
+BP:Brad, have you worked through the Depot app in Agile Web Development book?
+BP:I can tell you what I did to learn Rails.
+BP:I worked through a expense report application I found on Apple's site.
+Brad:Bala, no havent, I was so discouraged after completing the Hartl book and knowing nothing that I stopped there
+BP:That's a good start.
+BP:Allocate 30 mins to an hour everyday and work through the Depot app.
+BP:You have to practice.
+BP:Just watching videos will not help you.
+BP:If you have questions with Depot app, you are welcome to post it here.
+BP:One thing that made it easy for me to learn is I started with Rails 1.1 version.
+BP:It was very easy.
+BP:Because there was not that many things to learn at once.
+BP:I already had web app experience building apps in Java Struts framework.
+BP:Right now, Rails 4 adds lot of things to a beginners learning curve
+BP:Which is definitely an overload issue
+Brad:do you think that using generate is bad (I dont even know if that is part of scaffolding)
+BP:Al, you can also just use pragmatic programmers book as a reference
+BP:If you already have an app you want to work on for your business
+BP:What is a good next step for you Ramona?
+BP:Are you developing your own web apps?
+BP:Learning more?
+Ramona:Yes, got the Ubuntu environment set up - that had nearly as many caveats as Windows..
+BP:I know that Yehuda raised $50k for his Rails installer for Mac OS
+Ramona:I had to back pedal on versions there because I have several domains at Bluehost and they are on Rails 3.2.13 and Ruby 1.9.3
+BP:Have you guys installed it?
+Ramona:Wow
+BP:I think it is called Taikeido or something
+Ramona:It must really meet a need
+Brad:yes, I have Rails 4 installed on my Macbook
+BP:What version of Ruby ?
+BP:I think so.
+Al:Ramona, what problems with windows? So far Ruby 2.0 was a lot easier than 1.9 to set up on Windows.
+Brad:Ruby 2.0
+BP:Brad, are you using RVM?
+Ramona:Yes, I used Ruby 2.0 and Rails 4 plus RubyMine IDE - most of the problems were around the SSH key to deploy to Heroku 
+Brad:yes, I installed RVM, but actually it was because I installed homebrew that uses Ruby that I got the latest version of Ruby installed automatically
+BP:Ramona, do you have your own web apps in production?
+Ramona:All resolved now, that site is in the beginning stage of construction at 4sp2013.com - the first one I'm working on in Ubuntu is dadufix4me.com (nothing there yet)
+Ramona:Using text editors only on Ubuntu, they run really fast even in a VM
+Ramona:Yes I'd heard of them, and digital ocean
+BP:Linode keeps increasing the hardware specs for the same plan, which is great.
+BP:Ramona, are still learning Rails or working on getting your app to production?
+Ramona:I'll be looking for a better host for a site I want to build as soon as I get the hang of rails, easyofficeforms.com, which is a collaboration with someone who will design the forms..
+BP:Sounds like a great idea
+BP:If it is view intensive, I would consider using AngularJS instead of Rails
+BP:Rails doesn't really shine in the view layer
+BP:You could still have your backend in Rails
+Brad:Bala, does Angular and Rails work well together? I would think that partials would interfere with Angular
+Ramona:I finished the book and Bala gave me a good explanation of belongs_to (good, it went in the book!)
+BP:Brad, you basically use Rails backend as an API that provides the view with JSON.
+BP:Very interactive Single Page Apps are a good fit for AngularJS.
+Brad:the workflow of rails seems easy, you just generate models and controllers and just fill in the .erb files in the view as well as fill in the controller methods in the routes file
+Brad:yes, but in your book you use the rake file to figure out all the REST
+Brad:I cant figure out how anyone can understand how to generate models and controllers without having everything explained
+Brad:I thought your book was actually better than the Hartl book in explaining how and why models and controller work together
+Ramona:exactly, like breaking down the routing table and providing the proper terms like prefix - that was helpful
+Ramona:The first Ruby presentation I attended a couple months ago was about concurrency and enabling multi-threading
+Brad:thats true, if you miss one tiny step in the Hartl tutorial it will not work and its impossible for a beginner to fix it
