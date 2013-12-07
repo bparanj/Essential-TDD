@@ -1,7 +1,14 @@
+1. Implement validations and show the difference between render and redirect
+2. Scan the 1 to Many relationship diagrams and include it in lesson 10.  
+
+Dec 7
+
+1. Completed Chrome Developer Tools video of Thoughtbot.
 
 Dec 6
 
 1. Completed all book revisions from Rails live training.
+2. Completed Rails Controller and Views Part 2 video.
 
 Dec 5
 

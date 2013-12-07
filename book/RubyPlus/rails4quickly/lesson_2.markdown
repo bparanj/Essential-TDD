@@ -28,6 +28,8 @@ root 'welcome#index'
 
 The method root() takes a string parameter. In this case it maps the home page of your site to welcome controller (class), index action (method).
 
+ \newpage
+
 ### Step 4 ###
 
 Go to the terminal and change directory to the blog project and run:
@@ -116,7 +118,41 @@ Look at the terminal where you have the rails server running, you will see the r
 
 You can see that the browser made a GET request for the resource '/' which is the home page of your site. The request was processed by the server where Rails recognized the request and it routed the request to the welcome controller index action. Since we did not do anything in the index action, Rails looks for the view that has the same name as the action and renders that view. In this case, it is app/views/welcome/index.html.erb.
 
-### Exercise ###
+### Step 12 ###
+
+Go to Rails console by running:
+
+```ruby
+$ rails c
+```
+
+from the blog project directory.
+
+### Step 13 ###
+
+In Rails console run:
+
+```ruby
+app.get '/'
+```
+
+Here we are simulating the browser GET request for the resource '/', which is your home page.
+
+![Simulating Browser GET Request](./figures/get_request.png)
+
+The first request makes database calls and processes the incoming request. You can see the http status code is 200. You can also see which view was rendered for this request.
+
+### Step 14 ###
+
+In Rails console run the same command again:
+
+```ruby
+app.get '/'
+```
+
+![Subsequent GET Request Cached Database Calls](./figures/get_request_db_cached.png)
+
+## Exercise ##
 
 Can you go to http://localhost:3000/welcome/index and explain why you see the contents shown in the page?
 

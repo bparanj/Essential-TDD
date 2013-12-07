@@ -1,3 +1,34 @@
+- installation - this one I've learnt at Railsbridge can go wrong in so many ways
+
+- how to debug rails error messages.  At least common ones like rake routes, missing view templates, etc.
+
+- Why is RubyMine better / quick up and running guide to RubyMine for anyone coming from a different editor.
+
+- using MVC (thin controllers/fat models)  - what if you have lots of things you want to put - partials? 
+
+- Using APIs  with Rails 
+
+- adding Angular.js
+
+- using noSQL databases or using PostGreSQL in Dev (pros / cons)
+
+- A quick guide to the world of gems
+
+
+ I think Angular is the best front-end framework. For installation issues, I need to attend the Railsbridge as a volunteer to speed up writing on how to fix when things go wrong. 
+
+Debugging is a crucial skill to learn. One of the main reason why RubyMine is better when it comes to debugging is that you can use gems that allow you to debug but JetBrains fixes problems that occur due to versioning quicker and they integrate it with the IDE. Very good support.
+
+JetBrains has video tutorials on how to use the debugger for Rails project on their website. I don't know if I will be able to add more value to it.
+
+Discussion about MVC can itself become a separate book. The sweetspot for Rails using MVC 
+framework is for developing web applications that are simple to moderate level of complexity. Anything complex requires you to apply domain driven design and advanced object oriented design principles. 
+
+For example my website clickplan.net uses separate folders such as Aggregate, Jobs, Gateways, Policy and Services. My application is structured using Hexagonal Architecture, it is not simple MVC. You can read about that here : http://alistair.cockburn.us/Hexagonal+architecture
+
+Unfortunately Rails 4 introduces concerns which is not based on Hexagonal Architecture. Eventually it all comes down to designing a system that is simple and easy to maintain.
+
+
 Blog Post
 -----------------------------------
 

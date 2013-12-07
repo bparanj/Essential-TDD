@@ -42,7 +42,8 @@ Install SqliteManager Firefox plugin [SqliteManager Firefox plugin](https://addo
 
 ### Step 5 ###
 
-Let's now see the structure of the comments table. In Firefox go to : Tools --> SQLiteManager
+Let's now see the structure of the comments table. In Firefox go to : 
+Tools --> SQLiteManager
 
 ![SQLite Manager Firefox Plugin](./figures/SQLiteManager)
 
@@ -55,8 +56,6 @@ Click on 'Database' in the navigation and select 'Connect Database', browse to b
 ![Folder Icon](./figures/open_folder_icon.png)
 
 You can also click on the folder icon as shown in the screenshot.
-
-\newpage
 
 ### Step 7 ###
 
@@ -214,6 +213,8 @@ You can see how the rails router takes the comment submit form to the comments c
 ### Step 17 ###
 
 Fill out the comment form and click on 'Create Comment'. You will get a unknown action create error page.
+
+\newpage
 
 ### Step 18 ###
 

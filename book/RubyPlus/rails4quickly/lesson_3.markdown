@@ -7,7 +7,7 @@
 ## Steps ##
 ### Step 1 ##
 
-Open config/routes.rb file and add :
+In Rails, model is a persistent object that can also contain business logic. Model is the Object Relational Mapping (ORM) layer that uses ActiveRecord design pattern. Open config/routes.rb file and add :
 
 ```ruby
 resources :articles
@@ -23,7 +23,9 @@ Blog::Application.routes.draw do
 end
 ```
  
-What is a resource? Resource can represent any concept. For instance if you read the documenation for [Twitter API](https://dev.twitter.com/docs/api/1.1/ "Twitter API"), you will see that Timeline is a resource. It is defined in the documenation as collections of Tweets, ordered with the most recent first. There may not be a one-to-one correspondence between a resource and database table. In our case we have one-to-one correspondence between the database table articles and the article resource.
+What is a resource? Resource can represent any concept. For instance if you read the documenation for [Twitter API](https://dev.twitter.com/docs/api/1.1/ "Twitter API"), you will see that Timeline is a resource. It is defined in the documenation as collections of Tweets, ordered with the most recent first. 
+
+There may not be a one-to-one correspondence between a resource and database table. In our case we have one-to-one correspondence between the database table articles and the article resource.
 
 We have a plural resource so we will have index page that displays a list of all the articles in our case. Singular resource can be used when you don't need index action, for instance if a customer has a billing profile then from the perspective of a customer you can use a singular resource for billing_profile. From an admin perspective you could have a plural resource to manage billing profiles of customers (most likely using admin namespace in the routes).
 
@@ -68,6 +70,8 @@ $ rails g model article title:string description:text
  
 In this command the rails generator generates a model by the name of article. The active_record is the singular form, the database will be plural form called as articles. The articles table will have a title column of type string and description column of type text. 
 
+\newpage
+
 ### Step 4 ##
 
 Open the file db/migrate/xyz_create_articles.rb file. The xyz will be a timestamp and it will differ based on when you ran the command. 
@@ -87,6 +91,8 @@ $ rake db:migrate
 ![Create Table](./figures/migrate.png)
  
 This will create the articles table. 
+ 
+\newpage
  
 ### Step 6 ##
 
@@ -109,6 +115,8 @@ select * from articles;
 ![Rails Db Console](./figures/dbconsole.png)
  
 You can see from the output there are no records in the database. 
+
+\newpage
 
 ### Step 8 ##
  
@@ -133,6 +141,8 @@ in the rails console.
 ![Rails Console](./figures/rails_console.png)
 
 You will see the count is 0. Let's create a row in the articles table. 
+
+\newpage
 
 ### Step 10 ##
 

@@ -208,6 +208,14 @@ def create
 end
 ```
 
+In Figure 49, you see that the hash key article is a string, but I am using the symbol :article in the create method. How does this work? 
+
+![HashWithIndifferentAccess](./figures/hash_with_indifferent_access)
+
+As you can see from the rails console, params hash is not a regular Ruby hash, it is a special hash called HashWithIndifferentAccess. It allows you to set the value of the hash with either a symbol or string and retreive the value using either string or symbol.
+
+\newpage
+
 ### Step 18 ###
 
 Fill out the form and submit again. 
@@ -225,6 +233,8 @@ def create
   Article.create(params.require(:article).permit(:title, :description))
 end
 ```
+
+\newpage
 
 ### Step 20 ###
 
@@ -247,6 +257,8 @@ end
 ```
 
 How do we know that we need to use articles_index_path url helper? We already saw how to find the URL helper to use in the view, we can do the same. If you see the output of rake routes command, we know the resource end point, to find the URL helper we look at the Prefix column.
+
+\newpage
 
 ### Step 22 ###
 
