@@ -1,0 +1,22 @@
+Paypal Express Checkout : Buyer has Paypal Account
+
+1. Enter the URL www.clickplan.net/express?product_id=1 on your browser
+2. You will go to paypal.com website. Take a screenshot of the page you see on paypal.com.
+3. Login to your Paypal account.
+4. Make the purchase of the product. The price is $1.
+5. Once you complete the purchase, take a screenshot of the confirmation page.
+6. If you are not able to complete the purchase, take a screenshot of the page that you see.
+7. Zip the screenshots as one zip file. Upload the zip file to the project for me to review.
+8. Do NOT upload any word documents. Images must be in jpeg, gif or png format only.
+9. You will receive a order confirmation email, forward that email to bparanj@gmail.com.
+
+Paypal Express Checkout : Guest Checkout
+
+1. Enter the URL www.clickplan.net/express?product_id=1 on your browser
+2. You will go to paypal.com website. 
+3. Use guest checkout.
+4. Make the purchase of the product. The price is $1.
+5. Once you complete the purchase, take a screenshot of the confirmation page.
+6. If you are not able to complete the purchase, take a screenshot of the page that you see.
+7. Upload the image file to the project for me to review.
+8. Do NOT upload any word documents. You must upload image in jpeg, gif or png format only.

@@ -1,9 +1,11 @@
-1. Implement validations and show the difference between render and redirect
-2. Scan the 1 to Many relationship diagrams and include it in lesson 10.  
+
+1. Scan the 1 to Many relationship diagrams and include it in lesson 10.  
+
 
 Dec 7
 
 1. Completed Chrome Developer Tools video of Thoughtbot.
+2. Implement validations and show the difference between render and redirect
 
 Dec 6
 

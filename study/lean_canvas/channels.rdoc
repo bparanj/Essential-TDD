@@ -1,0 +1,81 @@
+Content Marketing
+
+Blogs, whitepapers, webinars, books, workshops.
+
+1. "Top Links for This Week" Post. Briefly summarize in one or two sentences useful links on the web for the target market.
+2. Interview the target market and give link to their site. Create a standard template for the list of questions. Use this to have the conversation started. Do this yourself.
+3. Invite the target market as guest authors to blog about their products & business. Create a standard contact email template to request their participation. Then, delegate to Elance. 
+4. How to find the contact details of the target market ?
+5. Create a plan based on the ProBlogger books. Delegate the task to Elance.
+
+Channel Building
+
+Start a Blog
+  - Separate your personal brand from your product brand
+  - Use the product domain for your blog
+  - Write your first post - visualize your customer and problem
+	  A good first post is to write about the top problem you’re addressing. If you are your own prototypical customer, write from your experience. Otherwise, try and visualize your prototypical customer and write it from their point of view.
+  - Keep it real. Write naturally. 500 - 1000 words
+  - Measure your blog
+    Track the number of unique visitors, page-views, comments and re-tweets.
+  - Don’t blog about your product
+    The main purpose of your blog is to out-teach your competition and connect with customers.
+  - Write on a schedule
+  - Be patient
+  - Curate valuable links to self publishing related articles
+  - Post an instructional video on YouTube, teach a workshop, write a book, speak at events, etc. 
+  
+“A software company needs to act like it is a publishing company.”
+
+Find Prospects
+
+Find prospects through a channel you will actually use to acquire future customers.
+
+Hello,
+
+We are an Atlanta based software company and are currently working on a new service to simplify how digital self publishers showcase and sell their ebooks online. We are specifically building better and faster tools for online promotion and selling.
+I would love to get 30 minutes of your time to help us understand your current workflow. I'm not selling anything, just looking for advice.
+
+Thanks,
+Bala
+
+Problem Interview
+
+Collect Demographics
+
+Ask some introductory questions to collect basic demographics that you believe will drive how you segment and qualify your early adopters.
+
+Can you also tell me a little about your ebook? 
+Have you published already?
+How long have you been working on it?
+[Create more questions based on the custom segments section of the lean canvas]
+
+Tell a Story (Set Problem Context)
+
+Illustrate the top 3 problems with a story.
+
+Great, thanks. So let me tell you about the problems we are tackling:
+
+[Write the story here based on how drinking your own champagne solves those problems]
+
+Problem Ranking (Test Problem)
+
+State the top 3 problems and ask for your prospect’s ranking of them.
+
+So to summarize:
+
+The first problem was [fill in the blanks here].
+The second problem was [fill in the blanks here].
+And the third problem was [fill in the blanks here].
+Do any of these problems resonate with you?
+How would you rank these problems?
+Have you run into any other problems I didn’t talk about?
+
+Explore Customer's World View - Test Solution
+
+<Start with their #1 problem>
+So, how do you deal with <problem> today?
+Ask any follow-up questions to understand their current workflow.
+<Repeat for other problems>
+
+

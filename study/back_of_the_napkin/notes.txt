@@ -1,0 +1,91 @@
+Analyze your audience
+--------------------------------------------------
+
+- Where am I in my knowledge of the topic?
+- What the students want to know, in how much detail and for what purpose?
+- Build a description of your ideal student, so that you can picture them and their needs as you create your course.
+	1. How old are they? Between 25 and 50.
+	2. Are they men, women or both? Both
+	3. What is their education level?
+	4. Where do they hang out online?
+	5. What do they do for a living?
+	6. When do they work in your area of expertise?
+	7. How much time and money do they dedicate to your area of expertise?
+	
+By narrowing your focus, you can concentrate on your specific target group. You can get to know them and what they need and want. You can find out what they are willing to pay for. You can locate them and get your message to them.
+	 
+Looking at your clearly defined target market, what are their three biggest problems?
+
+Market Research
+--------------------------------------------------
+
+Apply Eliminate-Reduce-Raise-Create ERRC grid on existing courses.
+
+Determine the prerequisites for the course
+--------------------------------------------------
+- Assumptions - List the prerequisites for the course
+	
+Specify the desired outcome for the course
+--------------------------------------------------
+
+Set the scope of the course (How much you will cover and in what depth)
+--------------------------------------------------
+
+List the steps they need to take to accomplish the goal
+--------------------------------------------------
+
+Judge whether or not they have achieved the course outcome
+--------------------------------------------------
+
+Generate ideas of ways you can help them learn the content
+--------------------------------------------------
+
+Content Sequence
+--------------------
+
+Start with the end in mind.
+Using your list of topics from your brainstorming step, revisit the results that your ideal student wants. Now write down that result. This is the outcome you will use for your course. How do you get to that outcome? What's the first step? Look at the brainstorming topics and figure out the first step. After they have finished that step, what do they need to know or do next? That's the second step. Continue the process of identifying the steps until you can take them from the beginning to the outcome.
+
+You have to know here they are starting, before you know where to begin. Look at the steps that you listed. Do they start where your ideal student is starting? If not, make adjustments so that the steps start at the point where your student can understand them from the beginning.
+
+Now look at the steps you've listed. Looking at step 1, ask yourself 'What is the next logical step that your student will need to take to reach the course outcome?' Repeat this question with each step that you've listed. You may find you move steps around, or you add something you hadn't thought of - or that you have extra or repeat steps in there. The final check of your sequence is working backwards. Remember, we are looking for any holes in our course at this point. 
+
+So this time, starting at the last step, ask yourself 'What step do I need to take before I get to this one?' This will show you any gaps or logic that you missed in the forward sequence. You should now have a solid sequence for your course. You have: 
+
+- listed the steps, starting where your students are starting 
+- reviewed the steps in order, ensuring they are in the correct order and don't leave anything out
+- reviewed the steps in reverse order, again looking for anything you may have left out You are now ready to put your topics into a course format.
+
+Standard Course Structure
+--------------------
+
+Basic structure of a course. 
+An overview - What you're going to tell them
+Content - What you're telling them
+Summary - What you told them.
+
+
+
+
+
+Brainstorming Tools
+--------------------
+
+Paper and Pens
+Index cards
+Charts for drawing mind maps
+
+
+Writing Tools
+--------------------
+Write in a plain text file.
+Edit later.
+
+
+Templates
+--------------------
+For handouts, checklists, slides, audio recording settings, video recording settings.
+
+
+Course Outline
+--------------------

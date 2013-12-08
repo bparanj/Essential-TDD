@@ -1,0 +1,5 @@
+% Operations Manual
+% The main focus of the operations manual is to create quality content.
+% Zepho Inc
+
+\newpage

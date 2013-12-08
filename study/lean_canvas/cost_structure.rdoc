@@ -1,0 +1,23 @@
+** Cost **
+
+People Cost
+
+UI Development : Elance - less than 2k for version 1.0
+Product Development : Sweat equity.
+
+Hosting Cost
+
+Linode Hosting : Prepaid to get 15% off on 2 years hosting. 12 * 2 * 19.95 * 0.85 = $409.22 Paid
+Linode Backup : $5 / mo
+Total Hosting cost : $22 / mo
+
+clickplan.info blog hosting cost on blogger : $0
+
+** Break Even Point **
+
+Server Hosting Cost ~ 22 / mo
+
+If pricing is 20 % of affiliate commission, the total transaction to be processed through the site is : $125 / month for break even.
+
+
+

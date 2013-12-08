@@ -1,0 +1,68 @@
+1) Actors : Affiliate, Buyer, Vendor, Tracker
+
+Affiliate
+
+1) Signup for an affiliate account.
+2) Get affiliate links for products.
+3) View products, referral commission, cookie duration, payment policy etc
+4) View sales reports showing bounties
+5) Email daily and weekly reports - Set Options
+
+Buyer
+
+1) Browse the store
+2) Purchase product
+3) Get refund 
+
+Vendor
+
+1) Signup for a seller account
+2) Setup products, referral commission rate, payment policy, refund policy and cookie duration
+3) View sales reports showing payments to be made
+4) View affiliate details for mailing payments, sending newsletters etc
+5) Email daily and weekly reports - Set options
+
+Tracker
+
+1) Record click, set cookie and redirect to payment processor
+2) Record purchase, credit affiliate and redirect to payment confirmation page
+3) Process refunds
+4) Secure https connection
+5) Email reports to sellers, affiliates and Zepho
+
+http://clickbank.net/sell.cgi?YOURID_MERCHANTID/ProductNumber/ProductName
+
+
+PDF book generation using HTML. 
+Password protection, enable / disable printing. 
+Email as password or random password. 
+Stamping of purchased ebook with user's detail to prevent sharing.
+
+No install
+No maintenance. 
+Free software upgrades
+Focus on growing your business not running your business.
+No waiting period and minimum amount to get paid. Immediate access to cash - use cash to grow your business
+Export customer data as csv file into newsletter management services
+Promotion tracking, Testing sales copy and email newsletter campaigns.
+
+Lower cost than clickbank
+Extend - more than WP Affiliate plugin
+
+Order confirmation email can have link to newsletter subscription
+
+Download Click2Sell affiliate guide and merchant guide. Take notes.
+
+http://www.pluggd.in/sell-digital-goods-online-ejunkie-297/
+http://www.e-junkie.com/ej/pricing.htm
+http://www.e-junkie.com/ej/reseller.htm
+https://application.blinksale.com/firms/new#plans
+http://www.infoq.com/presentations/availability-consistency
+http://www.associateprograms.com/articles/618/1/Click2Sell-new-ClickBank-competitor/
+http://www.click2sell.eu/en/home/companies-comparison.html
+http://www.clickbank.com/blog/tag/competitors/
+http://www.paygear.com/contents/compare/
+http://www.authorpalace.com/internet-marketing/clickbank/paygear-the-clickbank-competitor-with-more-to-offer.html
+https://www.click2sell.eu/signup-click2sell.html
+
+
