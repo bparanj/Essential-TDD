@@ -1,6 +1,13 @@
 
 1. Scan the 1 to Many relationship diagrams and include it in lesson 10.  
 
+Dec 9 
+
+1. Approved UI of rubyplus.com
+
+Dec 8
+
+1. Interaction design, taking notes completed.
 
 Dec 7
 

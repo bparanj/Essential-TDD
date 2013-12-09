@@ -398,3 +398,4 @@ You will now see error messages displayed to the user.
 In this lesson we learned how to display validation error messages to the user when the user does not provide required fields. We also learned the difference between the render and redirect calls.
 
 \newpage
+

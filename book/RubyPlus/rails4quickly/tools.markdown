@@ -62,8 +62,13 @@ $ tail -f log/development.log
 
 5. View source in the browser. For example: Checking if path to images are correct. 
 6. Use rails dbconsole
-7. Firebug, Chrome Dev Tools or something equivalent
+7. Firebug Firefox plugin, Chrome Dev Tools or something equivalent
 8. Debugger in Rubymine is simply the best debugger. JetBrains updates fixes any issues with Ruby debugging gems and provides a well integrated IDE for serious development.
+9. Useful plugins:
+
+- [Rails Footnotes](https://github.com/josevalim/rails-footnotes "Rails Footnotes")
+- [Rails Panel](https://github.com/dejan/rails_panel "Rails Panel")
+
 
 \newpage
 

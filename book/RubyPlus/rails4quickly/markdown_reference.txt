@@ -1,0 +1,37 @@
+Image :
+![Http GET Request](./figures/get_articles_server_log)
+Link :
+[Twitter API](https://dev.twitter.com/docs/api/1.1/ "Twitter API")
+Ruby :
+```ruby
+
+```
+Table :
+Action         Purpose       								 
+------------  ------------------------------ 
+ create       creating a new article         
+ update       updating a given article       
+ delete       deleting a given article       
+ show         displaying a given article     
+ index        displaying a list of articles 
+
+
+```ruby
+
+```
+
+```ruby
+
+```
+
+```ruby
+
+```
+
+```ruby
+
+```
+
+```ruby
+
+```
