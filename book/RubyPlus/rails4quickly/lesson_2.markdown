@@ -108,9 +108,23 @@ Now you will see 'Hello Rails'.
 
 ### Step 10 ###
 
-Open the welcome_controller.rb in app/controllers directory and look at the index action. 
+Telnet is a great way to learn about HTTP requests. 
+
+![Making HTTP Requests using Telnet](./figures/telnet.png)
+
+Connecting to our blog application via telnet.
+
+The command here simulates the GET HTTP request. The http version is 1.1. The command is followed by 2 line feeds. Just hit the enter key twice for line feeds. The response returns the headers as well as the requested resource which in this case is the home page html document.
+
+![Server Response](./figures/telnet_response.png)
+
+You can see the Http status code, Etag, Cookie and other useful information in the server response.
 
 ### Step 11 ###
+
+Open the welcome_controller.rb in app/controllers directory and look at the index action. 
+
+### Step 12 ###
 
 Look at the terminal where you have the rails server running, you will see the request shown in the following image:
 
@@ -118,7 +132,7 @@ Look at the terminal where you have the rails server running, you will see the r
 
 You can see that the browser made a GET request for the resource '/' which is the home page of your site. The request was processed by the server where Rails recognized the request and it routed the request to the welcome controller index action. Since we did not do anything in the index action, Rails looks for the view that has the same name as the action and renders that view. In this case, it is app/views/welcome/index.html.erb.
 
-### Step 12 ###
+### Step 13 ###
 
 Go to Rails console by running:
 
@@ -128,7 +142,9 @@ $ rails c
 
 from the blog project directory.
 
-### Step 13 ###
+ \newpage
+
+### Step 14 ###
 
 In Rails console run:
 
@@ -142,7 +158,9 @@ Here we are simulating the browser GET request for the resource '/', which is yo
 
 The first request makes database calls and processes the incoming request. You can see the http status code is 200. You can also see which view was rendered for this request.
 
-### Step 14 ###
+ \newpage
+ 
+### Step 15 ###
 
 In Rails console run the same command again:
 
@@ -152,6 +170,9 @@ app.get '/'
 
 ![Subsequent GET Request Cached Database Calls](./figures/get_request_db_cached.png)
 
+You can see the caching behavior when you retrieve the home page in subsequent calls.
+
+ 
 ## Exercise ##
 
 Can you go to http://localhost:3000/welcome/index and explain why you see the contents shown in the page?
@@ -160,14 +181,20 @@ Before you go to the next page and read the answer, make an attempt to answer th
 
 \newpage
 
-Answer : You will see the same 'Hello Rails' page. Because if you check the rails server log you can see it made a request : GET '/welcome/index' and if you look at the routes.rb file, you see :
+## Answer ##
+
+You will see the same 'Hello Rails' page. Because if you check the rails server log you can see it made a request : GET '/welcome/index' and if you look at the routes.rb file, you see :
 
 ```ruby
 get "welcome/index" 
 ```
 
 This definition is used by the Rails router to handle this request. It knows the URI pattern of the format 'welcome/index' with http verb GET must be handled by the welcome controller index action.
- 
+
+\newpage
+  
+### Step 16 ###
+
 Delete the  get "welcome/index"  line in the routes.rb file. Reload the page : http://localhost:3000/welcome/index. 
  
 ![Welcome Index](./figures/welcome_index_routing_error.png) 

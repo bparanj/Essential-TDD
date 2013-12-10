@@ -35,6 +35,8 @@ So the question is what should replace the ? in the second parameter to the link
  
 As you can see from the output, for articles#index the Prefix value is articles. So we can use either articles_path (relative url) or articles_url (absolute url). 
  
+\newpage
+ 
 ### Step 2 ###
 
 Change the link as follows :
@@ -105,13 +107,10 @@ You can also use HTTP Live Headers Chrome plugin to see the client and server in
 
 Here you see the client-server interaction details.
 
-\newpage
+As you see in the figure 32, you can learn a lot by looking at the Live HTTP Header details such as Etag which is used for caching by Rails.
 
 ![Live HTTP Headers Gives Ton of Information](./figures/live_http_headers_2.png)
 
-\newpage
-
-You can learn a lot by looking at the Live HTTP Header details such as Etag which is used for caching by Rails.
 
 \newpage
 
