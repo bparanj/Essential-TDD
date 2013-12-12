@@ -27,6 +27,8 @@ Class variable @@
 
 # Integers #
 
+In kindergarden you learned how to count numbers. The numbers that you can count is called integers.
+
 Integers can be positive, zero or negative numbers without decimal places. They can be used to count numbers. We can add, subtract, multiply, increment and exponential. We can assign integers to variables.
 
 1.class
@@ -84,7 +86,7 @@ ceil = round up
 
 # Strings #
 
-Strings are sequences of characters. By definition string is a set of things tied or threaded together on a thin cord. In this case it is the sequence of characters that forms a string.
+In kindergarden you learned alphabets and how to combine alphabets to form words. Similarly, in programmingsStrings are sequences of characters. By definition string is a set of things tied or threaded together on a thin cord. In this case it is the sequence of characters that forms a string.
 
 
 They can be a letter, a word, a sentence, a paragraph, or even

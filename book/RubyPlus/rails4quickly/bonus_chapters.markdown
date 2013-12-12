@@ -399,3 +399,273 @@ In this lesson we learned how to display validation error messages to the user w
 
 \newpage
 
+# 4. Using Twitter Bootstrap 3 #
+
+## Objective ##
+
+- Learn how to integrate Twitter Bootstrap 3 with Rails 4 and style your web application.
+
+## Steps ##
+### Step 1 ###
+
+Add the following line to Gemfile:
+
+```ruby
+gem 'bootstrap-sass', github: 'thomas-mcdonald/bootstrap-sass'
+```
+
+### Step 2 ###
+
+Run :
+
+```ruby
+bundle install
+```
+
+from the blog directory.
+
+### Step 3 ###
+
+Add the following line in your app/assets/javascripts/application.js file:
+
+```ruby
+//= require bootstrap 
+```
+
+### Step 4 ###
+ 
+Make a file in app/assets/stylesheets called load_bootstrap.css.scss and in that file put:
+
+```ruby
+@import "bootstrap";
+```
+
+### Step 5 ###
+
+The app/assets/stylesheets/application.css should look something like this:
+
+```ruby
+*= require_self
+*= require load_bootstrap
+*= require_tree .
+*/
+```
+ 
+This loads the load_bootstrap file into the asset pipeline.
+
+### Step 6 ###
+
+In app/views/layouts/application.html.erb, inside the body tag change the html to the code shown below:
+
+```ruby
+	<nav class="navbar navbar-default" role="navigation">
+	  <!-- Brand and toggle get grouped for better mobile display -->
+	  <div class="navbar-header">
+	    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+	      <span class="sr-only">Toggle navigation</span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	    </button>
+	    <a class="navbar-brand" href="#">My Blog</a>
+	  </div>
+
+	  <!-- Collect the nav links, forms, and other content for toggling -->
+	  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	    <ul class="nav navbar-nav">
+	      <li class="active"><a href="#">About</a></li>
+	      <li><a href="#">Contact</a></li>
+
+	    </ul>
+
+	  </div><!-- /.navbar-collapse -->
+	</nav>
+	
+
+	<% flash.each do |name, msg| -%>
+	      <%= content_tag :div, msg, class: name %>
+	<% end -%>
+
+
+<%= yield %>	
+
+```
+
+The layout file application.html.erb is responsible for application wide layout. The yield is a place holder and its contents can change for different views. The header, footer and navigation defined in the layout will remain the same across different views.
+
+### Step 7 ###
+
+Wrap a :
+
+```ruby
+<div class="container"> 
+```
+
+around the yield in app/views/layouts/application.html.erb. So your yield call in layout file app/views/layouts/application.html.erb will look like this:
+
+```ruby
+<div class='container'>
+<%= yield %>	
+</div>
+```
+
+\newpage
+
+### Step 8 ###
+
+Reload the http://localhost:3000/ page on your browser:
+
+![Twitter Bootstrap Styled Blog](./figures/bootstrap_styled.png)
+
+You will now see the blog styled using bootstrap.
+
+\newpage
+
+### Step 9 ###
+
+Click on 'My Blog' link, the list of blog posts is not styled. Let's make them look nice now. Replace the contents of app/views/index.html.erb with the following code:
+
+```ruby
+<h1>Articles</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @articles.each do |article| %>
+      <tr>
+        <td><%= article.id %></td>
+        <td><%= link_to article.title, article %></td>
+        <td><%= article.description %></td>
+        <td>
+          <%= link_to 'Edit', 
+											 edit_article_path(article), 
+											 :class => 'btn btn-mini' %>
+          <%= link_to 'Delete', 
+											 article_path(article), 
+											 :method => :delete, 
+											 :confirm => 'Are you sure?', 
+											 :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New Article', new_article_path, :class => 'btn btn-primary' %>
+```
+
+\newpage
+
+### Step 10 ###
+
+Reload the http://localhost:3000/articles page. 
+
+![Twitter Bootstrap Styled Table](./figures/bootstrap_styled_table.png)
+
+\newpage
+
+### Step 11 ###
+
+Let's now style the messages that is displayed to the user when they update or delete an article. Add the following method to app/views/helpers/application_helper.rb
+
+```ruby
+def bootstrap_class_for(flash_type)
+  case flash_type
+    when :success
+      "alert-success"
+    when :error
+      "alert-error"
+    when :alert
+      "alert-block"
+    when :notice
+      "alert-info"
+    else
+      flash_type.to_s
+  end
+end
+```
+
+\newpage
+
+### Step 12 ##
+
+Replace the following code:
+
+```ruby
+<% flash.each do |name, msg| %>
+      <%= content_tag :div, msg, class: name %>
+<% end -%>
+```
+
+with the contents shown below:
+
+![Twitter Bootstrap Flash Messages](./figures/twitter_flash_messages.png)
+
+\newpage
+
+### Step 13 ###
+
+Go to articles index page and delete any one of the articles.
+
+![Twitter Bootstrap Styled Flash Messages](./figures/delete_success_flash.png)
+
+The flash messages will now be styled using Twitter Bootstrap alerts.
+
+\newpage
+
+### Step 14 ##
+
+Let's now highlight the tab according to which tab is selected. Add the following method to the app/views/helpers/application_helper.rb.
+
+
+```ruby
+def active?(controller_name)
+  servlet = params[:controller]
+  
+  if servlet == controller_name
+    "active"
+  else
+    ""
+  end
+
+end
+```
+
+### Step 15 ###
+
+Replace the hard coded active class in app/views/layouts/application.html.erb as shown below:
+
+```ruby
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  <ul class="nav navbar-nav">
+		<li class="<%= active?('welcome')%>"> 
+			<a href="/">Home</a>
+		</li>
+		<li class="<%= active?('articles')%>"> 
+			<a href="/articles">Articles</a>
+		</li>
+    <li>
+			<a href="#">Contact</a>
+		</li>
+  </ul>
+</div><!-- /.navbar-collapse -->
+```
+
+![Highlight Home Page](./figures/home_page_highlight.png)
+
+![Highlight Articles Page](./figures/articles_page_highlight.png)
+
+
+Now you will the correct tab highlighted based on which tab is selected.
+
+## Summary ##
+
+In this lesson you learned about application wide layout file and how to configure and use Twitter Bootstrap 3 with Rails application.
+
+\newpage
