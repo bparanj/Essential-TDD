@@ -664,6 +664,10 @@ Replace the hard coded active class in app/views/layouts/application.html.erb as
 
 Now you will the correct tab highlighted based on which tab is selected.
 
+## Exercise ##
+
+Implement the 'About' tab so that it displays the content of about page. Use welcome_controller.rb and define the appropriate routes.
+
 ## Summary ##
 
 In this lesson you learned about application wide layout file and how to configure and use Twitter Bootstrap 3 with Rails application.

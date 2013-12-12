@@ -2,8 +2,10 @@
 1. Scan the 1 to Many relationship diagrams and include it in lesson 10.  
 
 
+Dec 11
 
-
+1. Canceled Yahoo Webhosting account (Signed up on 2-25-2004)
+2. Added a new chapter on integrating Twitter Bootstrap 3 with Rails 4
 
 
 Dec 9 

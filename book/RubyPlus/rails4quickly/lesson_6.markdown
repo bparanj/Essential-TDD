@@ -198,11 +198,11 @@ We see that the URI pattern is '/articles/1' and the http verb is POST. If you l
 
 The question is how to overcome the inability of browsers to speak the entire RESTful vocabulary of using the appropriate http verb for a given operation?
 
-The answer lies in the hidden field called method that has the value PATCH. Rails piggybacks on the POST http verb to actually sneak in a hidden variable that tells the server it is actually a PATCH http verb. If you look at the output of rake routes, for the combination of PATCH and '/articles/1' you will see that it maps to update action in the articles controller.
+The answer lies in the hidden field called _method that has the value PATCH. Rails piggybacks on the POST http verb to actually sneak in a hidden variable that tells the server it is actually a PATCH http verb. If you look at the output of rake routes, for the combination of PATCH and '/articles/1' you will see that it maps to update action in the articles controller.
 
 ![HTTP Verb PATCH](./figures/patch_in_routes.png)
 
-The output of rake routes is your friend.
+Rails 4 uses PATCH instead of PUT that it used in previous versions. This is because PUT is an indempotent operation so for any request that needs to modify the state on the server PATCH is used.
 
 ### Step 15 ##
 
