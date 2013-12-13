@@ -670,6 +670,6 @@ Implement the 'About' tab so that it displays the content of about page. Use wel
 
 ## Summary ##
 
-In this lesson you learned about application wide layout file and how to configure and use Twitter Bootstrap 3 with Rails application.
+In this lesson you learned about application wide layout file and how to configure and use Twitter Bootstrap 3 with Rails application. You also learned about the view helpers that can be used in the views.
 
 \newpage
