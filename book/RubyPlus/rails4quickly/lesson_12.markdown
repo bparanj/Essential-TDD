@@ -1,4 +1,8 @@
-# 12. Restricting Operations #
+CHAPTER 12
+=============
+Restricting Operations
+------------------------------
+
 
 ## Objective ##
 

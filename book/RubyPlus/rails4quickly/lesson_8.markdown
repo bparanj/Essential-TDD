@@ -1,4 +1,8 @@
-# 8. Delete Article #
+CHAPTER 8
+=============
+Delete Article
+------------------------------
+
 
 ## Objectives ##
 

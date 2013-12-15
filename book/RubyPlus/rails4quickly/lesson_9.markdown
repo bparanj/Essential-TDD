@@ -1,4 +1,7 @@
-# 9. View Duplication #
+CHAPTER 9
+=============
+View Duplication
+------------------------------
 
 ## Objective ##
 

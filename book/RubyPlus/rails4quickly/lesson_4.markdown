@@ -1,4 +1,7 @@
-# 4. Model View Controller #
+CHAPTER 4
+=============
+Model View Controller
+------------------------------
 
 ## Objectives ##
 

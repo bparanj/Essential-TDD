@@ -1,4 +1,8 @@
-# 6. Update Article #
+CHAPTER 6
+=============
+Update Article
+------------------------------
+
 
 ## Objective ##
 

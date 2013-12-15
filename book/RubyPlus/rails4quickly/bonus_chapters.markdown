@@ -1,4 +1,4 @@
-# Bonus Chapters #
+Bonus Chapters
 
 --------------------------------------
 

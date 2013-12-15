@@ -1,4 +1,8 @@
-# 7. Show Article #
+CHAPTER 7
+=============
+Show Article
+------------------------------
+
 
 ## Objective ##
 

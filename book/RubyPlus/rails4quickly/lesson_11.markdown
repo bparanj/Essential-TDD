@@ -1,4 +1,7 @@
-# 11. Delete Comment #
+CHAPTER 
+=============
+Delete Comment
+------------------------------
 
 ## Objective ##
 

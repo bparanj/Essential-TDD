@@ -1,4 +1,8 @@
-# 2. Hello Rails #
+CHAPTER 2
+=============
+Hello Rails
+------------------------------
+
 
 ## Objective ##
 

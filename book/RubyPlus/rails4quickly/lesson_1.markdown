@@ -1,5 +1,7 @@
-# 1. Running the Server #
-
+CHAPTER 1
+=============
+# Running the Server
+ 
 ## Objective ##
 
 - To run your rails application on your machine.
