@@ -1,4 +1,4 @@
-CHAPTER 
+CHAPTER 11
 =============
 Delete Comment
 ------------------------------
@@ -18,6 +18,8 @@ Let's add 'Delete' link for the comment in app/views/articles/show.html.erb. We 
 ```
 
 What should be URL helper to use in the second parameter?
+
+\newpage
 
 ### Step 2 ###
 

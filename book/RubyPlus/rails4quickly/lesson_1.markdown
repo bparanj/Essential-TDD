@@ -1,6 +1,7 @@
 CHAPTER 1
 =============
-# Running the Server
+Running the Server
+------------------------------
  
 ## Objective ##
 
@@ -65,13 +66,17 @@ $ rails s
 
 ![Rails Server](./figures/rails_server.png)
 
+\newpage
+
 ### Step 7 ###
 
 Open a browser window and enter http://localhost:3000
 
-\newpage
-
 ![Welcome Aboard](./figures/welcome_page.png)
+
+Welcome page displayed as the home page.
+
+\newpage
 
 ### Step 8 ###
 
@@ -83,11 +88,15 @@ $ fg
 
 which will bring the background process to the foreground.
 
+\newpage
+
 ### Step 9 ###
 
 Click on the 'About' link and check the versions of software installed. If the background of the about section is yellow, installation is fine. If it is red then something is wrong with the installation.
 
 ![About Environment](./figures/about_env.png)
+
+Details about your environment displayed in the browser.
 
 ## Explanation					
 
