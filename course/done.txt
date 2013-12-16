@@ -2,6 +2,10 @@
 1. Scan the 1 to Many relationship diagrams and include it in lesson 10.  
 
 
+Dec 16
+
+1. Implemented tab selection for rubyplus.com
+
 Dec 11
 
 1. Canceled Yahoo Webhosting account (Signed up on 2-25-2004)
