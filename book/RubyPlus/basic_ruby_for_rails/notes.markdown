@@ -1,14 +1,15 @@
 
 http://www.chrisducker.com/virtual-assistants-101/
 
+
 1. What is the difference between load and require? When do you use load vs require?
 2. I have two person objects. How can I compare them?
 3. What is the difference between class and module?
 4. I have a person class with greet method. What are the different ways to invoke the greet method? How do I invoke the greet method if it has argument?
 5. What is the difference between symbol and string?
 
-1. Is print a language keyword or a method?
-2. 
+6. Is print a language keyword or a method?
+7. 
 
 module A
   def hello
@@ -31,13 +32,9 @@ t = Test.new
 
 p t.hello
 
-class Test
-  include A
-  include B
-end
 
-3. How does Test::Unit Framework execute all the tests automatically?
-4. What is closure? Can you give an example?
+8. How does Test::Unit Framework execute all the tests automatically?
+9. What is closure? Can you give an example?
 
 
 # Introspection
@@ -841,6 +838,185 @@ This technique is called Deferred Evaluation. Ruby provides two Kernel Methods t
 dec = lambda {|x| x - 1}
 dec.class ---> Proc
 dec.call(2)
+
+### The & Operator
+
+The & operator converts a block to a Proc. A block is like an additional, anonymous argument to a method. In most cases, you execute the block right there in the method, using yield. There are two cases where yield is not enough:
+
+- You want to pass the block to another method
+- You want to convert the block to a Proc
+
+In both cases, you need to point at the block and say, "I want to use this block" - to do that, you need a name. To attach a binding to the block, you can add one special argument to the method. This argument must be the last in the list of arguments and prefixed by an & sign. Here's a method that passes the block to another method:
+
+def add(a, b)
+  yield(a, b)
+end
+
+def teach_add(a, b, &operation)
+  p 'Lets do the math'
+  p math(a, b, &operation)
+end
+
+teach_math(2,3) { |x,y| x * y }
+
+THIS EXAMPLE IS NOT WORKING
+
+If you call teach_math without a block, the & operation argument is bound to nil and the yield operation in math() fails.
+
+What if you want to convert the block to a Proc? As it turns out, if you referenced operation in the previous code, you'd already have a Proc object. The meaning of &: 'This is a Proc that I want to use as a block'. Just drop the &, and you'll be left with a Proc again.
+
+def m(&tproc)
+  tproc
+end
+
+p = m { |name| "Hello #{name}" }
+p p.class
+p p.call('Bugs')
+
+Proc
+"Hello Bugs"
+
+These are the different ways to covert a block to a Proc. But what if you want to convert it back? Again, you can use the & operator to covert the Proc to a block.
+
+def m(greet)
+  p "#{greet}, #{yield}"
+end
+
+my_proc = proc { "Bugs" }
+m("Hello", &my_proc)
+
+"Hello, Bugs"
+
+When you call m() method, the & converts the my_proc to a block and passes that block to the method. Now we know how to convert a block to a Proc and vice-versa.
+
+The Highline gem is a good example of Deferred Evaluation. It is an example of a callable object that starts its life as a lambda and is then coverted to a regular block.
+
+### Procs vs Lambdas
+
+There are two differences between procs and lambdas. In a lambda, return just returns from the lambda:
+
+def double(callable_object)
+  callable_object.call * 2
+end
+
+l = lambda { return 10 }
+
+p double(l)
+
+prints 20
+
+In a proc, return returns from the scope where the proc itself was defined. 
+
+def double
+  p = Proc.new{return 10}
+  result = p.call
+  return result * 2  # unreachable code
+end
+
+p double
+
+prints 10
+
+This distinction avoids buggy code like:
+
+def double(callable_object)
+  callable_object.call * 2
+end
+
+p = Proc.new{ return 10 }
+
+double(p)
+
+LocalJumpError: unexpected return
+
+This tries to return from the scope where p is defined. Since you can't return from the top-level scope, the program fails. To fix this bug, avoid using explicit returns:
+
+def double(callable_object)
+  callable_object.call * 2
+end
+
+p = Proc.new{ 10 }
+
+print double(p)
+
+prints 20
+
+Lambdas are less tolerant than procs when it comes to arguments. Call a lambda with the wrong arity, and it fails with an ArgumentError. A proc fits the argument list to its own expectations:
+
+p = Proc.new {|a,b| [a,b]}
+puts p.call(1,2,3)      ----> [1, 2]
+puts p.call(1)					----> [1, nil]
+
+If there are too many arguments a proc drops the excess arguments. If there are too few arguments, it assigns nil to the missing arguments. 
+
+p.arity 
+
+prints 2.
+
+use lambdas as first choice, unless you need the specific features of procs.
+
+### Methods
+
+Are just callable objects.
+
+class C
+  def initialize(value)
+    @x = value
+  end
+  def foo
+    @x
+  end
+end
+
+o = C.new(1)
+m = o.method(:foo)
+print m.call
+
+prints 1.
+
+By calling Object#method() you get the method itself as a Method object, which you can later execute with Method#call(). A Method object is similar to a lambda, with an important difference : a lambda is evaluated in the scope it's defined in (it's a closure), while a Method is evaluated in the scope of its object. 
+
+You can detach a method from its object with Method#unbind() which returns an UnboundMethod object. You can't execute an UnboundMethod, but you can turn it back into a Method by binding it to an object.
+
+class C
+  def initialize(value)
+    @x = value
+  end
+  def foo
+    @x
+  end
+end
+
+o = C.new(1)
+m = o.method(:foo)
+
+unbound = m.unbind
+f = C.new(2)
+n = unbound.bind(f)
+puts n.call
+
+prints 2.
+
+This technique works only if f has the same class as the method's original object. Otherwise you'll get an exception.
+
+You can convert a Method object to a Proc object by calling Method#to_proc and you can convert a block to a method with define_method().
+
+## Callable Objects Summary
+
+Callable objects are snippets of code that you can evaluate and they carry their own scope along with them. They can be the following:
+
+Blocks : They aren't objects, but they are still callable. Evaluated in the scope in which they're defined.
+
+Procs: Objects of class Proc. Like blocks, they are evaluated in the scope where they're defined.
+
+Lambdas : Also objects of class Proc but subtly different from procs. They're closures like blocks and procs and as such they're evaluated in the scope where they're defined.
+
+Methods: Bound to an object, they are evaluated in that object's scope. They can also be unbound from their scope and rebound to the scope of another object.
+
+You can convert from one callable object to another by using Proc.new(), Method#to_proc() or the & operator.
+
+
+## Block-Local Variables
 
 
 
