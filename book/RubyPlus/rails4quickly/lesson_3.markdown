@@ -8,6 +8,10 @@ Model
 
 - To learn the model part M of the MVC framework
 
+## Context 
+
+We are going to create an web application that will have articles to read, create, list, update and delete.
+
 ## Steps ##
 ### Step 1 ##
 
@@ -113,7 +117,7 @@ This will drop you into the database console. You can run SQL commands to query 
 In the database console run:
 
 ```ruby
-select * from articles;
+select count(*) from articles;
 ```
 
 ![Rails Db Console](./figures/dbconsole.png)

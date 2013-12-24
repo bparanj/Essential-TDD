@@ -22,7 +22,7 @@ If we agree on the contract between the front-end and back-end by defining the d
 
 ### Step 1 ###
 
-Let's modify the existing static page in welcome/index.html.erb to use a view helper for hyperlink:
+Let's modify the existing static page in app/views/welcome/index.html.erb to use a view helper for hyperlink:
 
 ```ruby
 <%= link_to 'My Blog', ? %>
@@ -184,6 +184,10 @@ You will see the objects in the array displayed on the browser.
 ![Using the Wrong Tags](./figures/wrong_tags.png)
 
 Articles are displayed as objects inside an array.
+
+Why does model, view and controller all have to be named Article? The view does more than just display articles in complicated web apps. 
+
+In our simple blog application we are dealing with only one concept, namely article. The focus is on the learning objectives outlined at the beginning of this chapter. In complicated web apps you could have a view that displays data from different tables.
 
 \newpage
 

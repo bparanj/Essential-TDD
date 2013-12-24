@@ -90,7 +90,7 @@ You will now see the above page.
 
 ### Step 8 ###
 
-Go to app/views/index.html.erb and change it to 'Hello Rails' like this:
+Go to app/views/welcome/index.html.erb and change it to 'Hello Rails' like this:
 
 ```ruby
 <h1>Hello Rails</h1>
@@ -187,7 +187,7 @@ Before you go to the next page and read the answer, make an attempt to answer th
 
 ## Answer ##
 
-You will see the same 'Hello Rails' page. Because if you check the rails server log you can see it made a request : GET '/welcome/index' and if you look at the routes.rb file, you see :
+You will see the same 'Hello Rails' page. Because if you check the rails server log you can see it made a request : GET '/welcome/index' and if you look at the config/routes.rb file, you see :
 
 ```ruby
 get "welcome/index" 
@@ -199,7 +199,7 @@ This definition is used by the Rails router to handle this request. It knows the
   
 ### Step 16 ###
 
-Delete the  get "welcome/index"  line in the routes.rb file. Reload the page : http://localhost:3000/welcome/index. 
+Delete the  get "welcome/index"  line in the config/routes.rb file. Reload the page : http://localhost:3000/welcome/index. 
  
 ![Welcome Index](./figures/welcome_index_routing_error.png) 
  

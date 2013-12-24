@@ -1018,6 +1018,760 @@ You can convert from one callable object to another by using Proc.new(), Method#
 
 ## Block-Local Variables
 
+1. Quiet
+2. Tennis Courts (easy access). Ground floor apartment.
+3. Within 5 mile radius of work.
+
+< 3200
+
+
+
+A block captures the bindings that are around when you first define the block. You can also define additonal bindings inside the block, but they disappear after the block ends:
+
+def foo
+  yield
+end
+
+top_level_variable = 1
+
+foo do
+  top_level_variable += 1
+  local_to_block = 1
+end
+
+p top_level_variable 
+p local_to_block     
+
+# top_level_variable ----> 2
+# local_to_block     ----> Error
+
+
+Instance Exec
+
+This is similar to instance_eval, but it also allows you to pass arguments to the block:
+
+class C
+  def initialize
+    @x, @y = 1,2
+  end
+end
+
+p C.new.instance_exec(3){|a|(@x + @y) * a }
+
+prints 9.
+
+Class Definitions
+
+In Ruby, when you use the class keyword, you are not dictating how objects will behave in the future. You are actually running code. Ruby class definition is actually regular code that runs.
+
+Inside Class Definitions
+
+You can put any code you want in a class definition.
+
+class C
+  p 'hi'
+end
+
+prints hi
+
+Class definitions also return the value of the last statement, just like methods and blocks. 
+
+result = class C
+           self
+         end
+         
+p result
+
+prints C.
+
+In a class definition, the class itself takes the role of the current object self. Classes and modules are objects. So a class can be self. 
+
+Current Class
+
+Wherever you are in a Ruby program, you always have a current object : self. Likewise, you always have a current class or module. When you define a method, that method becomes an instance method of the current class.
+
+You can get a reference to the current object through self. There's no equivalent keyword to get a reference to the current class. You can keep track of the current class just by looking at the code. Whenever you open a class with the class keyword ( or a module with module keyword), that class becomes the current class:
+
+class C
+  The current class is C
+  def foo
+    so this is an instance method of C
+  end
+end
+
+The class keyword has a limitation: it needs the name of a class. In some situations you may not know the name of the class that you want to open. Ex: A method that takes a class and adds a new instance method to it:
+
+def add_method_to(a_class)
+  define method foo() on a_class.
+end
+
+How can you open a class if you don't know it's name? You need some way other than the class keyword to change the current class. Enter the class_eval() method.
+
+class_eval() : Module#class_eval (alternate name module_eval()) evaluates a block in the context of an existing class: 
+
+def add_method_to(a_class)
+  a_class.class_eval do
+    def foo
+      'hi'
+    end
+  end
+end
+
+add_method_to(String)
+
+p 'abc'.foo
+
+prints 'hi'.
+
+By changing the current class, class_eval effectively reopens the class, just like the class keyword. Class eval is more flexible than class. You can use class_eval on any variable that references the class, while class requires a constant. Also, class opens a new scope, losing sight of the current bindings, while class_eval has a flat scope. This means you can reference variables from the outer scope in a class_eval block.
+
+Current Class Summary
+
+In a class definition, the current object self is the class being defined. The Ruby interpreter always keeps a reference to the current class (or module). All methods defined with def become instance methods of the current class.
+
+In a class definition, the current class is the same as self - the class being defined. If you have a reference to the class,  you can open the class with class_eval. At the top level, the current class is Object, the class of main. So, if you define a method at the top level, that method becomes an instance method of Object.
+
+$irb
+1.9.2p180 :001 > def m
+1.9.2p180 :002?>   'hi'
+1.9.2p180 :003?>   end
+ => nil 
+1.9.2p180 :004 > o = Object.new
+ => #<Object:0x00000101850370> 
+1.9.2p180 :005 > o.m
+NoMethodError: private method `m' called for #<Object:0x00000101850370>
+	from (irb):5
+	from /Users/bparanj/.rvm/rubies/ruby-1.9.2-p180/bin/irb:16:in `<main>'
+1.9.2p180 :006 > o.send(:m)
+ => "hi" 
+
+Class Instance Variables
+
+The Ruby interpreter assumes that all instance variables belong to the current object self. This is also true in a class definition:
+
+class C
+  @v = 1
+end
+
+In a class definition, the role of self belongs to the class itself, so the instance variable @v belongs to the class. Instance variables of the class are different from instance variables of that class's objects.
+
+class C
+   @v = 1
+  
+  def self.read
+    @v
+  end
+  
+  def write
+    @v = 2
+  end
+  
+  def read
+    @v
+  end
+end
+
+o = C.new
+o.write
+p o.read
+p C.read
+
+prints 2 and 1.
+
+The two instance variables @v are named same but they're defined in different scopes and they belong to different objects. To see how this works, remember that classes are just objects and you have to track self through the program. One @v is defined with o as self, so itss an instance variable of the o object. The other @v is defined with C as self, so its an instance variable of the C object - a Class Instance Variable. They are instance variables that belong to an object of class Class. Because of that, a Class Instance Variable can be accessed only by the class itself - not by an instance or by a subclass.
+
+Class Variables
+
+A class variable is identified by an @@ prefix: 
+
+class C
+  @@v = 1
+end
+
+Class variables are different from Class Instance Variables, because they can be accessed by subclasses and by regular instance methods. Go to irb:
+
+@@v = 1
+class D
+  def m
+    @@v
+  end
+end
+
+p D.new.m
+
+prints 1.
+
+Class variables don't belong to classes - they belong to class hierarchies. Since @@v is defined in the context of main, it belongs to main's class Object and to all the descendants of Object. D inherits from Object, so it  ends up sharing the same class variable.
+
+## Singleton Methods
+
+Ruby allows you to add a method to a single object.
+
+s = 'a regular string'
+def s.title?
+  self.upcase == self
+end
+
+p s.title?
+p s.methods.grep(/title?/)
+p s.singleton_methods
+
+false
+["title?"]
+["title?"]
+
+A method which is specific to a single object is called a Singleton Method. In Ruby, type of an object is not strictly related to its class. Instead, the type is simply the set of methods to which an object can respond. 
+
+## Class Methods
+
+Classes are just objects and class names are just constants. So, calling a method on a class is the same as calling a method on an object:
+
+an_object.a_method 
+a_class.a_class_method
+
+In the first case, we call a method on an object referenced by a variable. In the second case, we call a method on an object (that also happens to be a class) referenced by a constant.
+
+Class methods are Singleton Methods of a class. If you compare the definition of a Singleton Method and the definition of a class method, you'll see that they are the same:
+
+def obj.a_singleton_method
+def C.a_class_method
+
+If you're writing code in a class definition, you can take advantage of the fact that self is the class itself. Then you can use self in place of the class name to define a class method:
+
+class C
+  self.a_class_method
+end
+
+So, you always define a Singleton Method in the same way:
+
+def object.method
+
+object can be an object reference, a constant class name or self.
+
+## Class Macros
+
+class C
+  attr_accessor :cost
+end
+
+All the attr_* methods are defined on class Module so you can use them whenever self is a module or a class. Class macros look like keywords, but they are just regular class methods that are meant to be used in a class definition.
+
+## Eigen Classes
+
+Ruby finds methods by going right into the receiver's class and then up the class hierarchy.
+
+class C
+  def m
+    
+  end
+end
+
+o = C.new
+o.m()
+
+When you call m(), Ruby goes right into C and finds the method there.
+
+Page 17 diagram on from 2013_09_22_13_30_49_ruby.pdf
+
+What happens if you define a Singleton Method on o?
+
+def o.my_singleton_method
+  
+end
+
+The Singleton Method can't live in o, because o is not a class. It can't live in C, because if it did, all instances of C would share it. And it cannot be an instance method of C's superclass, Object.
+
+Class methods are a special kind of Singleton Method:
+
+def C.my_class_method
+  
+end
+
+Diagram on page 18 of 2013_09_22_13_30_49_ruby.pdf
+
+And again my_class_method is not in the diagram. An object can have a hidden class. If you want to get a reference to the eigenclass, you can return self out of the scope of the eigenclass.
+
+o = Object.new
+eigenclass = class << o
+               self
+             end
+p eigenclass
+
+
+prints Class.
+
+Eigenclasses have only a single instance. They are also called singleton classes. They can't be inherited.
+
+An object's Singleton methods live in an Eigen class. 
+
+o = Object.new
+eigenclass = class << o
+self
+end
+
+eigenclass
+
+def o.my_singleton_method
+end
+
+p   eigenclass.instance_methods.grep(/my_/)  
+
+prints ["my_singleton_method"]
+
+class_eval changes both self and the current class. instance_eval changes self and the current class to the eigenclass of the receiver. Example using instance_eval to define a Singleton Method.
+
+s1, s2 = 'abc', 'def'
+s1.instance_eval do
+  def woo
+    reverse
+  end
+end
+
+p s1.woo
+p s2.respond_to?(:woo)
+p s1.respond_to?(:woo)
+
+prints :
+
+"cba"
+false
+true
+
+It's rare to see instance_eval used to change the current class. The standard meaning of instance_eval is : I want to change self.
+
+## Method Lookup
+
+class C
+  def m
+    'C#m()'
+  end
+end
+
+class D < C
+end
+
+o = D.new
+p o.m()
+
+prints "C#m()"
+
+Diagram on page 20 in 2013_09_22_13_30_49_ruby.pdf
+
+The method lookup goes 'one step to the right, then up'. When you call o.m(), Ruby goes right into o's class D. From there, it climbs up the ancestors chain until it finds m() in class C. 
+
+## Eigen Classes and Method Lookup
+
+Helper method that returns the eigenclass of any object:
+
+class Object
+  def eigenclass
+    class << self
+      self
+    end
+  end
+end
+
+p 'ab'.eigenclass
+
+Since class methods are just Singleton methods that live in the class's eigenclass, you can just open the eigenclass and define the method inside:
+
+class C
+  class << self
+    def m
+      
+    end
+  end
+end
+
+Diagram on page 21 of 2013_09_22_13_30_49_ruby.pdf.
+
+class << o
+  def a_singleton_m
+    'o#a_singleton_m'
+  end
+end
+
+We know that an eigenclass is a class, so it must have a superclass. Which is the superclass of the eigenclass?
+
+o.eigenclass.superclass ----> D
+
+The superclass of o's eigenclass is D. This diagram shows how Singleton Methods fit into the normal process of method lookup. If an object has an eigenclass, Ruby starts looking for methods in the eigenclass rather than a class and that's why you can call Singleton methods such as o#a_singleton_m(). If Ruby can't find the method in the eigenclass then it goes up the ancestors chain, ending in the super class of the eigenclass - which is the object's class. From there everything is same as before.
+
+## Eigenclasses and Inheritance
+
+class C
+  class << self
+    def a_class_method
+      'C.a_class_method()'
+    end
+  end
+end
+
+p C.eigenclass
+p D.eigenclass
+p D.eigenclass.superclass
+p C.eigenclass.superclass
+
+prints, C, D, C, Object
+
+Diagram on page 22 of 2013_09_22_13_30_49_ruby.pdf
+
+S - Link classes to their super classes
+C - Link objects (including classes) to their classes, which in this case are all eigenclasses.
+
+C do not point at the same classes that the class() method would return, because the class() method doesn't know about eigenclasses. For example, o.class() would return D, even if the class of object o is actually its eigenclass, #o.
+
+Diagram on page 23 on 2013_09_22_13_30_49_ruby.pdf
+
+The superclass of #D is #C, which is also the eigenclass of C. By the same rule, the superclass of #C is #Object. The superclass of the eigenclass is the eigenclass of the superclass. Due to this arrangement, you can call a class method on a sub class:
+
+D.a_class_method ----> C.a_class_method()
+
+Even if a_class_method() is defined on C, you can call it on D. This is possible because method lookup starts in #D and goes up to the #D's superclass #C, where it finds the method.
+
+The Seven Rules of the Ruby Object Model
+
+1. There is only one kind of object - be it a regular object or a module.
+2. There is only one kind of module - be it a regular module, a class, an eigen class or a proxy class.
+3. There is only one kind of method and it lives in a module - most often in a class.
+4. Every object, class included, has its own 'real class', be it a regular class or an eigen class.
+5. Every class has exactly one superclass, with the exception of BasicObject. This means you have a single ancestors chain from any class upto BasicObject.
+6. The superclass of the eigenclass of an object is the object's class. The superclass of the eigenclass of a class is the eigenclass of the class's superclass.
+7. When you call a method, Ruby goes right in the receiver's real class and then up the ancestors chain.
+
+## Class Attributes
+
+class C
+  attr_accessor :a
+end
+
+o = C.new
+o.a = 2
+p o.a
+
+prints 2. attr_accessor method generates for any object. But what if you want to define an attribute on a class instead? You can reopen Class and define attributes there:
+
+class C
+  attr_accessor :b
+end
+
+This works, but it adds the attribute to all classes. If you want an attribute that's specific to C, you can define the attribute in the eigenclass. 
+
+class C
+  class << self
+    attr_accessor :c
+  end
+end
+
+C.c = 'It works'
+p C.c
+
+prints "It works".
+
+An attribute is actually a pair of methods. If you define those methods in the eigenclass, they become class methods; as if you had written this:
+
+def C.c=(value)
+  @c = value
+end
+
+def C.c
+  @c
+end
+
+Class attributes live in the class's eigenclass. 
+
+Diagram on page 26 of 2013_09_22_13_30_49_ruby.pdf
+
+Diagram on page 27 of 2013_09_22_13_30_49_ruby.pdf
+
+The superclass of #BasicObject is class. This explains why you can call MyClass#b() and MyClass#b=().
+
+## Modules and Class Methods
+
+module MyModule
+  def self.my_method
+    'hi'
+  end
+end
+
+class MyClass
+  include MyModule
+end
+
+MyClass.my_method 
+
+gives undefined method my_method error.
+
+When a class includes a module, it gets the module's instance methods - not the class methods. Class methods stay out of reach, in the module's eigenclass.
+
+Solution : First, define my_method as a regular instance method of MyModule. Then include the module in the eigenclass of MyClass.
+
+module MyModule
+  def my_method
+    'hi'
+  end
+end
+
+class MyClass
+  class << self
+    include MyModule
+  end
+end
+
+p MyClass.my_method 
+
+prints hi
+
+my_method() is an instance method of the eigenclass of MyClass. As such, my_method() is also a class method of MyClass. This technique is called Class Extension.
+
+## Class Methods and include()
+
+You can define class methods by mixing them into the class's eigenclass. Class methods are special case of Singleton methods, so you can generalize this trick to any object. In the general case, this is called Object Extension. Ex: Object o is extended with the instance methods of MyModule:
+
+module MyModule
+  def my_method
+    'hi'
+  end
+end
+
+o = Object.new
+class << o
+  include MyModule
+end
+
+p o.my_method
+p o.singleton_methods
+
+prints :
+
+"hi"
+["my_method"]
+
+Opening the eigenclass is a way to extend a class or an object. Here is an alternative technique.
+
+## Object#extend
+
+Class extensions and Object extensions are common, Ruby provides a method for them, Object#extend() 
+
+module MyModule
+  def my_method
+    p 'hi'
+  end
+end
+
+o = Object.new
+o.extend MyModule
+o.my_method
+
+prints 'hi'
+
+class MyClass
+  extend MyModule
+end
+
+MyClass.my_method
+
+prints 'hi'
+
+Object#extend() is a shortcut that includes a module in the receiver's eigenclass.
+
+## Aliases
+
+We have a method that we can't modify directly, because it is in a library. We want to wrap additional functionality around this method so that all clients get the additional functionality automatically.
+
+### Method Aliases
+
+You can give an alternate name to a Ruby method by using the alias keyword. 
+
+class MyClass
+  def my_method
+    p 'my method'
+  end
+  
+  alias :m :my_method
+  
+end
+
+o = MyClass.new
+o.my_method
+o.m
+
+prints 'my_method' twice.
+
+alias :new_name :original_name
+
+alias is a keyword not a method. So there is no comma between method names). Ruby also provides Module#alias_method(), a method equivalent to alias. 
+
+class MyClass
+  def m
+    p 'hi'
+  end
+  alias_method :m2, :m
+end
+
+o = MyClass.new
+o.m2
+o.m
+
+prints 'hi' twice.
+
+### Around Aliases
+
+What happens if you alias a method and then redifine it?
+
+class String
+  alias :real_length :length
+  
+  def length
+    real_length > 5 ? 'long' : 'short'
+  end
+end
+
+p 'War and Peace'.length
+p 'War and Peace'.real_length
+
+prints :
+
+"long"
+13
+
+We redefine String#length, but the alias still refers to the original method. When you redefine a method, you don't change the method. Instead, you define a new method and attach an existing name to that new method. You can still call the old version of the method as long as you have another name that's still attached to it.
+
+The new length() is wrapped around the old length(), that's why this is called an Around Alias. You can write an Around Alias in three simple steps:
+
+1. You alias a method
+2. You redefine it
+3. You call the old method from the new method
+
+class M < Array
+  def m
+    p 'hi'
+  end
+end
+
+Rewrite this without using class keyword. 
+
+c = Class.new(Array) do
+  def m
+    p 'hi'
+  end
+end
+
+Since a class is an instance of Class, we can create it by calling Class#new(). Class#new() also accepts an argument (the superclass of the new class) and a block that is evaluated in the context of the new born class.
+
+Now you have a variable that references a class, but the class is still anonymous. The name of the class of the class is just a constant, so you can assign it yourself.
+
+C = c
+
+Now the constant references the Class, and the Class also references the constant. If it weren't for this trick, a class wouldn't be able to know its own name, and you couldn't wirte this:
+
+c.name
+
+"C"
+
+
+
+
+Delete the following documents:
+Defining goals and measuring success.
+Introduction - What is content marketing?
+What this course covers.
+Exploring where articles are published (adds no value in the context of writing articles for clickplan.info)
+Finding article writing assignments. (adds no value in the context of writing articles for clickplan.info)
+
+
+
+
+Leadership support.
+
+Think what happens in a magazine. Magazines don't just think what they are going to publish a week before they hit the press. They are planning months and weeks in advance. You need to do the same.
+Lay out the next three months thinking about what you need to cover. Figure out what products you've got coming out, or maybe an event that you're organizing.
+Looking ahead allows you to plan for the content that you're going to create.
+
+Integrating with already established programs.
+
+This is not applicable. Zepho is a one-person company with VAs assisting in creating content.
+
+Knowing your company's culture.
+
+Zepho is focused in creating products for publishers to succeed. It will publish content that helps publishers succeed. This means 'How to' articles and content to help them succeed.
+
+
+
+
+
+Retain (No modifications)
+Preparing to write articles
+Writing the Article
+Using the exercise files (where are the exercise files? )
+
+
+
+Adopting technical tools
+
+Writing tools can be classified into three categories – an application to write on, applications for manipulating media and a filing system.
+
+A word processor such as MS Word, Apple Pages and FOSS systems such as Libreoffice and Openoffice. These word processors give a number of advantages in formatting what you write, but sometimes this very thing becomes a liability. This is where a simple text editor comes in handy, and many writers prefer writing their first drafts in a text editor before using a full fledged word processor to complete the article. 
+
+You need a place where you can keep all the material that you collect, something that will help you organize this material so that you can find something when you are looking for it. Anything, even the default file browser in your computer will suffice as long as it works for you.
+
+
+Conducting Interviews
+
+Interviews are a great way to get information from people who know it best. Quotes can give an article credibility, personality and focus.
+
+Your first step is to find appropriate people to interview. One way is to contact people who are quoted in similar articles. On one hand you know that you'll get someone who's willing to talk with the press, but on the other, that could make your article seem a little like a rehash. 
+
+Going a little deeper, you might find an expert who's mentioned in other articles but not quoted. Or maybe you'll find people who have established themselves as experts in other ways.
+However you identify the right people, track them down and send emails to ask for interviews. A template for such an email is included HERE...
+
+..............WHERE IS THE TEMPLATE? INCLUDE IT HERE..................
+
+Some subjects will want to see the interview questions beforehand, or they'll prefer to answer them by email, rather than in a phone call. It's your decision how you go about this, but in most cases, an impromptu live conversation gives better quotes and the rambling nature of a live conversation gives you the option of delving into areas that you hadn't considered before.
+
+An email interview however lets the subject do background research, and some people may need to run their answers by other people in their organization before sending to you. An email may therefore be the only way to reach them.
+
+If you do however succeed in getting a live interview, be ready to take notes and if possible to record the call for accuracy. It is not only polite, but in many cases, legally required that you let your subject know that you are recording the call.
+
+Many people are nervous talking to the media. In reality however most interviews are conducted with people who want to talk to you. They may still be nervous but they'll open up if you treat the interview like a conversation between two people just trying to make a story more interesting, thoughtful and accurate.
+
+Meeting technical requirements
+
+Once you finish your first draft, reviewing some technical points will make your article more professional and editor-friendly. [SIMPLIFIED BY CONTEXT]
+
+Is your article the right length? Generally speaking, your word cound should be between 90 and 120% of the target. More is not necessarily better.
+Are you supposed to turn in anything besides the main text? Links for further reading, author bio or even a brief summary of the article is useful. 
+
+Simple text format is fine. Don't rely on your word processor's formatting to survive when you cut and paste text. Give indicators for bold and italics using plain text, and describe your system in a note to the editor.
+ 
+If you quote people in an interview, send them the portion of the article that contains their quotes, just to make sure that you got them right and sepecially if you had to reword them as is often the case.
+
+Lastly check people's titles and the spelling of all proper names. In particular, watch out for capitals and spaces in the middle of company names. Now is the time to send your article. 
+
+Integrating your article with a complex project.
+
+Questions of style, tone and format are best answered by whoever is in charge of the project's vision. Figure out who you ultimately have to satisfy, then have a chat with that person to work out such details. It's probably a good idea to get them to take a look at your work while it is in progress just to make sure that you are going in the right direction.
+
+Defining an article 
+
+
+An article is written. An article is usually a non-fiction work. It can be opinionated or factual, but they usually deal with the world around us. 
+
+An article is usually not a stand alone piece. It is part of a whole which means that it fits into a series. In fact the word article itself means that, like how an article of clothing fits into a wardrobe.
+
+An article is usually between 300 and 8,000 words long with the vast majority falling between 500 and 1,500 words. Shorter ones are called blurbs and longer ones usually stand alone.
+
+An article falls into the one-to-many category in the sense that it is written by one person, to be read by many people. An example would be an article in a magazine.
+
+
+
+
+
+
+
+
+
+
 
 
 
