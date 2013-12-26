@@ -1,6 +1,7 @@
 
 http://www.chrisducker.com/virtual-assistants-101/
 
+Interview Questions
 
 1. What is the difference between load and require? When do you use load vs require?
 2. I have two person objects. How can I compare them?
@@ -1669,8 +1670,90 @@ c.name
 
 "C"
 
+## Introspection
+
+### Semantic Introspection vs Syntactic Introspection
+
+Syntactic introspection is the lowest level of instrospection - direct examination of the program text or token stream. Template based and macors-based metaprogramming usually operate at the syntactic level. 
+
+The higher level alternative to syntactic introspection is semantic introspection or examination of a program through the language's higher-level data structures. In Ruby, it generally means working at the class and method level: creating, rewriting and aliasing methods; intercepting method calls; and manipulating the inheritance chain. This treats existing methods as black boxes instead poking inside their implementations.
+
+## Bottom-Up Programming
+
+Build abstractions from the lowest level. Write the lowest level constructs first and build the program on top of those abstractions. You are writing a DSL in which you build your programs.
+
+## Classes
+
+Facilitate encapsulation and separation of concerns. Every class name is a constant. The constant evaluates to a class object which is an object of the class Class. When we refer to a 'class object', we mean any object that represents a class (including the Class itself). Class object - class Class (superclass of all class objects). Classes can be instantiated. Class names are nouns most often. 
+
+## Modules
+
+- Mixins (multiple inheritance)
+- Uses to separate classes into namespaces
+- The class Class inherits from Module (every class is also a module)
+- Classes cannot be mixed in to other classes and classes cannot extend objects (Modules can)
+- Module names are adjectives
+- Modules contain behaviors and characteristics that belong to more than one class. Eg: Enumerable, Comparable. Pg 230 Sam's Ruby in 21 days
+
+## Closures
+
+Closures are created when a block or Proc accesses variables defined outside of its scope. Even though the containing block may go out of scope, the variables are kept around until the block or Proc referencing them goes out of scope. 
+
+def get_closure
+  data = [1,2,3]
+  lambda { data }
+end
+
+block = get_closure
+p block.call
+
+prints [1, 2, 3]
+
+The anonymous function (the lambda) returned from get_closure, which references the local variable data, which is defined outside of its scope. As long as the block variable is in scope, it will hold its own reference to data and that instance of data will not be destroyed (even after get_closure returns). Each time get_closure is called, data references a different variable (since it is a function-local).
 
 
+def get_closure
+  data = [1,2,3]
+  lambda { data }
+end
+
+block = get_closure
+b2 = get_closure
+
+p block.call.object_id
+p b2.call.object_id
+
+prints : 
+2157494800
+2157494740
+
+Example of closure:
+
+def counter(i=0)
+  lambda { i+= 1 } # counter function (proc) increments and returns its counter
+end
+
+x = counter
+p x.call
+p x.call
+
+prints 1, 2
+
+y = counter
+p y.call
+p y.call
+
+prints 1, 2
+
+The lambda function creates a closure that closes over the current value of the local variable i (i var can be accessed and modified). Each closure gets a separate instance of the var (because it is a var local to a particular instantiation of counter). Since x and y contain references to different instances of the local variable i, they have different state. Page 56, 57 elaborate on the Programming Ruby examples.
+
+MetaProgramming in Ruby - Peter Vanbroekhoven
+
+
+
+The focus will be on "What" and "How" to do a certain task. Step by Step instructions to accomplish a certain task. Skip all the "Why" in the material. 
+
+This is for internal use, for training VAs. No need to paraphrase any sentences. You can make it concise, if you find any fluff.
 
 Delete the following documents:
 Defining goals and measuring success.
@@ -1678,8 +1761,10 @@ Introduction - What is content marketing?
 What this course covers.
 Exploring where articles are published (adds no value in the context of writing articles for clickplan.info)
 Finding article writing assignments. (adds no value in the context of writing articles for clickplan.info)
-
-
+Taking on an assignment. (this is not applicable for writing articles for a blog)
+Next steps.
+Introduction
+Following up.
 
 
 Leadership support.
@@ -1754,27 +1839,69 @@ Questions of style, tone and format are best answered by whoever is in charge of
 
 Defining an article 
 
-
-An article is written. An article is usually a non-fiction work. It can be opinionated or factual, but they usually deal with the world around us. 
+An article is usually a non-fiction written work. It can be opinionated or factual, but they usually deal with the world around us. 
 
 An article is usually not a stand alone piece. It is part of a whole which means that it fits into a series. In fact the word article itself means that, like how an article of clothing fits into a wardrobe.
 
 An article is usually between 300 and 8,000 words long with the vast majority falling between 500 and 1,500 words. Shorter ones are called blurbs and longer ones usually stand alone.
 
-An article falls into the one-to-many category in the sense that it is written by one person, to be read by many people. An example would be an article in a magazine.
+Managing the revision process.
+
+At the top of your story is the headline, there might be a secondary headline as well.
+Then comes the important leading sentence. The leading sentence usually launches the nut graf, which summarizes the article's main point. The nut graf could also come later.
+
+Longer articles will be broken up with subheads. Finally, stories end with a kicker or a conclusion. 
+
+Examining different kinds of articles.
+
+Here is a list of writing categories:
+
+1. Review Article – A review is an opinion on a product or service and can be about anything. And because it is an opinionated article, it can be as short as 200 words or much longer. It can be a comparative review where different products are compared, or it can be a statement giving the opinion of the author. Ultimately, it is written work that seeks to convince the reader to take a certain point of view about something.
+
+2. Promotional Article – These articles are highly opinionated, and may sometimes deviate from facts by quite a bit in order to bring the reader over to a certain point of view. They are usually written to promote a particular product or service and are written is a very easy to digest format while yet managing to imprint the opinion conveyed into the reader's mind.
+
+3. How-to Article – How-to articles serve only one purpose and that is to teach the reader how to do something. They are usually very simple and follow a step by step approach detailing the steps to be followed.
 
 
+Gathering reference material
 
+The simplest, and the most important are the ubiquitous Dictionary and Thesaurus. A dictionary comes in handy when you're looking for the meaning of words, or words that mean something, while a thesaurus helps you find words, especially when you find yourself using the same ones again and again. Nowadays, many computers come with both these tools built into their word processor and they are also freely available online.
 
+The second reference material that you will need is a style guide. Different publications follow different style guides, and the advantage of using the style guide that the publication uses means that they have to do that much less work before publishing it, thereby increasing your chances of getting published. The most commonly used one, as also the one that will come in most handy for you is the Chicago Manual of Style.
 
+The last thing is your sources. Every writer needs one, and not all sources carry the same weight. You need to be able to sort the wheat from the chaff and hone in only on those materials that are truly of value to your article and therefore to your readers. We will deal with this in more detail in later chapters, but what we would like to emphasize here is that you need to be so comfortable with all these reference material so that they all go to the background, leaving you focused on your writing. And the only way this is going to happen is by practice.
 
+Dissecting the Publication.
 
+There are a number of things that you can infer, just by reading through a publication, and all of this information will go into helping you write your article. 
 
+The most important thing that you can glean is the theme for your article. Most magazines have an underlying theme, although the actual articles may not have anything to do directly with the theme. For example, you may find that the underlying theme for the Art magazine is funding because most art teachers have to justify their places during budget sessions. This gives you your topic.
 
+One you identify what the theme is, the rest is much easier. For example, you can find out about the demographics of the target audience simply by reading through the articles in the magazine. Questions like Who's reading it? Why are they reading it? What kinds of ads do they run? Etc are all answered just by perusing the magazine. This gives you your target audience.
 
+Next you look at the block and tackle stuff like the style, form etc. You look at how the article is broken down into paragraphs, the kind of punctuation they use, whether they use the first person or the third person in their articles, how formal the writing style is, the kind of language they use, any industry specific jargon etc all give you added information when you start your actual writing. This tells you how to write the article.
 
+Of course, all this holds good only if there are back issues that you can refer. If you are going to write for a new publication, you still need all this information if you are going to do a good job of writing. So you get it from someone from the publication, and the editor is the best person to give you this information. In fact, it is a good idea for you to keep in touch with the editor throughout just to ensure that you are going along the right track.
 
+Determining your approach.
 
+An article is much like the five paragraph essays that you write in school. These essays usually start with an introduction that states what the essay is about followed by three paragraphs that give the explanation, everything pulled together in the last paragraph conclusion.
+
+While this is the basic format, an actual article can vary quite a bit from this because the article format is much more flexible. For example, the number of paragraphs need not be restricted to 5 and can have many more. Conversely, they can also have much less, and in really brief articles, may just have one or two paragraphs.
+
+An article is also less formal than an essay and has a more conversational tone. You gently lead the reader from one paragraph to another till you arrive at the conclusion.
+You can also dispense with this format entirely and go in for a completely different approach such as in How-to articles where the entire article will just be a series of bullet points. The exercise file has an article under this format under the title “The Benefits of a Music Education”. 	WHERE IS THE TEMPLATE? INCLUDE IT HERE...
+
+Another way is to have a series of subheadings, each of them like a mini article in themselves, but all grouped together under the same common theme.
+Which format you choose depends on the publication that you are going to submit your article to. Go with whichever format the majority of them follow.
+
+The decision on whether or not you need an outline is up to you. It comes down to your comfort level with the topic. The only thing we suggest with an outline is that if you are going to have one, integrate it into the article itself, instead of starting afresh. The point of an outline is lost in this case. 
+
+Researching your work
+
+Research methods fall into two categories. The first is web searches. This is a good place to start, especially if you don't know much about a subject. Along the way browse Wikipedia for background information.
+
+As a last research method, consider using person-to-person interviews to gather information. Direct quotes are a great way to liven up an article adding both personality and a current outlook that you won't get in any other way.
 
 
 
