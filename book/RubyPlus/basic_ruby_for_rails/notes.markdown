@@ -1749,159 +1749,145 @@ The lambda function creates a closure that closes over the current value of the 
 
 MetaProgramming in Ruby - Peter Vanbroekhoven
 
+class ActiveRecord
+  def initialize
+    @attributes = {}
+  end
+  def read_attribute(attribute_name)
+    @attributes[attribute_name]
+  end
+end
+
+class Foo < ActiveRecord
+end
+
+f = Foo.new
+f.read_attribute('mouse')
+
+class Foo < ActiveRecord
+  def mouse
+    @attributes['mouse']
+  end
+  def printer
+    @attributes['printer']
+  end
+  def scanner
+    @attributes['scanner']
+  end
+end
+
+class Foo < ActiveRecord
+  ['mouse', 'printer', 'scanner'].each do |f|
+    define_method(f) { @attribute[f] }
+  end
+end
 
+def create_plugin(name, keys, values)
+  Object.const_get(name).new(keys, values)
+end
 
-The focus will be on "What" and "How" to do a certain task. Step by Step instructions to accomplish a certain task. Skip all the "Why" in the material. 
+A Ruby DSL is just Ruby
+- Easy to build
+- Familiar Syntax
+- Abstraction
 
-This is for internal use, for training VAs. No need to paraphrase any sentences. You can make it concise, if you find any fluff.
+## DSL Implementation
 
-Delete the following documents:
-Defining goals and measuring success.
-Introduction - What is content marketing?
-What this course covers.
-Exploring where articles are published (adds no value in the context of writing articles for clickplan.info)
-Finding article writing assignments. (adds no value in the context of writing articles for clickplan.info)
-Taking on an assignment. (this is not applicable for writing articles for a blog)
-Next steps.
-Introduction
-Following up.
+- Changing self
+- Missing constants
+- Missing methods
+- Implementing custom operators
 
+### Changing Self
 
-Leadership support.
+The self is the current object, changed by :
+1. method calls
+2. instance variables
+3. class variables
+4. dotless methods
+5. class defs
 
-Think what happens in a magazine. Magazines don't just think what they are going to publish a week before they hit the press. They are planning months and weeks in advance. You need to do the same.
-Lay out the next three months thinking about what you need to cover. Figure out what products you've got coming out, or maybe an event that you're organizing.
-Looking ahead allows you to plan for the content that you're going to create.
+### What is self?
 
-Integrating with already established programs.
+Top Level
+p self # main
+p self.class # Object
 
-This is not applicable. Zepho is a one-person company with VAs assisting in creating content.
+banks = self.query do
+  p self # main
+end
 
-Knowing your company's culture.
+Kernel Module defines puts, raise, require, eval
 
-Zepho is focused in creating products for publishers to succeed. It will publish content that helps publishers succeed. This means 'How to' articles and content to help them succeed.
+module Kernel
+  def query
+    yield
+  end
+end
 
+banks = query do
+  from c: Customer, s: Bank, a: Account
+end
 
+Sometimes we want to change self.
 
+class Query
+end
 
+module Kernel
+  def query(&blk)
+    Query.new.instance_eval(&blk)
+  end
+end
 
-Retain (No modifications)
-Preparing to write articles
-Writing the Article
-Using the exercise files (where are the exercise files? )
+bank = query do
+  p self
+end
 
+prints Query object.
 
+instance_eval changes self for the duration of a block.
 
-Adopting technical tools
+class Query
+  def initialize
+    @from = {}
+  end
+  def from(map)
+    @from = map
+  end
+end
 
-Writing tools can be classified into three categories – an application to write on, applications for manipulating media and a filing system.
+banks = query do
+  from c: Customer, b: Bank, a: Account
+  p self # Query
+end
 
-A word processor such as MS Word, Apple Pages and FOSS systems such as Libreoffice and Openoffice. These word processors give a number of advantages in formatting what you write, but sometimes this very thing becomes a liability. This is where a simple text editor comes in handy, and many writers prefer writing their first drafts in a text editor before using a full fledged word processor to complete the article. 
+@from is now = {b: Bank, a: Account, c: Customer}
 
-You need a place where you can keep all the material that you collect, something that will help you organize this material so that you can find something when you are looking for it. Anything, even the default file browser in your computer will suffice as long as it works for you.
+## Missing Constants
 
+Rails can do lazy class loading. 
 
-Conducting Interviews
+### Lazy Class Loading
 
-Interviews are a great way to get information from people who know it best. Quotes can give an article credibility, personality and focus.
+## Implementing Custom Operators
 
-Your first step is to find appropriate people to interview. One way is to contact people who are quoted in similar articles. On one hand you know that you'll get someone who's willing to talk with the press, but on the other, that could make your article seem a little like a rehash. 
+### Operator Overloading
 
-Going a little deeper, you might find an expert who's mentioned in other articles but not quoted. Or maybe you'll find people who have established themselves as experts in other ways.
-However you identify the right people, track them down and send emails to ask for interviews. A template for such an email is included HERE...
+Operators are just methods (==, & ...)
 
-..............WHERE IS THE TEMPLATE? INCLUDE IT HERE..................
+&&, ||, ! are NOT methods
 
-Some subjects will want to see the interview questions beforehand, or they'll prefer to answer them by email, rather than in a phone call. It's your decision how you go about this, but in most cases, an impromptu live conversation gives better quotes and the rambling nature of a live conversation gives you the option of delving into areas that you hadn't considered before.
 
-An email interview however lets the subject do background research, and some people may need to run their answers by other people in their organization before sending to you. An email may therefore be the only way to reach them.
 
-If you do however succeed in getting a live interview, be ready to take notes and if possible to record the call for accuracy. It is not only polite, but in many cases, legally required that you let your subject know that you are recording the call.
 
-Many people are nervous talking to the media. In reality however most interviews are conducted with people who want to talk to you. They may still be nervous but they'll open up if you treat the interview like a conversation between two people just trying to make a story more interesting, thoughtful and accurate.
 
-Meeting technical requirements
+Declarative code reveals semantic intent
+Imperative code reveals implementation
 
-Once you finish your first draft, reviewing some technical points will make your article more professional and editor-friendly. [SIMPLIFIED BY CONTEXT]
 
-Is your article the right length? Generally speaking, your word cound should be between 90 and 120% of the target. More is not necessarily better.
-Are you supposed to turn in anything besides the main text? Links for further reading, author bio or even a brief summary of the article is useful. 
 
-Simple text format is fine. Don't rely on your word processor's formatting to survive when you cut and paste text. Give indicators for bold and italics using plain text, and describe your system in a note to the editor.
- 
-If you quote people in an interview, send them the portion of the article that contains their quotes, just to make sure that you got them right and sepecially if you had to reword them as is often the case.
 
-Lastly check people's titles and the spelling of all proper names. In particular, watch out for capitals and spaces in the middle of company names. Now is the time to send your article. 
-
-Integrating your article with a complex project.
-
-Questions of style, tone and format are best answered by whoever is in charge of the project's vision. Figure out who you ultimately have to satisfy, then have a chat with that person to work out such details. It's probably a good idea to get them to take a look at your work while it is in progress just to make sure that you are going in the right direction.
-
-Defining an article 
-
-An article is usually a non-fiction written work. It can be opinionated or factual, but they usually deal with the world around us. 
-
-An article is usually not a stand alone piece. It is part of a whole which means that it fits into a series. In fact the word article itself means that, like how an article of clothing fits into a wardrobe.
-
-An article is usually between 300 and 8,000 words long with the vast majority falling between 500 and 1,500 words. Shorter ones are called blurbs and longer ones usually stand alone.
-
-Managing the revision process.
-
-At the top of your story is the headline, there might be a secondary headline as well.
-Then comes the important leading sentence. The leading sentence usually launches the nut graf, which summarizes the article's main point. The nut graf could also come later.
-
-Longer articles will be broken up with subheads. Finally, stories end with a kicker or a conclusion. 
-
-Examining different kinds of articles.
-
-Here is a list of writing categories:
-
-1. Review Article – A review is an opinion on a product or service and can be about anything. And because it is an opinionated article, it can be as short as 200 words or much longer. It can be a comparative review where different products are compared, or it can be a statement giving the opinion of the author. Ultimately, it is written work that seeks to convince the reader to take a certain point of view about something.
-
-2. Promotional Article – These articles are highly opinionated, and may sometimes deviate from facts by quite a bit in order to bring the reader over to a certain point of view. They are usually written to promote a particular product or service and are written is a very easy to digest format while yet managing to imprint the opinion conveyed into the reader's mind.
-
-3. How-to Article – How-to articles serve only one purpose and that is to teach the reader how to do something. They are usually very simple and follow a step by step approach detailing the steps to be followed.
-
-
-Gathering reference material
-
-The simplest, and the most important are the ubiquitous Dictionary and Thesaurus. A dictionary comes in handy when you're looking for the meaning of words, or words that mean something, while a thesaurus helps you find words, especially when you find yourself using the same ones again and again. Nowadays, many computers come with both these tools built into their word processor and they are also freely available online.
-
-The second reference material that you will need is a style guide. Different publications follow different style guides, and the advantage of using the style guide that the publication uses means that they have to do that much less work before publishing it, thereby increasing your chances of getting published. The most commonly used one, as also the one that will come in most handy for you is the Chicago Manual of Style.
-
-The last thing is your sources. Every writer needs one, and not all sources carry the same weight. You need to be able to sort the wheat from the chaff and hone in only on those materials that are truly of value to your article and therefore to your readers. We will deal with this in more detail in later chapters, but what we would like to emphasize here is that you need to be so comfortable with all these reference material so that they all go to the background, leaving you focused on your writing. And the only way this is going to happen is by practice.
-
-Dissecting the Publication.
-
-There are a number of things that you can infer, just by reading through a publication, and all of this information will go into helping you write your article. 
-
-The most important thing that you can glean is the theme for your article. Most magazines have an underlying theme, although the actual articles may not have anything to do directly with the theme. For example, you may find that the underlying theme for the Art magazine is funding because most art teachers have to justify their places during budget sessions. This gives you your topic.
-
-One you identify what the theme is, the rest is much easier. For example, you can find out about the demographics of the target audience simply by reading through the articles in the magazine. Questions like Who's reading it? Why are they reading it? What kinds of ads do they run? Etc are all answered just by perusing the magazine. This gives you your target audience.
-
-Next you look at the block and tackle stuff like the style, form etc. You look at how the article is broken down into paragraphs, the kind of punctuation they use, whether they use the first person or the third person in their articles, how formal the writing style is, the kind of language they use, any industry specific jargon etc all give you added information when you start your actual writing. This tells you how to write the article.
-
-Of course, all this holds good only if there are back issues that you can refer. If you are going to write for a new publication, you still need all this information if you are going to do a good job of writing. So you get it from someone from the publication, and the editor is the best person to give you this information. In fact, it is a good idea for you to keep in touch with the editor throughout just to ensure that you are going along the right track.
-
-Determining your approach.
-
-An article is much like the five paragraph essays that you write in school. These essays usually start with an introduction that states what the essay is about followed by three paragraphs that give the explanation, everything pulled together in the last paragraph conclusion.
-
-While this is the basic format, an actual article can vary quite a bit from this because the article format is much more flexible. For example, the number of paragraphs need not be restricted to 5 and can have many more. Conversely, they can also have much less, and in really brief articles, may just have one or two paragraphs.
-
-An article is also less formal than an essay and has a more conversational tone. You gently lead the reader from one paragraph to another till you arrive at the conclusion.
-You can also dispense with this format entirely and go in for a completely different approach such as in How-to articles where the entire article will just be a series of bullet points. The exercise file has an article under this format under the title “The Benefits of a Music Education”. 	WHERE IS THE TEMPLATE? INCLUDE IT HERE...
-
-Another way is to have a series of subheadings, each of them like a mini article in themselves, but all grouped together under the same common theme.
-Which format you choose depends on the publication that you are going to submit your article to. Go with whichever format the majority of them follow.
-
-The decision on whether or not you need an outline is up to you. It comes down to your comfort level with the topic. The only thing we suggest with an outline is that if you are going to have one, integrate it into the article itself, instead of starting afresh. The point of an outline is lost in this case. 
-
-Researching your work
-
-Research methods fall into two categories. The first is web searches. This is a good place to start, especially if you don't know much about a subject. Along the way browse Wikipedia for background information.
-
-As a last research method, consider using person-to-person interviews to gather information. Direct quotes are a great way to liven up an article adding both personality and a current outlook that you won't get in any other way.
 
 
 

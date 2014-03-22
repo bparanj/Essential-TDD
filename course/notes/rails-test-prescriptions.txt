@@ -1,0 +1,443 @@
+Rails Test Prescriptions
+
+Emphasize what's different in each test. View testing : Can you drive the design of view? Easy to test when view is visible. Test at the semantic level not the structure. Use dom ids for testing.
+
+Testing Done Good Presentation
+
+Good test : 
+- Independent
+- Repeatable
+- Clear
+- Concise
+- Robust
+
+Independent : No dependency on any external tests or data to run.
+
+Antipattern
+- Global data
+- Fixtures
+Good practice : Factories, Teardown / transactions
+
+Repeatable : Challenges - date and time, random numbers
+Solution : Encapsulation (with service objects), Mocks 
+
+Clear : Challenges - Fixtures, long tests, incomprehensible naming, magic results, being clever
+Solution : Good naming, factories, refactoring test setups, knowing the big picture (How does this test fit into overall scheme of what you are doing)
+Rein it in (Don't be clever, keep it simple and clean). Complicated tests indicate complicated code. Refactor : Simplify by dealing with dependency.
+Concise : Use minimum amount of code and objects to achieve its goal.
+Antipattern : Long setups. Creating too many objects. Multiple assertions. Slow tests. Too many tests.
+Pick data that is minimal (boundary condition to deal with off by one error)
+Best practices : Macros, single assertion, strategic object and test creation.
+Robust : Fail when code is wrong and vice-versa
+Antipattern : Test is too specific
+Mocking : When it knows too much about implementation
+Testing surface issues : String representation, Testing something that mock returns
+Best practice : Indirect testing (eg. using dom ids)
+Defensive mocking : Using null object to ignore unexpected calls.
+
+Interface Sensitivity
+Behavior Sensitivity
+Data Sensitivity
+Context Sensitivity
+
+Before 
+During
+After
+
+Diagram on page 10 2013_09_28_13_09_26_TDD_Clickplan_notes.pdf
+
+Executable Spefication : Specify behavior
+Defect Localization : Specificity. Simplicity
+Risk reduction : Verify behavior in the impossible circumstances, Don't mock yourself. Avoid test-specific hooks in SUT.
+Simple Tests : Verify one condition per test.
+Expressive Test : DSL
+Separation of concerns : Test concerns separately
+
+X ----> Y ----> Z
+
+test X : Y & Z can be fake
+test Y : Z
+test Z : cannot replace Z
+
+Communicate Intent
+Avoid conditional test logic
+
+Don't Mock Yourself Out
+Isolate the SUT. Relace DoC with test double using dependency injection
+
+Goals of Test Automation
+
+Design : Tests as Specification -> Specify Behavior
+Communication : Tests as Documentation -> Executable Documentation
+Regression : Tests as Safety Net -> Prevent Bugs
+Maintenance : Tests as Change Enabler -> Rest should require minimum maintenance
+
+
+Maintaining TDD Cycle
+Port and Adapters
+Context Independence
+Hiding the right info
+
+Intersecting Concepts
+Buggy Tests
+Production Bugs (No test, false +, false -, buggy tests)
+High test maintenance cost
+Code duplication
+Hard-to-test code
+Communicate Intent
+Expessive Code
+Separation of concerns
+Simple
+Improve quality
+Easy to write / Maintain
+
+A little bit of test code duplication is ok if it improves readability. Stub is used to control when and what happens. Focus on one thing at a time. Get it working. Make it clean. Focus on what and then on how. Check that the test fails for the right reason. Manual test. Then make it automated test. In order for the test to be automated, it must be repeatable. 
+
+Focus is about saying no.
+
+Insert record in database: What kind of output? Answer: By simplifying it to messages and objects.
+
+Keeping code ready for unexpected changes is about simple design. Ignore future requirements and extra flexibility. 
+
+Test does not have a test to prove its correctness. The correctness of the test is done manually. Make the test simple so that it does not require a test. I use simplicity as the criteria for choosing to use classic or mockist approach.
+
+Simplicity is the Key
+Subjective qualities:
+T Testable
+U Understandable
+B Browsable
+E Explainable
+
+Testable - Can write tests to automatically check for problems. Impacts design.
+Browsable - Able to find what you want when you want it.
+Understandable - Someone new may not understand.
+Explainable - Easy to show new people how everything works.
+
+How do you recognize simple design? Knowledge. Knowledge is insight into problem domain. Develops over time. 
+How can you achieve simple design? Code bare minimum. Keep things as simple as possible for as long as possible. Gain knowledge. Refactor to reflect new understanding.
+
+Fake it till you make it
+Triangulate
+Right Solution (Obvious implementation)
+One to Many
+
+Refactor
+Reconcile differences
+Isolate change
+Migrate data
+
+Isolated test
+test list
+test first
+Assert first
+Test data
+Evident Data
+Child Test
+Mock Object
+Crash Test Dummy
+Broken Test
+Clean Check-in
+
+How to write tests
+Don't modify the SUT
+Keep test logic out of production
+Ensure commensurate effort and responsibility
+State verification
+Behavior verification
+Back door verification
+Guard assertion
+Custom assertion
+Delta assertion
+Use the front door first
+Verify one condition per test
+Test concerns separately
+Keep tests independent
+Minimize untestable code
+One step test
+Domain assertion
+Diagnostic assertion
+Verification method
+Custom assertion test
+Starter test
+Explanation test
+Learning test
+Another test
+Regression test
+Do over
+Break
+How large should your steps be?
+What don't you have to test?
+How do you know if you have good tests?
+How much feedback do you need?
+When should you delete tests? (confidence, communication)
+Round trip test
+Layer crossing test
+Divide and test
+
+How to manage test fixture?
+Techniques for writing easy to understand tests
+- Working backward
+- Outside In
+
+Using TDD to write Test Utility Methods
+Custom equality assertion
+Eliminating lookps
+Eliminating if statements
+Avoiding conditional test logic
+Expected behavior specification
+Built in assertions
+
+Design for Testability
+Layered architecture
+Test double
+dependency injection
+One mock per test
+Stub chains
+Control points
+Observation points
+How to ensure that the system is easily tested and how the tests interact with SUT.
+
+Effective Test Automation
+Test Automation Difficulty
+Domain Model
+Stateless Service Objects
+Stateful Service Objects
+Hard-to-test code
+Legacy software
+Non-OO Legacy software
+
+Roadmap to Highly Maintainable Automated Tests
+1. Exercise the happy path code.
+2. Verify direct outputs
+3. Verify alternative paths
+4. Verify indirect output behavior
+5. Optimize test execution and maintainability
+
+Improvement
+Statement stub and mock excercises
+Shoppint cart exercise
+
+Handout content
+Algebraic equation for fib
+Key for fib
+Should not have any hard coded values after 3 tests
+You can cheat for fourth example by looking at ans key
+Correction : Arrow for setting exceptions in the digrams
+Random example should not grab the data structure. Violates encapsulation. Also the end state should be 50
+Create flashcards with questions
+Example for incidental interaction vs essential interaction
+Add outline and summary
+Problem Domain - Solution Domain
+Changing find to find_by_id. It's impact with mock and coverage (splashtop project)
+
+Core Message : Simplicity
+
+1. Introduction
+Learning levels, proficiency levels, classic vs mockist, terminology : SUT.
+2. Rhythm of TDD, TDD Cycle, Kick starting the TDD Cycle, Maintaining the TDD Cycle.
+3. Goals of Test Automation
+4. Intersecting concepts
+5. How to write tests - Problem solving techniques.
+6. Attributes of tests
+7. Designing for testability
+8. Effective test automation
+
+Conclusion
+Test first or last. Write the tests first. State or behavior verification. Outside-in vs inside-out.
+Basics of TDD
+Rhythm of TDD
+Tdd cycle
+Kick starting the test driven cycle. First test a walking skeleton. 
+Maintaining the Test Driven Cycle
+Start each feature with an acceptance test. 
+Separate tests that measure progress from those that catch regressions
+Start testing with the simplest success case
+Write the test that you would want to read 
+Improve diagnostics
+Develop from the inputs to the outputs
+Unit test behavior not methods
+Listen to the tests
+Tuning the cycle
+
+Matcher DSL
+
+RSpec::Matchers.define :report_to do |boss|
+  match do |employee|
+    employee.report_to?(boss)
+  end
+end
+
+Macros
+
+widget.should require_attribute(:name)
+
+require_attribute(:name) is a custom matcher (to abstract valid? and should have error on attribute)
+
+pg 250 summary
+
+Cucumber
+
+The Connextra Format
+
+As a role   - Who is using the system?
+I want feature - What is he doing?
+So that business value - Why does he care?
+
+Gherkin grammar pg 258
+
+Diagram in pg 40 of 2013_09_28_13_09_26_TDD_Clickplan_notes.pdf
+
+Refactor till you drop
+Small methods
+Do not cross different levels of abstraction
+Independent packages must be the most abstract
+High level policy should not depend on low level details
+Unix file abstraction is used everywhere (everything is treated as a file). File : read, write, open, close, seek
+
+Technique to Manage Dependency
+
+Place classes from left to right. How to access: 'Does each object depend on things that change less than it does?". Line up the objects from left to right from likelihood of change low to high.
+
+Going from unknown to known
+If there are too many unknown, focus on one unknown at a time. Write one test that allows you to learn. Eventually you might delete this test if it does not specify enough behavior.
+
+
+Virtual Clock
+Virtual File (StringIO)
+Virtual Database (In memory hash table based)
+
+Interface discovery --> Stub or Mock
+Working in parallel --> Stub or Mock
+Isolation 
+  - Dependencies --> ?
+	- Nondeterminism --> ?
+	
+Verify behavior in the impossible circumstances.
+Stub is used to control when and what happens.
+
+
+
+
+
+Monthly Tasks
+
+Pay Storage Fee
+Check for mom and call
+
+Yearly Tasks
+
+1. Renew business registration - Georgia Secretary of State
+2. Annual Company Meeting
+3.
+
+Errands : Do them at the end of the day or save one day as your errands day.
+Paperwork: Aim for paperless office.
+Inbox processing : Set a certain time to process your entire inbox to empty. Determine what action is required for each document.
+Meetings : Avoid if possible.
+Websites / RSS : Set a certain time to check them and do them all at once.
+Maintenance : Batch chores at the end of your day.
+
+Simple Time Management Tools
+Calendar : Google calendar can be used to note schedules, events and also used as a tickler file to mark reminders.
+Notebook : To capture everything as you think of it, to write down your most important tasks, batch process tasks fro today and to write down your main goal.
+
+Simple Email
+
+Limit your inboxes.
+1. List all the ways you receive information.
+2. Evaluate each to see if it gives you value.
+3. Find ways to combine and eliminate inboxes.
+
+Limit your time in email.
+1. Number of times per day : limit to bare minimum.
+2. The best times.
+3. Not first thing in the morining.
+4. Turn off email notifications. This eliminates an interruption.
+
+Put up a sign with the rule : No email except for 10 am and 4 pm. Every time you find yourself habitually switching to email, stop yourself. Breathe. And then focus on your task.
+
+If needed make a note of the task required by the email in your to do system. Open each mail and decide : delete, archive (for reference), reply quickly (and archive or delete), do the task immediately (if it takes 2 mins or less then archive or delete) or forward (and archive or delete)
+
+Simple Internet
+
+Set limitations and use the Internet more powerfully. Set a timer and focus on the task for a certain amount of time. Write down any distraction and focus on the task.
+
+Slow Working
+Choose work you love.
+Choose an important task.
+Make sure it's challenging but not too hard.
+Find your quiet, peak time.
+Clear out distractions.
+Enjoy yourself.
+Keep practicing above steps.
+Reap the rewards.
+
+
+The Hedgehog Concept (Simplicity within the Three Circles)
+
+To go from good to great requires transcending the curse of competence. Just because something is your core business - just because you've been doing it for a long time - does not necessarily mean you can be the best in the world at it. And if you cannot be the best in the world at your core business, then your core business cannot form the basis of a great company. It must be replaced with a simple concept that reflects deep understanding of three intersecting circles.
+
+Hedgehog knows one big thing. Foxex pursue many ends at the same time and see the world in all its complexity. They are scattered or diffused, moving on many levels, never integrating their thinking into one overall concept or unifying vision.
+
+Hedgehogs simplify a complex world into a single organizing idea or basic principle or concept that unifies and guides everything. It doesn't matter how complex the world, a hedgehog reduces all challenges and dilemmas to simple - indeed almost simplistic - hedgehog ideas. For a hedgehog anything that does not somehow relate to the hedgehog idea holds no relevance. 
+
+The essence of profound insight is simplicity. They have a piercing insight that allows them to see through complexity and discern underlying patterns. They see what is essential and ignore the rest.
+
+Eg: Walgreens : The best most convenient drugstore with high profit per customer visit. Walgreens took this simple concept and implemented it with fanatical consistency, excellence and imagination. They understood that profitable growth would come by pruning away all that did not fit with the Hedgehog concept.
+
+Good-to-great companies founded their strategies on deep understanding along three key dimensions - The Three Circles. They translated that understanding into a simple, crystalline concept that guided all their efforts - to form Hedgehog Concept.
+
+Hedgehog concept is a simple, crystalline concept that flows from deep understanding about the intersection of three circles :
+
+1. What you can be the best in the world at (and, equally important, what you cannot be the best in the world at)
+
+2. What drives your economic engine. All the big companies attained piercing insight into how to most effectively generate sustained and robust cash flow and profitability. They discovered the isngle denominator - profit per x - that had the greatest impact on their economies.
+
+diagram on page 30 of 2013_09_26_23_12_34_notes.pdf
+
+Three Circles of the Hedgehog Concept
+
+3. What you are deeply passionate about. The good to great companies focus on activities that ignite their passion. The idea is not to stimulate passion but to discover what makes you passionate. 
+
+Suppose you were able to construct a work life that meets the following three tests.
+1. You are doint work for which you have a genetic or God-given talent and perhaps you could become one of the best in the world in applying that talent. I feel that I was just born to be doint this.
+2. You are well paid for what you do. I get paid to do this? Am I dreaming?
+3. You are doing work you are passionate about and absolutely love to do, enjoying the actual process for its own sake. I look forward to getting up and throwing myself into my daily work and I really believe in what I'm doing.
+
+If you could drive toward the intersection of these three circles and translate that intersection into a simple, crystalline concept that guided your life choices, then you'd have a Hedgehog Concept for yourself.
+
+To have a fully developed Hedgehog Concept, you need all three circles. If you make a lot of money doing things at which you could never be the best, you'll only build a successful company, not a great one. If you become the best at something, you'll never remain on top if you don't have intrinsic passion for what you are doing. Finally, you can be passionate all you want, but if you can't be the best at it or it doesn't make economic sense, then you might have a lot of fun, but you won't produce great results.
+
+Understanding What You can and Cannot be the Best At
+
+- What can we potentially do better than any other company? And, equally important
+- What can we not do better than any other company? And if we can't be the best at it, then why are we doing it at all?
+
+Focus on Hedgehog Concept intensely to find your mantra. Keep it simple. Take a hard-nosed look at what you are doing and decide to focus entirely on few things you know can do better than anyone else. Don't get distracted into areas at which you cannot be the best.
+ 
+------------------------------------
+Combine this also:
+
+Focus on Strength
+
+Talent * Investment = Strength
+
+Talent - A natural way of thinking, feeling or behaving.
+Investment - Time spent practicising, developing your skills and building your knowledge base.
+Strength - The ability to consistently provide near-perfect performance.
+
+What is the worst thing that can happen?
+How can I use all the byproducts of the process to build business?
+
+Ruby Plus business model notes, combine this with the notes in the diary. Page 35 of 2013_09_26_23_12_34_notes.pdf
+
+
+------------------------------------
+
+Traditional Training
+
+Lecture, take notes, buy few books, put them on shelf where it collects dust. When you go to work you see weird error messages that exposes your gaps in your knowledge to solve problems. This session is organized to give you step by step instructions to accomplish a certain task. You gain skills that you use in any projects.
+
+------------------------------------
+
+
