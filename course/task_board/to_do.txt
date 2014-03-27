@@ -1,8 +1,6 @@
-
-0. Practice using Adobe Connect. Refer the Lynda training course notes
-
-
 1. Combine : How to design experiments notes with problem solving chapter.
+2. Scan the 1 to Many relationship diagrams and include it in lesson 10.  
+3. Create authentication from scratch to introduce new concepts.
 
 --------------------------------------------------------------------------------
 Learning
@@ -55,6 +53,5 @@ KDP
 --------------------------------------------------------------------------------
 
 1. Learn how to format for Kindle
-	https://kdp.amazon.com/self-publishing/help?topicId=A2MB3WT2D0PTNK
-2. Can the book sold on KDP select be sold as video training on my website? Post question on forum.
+	https://kdp.amazon.com/self-publishing/help?topicId=A2MB3WT2D0PTNK         Delegate this to freelancer. Lead generator, low priced version.
 

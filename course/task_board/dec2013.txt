@@ -1,0 +1,147 @@
+Dec 17
+
+1. Rails tutorials completed. 
+
+Dec 16
+
+1. Implemented tab selection for rubyplus.com
+2. Completed taking notes from Code Simplicity
+
+Dec 11
+
+1. Canceled Yahoo Webhosting account (Signed up on 2-25-2004)
+2. Added a new chapter on integrating Twitter Bootstrap 3 with Rails 4
+
+
+Dec 9 
+
+1. Approved UI of rubyplus.com
+
+Dec 8
+
+1. Interaction design, taking notes completed.
+
+Dec 7
+
+1. Completed Chrome Developer Tools video of Thoughtbot.
+2. Implement validations and show the difference between render and redirect
+
+Dec 6
+
+1. Completed all book revisions from Rails live training.
+2. Completed Rails Controller and Views Part 2 video.
+
+Dec 5
+
+1. Completed Rails Controller and Views Part 1 video.
+
+Dec 4
+
+1. Completed Rails Models video.
+
+Dec 3
+
+1. Completed Advanced Ruby  video of Intro to Rails thoughtbot course.
+
+Dec 1
+
+1. Created an article for Syntax Highlighting for Rails and published it on blog.
+2. Completed Intro to Ruby on Rails : Ruby Basics video
+
+Nov 30
+
+1. Completed Intermediate Rails Part 4 Thoughtbot video.
+
+Nov 29
+
+1. Completed Intermediate Rails Part 3 Thoughtbot video.
+
+Nov 25
+
+1. Completed Intermediate Rails Part 2 Thoughtbot video.
+
+Nov 24
+
+1. Finished 35 minutes of Intermediate Rails Part 2 Thoughtbot video.
+
+Nov 23
+
+1. Completed Intermediate Rails Part 1 Thoughtbot video.
+
+Nov 22
+
+1. Created ruby_plus Twitter account.
+2. Finished reading Information Marketing Success books.
+
+Nov 16
+
+1. Completed the Success Blueprint for Digital Product Business rubyplus.com
+2. Bought the rubyplus.com and rubyplus.net domains.
+
+Nov 13
+
+1. Posted Job on Elance to get 5 ebook covers for Kindle ebooks.
+2. Posted finished Rails book on Elance contractor to get feedback.
+
+Nov 12
+
+1. Finished Rails 4 Quickly lesson 12.
+
+Nov 11
+
+1. Finished Rails 4 Quickly lesson 11.
+
+Nov 10
+
+1. Finished Rails 4 Quickly lesson 10.
+
+Nov 9
+
+1. Finished Rails 4 Quickly lesson 9.
+
+Nov 8
+
+1. Finished Rails 4 Quickly lesson 8.
+
+Nov 2
+
+1. Signed up for 30-day free Adobe Connect trial and scheduled the first virtual classroom for Rails training.
+
+
+
+Oct 20
+
+1. Take notes from Coding Dojo Handbook. Created list of coding exercised for each subskill to be developed.
+
+Oct 19
+
+1. TDD tutorial introduction outline converted to a blog post. 
+2. What vs How blog post published.
+
+Oct 18
+
+1. Returned System76 laptop.
+2. Got details and visited private office.
+
+Oct 17
+
+1. Write a blog post on Straw-Man, Wood-Man, Tin-Man, Iron-Man phases to book development.
+
+Oct 10
+
+1. Create ERRC grid based on Amazon reviews of Dave Astel's book.
+
+Oct 9
+
+1. Customize the ERRC grid questions for publishing. Updated the article.
+	
+Oct 7
+
+1. Market Research : Take notes from other best selling TDD books : http://www.amazon.com/s/ref=nb_sb_noss_1?url=search-alias%3Daps&field-keywords=tdd
+
+	Only 3 books was used.
+	
+Oct 6
+
+1. Take notes from 'How to give presentations' video bought from Tekpub
+2. Create ERRC grid based on Amazon reviews of Kent Beck's book.

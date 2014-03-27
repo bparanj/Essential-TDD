@@ -6,5 +6,11 @@ Evolution of the Red Green Refactor diagram
 1. Red Green Yellow ? Ahhh
 2. Red Green Blue ? Awww
 3. Separate state from activity : [Activity] Red [Activity] Green [Activity] . Show transitions due to different activities.
+
+Write a failing test first.
+Red
+Write minimal amount of code to get to green quickly.
+Green
+
 4. Add Problem Domain & Solution Domain to the diagram. Change the color names to emphasize the focus to clarify what happens inside the mind during this activity.
 5. Add Transformation to the diagram.
