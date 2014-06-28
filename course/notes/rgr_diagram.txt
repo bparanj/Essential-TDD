@@ -11,6 +11,7 @@ Write a failing test first.
 Red
 Write minimal amount of code to get to green quickly.
 Green
+Refactor 
 
 4. Add Problem Domain & Solution Domain to the diagram. Change the color names to emphasize the focus to clarify what happens inside the mind during this activity.
 5. Add Transformation to the diagram.
