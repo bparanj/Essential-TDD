@@ -1,0 +1,139 @@
+TDD Basics : Code Mutation
+
+
+Objective
+=========
+
+- To illustrate the need to mutate the code when the test passes without failing.
+
+Discussion
+==========
+
+The test is written before the code and if it passes without failing, then we don't know if the test is correct. In such cases, you must modify the production code to make the test fail to make sure that it is testing the right thing. 
+
+  
+Steps
+=========
+---------------------------
+
+Step 1
+-------
+
+Create a ruby_extensions_spec.rb with the following contents:
+
+```ruby
+require_relative 'ruby_extensions'
+
+describe 'Ruby extensions' do
+  it 'return a list of elements common to both arrays without duplicates' do
+	  a = [1,1,3,5]
+		b = [1,2,3]
+		result = a.intersection(b)
+		
+		result.should == [1, 3]
+	end 
+end
+```
+
+Step 2
+----------
+
+To make the test pass, create ruby_extensions.rb with the following contents:
+
+```ruby
+class Array
+  def intersection(another)
+    self & another
+  end
+end
+```
+
+The & opertor is used for intersection operation in Array. The builtin Array class does not have intersection method. We are opening the Ruby's Array class and defining a intersection method. The test should pass.
+
+Step 3
+--------------
+
+Add the second spec for the boundary condition like this:
+
+```ruby
+require_relative 'ruby_extensions'
+
+describe 'Array extensions' do
+  # First spec same as before
+	
+	# Here is the new spec
+	it 'returns no common element if there is no common elements between the two arrays' do
+    a = [1,1,3,5]	
+    b = [7,9]
+    result = a.intersection(b)
+		
+    result.should == []		
+  end
+end
+```
+
+Step 4
+----------------
+
+Run the specs now. The new test passes without failing. The question is how do you know if this test is correct? We don't have a test to test this test. To validate the test, we have to mutate the production code to make it fail for the scenario under test.
+
+Step 5
+----------------
+
+Change the ruby_extensions.rb so that only the second spec fails like this:
+
+```ruby
+class Array
+  def intersection(another)
+    return [1] if another.size == 2
+		self & another
+  end
+end
+```
+
+Here we short-circuit the code to bypass the correct implementation and provide a wrong value as the answer.
+
+Step 6
+--------------
+
+Now run the specs. The second spec now breaks with the error:
+
+```ruby
+1) Array Array extensions returns no common element if there is no common elements between the two arrays
+   Failure/Error: result.should == []
+     expected: []
+       got: [1] (using ==)
+```
+
+Step 7
+--------------
+
+Delete the short circuiting condition from the ruby_extensions.rb
+
+```ruby
+return [1] if another.size == 2
+```
+
+Step 8
+--------------
+
+Run the specs. It should now pass.
+
+Summary
+=========
+
+In this article we saw:
+
+- What to do when the test passes without failing?
+- How to open classes that preserves the semantics of the core classes?
+- Intention revealing variable and method names.
+
+So we learned why and when to mutate the production code. If you had followed the Transformation Priority Premise, this problem would not have occurred at all. 
+
+Exercises
+===========
+--------------------
+
+1. Google the term 'Transformation Priority Premise' and watch the videos to learn about this principle.
+2. Think of edge cases for the ruby_extensions.rb. 
+3. Write specs for the edge cases. When the spec passes without failing, mutate the code to make only the boundary condition for that particular test fail. Then make all the specs pass.
