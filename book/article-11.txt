@@ -1,0 +1,101 @@
+TDD Beyond Basics : Testing Random Behavior
+=========
+---------------------
+
+Objectives
+==========
+
+- Learn how to test random behavior
+
+Problem Statement
+===================
+---------------------------------
+
+Write a program that generates a random number between 0 and 100 (inclusive). The user must guess this number. Each correct guess (it if was a number) will receive the message 'Guess Higher!' or 'Guess Lower!'. 
+
+- The prompt should display: 'Welcome to the Guessing Game'
+- When the program is run, it should generate a random number between 0 and 100 inclusive.
+- You will display a command line prompt for the user to enter their guess number. 
+- Quitting is not an option. The user can only end the game by guessing the target number. Be sure that your prompt explains them what they are to do.
+- Once you have received a value from the user, you should perform validation. If the user has given you an invalid value (anything other than a number between 1 and 100), display an appropriate error message. If the user has given you a valid value, display a message either telling them that there were correct or should guess higher or lower as described above. 
+- This process should continue until they guess the correct number.
+
+
+Steps
+=============
+-------------------
+
+Step 1
+------------
+
+Create guess_game_spec.rb with the following contents:
+
+```ruby
+require_relative 'guess_game'
+
+describe GuessGame do
+  it 'generates random number between 1 and 100 inclusive' do
+    game = GuessGame.new
+    result = game.random
+    
+    result.should == 50
+  end
+end
+```
+
+Step 2
+----------
+
+Create guess_game.rb with the following contents:
+
+```ruby
+class GuessGame
+  def random
+    Random.new.rand(1..100)
+  end
+end
+```
+
+Step 3
+------------
+
+Run the specs. 
+
+```sh
+$rspec guess_game_spec.rb 
+```
+
+The random generator spec will only pass when the generated random number is 50. It will fail more often.
+
+Step 4
+------------
+
+You cannot use stub to resolve the randomn failures because you will stub yourself out. So, what statement can you make about this code that is true? Can we loosen our assertion and still satisfy the requirement? The guess_game_spec below deals with the problem of randomness.
+
+```ruby
+require_relative 'guess_game'
+
+describe GuessGame do
+  it 'generates random number between 1 and 100 inclusive' do
+    game = GuessGame.new
+    result = game.random
+
+    expected_range = 1..100
+    expected_range.should cover(result)
+  end
+end
+```
+
+This spec checks only the range of the generated random number is within the expected range. This test now passes. You can also use:
+
+```ruby
+expected_range.include?(result)
+```
+
+This does not use cover rspec matcher.
+
+Summary
+===========
+--------------------
+
+In this lesson you learned about testing randomness. In the subsequent lessons we will gradually build the guessing game and learn other design principles and testing techniques.
