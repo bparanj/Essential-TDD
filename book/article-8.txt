@@ -1,0 +1,327 @@
+5. TDD Beyond Basics : Fakes and Mocks
+=========
+---------------------
+
+Objective
+=========
+
+- Learn how to use Fakes and Mocks.
+- Learn when to delete a test.
+
+Problem Statement
+===================
+
+Let's consider a scanner that is used in a checkout counter. When you scan an item with a barcode, the name and price of the item is sent to the output console.
+
+Steps
+=============
+-------------------
+
+Step 1
+------------
+
+Let's write the first test. Create a scanner_spec.rb with the following contents:
+
+```ruby
+require_relative 'scanner'
+
+describe Scanner do
+  it 'responds to scan with barcode as the input' do
+    scanner = Scanner.new
+
+    scanner.should respond_to(:scan)
+  end
+end
+```
+
+Step 2
+----------
+
+Create a scanner.rb file with the following contents:
+
+```ruby
+class Scanner
+  def scan
+  end
+end
+```
+
+Step 3
+------------
+
+You can run this spec by typing the following command from the root directory of this project:
+
+```sh
+$rspec scanner_spec.rb
+```
+
+The first spec does not do much. The main purpose of writing the first spec is to help setup the directory structure, require statements etc to get the specs running.
+
+Step 4
+------------
+
+In your home directory create a .rspec directory with the following contents
+
+```sh
+--color
+--format documentation
+```
+
+This will show the output in color and formatted to read as documentation.
+
+Step 5
+------------
+
+The doc string says that the barcode is the input parameter to scan. Let's add this detail to our spec.
+
+```ruby
+require_relative 'scanner'
+
+describe Scanner do
+  it 'responds to scan with barcode as the input' do
+    scanner = Scanner.new
+
+    scanner.should respond_to(:scan).with(1)
+  end
+end
+```
+
+Step 6
+-------
+
+Run the spec again, watch it fail due to the input parameter.
+
+Step 7
+----------
+
+Change the scanner.rb as follows:
+
+```ruby
+class Scanner
+  def scan(barcode)
+
+  end
+end
+```
+
+The test now passes.
+
+Step 8
+-----------
+
+Let's add a second spec that captures the description in the first paragraph of this chapter. Here is the scanner_spec.rb contents:
+
+```ruby
+require_relative 'scanner'
+require_relative 'real_display'
+
+describe Scanner do
+  # first spec same as before
+  
+  it 'scans and displays the item details' do
+    real_display = RealDisplay.new
+    scanner = Scanner.new(real_display)  
+    scanner.scan('1')
+    
+    real_display.last_line_item.should == 'Milk $3.99'
+  end
+end
+```
+
+Step 9
+--------------
+
+Create real_display.rb file with the following contents:
+
+```ruby
+class RealDisplay
+
+end
+```
+
+Step 10
+------------
+
+Run the specs. The test fails with the following error:
+
+```sh
+1) Scanner scans and displays the item details
+   Failure/Error: scanner = Scanner.new(real_display)
+   ArgumentError:
+     wrong number of arguments(1 for 0)
+```
+
+We have two options, either we can delete the first spec or we can move it to a contract spec. Contract specs are discussed in a later chapter. Moving the first spec to a contract spec will be the right choice if we expect our system to be able to deal with different types of scanners which must comply to the same interface.
+
+Step 11
+----------
+
+The Scanner class constructor must now take a parameter for real display. Change the scanner.rb as follows:
+
+```ruby
+class Scanner
+  def initialize(display)
+    @display = display
+  end
+
+  def scan(barcode)
+
+  end
+end
+```
+
+Step 12
+---------
+
+Run the specs. It fails with:
+
+
+```sh
+1) Scanner scans and displays the item details
+     Failure/Error: real_display.last_line_item.should == "Milk $3.99"
+     NoMethodError:
+undefined method ‘last_line_item’ for #<RealDisplay:0xd0>
+```
+
+Step 13
+-------
+
+Change the real_display.rb like this:
+
+```ruby
+class RealDisplay
+  attr_reader :last_line_item
+
+  def display(line_item)
+  
+  end
+end
+```
+
+Step 14
+-----------
+
+Run the specs. The spec fails with the following error:
+
+```sh
+1) Scanner scans and displays the item details
+   Failure/Error: real_display.last_line_item.should == "Milk $3.99"
+     expected: "Milk $3.99"
+          got: nil (using ==)
+```
+
+Step 15
+---------
+
+Change the real_display.rb like this:
+
+```ruby
+class RealDisplay
+  attr_reader :last_line_item
+  
+  def display(line_item)
+    @last_line_item = line_item
+        
+    p 'Executing complicated logic'
+    sleep 5
+  end
+end
+```
+
+Step 16
+---------
+
+Change the scan method in scanner like this:
+
+```ruby
+class Scanner
+  # Only the new code is shown below
+  def scan(barcode)
+    # use the barcode to retrieve the item name and price from somewhere
+    @display.display('Milk $3.99')
+  end
+end
+```
+
+Now the spec passes. Real object RealDisplay used in the test is slow.
+
+Step 17
+----------
+
+How can we speed up the test for scanner? Let's use a fake display. Change the scanner_spec.rb as follows:
+
+```ruby
+require_relative 'scanner'
+require_relative 'fake_display'
+
+describe Scanner do
+  it 'scans and displays the time details' do
+    fake_display = FakeDisplay.new
+    scanner = Scanner.new(fake_display)
+    scanner.scan('1')
+
+    fake_display.last_line_item.should == 'Milk $3.99'
+  end
+end
+```
+
+Step 18
+----------
+
+Create fake_display.rb with the following contents:
+
+```ruby
+class FakeDisplay
+  attr_reader :last_line_item
+
+  def display(line_item)
+    @last_line_item = line_item
+  end
+end
+```
+
+The spec now runs fast. This solution assumes we can access the last line item to display by doing:
+
+```sh
+attr_reader :last_line_item
+```
+
+Discussion
+=============
+----------------
+
+We broke the dependency on external display object by using a fake object that mimicked the interface of the real object. Dependency injection is used to create a scanner object with a fake display. Dependency injection allows us to design loosely coupled objects. We identified the need to decouple the scanner and display objects due to performance problem. This also increases the cohesion of these objects.
+
+When we write tests, we have to divide and conquer. This test tells us how scanner objects affect displays. This test helps us to see whether a problem is due to scanner. Is scanner fulfilling its responsibility? This helps us localize errors and save time during troubleshooting. 
+
+When we write tests for individual units, we end up with small well-understood pieces. This makes it wasy to reason about code.
+
+Let's make a simplifying assumption that we don't have to deal with different scanners. So, go ahead and delete the first spec. It is is no longer required. It is like scaffold of a building, once we complete the construction of the building the scaffold will go away.
+
+
+Mocks
+==========
+----------------
+
+Writing a lot of fakes can become tedious. It becomes a programmer's responsibility to maintain them. In such cases, mocks can be used. Mock objects are fakes that perform assertions internally. The solution that uses mocks is faster than using a Fake display object.
+
+```ruby
+require_relative 'scanner'
+
+describe Scanner do
+  it 'scans the barcode of the scanned item' do
+    fake_display = double('Fake Display')
+    fake_display.should_receive(:display).with('Milk $3.99')
+    
+    scanner = Scanner.new(fake_display)
+    scanner.scan('1')
+  end
+end
+```
+
+The display method is under our control so we can mock it. Mocks is a design technique that is used to discover API. This is an example of right way to Mock. The 'and' part of the doc string has been deleted. The purpose of scanner object is now clear. Scanner object scans items and Display objects display the details of a given line item. See the appendix for notes on mocks.
+
+Summary
+===========
+
+In this lesson you learned how to use Fakes and Mocks and when to delete a test. Mocks can be used not only for improving the performance if the real object is slow, but also if the real object is currently under development by some other team within your company. As long as you have a contract with the team developing the Scanner, you can develop in parallel by using Mocks. In the next lesson we will learn about Open Closed Principle by using the Scanner example.
