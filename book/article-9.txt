@@ -1,0 +1,107 @@
+TDD Beyond Basics : Open Closed Principle
+=========
+---------------------
+
+Objective
+=========
+
+- Learn how to apply Open Closed Principle
+
+Discussion
+===================
+---------------------------------
+What does test driven development have to do with design principles? Test driven development is not just about reducing the duplication in code. It involves driving the design of the production code through tests.
+
+Steps
+=============
+-------------------
+
+Step 1
+------------
+
+This lesson builds on top of the previous lesson. Move fake_display.rb and scanner_spec.rb into spec directory. Move real_display.rb and scanner.rb into lib directory. Change the scanner_spec.rb require_relative statement like this:
+
+```ruby
+require_relative '../lib/scanner'
+
+```
+
+Step 2
+----------
+
+Run the specs. It will pass.
+
+Step 3
+------------
+
+We now have a new requirement where we need to use a touch screen display. Let's write the spec for this new requirement. Add the following spec to scanner_spec.rb.
+
+```ruby
+it 'scans and displays the details on touch display' do
+  touch_display = TouchDisplay.new
+  scanner = Scanner.new(touch_display)
+
+  scanner.scan('1')
+  
+  expect(touch_display.last_line_item).to eq('Milk $3.99')
+end
+```
+
+Step 4
+------------
+
+Add the
+
+```ruby
+require_relative '../lib/touch_display'
+```
+
+to the top of the scanner_spec.rb
+
+Step 5
+------------
+
+Create a touch_display.rb in lib directory with the following contents:
+
+```ruby
+class TouchDisplay
+  attr_reader :last_line_item
+  
+  def display(line_item)
+    @last_line_item = line_item
+    p 'Logic to display the line_item to touch display'
+  end
+end
+```
+
+Step 6
+-------
+
+Run all the specs. All specs will pass.
+
+Discussion
+==============
+---------------
+
+To satisfy our new requirement we added new code, we did not modify the existing production code. Open Closed Principle states that a module should be open for extension and closed for modification. Our scanner class satisfies this principle. 
+
+We were able to achieve this by using dependency injection to decouple the display from the scanner. As long as any new concrete implementation of the display implements our display(line_item) interface with an accessor for last_line_item, we can extend our program without violating Open Closed Principle. If you notice the scanner class, it has the attr_reader only to allow the test to be written, so why do we need code that is only required by the test? Does the code that is only required by the test violate encapsulation? What do you think?
+
+Summary
+===========
+--------------------
+
+In this lesson you learned how to apply Open Closed Principle to design a system that is flexible to new requirements. We used constructor dependency injection to achieve decoupling of the scanner from the display. So interchanging new displays that conform to our interface works without any modification to the original code. 
+
+
+
+
+When you implement a new feature we aim to achieve a design in the following order:
+
+** Additive **
+
+This is the most desirable option. We add new code without modifying the existing code.
+
+** Localized **
+
+We change only one specific location in our existing code base to implement a new feature.
