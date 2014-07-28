@@ -1,4 +1,4 @@
-TDD Beyond Basics : Refactor in Green State
+TDD Basics : Refactor in Green State
 =========
 ---------------------
 

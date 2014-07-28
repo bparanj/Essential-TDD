@@ -85,7 +85,7 @@ irb > StandardOutput
     from (irb):2
 ```
 
-You can quickly double check this by searching the [Ruby documentation]http://www.ruby-doc.org/stdlib-2.1.2/ . We do this check to avoid inadvertently reopening an existing class in Ruby.
+You can quickly double check this by searching the [Ruby documentation]:http://www.ruby-doc.org/stdlib-2.1.2/ . We do this check to avoid inadvertently reopening an existing class in Ruby.
 
 Step 6
 --------------

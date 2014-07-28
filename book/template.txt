@@ -1,0 +1,9 @@
+Visual Representation
+=====================
+
+![alt text](https://math.temple.edu/~reich/Fib/pascal3.gif "Fibonacci Numbers")
+
+Hyperlink
+=============
+
+This is [an example](http://example.com/ "Title") inline link.
