@@ -1,0 +1,226 @@
+TDD Beyond Basics : Refactor in Green State
+=========
+---------------------
+
+Objective
+=========
+
+- Start refactoring when in green state and end refactoring in green state
+- Learn how to express the relationship between the doc string and the test data
+- Learn about using stub for incidental interactions
+  
+Steps
+=========
+---------------------------
+
+Step 1
+-------
+
+Run all the specs. It should pass. Let's delete the random method because it is required only once for each game session.
+
+```ruby
+require_relative 'standard_output'
+
+class GuessGame
+  attr_reader :random
+  
+  def initialize(console=StandardOutput.new)
+    @console = console 
+    @random = Random.new.rand(1..100)
+  end
+    
+  def start
+    @console.output("Welcome to the Guessing Game")
+    @console.prompt("Enter a number between 1 and 100") 
+  end
+end
+```
+
+We have moved the random number generation inside the constructor and exposed it's value via attr_reader. We have completed refactoring.
+
+Step 2
+----------
+
+Run all the specs. It should pass. We were green before refactoring and after refactoring we are still green. This is important, start refactoring when you are in green state and after refactoring you should still be green. 
+
+Step 3
+----------
+
+Let's now add the fourth sepc.
+
+```ruby
+require_relative 'guess_game'
+
+describe GuessGame do
+  # other specs same as before
+  it 'validates guess entered by the user : lower than 1' do
+    game = GuessGame.new
+    game.start
+    game.error.should == 'The number must be between 1 and 100'
+  end
+end
+```
+
+Step 4
+-----------
+
+When you run the specs, you get:
+
+```ruby
+GuessGame validates guess entered by the user : lower than 1
+  Failure/Error:
+    game.error.should == 'The number must be between 1 and 100'
+  NoMethodError:
+    undefined method 'error' for #<GuessGame:0xd8>
+```
+
+Step 5
+-----------
+
+Add the attr_accessor for error variable in guess_game.rb:
+
+```ruby
+require_relative 'standard_output'
+
+class GuessGame
+  attr_accessor :error
+  
+  # rest of the code is same as before
+end
+```
+
+Step 6
+-----------
+
+Run the specs again. We now fail for the right reason:
+
+```ruby
+GuessGame validates guess entered by the user : lower than 1
+  Failure/Error:
+  game.error.should == 'The number must be between 1 and 100'
+    expected: "The number must be between 1 and 100"
+    got: nil (using ==)
+```
+
+
+Step 7
+--------------
+
+Change the guess_game.rb as shown below:
+
+```ruby
+class GuessGame
+  attr_reader :random
+  attr_accessor :error
+
+  def initialize(console=StandardOutput.new)
+    @console = console
+    @random = Random.new(1..100)
+  end
+
+  def start
+    @console.output('Welcome to the Guessing Game')
+    @console.prompt('Enter the number between 1 and 100')
+    guess = get_user_guess
+    validate(guess)
+  end
+  
+  def validate(n)
+    if (n < 1)
+      @error = 'The number must be between 1 and 100'
+    end
+  end
+  
+  def get_user_guess
+    0
+  end
+end
+```
+
+Step 8
+----------------
+
+All the specs now pass. Let's now add the spec to validate the guess that is higher than 100
+
+```ruby
+require_relative 'guess_game'
+
+describe GuessGame do
+  # other specs same as before
+  it 'validates guess entered by the user : higher than 100' do
+    game = GuessGame.new
+    game.stub(:get_user_guess) { 101 }
+    game.start
+    
+    game.error.should == 'The number must be between 1 and 100'
+  end
+end
+```
+
+We don't want to worry about how we are going to get the user input because our focus now is on testing the validation logic. So we stub the get_user_guess method to return a value that will help us to test the validation logic. Calling the get_user_guess is an example for incidental interaction.
+
+Step 9
+-------------
+
+This spec fails for the right reason with the error:
+
+```ruby
+GuessGame validates guess entered by the user : higher than 100
+  Failure/Error:
+    game.error.should == 'The number must be between 1 and 100'
+    expected: "The number must be between 1 and 100"
+    got: nil (using ==)
+```
+
+Step 10
+--------------
+
+Change the guess_game.rb validate method as follows:
+
+```ruby
+class GuessGame
+  # rest of the class same as before  
+  def validate(n)
+    if (n < 1) or (n > 100)
+      @error = 'The number must be between 1 and 100'
+    end
+  end
+  
+end
+```
+
+Step 11
+-----------
+
+All specs now pass. The standard_output.rb remains unchanged.
+
+Step 12
+------------
+
+Change the validation spec for the lower bound as follows:
+
+```ruby
+require_relative 'guess_game'
+
+describe GuessGame do
+  # other specs same as before
+  it 'validates guess entered by the user : lower than 1' do
+    game = GuessGame.new
+    game.stub(:get_user_guess) { 0 }
+    game.start
+    
+    game.error.should == 'The number must be between 1 and 100'
+  end
+end
+```
+
+Why did we make this change? This spec expresses the relationship between the doc string and the data set used to test clearly. You can just look at the spec and see that 0 is lower than 1. You don't have to look at the production code to see that it is returning a value lower than 1. 
+
+Summary
+=========
+-----------
+
+In this article you learned about staring the refactor when in green state and ending in green state when refactoring is complete. You also learned about the using stub for incidental interaction in the spec. We also saw how to express the relationship between the doc string in the spec and the data set.
+
+
+

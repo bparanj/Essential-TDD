@@ -1,0 +1,163 @@
+TDD Beyond Basics : Dependency Inversion Principle
+=========
+---------------------
+
+Objective
+=========
+
+- Learn about Dependency Inversion Principle
+
+Discussion
+==========
+---------------
+
+In the previous article you learned the Single Purpose Principle. The spec used a mock that complies with Gerard Meszaros standard. We used double and set expectation, so it is a mock. If we don't set the expectation on the double, it can be used as a stub.
+  
+Steps
+=========
+---------------------------
+
+Step 1
+-------
+
+Let's take our code for a test drive. From the directory where the guess_game.rb resides, run the following code in irb:
+
+```ruby
+load './guess_game.rb'
+
+game = GuessGame.new
+game.start
+```
+
+This gives us the error:
+
+```sh
+NoMethodError: undefined method 'output' for
+```
+
+Step 2
+----------
+
+Run the following code in irb:
+
+```ruby
+STDOUT.puts 'hi'
+```
+
+It will print 'hi' on the standard output. 
+
+Step 3
+--------------
+
+But it does not recognize output(string) method. To fix this problem, let's wrap the output method in a StandardOutput class. Create standard_output.rb with the following contents:
+
+```ruby
+class StandardOutput
+  def output(message)
+    puts message
+  end
+end
+```
+
+Step 4
+----------------
+
+Change the constructor of the GuessGame like this:
+
+```ruby
+class GuessGame
+  def initialize(console=StandardOutput.new)
+    @console = console
+  end
+end
+```
+
+Step 5
+--------------
+
+The StandardOutput class in not a built-in Ruby class. It's our custom class.
+
+```ruby
+irb > Kernel
+  => Kernel
+irb > StandardOutput
+  NameError: uninitialized constant Object::StandardOutput
+    from (irb):2
+```
+
+You can quickly double check this by searching the [Ruby documentation]http://www.ruby-doc.org/stdlib-2.1.2/ . We do this check to avoid inadvertently reopening an existing class in Ruby.
+
+Step 6
+--------------
+
+The current version of specs look like this:
+
+```ruby
+require_relative 'guess_game'
+
+describe GuessGame do
+  it 'generates random number between 1 and 100 inclusive' do
+    game = GuessGame.new
+    result = game.random
+
+    expected = 1..100
+    expected.should cover(result)
+  end
+
+  it 'displays greeting when the game begins' do
+    fake_console = double('Console')
+    fake_console.should_receive(:output).with('Welcome to the Guessing Game')
+    game = GuessGame.new(fake_console)
+    game.start
+  end
+end
+```
+
+This is version that we ended up in the previous article. We have not made any changes to it yet. Run the specs, the tests still pass. 
+
+Discussion
+===========
+-------------
+
+This fix shows how to invert dependencies on concrete classes to abstract interface. In this case the abstract interface is 'output' and not specific method like 'puts' or GUI related method that ties the game logic to a concrete implementation of user interaction.
+
+Step 7
+--------------
+
+Change the guess_game.rb constructor default value as follows:
+
+```ruby
+  def initialize(console=StandardOutput.new)
+    @console = console
+  end
+```
+
+The complete guess_game.rb now looks like this:
+
+```ruby
+class GuessGame
+  def initialize(console=StandardOutput.new)
+    @console = console
+  end
+
+  def random
+    Random.new.rand(1..100)
+  end
+
+  def start
+    @console.output('Welcome to the Guessing Game')
+  end
+end
+```
+
+In this version we fixed the bug due to wrong default value in the constructor.
+
+
+Summary
+=========
+-----------
+
+In this article we saw Dependency Inversion Principle. We learned how to invert dependencies so that we depend on abstractions instead of concrete classes. Our code will be brittle if we depend on concrete classes. In the next article you will learn about using null objects in specs.
+
+
+

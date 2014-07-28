@@ -1,0 +1,269 @@
+TDD Beyond Basics : Null Object
+=========
+---------------------
+
+Objective
+=========
+
+- To learn about as_null_object in rspec
+  
+Steps
+=========
+---------------------------
+
+Step 1
+-------
+
+In irb type:
+
+```ruby
+$irb
+> require 'rspec/mocks/standalone'
+    => true
+> s = stub
+    => #<RSpec::Mocks::Mock:0xfdb8 @name=nil> 
+> s.hi RSpec::Mocks::MockExpectationError:
+   Stub received unexpected message :hi with (no args)
+```
+
+If you send a message to a stub that is not programmed to respond to a method, you get an error 'Stub received unexpected message'.
+
+
+Step 2
+----------
+
+In irb type:
+
+```ruby
+  > t = stub('stubber', :age => 16)
+=> #<RSpec::Mocks::Mock:0x7104 @name="stubber"> 
+  > t.age
+ => 16
+```
+
+We have programmed the stub to respond to age method. So when we call the age method, we get 16 as the answer.
+
+
+
+Step 3
+--------------
+
+In irb type:
+
+```ruby
+  > t = stub('stubber', :age => 16).as_null_object
+=> #<RSpec::Mocks::Mock:0x7104 @name="stubber"> 
+  > t.age
+ => 16
+  > t.hi
+=> #<RSpec::Mocks::Mock:0x7104 @name="stubber"> 
+  > t.bye
+=> #<RSpec::Mocks::Mock:0x7104 @name="stubber">
+  > t.foo.bar
+=> #<RSpec::Mocks::Mock:0x7104 @name="stubber">
+```
+
+When you call as_null_object on the stub. it behaves as the unix dev/null equivalent for tests. It ignores any messages that is not explicitly programmed to respond. It'a black hole where messages disappear. You can chain as deep as you want and it will keep returning the stub object. This is useful for incidental interactions that is not relevant to what is being tested.
+
+Step 4
+----------------
+
+Let's add the third spec:
+
+```ruby
+require_relative 'guess_game'
+
+describe GuessGame do
+  # First two specs same as before
+  # Here is the new third spec
+  it 'prompt the user to enter the guess number' do
+    fake_console = double('Console')
+    fake_console.should_receive(:prompt).with('Enter a number between 1 and 100')
+    game = GuessGame.new(fake_console)
+    game.start
+  end
+  
+end
+```
+
+Step 5
+--------------
+
+When you run the spec, you get the following error:
+
+```ruby
+GuessGame prompt the user to enter the guess number.
+  Failure/Error: game.start
+    Double "Console" received unexpected message
+      :output with ("Welcome to the Guessing Game")
+```
+
+The third spec failed because of the second spec. 
+
+Step 6
+--------------
+
+To fix this, call as_null_object on fake_console like this:
+
+```ruby
+require_relative 'guess_game'
+
+describe GuessGame do
+  # other specs same as before
+  
+  it 'prompt the user to enter the guess number' do
+    fake_console = double('Console').as_null_object
+    # same code as before
+  end
+
+end
+```
+
+Step 7
+-----------
+
+When you run the spec, we now fail for the right reason:
+
+```ruby
+GuessGame prompt the user to enter the guess number
+  Failure/Error:
+    fake_console.should_receive(:prompt).with('Enter a number between 1 and 100')
+    (Double "Console").prompt("Enter a number between 1 and 100")
+      expected: 1 time
+      received: 0 times
+```
+
+Step 8
+------------
+
+Change the start method like this:
+
+```ruby
+require_relative 'standard_output'
+
+class GuessGame
+  # other code same as before
+  def start
+    @console.output('Welcome to the Guessing Game')
+    @console.output('Enter a number between 1 and 100')
+  end
+end
+```
+
+Step 9
+------------
+
+Run the spec, it now fails with the following error:
+
+```ruby
+GuessGame should display greeting when the game begins 
+  Failure/Error: game.start
+    Double "Console" received unexpected message
+      :prompt with ("Enter a number between 1 and 100")
+```
+
+Spec 3 passes but it breaks existing spec 2. 
+
+Step 10
+--------------
+
+To fix this, call as_null_object which ignores any messages not set as expectation in spec 2 as shown below:
+
+```ruby
+require_relative 'guess_game'
+
+describe GuessGame do
+  # other specs same as before
+  it 'displays greeting when the game begins' do
+    fake_console = double('Console').as_null_object
+    # rest of this spec same as before
+  end
+end
+```
+
+Step 11
+-----------
+
+All specs now pass.
+
+Step 12
+--------------
+
+Let's play the game in the irb.
+
+```ruby
+$irb
+  > load './guess_game.rb'
+ => true
+  > g = GuessGame.new
+=> #<GuessGame:0x08 @console=StandardOutput
+  > g.start
+Welcome to the Guessing Game
+NoMethodError: undefined method 'prompt' for StandardOutput
+```
+
+Step 13
+-----------
+
+Let's add the prompt method to the standard_output.rb:
+
+```ruby
+class StandardOutput
+  # other code same as before
+  
+  def prompt(message)
+    output(message)
+    puts '>'
+  end
+end
+```
+
+Note that this change is not driven by test. The reason is that the mock fake_console and the read object StandardOutput are not in sync. This is exposed by our exploration session in irb console. We will revisit this issue and learn how to write Synchronization Specs to keep them in sync later.
+
+Step 14
+-----------
+
+Here is the complete code listing for this lesson:
+
+```ruby
+# guess_game.rb
+require_relative 'standard_output'
+
+class GuessGame
+  def initialize(console=StandardOutput.new)
+    @console = console 
+  end
+  
+  def random 
+    Random.new.rand(1..100)
+  end
+  
+  def start
+    @console.output("Welcome to the Guessing Game")
+    @console.prompt("Enter a number between 1 and 100") 
+  end
+end
+```
+
+```ruby
+# standard_output.rb
+class StandardOutput 
+  def output(message)
+    puts message
+  end
+
+  def prompt(message)
+    output(message)
+    puts '>'
+  end
+end
+```
+
+Summary
+=========
+-----------
+
+In this article you learned about as_null_object and when to use it in your tests. We also ran into the problem of keeping the mock and the real object in sync. We will discuss the solution to this problem later.
+
+
+

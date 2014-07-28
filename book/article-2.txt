@@ -149,7 +149,7 @@ Exercises
 --format documentation
 ```
 
-Now you can run the specs without giving it any options like tis:
+Now you can run the specs without giving it any options like this:
 
 ```ruby
 rspec calculator_spec.rb
