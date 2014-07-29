@@ -1,0 +1,356 @@
+TDD Basics : Test Behavior Not Implementation
+
+=========
+---------------------
+
+Objective
+=========
+
+- To lean how to write tests that is focused on behavior and not the implementation details.
+  
+Steps
+=========
+---------------------------
+
+Step 1
+-------
+
+Let's write the next spec. If required, refer the guess game description described in the previous article that introduces the game. Here is the guess_game_spec.rb with the new spec:
+
+```ruby
+require_relative 'guess_game'
+
+describe GuessGame do
+
+  it 'give clue for valid input : computer pick < guess' do
+    fake_console = double('Console').as_null_object
+    fake_console.should_receive(:output).with('Your guess is lower')
+    game = GuessGame.new(fake_console)
+    game.random = 25
+    game.stub(:get_user_guess) { 10 }
+
+    game.start
+  end
+  
+end
+```
+
+Step 2
+----------
+
+Run the spec, watch it fail with the error:
+
+```ruby
+GuessGame give clue for valid input : computer pick < guess
+  Failure/Error: game.random = 25
+  NoMethodError:
+    undefined method 'random=' for GuessGame
+```
+
+Step 3
+----------
+
+Change the guess_game.rb to:
+
+```ruby
+require relative 'standard_output'
+
+class GuessGame
+  attr_accessor :random
+  
+  # rest of the code is same as before
+end
+```
+
+Step 4
+-----------
+
+Run the specs again. Now the error message is:
+
+```ruby
+GuessGame give clue for valid input : computer pick < guess
+Failure/Error:
+  fake_console.should_receive(:output).with('Your guess is lower')
+    Double "Console" received :output with unexpected arguments
+    expected: ("Your guess is lower")
+      got: ("Welcome to the Guessing Game")
+```
+
+
+Step 5
+-----------
+
+Change the guess_game.rb as shown below:
+
+```ruby
+require_relative 'standard_output'
+
+class GuessGame
+  attr_accessor :random
+  attr_accessor :error
+
+  def initialize(console=StandardOutput.new)
+    @console = console
+    @random = Random.new.rand(1..100)
+  end
+
+  def start
+    @console.ouput('Welcome to the Guessing Game')
+    @console.prompt('Enter the number between 1 and 100')
+    guess = get_user_guess
+    valid = validate(guess)
+    give_clue if valid
+  end
+
+  def validate(n)
+    if (n < 1) or (n > 100)
+      @error = 'The number must be between 1 and 100'
+      false
+    else
+      true
+    end
+  end
+
+  def give_clue
+    @console.output('Your guess is lower')
+  end
+
+  def get_user_guess
+    0
+  end
+end
+```
+
+Step 6
+-----------
+
+All specs pass now. 
+
+
+Step 7
+--------------
+
+Let's make the spec use computer_pick instead of random. This makes the variable expressive of gaming domain instead of being tied to implementation.
+
+
+```ruby
+require_relative 'guess_game'
+
+describe GuessGame do
+
+  it 'give clue for valid input : computer pick < guess' do
+    # same code as before
+    game.computer_pick = 25
+    # same code as before
+  end
+  
+end
+```
+
+Step 8
+----------------
+
+This gives the error:
+
+```ruby
+NoMethodError:
+  undefined method 'computer_pick=' for GuessGame
+```
+
+Step 9
+------------
+
+Change the guess_game.rb implementation to:
+
+```ruby
+class GuessGame
+  attr_accessor :computer_pick
+  # code same as before
+
+  def initialize(console=StandardOutput.new)
+    @console = console
+    @computer_pick = Random.new.rand(1..100)
+  end
+
+  # rest of the code same as before
+end
+```
+
+Step 9
+-------------
+
+It breaks the older spec. To fix it, change the line that references random to computer_pick:
+
+```ruby
+
+it 'generate random number between 1 and 100 inclusive' do
+  # same code as before
+
+  result = game.computer_pick
+
+  # rest of the code is same as before
+end
+```
+
+Step 10
+--------------
+
+Now all specs pass.
+
+
+Step 11
+-----------
+
+Let's write the spec for giving clue when the valid input is higher than computer pick.
+
+```ruby
+it 'give clue for valid input > computer pick' do
+  fake_console = double('Console').as_null_object
+  fake_console.should_receive(:output).with('Your guess is higher')
+  game = GuessGame.new(fake_console)
+  game.computer_pick = 25
+  game.stub(:get_user_guess) { 50 }
+
+  game.start
+end
+```
+
+Step 12
+------------
+
+The failure message now is:
+
+```ruby
+GuessGame give clue for valid input > computer pick
+  Failure/Error:
+    fake_console.should_receive(:output).with('Your guess is higher')
+    Double "Console" received :output with unexpected arguments
+    expected: ("Your guess is higher")
+      got: ("Welcome to the Guessing Game"), ("Your guess is lower")
+```
+
+We are failing for the right reason.
+
+Step 13
+---------
+
+Change the guess_game.rb as follows:
+
+```ruby
+require_relative 'standard_output'
+
+class GuessGame
+# same code as before
+
+  def give_clue
+    if get_user_guess < @computer_pick
+      @console.output('Your guess is lower')
+    else
+      @console.output('Your guess is higher')
+    end
+  end
+end
+```
+
+Step 14
+------------
+
+All specs now pass.
+
+Step 15
+------------
+
+Let's add the spec when the user guess is correct.
+
+```ruby
+require_relative 'guess_game'
+
+describe GuessGame do
+# code same as before
+
+  it 'recognize the correct answer when the guess is correct' do
+    fake_console = double('Console').as_null_object
+    fake_console.should_receive(:output).with('Your guess is correct')
+
+    game = GuessGame.new(fake_console)
+    game.computer_pick = 25
+    game.guess = 25
+
+    game.start
+  end
+end
+```
+
+Step 16
+----------
+
+```ruby
+GuessGame should recognize the correct answer when the guess is correct 
+Failure/Error:
+  fake_console.should_receive(:output).with('Your guess is correct')
+  Double "Console" received :output with unexpected arguments
+    expected: ("Your guess is correct")
+    got: ("Welcome to the Guessing Game"), ("Your guess is higher")
+```
+
+Step 17
+---------
+
+Change the guess_game.rb as follows:
+
+```ruby
+require_relative 'standard_output'
+
+class GuessGame
+# same code as before
+
+  def give_clue
+    if get_user_guess < @computer_pick
+      @console.output('Your guess is lower')
+    elsif get_user_guess > @computer_pick
+      @console.output('Your guess is higher')
+    else
+      @console.output('Your guess is correct')
+    end
+  end
+end
+```
+
+Step 18
+-----------
+
+All specs will now pass.
+
+Step 19
+-----------
+
+Let's now hide the implementation details by making the validate and give_clue methods private.
+
+```ruby
+require_relative 'standard_output'
+
+class GuessGame
+# same code as before
+
+  private
+
+  def validate(n)
+    # same code as before
+  end
+
+  def give_clue
+    # same code as before
+  end
+end
+```
+
+Step 20
+----------
+
+All specs still pass. This means our specs are not testing the implementation details. Since our specs are only focused on testing the behavior, we were able to hide the implementation. Specs that depend on implementation will break whenever the implementation changes, even if the behavior did not change. Brittle specs are hard to maintain and offer no value. Specs should break only if the behavior changes, this acts as a safety net protecting us from regression bugs.
+
+Summary
+=========
+-----------
+
+In this article you learned about focusing on testing the behavior instead of implementation details. You saw how we can hide the implementation from the clients. Specs are the first client of our library and they must be aware of implementation details.

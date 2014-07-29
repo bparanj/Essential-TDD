@@ -1,0 +1,128 @@
+TDD Beyond Basics : Single Purpose Principle Revisited
+=========
+---------------------
+
+Objective
+=========
+
+- To learn how to apply Single Purpose Principle.
+  
+Discussion
+=========
+---------------------------
+
+Let's take a look at the things that GuessGame object can do:
+
+- it should generate random number between 1 and 100 inclusive
+- it should display greeting when the game begins
+- it should prompt the user to enter the number representing their guess
+- it should perform validation of the guess entered by the user : lower than 1
+- it should perform validation of the guess entered by the user : higher than 100
+- it should give clue when the input is valid and is less than the computer pick
+- it should give clue when the input is valid and is greater than the computer pick
+- it should recognize the correct answer when the guess is correct
+
+We can categorize the above responsibilities as follows:
+
+**Random Number Generation**
+
+- it should generate random number between 1 and 100 inclusive
+
+**Interacting with the user**
+
+- it should display greeting when the game begins
+- it should prompt the user to enter the number representing their guess
+- it should give clue when the input is valid and is less than the computer pick
+- it should give clue when the input is valid and is greater than the computer pick
+
+**Input Validation**
+
+- it should perform validation of the guess entered by the user : lower than 1
+- it should perform validation of the guess entered by the user : higher than 100
+
+**Know when the guess is correct**
+
+- it should recognize the correct answer when the guess is correct
+
+Random number generation can be moved into Randomizer class. So we can delete the first spec, since it is now the responsibility of it's collaborator. The GuessGame object could become a gaming engine that delegates validation and user interaction to separate classes if they become complex. For now we will leave it alone.
+
+As we reflect on the responsibilities we can check whether the set of responsibilities serve one purpose or they are doing unrelated things. This will help us design classes with high cohesion. This leads us to the following code.
+
+Steps
+=========
+---------------------------
+
+Step 1
+-------
+
+Delete the following spec in guess_game_spec.rb
+
+```ruby
+require_relative 'guess_game'
+
+describe GuessGame do
+  # delete the following spec
+  it 'generate random number between 1 and 100 inclusive' do
+
+  end
+end
+```
+
+Step 2
+----------
+
+Move the randomizing function to a new Randomizer class. Here is the code for randomizer.rb
+
+```ruby
+class Randomizer
+  def self.get
+    Random.new.rand(1..100)
+  end
+end
+```
+
+Here is the randomizer_spec.rb:
+
+```ruby
+describe Randomizer do
+  it 'generate random number between 1 and 100 inclusvie' do
+    result = Randomizer.new.get
+
+    expected = 1..100
+    expected.should cover(result)
+  end
+end
+```
+
+Step 3
+----------
+
+Change the guess_game.rb as follows:
+
+```ruby
+require_relative 'standard_output'
+require_relative 'randomizer'
+
+class GuessGame
+  attr_accessor :computer_pick
+  attr_accessor :error
+
+  def initialize(console=StandardOutput.new, randomizer=Randomizer.new)
+    @console = console
+    @computer_pick = randomizer.get
+  end
+  
+  # rest of the code same as before
+end
+```
+
+Step 4
+-----------
+
+Run the specs. It will pass.
+
+Summary
+=========
+-----------
+
+In this article you learned about Single Purpose Principle and how to apply it to come up with a good design. In the next article we will wrap up the GuessGame. You will learn about the boundary of the system and how to isolate the changes in the way we interact with the system from the gaming logic so that we separate the different concerns. We need to separate them because they change for different reasons. They are orthogonal since they are independent of each other.  

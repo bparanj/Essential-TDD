@@ -118,6 +118,3 @@ Summary
 -----------
 
 In this article you learned about 
-
-
-

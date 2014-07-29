@@ -1,0 +1,118 @@
+TDD Beyond Basics : Synchronization Specs
+=========
+---------------------
+
+Objective
+=========
+
+- To learn how to keep mocks in sync with the real class. 
+
+Discussion
+=========
+---------------------------
+
+In an earlier article we ran into a problem when the mock went out of sync with the StandardOutput class. We had deferred the discussion about this topic in that article. The StandardOutput class is one of several concrete implementation of an user interfacing object. We could have GuiOutput as another concrete implementation of the same interface. The fake_console mock is a generic **role** that represents an user interfacing object. In this lesson we will write synchronization specs to keep mocks in sync with production code.
+  
+Steps
+=========
+---------------------------
+
+Step 1
+-------
+
+Create console_interface_spec.rb with the following code:
+
+```ruby
+shared_examples 'Console Interface' do
+  describe 'Console Interface Protocol' do
+    it 'should implement the console interface : output(arg)' do
+      @object.should respond_to(:output).with(1).argument
+    end
+  
+    it 'should implement the console interface: prompt(arg)' do
+      @object.should respond_to(:prompt).with(1).argument
+    end
+  end
+end
+```
+
+Step 2
+----------
+
+If you run this spec, you get:
+
+```ruby
+No examples found.
+
+Finished in 0.00008 seconds
+0 examples, 0 failures
+```
+The shared examples are meant to be shared.
+
+Step 3
+----------
+
+Create a standard_output_spec.rb like this:
+
+```ruby
+require_relative 'console_interface_spec'
+require_relative 'standard_output'
+
+describe StandardOutput do
+  before(:each) do
+    @object = StandardOutput.new
+  end
+
+  it_behaves_like 'Console Interface'
+end
+```
+
+The standard_output.rb remains unchanged, here is the code for reference:
+
+```ruby
+class StandardOutput
+  def output(message)
+    puts message
+  end
+  
+  def prompt(message)
+    output(message)
+    puts '>'
+  end
+end
+```
+
+Step 4
+-----------
+
+Run this spec as follows:
+
+```ruby
+$rspec standard_output_spec.rb 
+```
+
+Now you get the following output:
+
+```ruby
+StandardOutput
+  behaves like Console Interface
+    Console Interface
+      should implement the console interface: output(arg)
+      should implement the console interface: prompt(arg)
+Finished in 0.00258 seconds 
+2 examples, 0 failures
+```
+
+Discussion
+============
+-----------
+
+The Console Interface shared example is a synchronization spec that illustrates how to avoid the problem of specs passing / failing when mocks go out of sync with the production code. Synchronization specs are a way to express the interface design in code. It makes the protocol of the class explicit. The term protocol here is used to mean how a collaborator needs to communicate with the object exposing it's interface. As you can see from the shared example, we also specify how many arguments to expect in the interface.
+
+When to use synchronization specs? If you are using lot of mocks you may not be able to write synchronization specs for all of them. In this case, think about writing synchronization specs for the most dependent and important module of your application. 
+
+Summary
+=========
+-----------
+
+In this article you learned about Synchronization specs and when to use them. In the next article we will discuss the Single Purpose Principle in depth.
