@@ -1,0 +1,52 @@
+Destroy All Software - Episode Fast Tests With and Without Rails Review
+
+The specs in the final solution abuses mock by mocking the ActiveRecord API. The expectation mocks update_attributes. He says the solution only depends on RSpec and specs run outside of Rails, so the specs run fast. The problem is that the dependency on Rails exists because of the coupling created by the mocking of ActiveRecord. The tests are now brittle and can break when you upgrade Rails if the active record API changes.
+
+
+Growing a Test Suite Screencast Review
+This is the review of the solution discussed in Growing a Test Suite Screencast.
+
+Here is a list of things that the solution violates:
+
+1. Separate Command from Query.
+     digest method is a command. digest method should not return any value
+2. Allocate responsibilities to the right class.
+    digest method does not belong to the Cheese class.
+3. Law of Demeter.
+
+Here is my solution:
+
+class Walrus
+  attr_reader :energy
+ 
+  def initialize
+    @energy = 0
+  end
+ 
+  def eat(food)
+    digest
+    @energy += food.energy
+  end
+ 
+  private
+ 
+  def digest
+    p 'Digesting...'
+  end
+end
+
+class Cheese
+  def energy
+    100
+  end
+end
+
+
+cheese = Cheese.new
+w  = Walrus.new
+
+p "Energy before eating is : #{w.energy}"
+
+w.eat(cheese)
+
+p "Energy now is : #{w.energy}" 

@@ -1,0 +1,52 @@
+Essential Skills for TDD Terminology
+ 
+Domain
+=======
+----------
+
+A specified sphere of activity or knowledge. Example : Visual communication is the domain of the graphic designers.
+
+Examples
+---------
+
+Visual Communication
+ - Contour
+ - Contrast
+ - Opacity
+ - Form
+
+Finance
+ - Equity
+ - Debt
+ - Gross Margin
+ - Net Income
+
+Math
+ - Parallel
+ - Ordinate
+ - Arc
+ - Angle
+
+Problem Domain
+=======
+----------
+
+Problem domain refers to real-world things and concepts related to the problem.
+
+Problem Domain Analysis
+=======
+----------
+
+Problem Domain Analysis is the process of creating a mental model that describes the problem. The focus is on understanding the problem domain.
+
+Solution Domain 
+=======
+----------
+
+Solution Domain refers to real-world things and concepts related to the solution.
+
+Solution Domain Analysis
+=======
+----------
+
+Solution Domain Analysis is the process of arriving at a solution. It describes the sequence of steps used to solve a given problem. Finding abstractions helps us to solve problems.
