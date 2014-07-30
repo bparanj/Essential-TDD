@@ -1,0 +1,265 @@
+TDD Basics : Bowling Game Case Study Part 2
+
+Objective
+=========
+
+- To learn how to maintain a growing test suite.
+
+Discussion
+=========
+---------------------
+
+Let's review the production code. What's the 20.times { something } code doing? Can we raise the level of abstraction? Missing all the pins is a gutter game and striking all the pins is strike. Can we change the first spec to call a gutter method and the second spec to call the strike method? If we do so, then we will be focusing on the 'What' instead of 'How'. Looping is a sign that the spec is focusing on the implementation rather than specifying the behavior.
+  
+Steps
+=========
+---------------------------
+
+Step 1
+-------
+
+Let's start over and apply what we have learned about the domain. Create game_spec.rb with the following code:
+
+```ruby
+require_relative 'game'
+
+module Bowling
+  describe Game do
+    it "return 0 for a miss (no pins are knocked down)" do
+      game = Game.new
+      game.miss
+      
+      expect(game.score).to eq(0)
+    end
+  end  
+end
+```
+
+Step 2
+----------
+
+Create game.rb file with the following contents:
+
+```ruby
+module Bowling
+  
+  class Game
+    attr_reader :score
+    
+    def miss
+      @score = 0
+    end
+  end
+  
+end
+```
+
+Step 3
+----------
+
+Run the spec:
+
+```ruby
+$ rspec game_spec.rb --color
+```
+
+Discussion
+==========
+-----------
+
+The miss() method implementation helped to setup the require statements and get the spec working. When you are in a green state, you can checkin the code on a regular basis as you make progress. If you want to experiment with an alternative solution you can revert to an older version. This gives us the courage to experiment since we don't have to worry about losing our previous work. Here, we intelligently update our specs to reflect our understanding as we learn more about our gaming domain. 
+
+Step 4
+-----------
+
+Let's add the second spec:
+
+```ruby
+it "return 10 for a strike (knocking down all ten pins)" do
+  game = Game.new
+  game.strike
+  
+  expect(game.score).to eq(10)
+end
+```
+
+We get undefined method strike when we run the spec. 
+
+Step 5
+-----------
+
+Add the strike method to game.rb:
+
+```ruby
+def strike
+  @score = 10
+end
+```
+
+Step 6
+-----------
+
+The spec now passes. Let's write the third spec:
+
+```ruby
+it "return the number of pins hit for a spare" do
+  game = Game.new
+  game.spare(8)
+  
+  expect(game.score).to eq(8)
+end
+```
+
+Step 7
+--------------
+
+We now get the error : undefined method `spare'. Let's define this method like this:
+
+```ruby
+def spare(pins)
+  @score = pins
+end
+```
+
+Step 8
+----------------
+
+The spec now passes. 
+
+We took a bigger step by providing a non trival implementation of the spare() method. When the implementation is straight forward you can just type in the real implementation. There is no need to triangulate or Fake It Till You Make it. Since this method is just a one-liner we went ahead and implemented it. 
+
+
+Step 9
+-------------
+
+Let's write the fourth spec.
+
+```ruby
+it "when a strike is bowled, the total score is 10 + 
+    the total of the next two roll to that frame" do
+  game = Game.new
+  game.strike
+  
+  game.roll(7)
+  game.roll(5)
+  
+  expect(game.score).to eq(22)
+end
+```
+
+Step 10
+--------------
+
+To make this spec pass, add the roll method to game.rb as follows:
+
+```ruby
+def roll(pins)
+  @score += pins
+end
+```
+
+Step 11
+-----------
+
+All the specs now pass. Let's review the doc string.
+
+```ruby
+$ rspec game_spec.rb --color --format doc
+
+Bowling::Game
+  should return 0 for a miss (not knocking down any pins)
+  should return 10 for a strike (knocking down all ten pins)
+  should return the number of pins hit for a spare
+  when a strike is bowled, the total score is 10 + 
+        the total of the next two roll to that frame
+
+Finished in 0.0019 seconds
+4 examples, 0 failures
+```
+
+Step 12
+------------
+
+As you can see the second and fourth spec are the same scenario. It is for a strike. We can now delete the second spec because it is now superseded by the fourth spec. So our specs now looks like this:
+
+```ruby
+require_relative 'game'
+
+module Bowling
+  describe Game do
+    it "return 0 for a miss (not knocking down any pins)" do
+      game = Game.new
+      game.miss
+      
+      expect(game.score).to eq(0)
+    end
+        
+    it "return the number of pins hit for a spare" do
+      game = Game.new
+      game.spare(8)
+      
+      expect(game.score).to eq(8)
+    end
+    
+    it "when a strike is bowled, the total score is 10 + 
+        the total of the next two roll to that frame" do
+      game = Game.new
+      game.strike
+      
+      game.roll(7)
+      game.roll(5)
+      
+      expect(game.score).to eq(22)
+    end
+    
+  end  
+end
+```
+
+In this version we have implemented miss(), strike(), spare() and roll() methods. We deleted the spec that gave momentum but is no longer needed.
+
+>> The purpose of TDD is to express the intent of code in as few tests as possible."
+>>		-- David Bernstein blog post about [Triangulation](http://tobeagile.com/2009/12/08/triangulation/ 'Triangulation')
+
+Step 13
+-----------
+
+Let's read the definition of the spare:
+
+When a bowler knocks all ten pins down on the second ball roll they are said to have rolled a spare. The score keeper will mark a / for that frame and the bowlers score is the ten pins that they just knocked down plus they get to add to that what they knock down on their next ball roll. Consequently, you will not know what the bowers score is until the next frame!
+
+Step 14
+----------
+
+Let's update our second spec to reflect our understanding of the spare concept in the game_spec.rb as follows:
+
+```ruby
+it "return 10 + number of pins knocked down in next roll for a spare" do
+  game = Game.new
+  game.spare
+  game.roll(2)
+  
+  expect(game.score).to eq(12)
+end
+```
+
+Step 15
+----------
+
+We now have to change the spare method signature and implementation as follows:
+
+Here is the game.rb
+
+```ruby
+def spare
+  @score = 10
+end
+```
+
+The specs now pass. Notice that we are not blindly appending to our specs, we are updating the specs as we drive the design of our bowling gaming class.
+
+Summary
+=========
+-----------
+
+In this article you learned about intelligently updating the specs as you learn more about the domain instead of blindly adding more specs to your existing test suite. In the next article we will continue development of the bowling game.

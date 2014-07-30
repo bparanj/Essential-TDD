@@ -1,0 +1,296 @@
+TDD Basics : Bowling Game Case Study Part 3
+
+Objective
+=========
+
+- To learn why to fail loudly when something goes wrong.
+  
+Steps
+=========
+---------------------------
+
+Step 1
+-------
+
+Let's write a spec to find the score for a perfect game. Here is the game_spec.rb:
+
+```ruby
+  it "return 300 for a perfect game" do
+    game = Game.new
+    30.times { game.strike }
+      
+    game.score.should == 300
+  end
+```
+
+This fails with the error:
+
+```ruby
+1) Bowling::Game return 300 for a perfect game
+   Failure/Error: game.score.should == 300
+     expected: 300
+          got: 10 (using ==)
+```
+
+Step 2
+----------
+
+To make this spec pass, we add the constructor and change strike method in game.rb as follows:
+
+```ruby
+module Bowling  
+  class Game
+    attr_reader :score
+    
+    def initialize
+      @score = 0  
+    end
+    def strike
+      @score += 10
+    end
+        
+	...
+  end
+end
+```
+
+All specs now pass. The looping in the spec is not good. Let's now tackle it.
+
+Step 3
+----------
+
+Add repeat method to the spec_helper.rb :
+
+```ruby
+def repeat(n)
+   n.times { yield }
+end
+```
+
+Step 4
+-----------
+
+Change the spec to use the repeat method like this:
+
+game_spec.rb
+
+```ruby    
+    it "return 300 for a perfect game" do
+      game = Game.new
+      repeat(30) { game.strike } 
+      
+      game.score.should == 300
+    end
+```
+
+Step 5
+-----------
+
+Add
+
+```ruby
+require_relative 'spec_helper'
+```
+
+to the top of the game_spec.rb. Now all the specs will pass. There is no change to the game.rb during this refactoring. We have now removed looping for the perfect game spec.
+
+Step 6
+-----------
+
+Let's now implement the feature to get scores for given frame. Add the fifth spec to game_spec.rb as follows:
+
+```ruby
+require_relative 'spec_helper'
+require_relative 'game'
+
+module Bowling
+  describe Game do
+
+    it "should return a score of 8 for first hit of 6 pins and the
+ 				second hit of 2 pins for the first frame" do
+      game = Game.new
+      game.frame = 1
+      
+      game.roll(6)
+      game.roll(2)
+      
+      game.score.should == 8
+    end
+    
+  end  
+end
+```
+
+Step 7
+--------------
+
+To make this spec pass, add 
+
+```ruby
+attr_accessor :frame
+```
+
+to the game.rb. The game ignores the frame during score calculation. 
+
+Step 8
+----------------
+
+We will drive the implementation to use the frame now by adding the following spec:
+
+```ruby
+it "return the score for a given frame to allow display of score" do
+  game = Game.new
+  
+  game.roll(6)
+  game.roll(2)
+  
+  game.score_for(1).should == [6, 2]      
+end
+```
+
+Step 9
+-------------
+
+Change the game.rb as follows:
+
+```ruby
+module Bowling
+  
+  class Game
+    attr_reader :score
+    attr_accessor :frame
+    
+    def initialize
+      @score = 0
+      @score_card = []
+    end    
+    
+    def miss
+      @score = 0
+    end
+    
+    def strike
+      @score += 10
+    end
+    
+    def spare
+      @score = 10
+    end
+    
+    def roll(pins, frame = 1)
+      @score += pins   
+      update_score_card(pins, frame)   
+    end    
+    
+    def score_for(frame)
+      @score_card[frame]
+    end
+    
+    private
+    
+    def update_score_card(pins, frame)
+      if @score_card[frame].nil?
+        @score_card[frame] = []
+        @score_card[frame][0] = pins
+      else
+        @score_card[frame][1] = pins
+      end
+    end
+  end
+end
+```
+
+This implementation was arrived after playing in the irb with some sample data. All specs will now pass.
+
+Step 10
+--------------
+
+Let's now tackle the scoring of multiple frames. Add the spec shown below:
+
+game_spec.rb
+
+```ruby
+require_relative 'spec_helper'
+require_relative 'game'
+
+module Bowling
+  describe Game do
+    ...    
+    it "return the total score for first two frames of a game" do
+      g = Game.new
+      # Frame #1
+      g.roll(6)
+      g.roll(2)
+      # Frame #2
+      g.roll(7, 2)
+      g.roll(1,2)
+      
+      g.score.should == 16
+    end
+    
+  end  
+end
+```
+
+Step 11
+-----------
+
+This new spec passes without failing. Feature already implemented. Comments in the spec is bugging me. How can we make the code expressive so that we don't need any comments to clarify it's intention? To make the intent clear, we can make the second argument in the roll method a hash like this: roll(pins, args)
+
+```ruby
+it "return the total score for first two frames of a game" do
+  game = Game.new
+  game.roll(6)
+  game.roll(2)
+  game.roll(7, frame: 2)
+  game.roll(1, frame: 2)
+  
+  expect(game.score).to eq(16)
+end
+```
+
+Step 12
+------------
+
+The error is now:
+
+```ruby
+Bowling::Game return the total score for first two frames of a game
+  Failure/Error: g.roll(7, frame: 2)
+  TypeError:
+      can't convert Hash into Integer
+```
+
+Step 13
+----------
+
+Change the roll method implementation in game.rb like this:
+
+```ruby
+def roll(pins, args={})
+  if args.empty?
+    frame = 1
+  else
+    frame = args[:frame]
+  end
+  @score += pins   
+  update_score_card(pins, frame)   
+end
+```
+
+All the specs will pass. 
+
+Step 14
+-------------
+
+Let's extract the initializing code from the roll method to a private method:
+
+```ruby
+def initialize_frame(args)
+  return 1 if args.empty?
+
+  args.fetch(:frame)
+end
+```
+
+Note that we are using the fetch method which throws an exception if the value for a given key is not found. If we use [] method, then we will get a nil value which will cause crash our program due to nil value. When we fail we should fail loudly with verbose failure messages. Message must say what went wrong and if it is a recoverable error, it should tell you how to fix it. If we fail silently, then the cause of the failure will be hidden and will be difficult to track down.

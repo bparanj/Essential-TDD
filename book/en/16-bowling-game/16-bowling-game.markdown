@@ -124,7 +124,10 @@ When you run the specs, you now get the output:
      undefined method `roll' for BowlingGame
 ```
 
-The test is not failing for the right reason because it is due to an error in not defining roll method. We are in yellow state. Let's do the minimal thing to get past this error message by defining the roll method in BowlingGame class :
+The test is not failing for the right reason because it is due to an error in not defining roll method. We are in yellow state. 
+
+
+Let's do the minimal thing to get past this error message by defining the roll method in BowlingGame class :
 
 ```ruby
 class BowlingGame
@@ -1045,9 +1048,7 @@ This spec passes without failing.
 
 ## Version 14 ##
 
-Let's use context to group related specs together.
-
-game_spec.rb
+Let's use context to group related specs together. Here is the game_spec.rb:
 
 ```ruby
 require_relative 'spec_helper'

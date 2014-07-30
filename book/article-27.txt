@@ -1,0 +1,480 @@
+TDD Basics : Bowling Game Case Study Final Version
+  
+Steps
+=========
+---------------------------
+
+Step 1
+-------
+
+Let's consider the scenario of rolling a strike on the second frame. Add the spec:
+
+```ruby
+it "Rolling a strike : All 10 pins are hit on the first ball roll. 
+			Score is 10 pins + Score for the next two ball rolls" do
+  game = Game.new
+  game.roll(6)
+  game.roll(2)
+  game.roll(10, frame: 2)
+  game.roll(9, frame: 3)
+  game.roll(0, frame: 3)
+
+  expect(game.score).to eq(8 + 10 + 9 + 0)        
+end
+```
+
+The spec passes. It can handle this scenario without making any changes to the existing implementation. 
+
+Step 2
+----------
+
+Let's add a new spec to calculate total score up to a given frame:
+
+```ruby
+it "Rolling a strike : should return the score upto a given frame that is
+		  running total + 10 + the score for next two balls" do
+  game = Game.new
+  game.roll(6)
+  game.roll(2)
+  game.roll(7, frame: 2)
+  game.roll(1, frame: 2)
+  game.roll(10, frame: 3)
+  game.roll(9, frame: 4)
+  game.roll(0, frame: 4)
+  
+  total_score_upto_frame_3 = game.score_total_upto_frame(3)
+  
+  expect(total_score_upto_frame_3).to eq(6 + 2 + 7 + 1 + 10 + 9 + 0)
+end
+```
+
+We get undefined method score_total_upto_frame error. 
+
+Step 3
+----------
+
+Let's implement this method as follows:
+
+```ruby
+def score_total_upto_frame(n)
+  @score_card.flatten.inject{|x, sum| x += sum}
+end
+```
+
+Step 4
+-----------
+
+After fixing off by one error due to array index in frame numbers and fixing scoring logic bug for a strike, the game.rb is:
+
+```ruby
+module Bowling
+  
+  class Game
+    attr_reader :score
+    attr_accessor :frame
+    
+    def initialize
+      @score = 0
+      @score_card = []
+    end
+    
+    def miss
+      @score = 0
+    end
+    
+    def strike
+      @score += 10
+    end
+    
+    def spare
+      @score = 10
+    end
+    
+    def roll(pins, args={})
+      frame = initialize_frame(args)
+      @score += pins   
+      update_score_card(pins, frame)   
+      handle_strike_scoring(pins, frame) 
+    end
+    
+    def score_for(n)
+      @score_card[n - 1]
+    end
+    
+    def score_total_upto_frame(n)
+      @score_card.flatten.inject{|x, sum| x += sum}
+    end
+    
+    private
+    
+    def update_score_card(pins, frame)
+      if @score_card[frame - 1].nil?
+        @score_card[frame - 1] = []
+        @score_card[frame - 1][0] = pins
+      else
+        @score_card[frame - 1][1] = pins        
+      end
+    end
+    
+    def initialize_frame(args)
+      return 1 if args.empty?
+
+      args.fetch(:frame)
+    end
+    
+    def handle_strike_scoring(pins, frame)
+      # Check previous frame for a strike and update the score card
+      if frame > 1
+        score_array = score_for(frame - 2)
+        # Is the previous hit a strike?
+        if score_array && score_array.include?(10) 
+          score_array << pins
+        end
+      end
+    end
+  end
+end
+```
+
+Step 5
+-----------
+
+Let's consider a scenario where we hit a strike and then a spare. Add the following spec:
+
+```ruby
+it "return the score_total_upto_frame for a game that includes a strike and a spare" do
+  game = Game.new
+  game.roll(6)
+  game.roll(2)
+    
+  game.roll(7, frame: 2)
+  game.roll(1, frame: 2)
+    
+  game.roll(10, frame: 3)
+    
+  game.roll(9, frame: 4)
+  game.roll(0, frame: 4)
+  # A spare happens on the fifth frame
+  game.roll(8, frame: 5)
+  game.roll(2, frame: 5)
+    
+  game.roll(1, frame: 6)      
+  
+  game.score_total_upto_frame(5).should == 
+		(6 + 2) + (7 + 1) + (10 + 9 + 0) + (9 + 0) + (8 + 2 + 1)      
+end
+```
+
+Step 6
+-----------
+
+This fails with the error:
+
+```ruby
+   expected: 55
+        got: 56 (using ==)
+```
+
+Step 7
+--------------
+
+Let's change the implementation of game.rb as follows:
+
+```ruby
+module Bowling
+  
+  class Game
+    attr_reader :score
+    attr_accessor :frame
+    
+    def initialize
+      @score = 0
+      @score_card = []
+    end
+    
+    def miss
+      @score = 0
+    end
+    
+    def strike
+      @score += 10
+    end
+    
+    def spare
+      @score += 10
+    end
+    
+    def roll(pins, args={})
+      frame = initialize_frame(args)
+      @score += pins   
+      update_score_card(pins, frame)   
+      update_strike_score
+      update_spare_score
+    end
+    
+    def score_for(n)
+      @score_card[n - 1]
+    end
+    
+    def score_total_upto_frame(n)
+      @score_card.take(n).flatten.inject{|x, sum| x += sum}
+    end
+    
+    private
+    
+    def update_score_card(pins, frame)
+      if @score_card[frame - 1].nil?
+        @score_card[frame - 1] = []
+        @score_card[frame - 1][0] = pins
+      else
+        @score_card[frame - 1][1] = pins        
+      end
+    end
+    
+    def initialize_frame(args)
+      return 1 if args.empty?
+
+      args.fetch(:frame)
+    end
+    
+    def update_strike_score
+      strike_index = 100
+
+      @score_card.each_with_index do |e, i|
+       # Update the strike score only once
+       if e.include?(10) and (e.size == 1)
+         strike_index = i
+       end
+      end
+
+      last_element_index = (@score_card.size - 1)
+      if strike_index < last_element_index
+        @score_card[strike_index] +=  @score_card[strike_index + 1]
+      end
+    end
+
+    def update_spare_score
+      spare_index = 100
+
+      @score_card.each_with_index do |e, i|
+        # Skip strike score
+        unless e.include?(10)
+          if (e.size == 2) and (e.inject(:+) == 10)
+            spare_index = i
+          end
+        end
+      end
+
+      last_element_index = (@score_card.size - 1)
+      if spare_index < last_element_index
+        @score_card[spare_index] +=  [@score_card[last_element_index][0]]
+      end
+    end
+  end
+end
+```
+
+Step 8
+----------------
+
+The spec now passes. Let's calculate the score for the same scenario.
+
+```ruby
+it "should return the score for a game that includes a strike and a spare" do
+   game = Game.new
+   game.roll(6)
+   game.roll(2)
+     
+   game.roll(7, frame: 2)
+   game.roll(1, frame: 2)
+     
+   game.roll(10, frame: 3)
+     
+   game.roll(9, frame: 4)
+   game.roll(0, frame: 4)
+   # A spare happens on the fifth frame
+   game.roll(8, frame: 5)
+   game.roll(2, frame: 5)
+     
+   game.roll(1, frame: 6)      
+   
+   game.score.should == 
+			(6 + 2) + (7 + 1) + (10 + 9 + 0) + (8 + 2 + 1)      
+ end
+```
+
+This spec passes without failing.
+
+Step 9
+-------------
+
+Let's use context to group related specs together. Here is the game_spec.rb:
+
+```ruby
+require_relative 'spec_helper'
+require_relative 'game'
+
+module Bowling
+  describe Game do
+    it "return 0 for a miss (not knocking down any pins)" do
+      game = Game.new
+      game.miss
+      
+      expect(game.score).to eq(0)
+    end
+            
+    it "return a score of 8 for first hit of 6 pins and the
+ 				second hit of 2 pins for the first frame" do
+      game = Game.new
+      game.frame = 1
+      
+      game.roll(6)
+      game.roll(2)
+      
+      expect(game.score).to eq(8)
+    end
+    
+    it "return the score for a given frame to allow display of score" do
+      game = Game.new
+
+      game.roll(6)
+      game.roll(2)
+
+      game.score_for(1).should == [6, 2]      
+    end
+    
+    it "return the total score for first two frames of a game" do
+      game = Game.new
+      game.roll(6)
+      game.roll(2)
+      game.roll(7, frame: 2)
+      game.roll(1, frame: 2)
+      
+      expect(game.score).to eq(16)
+    end
+    
+    it "return 10 + number of pins knocked down in next roll for a spare" do
+      game = Game.new
+      game.spare
+      game.roll(2)
+      
+      expect(game.score).to eq(12)
+    end
+    
+    context 'Strike' do
+      it "return 300 for a perfect game" do
+        game = Game.new
+        repeat(30) { game.strike }
+
+        expect(game.score).to eq(300)
+      end
+
+      it "when a strike is bowled, the total score is 10 + 
+          the total of the next two roll to that frame" do
+        game = Game.new
+        game.strike
+
+        game.roll(7)
+        game.roll(5)
+
+        expect(game.score).to eq(22)
+      end
+
+      it "Rolling a strike : All 10 pins are hit on the first ball roll. 
+  				Score is 10 pins + Score for the next two ball rolls" do
+        game = Game.new
+        game.roll(6)
+        game.roll(2)
+        game.roll(10, frame: 2)
+        game.roll(9, frame: 3)
+        game.roll(0, frame: 3)
+
+        expect(game.score).to eq(8 + 10 + 9 + 0)        
+      end
+
+      it "Rolling a strike : should return the score upto a given frame that is
+  			  running total + 10 + the score for next two balls" do
+        game = Game.new
+        game.roll(6)
+        game.roll(2)
+        game.roll(7, frame: 2)
+        game.roll(1, frame: 2)
+        game.roll(10, frame: 3)
+        game.roll(9, frame: 4)
+        game.roll(0, frame: 4)
+
+        total_score_upto_frame_3 = game.score_total_upto_frame(3)
+
+        expect(total_score_upto_frame_3).to eq(6 + 2 + 7 + 1 + 10 + 9 + 0)
+      end      
+    end
+    
+    context 'Strike and a Spare' do
+      it "return the score_total_upto_frame for a game that 
+          includes a strike and a spare" do
+        game = Game.new
+        game.roll(6)
+        game.roll(2)
+
+        game.roll(7, frame: 2)
+        game.roll(1, frame: 2)
+
+        game.roll(10, frame: 3)
+
+        game.roll(9, frame: 4)
+        game.roll(0, frame: 4)
+        # A spare happens on the fifth frame
+        game.roll(8, frame: 5)
+        game.roll(2, frame: 5)
+
+        game.roll(1, frame: 6)      
+
+        game.score_total_upto_frame(5).should == 
+  			(6 + 2) + (7 + 1) + (10 + 9 + 0) + (9 + 0) + (8 + 2 + 1)      
+      end
+
+      it "return the score for a game that includes a strike and a spare" do
+        game = Game.new
+        game.roll(6)
+        game.roll(2)
+
+        game.roll(7, frame: 2)
+        game.roll(1, frame: 2)
+
+        game.roll(10, frame: 3)
+
+        game.roll(9, frame: 4)
+        game.roll(0, frame: 4)
+        # A spare happens on the fifth frame
+        game.roll(8, frame: 5)
+        game.roll(2, frame: 5)
+
+        game.roll(1, frame: 6)      
+
+        game.score.should == 
+  			(6 + 2) + (7 + 1) + (10 + 9 + 0) + (8 + 2 + 1)      
+      end      
+    end
+
+  end  
+end
+``` 
+
+Notice that I did't jump into rspec tricks like let, nested contexts, one-liner specs etc. My focus has always been on improving the design of the domain code. At the end, I group the specs to make it more readable. Feel free to make this version use any rspec constructs that you think makes it better. 
+
+
+Exercises
+=========
+-----------
+
+1. Use bundler gem command to generate a skeleton for bowling gem and covert the final bowling game version to a gem.
+2. Make sure all the specs pass after converting it to a gem.
+3. Compare your solution with https://github.com/bparanj/Bowing-Game
+	- git clone https://github.com/bparanj/Bowing-Game
+	- git log
+	- You will see the commit hash for each commit like : 
+	 		commit 5102f45b2c584cf2f5efaa17e9640c0c288bcf8d
+		 You can checkout a particular commit by :
+		  git co 5102f45b2c584cf2f5efaa17e9640c0c288bcf8d
+4. git co a781d7c3b6542e89ef73707e3bf21d40956704b0 to get the BDD_Basics_I.mov screencast. Watch the demo screencast. 
+5. Private methods are not tested. Why?
