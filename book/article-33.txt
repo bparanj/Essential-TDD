@@ -1,0 +1,161 @@
+
+  
+Steps
+=========
+---------------------------
+
+Step 1
+-------
+
+
+```ruby
+require_relative 'finds_equal_greater'
+
+describe FindsEqualGreater do
+  it "should return 1 for 0, [0]" do
+    equal_greater = FindsEqualGreater.new
+    
+    result = equal_greater.count(0, [0])
+    
+    expect(result).to eql(1)
+  end
+  
+  it "should return 0 for 1, [0]" do
+    equal_greater = FindsEqualGreater.new
+    
+    result = equal_greater.count(1, [0])
+    
+    expect(result).to eql(0)
+  end
+  
+  it "should return 2 for 1, [1,1]" do
+    equal_greater = FindsEqualGreater.new
+    
+    result = equal_greater.count(1, [1,1])
+    
+    expect(result).to eql(2)
+  end
+  
+  
+  it "should return 5 for 3, [1,1,2,3,4,3,6,6,1]" do
+    equal_greater = FindsEqualGreater.new
+    
+    result = equal_greater.count(3, [1,1,2,3,4,3,6,6,1])
+    
+    expect(result).to eql(5)
+  end
+  
+end
+```
+
+
+Step 2
+----------
+
+```ruby
+class FindsEqualGreater
+  def count(num, array)
+    index = 0
+    count = 0
+    
+    while index < array.size
+      count += 1 if array[index] >= num
+      index += 1
+    end
+
+    count
+  end
+end
+```
+
+
+Step 3
+----------
+
+
+
+Step 4
+-----------
+
+
+```ruby
+
+```
+
+Step 5
+-----------
+
+
+
+```ruby
+
+```
+
+Step 6
+-----------
+
+
+
+```ruby
+
+```
+
+
+Step 7
+--------------
+
+
+
+```ruby
+
+```
+
+Step 8
+----------------
+
+
+
+```ruby
+
+```
+
+
+
+Step 9
+-------------
+
+
+
+```ruby
+
+```
+
+Step 10
+--------------
+
+
+
+```ruby
+
+```
+
+Step 11
+-----------
+
+
+
+Step 12
+------------
+
+
+```ruby
+
+```
+
+
+
+Summary
+=========
+-----------
+
+In this article you learned about 

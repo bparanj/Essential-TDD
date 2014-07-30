@@ -1,0 +1,258 @@
+
+
+Do not write tests that are dependent on data structures. Because, the data structures are implementation details and can change to optimize performance without changing the behavior. If we couple our tests to the implementation details, our tests will be brittle and break even when the behavior remains the same but when the implementation changes.
+
+  
+Find all the primes upto a given number n. For 30 the result is 2,3,5,7,11,13,17,19,23,29
+  
+Steps
+=========
+---------------------------
+
+Step 1
+-------
+
+
+```ruby
+describe Erastostenes do
+  it 'makes a list of all integers <= 30 and greater than 1' do
+    e = Erastostenes.new(30)
+    number_list = e.number_list
+    expect(number_list).to eq([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])
+  end
+  
+  it 'should cross out multiples of 2' do
+    e = Erastostenes.new(30)
+    cross_out_multiples_of_two = e.cross_out_multiples_of_two
+    
+    expect(cross_out_multiples_of_two).to eq([2,3,5,7,9,11,13,15,17,19,21,23,25,27,29])
+  end
+  
+  it 'should cross out multiples of 3' do
+    e = Erastostenes.new(30)
+    cross_out_multiples_of_three = e.cross_out_multiples_of_three
+    
+    expect(cross_out_multiples_of_three).to eq([2,3,5,7,11,13,17,19,23,25,29])    
+  end
+  
+  it 'should cross out multiples of 5' do
+    e = Erastostenes.new(30)
+    cross_out_multiples_of_five = e.cross_out_multiples_of_five
+    
+    expect(cross_out_multiples_of_five).to eq([2,3,5,7,11,13,17,19,23,29])
+  end
+  
+  
+end
+```
+
+Step 2
+----------
+
+
+```ruby
+class Erastostenes 
+  def initialize(n)
+    @n = n
+    @list = (2..@n).to_a  
+  end
+  
+  def number_list
+      (2..@n).to_a  
+  end
+  
+  def cross_out_multiples_of_two
+    cross_out_multiples_of(2)
+  end
+  
+  def cross_out_multiples_of_three
+    @list = cross_out_multiples_of(2)
+    cross_out_multiples_of(3)
+  end
+  
+  def cross_out_multiples_of_five
+    list = cross_out_multiples_of_three
+    list.reject! do |x|
+      unless x == 5
+       x % 5 == 0 
+      end
+    end
+  end
+  
+  private
+  
+  def cross_out_multiples_of(number)
+    @list.reject! do |x|
+      unless x == number
+       x % number == 0 
+      end
+    end    
+  end
+  
+end
+```
+
+Step 3
+-----------
+
+```ruby
+describe Erastostenes do
+  it 'makes a list of all integers <= 30 and greater than 1' do
+    e = Erastostenes.new(30)
+    number_list = e.number_list
+    expect(number_list).to eq([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30])
+  end
+  
+  it 'should cross out multiples of 2' do
+    e = Erastostenes.new(30)
+    cross_out_multiples_of_two = e.cross_out_multiples_of_two
+    
+    expect(cross_out_multiples_of_two).to eq([2,3,5,7,9,11,13,15,17,19,21,23,25,27,29])
+  end
+  
+  it 'should cross out multiples of 3' do
+    e = Erastostenes.new(30)
+    cross_out_multiples_of_three = e.cross_out_multiples_of_three
+    
+    expect(cross_out_multiples_of_three).to eq([2,3,5,7,11,13,17,19,23,25,29])    
+  end
+  
+  it 'should cross out multiples of 5' do
+    e = Erastostenes.new(30)
+    cross_out_multiples_of_five = e.cross_out_multiples_of_five
+    
+    expect(cross_out_multiples_of_five).to eq([2,3,5,7,11,13,17,19,23,29])
+  end
+  
+  it 'should calculate the prime numbers for 30' do
+        e = Erastostenes.new(30)
+        result = e.calculate
+        
+        expect(result).to eq([2,3,5,7,11,13,17,19,23,29])
+  end
+end
+```
+
+Step 4
+-----------
+
+```ruby
+class Erastostenes 
+  def initialize(n)
+    @n = n
+    @list = (2..@n).to_a  
+  end
+  
+  def number_list
+    (2..@n).to_a  
+  end
+  
+  
+  def calculate
+    list = number_list
+    list.each do |x|
+      unless x >= Math.sqrt(@n)
+        cross_out_multiples_of(x)
+      end
+    end
+    @list
+  end
+  
+  
+  # private
+  def cross_out_multiples_of_two
+    cross_out_multiples_of(2)
+  end
+  
+  def cross_out_multiples_of_three
+    @list = cross_out_multiples_of(2)
+    cross_out_multiples_of(3)
+  end
+  
+  def cross_out_multiples_of_five
+    @list = cross_out_multiples_of(2)
+    cross_out_multiples_of(3)
+    cross_out_multiples_of(5)
+  end
+  
+  private
+  
+  def cross_out_multiples_of(number)
+    @list.reject! do |x|
+      unless x == number
+       x % number == 0 
+      end
+    end    
+  end
+  
+end
+```
+
+Step 6
+-----------
+
+
+
+```ruby
+
+```
+
+
+Step 7
+--------------
+
+
+
+```ruby
+
+```
+
+Step 8
+----------------
+
+
+
+```ruby
+
+```
+
+
+
+Step 9
+-------------
+
+
+
+```ruby
+
+```
+
+Step 10
+--------------
+
+
+
+```ruby
+
+```
+
+Step 11
+-----------
+
+
+
+Step 12
+------------
+
+
+```ruby
+
+```
+
+
+
+Summary
+=========
+-----------
+
+In this article you learned about 

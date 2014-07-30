@@ -1,0 +1,199 @@
+
+  
+
+Solution Domain Analysis
+=================
+-----------------
+
+Let's look at an example problem. If n = 37, we don't need to test all of the numbers 3 through 36 to determine whether n is prime. 
+Instead, we can test only the numbers between 2 and sqrt(37), rounded up.
+sqrt(37) = 6.08 - we'll round up to 7.
+37 is not evenly divisible by 3, 4, 5, 6, and 7, so we can say confidently that it is prime.
+
+ 37 % 2
+ 37 % 3
+ 37 % 4
+ 37 % 5
+ 37 % 6
+ 37 % 7
+  
+Steps
+=========
+---------------------------
+
+Step 1
+-----------
+
+```ruby
+it 'should generate a list of divisors for the given number' do
+ # 1. Given a number 37
+ # 2. I expect the list of divisors to be [2,3,4,5,6,7]
+
+end
+```
+
+Step 2
+-----------
+
+```ruby
+# This is testing the implementation
+it 'should retain the number for later reference' do
+  find_prime = FindPrime.new(37)
+
+  number = find_prime.original_number
+  expect(number).to eq(37)
+end
+```
+
+Step 3
+-------
+
+This is not required because the method is private and it gets indirectly tested
+
+```ruby
+it 'should generate a list of numbers from 2 to upper bound' do
+  find_prime = FindPrime.new(37)
+
+  upper_factor_list = find_prime.upper_factor_list
+  expect(upper_factor_list).to eq([2, 3, 4, 5, 6, 7])
+end
+```
+
+Pruning tests 
+Removing scaffolding 
+
+
+
+Step 4
+----------
+
+
+```ruby
+
+require_relative 'find_prime'
+
+describe FindPrime do
+  it 'should find the upper factor to test the prime' do
+    find_prime = FindPrime.new(37)
+    
+    upper_factor = find_prime.upper_factor
+    expect(upper_factor).to eq(7)
+  end
+      
+  it 'should return true given a number input of 37' do
+    find_prime = FindPrime.new(37)
+    
+    is_prime = find_prime.prime?
+    expect(is_prime).to eq(true)
+  end
+end
+
+```
+
+
+Step 5
+----------
+
+```ruby
+class FindPrime
+  LOWER_BOUND = 2
+  attr_accessor :upper_factor
+  
+  def initialize(n)
+    @n = n
+    @upper_factor = upper_bound(n)
+  end
+
+  # 1. Get the list of factors to use for the modulo
+  # 2. Find the modulo using the first number
+  # 3. Repeat modulo for all numbers
+  # 4. If all the numbers modulo returns remainder, then return true  
+  def prime?
+    upper_factor_list.each do |e|
+      remainder = @n % e
+       return false if remainder == 0
+    end
+    return true
+  end
+      
+  private
+  
+  def upper_bound(number)
+    Math.sqrt(number).ceil
+  end
+  
+  def upper_factor_list
+    (LOWER_BOUND..@upper_factor).to_a
+  end
+  
+end
+```
+
+Step 6
+-----------
+
+
+
+```ruby
+
+```
+
+
+Step 7
+--------------
+
+
+
+```ruby
+
+```
+
+Step 8
+----------------
+
+
+
+```ruby
+
+```
+
+
+
+Step 9
+-------------
+
+
+
+```ruby
+
+```
+
+Step 10
+--------------
+
+
+
+```ruby
+
+```
+
+Step 11
+-----------
+
+
+
+Step 12
+------------
+
+
+```ruby
+
+```
+
+
+
+Summary
+=========
+-----------
+
+In this article you learned about 

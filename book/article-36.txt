@@ -1,0 +1,163 @@
+
+  
+Steps
+=========
+---------------------------
+
+
+Step 1
+----------
+
+
+```ruby
+describe 'GCD' do
+  it 'should find the bigger number' do
+    gcd = Gcd.new(12,30)
+    result = gcd.bigger_number
+    
+    expect(result).to eq(30)    
+  end
+  
+  it 'should return 4 for 8 and 12' do
+    gcd = Gcd.new(8,12)
+    result = gcd.calculate
+    
+    expect(result).to eq(4)    
+  end
+
+  it 'should return 6 for 54 and 24' do
+    gcd = Gcd.new(24,54)
+    result = gcd.calculate
+    
+    expect(result).to eq(6)    
+  end
+  
+  it 'should return 6 for 12,30' do
+    gcd = Gcd.new(12,30)
+    result = gcd.calculate
+    
+    expect(result).to eq(6)
+  end
+end
+```
+
+Step 2
+-------
+
+
+```ruby
+class Gcd
+  def initialize(x, y)
+    @x = x
+    @y = y
+  end
+  
+  def bigger_number
+    if @x > @y 
+      @bigger_number = @x
+      @smaller_number = @y
+    else
+      @bigger_number = @y
+      @smaller_number = @x      
+    end
+    @bigger_number
+  end
+  
+  def reduce
+    bigger_number
+    remainder = 1
+    divident = @bigger_number
+    divisor = @smaller_number  
+    until remainder == 0
+      remainder = divident % divisor
+      divident = divisor
+      divisor = remainder
+      # divisor = remainder
+#       divident = divisor
+    end
+    divident
+  end
+  
+  def calculate
+      reduce
+  end
+end
+```
+
+Step 5
+-----------
+
+
+
+```ruby
+
+```
+
+Step 6
+-----------
+
+
+
+```ruby
+
+```
+
+
+Step 7
+--------------
+
+
+
+```ruby
+
+```
+
+Step 8
+----------------
+
+
+
+```ruby
+
+```
+
+
+
+Step 9
+-------------
+
+
+
+```ruby
+
+```
+
+Step 10
+--------------
+
+
+
+```ruby
+
+```
+
+Step 11
+-----------
+
+
+
+Step 12
+------------
+
+
+```ruby
+
+```
+
+
+
+Summary
+=========
+-----------
+
+In this article you learned about 

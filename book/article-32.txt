@@ -1,0 +1,163 @@
+
+  
+Steps
+=========
+---------------------------
+
+Step 1
+-------
+
+```ruby
+require_relative 'sum'
+
+describe Sum do
+  it 'should return 0 for empty list' do
+    s = Sum.new
+    result = s.calculate([])
+    
+    expect(result).to eq(0)
+  end
+  
+  it 'should return 0 for a list containing 0' do
+    s = Sum.new
+    result = s.calculate([0])
+    
+    expect(result).to eq(0)
+  end
+  
+  it 'should return 1 for a list containing 1' do
+    s = Sum.new
+    result = s.calculate([1])
+    
+    expect(result).to eq(1)
+  end
+  
+  it 'should return 2 for a list containing 1 and 1' do
+    s = Sum.new
+    result = s.calculate([1,1])
+    
+    expect(result).to eq(2)
+  end
+  
+  it 'should return 20 for a list containing 2,2,2,2,2,2,2,2,2 and 2' do
+    s = Sum.new
+    result = s.calculate([2,2,2,2,2,2,2,2,2,2])
+    
+    expect(result).to eq(20)
+  end
+end
+```
+
+
+Step 2
+----------
+
+```ruby
+class Sum
+  
+  def calculate(arr)
+    result = 0
+    index = 0
+
+    while index < arr.size
+     result += arr[index]
+     index += 1
+    end
+    result
+  end
+  
+end
+```
+
+
+Step 3
+----------
+
+
+
+
+Step 4
+-----------
+
+
+```ruby
+
+```
+
+Step 5
+-----------
+
+
+
+```ruby
+
+```
+
+Step 6
+-----------
+
+
+
+```ruby
+
+```
+
+
+Step 7
+--------------
+
+
+
+```ruby
+
+```
+
+Step 8
+----------------
+
+
+
+```ruby
+
+```
+
+
+
+Step 9
+-------------
+
+
+
+```ruby
+
+```
+
+Step 10
+--------------
+
+
+
+```ruby
+
+```
+
+Step 11
+-----------
+
+
+
+Step 12
+------------
+
+
+```ruby
+
+```
+
+
+
+Summary
+=========
+-----------
+
+In this article you learned about 
