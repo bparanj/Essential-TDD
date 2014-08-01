@@ -1,5 +1,7 @@
- Polya's Problem Solving Technique
+Polya's Problem Solving Technique
+
 Polya's First Principle: Understand the problem
+===================================================
 
 - Do you understand all the words used in stating the problem?
  - What are you asked to find or show?
@@ -9,29 +11,32 @@ problem?
 - Is there enough information to enable you to find a solution?
 
 Polya's Second Principle: Devise a plan
+===================================================
 
 Polya mentions that there are many reasonable ways to solve problems. The skill at choosing an appropriate strategy is best learned by solving many problems. You will find choosing a strategy increasingly easy. Here is a partial list of strategies:
 
-  - Draw a picture
-  - Look for a pattern
-  - Consider special cases  
-  - Solve a simpler problem
- - Make an orderly list
-  - Use a formula
-  - Solve an equation
-  - Guess and check
- - Eliminate possibilities
- - Use symmetry
-  - Use a model
-  - Work backwards
- - Use direct reasoning
- - Be ingenious
+- Draw a picture
+- Look for a pattern
+- Consider special cases  
+- Solve a simpler problem
+- Make an orderly list
+- Use a formula
+- Solve an equation
+- Guess and check
+- Eliminate possibilities
+- Use symmetry
+- Use a model
+- Work backwards
+- Use direct reasoning
+- Be ingenious
 
 Polya's Third Principle: Carry out the plan
+===================================================
 
 This step is usually easier than devising the plan. In general, all you need is care and patience, given that you have the necessary skills. Persist with the plan that you have chosen. If it continues not to work discard it and choose another. Don't be misled, this is how mathematics is done, even by professionals.
 
 Polya's Fourth Principle: Look back
+===================================================
 
 Polya mentions that much can be gained by taking the time to reflect and look back at what you have done, what worked, and what didn't. Doing this will enable you to predict what strategy to use to solve future problems.
 
@@ -39,6 +44,7 @@ Here is a summary of strategies for attacking problems in mathematics class. Thi
 0-691-08097-6.
 
 1. UNDERSTAND THE PROBLEM
+===================================================
 
 - First. You have to understand the problem.
 - What is the unknown? What are the data? What is the condition?
@@ -47,6 +53,7 @@ Here is a summary of strategies for attacking problems in mathematics class. Thi
 - Separate the various parts of the condition. Can you write them down?
 
 2. DEVISING A PLAN
+===================================================
 
 - Second. Find the connection between the data and the unknown. You may be obliged to consider auxiliary problems if an immediate connection cannot be found. You should obtain eventually a plan of the solution.
 - Have you seen it before? Or have you seen the same problem in a slightly different form?
@@ -63,12 +70,14 @@ new data are nearer to each other?
 taken into account all essential notions involved in the problem?
 
 3. CARRYING OUT THE PLAN
+===================================================
 
 - Third. Carry out your plan.
 - Carrying out your plan of the solution, check each step. Can you see clearly
 that the step is correct? Can you prove that it is correct?
 
 4. LOOKING BACK
+===================================================
 
 - Fourth. Examine the solution obtained.
 - Can you check the result? Can you check the argument?
@@ -76,4 +85,7 @@ that the step is correct? Can you prove that it is correct?
 - Can you use the result, or the method, for some other problem?
 
 
-Reference : http://math.berkeley.edu/~gmelvin/polya.pdf 
+Reference 
+===================================================
+
+http://math.berkeley.edu/~gmelvin/polya.pdf 

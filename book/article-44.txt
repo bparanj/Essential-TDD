@@ -1,4 +1,5 @@
- Testing and Command Query Separation Principle
+Testing and Command Query Separation Principle
+ 
 The term 'command query separation' was coined by Bertrand Meyer in his book "Object Oriented Software Construction".
 
 The fundamental idea is that we should divide an object's methods into two categories:
