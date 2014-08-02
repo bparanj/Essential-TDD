@@ -1,4 +1,28 @@
+Generating Prime Numbers
+===================
+-------------------
 
+Find the primes in the first n positive integers. A prime number is a positive integer that is exactly divisible only by 1 and itself.
+
+The first few primes are:
+
+2,3,5,7,11,13,17,19,23,29,31,37
+
+All primes apart from 2 are odd.
+
+Example
+===================
+-------------------
+
+Check if 13 is a prime.
+
+If the number we are testing is prime it will have no exact divisors other than 1 and itself. To determine if 13 is prime, we need to divide it in turn by the set of numbers
+
+2,3,4,5,.....12
+
+If any of these numbers divide into 13 without remainder, we will know it cannot be prime. This requires 11 calls to mod function.
+
+REFER OTHER RESOURCES TO SIMPLIFY.
   
 
 Solution Domain Analysis
@@ -21,6 +45,7 @@ sqrt(37) = 6.08 - we'll round up to 7.
 Checking if a number is prime in Ruby
 Go to irb :
 
+```ruby
  > require 'prime'
  => true
  > Prime.prime?(2)
@@ -29,6 +54,7 @@ Go to irb :
  => true
  > Prime.prime?(10)
  => false
+```
 
 Steps
 =========

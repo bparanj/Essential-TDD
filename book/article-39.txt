@@ -5,23 +5,22 @@ Imperative Programming
 
 Imperative programming is the oldest programming paradigm. It is based on the Von Neumann-Eckley model of a computer. Programs written in imperative programming languages consist of a program state and instructions that change the program state through assignment statements. Program instructions are imperative in the sense of imperative verbs that express a command.
 
-Examples of imperative languages are assembly, Fortran, Algol, Cobol, Java, C/C++. These languages specify a sequence of operations for the computer to execute.
-
-Procedural abstraction and structured programming are its design techniques.
+You tell the machine HOW to do something and as a result what you want to happen will happen. Examples of imperative languages are assembly, Fortran, Algol, Cobol, Java, C/C++. These languages specify a sequence of operations for the computer to execute.
 
 >> Imperative Program = Algorithms + Data Structures
 >>  -- Nicholas Wirth
 
+```sh
 Imperative Programming + Procedures = Procedural Programming
+```
 
-Procedural abstraction allows the programmer to be concerned mainly with the interface between the procedure and what it computes, ignoring the details of how the computation is accomplished. Abstraction allows us to think about 'what' is being done, not 'how' it is implemented. Imperative language constructs : assignment, conditionals, looping and data structures.
-
-Flowchart can be used to model imperative programs. For example flowchart for computing Fibonacci numbers.
+Procedural abstraction and structured programming are its design techniques. Procedural abstraction allows the programmer to be concerned mainly with the interface between the procedure and what it computes, ignoring the details of how the computation is accomplished. Abstraction allows us to think about 'what' is being done, not 'how' it is implemented. Imperative language constructs : assignment, conditionals, looping and data structures. Flowchart can be used to model imperative programs. For example flowchart for computing Fibonacci numbers.
 
 Declarative Programming
 ==========================
 
 Functional languages and logic languages are declarative. Declarative languages such as SQL, Haskell, Prolog describe the solution space. They provide the knowledge required to get there. They don't describe the steps needed to get there.
 
+You tell the machine WHAT you would like to happen, let the machine figure out how to do it. 
 
 Reference :  Presentation by Computer Science Assistant Professor Mary Ellen Weisskopf http://www.cs.uah.edu/~weisskop/

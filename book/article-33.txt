@@ -1,4 +1,21 @@
 
+Problem Statement
+=========
+---------------------------
+
+Implement a method that takes a number and an array of numbers and returns the count representing the total number of elements in the array that is equal or greater than the given number.
+
+Discussion
+=========
+---------------------------
+
+AAA
+Working Backwards
+Scaffold
+
+When to use Priority Transformation Premise
+When to use algorithm depicted in flow chart and different tools for different situations.
+Transformation Priority Premise is not a silver bullet.
   
 Steps
 =========

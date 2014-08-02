@@ -1,5 +1,101 @@
 
-  
+Given two positive non-zero integers n and m, find their greatest common divisor (gcd).
+
+The gcd of two integers is the largest integer that will divide exactly into the two integers with no remainder.
+
+example from notes goes here...
+
+GCD of 8 & 12 is 4
+
+Example
+===================
+-------------------
+
+
+GCD of 54 and 24
+
+The number 54 can be expressed as a product of two other integers in several different ways.
+
+54 x 1 = 27 x 2 = 18 x 3 = 9 x 6
+
+Thus the divisors of 54 are 
+
+1,2,3,6,9,18,27,54
+
+Similarly the divisors of 24 are:
+
+1,2,3,4,6,8,12,24
+
+The number that these two lists share in common are the common divisors of 54 & 24.
+
+In this case, they are : 1,2,3,6
+
+The greatest of these is 6. That is the GCD of 54 & 24. 
+
+Basic strategy for computing the gcd of two numbers:
+
+1. Divide the larger of the two numbers by the smaller number.
+
+2. If the smaller number exactly divides into the larger number then the smaller number is the GCD else : remove from the larger number the part common to the smaller number and repeat the whole procedure with the new pair of numbers.
+
+gcd(18,30)
+
+r = 30 mod 18 = 12
+r = 18 mod 12 = 6
+r = 12 mod 6  = 0
+
+Diagram goes here...
+
+Iterative Construct
+===================
+-------------------
+
+With each **reduction** in the problem size the smaller integer assumes the role of the larger integer and the remainder assumes the role of the smaller integer.
+
+The **reduction** in problem size and role changing steps change the divisor, dividend and the remainder. The exact division will correspond to a 0 remainder. 
+
+```ruby
+while non-zero remainder do
+  continue search for gcd
+end
+```
+
+Initial Conditions
+===================
+-------------------
+
+Before entering the loop we need remainder for **terminating condition** check, So: 
+
+1. Compute remainder for original pair of integers
+2. Search for gcd until 0 remainder
+
+```ruby
+while non-zero remainder
+  continue search for gcd
+end
+```
+
+Eculidean Algorithm
+===================
+-------------------
+
+1. Take the two positive non-zero integers smaller and larger.
+2. Repeat
+     a) Get the remainder from dividing the larger integer by the smaller integer.
+     b) Let the smaller integer assume the role of the divisor until a 0 remainder is obtained.
+3. Return the GCD
+
+===================
+-------------------
+
+
+===================
+-------------------
+
+
+===================
+-------------------
+
 Steps
 =========
 ---------------------------

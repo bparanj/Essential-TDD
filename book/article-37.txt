@@ -1,3 +1,5 @@
+PUBLISHED
+
 Essential Skills for TDD Terminology
  
 Domain
@@ -9,23 +11,28 @@ A specified sphere of activity or knowledge. Example : Visual communication is t
 Examples
 ---------
 
-Visual Communication
  - Contour
  - Contrast
  - Opacity
  - Form
+ 
+These concepts can be grouped into the Visual Communication domain. 
 
-Finance
+In Finance domain you find terms such as:
+
  - Equity
  - Debt
  - Gross Margin
  - Net Income
 
-Math
+These concepts can be grouped into the Finance domain. 
+
  - Parallel
  - Ordinate
  - Arc
  - Angle
+
+These concepts can be grouped into the Math domain. 
 
 Problem Domain
 =======

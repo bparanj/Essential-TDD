@@ -1,4 +1,64 @@
+The Sieve of Erastosthenes
+===================
+-------------------
 
+The most efficient way to find all of the small primes is by using a sieve such as Sieve of Eratosthenes.
+
+1. Make a list of all the integers <= n and > 1
+2. Strike out the multiples of all primes <= sqrt(n), then the numbers that are left are the primes.
+
+Example
+===================
+-------------------
+
+Find all the primes <= 30
+
+1. First list the numbers from 2 to 30
+
+Diagram goes here
+
+2. First number is prime, so keep it
+
+3. Cross out multiples of 2
+
+Diagram goes here
+
+4. The first number left is 3, so it is the first odd prime, keep it.
+
+5. Cross out all multiples of 3
+
+Diagram goes here
+
+6. Now the first number left is 5, the second odd prime, keep it.
+
+7. Cross out all multiples of 5
+
+Diagram goes here
+
+8. The next number 7 is larger than the square root of 30, so there are no multiples of 7 to eliminate. Therefore the sieve is complete.
+
+Diagram
+
+Demo
+===================
+-------------------
+
+Javascript demo can be found at www.hbmeyer-de/eratclass.htm
+
+Algorithm
+===================
+-------------------
+
+while square of(current_prime) <= n
+  apply the sieve
+end
+
+Terminating Condition is 
+
+
+Discussion
+===================
+-------------------
 
 Do not write tests that are dependent on data structures. Because, the data structures are implementation details and can change to optimize performance without changing the behavior. If we couple our tests to the implementation details, our tests will be brittle and break even when the behavior remains the same but when the implementation changes.
 

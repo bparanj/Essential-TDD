@@ -1,0 +1,45 @@
+Essential Skills for Test Driven Development
+
+Mathematician Guass
+===================
+-------------------
+
+Human mind thinks in a sequential manner. We have to learn how to break this tendency. Why do we need to break it?
+
+Because the first and obvious solution is not the best solution. 
+
+Improving the performance by using a different algorithm can break lot of tests.
+
+
+- How to see the big picture ?
+- How to recognize the patterns ?
+
+
+This diagram describes how Gaull did Solution Domain Analysis
+
+1, 2, 3, .......... 98, 99, 100
+
+1 + 100 = 101
+2 + 99  = 101
+3 + 98  = 101 and so on
+
+Gauss took a big picture view. He saw the forest (entire data set) instead of one tree at a time (one number at a time). He found the relationship between data by analysing the solution domain. He recognized patterns by working through a concrete example and generalized the solution.
+
+He saw the relationship between data. He extended the solution to derive the generalization. 
+
+Zoom In, Zoom Out
+===================
+-------------------
+
+Problem 
+
+Solution 1 , 2, 3, ... n
+
+Einstein on Problem Solving
+===================
+-------------------
+
+If I had an hour to solve a problem, I'd spend 55 minutes thinking about the problem and 5 minutes thinking about the solutions.
+
+
+Transformation Priority Premise is a tool. Learn when to use it. It's not a silver bullet. Challenge yourself to use the top of the list transformations.

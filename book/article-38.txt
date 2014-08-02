@@ -8,7 +8,7 @@ The specs in the final solution abuses mock by mocking the ActiveRecord API. The
 Growing a Test Suite Episode Review
 ===================================================
 
-This is the review of the solution discussed in Growing a Test Suite Screencast. Here is a list of things that the solution violates:
+This is the review of the solution discussed in Growing a Test Suite screencast. Here is a list of things that the solution violates:
 
 1. Separate Command from Query.
      digest() method is a command. digest() method should not return any value

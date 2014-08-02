@@ -1,4 +1,70 @@
 
+=========
+---------------------------
+
+Sum a set of numbers
+
+Discussion
+=========
+---------------------------
+  
+Gauss solving the problem. Recognize the pattern.
+
+How does [1,1] differ from [2,2] ?
+Why use [1,1] instead of [2,2] ?
+What to do when a test passes without failing? Why?
+How to write a story test? Why?
+Why degenerate test case is the first test?
+
+0, 1, 2 and n elements
+
+Establishing index and result values that handle degenerate cases.
+
+If-else removed during refactor. 
+While used to generalize.
+
+Looking for transformations higher in the Transformation Priority Premise List.
+
+Incremental Algorithm Design
+
+Our algorithm can be implemented in any language.
+
+Understand the Problem
+  
+Implement your own version of inject method.
+
+Notion of Contract
+When to throw exception 
+Defensive programming. Why it's not a good idea.
+Making simplyfing assumptions to delineate the scope of the problem
+
+Assumptions
+=========
+---------------------------
+
+- Numbers in the list are whole numbers
+- Numbers will not cause stack overflow issues when added
+
+
+Exploratory Testing 
+
+```ruby
+$irb
+load 'sum.rb'
+```
+
+and test.
+
+Why random data in test data is not a good idea?
+
+Test Cases
+=========
+---------------------------
+
+1. Why degenerate case first? Establishing initial conditions for loops.
+2. Simple one element case.
+3. Extend the solution to 2 elements.
+4. Generalize to n elements.
   
 Steps
 =========

@@ -2,13 +2,17 @@ What vs How in Test Driven Development
 
 Example #1 for What vs How
 ===========================
+----------------------
 
-Music sheet is not music. It is description of music. This is the 'What' or Logical Design.
+Music sheet is not music. It is the description of music. This is the 'What' or Logical Design.
+
+[Music Sheet](http://www.rubyplus.com/images/music_sheet.png "Music Sheet")
 
 Music is played using musical instruments. This is the 'How' or the Physical Design. There are many physical designs for a given logical design.
 
 Example #2 for What vs How
 ===========================
+----------------------
 
 John Lennon wrote the song Come Together. This is the 'What'. The examples of 'How' in this case are the performances of :
 
@@ -20,6 +24,7 @@ to the same song Come Together.
 
 Separate Logical Design from Physical Design 
 ======================================================
+----------------------
 
 How do you separate What from How in our code? Chris Stevenson's TestDox style expresses the subject in the code as part of a sentence.
 
@@ -30,21 +35,25 @@ How do you separate What from How in our code? Chris Stevenson's TestDox style e
 
 This can be automatically converted to specifications in code :
 
+```ruby
 describe Sheep do
   it 'eats grass'
   it 'bleats when frightened'
   it 'produces delicious milk'
   it 'moves away from sheep dogs'
 end
+```
 
 When you think about the system from outside-in fashion you focus on intent. You focus on what you are doing rather than the implementation which is the 'how'.
 
 Reference
 ==========
+-----------
 
 1. Test Driven Development: Ten Years Later by Michael Feathers and Steve Freeman http://www.infoq.com/presentations/tdd-ten-years-later
 
-Fun Stuff
+Exercise
 ==========
+----------
 
 Search YouTube and watch the videos for Come Together performed by The Beatles, Michael Jackson, Aerosmith and Elton John 
