@@ -1,12 +1,60 @@
 
+Problem Statement
 =========
 ---------------------------
 
 Sum a set of numbers
 
+Problem Domain Analysis
+=========
+---------------------------
+
+Let's consider the set of numbers, numbers = (1, 2, 7, ... n)
+
+Sum s = 1 + 2 + 7 + ... + n
+
+
+Let's formulate an algorithm takes into account that computers can add two numbers at a time. So the algorithm needs to be repetitive.
+
+s = a1 + a2 ------> 1
+s = s + a3  ------> 2
+...
+s = s + (a)n 
+
+All sums for n >= 1 can be generated iteratively. 
+
+Solution Domain Analysis
+=========
+---------
+
+Initial Condition
+=========
+
+We observe that for n = 0 and n = 1, the initial condition is s = 0.
+
+Steps to Solve the Problem
+=========
+
+1. Compute first sum (s = 0) as special case.
+2. Build each of the n remaining sums from its predecessor by an iterative process.
+3. Return the sum of n numbers.
+
+Algorithm Description
+=========
+
+1. Take the list of numbers to be summed.
+2. Initialize sum for 0 numbers
+3. while < n numbers have been summed repeatedly do
+     a) Read the number
+     b) Compute current sum by adding the number read to the most recent sum.
+     c) Go to the next number.
+4. Return the result.
+
 Discussion
 =========
 ---------------------------
+
+We have solved the problem by giving the stupid computer specific steps to find the sum. Let's look at a different way to solve the same problem. 
   
 Gauss solving the problem. Recognize the pattern.
 

@@ -1,15 +1,71 @@
 Problem #2
 
+Counting
 
 Problem Statement
 =========
 ---------------------------
 
-Implement a method that takes a number and an array of numbers and returns the count representing the total number of elements in the array that is equal or greater than the given number.
+Implement a method called my_count that takes a number and an array of numbers and returns the count representing the total number of elements in the array that is equal or greater than the given number.
+
+Problem Domain Analysis
+=========
+---------
+
+my_count(n, a)
+
+n = 10
+a = [2, 7, 10, 15, 25]
+
+The result in this case = 3, since there are only three numbers 10, 15 and 25 that are equal or above 10. In the irb:
+
+```ruby
+a.count{|x| x >= 10}
+=> 3
+```
+
+We need to implement our version of the Ruby's count method called my_count. In this irb console session we only focus on specifying what needs to be done. The details of counting such as how many elements are in the list to be counted, when we need to terminate the loop etc has been hidden inside the count method. As you already know, what needs to be done is the focus of the problem domain analysis.
+
+Solution Domain Analysis
+=========
+---------
+
+Diagram goes here.
+
+Table goes here.
+
+Steps to Solve the Problem
+=========
+
+while < n numbers have been examined do
+  1. Read the number
+  2. If current number satisfies the condition then add one to count.
+end
+
+Algorithm
+=========
+
+1. Read the number of elements to be processed.
+2. Initialize the count to 0
+3. While there are still elements to be processed repeatedly do:
+   a) Read the number
+   b) If it satisfies the condition (>= 10) then add one to count.
+4. Return the total number of elements that satisfies the condition.
+
+count = 0
+i = 0
+
+while i < n do
+
+end
+
+i < n is the terminating condition.
+
+Consideration of the problem at its lowest limit (i.e., n=0) leads to a mechanism that can be extended to larger values of n by simple repetition. This is a very common technique in algorithm design.
 
 Discussion
 =========
----------------------------
+---------
 
 AAA
 Working Backwards
