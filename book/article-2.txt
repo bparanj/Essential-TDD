@@ -158,14 +158,3 @@ rspec calculator_spec.rb
 What do you see as the output in the terminal?
 
 
-
-
-
-4. Read the book Code Simplicity by Max Kanat-Alexander. It explains Incremental Development and Incremental Design with the calculator as an example in Chapter 5 : Change. It is less than 100 pages, very easy to read and filled with great insights on software development.
-
-5. Refer the [rspec documentation] for examples on how to use the rspec API. 
-
-[rspec documentation]:https://www.relishapp.com/rspec/rspec-core/docs
-
-
-

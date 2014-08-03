@@ -14,10 +14,12 @@ Objective
 Problem Statement
 ===================
 
-In mathematics, the Fibonacci numbers are the numbers in the following integer sequence: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610 ...
+Generate Fibonacci sequence for a given number.
 
 Solution
 =============
+
+In mathematics, the Fibonacci numbers are the numbers in the following integer sequence: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610 ...
 
 By definition, the first two numbers in the Fibonacci sequence are 0 and 1 and each subsequent number is the sum of the previous two.
 
@@ -398,4 +400,3 @@ Exercises
 - Move the Fibonacci class into its own file and make all the tests pass.
 - Get the output of the mini-test in color.
 - Convert the given mini-test to rspec version fibonacci_spec.rb
-- Watch the Factorial screencast

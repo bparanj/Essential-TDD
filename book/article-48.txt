@@ -1,0 +1,40 @@
+Fibonacci
+
+Problem Statement
+=========
+-----------
+
+Generate Fibonacci sequence for a given number.
+
+Problem Domain Analysis
+=========
+-----------
+
+Fibonacci sequence goes like this: 0,1,1,2,3,5,8,13,....
+
+
+Solution Domain Analysis
+=========
+-----------
+
+Diagram from C1 goes here
+
+
+Initial Conditions
+-----------
+
+First two numbers are given (not calculated)
+
+
+Terminating Condition
+-----------
+
+
+
+=========
+-----------
+
+
+
+
+In mathematics, the Fibonacci numbers are the numbers in the following integer sequence: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610 ...

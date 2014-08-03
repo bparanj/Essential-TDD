@@ -1,0 +1,97 @@
+Factorial
+
+Problem Statement
+================
+----------------
+
+Compute factorial of a given number n, where n >= 0.
+
+Problem Domain Analysis
+================
+----------------
+
+n! = 1 x 2 x 3 x ... n for n >= 1
+Given that 0! = 1
+
+Solution Domain Analysis
+================
+----------------
+
+For n >= 1
+
+1! = 1 x 1
+2! = 1 x 2
+3! = 1 x 2 x 3
+4! = 1 x 2 x 3 x 4
+
+We observe a pattern, so we can rewrite 4! as :
+
+4! = 3! x 4
+
+If n = 4, 
+
+n! = (n-1)! x n
+
+Rewrite the examples as :
+
+Step 1 : 0! = 1
+Step 2 : 1! = 1 x 0!
+Step 3 : 2! = 2 x 1!
+Step 4 : 3! = 3 x 2!
+Step 5 : 4! = 4 x 3!
+
+Algorithm
+================
+----------------
+
+1. Take the input number n
+2. Treat 0! as a special case
+3. 
+
+while less than n products has been calculated, repeatedly do
+  a) Increment index count
+  b) Compute the product for current index by multiplying index by the current product
+  
+4. Return the result
+
+Refer page F3 for the diagram.
+
+================
+----------------
+
+
+
+Go to wikipeida and read the defn for Factorial
+Read the examples
+Make example executable
+
+Discovering the API
+As the tests get more and more specific, the code gets more and more generic
+
+- Watch the Factorial screencast
+
+
+
+1. Create a file called factorial_spec.rb
+2. Numbers cannot be negative. 
+   If the contract is broken you raise an exception.
+3. Common mistake : Forgetting terminating condition for recursive solution
+ 
+describe ClassName do
+  it 'should do something for given number'
+  
+end
+
+3. rspec factorial_spec.rb
+
+it '' do
+  f = Factorial.new
+
+  expect(f.number).should raise_error
+  
+    
+  
+end
+
+raise ArgumentError, 'Negative number is not allowed' if number < 0
+

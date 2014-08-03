@@ -1,0 +1,15 @@
+When a contract is broken throw exception. In this example : raise 'Cannot divide by 0'
+Incremental Development and Design (Code simplicity book)
+
+describe Calculator do
+  it 'should add given two numbers'
+	it 'should subtract given two numbers'
+
+end
+
+
+Do the multiplication and division and introduce new concepts. Link to this article as the answers to the exercises in the previous article.
+
+1. Read the book Code Simplicity by Max Kanat-Alexander. It explains Incremental Development and Incremental Design with the calculator as an example in Chapter 5 : Change. It is less than 100 pages, very easy to read and filled with great insights on software development.
+
+2. Refer the (rspec documentation):https://www.relishapp.com/rspec/rspec-core/docs for examples on how to use the rspec API. 
