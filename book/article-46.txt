@@ -1,3 +1,7 @@
+
+
+Answer to the Exercise in Calculator example
+
 When a contract is broken throw exception. In this example : raise 'Cannot divide by 0'
 Incremental Development and Design (Code simplicity book)
 

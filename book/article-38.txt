@@ -1,3 +1,5 @@
+PUBLISHED
+
 Destroy All Software Screencast Reviews
 
 Fast Tests With and Without Rails Episode Review

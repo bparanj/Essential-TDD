@@ -1,3 +1,4 @@
+Problem #1
 
 Problem Statement
 =========
@@ -12,7 +13,6 @@ Problem Domain Analysis
 Let's consider the set of numbers, numbers = (1, 2, 7, ... n)
 
 Sum s = 1 + 2 + 7 + ... + n
-
 
 Let's formulate an algorithm takes into account that computers can add two numbers at a time. So the algorithm needs to be repetitive.
 
@@ -182,96 +182,3 @@ class Sum
   
 end
 ```
-
-
-Step 3
-----------
-
-
-
-
-Step 4
------------
-
-
-```ruby
-
-```
-
-Step 5
------------
-
-
-
-```ruby
-
-```
-
-Step 6
------------
-
-
-
-```ruby
-
-```
-
-
-Step 7
---------------
-
-
-
-```ruby
-
-```
-
-Step 8
-----------------
-
-
-
-```ruby
-
-```
-
-
-
-Step 9
--------------
-
-
-
-```ruby
-
-```
-
-Step 10
---------------
-
-
-
-```ruby
-
-```
-
-Step 11
------------
-
-
-
-Step 12
-------------
-
-
-```ruby
-
-```
-
-
-
-Summary
-=========
------------
-
-In this article you learned about 

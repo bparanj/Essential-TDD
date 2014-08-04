@@ -1,18 +1,40 @@
+PUBLISHED
+
 Stubs are not Mocks - Concise Version of Martin Fowler's Article
 ================
 ----------------
 
-Stubs - a common helper to testing environments. There is a difference in how test results are verified: a distinction between state verification and behavior verification. Focusing on one element of the software at a time -hence the common term unit testing. The problem is that to make a single unit work, you often need other units.
+Stubs
+================
+----------------
+
+A common helper to testing environments. There is a difference in how test results are verified: a distinction between state verification and behavior verification. Focusing on one element of the software at a time -hence the common term unit testing. The problem is that to make a single unit work, you often need other units.
+
+Stubs provide canned answers to calls made during the test, usually not responding at all to anything outside what's programmed in for the test. Stubs may also record information about calls, such as an email gateway stub that remembers the messages it 'sent', or maybe only how many messages it 'sent'.
+
+Dummy Objects
+================
+----------------
 
 Dummy objects are passed around but never actually used. Usually they are just used to fill parameter lists.
 
+Fake Objects
+================
+----------------
+
 Fake objects actually have working implementations, but usually take some shortcut which makes them not suitable for production (an in memory database is a good example).
 
-Stubs provide canned answers to calls made during the test, usually not responding at all to anything outside what's programmed in for the test. Stubs may also record information about calls, such as an email gateway stub that remembers the messages it 'sent', or maybe only how many messages it 'sent'.
+Mocks
+================
+----------------
 
 Mocks are what we are talking about here: objects pre-programmed with expectations which form a specification of the calls they are expected to receive.
 
 Only mocks insist upon behavior verification. The other doubles can, and usually do, use state verification.
+
+Discussion
+================
+----------------
 
 The classical TDD style is to use real objects if possible and a double if it's awkward to use the real thing. A mockist TDD practitioner, however, will always use a mock for any object with interesting behavior.
 

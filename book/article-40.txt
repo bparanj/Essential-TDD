@@ -4,10 +4,9 @@ Polya's First Principle: Understand the problem
 ===================================================
 
 - Do you understand all the words used in stating the problem?
- - What are you asked to find or show?
+- What are you asked to find or show?
 - Can you restate the problem in your own words?
-- Can you think of a picture or diagram that might help you understand the
-problem?
+- Can you think of a picture or diagram that might help you understand the problem?
 - Is there enough information to enable you to find a solution?
 
 Polya's Second Principle: Devise a plan

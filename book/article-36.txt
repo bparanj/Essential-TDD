@@ -1,4 +1,8 @@
 
+Problem Statement
+===================
+-------------------
+
 Given two positive non-zero integers n and m, find their greatest common divisor (gcd).
 
 The gcd of two integers is the largest integer that will divide exactly into the two integers with no remainder.
@@ -179,81 +183,3 @@ class Gcd
   end
 end
 ```
-
-Step 5
------------
-
-
-
-```ruby
-
-```
-
-Step 6
------------
-
-
-
-```ruby
-
-```
-
-
-Step 7
---------------
-
-
-
-```ruby
-
-```
-
-Step 8
-----------------
-
-
-
-```ruby
-
-```
-
-
-
-Step 9
--------------
-
-
-
-```ruby
-
-```
-
-Step 10
---------------
-
-
-
-```ruby
-
-```
-
-Step 11
------------
-
-
-
-Step 12
-------------
-
-
-```ruby
-
-```
-
-
-
-Summary
-=========
------------
-
-In this article you learned about 

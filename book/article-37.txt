@@ -1,6 +1,17 @@
 PUBLISHED
 
+Essential Skills for TDD
+
+Essential Skills for TDD Presentation Videos
+==========
+----------
+
+[Essential Skills for TDD Part 1](https://www.youtube.com/watch?v=y5j_nHzWkeg "Essential Skills for TDD Part 1")
+[Essential Skills for TDD Part 2](https://www.youtube.com/watch?v=vVcC6iRHMkM "Essential Skills for TDD Part 2")
+
 Essential Skills for TDD Terminology
+=======
+----------
  
 Domain
 =======
@@ -57,3 +68,5 @@ Solution Domain Analysis
 ----------
 
 Solution Domain Analysis is the process of arriving at a solution. It describes the sequence of steps used to solve a given problem. Finding abstractions helps us to solve problems.
+
+
