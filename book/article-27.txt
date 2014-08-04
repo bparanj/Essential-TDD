@@ -476,5 +476,4 @@ Exercises
 	 		commit 5102f45b2c584cf2f5efaa17e9640c0c288bcf8d
 		 You can checkout a particular commit by :
 		  git co 5102f45b2c584cf2f5efaa17e9640c0c288bcf8d
-4. git co a781d7c3b6542e89ef73707e3bf21d40956704b0 to get the BDD_Basics_I.mov screencast. Watch the demo screencast. 
-5. Private methods are not tested. Why?
+4. Private methods are not tested. Why?

@@ -252,4 +252,6 @@ Exercises
 
 - Move user.rb to its own class. Make sure all the specs pass.
 - Implement the feature where a user can be in many roles. Remember to write the test first.
-- Watch BDD_Basics_II.mov video.
+- Download the [BDD_Basics_I.mov screencast](https://s3.amazonaws.com/clickplan.com/download/BDD_Basics_I.mov.zip "BDD Basics Part 1") and watch the demo screencast. 
+- Watch [BDD_Basics_II.mov] (https://s3.amazonaws.com/clickplan.com/download/BDD_Basics_II.mov.zip 'BDD Basics Part 2') video.
+- Watch [BDD_Basics_III.mov] (https://s3.amazonaws.com/clickplan.com/download/BDD_Basics_III.mov.zip 'BDD Basics Part 3') video.

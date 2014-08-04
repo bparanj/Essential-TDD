@@ -38,4 +38,4 @@ Discussion
 
 The classical TDD style is to use real objects if possible and a double if it's awkward to use the real thing. A mockist TDD practitioner, however, will always use a mock for any object with interesting behavior.
 
-An acknowledged issue with state-based verification is that it can lead to creating query methods only to support verification. It's never comfortable to add methods to the API of an object purely for testing, using behavior verification avoids that problem.
+An acknowledged issue with state-based verification is that it can lead to creating query methods only to support verification. It's never comfortable to add methods to the API of an object purely for testing, using behavior verification avoids that problem. For a concrete example, read the article on [Fake and Mocks] (http://www.rubyplus.com/articles/141 "Fakes and Mocks")

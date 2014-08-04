@@ -319,7 +319,7 @@ describe Scanner do
 end
 ```
 
-The display method is under our control so we can mock it. Mocks is a design technique that is used to discover API. This is an example of right way to Mock. The 'and' part of the doc string has been deleted. The purpose of scanner object is now clear. Scanner object scans items and Display objects display the details of a given line item. See the appendix for notes on mocks.
+The display method is under our control so we can mock it. Mocks is a design technique that is used to discover API. This is an example of right way to Mock. The 'and' part of the doc string has been deleted. The purpose of scanner object is now clear. Scanner object scans items and Display objects display the details of a given line item. Read the article on [Concise Version of Martin Fowler's article on Mocks and Stubs](http://www.rubyplus.com/articles/401 'Mocks are not Stubs') for a quick explanation.
 
 Summary
 ===========

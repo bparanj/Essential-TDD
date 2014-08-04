@@ -1,11 +1,10 @@
-5. TDD Basics : Fibonacci
+5. TDD Basics : TDD Cycle : Red, Green, Refactor
 =========
 ---------------------
 
 Objectives
 =========
 
-- To learn TDD Cycle : Red, Green, Refactor.
 - Focus on getting it to work first, cleanup by refactoring and then focus on optimization.
 - When refactoring, start green and end in green.
 - Learn recursive solution and optimize the execution by using non-recursive solution.
@@ -388,7 +387,7 @@ end
 # Tests are same as before.
 ```
 
-This version illustrates using existing tests as safety net when making major changes to the code. Notice that we only focus on one thing at a time. The focus can shift from one version to the other.
+This version illustrates using existing tests as safety net when making major changes to the code. Notice that we only focus on one thing at a time. The focus can shift from one version to the other. [Code Mutation](http://www.rubyplus.com/articles/101 'Code Mutation') we discussed in a previous article is also part of the TDD Cycle. Regression is one of the goals of TDD and we have seen how to use existing test suite as a safety net for catching regression bugs.
 
 Exercises
 ===========

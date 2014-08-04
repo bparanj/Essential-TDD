@@ -1,4 +1,4 @@
-5. TDD Basics : Eliminating Loops in Tests
+5. TDD Best Practice : Eliminating Loops in Tests
 =========
 ---------------------
 

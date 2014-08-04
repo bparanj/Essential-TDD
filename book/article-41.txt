@@ -79,7 +79,7 @@ Discussion
 ==========
 -----------
 
-The tests that we write must be declarative. It should not be imperative. This means no implementation level details such as loops, conditionals or data structure should be in the tests.
+The tests that we write must be declarative. It should not be imperative. This means no implementation level details such as loops, conditionals or data structure should be in the tests. For an example illustrating how to eliminate loops in a test, read the article [Eliminating Loops in Specs](http://www.rubyplus.com/articles/111 'Eliminating Loops in Tests')
 
 References
 ==========
