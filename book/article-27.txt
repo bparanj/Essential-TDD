@@ -1,4 +1,4 @@
-TDD Basics : Bowling Game Case Study Final Version
+TDD Basics : Bowling Game Kata Final Version
   
 Steps
 =========

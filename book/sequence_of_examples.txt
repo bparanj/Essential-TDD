@@ -21,15 +21,15 @@ Driving Development with Tests
 
 Easy
 
- - String Calculator
- - FizzBuzz
+ - String Calculator     
+ - FizzBuzz              
  - Tennis
 
 Medium to Hard
 
  - Prime Factors
  - Yatzy
- - Bowling Game
+ - Bowling Game          
  - Roman Numerals
  - Potter
 
@@ -58,15 +58,48 @@ Designing Test Cases that Use a Test Double
  - Racing-Car Katas
  - Monty Hall
  - Medicine Clash
- - Trivia
  - Train Reservation
-
+ 
+ - Trivia
+ 
 ----------------------------------------
 Mocks and Stubs
 ----------------------------------------
 
  - Racing-Car Katas
- - Medicine Clash
  - Monty Hall
- - Greenfield Gilded Rose
+ - Medicine Clash
  - Train Reservation
+ 
+ - Greenfield Gilded Rose
+ 
+ 
+ ---------------------------------------
+ Kata Tracker
+ ---------------------------------------
+
+ TO DO
+ 
+  - Tennis
+  - Minesweeper
+  - Poker Hands
+  - Prime Factors
+  - Roman Numerals
+  - Potter
+  - Args
+  - Game of Life
+  - Yatzy
+  - Gilded Rose
+  - Racing-Car Katas
+  - Monty Hall
+  - Medicine Clash
+  - Train Reservation
+  - Trivia 
+  - Greenfield Gilded Rose
+
+ DONE
+
+  - String Calculator     
+  - FizzBuzz              
+  - Bowling Game          
+ 

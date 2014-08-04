@@ -1,4 +1,4 @@
-TDD Basics : Bowling Game Case Study Part 3
+TDD Basics : Bowling Game Kata Part 3
 
 Objective
 =========
