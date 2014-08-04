@@ -269,8 +269,7 @@ Apply Bertrand Meyer's guideline when deciding about exceptions: When a contract
 
 >> A program must be able to deal with exceptions. A good design rule is to list explicitly the situations
 >> that may cause a program to break down.
-
-Jorgen Knudsen from Object Design : Roles, Responsibilities and Collaborations
+>>   ---- Jorgen Knudsen from Object Design : Roles, Responsibilities and Collaborations
 
 Explicitly document the behavior of your API by writing contract specs. This will help other developers understand and use your library as intended. 
 

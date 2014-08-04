@@ -1,4 +1,700 @@
-Content merged with article 41
+PUBLISHED
 
+FizzBuzz Kata
+
+Objectives
+============
+------------
+
+- To practice Test Driven Development.
+- TDD and Double Entry Bookkeeping.
+- Learn how to order test cases.
+
+Difficulty Level
+============
+------------
+
+Easy
+
+Software Version
+============
+------------
+
+Ruby 2.1.2, rspec 3.0
+
+Problem Statement
+============
+------------
+
+Write a program that prints the numbers from 1 to 100. But for multiples of three print 'Fizz' instead of the number and for the multiples of five print "Buzz". For numbers which are multiples of both three and five print "FizzBuzz"
+
+Sample output:
+
+```sh
+1
+2
+Fizz
+4
+Buzz
+7
+8
+Fizz
+Buzz
+11
+Fizz
+13
+14
+FizzBuzz
+16
+17
+Fizz
+19
+Buzz
+
+... upto 100.
+```
+
+Steps
+============
+------------
+
+Step 1
+------------
+
+Create a file fizz_buzz_spec.rb with the following contents:
+
+```ruby
+describe FizzBuzz do
+  
+end
+```
+
+Step 2
+------------
+
+Run the spec with the following command:
+
+```ruby
+ $spec fizz_buzz_spec.rb 
+```
+
+We get the error:
+
+```sh
+ can't find gem rspec-core ([">= 0"]) with executable spec (Gem::GemNotFoundException)
+	from /usr/local/bin/spec:19:in `<main>'
+```
+
+Step 3
+------------
+
+You will get that error if you use spec instead of rspec. Run the spec with the correct command as follows:
+
+```ruby
+$rspec fizz_buzz_spec.rb 
+```
+
+Step 4
+------------
+
+Now we are failing for the right reason with the following error:
+
+```ruby
+fizz_buzz_spec.rb:3:in `<top (required)>': uninitialized constant FizzBuzz (NameError)
+```
+
+Step 5
+------------
+
+Define an empty class on top of the fizz_buzz_spec.rb as follows:
+
+```ruby
+class FizzBuzz
+end
+```
+
+Step 6
+------------
+
+When you run the spec now, you get 0 passed and 0 failures. 
+
+```ruby
+$rspec fizz_buzz_spec.rb 
+No examples found.
+
+Finished in 0.00019 seconds (files took 0.14497 seconds to load)
+0 examples, 0 failures
+```
+
+Step 7
+------------
+
+Change the fizz_buzz_spec.rb as follows:
+
+```ruby
+describe FizzBuzz do
+  it 'should print Fizz for multiples of 3'
+end
+```
+
+Step 8
+------------
+
+We now get the following not implemented pending message with 1 pending example.
+
+```ruby
+$rspec fizz_buzz_spec.rb 
 
 FizzBuzz
+  should print Fizz for multiples of 3 (PENDING: Not yet implemented)
+
+Pending:
+  FizzBuzz should print Fizz for multiples of 3
+    # Not yet implemented
+    # ./fizz_buzz_spec.rb:5
+
+Finished in 0.00054 seconds (files took 0.11491 seconds to load)
+1 example, 0 failures, 1 pending
+```
+
+Step 9
+------------
+
+Let's write our first test. Change the fizz_buzz_spec.rb to :
+
+```ruby
+  it 'should print Fizz for multiples of 3' do
+    game = FizzBuzz.new
+    
+    # How should I check the printing output here?
+  end
+```
+
+While writing the test, I got stuck after creating the instance of the FizzBuzz class. I faced difficulty in writing the test. The pain is an indication of a bad design. It is providing us feedback. We need to listen in order to come up with a better design that will make it easy to test our code. 
+
+Why should the sequence generation logic be tied to how it is displayed to the user? What if we obeyed the [Single Purpose Principle](http://www.rubyplus.com/articles/181 "Single Purpose Principle") and separate displaying the sequence to the user from sequence generation logic?
+
+You could also argue that this problem is due to wrong order of test cases. If we had thought about sequence of test cases that gradually increase in complexity, we would not have encountered this issue.
+
+Step 10
+------------
+
+Let's simplify our problem and write a test for sequence generation as follows:
+
+```ruby
+describe FizzBuzz do
+  it 'should generate numbers from 1 to 100' do
+    game = FizzBuzz.new
+    
+    result = game.numbers
+    
+    expect(result).to eq((1..100).to_a)
+  end
+  
+  xit 'should print Fizz for multiples of 3' do
+    
+    
+  end
+end
+```
+
+I have commented out the previous test and added a new test that solves a smaller problem that's easier to solve.
+
+Step 11
+------------
+
+I experimented in the irb with the code:
+
+```ruby
+(1..100).to_a
+```
+
+to make sure it creates an array with the number 1 to 100. This is used in the assertion.
+
+Step 12
+------------
+
+We now fail with the error:
+
+```ruby
+$rspec fizz_buzz_spec.rb 
+
+FizzBuzz
+  should generate numbers from 1 to 100 (FAILED - 1)
+  should print Fizz for multiples of 3 (PENDING: Temporarily skipped with xit)
+
+Pending:
+  FizzBuzz should print Fizz for multiples of 3
+    # Temporarily skipped with xit
+    # ./fizz_buzz_spec.rb:13
+
+Failures:
+
+  1) FizzBuzz should generate numbers from 1 to 100
+     Failure/Error: result = game.numbers
+     NoMethodError:
+       undefined method `numbers' for #<FizzBuzz:0x008c0>
+     # ./fizz_buzz_spec.rb:8:in `block (2 levels) in <top (required)>'
+
+Finished in 0.00059 seconds (files took 0.12402 seconds to load)
+2 examples, 1 failure, 1 pending
+
+Failed examples:
+
+rspec ./fizz_buzz_spec.rb:5 # FizzBuzz should generate number from 1 to 100
+```
+
+Step 13
+------------
+
+Add the numbers method as follows:
+
+```ruby
+class FizzBuzz
+  
+  def numbers
+    
+  end
+end
+```
+
+Step 14
+------------
+
+Run the spec again.
+
+```ruby
+$rspec fizz_buzz_spec.rb 
+
+FizzBuzz
+  should generate numbers from 1 to 100 (FAILED - 1)
+  should print Fizz for multiples of 3 (PENDING: Temporarily skipped with xit)
+
+Pending:
+  FizzBuzz should print Fizz for multiples of 3
+    # Temporarily skipped with xit
+    # ./fizz_buzz_spec.rb:17
+
+Failures:
+
+  1) FizzBuzz should generate numbers from 1 to 100
+     Failure/Error: expect(result).to eq((1..100).to_a)
+       
+       expected: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, ... , 100]
+            got: nil
+       
+       (compared using ==)
+     # ./fizz_buzz_spec.rb:14:in `block (2 levels) in <top (required)>'
+
+Finished in 0.00348 seconds (files took 0.28728 seconds to load)
+2 examples, 1 failure, 1 pending
+
+Failed examples:
+
+rspec ./fizz_buzz_spec.rb:9 # FizzBuzz should generate numbers from 1 to 100
+```
+
+Step 15
+------------
+
+We are now failing for the right reason. Let's implement the numbers method as follows:
+
+```ruby
+class FizzBuzz
+  
+  def numbers
+    (1..100).to_a
+  end
+end
+```
+
+What is the point of doing the same thing (1..100).to_a that is done in the test? A good explanation is Robert C. Martin's discussion of how [TDD is like double entry bookkeeping](http://butunclebob.com/ArticleS.UncleBob.TheSensitivityProblem 'Double Entry') system in accounting. 
+
+Ideally if I had followed his suggestion I should have used a different way to create an array of 1 to 100. Since this is just a one-liner I have verified it manually and since my confidence level is high, I did not bother spending more time to find another way of generating the list of numbers.
+
+This concept is even used in aircraft cockpit where the microprocessor from differnt companies are used in redundant circuits to increase reliability.
+
+Step 16
+------------
+
+Run the tests.
+
+```ruby
+FizzBuzz
+  should generate numbers from 1 to 100
+  should print Fizz for multiples of 3 (PENDING: Temporarily skipped with xit)
+
+Pending:
+  FizzBuzz should print Fizz for multiples of 3
+    # Temporarily skipped with xit
+    # ./fizz_buzz_spec.rb:17
+
+Finished in 0.00117 seconds (files took 0.12041 seconds to load)
+2 examples, 0 failures, 1 pending
+```
+
+Step 17
+------------
+
+Let's explore in the irb to see how to implement the multiples of 3 functionality.
+
+```ruby
+ $irb
+ > 3 % 3
+ => 0 
+ > 6 % 3
+ => 0 
+ > 1 % 3
+ => 1 
+ > 2 % 3
+ => 2 
+ > 4 % 3
+ => 1 
+ > 5 % 3
+ => 2 
+ > 7 % 3
+ => 1 
+ > 8 % 3
+ => 2 
+ > 9 % 3
+ => 0 
+```
+Here, I am using modulo operator % to check the remainder for numbers that are multiples of 3 vs numbers that are not multiples of 3. I see a pattern emerge that I can use in my code. Anything is a multiple of 3 has a remainder of 0.
+
+Step 18
+------------
+
+Uncomment the pending spec. Change the spec as follows:
+
+```ruby
+  it 'should replace multiples of 3 with Fizz' do
+    game = FizzBuzz.new
+    
+    result = game.sequence
+    
+    expect(result[2]).to eq('Fizz')
+  end
+```
+
+Step 19
+---------
+
+Run all the tests again. You get the error:
+
+```ruby
+undefined method `sequence' for #<FizzBuzz:0x01010>
+```
+
+Step 20
+------------
+
+Add the sequence method as follows:
+
+```ruby
+  def sequence
+    numbers.collect do |x|
+      if (x % 3) == 0
+        'Fizz' 
+      else
+        x
+      end
+    end
+  end
+```
+
+Step 21
+------------
+
+Run the specs.
+
+```ruby
+FizzBuzz
+  should generate numbers from 1 to 100
+  should replace multiples of 3 with Fizz
+
+Finished in 0.00174 seconds (files took 0.16374 seconds to load)
+2 examples, 0 failures
+```
+
+Discussion
+============
+------------
+
+Why only one assertion in second test? Why not have multiple assertions? I am confident that one assertion is sufficient. Eventually we will write a story test that will cover checking an element somewhere in the middle to give us more confidence in our code. This story test will is the acceptance criteria. Since we will know that we have solved the entire problem. Also during exploratory testing, when we print the output we can manually verify several elements to convince ourselves that our code is satisfying all the requirements.
+
+Step 22
+------------
+
+We now fail for the right reason.
+
+```ruby
+  1) FizzBuzz should replace multiples of 5 with Buzz
+     Failure/Error: expect(result[4]).to eq('Buzz')
+       
+       expected: "Buzz"
+            got: 5
+       
+       (compared using ==)
+     # ./fizz_buzz_spec.rb:39:in `block (2 levels) in <top (required)>'
+
+Finished in 0.0014 seconds (files took 0.11513 seconds to load)
+3 examples, 1 failure
+```
+
+Discussion
+============
+------------
+
+What is the minimum modification that we can make to the sequence method and still pass the test? I considered using collect! as well as storing the value of collect in another variable that required more code than just adding another else-if conditional.
+
+
+Step 23
+---------
+
+Change the implementation of sequence generation as follows:
+
+```ruby
+  def sequence
+    numbers.collect do |x|
+      if (x % 3) == 0
+        'Fizz' 
+      elsif (x % 5) == 0
+        'Buzz'
+      else
+        x
+      end
+    end
+  end
+```
+
+Step 24
+------------
+
+Run the specs.
+
+```ruby
+FizzBuzz
+  should generate numbers from 1 to 100
+  should replace multiples of 3 with Fizz
+  should replace multiples of 5 with Buzz
+
+Finished in 0.00134 seconds (files took 0.12621 seconds to load)
+3 examples, 0 failures
+```
+
+We are green now.
+
+Step 25
+------------
+
+Add the fourth spec.
+
+```ruby
+  it 'should replace multiples of both 3 and 5 with FizzBuzz' do
+    game = FizzBuzz.new
+    
+    result = game.sequence
+    
+    expect(result[14]).to eq('FizzBuzz')
+  end
+```
+
+Step 26
+------------
+
+Run the specs again.
+
+```ruby
+Failure/Error: expect(result[14]).to eq('FizzBuzz')
+       
+   expected: "FizzBuzz"
+        got: "Fizz"
+```
+
+We are failing for the right reason.
+
+Step 27
+------------
+
+Change the implementation of sequence method as follows:
+
+```ruby
+  def sequence
+    numbers.collect do |x|
+      if ((x % 3) == 0) and ((x % 5) == 0)
+        'FizzBuzz'
+      elsif (x % 3) == 0
+        'Fizz' 
+      elsif (x % 5) == 0
+        'Buzz'
+      else
+        x
+      end
+    end
+  end
+```
+
+Step 28
+------------
+
+Run the specs.
+
+```ruby
+FizzBuzz
+  should generate numbers from 1 to 100
+  should replace multiples of 3 with Fizz
+  should replace multiples of 5 with Buzz
+  should replace multiples of both 3 and 5 with FizzBuzz
+
+Finished in 0.00148 seconds (files took 0.11847 seconds to load)
+4 examples, 0 failures
+```
+
+We are green now.
+
+Step 29
+------------
+
+In the irb console:
+
+```ruby
+$irb
+load 'fizz_buzz.rb'
+
+game = FizzBuzz.new
+game.output
+```
+
+shows the correct answer.
+
+Step 30
+----------
+
+Let's cleanup the code. Change the implementation as follows:
+
+```ruby
+class FizzBuzz
+  
+  def initialize
+    @numbers = (1..100).to_a
+  end
+  
+  def sequence
+    @numbers.collect do |x|
+      if ((x % 3) == 0) and ((x % 5) == 0)
+        'FizzBuzz'
+      elsif (x % 3) == 0
+        'Fizz' 
+      elsif (x % 5) == 0
+        'Buzz'
+      else
+        x
+      end
+    end
+  end
+  
+  def output
+    sequence.each do |element|  
+      puts element
+    end
+  end
+  
+  def numbers
+    (1..100).to_a
+  end
+end
+```
+
+We were green before refactoring, we are green after refactoring.
+
+Step 31
+---------
+
+Delete the first spec.
+
+```ruby
+  it 'should generate numbers from 1 to 100' do
+    game = FizzBuzz.new
+    
+    result = game.numbers
+    
+    expect(result).to eq((1..100).to_a)
+  end
+```
+
+Run all the specs. It passes.
+
+Step 32
+-------
+
+Delete the numbers method and run all the specs. We are still green. Notice that I run tests after I refactor either the tests or the code but I don't refactor both at the same time.
+
+Step 33
+-------
+
+Let's make the code more expressive. Change the implementation as follows:
+
+```ruby
+class FizzBuzz
+  
+  def initialize
+    @numbers = (1..100).to_a
+  end
+  
+  def sequence
+    @numbers.collect do |x|
+      if (multiple_of(3, x)) and (multiple_of(5, x))
+        'FizzBuzz'
+      elsif multiple_of(3, x)
+        'Fizz' 
+      elsif multiple_of(5, x)
+        'Buzz'
+      else
+        x
+      end
+    end
+  end
+  
+  def output
+    sequence.each do |element|  
+      puts element
+    end
+  end
+  
+  private
+  
+  def multiple_of(n, x)
+    (x % n) == 0
+  end
+end
+```
+
+Step 34
+---------
+
+Stack overflow search results in an elegant code for multiple_of method:
+
+```ruby
+  def multiple_of(n, x)
+    x.modulo(n).zero?
+  end
+```
+
+Discussion
+============
+------------
+
+This code has user interfacing code as well as the core logic for sequence generation. Since the class is small and output method is a small method, we can leave the solution as it is. If this class grows big due to new requirements we have to revisit our design decision at that time and consider splitting the class. We will avoid over engineering for now.
+
+Reference
+============
+------------
+
+This Kata is from 'The Coding Dojo Handbook' by Emily Bache.
+
+Exercises
+============
+------------
+
+1. Add a story test that checks the 74th element in the array for the string 'FizzBuzz'.
+2. The specs are indexing into an array and looking for an element. Is this a good idea? Why?

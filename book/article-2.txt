@@ -1,4 +1,4 @@
-2. Test First Programming
+TDD Basics : Test First Programming
 =========
 ---------------------
 
@@ -119,7 +119,8 @@ to the top of the calculator_spec.rb.
 
 Step 11
 --------------
- Run the test again. It should now pass. You can also use expect() method instead of should() method like this:
+
+Run the test again. It should now pass. You can also use expect() method instead of should() method like this:
  
 ```ruby
 expect(result).to eq(3)

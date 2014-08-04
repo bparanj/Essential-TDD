@@ -9,7 +9,8 @@ Objective
 
 Discussion
 ===================
----------------------------------
+-------------------
+
 What does test driven development have to do with design principles? Test driven development is not just about reducing the duplication in code. It involves driving the design of the production code through tests.
 
 Steps
@@ -92,16 +93,3 @@ Summary
 --------------------
 
 In this lesson you learned how to apply Open Closed Principle to design a system that is flexible to new requirements. We used constructor dependency injection to achieve decoupling of the scanner from the display. So interchanging new displays that conform to our interface works without any modification to the original code. 
-
-
-
-
-When you implement a new feature we aim to achieve a design in the following order:
-
-** Additive **
-
-This is the most desirable option. We add new code without modifying the existing code.
-
-** Localized **
-
-We change only one specific location in our existing code base to implement a new feature.

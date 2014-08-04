@@ -1,0 +1,21 @@
+1. Edit the articles on the site before check-in of the revised articles.
+2. Article 7 : Insert the simplified version of the Red, Green, Refactor diagram.
+3. Article 6 : Link to bdd_basics video.
+4. Link to Article 5 in Article 41.
+5. Code Mutation article is part of TDD Cycle concept. Needs a link from a future article on TDD Cycle to Code Mutation. Article 7 has some coverage on TDD Cycle.
+6. Article 7 addresses one of the goals of TDD : Regression.
+7. Link Article 8 to Article on Concise Version of Martin Fowler's article on Mocks and Stubs. Vice-versa.
+8. Article 9 should link to a discussion on the most desirable kind of changes to code: configuration driven, additive, localized. Find the scanned notes on this laptop to create that article.
+
+When you implement a new feature we aim to achieve a design in the following order:
+
+** Additive **
+
+This is the most desirable option. We add new code without modifying the existing code.
+
+** Localized **
+
+We change only one specific location in our existing code base to implement a new feature.
+
+
+9. Article 46 link back to article 10 for contract tests.

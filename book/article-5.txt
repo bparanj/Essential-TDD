@@ -10,7 +10,7 @@ The tests must specify and focus on 'What' instead of implementation, the 'How'.
 Discussion
 ==========
 
-Just quickly read the following code for meszaros gem : https://github.com/bparanj/meszaros to see the utility methods that help to eliminate loops in specs.
+For an indepth discussion on What vs How, read the [What vs How in Test Driven Development](http://www.rubyplus.com/articles/411 "What vs How in Test Driven Development") article. Just quickly read the following code for meszaros gem : https://github.com/bparanj/meszaros to see the utility methods that help to eliminate loops in specs.
 
 Here is the loop_spec.rb
 

@@ -7,16 +7,23 @@ Objective
 
 - To learn about Single Purpose Principle
 
+Discussion
+==================
+------------------
+
+Robert C. Martin came up with the Single Responsibility Principle in 1995. The problem is CRC card already had used the term Responsibility to mean something different. CRC cards came way back in 1989. Also Robert Martin redefined the term responsibility to mean a reason to change. He basically took the concept of cohesion and added his own insights to come up with Single Responsibility Principle. 
+
+The main point of this principle is that there should be only one reason to change. I don't want to call it Single Responsibility Principle because of the confusion it creates with the existing terminology. Since this principle says that the set of responsibilities (as used by CRC cards) should be focused on one purpose, I think it is appropriate to call it Single Purpose Principle.
+
 Problem Statement
 ===================
 ---------------------------------
 
-Refer the guessing game problem description described in the previous article :
- [TDD Beyond Basics : Testing Random Behavior](http://www.rubyplus.com/articles/171 "TDD Beyond Basics : Testing Random Behavior")
+Refer the guessing game problem description described in the previous article : [TDD Beyond Basics : Testing Random Behavior](http://www.rubyplus.com/articles/171 "TDD Beyond Basics : Testing Random Behavior")
 
 Steps
 =============
--------------------
+-------------
 
 Step 1
 ------------
@@ -73,7 +80,7 @@ fake_console.should_receive(:output).with("Welcome to the Guessing Game")
 
 This test is failing because the console object never received the output(string) method call.
 
-Step 4
+Step 5
 ------------
 
 Change the GuessGame class as follows:
@@ -96,7 +103,7 @@ end
 
 GuessGame class now has a constructor that takes a console object. It then delegates welcoming the user to the console object in the start method. This is an example of dependency injection. Any collaborator that conforms to the interface we have discovered can be used to construct a GuessGame object.
 
-Step 5
+Step 6
 ----------
 
 Run the specs again, you will see the following failure message:
@@ -110,7 +117,7 @@ Run the specs again, you will see the following failure message:
 
 This implementation broke our previous test which is not passing in the console object to the constructor. We can fix it by initializing the default value to standard output.
 
-Step 6
+Step 7
 -----------
 
 Change the guess_game.rb constructor as follows:
@@ -123,7 +130,7 @@ class GuessGame
 end
 ```
 
-Step 7
+Step 8
 ----------
 
 Run the specs now. It will pass. We are back to green. This spec shows how you can defer decisions about how to interact with the user. It could be standard output, GUI, client server app etc. Fake object is injected into the game object. 
@@ -181,4 +188,4 @@ Summary
 ===========
 --------------------
 
-In this lesson you learned about Single Purpose principle and how to design collobarators that are highly cohesive. We also saw some bad code examples in RSpec book that ties implementation level details with game logic. In the next lesson we will continue building the guessing game.
+In this lesson you learned about Single Purpose principle and how to design collaborators that are highly cohesive. We also saw some bad code examples in RSpec book that ties implementation level details with game logic. In the next lesson we will continue building the guessing game.

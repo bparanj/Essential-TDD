@@ -1,4 +1,4 @@
-3. Canonical Test Structure
+TDD Basics : Canonical Test Structure
 =========
 ---------------------
 
@@ -182,7 +182,4 @@ Because if you had multiple of each of the steps, you would have the state at th
 
 4. What is isolation?
 
-Isolation means that the state is clean in the beginning of each test and it cleans up the state at the end of each test.
-
-
-
+Isolation means that the state is clean in the beginning of each test and it cleans up the state at the end of each test. This makes our tests independent. Making tests independent is a good practice. When the tests are independent we can run them in any order and they will pass.

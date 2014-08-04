@@ -12,10 +12,10 @@ Growing a Test Suite Episode Review
 
 This is the review of the solution discussed in Growing a Test Suite screencast. Here is a list of things that the solution violates:
 
-1. Separate Command from Query.
+1. [Separate Command from Query](http://www.rubyplus.com/articles/281 "Command Query Separation Principle").
      digest() method is a command. digest() method should not return any value
 2. Allocate responsibilities to the right class.
-    digest() method does not belong to the Cheese class. Semantically it does not make any sense.
+    digest() method does not belong to the Cheese class. Semantically it does not make any sense. Only a living organism can digest food.
 3. Law of Demeter.
 
 Here is my solution:
@@ -36,7 +36,7 @@ class Walrus
   private
  
   def digest
-    p 'Digesting...'
+    p 'Digesting happens inside my body...'
   end
 end
 
