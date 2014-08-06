@@ -1,10 +1,10 @@
-Problem #1
+PUBLISHED
 
 Problem Statement
 =========
 ---------------------------
 
-Sum a set of numbers
+Sum a set of numbers.
 
 Problem Domain Analysis
 =========
@@ -12,14 +12,18 @@ Problem Domain Analysis
 
 Let's consider the set of numbers, numbers = (1, 2, 7, ... n)
 
+```sh
 Sum s = 1 + 2 + 7 + ... + n
+```
 
-Let's formulate an algorithm takes into account that computers can add two numbers at a time. So the algorithm needs to be repetitive.
+Let's formulate an algorithm that takes into account that computers can add two numbers at a time. So the algorithm needs to be repetitive to sum all the given numbers.
 
+```sh
 s = a1 + a2 ------> 1
 s = s + a3  ------> 2
 ...
 s = s + (a)n 
+```
 
 All sums for n >= 1 can be generated iteratively. 
 
@@ -27,20 +31,23 @@ Solution Domain Analysis
 =========
 ---------
 
+In Ruby, this problem can be solved in just one line by using the inject method. We must implement our own version of inject method. The reason for this is twofold, number one is that we will learn new concepts that we can use to program in any language. We will also come up with an algorithm that can be used to implement the summing function in any language. This gives us one logical design with many physical design possibilities.
+
 Initial Condition
-=========
+-----------------
 
 We observe that for n = 0 and n = 1, the initial condition is s = 0.
 
 Steps to Solve the Problem
-=========
+---------------------------
 
 1. Compute first sum (s = 0) as special case.
 2. Build each of the n remaining sums from its predecessor by an iterative process.
 3. Return the sum of n numbers.
 
 Algorithm Description
-=========
+=============
+---------------------
 
 1. Take the list of numbers to be summed.
 2. Initialize sum for 0 numbers
@@ -50,76 +57,34 @@ Algorithm Description
      c) Go to the next number.
 4. Return the result.
 
-Discussion
-=========
----------------------------
-
-We have solved the problem by giving the stupid computer specific steps to find the sum. Let's look at a different way to solve the same problem. 
-  
-Gauss solving the problem. Recognize the pattern.
-
-How does [1,1] differ from [2,2] ?
-Why use [1,1] instead of [2,2] ?
-What to do when a test passes without failing? Why?
-How to write a story test? Why?
-Why degenerate test case is the first test?
-
-0, 1, 2 and n elements
-
-Establishing index and result values that handle degenerate cases.
-
-If-else removed during refactor. 
-While used to generalize.
-
-Looking for transformations higher in the Transformation Priority Premise List.
-
-Incremental Algorithm Design
-
-Our algorithm can be implemented in any language.
-
-Understand the Problem
-  
-Implement your own version of inject method.
-
-Notion of Contract
-When to throw exception 
-Defensive programming. Why it's not a good idea.
-Making simplyfing assumptions to delineate the scope of the problem
+We have solved the problem by giving the stupid computer specific steps to find the sum. 
 
 Assumptions
-=========
----------------------------
+========
+----------
 
 - Numbers in the list are whole numbers
 - Numbers will not cause stack overflow issues when added
 
-
-Exploratory Testing 
-
-```ruby
-$irb
-load 'sum.rb'
-```
-
-and test.
-
-Why random data in test data is not a good idea?
-
 Test Cases
-=========
----------------------------
+===========
+-----------
 
-1. Why degenerate case first? Establishing initial conditions for loops.
+1. Pick a degenerate case first.
 2. Simple one element case.
 3. Extend the solution to 2 elements.
 4. Generalize to n elements.
   
+We will see why we choose the test cases in this order as we work through the problem now. 
+
 Steps
 =========
----------------------------
+---------
 
 Step 1
 -------
+
+Create a sum_spec.rb file with the following contents:
 
 ```ruby
 require_relative 'sum'
@@ -131,27 +96,267 @@ describe Sum do
     
     expect(result).to eq(0)
   end
-  
-  it 'should return 0 for a list containing 0' do
-    s = Sum.new
-    result = s.calculate([0])
+end
+```
+
+Step 2
+------
+
+Create a sum.rb file with the following contents:
+
+```ruby
+class Sum
+  def calculate(numbers)
     
-    expect(result).to eq(0)
   end
-  
+end
+```
+
+Step 3
+--------
+
+We are now failing for the right reason with the following error:
+
+```ruby
+Sum
+  should return 0 for empty list (FAILED - 1)
+
+Failures:
+
+  1) Sum should return 0 for empty list
+     Failure/Error: expect(result).to eq(0)
+       
+       expected: 0
+            got: nil
+       
+       (compared using ==)
+     # ./sum_spec.rb:8:in `block (2 levels) in <top (required)>'
+
+Finished in 0.00111 seconds (files took 0.11323 seconds to load)
+1 example, 1 failure
+
+Failed examples:
+
+rspec ./sum_spec.rb:4 # Sum should return 0 for empty list
+```
+
+Step 4
+-------
+
+Return 0 from the calculate method.
+
+```ruby
+class Sum
+  def calculate(numbers)
+    0
+  end
+end
+```
+
+The test passes.
+
+Step 5
+-------
+
+Looking at our test case list, we see we now have a simple one element case. So if we take a list that contains just one element which is 0. We know that the existing fake implementation will pass. So what is the next simplest value that will force the fake implementation to go away? How about a list that contains 1?
+
+```ruby
+require_relative 'sum'
+
+describe Sum do
+  # First spec same as before
+    
   it 'should return 1 for a list containing 1' do
     s = Sum.new
     result = s.calculate([1])
     
     expect(result).to eq(1)
   end
-  
+end
+```
+
+Step 6
+------
+
+We now fail for the right reason with the following error:
+
+```ruby
+
+Sum
+  should return 0 for empty list
+  should return 1 for a list containing 1 (FAILED - 1)
+
+Failures:
+
+  1) Sum should return 1 for a list containing 1
+     Failure/Error: expect(result).to eq(1)
+       
+       expected: 1
+            got: 0
+       
+       (compared using ==)
+     # ./sum_spec.rb:15:in `block (2 levels) in <top (required)>'
+
+Finished in 0.0012 seconds (files took 0.11431 seconds to load)
+2 examples, 1 failure
+
+Failed examples:
+
+rspec ./sum_spec.rb:11 # Sum should return 1 for a list containing 1
+```
+
+Step 7
+------
+
+Here is a quick and dirty implementation that gets us to green quickly.
+
+```ruby
+class Sum
+  def calculate(numbers)
+    if numbers.empty?
+      0
+    else
+      numbers[0]
+    end
+  end
+end
+```
+
+
+Discussion 
+========
+----------
+
+According to our test case list, next we have to extend the solution to two element case. What should be the values of these two elements? We could choose any two numbers but I am choosing [1,1]. Why use [1,1] instead of set of larger numbers? Because the simplest set of numbers is sufficient to make our production code evolve towards an abstract solution. We have an if-else statement for the fake implementation version. Remember this, because this is going to evolve into another programming construct that we will discuss why when that happens.
+
+Step 8
+------
+
+Add the next test as follows:
+
+```ruby
   it 'should return 2 for a list containing 1 and 1' do
     s = Sum.new
     result = s.calculate([1,1])
     
     expect(result).to eq(2)
   end
+```
+
+Step 9
+-----
+
+This fails with the following error:
+
+```ruby
+
+Sum
+  should return 0 for empty list
+  should return 1 for a list containing 1
+  should return 2 for a list containing 1 and 1 (FAILED - 1)
+
+Failures:
+
+  1) Sum should return 2 for a list containing 1 and 1
+     Failure/Error: expect(result).to eq(2)
+       
+       expected: 2
+            got: 1
+       
+       (compared using ==)
+     # ./sum_spec.rb:22:in `block (2 levels) in <top (required)>'
+
+Finished in 0.00138 seconds (files took 0.11749 seconds to load)
+3 examples, 1 failure
+
+Failed examples:
+
+rspec ./sum_spec.rb:18 # Sum should return 2 for a list containing 1 and 1
+```
+
+Step 10
+-----
+
+Replace the else condition as follows:
+
+```ruby
+class Sum
+  def calculate(numbers)
+    if numbers.empty?
+      0
+    else
+      index = 0
+      result = 0
+      
+      while index < numbers.size
+       result += numbers[index]
+       index += 1
+      end
+      result
+    end
+  end
+end
+```
+
+The test now passes. How can we cleanup the mess in calculate() method?
+
+Discussion
+========
+-----------
+
+Let's refer to our algorithm to guide our cleaned up version of our implementation. 
+
+1. Take the list of numbers to be summed.
+2. Initialize sum for 0 numbers
+3. while < n numbers have been summed repeatedly do
+     a) Read the number
+     b) Compute current sum by adding the number read to the most recent sum.
+     c) Go to the next number.
+4. Return the result.
+
+First step is the argument to the calculate() method. The second step is the initial condition before we enter the iterative construct to process the elements one by one untill we process all the elements in the list. In order for us to go to the next number in step 3c of the algorithm, we must increment the index everytime an element is processed successfully. This makes us reach the terminating condition what is evaluated in the beginning of the loop, so that we can terminate the loop and return the final result.
+
+Step 11
+-----
+
+So we know what needs to be initialized before we enter the loop, the index of the array that will be incremented within the loop and the result. Change the code as follows:
+
+```ruby
+class Sum
+  
+  def calculate(numbers)
+    result = 0
+    index = 0
+
+    while index < numbers.size
+     result += numbers[index]
+     index += 1
+    end
+    result
+  end
+  
+end
+```
+
+Our tests now pass. 
+
+Discussion
+========
+----------
+
+Did you see how the first if conditional that was handling the boundary case disappeared? It is now handled by the intial conditions that initialize the index and result variables. It's now clear why degenerate test case is the first test case in our test cases list. Degenerate test cases establish initial conditions for loops. We establish index and result values that handle degenerate cases. The if-else construct has been replaced by while loop to generalize the solution.  
+
+If you see the transformations list in the [Transformation Priority Premise](http://blog.8thlight.com/uncle-bob/2013/05/27/TheTransformationPriorityPremise.html 'Transformation Priority Premise') article, we have evolved our code from if-else to a more generic while loop. We always look for transformations higher in the Transformation Priority Premise List. We did Incremental Algorithm Design by going one by one from top of the test cases list. We also made simplyfing assumptions to delineate the scope of the problem. We know under what conditions our solution is valid by looking at the assumptions.
+
+Step 12
+------
+
+The last test case in our test cases list is a story test. It generalizes the solution. Add the story test as follows:
+
+```ruby
+require_relative 'sum'
+
+describe Sum do
   
   it 'should return 20 for a list containing 2,2,2,2,2,2,2,2,2 and 2' do
     s = Sum.new
@@ -162,23 +367,22 @@ describe Sum do
 end
 ```
 
+Our acceptance test passes.
 
-Step 2
-----------
+Exploratory Testing 
+==============
+-------------------
 
 ```ruby
-class Sum
-  
-  def calculate(arr)
-    result = 0
-    index = 0
-
-    while index < arr.size
-     result += arr[index]
-     index += 1
-    end
-    result
-  end
-  
-end
+$irb
+load 'sum.rb'
 ```
+
+and test using any data. Verify the answer by using the inject method.
+
+Exercises
+==========
+----------
+
+1. Why random data in test data is not a good idea?
+2. How to write a story test? Why?

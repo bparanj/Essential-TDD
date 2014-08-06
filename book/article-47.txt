@@ -1,3 +1,7 @@
+PUBLISHED
+
+REVISE this and PUBLISH AGAIN : DIAGRAM MISSING, UNDER ALGORITHM SECTION Refer page F3 for the diagram. MUST GO
+
 Factorial
 
 Problem Statement
@@ -10,35 +14,48 @@ Problem Domain Analysis
 ================
 ----------------
 
+Factorial is defined as follows:
+
+```sh
 n! = 1 x 2 x 3 x ... n for n >= 1
+```
+
 Given that 0! = 1
 
 Solution Domain Analysis
 ================
 ----------------
 
-For n >= 1
+For n >= 1, here is the examples:
 
+```sh
 1! = 1 x 1
 2! = 1 x 2
 3! = 1 x 2 x 3
 4! = 1 x 2 x 3 x 4
+```
 
 We observe a pattern, so we can rewrite 4! as :
 
+```sh
 4! = 3! x 4
 
-If n = 4, 
+if n = 4, 
 
 n! = (n-1)! x n
+```
 
-Rewrite the examples as :
+We can rewrite the examples as :
 
+```sh
 Step 1 : 0! = 1
 Step 2 : 1! = 1 x 0!
 Step 3 : 2! = 2 x 1!
 Step 4 : 3! = 3 x 2!
 Step 5 : 4! = 4 x 3!
+```
+
+You can make these examples executable. Numbers cannot be negative. If the contract is broken you raise an exception. This problem lends itself to writing specs directly from the examples. We did not have to come up with a well ordered sequence of test cases before we start writing the tests.
 
 Algorithm
 ================
@@ -48,50 +65,276 @@ Algorithm
 2. Treat 0! as a special case
 3. 
 
+```sh
 while less than n products has been calculated, repeatedly do
   a) Increment index count
   b) Compute the product for current index by multiplying index by the current product
-  
-4. Return the result
+end
 
-Refer page F3 for the diagram.
+Return the result
+``` 
 
+Steps
 ================
 ----------------
 
+Step 1
+----------------
 
+The rspec syntax is as follows:
 
-Go to wikipeida and read the defn for Factorial
-Read the examples
-Make example executable
-
-Discovering the API
-As the tests get more and more specific, the code gets more and more generic
-
-- Watch the Factorial screencast
-
-
-
-1. Create a file called factorial_spec.rb
-2. Numbers cannot be negative. 
-   If the contract is broken you raise an exception.
-3. Common mistake : Forgetting terminating condition for recursive solution
- 
+```ruby
 describe ClassName do
   it 'should do something for given number'
   
 end
+```
 
-3. rspec factorial_spec.rb
+In our case the class name will be Factorial. Create a file called factorial_spec.rb with the following contents:
 
-it '' do
-  f = Factorial.new
+```ruby
+describe Factorial do
 
-  expect(f.number).should raise_error
-  
+  it '0 factorial is 1' do
+    factorial = Factorial.new(0)
     
+    result = factorial.calculate
+    
+    expect(result).to eq(1)
+  end
   
 end
+```
 
+Step 2
+----------------
+
+Run the spec. 
+
+```ruby
+$rspec factorial_spec.rb
+```
+
+Step 3
+----------------
+
+Define an empty Factorial class at the top of the factorial_spec.rb as follows:
+
+```ruby
+class Factorial
+
+end
+```
+
+Step 4
+---------
+
+When you run the spec, you will get error related to constructor argument. Change the Factorial class as follows:
+
+```ruby
+class Factorial
+  def initialize(n)
+    @n = n
+  end
+end
+```
+
+Step 5
+-------
+
+Now you get an error due to undefined method 'calculate'. Let's define the method now as follows:
+
+```ruby
+
+def calculate
+
+end
+```
+
+Step 6
+--------
+
+You see an error 'expected 1 got nil'. We are now failing for the right reason. 
+
+Step 7
+---------
+
+Return a hardcoded 1 from the calculate method.
+
+```ruby
+def calculate
+  1
+end
+```
+
+Now we are green.
+
+Discussion
+==========
+----------
+
+We went from no code at all (missing calculate method) to code that returns nil. This is the very first transformation in the Transformation Priority Premise transformations list. Then we went from nil to constant. This is the second transformation from TPP transformations list. We also discovered the public API for the Factorial class.
+
+Step 8
+-------
+
+Let's write a executable spec for the second example that we came up with in the solution domain analysis section. Add the second spec as follows:
+
+```ruby
+it '1 factorial is 1' do
+  factorial = Factorial.new(1)
+  
+  result = factorial.calculate
+  
+  expect(result).to eq(1)
+end
+```
+
+The test passes. It's obvious why, we still have fake implementation that returns 1.
+
+Step 9
+---------
+
+Let's add the third spec as follows:
+
+```ruby
+it '2 factorial is 2' do
+  factorial = Factorial.new(2)
+  
+  result = factorial.calculate
+  
+  expect(result).to eq(2)
+end
+```
+
+This fails with expected 2 got 1 error.
+
+Step 10
+--------
+
+How can we make the new spec pass without making the old ones fail? Change the implementation as follows:
+
+```ruby
+def calculate
+  if @n == 0
+    1
+  else
+    @n
+  end
+end
+```
+
+All specs pass.
+
+Discussion
+==========
+----------
+
+We transformed our code from no conditional to splitting the execution path by using if-else construct. This transformation is somewhere in the middle of the TPP transformations list.
+
+Step 11
+--------
+
+Let's add the next spec as follows:
+
+```ruby
+it '3 factorial is 6' do
+  factorial = Factorial.new(3)
+  
+  result = factorial.calculate
+  
+  expect(result).to eq(6)
+end
+```
+
+The test fails with the error 'expected 6 got 3' message.
+
+Step 12
+--------
+
+Solution 1 : We can use recursion and use the formula we came up with by recognizing the pattern. Forumula for recursive solution:
+
+```sh
+n! = (n-1)! x n
+```
+
+Solution 2 : We can use our algorithm we developed earlier:
+
+```sh
+while less than n products has been calculated, repeatedly do
+  a) Increment index count
+  b) Compute the product for current index by multiplying index by the current product
+end
+
+return the result
+```
+
+The terminating condition is that we reach 1 as we reduce the number by 1 inside the loop. The intial value of the result is set to 1. Here is the pseudocode:
+
+```sh
+result = 1
+while n > 1 do
+  result = result * n
+  n = n - 1  
+end
+```
+
+Change the implementation as follows:
+
+```ruby
+def calculate
+  if @n == 0
+    1
+  else
+    result = 1
+    while @n > 1 do
+      result = result * @n
+      @n = @n - 1  
+    end
+    result
+  end
+end
+```
+
+All specs pass. 
+
+Step 13
+------
+
+Let's cleanup the code as follows:
+
+```ruby
+def calculate
+  result = 1
+  while @n > 1 do
+    result = result * @n
+    @n = @n - 1  
+  end
+  result
+end
+```
+
+Discussion
+==========
+-----------
+
+You can now see that the if-else became a while construct. This is in the bottom of the TPP transformations list. While is much more generic construct than if-else. We no longer need a special case to handle the 0!. The boundary case is handled by the intial condition. If you observe the changes that happened in the above steps, you can see how Robert Martin's insight 'As the tests get more and more specific, the code gets more and more generic' is true in our case.
+
+Exercises
+===========
+-------------
+
+1. Change the implementation to use recursive solution. Make sure all tests pass. Watch out for the common mistake of forgetting terminating condition for recursive solution.
+2. Watch the [Factorial screencast](https://www.youtube.com/watch?v=Tmp-viKFOJw "Factorial screencast") or download [Factorial screencast](https://s3.amazonaws.com/clickplan.com/download/RecursionRuby.mov.zip "Factorial screencast")
+3. Write the following contract test.
+
+```ruby
+it 'should raise exception for negative numbers'
+```
+
+You can implement it by using the following code:
+
+```ruby
 raise ArgumentError, 'Negative number is not allowed' if number < 0
+```
 

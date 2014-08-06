@@ -1,4 +1,6 @@
 Generating Prime Numbers
+
+Problem Statement
 ===================
 -------------------
 
@@ -42,8 +44,7 @@ sqrt(37) = 6.08 - we'll round up to 7.
  37 % 7
   
   
-Checking if a number is prime in Ruby
-Go to irb :
+Checking if a number is prime in Ruby. Go to irb :
 
 ```ruby
  > require 'prime'

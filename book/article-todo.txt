@@ -27,4 +27,13 @@ This is the most desirable option. We add new code without modifying the existin
 We change only one specific location in our existing code base to implement a new feature.
 
 
-9. Article 46 link back to article 10 for contract tests.
+4. Article 46 link back to article 10 for contract tests.
+5. Start from article 33.
+6. sum example notes:
+
+Link Article 32 to Article 45. Let's look at a different way to solve the same problem. Gauss solving the problem. Recognize the pattern.
+
+0, 1, 2 and n elements
+
+Defensive programming. Why it's not a good idea. MOVE THIS TO THE ARTICLE THAT DISCUSSES CONTRACT TESTS.
+

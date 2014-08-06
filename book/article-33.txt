@@ -1,30 +1,4 @@
-Problem #2
-
-Counting
-
-Problem Statement
-=========
----------------------------
-
-Implement a method called my_count that takes a number and an array of numbers and returns the count representing the total number of elements in the array that is equal or greater than the given number.
-
-Problem Domain Analysis
-=========
----------
-
-my_count(n, a)
-
-n = 10
-a = [2, 7, 10, 15, 25]
-
-The result in this case = 3, since there are only three numbers 10, 15 and 25 that are equal or above 10. In the irb:
-
-```ruby
-a.count{|x| x >= 10}
-=> 3
-```
-
-We need to implement our version of the Ruby's count method called my_count. In this irb console session we only focus on specifying what needs to be done. The details of counting such as how many elements are in the list to be counted, when we need to terminate the loop etc has been hidden inside the count method. As you already know, what needs to be done is the focus of the problem domain analysis.
+PENDING:
 
 Solution Domain Analysis
 =========
@@ -34,16 +8,56 @@ Diagram goes here.
 
 Table goes here.
 
+----------------------------------------------------
+
+PUBLISHED
+
+Counting
+
+Problem Statement
+================
+-----------------
+
+Implement a method called my_count that takes a number and an array of numbers and returns the count representing the total number of elements in the array that is equal or greater than the given number.
+
+Problem Domain Analysis
+=========
+---------
+
+Let's say our method takes two parameters, first parameter n for the number used for comparison and an array for the second parameter a that contains a list of numbers to be processed.
+
+```sh
+my_count(n, a)
+
+for :
+n = 10
+a = [2, 7, 10, 15, 25]
+```
+
+The result in this case = 3, since there are only three numbers 10, 15 and 25 that are equal or above 10. We can accomplish this in Ruby in just one line, in the irb:
+
+```ruby
+$irb
+a = [2, 7, 10, 15, 25]
+a.count{|x| x >= 10}
+=> 3
+```
+
+We need to implement our own version of the Ruby's count method called my_count. In this irb console session we only focus on specifying what needs to be done. The details of counting such as how many elements are in the list to be counted, when we need to terminate the loop etc has been hidden inside the count method. As you already know, what needs to be done is the focus of the problem domain analysis.
+
 Steps to Solve the Problem
 =========
 
+```sh
 while < n numbers have been examined do
   1. Read the number
   2. If current number satisfies the condition then add one to count.
 end
+```
 
 Algorithm
 =========
+---------
 
 1. Read the number of elements to be processed.
 2. Initialize the count to 0
@@ -52,32 +66,9 @@ Algorithm
    b) If it satisfies the condition (>= 10) then add one to count.
 4. Return the total number of elements that satisfies the condition.
 
-count = 0
-i = 0
-
-while i < n do
-
-end
-
-i < n is the terminating condition.
-
-Consideration of the problem at its lowest limit (i.e., n=0) leads to a mechanism that can be extended to larger values of n by simple repetition. This is a very common technique in algorithm design.
-
-Discussion
-=========
----------
-
-AAA
-Working Backwards
-Scaffold
-
-When to use Priority Transformation Premise
-When to use algorithm depicted in flow chart and different tools for different situations.
-Transformation Priority Premise is not a silver bullet.
-  
 Logical Design
-=========
----------------------------
+==============
+--------------
   
 1. Read n and the array
 2. Take the first element in the array
@@ -87,29 +78,43 @@ Logical Design
 
 4. Go to the next element
 
-Terminating Condition
+Skeleton Code
 =========
----------------------------
+---------
 
+```ruby
+count = 0
+i = 0
+
+while i < n do
+
+end
+```
+Terminating Condition
+---------
+
+i == n is the *terminating condition*.
+
+Consideration of the problem at its lowest limit (i.e., n=0) leads to a mechanism that can be extended to larger values of n by simple repetition. This is a very common technique in algorithm design.
 
 Initial Condition
-=========
----------------------------
+---------
+
 index = 0 
 count = 0
 
 Pseudo Code
-=========
----------------------------
+===========
+-----------
 
+```sh
 while index < (size of array - 1)
   extract the element from the array
   compare --> increment counter if yes
 end
 
 return count
-
-
+```
 
 Steps
 =========
@@ -118,64 +123,250 @@ Steps
 Step 1
 -------
 
+Let's write our first test that is the minimum we have to do for making the test fail. Create my_count_spec.rb with the following contents:
 
 ```ruby
-require_relative 'finds_equal_greater'
-
-describe FindsEqualGreater do
-  it "should return 1 for 0, [0]" do
-    equal_greater = FindsEqualGreater.new
+describe MyCount do
+  
+  it "should return 0 for n = 0 and an empty list" do
+    my_count = MyCount.new
     
-    result = equal_greater.count(0, [0])
+    result = my_count.calculate(0, [])
+    
+    expect(result).to eql(0)
+  end
+  
+end
+```
+Step 2
+------
+
+To make the test fail for the right reason, add the MyCount class to the top of the my_count_spec.rb as follows:
+
+```ruby
+class MyCount
+  def calculate(n, a)
+    
+  end
+end
+```
+
+You will get expected 0 got nil error message.
+
+Step 3
+-------
+
+Return 0 to make the test pass.
+
+```ruby
+  def calculate(n, a)
+    0
+  end
+```
+
+Step 4
+--------
+
+Let's add the second test as follows:
+
+```ruby
+  it "should return 1 for 0, [0]" do
+    my_count = MyCount.new
+    
+    result = my_count.calculate(0, [0])
+    
+    expect(result).to eql(1)
+  end
+```
+
+This fails with the error 'expected 1, got 0' message.
+
+Step 5
+--------
+
+The quick and dirty way to make both test pass is as follows:
+
+```ruby
+  def calculate(n, a)
+    if a.include? n
+      1
+    else
+      0
+    end
+  end
+```
+
+Step 6
+-------
+
+Let's add the third spec that checks the opposite of what the second spec checked as follows:
+
+```ruby
+  it "should return 0 for 1, [0]" do
+    my_count = MyCount.new
+    
+    result = my_count.calculate(1, [0])
+    
+    expect(result).to eql(0)
+  end
+```
+
+This test passes because the include? method returns false.
+
+Step 7
+--------
+
+Add the fourth spec as follows:
+
+```ruby
+  it "should return 2 for 1, [1,1]" do
+    my_count = MyCount.new
+    
+    result = my_count.calculate(1, [1,1])
+    
+    expect(result).to eql(2)  
+  end
+```
+
+This fails with "expected 2, got 1" error.
+
+Step 8
+-------
+
+By reading the algorithm we developed earlier and the skeleton code, let's stop faking and implement the real solution as follows:
+
+```ruby
+  def calculate(n, a)
+    count = 0
+    index = 0
+    
+    while index < a.size
+      if a[index] == n
+        count += 1
+      end
+      index += 1
+    end
+    count
+  end
+```
+
+All the test passes.
+
+Warning
+--------
+
+If you forget to increment the index or use the wrong terminating condition, your program will just hang.
+
+Step 9
+-------
+
+Let's add the story test as follows:
+
+```ruby
+  it "should return 5 for 3, [1,1,2,3,4,3,6,6,1]" do
+    my_count = MyCount.new
+    
+    result = my_count.calculate(3, [1,1,2,3,4,3,6,6,1])
+    
+    expect(result).to eql(5)      
+  end
+```
+
+This fails gloriously with the error message 'expected 5, got 2'.
+
+Step 10
+--------
+
+This test has exposed a bug in our code. By inspecting our solution we find that the if condition is wrong. Correct it as follows:
+
+```ruby
+if a[index] >= n
+```
+
+All our tests passes.
+
+Here is the final solution:
+
+```ruby
+class MyCount
+  def calculate(n, a)
+    count = 0
+    index = 0
+    
+    while index < a.size
+      if a[index] >= n
+        count += 1
+      end
+      index += 1
+    end
+    count
+  end
+end
+
+describe MyCount do
+  
+  it "should return 0 for n = 0 and an empty list" do
+    my_count = MyCount.new
+    
+    result = my_count.calculate(0, [])
+    
+    expect(result).to eql(0)
+  end
+  
+  it "should return 1 for 0, [0]" do
+    my_count = MyCount.new
+    
+    result = my_count.calculate(0, [0])
     
     expect(result).to eql(1)
   end
   
   it "should return 0 for 1, [0]" do
-    equal_greater = FindsEqualGreater.new
+    my_count = MyCount.new
     
-    result = equal_greater.count(1, [0])
+    result = my_count.calculate(1, [0])
     
     expect(result).to eql(0)
   end
   
   it "should return 2 for 1, [1,1]" do
-    equal_greater = FindsEqualGreater.new
+    my_count = MyCount.new
     
-    result = equal_greater.count(1, [1,1])
+    result = my_count.calculate(1, [1,1])
     
-    expect(result).to eql(2)
+    expect(result).to eql(2)  
   end
-  
   
   it "should return 5 for 3, [1,1,2,3,4,3,6,6,1]" do
-    equal_greater = FindsEqualGreater.new
+    my_count = MyCount.new
     
-    result = equal_greater.count(3, [1,1,2,3,4,3,6,6,1])
+    result = my_count.calculate(3, [1,1,2,3,4,3,6,6,1])
     
-    expect(result).to eql(5)
-  end
-  
-end
-```
-
-
-Step 2
-----------
-
-```ruby
-class FindsEqualGreater
-  def count(num, array)
-    index = 0
-    count = 0
-    
-    while index < array.size
-      count += 1 if array[index] >= num
-      index += 1
-    end
-
-    count
+    expect(result).to eql(5)      
   end
 end
 ```
 
+Discussion
+==========
+
+The code evolved from:
+
+1. No code at all       --> Returning nil
+2. Returning nil        --> Returning a constant
+3. Returning a constant --> If-else condition
+4. If-else condition    --> While loop
+
+While is a more generic construct than if-else. If-else is more generic than returning a constant and so on. We see that the code became more generic as our tests became more specific. For an indepth discussion read about Transformation Priority Premise by Robert Martin on his blog.
+
+Q & A
+=========
+---------
+
+**I am having difficulty writing a test. Do you have any suggestions?**
+
+Use the Arrange, Act, Assert structure. Also work backwards by writing the assert first, then write the code for 'Act' phase and finally for Arrange. 
+
+**When do I use Transformation Priority Premise?**
+
+Transformation Priority Premise is not a silver bullet. It's a work in progress. Designing algorithms to solve a given problem and drawing flow charts will always help you write complex programs.
