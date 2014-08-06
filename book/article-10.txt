@@ -1,3 +1,11 @@
+REVISE AND UPDATE WITH THE FOLLOWING CONCEPT
+
+Defensive programming. Why it's not a good idea. 
+
+------------------------------------------------------------------------------------------------------------------------------
+
+PUBLISHED
+
 TDD Beyond Basics : Contract Tests
 =========
 ---------------------

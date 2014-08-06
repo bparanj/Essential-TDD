@@ -1,5 +1,5 @@
-PENDING:
-
+PENDING: UPDATE THE ARTICLE
+----------------------------------------------------
 Solution Domain Analysis
 =========
 ---------
@@ -9,8 +9,8 @@ Diagram goes here.
 Table goes here.
 
 ----------------------------------------------------
-
 PUBLISHED
+----------------------------------------------------
 
 Counting
 

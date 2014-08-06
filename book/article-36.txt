@@ -174,7 +174,7 @@ class Gcd
       divident = divisor
       divisor = remainder
       # divisor = remainder
-#       divident = divisor
+      # divident = divisor
     end
     divident
   end
