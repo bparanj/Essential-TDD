@@ -1,16 +1,19 @@
+REVISIONS TO BE MADE
+Under Problem Statement : example from notes goes here for GCD of 8 & 12 is 4
+Under gcd(18, 30) : Diagram goes here...
+Under Eculidean Algorithm : show diagrams for the steps
+
+----------------------------------------------------------------------------
+PUBLISHED
+----------------------------------------------------------------------------
+
 GCD
 
 Problem Statement
 ===================
 -------------------
 
-Given two positive non-zero integers n and m, find their greatest common divisor (gcd).
-
-The gcd of two integers is the largest integer that will divide exactly into the two integers with no remainder.
-
-example from notes goes here...
-
-GCD of 8 & 12 is 4
+Given two positive non-zero integers n and m, find their greatest common divisor (gcd). The gcd of two integers is the largest integer that will divide exactly into the two integers with no remainder.
 
 Example
 ===================
@@ -21,21 +24,27 @@ GCD of 54 and 24
 
 The number 54 can be expressed as a product of two other integers in several different ways.
 
+```sh
 54 x 1 = 27 x 2 = 18 x 3 = 9 x 6
+```
 
 Thus the divisors of 54 are 
 
+```sh
 1,2,3,6,9,18,27,54
+```
 
 Similarly the divisors of 24 are:
 
+```sh
 1,2,3,4,6,8,12,24
+```
 
-The number that these two lists share in common are the common divisors of 54 & 24.
+The number that these two lists share in common are the common divisors of 54 & 24. In this case, they are : 1,2,3,6. The greatest of these is 6. That is the GCD of 54 & 24. 
 
-In this case, they are : 1,2,3,6
-
-The greatest of these is 6. That is the GCD of 54 & 24. 
+Steps to Solve the Problem
+===================
+-------------------
 
 Basic strategy for computing the gcd of two numbers:
 
@@ -45,19 +54,17 @@ Basic strategy for computing the gcd of two numbers:
 
 gcd(18,30)
 
+```sh
 r = 30 mod 18 = 12
 r = 18 mod 12 = 6
 r = 12 mod 6  = 0
-
-Diagram goes here...
+```
 
 Iterative Construct
 ===================
 -------------------
 
-With each **reduction** in the problem size the smaller integer assumes the role of the larger integer and the remainder assumes the role of the smaller integer.
-
-The **reduction** in problem size and role changing steps change the divisor, dividend and the remainder. The exact division will correspond to a 0 remainder. 
+With each **reduction** in the problem size the smaller integer assumes the role of the larger integer and the remainder assumes the role of the smaller integer. The **reduction** in problem size and role changing steps change the divisor, dividend and the remainder. The exact division will correspond to a 0 remainder. 
 
 ```ruby
 while non-zero remainder do
@@ -90,54 +97,22 @@ Eculidean Algorithm
      b) Let the smaller integer assume the role of the divisor until a 0 remainder is obtained.
 3. Return the GCD
 
-===================
--------------------
-
-
-===================
--------------------
-
-
-===================
--------------------
-
 Steps
 =========
----------------------------
-
+---------
 
 Step 1
 ----------
 
+Create gcd_spec.rb and add the first test as follows:
 
 ```ruby
-describe 'GCD' do
+describe 'Gcd' do
   it 'should find the bigger number' do
     gcd = Gcd.new(12,30)
     result = gcd.bigger_number
     
     expect(result).to eq(30)    
-  end
-  
-  it 'should return 4 for 8 and 12' do
-    gcd = Gcd.new(8,12)
-    result = gcd.calculate
-    
-    expect(result).to eq(4)    
-  end
-
-  it 'should return 6 for 54 and 24' do
-    gcd = Gcd.new(24,54)
-    result = gcd.calculate
-    
-    expect(result).to eq(6)    
-  end
-  
-  it 'should return 6 for 12,30' do
-    gcd = Gcd.new(12,30)
-    result = gcd.calculate
-    
-    expect(result).to eq(6)
   end
 end
 ```
@@ -145,6 +120,43 @@ end
 Step 2
 -------
 
+Here is the minimal implementation that will make the test pass.
+
+```ruby
+class Gcd
+  def initialize(x, y)
+    @x = y
+    @y = y
+  end
+  
+  def bigger_number
+    if @x > @y
+      @x
+    else
+      @y
+    end
+  end
+end
+```
+
+Step 3
+-------
+
+Add the second test as follows:
+
+```ruby
+it 'should return 4 for 8 and 12' do
+  gcd = Gcd.new(8,12)
+  result = gcd.calculate
+  
+  expect(result).to eq(4)    
+end
+```
+
+Step 4
+------
+
+Look at the algorithm we developed earlier. Here is the quick and dirty implementation based on that algorithm that passes.
 
 ```ruby
 class Gcd
@@ -169,18 +181,148 @@ class Gcd
     remainder = 1
     divident = @bigger_number
     divisor = @smaller_number  
-    until remainder == 0
+    while remainder != 0
       remainder = divident % divisor
       divident = divisor
       divisor = remainder
-      # divisor = remainder
-      # divident = divisor
     end
     divident
   end
   
   def calculate
-      reduce
+    reduce
   end
 end
 ```
+
+Step 5
+--------
+
+Let's change the while to until to make it idiomatic. In this case we keep looping as long as the remainder is not zero.
+
+```ruby
+while remainder != 0
+```
+
+becomes
+
+```ruby
+until remainder == 0
+```
+
+which says, keep looping and exit loop when the remainder becomes zero.
+
+Step 6
+--------
+
+Let's add another example:
+
+```ruby
+it 'should return 6 for 54 and 24' do
+  gcd = Gcd.new(24,54)
+  result = gcd.calculate
+  
+  expect(result).to eq(6)    
+end
+```
+
+It passes. 
+
+Step 7
+--------
+
+Let's add another example:
+
+```ruby
+it 'should return 6 for 12,30' do
+  gcd = Gcd.new(12,30)
+  result = gcd.calculate
+
+  expect(result).to eq(6)
+end
+```
+
+It passes. Our solution is generic to handle any cases.
+
+Step 8
+------
+
+Here is the final version after cleanup.
+
+```ruby
+class Gcd
+  def initialize(x, y)
+    @x = x
+    @y = y
+    initialize_numbers
+  end
+  
+  def initialize_numbers
+    if @x > @y 
+      @bigger_number = @x
+      @smaller_number = @y
+    else
+      @bigger_number = @y
+      @smaller_number = @x      
+    end
+  end
+  
+  def calculate
+    remainder = 1
+    divident = @bigger_number
+    divisor = @smaller_number  
+    until remainder == 0
+      remainder = divident % divisor
+      divident = divisor
+      divisor = remainder
+    end
+    divident
+  end
+  
+end
+
+
+describe 'GCD' do  
+  it 'should return 4 for 8 and 12' do
+    gcd = Gcd.new(8,12)
+    result = gcd.calculate
+    
+    expect(result).to eq(4)    
+  end
+  
+  it 'should return 6 for 54 and 24' do
+    gcd = Gcd.new(24,54)
+    result = gcd.calculate
+    
+    expect(result).to eq(6)    
+  end
+  
+  it 'should return 6 for 12,30' do
+    gcd = Gcd.new(12,30)
+    result = gcd.calculate
+
+    expect(result).to eq(6)
+  end
+
+end
+```
+
+We have deleted the test that was coupled to the implementation. It is now in the constructor. The reduce method is deleted.
+
+
+Exercise
+========
+--------
+
+Add the following test:
+
+```ruby
+it 'should return 6 for 12,30' do
+  gcd = Gcd.new(12,30)
+  result = gcd.calculate
+  
+  expect(result).to eq(6)
+end
+```
+
+Does it pass? Do you want to retain or delete this new test? Why?
