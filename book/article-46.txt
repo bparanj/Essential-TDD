@@ -1,4 +1,5 @@
 
+Read the article on [Contract Tests](http://www.rubyplus.com/articles/161)
 
 Answer to the Exercise in Calculator example
 

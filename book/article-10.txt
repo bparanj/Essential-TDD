@@ -2,9 +2,11 @@ REVISE AND UPDATE WITH THE FOLLOWING CONCEPT
 
 Defensive programming. Why it's not a good idea. 
 
+Defensive programming is not a good idea because it results in complexity. The client and the supplier code will be doing the same work and there would be no agreement on who is responsible for the proper handling of the errors.
+
 ------------------------------------------------------------------------------------------------------------------------------
 
-PUBLISHED
+PUBLISHED : http://www.rubyplus.com/articles/161
 
 TDD Beyond Basics : Contract Tests
 =========

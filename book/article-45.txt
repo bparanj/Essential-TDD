@@ -4,6 +4,8 @@ Mathematician Guass
 ===================
 -------------------
 
+Let's look at a different way to solve the same problem. Gauss solving the problem. Recognize the pattern.
+
 Human mind thinks in a sequential manner. We have to learn how to break this tendency. Why do we need to break it?
 
 Because the first and obvious solution is not the best solution. 
@@ -19,6 +21,8 @@ This diagram describes how Gaull did Solution Domain Analysis
 
 1, 2, 3, .......... 98, 99, 100
 
+
+
 1 + 100 = 101
 2 + 99  = 101
 3 + 98  = 101 and so on
@@ -26,6 +30,10 @@ This diagram describes how Gaull did Solution Domain Analysis
 Gauss took a big picture view. He saw the forest (entire data set) instead of one tree at a time (one number at a time). He found the relationship between data by analysing the solution domain. He recognized patterns by working through a concrete example and generalized the solution.
 
 He saw the relationship between data. He extended the solution to derive the generalization. 
+
+
+
+
 
 Zoom In, Zoom Out
 ===================

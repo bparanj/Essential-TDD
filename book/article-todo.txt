@@ -1,15 +1,6 @@
 
 
-
-
-
-
-
 Start from article 49
-
-
-
-
 
 
 1. Scan Red, Green, Refactor diagram.
@@ -26,13 +17,9 @@ This is the most desirable option. We add new code without modifying the existin
 
 We change only one specific location in our existing code base to implement a new feature.
 
+Find the scanned notes that covers the above topic and write an article.
 
-4. Article 46 link back to article 10 for contract tests.
 
-5. sum example notes:
 
-Link Article 32 to Article 45. Let's look at a different way to solve the same problem. Gauss solving the problem. Recognize the pattern.
-
-0, 1, 2 and n elements
 
 
