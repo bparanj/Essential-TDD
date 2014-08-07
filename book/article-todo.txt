@@ -20,6 +20,11 @@ We change only one specific location in our existing code base to implement a ne
 Find the scanned notes that covers the above topic and write an article.
 
 
+4. Create an article on using Mailchimp API. 
+    https://github.com/amro/gibbon
+    Comment here http://www.bignerdranch.com/blog/email-marketing-for-your-rails-app-made-easy-with-mailchimp/ and provide a link back to rubyplus.com for code samples.
 
 
+Improve this http://cheshireoctopus.github.io/blog/2014/01/23/mailchimp-plus-gibbon-plus-rails-create-a-basic-sign-up-form/ article. Move the network call to background task. Move the API credentails to secrets.yml.
 
+Improve this http://hankstoever.com/posts/17-Integrating-mailchimp-with-your-Rails-application comment and link to improved solution on rubyplus.com.
