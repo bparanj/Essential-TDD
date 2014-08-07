@@ -1019,14 +1019,6 @@ You can convert from one callable object to another by using Proc.new(), Method#
 
 ## Block-Local Variables
 
-1. Quiet
-2. Tennis Courts (easy access). Ground floor apartment.
-3. Within 5 mile radius of work.
-
-< 3200
-
-
-
 A block captures the bindings that are around when you first define the block. You can also define additonal bindings inside the block, but they disappear after the block ends:
 
 def foo
