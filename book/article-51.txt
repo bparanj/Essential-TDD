@@ -1,0 +1,59 @@
+Install Resque
+================
+-----------------
+
+1. Add gem 'resque' to the Gemfile and run bundle install.
+2. Add require 'resque' to the Rakefile. This will give you three rake tasks related to resque.
+3. Create /lib/tasks/resque.rake with:
+
+```sh
+require 'resque/tasks'
+
+task 'resque:setup' => :environment
+```
+
+This loads the Rails environment so that we can access ActiveRecord in the workers.
+
+4. Create a class that will do the job.
+
+```ruby
+class SomeJob
+  def self.perform(id)
+   # do the work here
+  end
+end
+```
+
+5. To get the job from any queue and do the work, run the following command. 
+
+```sh
+rake resque:work QUEUE='*'
+```
+
+6. To put the job in the queue:
+
+Resque.enqueue(SomeJob, some_job_id)
+
+7. Create app/jobs directory.
+
+8. Mount Sinatra Resque Admin app. 
+
+```ruby
+mount Resque::Server.new, at: '/resque'
+```
+
+9. Password protect the Sinatra Resque Admin app. Add HTTP Basic Authentication by creating config/initializers/resque_auth.rb with the following contents:
+
+```ruby
+Resque::Server.use(Rack::Auth::Basic) do |user, password|
+  password == Rails.application.secrets.resque_admin_password
+end
+```
+
+References
+==========
+------------
+
+[Resque Retry](https://gist.github.com/PatrickTulskie/1104922 "Resque Retry")
+[Background Jobs with Resque ](http://tutorials.jumpstartlab.com/topics/performance/background_jobs.html "Background Jobs with Resque")
+[Resque](http://railscasts.com/episodes/271-resque?view=asciicast "Resque")

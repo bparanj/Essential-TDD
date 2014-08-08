@@ -1,0 +1,80 @@
+How to Install Redis
+
+
+
+Development Environment
+================
+------------------------
+
+```sh
+$brew install redis
+```
+
+Run the commands shown after the installation is complete to start redis automatically on startup. To start the server manually, run:
+
+```sh
+$redis-server /usr/local/etc/redis.conf
+```
+
+Production Environment
+================
+------------------------
+
+Install Redis using Moonshine Redis plugin.
+------------------------
+
+For Rails 4.x application:
+
+```sh
+plugger install git://github.com/railsmachine/moonshine_redis.git
+```
+
+Specify the redis version to install, by adding the following configuration to moonshine.yml in your Rails project:
+
+```ruby
+:redis:
+  :version: 2.8.9
+```
+
+You don't have to specify other settings, Moonshine will use default settings.
+  
+Include the recipe in your Moonshine manifest, in app/manifests/application_manifest.rb:
+
+```ruby
+recipe :redis
+```
+
+Check in the code to git and do a cap deploy.
+
+Manual Installation
+------------------------
+
+If you are not managing your server using Moonshine, you can skip the above four steps and install it manually by reading [How To Install and Use Redis](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-redis "How To Install and Use Redis")
+
+You can check the redis server version as follows:
+
+```ruby
+$redis-server --version
+Redis server v=2.8.9 sha=00000000:0 malloc=libc bits=64 build=9ccc8119ea98f6e1
+```
+
+To check if redis is working properly. You can ssh into your server and run:
+
+```ruby
+$redis-cli ping
+PONG
+```
+
+You can also play with it in an interactive mode to make sure it's working as follows:
+
+```ruby
+$ redis-cli
+127.0.0.1:6379> ping
+PONG
+127.0.0.1:6379> set foo bar
+OK
+127.0.0.1:6379> get foo
+"bar"
+127.0.0.1:6379> 
+```
+
