@@ -1,8 +1,16 @@
 Prime Factors
 
+Problem Statement
+========
+---------
+
 Factorize a positive integer number into its prime factors.
 
 Examples
+========
+---------
+
+Here is some sample input and output.
 
 2 ----> [2]
 3 ----> [3]
@@ -12,9 +20,13 @@ Examples
 12 ----> [2,2,3]
 15 ----> [3,5]
 
-Steps
 
-Step
+Steps
+========
+---------
+
+Step 1
+---------
 
 ```ruby
 describe PrimeFactor do
@@ -28,6 +40,7 @@ describe PrimeFactor do
 end
 ```
 
+```ruby
 class PrimeFactor
   def initialize(n)
     @n = n
@@ -37,12 +50,14 @@ class PrimeFactor
 
   end
 end
-
+```
 
 It fails for the right reason.
 
-Step
+Step 2
+---------
 
+```ruby
 class PrimeFactor
   def initialize(n)
     @n = n
@@ -52,11 +67,14 @@ class PrimeFactor
     [2]
   end
 end
+```
 
 The test passes.
 
-Step
+Step 3
+---------
 
+```ruby
 class PrimeFactor
   def initialize(n)
     @n = n
@@ -66,21 +84,22 @@ class PrimeFactor
     [2]
   end
 end
-
+```
 
 It fails.
 
-Step
-
+Step 4
+---------
   def calculate
     [@n]
   end
 
 Both tests pass.
 
-Step
+Step 5
+---------
 
-
+```ruby
   it 'should return [2,2] for input of 4' do
     prime_factorial = PrimeFactor.new(4)
 
@@ -88,13 +107,16 @@ Step
 
     expect(prime).to eq([2,2])
   end
+```
 
 This test fails.
 
-Step
+Step 6
+---------
 
 Add the following quick and dirty implementation.
 
+```ruby
   def calculate
     result = []
     
@@ -104,28 +126,29 @@ Add the following quick and dirty implementation.
     
     result
   end
-
+```
 
 This test now passes. But it breaks the second spec. We will make it pending for now.
 
-Step
+Step 7
+---------
 
 Here is some notes from [Prime Factor](http://www.mathsisfun.com/prime-factorization.html "Prime Factor") discussion:
 
+```sh
 n = 12
 12 / 2 = 6
+```
 
 Is 12 evenly divisible by 2? Yes. Add 2 to the result list.
 
 The remainder 6 is not a prime number, so we need to continue processing. Try 2 again:
 
+```sh
 6 / 2 = 3
+```
 
-6 is evenly divisible by 2, so add 2 to the result list.
-
-Is the remainder 3 a prime? Yes. Add it to the result list and STOP.
-
-Using this as the reference, here is the implementation that passes the test:
+6 is evenly divisible by 2, so add 2 to the result list. Is the remainder 3 a prime? Yes. Add it to the result list and STOP. Using this as the reference, here is the implementation that passes the test:
 
 ```ruby
   def calculate
@@ -144,3 +167,9 @@ Using this as the reference, here is the implementation that passes the test:
 ```
 
 From the notes, we have found the terminating condition for our algorithm. We are also using the concept of reduction we learned in an earlier article.
+
+Step 8
+---------
+
+Uncomment the second test. This test passes without making any changes because our code is generic enough to handle the edge case of one element.
+
