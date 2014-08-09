@@ -80,7 +80,6 @@ Mocks and Stubs
 
  TO DO
  
-  - Tennis
   - Minesweeper
   - Poker Hands
   - Prime Factors
@@ -93,7 +92,6 @@ Mocks and Stubs
   - Racing-Car Katas
   - Monty Hall
   - Medicine Clash
-  - Train Reservation
   - Trivia 
   - Greenfield Gilded Rose
 
@@ -102,4 +100,8 @@ Mocks and Stubs
   - String Calculator     
   - FizzBuzz              
   - Bowling Game          
- 
+  - Tennis
+
+
+Maybe
+  - Train Reservation

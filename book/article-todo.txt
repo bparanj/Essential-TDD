@@ -1,6 +1,6 @@
 
 
-Start from article 49
+Start from article 50
 
 
 1. Scan Red, Green, Refactor diagram.
@@ -18,10 +18,6 @@ This is the most desirable option. We add new code without modifying the existin
 We change only one specific location in our existing code base to implement a new feature.
 
 Find the scanned notes that covers the above topic and write an article.
-
-
-
-
 
 
 

@@ -1,3 +1,146 @@
+Prime Factors
 
-$git clone git@github.com:emilybache/KataTrainReservation.git
-Cloning into 'KataTrainReservation'...
+Factorize a positive integer number into its prime factors.
+
+Examples
+
+2 ----> [2]
+3 ----> [3]
+4 ----> [2,2]
+6 ----> [2,3]
+9 ----> [3,3]
+12 ----> [2,2,3]
+15 ----> [3,5]
+
+Steps
+
+Step
+
+```ruby
+describe PrimeFactor do
+  it 'should return 2 for input of 2' do
+    prime_factorial = PrimeFactor.new(2)
+    
+    prime = prime_factorial.calculate
+    
+    expect(prime).to eq([2])
+  end
+end
+```
+
+class PrimeFactor
+  def initialize(n)
+    @n = n
+  end
+  
+  def calculate
+
+  end
+end
+
+
+It fails for the right reason.
+
+Step
+
+class PrimeFactor
+  def initialize(n)
+    @n = n
+  end
+  
+  def calculate
+    [2]
+  end
+end
+
+The test passes.
+
+Step
+
+class PrimeFactor
+  def initialize(n)
+    @n = n
+  end
+  
+  def calculate
+    [2]
+  end
+end
+
+
+It fails.
+
+Step
+
+  def calculate
+    [@n]
+  end
+
+Both tests pass.
+
+Step
+
+
+  it 'should return [2,2] for input of 4' do
+    prime_factorial = PrimeFactor.new(4)
+
+    prime = prime_factorial.calculate
+
+    expect(prime).to eq([2,2])
+  end
+
+This test fails.
+
+Step
+
+Add the following quick and dirty implementation.
+
+  def calculate
+    result = []
+    
+    remainder = @n / 2
+    result << 2
+    result << remainder if Prime.prime?(remainder)
+    
+    result
+  end
+
+
+This test now passes. But it breaks the second spec. We will make it pending for now.
+
+Step
+
+Here is some notes from [Prime Factor](http://www.mathsisfun.com/prime-factorization.html "Prime Factor") discussion:
+
+n = 12
+12 / 2 = 6
+
+Is 12 evenly divisible by 2? Yes. Add 2 to the result list.
+
+The remainder 6 is not a prime number, so we need to continue processing. Try 2 again:
+
+6 / 2 = 3
+
+6 is evenly divisible by 2, so add 2 to the result list.
+
+Is the remainder 3 a prime? Yes. Add it to the result list and STOP.
+
+Using this as the reference, here is the implementation that passes the test:
+
+```ruby
+  def calculate
+    result = []
+    
+    until Prime.prime?(@n)
+      if (@n % 2) == 0
+        result << 2
+        @n = @n / 2
+      end
+    end
+    result << @n
+        
+    result
+  end
+```
+
+From the notes, we have found the terminating condition for our algorithm. We are also using the concept of reduction we learned in an earlier article.

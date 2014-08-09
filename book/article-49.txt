@@ -1,6 +1,6 @@
+PUBLISHED
+
 How to Install Redis
-
-
 
 Development Environment
 ================

@@ -1,29 +1,28 @@
-Create an article on using Mailchimp API. 
+Mailchimp on Rails
 
-    https://github.com/amro/gibbon
-    Comment here http://www.bignerdranch.com/blog/email-marketing-for-your-rails-app-made-easy-with-mailchimp/ and provide a link back to rubyplus.com for code samples.
-
-
-Improve this http://cheshireoctopus.github.io/blog/2014/01/23/mailchimp-plus-gibbon-plus-rails-create-a-basic-sign-up-form/ article. Move the network call to background task. Move the API credentails to secrets.yml.
-
-Improve this http://hankstoever.com/posts/17-Integrating-mailchimp-with-your-Rails-application comment and link to improved solution on rubyplus.com.
 
 Hosting on a Linode gives you 2 GB of RAM for just $20/month. There is no need to worry about memory footprint for now. So there is no need to use Sidekiq because it requires you use only threadsafe gems. I don't want to check if all the gems that is used in the background jobs is thread safe or not.
 
 Let's use the simple solution that is easy to setup and get it up and running quickly.
 
 
-
 1. Signup for API key here : http://kb.mailchimp.com/article/where-can-i-find-my-api-key
 
 2. Add gibbon gem to Gemfile.
 
+```ruby
 gem 'gibbon', github: "amro/gibbon"
+```
 
-3. bundle install
+3. Install the gem.
+
+```ruby
+bundle install
+```
 
 4. In secrets.yml, set the Mailchimp API key. Here is a sample config file: 
 
+```ruby
 development:
   mailchimp_api_key: your-secret-api-key-goes-here 
 
@@ -32,16 +31,20 @@ test:
 
 production:
   mailchimp_api_key: your-secret-api-key-goes-here 
-    
+```
+
 Create gibbon.rb in config/initializers/ directory with the following contents:
 
+```ruby
 Gibbon::API.api_key = Rails.application.secrets.mailchimp_api_key
 Gibbon::API.timeout = 15
+```
  
 Rails.application.secrets.mailchimp_api_key reads the mailchimp API Key from secrets.yml file.
 
 5. Make sure secrets.yml is added to your .gitignore file. Here is a sample .gitignore file to use in the rails root directory:
 
+```ruby
 # Ignore bundler config.
 /.bundle
 
@@ -62,12 +65,13 @@ config/secrets.yml
 /log/.development.log.swp
 /public/uploads/tmp/*
 /public/assets/*
-
+```
 
 Now the secrets.yml will not get checked in to your project's git repository. You must either use capistrano or manually scp the secrets.yml to your server to shared/config directory of your Rails application. Another alternative is to use the environment variables to set the values for api credentials. 
 
 4. Your background job can run the following Mailchimp.subscribe method:
 
+```ruby
 class Mailchimp
 
   def self.subscribe(email, mailchimp_list_id)
@@ -81,13 +85,15 @@ class Mailchimp
   end
 
 end
+```
 
 5. If you are using Resque, you can run the failed job again as follows:
 
+```ruby
 Resque::Failure.count.times do |i|
   Resque::Failure.requeue(i)
 end
-
+```
 
 Rails.application.secrets.mailchimp_rubyplus_rails_list_id
 
@@ -97,3 +103,18 @@ References
 ------------
 
 [Mailchimp API 2.0](docshttp://apidocs.mailchimp.com/api/2.0/vip/add.php "Mailchimp API 2.0")
+
+
+
+
+
+https://github.com/amro/gibbon
+Comment here http://www.bignerdranch.com/blog/email-marketing-for-your-rails-app-made-easy-with-mailchimp/ and provide a link back to rubyplus.com for code samples.
+
+
+Improve this http://cheshireoctopus.github.io/blog/2014/01/23/mailchimp-plus-gibbon-plus-rails-create-a-basic-sign-up-form/ article. Move the network call to background task. Move the API credentails to secrets.yml.
+
+Improve this http://hankstoever.com/posts/17-Integrating-mailchimp-with-your-Rails-application comment and link to improved solution on rubyplus.com.
+
+
+
