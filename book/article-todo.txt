@@ -1,6 +1,6 @@
 Update the following articles on the site:
 
-1,2,3,4,5,6,7,46 and 49
+1,2,3,4,5,6,7, 8, 9, 10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29, 46 and 49
 
 
 
@@ -23,7 +23,6 @@ We change only one specific location in our existing code base to implement a ne
 
 Find the scanned notes that covers the above topic and write an article.
 
-Describe the relationship between the doc string and the test data.
 
 
 Environment Variables : https://gorails.com/episodes/environment-variables

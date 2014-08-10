@@ -1,16 +1,7 @@
-REVISE AND UPDATE WITH THE FOLLOWING CONCEPT
-
-Defensive programming. Why it's not a good idea. 
-
-Defensive programming is not a good idea because it results in complexity. The client and the supplier code will be doing the same work and there would be no agreement on who is responsible for the proper handling of the errors.
-
-------------------------------------------------------------------------------------------------------------------------------
-
 PUBLISHED : http://www.rubyplus.com/articles/161
 
 TDD Beyond Basics : Contract Tests
-=========
----------------------
+
 
 Objectives
 ==========
@@ -19,14 +10,20 @@ Objectives
 - Learn about reliable test. 
 
 Discussion
-===================
----------------------------------
+=============
+-------------
 
 In this lesson you will be introduced to Contract tests. You will learn how to use Contract tests to explicitly document the behavior of an API for invalid inputs. You will also learn about reliable test, a test that fails when it should.
 
+Who should be responsible for handling invalid inputs? Client or the supplier? If we make both client and the supplier code check for invalid inputs, it is called Defensive Programming.
+
+**Why Defensive Programming is not a good idea?**
+
+Defensive programming is not a good idea because it results in complexity. The client and the supplier code will be doing the same work and there would be no agreement on who is responsible for the proper handling of the errors. The lack of clear responsibility also means we cannot say whether the bug is in the client or the supplier.
+
 Steps
 =============
--------------------
+-------------
 
 Step 1
 ------------
@@ -145,7 +142,7 @@ Test fails.
 
 Discussion
 ==============
----------------
+--------------
 
 Test breaks when the production code changes the return value from nil to blank string. Test fails when it should. This is good. If the clients use a conditional statement to check the true/false value, they will be protected by this failing test, since the defect is localized. Violating the contract between the client and library results in a failing test. We have to fix this problem so that the existing clients using our library does not break.
 
@@ -273,7 +270,7 @@ Finished in 0.00743 seconds 4 examples, 0 failures
 
 Discussion
 ===========
---------------
+-----------
 
 Apply Bertrand Meyer's guideline when deciding about exceptions: When a contract is broken by either client or supplier, throw an exception. This helps us to determine whether the bug is in the client or the supplier code. In our case, the contract is that as long as the client provides the proper input, the supplier will return the corresponding symbol for the week.
 
@@ -285,7 +282,7 @@ Explicitly document the behavior of your API by writing contract specs. This wil
 
 Summary
 ===========
---------------------
+-----------
 
 In this lesson you learned about contract tests and why it is important to include them in your specs. You also learned about Bertrand Meyer's guideline about throwing exceptions.
 

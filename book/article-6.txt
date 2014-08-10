@@ -1,6 +1,5 @@
-5. TDD Basics : Minimal Implementation
-=========
----------------------
+TDD Basics : Minimal Implementation
+
 
 Objective
 =========

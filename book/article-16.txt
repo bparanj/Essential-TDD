@@ -1,7 +1,8 @@
+Guessing Game - Part 6
+
 TDD Basics : Test Behavior Not Implementation
 
-=========
----------------------
+
 
 Objective
 =========
@@ -10,7 +11,7 @@ Objective
   
 Steps
 =========
----------------------------
+---------
 
 Step 1
 -------
@@ -351,6 +352,6 @@ All specs still pass. This means our specs are not testing the implementation de
 
 Summary
 =========
------------
+---------
 
-In this article you learned about focusing on testing the behavior instead of implementation details. You saw how we can hide the implementation from the clients. Specs are the first client of our library and they must be aware of implementation details.
+In this article you learned about focusing on testing the behavior instead of implementation details. You saw how we can hide the implementation from the clients. Specs are the first client of our library and they must be unaware of implementation details.

@@ -1,16 +1,18 @@
+Guessing Game - Part 9
+
 TDD Beyond Basics : Seams in a System
-=========
----------------------
+
 
 Objectives
-=========
+==========
+------------
 
 - Learn how to find the seams in a system
 - Learn about exploratory testing  
 
 Discussion
 ============
-----------------
+------------
 
 The guess_game.rb still has a fake implementatin for get_user_guess method:
 
@@ -24,7 +26,7 @@ We now have to deal with getting input from the user. We have test driven the de
 
 Steps
 =========
----------------------------
+---------
 
 Step 1
 -------
@@ -75,7 +77,7 @@ end
 ```
 
 Discussion
-============
+===========
 -----------
 
 All the specs still pass. This change was not driven by a test. If we had written an end to end test, then it would have been driven by a failing acceptance test. The same issue can also be discovered simply by playing the game in the irb. Another alternative is to use highline gem to develop a command line interface to play the guess game.
@@ -272,7 +274,7 @@ end
 
 Discussion
 ===========
---------------
+-----------
 
 We have found some missing abstractions and refactored our code to use the new abstractions. We can now have different implementations of the console object such NetworkConsole, GraphicalConsole etc. Our system is extensible to different user interfacing code as long as it conforms to our console interface. Specs are more readable since they are grouped into their own context.
 
@@ -403,13 +405,13 @@ end
 
 Summary
 =========
------------
+---------
 
 In this article you learned about exploratory testing and how sometimes you make changes that is not driven by a test. You may not need a test for that change if you are confident or you feel that the consequences are not critical.
 
 Exercises
 ===========
-------------
+-----------
 
 1. Use the highline gem to develop a command line interface to the guess game.
 
@@ -426,7 +428,6 @@ This raises the level of abstraction and we use gaming domain specific method in
 
 - What changes do you need to make for this to work? 
 - Can start and get_user_guess methods be made into private methods?
-
 
 Bonus
 ===========

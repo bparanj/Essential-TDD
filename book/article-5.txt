@@ -1,6 +1,5 @@
-5. TDD Best Practice : Eliminating Loops in Tests
-=========
----------
+TDD Best Practice : Eliminating Loops in Tests
+
 
 Objective
 =========

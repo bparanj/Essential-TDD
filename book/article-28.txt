@@ -386,10 +386,10 @@ and inverts the boolean flag to return the result. This is double dispatch in ac
 
 Exercises
 =========
------------
+---------
 
 1. Clean up the dirty implementation by making the methods small and expressive. 
 2. Add more specs for scenarios that we found in analysis section of this chapter.
-3. Compare your solution to the solution shown in the appendix of the Essential TDD book. 
+3. Compare your solution to the solution shown in the appendix of the appendix of the [Essential TDD book](http://www.rubyplus.com/etdd.pdf "Essential TDD") book. 
 4. Are we ready to deploy this code to production?
 5. All tests pass. Test code is bad. Production code is bad. Can you ship the product ?

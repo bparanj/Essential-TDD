@@ -1,6 +1,5 @@
-TDD Advanced Concepts : Angry Rock Case Study
-=========================
--------------------------
+TDD Advanced Concepts : Angry Rock Kata
+
 
 Objectives
 ============
@@ -17,16 +16,16 @@ Violation of Command Query Separation Principle
 
 Steps
 =========
-------------
+---------
 
 Step 1
 -----------
 
 Create angry_rock_spec.rb with the following contents:
 
+```ruby
 require_relative 'angry_rock'
 
-```ruby
 module Game
   describe AngryRock do
    it "should pick paper as the winner over rock" do
@@ -297,7 +296,7 @@ end
 
 Discussion
 ===========
-----------
+-----------
 
 Now all the specs will pass. This implementation of play method is a lousy design. The false case breaks the consistency of the returned value and violates the semantics of the API. Also the play method is a “Command” not a “Query”. This method violates the Command Query Separation Principle.
 

@@ -1,9 +1,10 @@
-TDD Basics : Refactor in Green State
-=========
----------------------
+Guessing Game - Part 5
 
-Objective
-=========
+TDD Basics : Refactor in Green State
+
+
+Objectives
+==========
 
 - Start refactoring when in green state and end refactoring in green state
 - Learn how to express the relationship between the doc string and the test data
@@ -11,7 +12,7 @@ Objective
   
 Steps
 =========
----------------------------
+---------
 
 Step 1
 -------

@@ -2,7 +2,7 @@ TDD Basics : Writing Your First Test
 
 Pre-requisites
 =========
-----------
+---------
 
   - Ruby 2 or above must be installed
   - Your favorite text editor

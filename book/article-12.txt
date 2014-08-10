@@ -1,6 +1,7 @@
+Guessing Game - Part 2
+
 TDD Beyond Basics : Single Purpose Principle
-=========
----------------------
+
 
 Objective
 ==========
@@ -8,8 +9,8 @@ Objective
 - To learn about Single Purpose Principle
 
 Discussion
-==================
-------------------
+==========
+----------
 
 Robert C. Martin came up with the Single Responsibility Principle in 1995. The problem is CRC card already had used the term Responsibility to mean something different. CRC cards came way back in 1989. Also Robert Martin redefined the term responsibility to mean a reason to change. He basically took the concept of cohesion and added his own insights to come up with Single Responsibility Principle. 
 
@@ -17,7 +18,7 @@ The main point of this principle is that there should be only one reason to chan
 
 Problem Statement
 ===================
----------------------------------
+-------------------
 
 Refer the guessing game problem description described in the previous article : [TDD Beyond Basics : Testing Random Behavior](http://www.rubyplus.com/articles/171 "TDD Beyond Basics : Testing Random Behavior")
 

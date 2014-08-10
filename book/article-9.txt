@@ -1,6 +1,5 @@
 TDD Beyond Basics : Open Closed Principle
-=========
----------------------
+
 
 Objective
 =========
@@ -90,6 +89,6 @@ We were able to achieve this by using dependency injection to decouple the displ
 
 Summary
 ===========
---------------------
+-----------
 
 In this lesson you learned how to apply Open Closed Principle to design a system that is flexible to new requirements. We used constructor dependency injection to achieve decoupling of the scanner from the display. So interchanging new displays that conform to our interface works without any modification to the original code. 

@@ -1,4 +1,4 @@
-4. TDD Basics : Code Mutation
+TDD Basics : Code Mutation
 
 
 Objective

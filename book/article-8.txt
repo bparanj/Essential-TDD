@@ -1,8 +1,7 @@
 5. TDD Beyond Basics : Fakes and Mocks
-=========
----------------------
 
-Objective
+
+Objectives
 =========
 
 - Learn how to use Fakes and Mocks.
@@ -11,11 +10,11 @@ Objective
 Problem Statement
 ===================
 
-Let's consider a scanner that is used in a checkout counter. When you scan an item with a barcode, the name and price of the item is sent to the output console.
+Let's consider a scanner that is used in a checkout counter of a store. When you scan an item with a barcode, the name and price of the item is sent to the output console.
 
 Steps
 =============
--------------------
+-------------
 
 Step 1
 ------------
@@ -175,7 +174,6 @@ Step 12
 
 Run the specs. It fails with:
 
-
 ```sh
 1) Scanner scans and displays the item details
      Failure/Error: real_display.last_line_item.should == "Milk $3.99"
@@ -290,18 +288,17 @@ Discussion
 =============
 ----------------
 
-We broke the dependency on external display object by using a fake object that mimicked the interface of the real object. Dependency injection is used to create a scanner object with a fake display. Dependency injection allows us to design loosely coupled objects. We identified the need to decouple the scanner and display objects due to performance problem. This also increases the cohesion of these objects.
+We broke the dependency on external display object by using a fake object that mimicked the interface of the real object. We used constructor dependency injection to create a scanner object with a fake display. Dependency injection allows us to design loosely coupled objects. We identified the need to decouple the scanner and display objects due to performance problem. This also increases the cohesion of these objects.
 
 When we write tests, we have to divide and conquer. This test tells us how scanner objects affect displays. This test helps us to see whether a problem is due to scanner. Is scanner fulfilling its responsibility? This helps us localize errors and save time during troubleshooting. 
 
-When we write tests for individual units, we end up with small well-understood pieces. This makes it wasy to reason about code.
+When we write tests for individual units, we end up with small well-understood pieces. This makes it easy to reason about code.
 
-Let's make a simplifying assumption that we don't have to deal with different scanners. So, go ahead and delete the first spec. It is is no longer required. It is like scaffold of a building, once we complete the construction of the building the scaffold will go away.
-
+Let's make a simplifying assumption that we don't have to deal with different scanners. So, go ahead and delete the first spec. It is is no longer required. It is like scaffold of a building, once we complete the construction of the building the scaffold will go away. Similarly we no longer need that test.
 
 Mocks
 ==========
-----------------
+----------
 
 Writing a lot of fakes can become tedious. It becomes a programmer's responsibility to maintain them. In such cases, mocks can be used. Mock objects are fakes that perform assertions internally. The solution that uses mocks is faster than using a Fake display object.
 
@@ -323,5 +320,12 @@ The display method is under our control so we can mock it. Mocks is a design tec
 
 Summary
 ===========
+-----------
 
 In this lesson you learned how to use Fakes and Mocks and when to delete a test. Mocks can be used not only for improving the performance if the real object is slow, but also if the real object is currently under development by some other team within your company. As long as you have a contract with the team developing the Scanner, you can develop in parallel by using Mocks. In the next lesson we will learn about Open Closed Principle by using the Scanner example.
+
+Reference
+==========
+-----------
+
+Working Effectively with Legacy Code by Michael Feathers

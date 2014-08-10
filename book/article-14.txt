@@ -1,6 +1,7 @@
+Guessing Game - Part 4
+
 TDD Beyond Basics : Null Object
-=========
----------------------
+
 
 Objective
 =========
@@ -9,7 +10,7 @@ Objective
   
 Steps
 =========
----------------------------
+---------
 
 Step 1
 -------
@@ -44,7 +45,6 @@ In irb type:
 We have programmed the stub to respond to age method. So when we call the age method, we get 16 as the answer.
 
 
-
 Step 3
 --------------
 
@@ -75,6 +75,7 @@ require_relative 'guess_game'
 
 describe GuessGame do
   # First two specs same as before
+  
   # Here is the new third spec
   it 'prompt the user to enter the guess number' do
     fake_console = double('Console')
@@ -223,10 +224,9 @@ Note that this change is not driven by test. The reason is that the mock fake_co
 Step 14
 -----------
 
-Here is the complete code listing for this lesson:
+Here is the complete code listing for guess_game.rb:
 
 ```ruby
-# guess_game.rb
 require_relative 'standard_output'
 
 class GuessGame
@@ -261,7 +261,7 @@ end
 
 Summary
 =========
------------
+---------
 
 In this article you learned about as_null_object and when to use it in your tests. We also ran into the problem of keeping the mock and the real object in sync. We will discuss the solution to this problem later.
 

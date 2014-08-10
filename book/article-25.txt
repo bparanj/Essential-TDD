@@ -6,14 +6,14 @@ Objective
 - To learn how to maintain a growing test suite.
 
 Discussion
-=========
----------------------
+==========
+----------
 
-Let's review the production code. What's the 20.times { something } code doing? Can we raise the level of abstraction? Missing all the pins is a gutter game and striking all the pins is strike. Can we change the first spec to call a gutter method and the second spec to call the strike method? If we do so, then we will be focusing on the 'What' instead of 'How'. Looping is a sign that the spec is focusing on the implementation rather than specifying the behavior.
+Let's review the production code. What's the 20.times { something } code doing? Can we raise the level of abstraction? Missing all the pins is a gutter game and striking all the pins is strike. Can we change the first spec to call a gutter method and the second spec to call the strike method? If we do so, then we will be focusing on the *WHAT* instead of *HOW*. Looping is a sign that the spec is focusing on the implementation rather than specifying the behavior.
   
 Steps
 =========
----------------------------
+---------
 
 Step 1
 -------
@@ -216,7 +216,7 @@ module Bowling
 end
 ```
 
-In this version we have implemented miss(), strike(), spare() and roll() methods. We deleted the spec that gave momentum but is no longer needed.
+In this version we have implemented miss(), strike(), spare() and roll() methods. We deleted the spec that gave us momentum but is no longer needed.
 
 >> The purpose of TDD is to express the intent of code in as few tests as possible."
 >>		-- David Bernstein blog post about [Triangulation](http://tobeagile.com/2009/12/08/triangulation/ 'Triangulation')
@@ -226,7 +226,7 @@ Step 13
 
 Let's read the definition of the spare:
 
-When a bowler knocks all ten pins down on the second ball roll they are said to have rolled a spare. The score keeper will mark a / for that frame and the bowlers score is the ten pins that they just knocked down plus they get to add to that what they knock down on their next ball roll. Consequently, you will not know what the bowers score is until the next frame!
+When a bowler knocks all ten pins down on the second ball roll they are said to have rolled a spare. The score keeper will mark a / for that frame and the bowlers score is the ten pins that they just knocked down plus they get to add to that what they knock down on their next ball roll. Consequently, you will not know what the bowler's score is until the next frame!
 
 Step 14
 ----------
@@ -260,6 +260,6 @@ The specs now pass. Notice that we are not blindly appending to our specs, we ar
 
 Summary
 =========
------------
+---------
 
 In this article you learned about intelligently updating the specs as you learn more about the domain instead of blindly adding more specs to your existing test suite. In the next article we will continue development of the bowling game.

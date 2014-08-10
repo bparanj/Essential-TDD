@@ -1,6 +1,7 @@
+Guessing Game - Part 7
+
 TDD Beyond Basics : Synchronization Specs
-=========
----------------------
+
 
 Objective
 =========
@@ -107,7 +108,7 @@ Discussion
 ============
 -----------
 
-The Console Interface shared example is a synchronization spec that illustrates how to avoid the problem of specs passing / failing when mocks go out of sync with the production code. Synchronization specs are a way to express the interface design in code. It makes the protocol of the class explicit. The term protocol here is used to mean how a collaborator needs to communicate with the object exposing it's interface. As you can see from the shared example, we also specify how many arguments to expect in the interface.
+The Console Interface shared example is a Synchronization Spec that illustrates how to avoid the problem of specs passing / failing when mocks go out of sync with the production code. Synchronization specs are a way to express the interface design in code. It makes the protocol of the class explicit. The term protocol here is used to mean how a collaborator needs to communicate with an object exposing it's interface. As you can see from the shared example, we also specify how many arguments to expect in the interface.
 
 When to use synchronization specs? If you are using lot of mocks you may not be able to write synchronization specs for all of them. In this case, think about writing synchronization specs for the most dependent and important module of your application. 
 
@@ -115,4 +116,4 @@ Summary
 =========
 -----------
 
-In this article you learned about Synchronization specs and when to use them. In the next article we will discuss the Single Purpose Principle in depth.
+In this article you learned about Synchronization Specs and when to use them. In the next article we will discuss the Single Purpose Principle in depth.
