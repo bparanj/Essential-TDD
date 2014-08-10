@@ -29,12 +29,12 @@ Generate Fibonacci sequence for a given number.
 
 Problem Domain Analysis
 =============
-----------------
+-------------
 
 In mathematics, the Fibonacci numbers are the numbers in the following integer sequence: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610 ... By definition, the first two numbers in the Fibonacci sequence are 0 and 1 and each subsequent number is the sum of the previous two.
 
 Algebraic Equation
-==================
+-------------
 
 In mathematical terms, the sequence fibonacci(n) of Fibonacci numbers is defined by the recurrence relation :
 
@@ -50,12 +50,11 @@ fibonacci(1) = 1
 ```
 
 Visual Representation
-=====================
+-------------
 
 ![alt text](https://math.temple.edu/~reich/Fib/pascal3.gif "Fibonacci Numbers")
 
 Sample Input Output
-============
 ------------
 
 Each input output set is an example. Make each example executable.
@@ -70,11 +69,11 @@ The final solution should be able to take any random number and calculate the Fi
 Initial Conditions
 ----------------
 
-First two numbers are given (not calculated)
+First two numbers are given (not calculated).
 
 Steps
 ==========
-------------------
+----------
 
 Step 1 
 -------
@@ -351,7 +350,6 @@ Step 9
 
 Let's clean up the solution.
 
-
 ```ruby
 require 'test/unit'
 
@@ -368,6 +366,7 @@ end
 
 Before starting refactoring you must be in green state. After refactoring is done you should still be in green state. You can see that the variables are expressive of the domain.
 
+
 Step 10
 ---------
 
@@ -380,7 +379,7 @@ def test_fibonacci_of_ten_is_fifty_five
 end
 ```
 
-This is a story test. It gives us the confidence that our solution is complete.
+This is a story test. It gives us the confidence that our solution is complete. So we don't have to write any more tests and we are done.
 
 Step 11
 ----------
@@ -407,7 +406,7 @@ This version illustrates using existing tests as safety net when making major ch
 
 Exercises
 ===========
---------------------
+-----------
 
 - Run the mini-test based Fibonacci and sure all tests pass. ($ ruby fibonacci_test.rb)
 - Move the Fibonacci class into its own file and make all the tests pass.

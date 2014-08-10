@@ -2,6 +2,7 @@ TDD Basics : Writing Your First Test
 
 Pre-requisites
 =========
+----------
 
   - Ruby 2 or above must be installed
   - Your favorite text editor
@@ -14,11 +15,13 @@ Learn about assertion.
 
 Scope
 ===========
+----------
 
 In Test First Programming, you write the test before you write the code. This article does not use Test First Programming. Test First Programming is introduced in the next article.
  
 Steps
 =========
+----------
 
 Step 1
 ---------
@@ -39,6 +42,12 @@ Step 2
 Add the following code to calculator.rb below the Calculator class to manually test the calculator add feature:
 
 ```ruby
+class Calculator 
+  def add(x, y)
+    x+y
+  end 
+end
+
 calculator = Calculator.new
 result = calculator.add(1, 1)
 puts result
@@ -63,6 +72,12 @@ Step 4
 So the question is : How can we automate the manual verification? Let’s modify the program :
 
 ```ruby
+class Calculator 
+  def add(x, y)
+    x+y
+  end 
+end
+
 calculator = Calculator.new
 result = calculator.add(1,2)
 if result == 3
@@ -80,6 +95,12 @@ Step 5
 Let’s make the output easier to recognize.
 
 ```ruby
+class Calculator 
+  def add(x, y)
+    x+y
+  end 
+end
+
 calculator = Calculator.new
 result = calculator.add(1,2)
 if result == 3
@@ -97,13 +118,24 @@ Step 6
 Let’s now implement the subtraction:
 
 ```ruby
-class Calculator
+class Calculator 
+  def add(x, y)
+    x+y
+  end 
+
   def subtract(x, y)
     x-y
   end
 end
 
 calculator = Calculator.new
+result = calculator.add(1,2)
+if result == 3
+  print "\033[32m Addition passed \033[0m"
+else
+  print "\e[31m Addition failed \e[0m" 
+end
+
 result2 = calculator.subtract(2, 1)
 if result2 == 1
   print "\033[32m Subtraction passed \033[0m"
@@ -115,9 +147,19 @@ end
 Step 7
 ---------
 
-This works. Now we see duplication in our code. Let’s create a utility method that we can reuse.
+This works. Now we see duplication in our code. Let’s create a utility method that we can reuse. The verify method is defined outside the calculator class.
 
 ```ruby
+class Calculator 
+  def add(x, y)
+    x+y
+  end 
+
+  def subtract(x, y)
+    x-y
+  end
+end
+
 def verify(expected, actual, message) 
   if actual == expected
     print "\033[32m #{message} passed \033[0m" 
@@ -133,6 +175,24 @@ Step 8
 We can now simplify our test program :
 
 ```ruby
+class Calculator 
+  def add(x, y)
+    x+y
+  end 
+
+  def subtract(x, y)
+    x-y
+  end
+end
+
+def verify(expected, actual, message) 
+  if actual == expected
+    print "\033[32m #{message} passed \033[0m" 
+  else
+    print "\e[31m #{message} failed \e[0m" 
+  end
+end
+
 calculator = Calculator.new
 result = calculator.add(1, 2)
 verify(3, result, 'Addition')
@@ -141,21 +201,24 @@ verify(1, result2, 'Subtraction')
 
 ```
 
-The verify method that we have developed is called assertion. It automates the manual verification of the test result.
+The verify() method that we have developed is called assertion. It automates the manual verification of the test result.
 
 Discussion
 ==========
+----------
 
 According to the dictionary assertion is a confident and forceful statement of fact or belief.
-Our assert method verify can only be used for integer values. If we need to compare boolean, strings, decimals etc we need to revise our simple assert method to handle those types. Wouldn’t it be nice if there was a library that provided this feature? Well, that’s where the test frameworks such as Minitest and Rspec come into picture. In MiniTest the verify method is named ‘assert’ and in rspec it is named ‘should’.
+Our assert method verify can only be used for integer values. If we need to compare boolean, strings, decimals etc we need to revise our simple assert method to handle those types. Wouldn’t it be nice if there was a library that provided this feature? Well, that’s where the test frameworks such as Minitest and Rspec come into picture. In MiniTest the verify method is named ‘assert’ and in rspec it is named ‘should’ in 2.0 version and 'expect' in 3.0 version.
 
 Exercises
 ==========
+----------
 
 Add code to test_calculator.rb to implement multiplication and division similar to the addition and subtraction examples.
 
 Diagnostics
 ============
+----------
 
 Let’s improve the diagnostics message when something goes wrong.
 

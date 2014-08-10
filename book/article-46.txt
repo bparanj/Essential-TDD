@@ -18,3 +18,28 @@ Do the multiplication and division and introduce new concepts. Link to this arti
 1. Read the book Code Simplicity by Max Kanat-Alexander. It explains Incremental Development and Incremental Design with the calculator as an example in Chapter 5 : Change. It is less than 100 pages, very easy to read and filled with great insights on software development.
 
 2. Refer the (rspec documentation):https://www.relishapp.com/rspec/rspec-core/docs for examples on how to use the rspec API. 
+
+
+
+
+1. Write specs for the following statements:
+   - It should subtract given two numbers
+	 - It should multiply given two numbers
+	 - It should divide given two numbers
+
+2. Write specs for edge cases such as invalid input, division by 0 etc.
+
+3. Create a .rspec file with the following contents
+
+```ruby
+--color
+--format documentation
+```
+
+Now you can run the specs without giving it any options like this:
+
+```ruby
+rspec calculator_spec.rb
+```
+
+What do you see as the output in the terminal?

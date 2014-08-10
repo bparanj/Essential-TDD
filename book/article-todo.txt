@@ -1,3 +1,7 @@
+Update the following articles on the site:
+
+1,2,3,4,5,6,7,46 and 49
+
 
 
 Start from article 50
@@ -19,7 +23,7 @@ We change only one specific location in our existing code base to implement a ne
 
 Find the scanned notes that covers the above topic and write an article.
 
-
+Describe the relationship between the doc string and the test data.
 
 
 Environment Variables : https://gorails.com/episodes/environment-variables
@@ -27,6 +31,10 @@ Environment Variables : https://gorails.com/episodes/environment-variables
 
 
 
+Transformation and Refactoring are the two sides of the same coin. Red to Green is transformation. Green to Green is refactoring.
+
+Refactoring is changing the structure without changing the behavior.
+Transformation is changing the behavior with the least change in the structure. This forces us to write minimal code to pass the current test.
 
 
 
@@ -35,5 +43,5 @@ Environment Variables : https://gorails.com/episodes/environment-variables
 
 
 
-
-
+Questions
+Do we test methods?

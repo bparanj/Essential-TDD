@@ -4,11 +4,13 @@ TDD Basics : Test First Programming
 
 Objective
 =========
+----------
 
 - To learn about Test First Programming
 
 Discussion
 ==========
+----------
 
 Let's write a simple calculator program driven by test. What statements can you make about the calculator program that is true? How about :
 
@@ -16,7 +18,7 @@ Let's write a simple calculator program driven by test. What statements can you 
   
 Steps
 =========
----------------------------
+---------
 
 Step 1
 -------
@@ -55,7 +57,7 @@ end
 You now see a pending spec. This is because you have not written the test yet.
 
 Step 4
-----------------
+--------------
 
 Let's write the test as follows:
 
@@ -66,17 +68,19 @@ describe Calculator do
     
     result = calculator.add(1,2)
     
-    result.should == 3
+    expect(result).to eq(3)
   end
 end
 ```
 
-The test is written inside the do-end block of the 'it' method. We first create an instance of the Calculator class. The second step is invoking the method add(x, y) to calculate sum of two numbers. The third step is checking if the result is the same as we expect. In this step, we have converted the statement that is true to an assertion.
+The describe is a method that takes the class name as its argument. The test is written inside the do-end block of the 'it' method. The it() method takes a string argument. This string argument is called the 'doc string' and describes the scenario we are testing. 
+
+We first create an instance of the Calculator class. The second step is invoking the method add(x, y) to calculate sum of two numbers. The third step is checking if the result is the same as we expect. In this step, we have converted the statement that is true to an assertion. The expect() method is the assertion in rspec. It takes an argument that needs to be verified for correctness.
 
 Step 5
 --------------
 
-Follow the step 2 instructions. This test fails because you have not defined the add(x,y) method.
+Follow the step 2 instructions to run the test again. This test fails because you have not defined the add(x,y) method.
 
 Step 6
 --------------
@@ -115,16 +119,23 @@ Add
 require_relative 'calculator'
 ```
 
-to the top of the calculator_spec.rb.
+to the top of the calculator_spec.rb. So the complete code listing for calculator.rb looks like this:
+
+```ruby
+require_relative 'calculator'
+
+class Calculator
+  def add(x,y)
+    x + y 
+	end
+end
+```
+
 
 Step 11
 --------------
 
-Run the test again. It should now pass. You can also use expect() method instead of should() method like this:
- 
-```ruby
-expect(result).to eq(3)
-```
+Run the test again. It should now pass. 
 
 Summary
 =========
@@ -134,7 +145,7 @@ In this article we took little baby steps. We wrote the test first. Initial erro
 
 Exercises
 ===========
---------------------
+-----------
 
 1. Write specs for the following statements:
    - It should subtract given two numbers

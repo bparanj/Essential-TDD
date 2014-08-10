@@ -40,6 +40,10 @@ Add the User class definition to the top of the user_spec.rb as follows:
 class User
 
 end
+
+describe User do
+
+end
 ```
 
 Step 4
@@ -53,7 +57,13 @@ Step 5
 Add the first spec:
 
 ```ruby
-it 'should be in any role assigned to it'
+class User
+
+end
+
+describe User do
+  it 'should be in any role assigned to it'
+end
 ```
 
 Step 6
@@ -72,10 +82,16 @@ Step 7
 Change the spec to the following:
 
 ```ruby
-it 'should be in any role assigned to it' do
-  User.new
-  user.assign_role('some role')
-  user.should be_in_role('some role')
+class User
+
+end
+
+describe User do
+  it 'should be in any role assigned to it' do
+    User.new
+    user.assign_role('some role')
+    user.should be_in_role('some role')
+  end
 end
 ```
 
@@ -94,8 +110,18 @@ Step 9
 Define the assign_role method in User class like this:
 
 ```ruby
-def assign_role
+class User
+  def assign_role
 
+  end
+end
+
+describe User do
+  it 'should be in any role assigned to it' do
+    User.new
+    user.assign_role('some role')
+    user.should be_in_role('some role')
+  end
 end
 ```
 
@@ -114,8 +140,18 @@ Step 11
 Add the argument like this:
 
 ```ruby
-def assign_role(role)
+class User
+  def assign_role(role)
 
+  end
+end
+
+describe User do
+  it 'should be in any role assigned to it' do
+    User.new
+    user.assign_role('some role')
+    user.should be_in_role('some role')
+  end
 end
 ```
 
@@ -134,8 +170,22 @@ Step 13
 Add in_role? method to user.rb as follows:
 
 ```ruby
-def in_role?
+class User
+  def assign_role(role)
 
+  end
+  
+  def in_role?
+
+  end
+end
+
+describe User do
+  it 'should be in any role assigned to it' do
+    User.new
+    user.assign_role('some role')
+    user.should be_in_role('some role')
+  end
 end
 ```
 
@@ -154,8 +204,22 @@ Step 15
 Add an argument to in_role? method:
 
 ```ruby
-def in_role?(role)
+class User
+  def assign_role(role)
 
+  end
+  
+  def in_role?(role)
+
+  end
+end
+
+describe User do
+  it 'should be in any role assigned to it' do
+    User.new
+    user.assign_role('some role')
+    user.should be_in_role('some role')
+  end
 end
 ```
 
@@ -176,8 +240,22 @@ Step 17
 Change the in_role? implementation like this:
 
 ```ruby
-def in_role?(role)
-  true
+class User
+  def assign_role(role)
+
+  end
+  
+  def in_role?(role)
+    true
+  end
+end
+
+describe User do
+  it 'should be in any role assigned to it' do
+    User.new
+    user.assign_role('some role')
+    user.should be_in_role('some role')
+  end
 end
 ```
 
@@ -192,10 +270,28 @@ Step 19
 We want the specs to force us to write the logic that can handle assigning roles.
 
 ```ruby
-it 'should not be in a role that is not assigned to it' do
-  user = User.new
+class User
+  def assign_role(role)
+
+  end
   
-  user.should_not be_in_role('admin')
+  def in_role?(role)
+    true
+  end
+end
+
+describe User do
+  it 'should be in any role assigned to it' do
+    User.new
+    user.assign_role('some role')
+    user.should be_in_role('some role')
+  end
+  
+  it 'should not be in a role that is not assigned to it' do
+    user = User.new
+  
+    user.should_not be_in_role('admin')
+  end
 end
 ```
 
@@ -223,6 +319,10 @@ class User
     @role == role  
   end
 end
+
+describe User do
+  # code remains same as before
+end
 ```
 
 Step 22
@@ -232,7 +332,7 @@ Run the specs. The specs will pass.
 
 Discussion
 =============
---------------------
+-------------
 
 **Why do we need to be minimal when writing the production code?**
 
@@ -248,7 +348,7 @@ No. If you are confident that you can get to green quickly you can take bigger s
 
 Exercises
 ===========
---------------------
+-----------
 
 - Move user.rb to its own class. Make sure all the specs pass.
 - Implement the feature where a user can be in many roles. Remember to write the test first.

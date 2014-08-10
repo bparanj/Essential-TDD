@@ -13,7 +13,7 @@ The test is written before the code and if it passes without failing, then we do
 
 Steps
 =========
----------------------------
+---------
 
 Step 1
 -------
@@ -72,12 +72,12 @@ end
 ```
 
 Step 4
-----------------
+-----------
 
 Run the specs now. The new test passes without failing. The question is how do you know if this test is correct? We don't have a test to test this test. To validate the test, we have to mutate the production code to make it fail for the scenario under test.
 
 Step 5
-----------------
+-----------
 
 Change the ruby_extensions.rb so that only the second spec fails like this:
 
@@ -120,6 +120,7 @@ Run the specs. It should now pass.
 
 Summary
 =========
+---------
 
 In this article we saw:
 
@@ -131,7 +132,7 @@ So we learned why and when to mutate the production code. If you had followed th
 
 Exercises
 ===========
---------------------
+-----------
 
 1. Google the term 'Transformation Priority Premise' and watch the videos to learn about this principle.
 2. Think of edge cases for the ruby_extensions.rb. 

@@ -51,6 +51,9 @@ Manual Installation
 
 If you are not managing your server using Moonshine, you can skip the above four steps and install it manually by reading [How To Install and Use Redis](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-redis "How To Install and Use Redis")
 
+Verify Installation
+---------------------
+
 You can check the redis server version as follows:
 
 ```ruby

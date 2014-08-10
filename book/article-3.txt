@@ -12,17 +12,21 @@ Discussion
 
 According to the dictionary, the term canonical is defined as:
 
+```sh
 Mathematics : relating to a general rule or standard formula.
+```
 
 In our case, the following three steps is a standard forumula for writing any test:
 
+```sh
 Step 1 - Given : Precondition. The System is in a known state.
 Step 2 - When  : Exercise the System Under Test (SUT)
 Step 3 - Then  : Postcondition. Check the outcome is as expected.
+```
   
 Steps
 =========
----------------------------
+---------
 
 Step 1
 -------
@@ -93,6 +97,7 @@ You should see them all pass.
 
 Discussion
 ==========
+----------
 
 Instead of thinking about 'How do I write a test?'. Ask yourself the following questions:
 
@@ -100,12 +105,15 @@ Instead of thinking about 'How do I write a test?'. Ask yourself the following q
 - How do I exercise the system under test?
 - How do I verify the outcome?
 
-The answers to these questions will help you write the test. For example, if you have a class called Car, you need to have fuel in order to drive the car. The given condition in this case is that is has fuel. The 'drive' is the behavior you are testing so you invoke drive() on the instance of a car in order to exercise the system under test. When you drive you expect to travel. So, you can verify the outcome by checking the distance traveled for a given amount of time and average speed.
+The answers to these questions will help you write the test. These questions correspond to each of the step in the Canonical Test Structure. 
+
+For example, if you have a class called Car, you need to have fuel in order to drive the car. The given condition in this case is that is has fuel. The 'drive' is the behavior you are testing so you invoke drive() on the instance of a car in order to exercise the system under test. When you drive you expect to travel. So, you can verify the outcome by checking the distance traveled for a given amount of time and average speed.
 
 Identifying Given, When, Then
 =============================
+----------
 
-Here is an example of how to identify Given, When, Then in a test. Copy the following given_when_then.rb to canonical exercise directory.
+Here is an example of how to identify Given, When, Then in a test. Copy the following given_when_then.rb to canonical exercise directory. 
 
 ```ruby
 def Given
@@ -121,7 +129,7 @@ def Then
 end
 ```
 
-These are just methods. Do not create a class for given_when_then.rb. The following code identifies the three steps for the stack_spec.rb:
+These are just methods in the given_when_then.rb file. Do not create a class for given_when_then.rb. The following code identifies the three steps for the stack_spec.rb:
 
 ```ruby
 require_relative 'stack'
@@ -148,15 +156,15 @@ Discussion
 
 This is an example for State Verification. We check the state of the system after we exercise the SUT for correctness.
 
-
 Summary
 =========
+------------
 
-In this article we use the training wheels given_when_then.rb to practice identifying the three steps of the canonical test structure. It is also called as Arrange Act Assert or AAA. These training wheels are not required once you understand the concept.
+In this article we used the training wheels given_when_then.rb to practice identifying the three steps of the canonical test structure. It is also called as Arrange Act Assert or AAA. These training wheels are not required once you understand the concept.
 
 Exercises
 ===========
---------------------
+------------
 
 Identify the Given, When, Then steps for the second spec:
 
@@ -166,7 +174,7 @@ it 'should pop from the stack'.
 
 Q&A
 ===========
---------------------
+-----------
 
 1. What if the method does many things things that needs to be tested?
 
