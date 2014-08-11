@@ -1,4 +1,6 @@
-Prime Factors
+PUBLISHED
+
+Prime Factors Kata
 
 Problem Statement
 ========
@@ -6,12 +8,19 @@ Problem Statement
 
 Factorize a positive integer number into its prime factors.
 
+Objective
+=========
+---------
+
+Learn to evaluate whether the amount of test code to production code is reasonable or not.
+
 Examples
 ========
 ---------
 
 Here is some sample input and output.
 
+```sh
 2 ----> [2]
 3 ----> [3]
 4 ----> [2,2]
@@ -19,7 +28,7 @@ Here is some sample input and output.
 9 ----> [3,3]
 12 ----> [2,2,3]
 15 ----> [3,5]
-
+```
 
 Steps
 ========
@@ -27,6 +36,8 @@ Steps
 
 Step 1
 ---------
+
+Create prime_factor_spec.rb:
 
 ```ruby
 describe PrimeFactor do
@@ -40,6 +51,8 @@ describe PrimeFactor do
 end
 ```
 
+Create prime_factor.rb :
+
 ```ruby
 class PrimeFactor
   def initialize(n)
@@ -52,10 +65,12 @@ class PrimeFactor
 end
 ```
 
-It fails for the right reason.
+The test fails for the right reason.
 
 Step 2
 ---------
+
+Change prime_factor.rb :
 
 ```ruby
 class PrimeFactor
@@ -74,30 +89,37 @@ The test passes.
 Step 3
 ---------
 
+Add the next test:
+
 ```ruby
-class PrimeFactor
-  def initialize(n)
-    @n = n
+  it 'should return 3 for input of 3' do
+    prime_factorial = PrimeFactor.new(3)
+
+    prime = prime_factorial.calculate
+
+    expect(prime).to eq([3])
   end
-  
-  def calculate
-    [2]
-  end
-end
 ```
 
-It fails.
+The test fails.
 
 Step 4
 ---------
+
+Change the calculate method as follows:
+
+```ruby
   def calculate
     [@n]
   end
+```
 
 Both tests pass.
 
 Step 5
 ---------
+
+Add the next test:
 
 ```ruby
   it 'should return [2,2] for input of 4' do
@@ -158,6 +180,10 @@ The remainder 6 is not a prime number, so we need to continue processing. Try 2 
       if (@n % 2) == 0
         result << 2
         @n = @n / 2
+      elsif (@n % 3) == 0
+        result << 3  
+        @n = @n / 3
+        elsif 
       end
     end
     result << @n
@@ -173,3 +199,290 @@ Step 8
 
 Uncomment the second test. This test passes without making any changes because our code is generic enough to handle the edge case of one element.
 
+Step 9
+----------
+
+```ruby
+  it 'should return [3,7,7] for input of 147' do
+    prime_factorial = PrimeFactor.new(147)
+
+    prime = prime_factorial.calculate
+
+    expect(prime).to eq([3,7,7])    
+  end
+```
+
+Step 10
+--------
+
+Here is the quick and dirty implementation that makes all the tests pass.
+
+```ruby
+  def calculate
+    result = []
+    
+    until Prime.prime?(@n)
+      if (@n % 2) == 0
+        result << 2
+        @n = @n / 2
+      elsif (@n % 3) == 0
+        result << 3
+        @n = @n / 3
+      elsif (@n % 7) == 0        
+        result << 7
+        @n = @n / 7
+      end
+    end
+    result << @n
+        
+    result
+  end
+```
+
+Step 11
+--------
+
+Reading the mathisfun.com worked out examples and converting them into tests has given us more insight into the problem. We see that we need to continuously look for the given number is evenly divisible by a series of prime numbers. 
+
+We have already discussed how to generate primes using The Sieve of Erastosthenes in a previous article. Let's adapt that function so that given a number, erastosthenes function will give us the next prime for us to use in the divisible by prime check condition. For an indepth discussion on how the Sieve of Erastosthenes can be used to solve prime factor problem read the book How to Solve It by Computer (Prentice-Hall International Series in Computer Science) by R. G. Dromey.
+
+After experimenting in the irb, here is a function that assumes we only need a list of primes upto 100, it takes a number and gives the next prime in the list. This function is added to our existing Erastostenes class.
+
+```ruby
+  def self.next(n)
+    e = Erastostenes.new(100)  
+    primes = e.calculate
+    primes.detect{|x| x > n}
+  end
+```
+
+Step 12
+-------
+
+Let's refactor our code so that it uses our Sieve of Erastostenes for the evenly divisible check. Here is a partial refactoring:
+
+```ruby
+  def calculate
+    result = []
+    
+    current_prime = 2
+    
+    until Prime.prime?(@n)
+      if (@n % current_prime) == 0
+        result << current_prime
+        @n = @n / current_prime
+      elsif (@n % 3) == 0
+        result << 3
+        @n = @n / 3
+      elsif (@n % 7) == 0        
+        result << 7
+        @n = @n / 7
+      end
+    end
+    result << @n
+        
+    result
+  end
+```
+
+All tests passes. Let's continue the refactoring.
+
+Step 13
+--------
+
+Here is the cleaned up version of the calculate method:
+
+```ruby
+  def calculate
+    result = []
+    
+    current_prime = 2
+    
+    until Prime.prime?(@n)
+      if (@n % current_prime) == 0
+        result << current_prime
+        @n = @n / current_prime
+      else
+        current_prime = Erastostenes.next(current_prime)
+      end
+    end
+    result << @n
+        
+    result
+  end
+```
+
+All tests pass.
+
+Step 14
+----------
+
+I added more specs one by one to check the answer for different numbers, here is the new specs:
+
+```ruby
+  it 'should return [2,3] for input of 6' do
+    prime_factorial = PrimeFactor.new(6)
+
+    prime = prime_factorial.calculate
+
+    expect(prime).to eq([2, 3])
+  end
+  
+  it 'should return [2,2, 2] for input of 8' do
+    prime_factorial = PrimeFactor.new(8)
+
+    prime = prime_factorial.calculate
+
+    expect(prime).to eq([2, 2, 2])
+  end
+  
+  it 'should return [2,7] for input of 14' do
+    prime_factorial = PrimeFactor.new(14)
+
+    prime = prime_factorial.calculate
+
+    expect(prime).to eq([2, 7])
+  end
+
+  it 'should handle any number' do
+    prime_factorial = PrimeFactor.new(168)
+
+    prime = prime_factorial.calculate
+
+    expect(prime).to eq([2, 2, 2, 3, 7])
+  end
+```
+
+All the tests pass without making any modification to our solution.
+
+Complete Code Listing
+=====================
+---------------------
+
+```ruby
+require_relative 'erastosthenes.rb'
+require 'prime'
+
+class PrimeFactor
+  def initialize(n)
+    @n = n
+  end
+    
+  def calculate
+    result = []
+    
+    current_prime = 2
+    
+    until Prime.prime?(@n)
+      if (@n % current_prime) == 0
+        result << current_prime
+        @n = @n / current_prime
+      else
+        current_prime = Erastostenes.next(current_prime)
+      end
+    end
+    result << @n
+        
+    result
+  end
+end
+
+describe PrimeFactor do
+  it 'should return 2 for input of 2' do
+    prime_factorial = PrimeFactor.new(2)
+    
+    prime = prime_factorial.calculate
+    
+    expect(prime).to eq([2])
+  end
+  
+  it 'should return 3 for input of 3' do
+    prime_factorial = PrimeFactor.new(3)
+
+    prime = prime_factorial.calculate
+
+    expect(prime).to eq([3])
+  end
+
+  it 'should return [2,2] for input of 4' do
+    prime_factorial = PrimeFactor.new(4)
+
+    prime = prime_factorial.calculate
+
+    expect(prime).to eq([2,2])
+  end
+
+  it 'should return [2, 2, 3] for input of 12' do
+    prime_factorial = PrimeFactor.new(12)
+
+    prime = prime_factorial.calculate
+
+    expect(prime).to eq([2,2,3])
+  end
+
+  it 'should return [3,7,7] for input of 147' do
+    prime_factorial = PrimeFactor.new(147)
+
+    prime = prime_factorial.calculate
+
+    expect(prime).to eq([3,7,7])    
+  end
+
+  it 'should return [2,3] for input of 6' do
+    prime_factorial = PrimeFactor.new(6)
+
+    prime = prime_factorial.calculate
+
+    expect(prime).to eq([2, 3])
+  end
+  
+  it 'should return [2,2, 2] for input of 8' do
+    prime_factorial = PrimeFactor.new(8)
+
+    prime = prime_factorial.calculate
+
+    expect(prime).to eq([2, 2, 2])
+  end
+  
+  it 'should return [2,7] for input of 14' do
+    prime_factorial = PrimeFactor.new(14)
+
+    prime = prime_factorial.calculate
+
+    expect(prime).to eq([2, 7])
+  end
+
+  it 'should handle any number' do
+    prime_factorial = PrimeFactor.new(168)
+
+    prime = prime_factorial.calculate
+
+    expect(prime).to eq([2, 2, 2, 3, 7])
+  end
+  
+  it 'should handle any number' do
+    prime_factorial = PrimeFactor.new(330)
+
+    prime = prime_factorial.calculate
+
+    expect(prime).to eq([2, 3, 5, 11])
+  end
+  
+end
+```
+
+Discussion
+==========
+----------
+
+We have 20 lines of production code and almost 70 lines of test code. Ideally we want the minimal number of tests that gives us enough confidence in our code. After you write the story test, do some exploratory testing and write some tests based on exploratory tests, evaluate whether the test to code ratio is reasonable. 
+
+We made a simplifying assumption in generating a prime factors list by limiting it to 100. We can write a contract test to make this assumption explicit. The contract test can force our implementation to be robust.
+
+Exercises
+==========
+----------
+
+1. Can you delete some of the tests? What is the minimum number of tests for this problem?
+2. What is the upper limit of the number to find the prime factors?
+3. What is the assumption that is made in our production code? How can you make it explicit by writing a contract test?
