@@ -481,7 +481,7 @@ Discussion
 
 We have 20 lines of production code and almost 70 lines of test code. Ideally we want the minimal number of tests that gives us enough confidence in our code. After you write the story test, do some exploratory testing and write some tests based on exploratory tests, evaluate whether the test to code ratio is reasonable. 
 
-We made a simplifying assumption in generating a prime factors list by limiting it to 100. We can write a contract test to make this assumption explicit. The contract test can force our implementation to be robust.
+We made a simplifying assumption in generating a prime factors list by limiting it to 100. You can improve this implementation by reading the Prime Factors Analysis article.
 
 Exercises
 ==========

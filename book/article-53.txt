@@ -70,3 +70,10 @@ The truth of either condition is sufficient to require that the test be repeated
 Now we need to explore how the algorithm will terminate. If we follow the factorization process through for a number of examples, we discover that there are two ways in which the algorithm can terminate. One way for termination is where n is eventually reduced to 1. This can happen when the largest prime factor is present more than once (eg., as in the case of 18 where the factors are 2 * 3 * 3). The other possible situation is where we terminate with a prime factor that only occurs once (eg., the factors of 70 are 2 * 5 * 7). In this instance we have a termination condition where n > 1. Therefore, after our loop terminates we must check which termination condition applies and adjust the prime factors accordingly. 
 
 The only other considerations are the initialization conditions and the dynamic generatation of primes as required. Since we have already considered the rpime number generation problem before, we will assume there is a function available which when given a particular prime as an argument returns the next prime.
+
+Reference
+=========
+---------
+
+How to Solve It by Computer (Prentice-Hall International Series in Computer Science) by R. G. Dromey.
+

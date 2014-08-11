@@ -1,0 +1,91 @@
+
+
+Reverse the Digits of an Integer
+
+Problem Statement
+=================
+-----------------
+
+Reverse the order of digits of a given positive integer.
+
+Problem Domain Analysis
+=================
+-----------------
+
+Input  : 79815
+Output : 51897
+
+Solution Domain Analysis
+=================
+-----------------
+
+The given number can expressed as follows:
+
+```sh
+79815 = 7 x 10**4 + 9 x 10**3 + 8 x 10**2 + 1 x 10*1 + 5 x 10**0
+```
+
+To extract the rightmost digit, we can divide the given number by 10:
+
+```sh
+79815 / 10 = 7981.5
+```
+Playing in the irb:
+
+```ruby
+ $irb
+ > 79815 / 10
+ => 7981 
+ > 79815 / 10.0
+ => 7981.5 
+ ```
+ 
+ We can extract the digit programmatically by using the modulo operator like this:
+ 
+```ruby
+> 79815 % 10
+ => 5 
+```
+
+After we extract the rightmost digit, we need to reduce the original number to a number without the rightmost digit so that we can extract the next digit. To accomplish that we already know that we can divide the original number by 10.
+
+Number to Reverse : 79815  | 7981 | 798 | 79   | 7
+Reversed Number   : 5      | 51   | 518 | 5189 | 51897
+Step              : 1      | 2    | 3   | 4    | 5
+
+Extract         : 5
+Transform       : 5 x 10*0
+Reversed Number : 5
+
+Extract         : 51
+Transform       : 5 x 10 + 1
+Reversed Number : 51
+
+Extract         : 5
+Transform       : 51 x 10 + 8 
+Reversed Number : 518
+
+From these examples, we can generalize the steps as follows:
+
+reversed number = (previous reverse value) x 10 + (recently extracted digit)
+
+Algorithm Description
+=====================
+---------------------
+
+```sh
+while there are still digits in the number to be reversed do
+  1. Extract the rightmost digit from the number
+  2. Append this digit to right hand end of the reversed number
+  3. Remove the rightmost digit from number
+end
+```
+
+Terminating condition is that the last number divided by 10 becomes 0.x so :
+
+```sh
+while n > 0
+
+end
+```
+

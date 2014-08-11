@@ -1,0 +1,173 @@
+PUBLISHED
+
+TDD Basics : Obvious Implementation
+ 
+Problem Statement
+=================
+-----------------
+
+Given two variables x and y, exchange the values assigned to them.
+
+Objective
+=======================
+-----------------------
+
+Learn when to use Obvious Implementation instead of Fake it Till You Make it or Triangulation.
+
+Problem Domain Analysis
+=======================
+-----------------------
+
+In this phase, we define the problem clearly. 
+
+Before exchange, the intial values are : x = 1  and y = 2
+After exchange, the final values are : x = 2  and y = 1
+
+Solution Domain Analysis
+========================
+------------------------
+
+ It's very easy to exchange values in Ruby. Here is the irb session that shows how to swap the values of x and y using just one line.
+ 
+ ```ruby
+ $irb
+ > x = 1
+ => 1 
+ > y = 2
+ => 2 
+ > x,y=y,x
+ => [2, 1] 
+ > x
+ => 2 
+ > y
+ => 1 
+```
+
+Let's solve the problem in a way that allows implementing it in any language. This means we can implement the solution in languages that requires more work to swap values. Let x = 1, y = 2, here is an experiment for exchanging the values in the irb session:
+
+```ruby
+$irb
+ > x = 1
+ => 1 
+ > y = 2
+ => 2 
+ > x = y
+ => 2 
+ > y = x
+ => 2 
+ > x
+ => 2 
+ > y
+ => 2 
+```
+
+This means we cannot do the following:
+
+```sh
+x = y
+y = x
+```
+
+Because both x and y values end up with the value of 2. Our objective in this phase is to create a model and test the model to make sure that it works. Here is a model that fixes the above problem:
+
+```sh
+new value of x = original value of y
+new value of y = original value of x
+```
+
+This means we need to preserve the old value of x. Let's consider the following model:
+
+```sh
+t = x
+a = x
+b = t
+```
+
+Let's test this model in the irb session:
+
+```ruby
+ > x = 1
+ => 1 
+ > y = 2
+ => 2 
+ > t = x
+ => 1 
+ > x = y
+ => 2 
+ > y = t
+ => 1 
+ > x
+ => 2 
+ > y
+ => 1 
+```
+
+The revised model works.
+
+Algorithm Description
+-----------------------
+
+1. Save the original value of x in a temporary variable t.
+2. Assign to x the original value of y.
+3. Assign to y the original value of x that is stored in t.
+
+Steps
+======
+------
+
+Step 1
+------
+
+```ruby
+class Exchange
+  attr_reader :x, :y
+  
+  def initialize(x, y)
+    @x = x
+    @y = y
+  end
+  
+  def perform
+    
+  end
+end
+  
+
+describe Exchange do
+  it 'should swap the values of the given two variables' do
+    e = Exchange.new(1, 2)
+    e.perform
+    
+    expect(e.x).to eq(2)
+  end
+end
+```
+
+This test fails.
+
+Step 2
+-------
+
+Implementing our algorithm makes our test pass.
+
+```ruby
+  def perform
+    t = @x
+    @x = @y
+    @y = t
+  end
+```
+
+Discussion
+==========
+----------
+
+We did not use Fake It Till You Make It in this case because the implementation was obvious, so we just typed in the correct implementation. Fake It Till You Make It and Triangulation are helpful when you the solution is not obvious and you need to take small steps to learn more about the problem. 
+
+This problem is small. For big problems, you want to decompose it into smaller problems and solve the smaller problems first and combine the solution to smaller problems to solve the big problem. This divide and conquer strategy becomes necessary when the problem is unfamiliar or complex.
+
+Summary
+==========
+----------
+
+In this article you learned when it's ok to take big steps and not use Triangulation or Fake It Till You Make It. You can also see that the test code to the production code seems to be reasonable.

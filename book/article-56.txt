@@ -1,0 +1,35 @@
+Character to Number Conversion
+
+
+Convert the character representation of an integer to it's decimal format.
+
+Example
+
+Convert 4 character sequence '1984' to the decimal number 1984.
+
+Diagram goes here
+
+To convert, 49 needs to be converted to 1000, 57 to 900, 56 to 80 and 52 to 4 units.
+
+To get the decimal digit we have to subtract 48 (ASCII value of character '0')
+Show ASCII table to illustrate why.
+
+x = ord('9')
+x = 57
+y = ord('0')
+y = 48
+n = 57 - 48 = 9
+
+Constructing the number
+
+1 --> 1  --> 1
+9 --> 1 x 10 + 9 --> 19
+8 --> 19 x 10 + 8 --> 198
+4 --> 198 x 10 + 4 --> 1984
+
+The shifting to the left mechanism can be obtained at each step by multiplying the previous decimal value by 10 and adding it to current decimal digit.
+
+Assumption
+----------
+
+Length of the character 
