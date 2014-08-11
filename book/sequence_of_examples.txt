@@ -13,7 +13,6 @@ Building an Object Graph
  - Medicine Clash
  - Monty Hall
  - Poker Hands
- - Train Reservation
 
 ----------------------------------------
 Driving Development with Tests
@@ -58,7 +57,6 @@ Designing Test Cases that Use a Test Double
  - Racing-Car Katas
  - Monty Hall
  - Medicine Clash
- - Train Reservation
  
  - Trivia
  
@@ -69,7 +67,6 @@ Mocks and Stubs
  - Racing-Car Katas
  - Monty Hall
  - Medicine Clash
- - Train Reservation
  
  - Greenfield Gilded Rose
  
@@ -103,5 +100,4 @@ Mocks and Stubs
   - Tennis
 
 
-Maybe
-  - Train Reservation
+

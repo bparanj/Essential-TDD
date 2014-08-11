@@ -1,0 +1,28 @@
+Fragile Tests
+
+Overspecifying : Specifying purely internal behavior. Using mocks instead of stubs.
+Separate tests that measure progress from those that catch regressions.
+Start testing with the simplest success case.
+Write the test that you would want to read.
+Improve diagnostics.
+Develop from the inputs to the outputs.
+Unit test behavior, not methods.
+Listen to the tests.
+Tuning the cycle.
+
+Hiding the right info.
+Context independent.
+DAS screencast:
+alice.should_receive(:update_attributes).with(happiness => 60)
+This ties the test to implementation.
+
+Better way :
+
+expect do
+  alice.nice_walk
+end.to increase(:happiness).by(60)
+
+Simplifies outcomes and does not break when implementation of ActiveRecord changes (when you upgrade the Rails framework).
+
+Not listening to tests. Using spork to test instead of addressing the design flaw.
+

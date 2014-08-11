@@ -4,7 +4,7 @@ Update the following articles on the site:
 
 
 
-Start from article 50
+Start from article ?
 
 
 1. Scan Red, Green, Refactor diagram.
@@ -27,9 +27,6 @@ Find the scanned notes that covers the above topic and write an article.
 
 
 Environment Variables : https://gorails.com/episodes/environment-variables
-
-
-
 
 Transformation and Refactoring are the two sides of the same coin. Red to Green is transformation. Green to Green is refactoring.
 

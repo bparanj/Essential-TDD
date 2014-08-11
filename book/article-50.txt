@@ -1,12 +1,10 @@
+
+UPDATE THE ARTICLE WITH THIS VERSION
+------------------------------------
+
 PUBLISHED
 
 Prime Factors Kata
-
-Problem Statement
-========
----------
-
-Factorize a positive integer number into its prime factors.
 
 Objective
 =========
@@ -14,8 +12,14 @@ Objective
 
 Learn to evaluate whether the amount of test code to production code is reasonable or not.
 
+Problem Statement
+=================
+-----------------
+
+Factorize a positive integer number into its prime factors.
+
 Examples
-========
+=========
 ---------
 
 Here is some sample input and output.
@@ -484,5 +488,4 @@ Exercises
 ----------
 
 1. Can you delete some of the tests? What is the minimum number of tests for this problem?
-2. What is the upper limit of the number to find the prime factors?
-3. What is the assumption that is made in our production code? How can you make it explicit by writing a contract test?
+2. Study the [Prime Factors Analysis]( 'Prime Factors Analysis'). Compute the prime number required only upto a certain number discussed in that article.
