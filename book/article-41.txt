@@ -4,7 +4,7 @@ What vs How in Test Driven Development
 
 Example #1 for What vs How
 ===========================
-----------------------
+---------------------------
 
 Music sheet is not music. It is the description of music. This is the 'What' or Logical Design.
 
@@ -14,7 +14,7 @@ Music is played using musical instruments. This is the 'How' or the Physical Des
 
 Example #2 for What vs How
 ===========================
-----------------------
+---------------------------
 
 John Lennon wrote the song Come Together. This is the 'What'. The examples of 'How' in this case are the performances of :
 
@@ -25,8 +25,8 @@ John Lennon wrote the song Come Together. This is the 'What'. The examples of 'H
 to the same song Come Together.
 
 Separate Logical Design from Physical Design 
-======================================================
-----------------------
+============================================
+--------------------------------------------
 
 Why do we need to separate logical design from physical design? Because it allows us to change implementation without breaking the tests. So, how do you separate What from How in our code? Chris Stevenson's TestDox style expresses the subject in the code as part of a sentence.
 
@@ -49,8 +49,8 @@ end
 When you think about the system from outside-in fashion you focus on intent. You focus on what you are doing rather than the implementation which is the 'how'. Now that we understand the difference between the What and How. We know how to write the doc string. But what code should go between the do-end block of the it() method? To answer that question, let's look at the difference between imperative vs declarative programming.
  
 Imperative Programming
-=========================
-----------------------
+========================
+------------------------
 
 Imperative programming is the oldest programming paradigm. It is based on the Von Neumann-Eckley model of a computer. Programs written in imperative programming languages consist of a program state and instructions that change the program state through assignment statements. Program instructions are imperative in the sense of imperative verbs that express a command.
 
@@ -68,8 +68,8 @@ Procedural abstraction and structured programming are its design techniques. Pro
 Abstraction allows us to think about 'what' is being done, not 'how' it is implemented. Imperative language constructs : assignment, conditionals, looping and data structures. Flowchart can be used to model imperative programs. For example flowchart for computing Fibonacci numbers.
 
 Declarative Programming
-==========================
-----------------------
+=========================
+-------------------------
 
 Functional languages and logic languages are declarative. Declarative languages such as SQL, Haskell, Prolog describe the solution space. They provide the knowledge required to get there. They don't describe the steps needed to get there.
 

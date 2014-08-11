@@ -11,24 +11,22 @@ Objectives
 - Learn how to order test cases.
 
 Difficulty Level
-============
-------------
+================
+----------------
 
 Easy
 
 Software Version
-============
-------------
+================
+----------------
 
 Ruby 2.1.2, rspec 3.0
 
 Problem Statement
-============
-------------
+=================
+-----------------
 
-Write a program that prints the numbers from 1 to 100. But for multiples of three print 'Fizz' instead of the number and for the multiples of five print "Buzz". For numbers which are multiples of both three and five print "FizzBuzz"
-
-Sample output:
+Write a program that prints the numbers from 1 to 100. But for multiples of three print 'Fizz' instead of the number and for the multiples of five print "Buzz". For numbers which are multiples of both three and five print "FizzBuzz". Sample output:
 
 ```sh
 1
@@ -251,7 +249,6 @@ Add the numbers method as follows:
 
 ```ruby
 class FizzBuzz
-  
   def numbers
     
   end

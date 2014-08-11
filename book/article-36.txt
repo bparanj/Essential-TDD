@@ -17,8 +17,8 @@ Problem Statement
 Given two positive non-zero integers n and m, find their greatest common divisor (gcd). The gcd of two integers is the largest integer that will divide exactly into the two integers with no remainder.
 
 Example
-===================
--------------------
+========
+--------
 
 
 GCD of 54 and 24
@@ -44,8 +44,8 @@ Similarly the divisors of 24 are:
 The number that these two lists share in common are the common divisors of 54 & 24. In this case, they are : 1,2,3,6. The greatest of these is 6. That is the GCD of 54 & 24. 
 
 Steps to Solve the Problem
-===================
--------------------
+==========================
+--------------------------
 
 Basic strategy for computing the gcd of two numbers:
 

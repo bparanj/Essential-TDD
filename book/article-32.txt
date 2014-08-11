@@ -1,24 +1,26 @@
-UPDATE TO BE DONE:
+UPDATES TO BE DONE:
 
-Link this to Article 45 Essential Skills for Test Driven Development
+Link this to Article 45 Essential Skills for Test Driven Development (Article 45 still in progress)
+LINK TO ARTICLE 31 IN THE SUMMARY SECTION
 
-0, 1, 2 and n elements
+------------------------------------------------------
 
 ------------------------------------------------------
 PUBLISHED
+------------------------------------------------------
 
 Problem Statement
-=========
----------------------------
+=================
+-----------------
 
 Sum a set of numbers.
 
 Problem Domain Analysis
-=========
----------------------------
+=========================
+-------------------------
 
 Let's consider the set of numbers, numbers = (1, 2, 7, ... n)
-
+ARTICLE 31 LINK GOES HERE
 ```sh
 Sum s = 1 + 2 + 7 + ... + n
 ```
@@ -35,8 +37,8 @@ s = s + (a)n
 All sums for n >= 1 can be generated iteratively. 
 
 Solution Domain Analysis
-=========
----------
+========================
+------------------------
 
 In Ruby, this problem can be solved in just one line by using the inject method. We must implement our own version of inject method. The reason for this is twofold, number one is that we will learn new concepts that we can use to program in any language. We will also come up with an algorithm that can be used to implement the summing function in any language. This gives us one logical design with many physical design possibilities.
 
@@ -53,7 +55,7 @@ Steps to Solve the Problem
 3. Return the sum of n numbers.
 
 Algorithm Description
-=============
+=====================
 ---------------------
 
 1. Take the list of numbers to be summed.
@@ -67,7 +69,7 @@ Algorithm Description
 We have solved the problem by giving the stupid computer specific steps to find the sum. 
 
 Assumptions
-========
+==========
 ----------
 
 - Numbers in the list are whole numbers
@@ -188,7 +190,6 @@ Step 6
 We now fail for the right reason with the following error:
 
 ```ruby
-
 Sum
   should return 0 for empty list
   should return 1 for a list containing 1 (FAILED - 1)
@@ -229,7 +230,6 @@ class Sum
 end
 ```
 
-
 Discussion 
 ========
 ----------
@@ -256,7 +256,6 @@ Step 9
 This fails with the following error:
 
 ```ruby
-
 Sum
   should return 0 for empty list
   should return 1 for a list containing 1
@@ -324,7 +323,7 @@ Let's refer to our algorithm to guide our cleaned up version of our implementati
 First step is the argument to the calculate() method. The second step is the initial condition before we enter the iterative construct to process the elements one by one untill we process all the elements in the list. In order for us to go to the next number in step 3c of the algorithm, we must increment the index everytime an element is processed successfully. This makes us reach the terminating condition what is evaluated in the beginning of the loop, so that we can terminate the loop and return the final result.
 
 Step 11
------
+-------
 
 So we know what needs to be initialized before we enter the loop, the index of the array that will be incremented within the loop and the result. Change the code as follows:
 
@@ -348,7 +347,7 @@ end
 Our tests now pass. 
 
 Discussion
-========
+==========
 ----------
 
 Did you see how the first if conditional that was handling the boundary case disappeared? It is now handled by the intial conditions that initialize the index and result variables. It's now clear why degenerate test case is the first test case in our test cases list. Degenerate test cases establish initial conditions for loops. We establish index and result values that handle degenerate cases. The if-else construct has been replaced by while loop to generalize the solution.  
@@ -356,7 +355,7 @@ Did you see how the first if conditional that was handling the boundary case dis
 If you see the transformations list in the [Transformation Priority Premise](http://blog.8thlight.com/uncle-bob/2013/05/27/TheTransformationPriorityPremise.html 'Transformation Priority Premise') article, we have evolved our code from if-else to a more generic while loop. We always look for transformations higher in the Transformation Priority Premise List. We did Incremental Algorithm Design by going one by one from top of the test cases list. We also made simplyfing assumptions to delineate the scope of the problem. We know under what conditions our solution is valid by looking at the assumptions.
 
 Step 12
-------
+-------
 
 The last test case in our test cases list is a story test. It generalizes the solution. Add the story test as follows:
 
@@ -377,7 +376,6 @@ end
 Our acceptance test passes.
 
 Exploratory Testing 
-==============
 -------------------
 
 ```ruby
@@ -386,6 +384,12 @@ load 'sum.rb'
 ```
 
 and test using any data. Verify the answer by using the inject method.
+
+Discussion
+===========
+-----------
+
+In this example we wrote the tests in the order of increasing complexity, ie., 0, 1, 2 and n elements. This is called [Triangulation](ARTICLE 31 LINK GOES HERE 'Triangulation'). We also discussed about how to choose data for test cases.
 
 Exercises
 ==========

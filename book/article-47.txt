@@ -81,15 +81,6 @@ Steps
 Step 1
 ----------------
 
-The rspec syntax is as follows:
-
-```ruby
-describe ClassName do
-  it 'should do something for given number'
-  
-end
-```
-
 In our case the class name will be Factorial. Create a file called factorial_spec.rb with the following contents:
 
 ```ruby
@@ -105,6 +96,8 @@ describe Factorial do
   
 end
 ```
+
+The describe is a rspec method. It takes a class name in this case, Factorial as the parameter. 
 
 Step 2
 ----------------
@@ -145,9 +138,14 @@ Step 5
 Now you get an error due to undefined method 'calculate'. Let's define the method now as follows:
 
 ```ruby
+class Factorial
+  def initialize(n)
+    @n = n
+  end
+  
+  def calculate
 
-def calculate
-
+  end
 end
 ```
 
@@ -162,8 +160,14 @@ Step 7
 Return a hardcoded 1 from the calculate method.
 
 ```ruby
-def calculate
-  1
+class Factorial
+  def initialize(n)
+    @n = n
+  end
+  
+  def calculate
+    1
+  end
 end
 ```
 
@@ -181,12 +185,15 @@ Step 8
 Let's write a executable spec for the second example that we came up with in the solution domain analysis section. Add the second spec as follows:
 
 ```ruby
-it '1 factorial is 1' do
-  factorial = Factorial.new(1)
+describe Factorial do
+  # first test same as before
+  it '1 factorial is 1' do
+    factorial = Factorial.new(1)
   
-  result = factorial.calculate
+    result = factorial.calculate
   
-  expect(result).to eq(1)
+    expect(result).to eq(1)
+  end
 end
 ```
 
@@ -198,12 +205,15 @@ Step 9
 Let's add the third spec as follows:
 
 ```ruby
-it '2 factorial is 2' do
-  factorial = Factorial.new(2)
+describe Factorial do
+  # first two tests same as before  
+  it '2 factorial is 2' do
+    factorial = Factorial.new(2)
   
-  result = factorial.calculate
+    result = factorial.calculate
   
-  expect(result).to eq(2)
+    expect(result).to eq(2)
+  end
 end
 ```
 
@@ -238,12 +248,15 @@ Step 11
 Let's add the next spec as follows:
 
 ```ruby
-it '3 factorial is 6' do
-  factorial = Factorial.new(3)
+describe Factorial do
+  # first three tests same as before
+  it '3 factorial is 6' do
+    factorial = Factorial.new(3)
   
-  result = factorial.calculate
+    result = factorial.calculate
   
-  expect(result).to eq(6)
+    expect(result).to eq(6)
+  end
 end
 ```
 
@@ -282,16 +295,22 @@ end
 Change the implementation as follows:
 
 ```ruby
-def calculate
-  if @n == 0
-    1
-  else
-    result = 1
-    while @n > 1 do
-      result = result * @n
-      @n = @n - 1  
+class Factorial
+  def initialize(n)
+    @n = n
+  end
+  
+  def calculate
+    if @n == 0
+      1
+    else
+      result = 1
+      while @n > 1 do
+        result = result * @n
+        @n = @n - 1  
+      end
+      result
     end
-    result
   end
 end
 ```
@@ -304,13 +323,19 @@ Step 13
 Let's cleanup the code as follows:
 
 ```ruby
-def calculate
-  result = 1
-  while @n > 1 do
-    result = result * @n
-    @n = @n - 1  
+class Factorial
+  def initialize(n)
+    @n = n
   end
-  result
+  
+  def calculate
+    result = 1
+    while @n > 1 do
+      result = result * @n
+      @n = @n - 1  
+    end
+    result
+  end
 end
 ```
 
@@ -322,7 +347,7 @@ You can now see that the if-else became a while construct. This is in the bottom
 
 Exercises
 ===========
--------------
+-----------
 
 1. Change the implementation to use recursive solution. Make sure all tests pass. Watch out for the common mistake of forgetting terminating condition for recursive solution.
 2. Watch the [Factorial screencast](https://www.youtube.com/watch?v=Tmp-viKFOJw "Factorial screencast") or download [Factorial screencast](https://s3.amazonaws.com/clickplan.com/download/RecursionRuby.mov.zip "Factorial screencast")

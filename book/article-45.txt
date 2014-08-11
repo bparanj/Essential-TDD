@@ -21,8 +21,6 @@ This diagram describes how Gaull did Solution Domain Analysis
 
 1, 2, 3, .......... 98, 99, 100
 
-
-
 1 + 100 = 101
 2 + 99  = 101
 3 + 98  = 101 and so on

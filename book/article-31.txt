@@ -1,7 +1,7 @@
 TDD Basics : String Calculator Kata
 
 Objectives
-=========
+==========
 
 - Triangulate to solve the problem
 - Experiment to learn and explore possible solution
@@ -10,6 +10,7 @@ Objectives
 
 Problem Statement
 =================
+---------------------------
 
 - Try not to read ahead.
 - Do one task at a time. The trick is to learn to work incrementally.
@@ -31,11 +32,10 @@ Problem Statement
 ```
 
 This TDD Kata is by Roy Osherove found at : http://osherove.com/tdd-kata-1/. Follow the guidelines and write the specs. Compare your solution to the following solution.
-
   
 Steps
 =========
----------------------------
+---------
 
 Step 1
 -------
@@ -69,7 +69,7 @@ Discussion
 ===========
 -----------
 
-From David Bernstein blog post at: http://tobeagile.com/2009/12/08/triangulation/
+From David Bernstein blog post on [triangulation](http://tobeagile.com/2009/12/08/triangulation/ "triangulation")  
 
 If I get stuck and I don’t know how a complex algorithm should work I’ll write a test for an error case. Then I’ll write a test for the simplest non-error case I can think of and return a hard coded value. Then I’ll write another test case and see if I can figure out the algorithm at that point. In doing so I gain some momentum and perhaps some insight in how the algorithm should behave on an edge case and a few normal cases.
 
@@ -113,7 +113,7 @@ describe Calculator do
 end
 ```
 
-Started with the simplest test case of an empty string and moved to 1 and two numbers. Experimented in irb to get the generic solution working. Copied the code to calculate method to get the test passing. This broke the test 1. Let's fix that now.
+Started with the simplest test case of an empty string and moved to 1 and two numbers. Experimented in irb to get the generic solution working. Copied the code to calculate method to get the test passing. This broke the test #1. Let's fix that now.
 
 Step 3
 ----------
@@ -349,3 +349,11 @@ end
 ```
 
 We are not passing in the string to be processed into methods anymore. Since it is needed by most of the methods, it is now an instance variable. We removed the argument to the private methods to simplify the interface.
+
+Summary
+===========
+-----------
+
+In this article you learned about Triangulation. By you apply Triangulation, you write tests for 0, 1, 2 element cases and finally generalize by extending the solution to any number of n elements. 
+
+

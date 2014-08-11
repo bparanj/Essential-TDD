@@ -21,8 +21,8 @@ A prime number is a positive integer that is exactly divisible only by 1 and its
 All primes apart from 2 are odd.  
 
 Solution Domain Analysis
-=================
------------------
+=======================
+-----------------------
 
 Example 1
 ---------
@@ -101,7 +101,6 @@ describe FindPrime do
   end
 end
 ```
-
 
 This is testing the implementation. We will come back to this issue later.
 

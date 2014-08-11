@@ -3,18 +3,18 @@ PUBLISHED
 Essential Skills for TDD
 
 Essential Skills for TDD Presentation Videos
-==========
-----------
+============================================
+--------------------------------------------
 
 [Essential Skills for TDD Part 1](https://www.youtube.com/watch?v=y5j_nHzWkeg "Essential Skills for TDD Part 1")
 [Essential Skills for TDD Part 2](https://www.youtube.com/watch?v=vVcC6iRHMkM "Essential Skills for TDD Part 2")
 
 Essential Skills for TDD Terminology
-=======
-----------
+=====================================
+-------------------------------------
  
 Domain
-=======
+==========
 ----------
 
 A specified sphere of activity or knowledge. Example : Visual communication is the domain of the graphic designers.
@@ -46,26 +46,26 @@ These concepts can be grouped into the Finance domain.
 These concepts can be grouped into the Math domain. 
 
 Problem Domain
-=======
-----------
+==============
+--------------
 
 Problem domain refers to real-world things and concepts related to the problem.
 
 Problem Domain Analysis
-=======
-----------
+=======================
+-----------------------
 
 Problem Domain Analysis is the process of creating a mental model that describes the problem. The focus is on understanding the problem domain.
 
 Solution Domain 
-=======
-----------
+===============
+---------------
 
 Solution Domain refers to real-world things and concepts related to the solution.
 
 Solution Domain Analysis
-=======
-----------
+========================
+------------------------
 
 Solution Domain Analysis is the process of arriving at a solution. It describes the sequence of steps used to solve a given problem. Finding abstractions helps us to solve problems.
 

@@ -23,6 +23,7 @@ We change only one specific location in our existing code base to implement a ne
 
 Find the scanned notes that covers the above topic and write an article.
 
+4. In article 31, explain spiking and how it fits with TDD.
 
 
 Environment Variables : https://gorails.com/episodes/environment-variables
@@ -34,11 +35,6 @@ Transformation and Refactoring are the two sides of the same coin. Red to Green 
 
 Refactoring is changing the structure without changing the behavior.
 Transformation is changing the behavior with the least change in the structure. This forces us to write minimal code to pass the current test.
-
-
-
-
-
 
 
 

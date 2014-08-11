@@ -6,8 +6,8 @@ PUBLISHED
 ----------------------------------------------------------------------------
 
 The Sieve of Erastosthenes
-===================
--------------------
+=========================
+-------------------------
 
 The most efficient way to find all of the small primes is by using a sieve such as Sieve of Eratosthenes.
 
@@ -29,15 +29,15 @@ Find all the primes upto a given number n. For 30 the result is 2,3,5,7,11,13,17
 8. The next number 7 is larger than the square root of 30, so there are no multiples of 7 to eliminate. Therefore the sieve is complete.
 
 Erastostenes Javascript Demo
-===================
--------------------
+===========================
+---------------------------
 
 [Erastostenes Javascript Demo](http://www.hbmeyer.de/eratclass.htm "Erastostenes Javascript Demo")
 
 
 Algorithm
-===================
--------------------
+============
+------------
 
 ```sh
 while square of(current_prime) <= n
@@ -49,7 +49,7 @@ Terminating Condition is square of(current_prime) > or = n
   
 Steps
 =========
----------------------------
+---------
 
 Step 1
 -------
@@ -448,7 +448,13 @@ end
 We are green after refactoring. Remember to modify either the test code or the production code and run the tests. Do not modify both at the same time without running the tests.
 
 Discussion
-===================
--------------------
+============
+------------
 
 If you see the specs there are lot of arrays. I always think twice before coupling the specs to the data structure choice in the production code. Do not write tests that are dependent on data structures. Because, the data structures are implementation details and can change to optimize performance without changing the behavior. If we couple our tests to the implementation details, our tests will be brittle and break even when the behavior remains the same but when the implementation changes.
+
+Exercise
+=============
+-------------
+
+The spec used 30 as the example. What is the minimum number that we can use and still have high confidence that our code works?
