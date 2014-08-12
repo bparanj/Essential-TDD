@@ -1,10 +1,36 @@
-Install Resque
-================
------------------
+PUBLISHED
 
-1. Add gem 'resque' to the Gemfile and run bundle install.
-2. Add require 'resque' to the Rakefile. This will give you three rake tasks related to resque.
-3. Create /lib/tasks/resque.rake with:
+
+How to Install and Configure Resque to Handle Background Jobs in Rails 4.1
+
+Discussion
+==========
+----------
+
+**Why Resque instead of Sidekiq?**
+
+Hosting on a Linode gives you 2 GB of RAM for just $20/month. There is no need to worry about memory footprint for now for my application needs. So there is no need to use Sidekiq because it requires you to use only threadsafe gems. I don't want to check if all the gems that is used in the background jobs is thread safe or not.
+
+Steps
+======
+------
+
+Step 1 
+------
+
+Add 
+
+```ruby
+gem 'resque' 
+gem 'resque-web', require: 'resque_web'
+```
+
+to the Gemfile and run bundle install.
+
+Step 2
+------
+
+Create /lib/tasks/resque.rake with:
 
 ```sh
 require 'resque/tasks'
@@ -12,48 +38,279 @@ require 'resque/tasks'
 task 'resque:setup' => :environment
 ```
 
-This loads the Rails environment so that we can access ActiveRecord in the workers.
+The require line will give you three rake tasks related to resque. The task line loads the Rails environment so that we can access ActiveRecord in the workers.
 
-4. Create a class that will do the job.
+You can see the new tasks added by resque by doing:
 
 ```ruby
-class SomeJob
-  def self.perform(id)
-   # do the work here
+$rake -T resque
+rake resque:failures:sort  # Sort the 'failed' queue for the redis_multi_queue failure backend
+rake resque:work           # Start a Resque worker
+rake resque:workers        # Start multiple Resque workers
+```
+
+If you skip this step, you will get the error: 
+
+```sh
+Don't know how to build task 'resque:work' in rails 4.x.
+```
+
+Step 3
+------
+
+Create app/jobs directory.
+
+Step 4
+------
+
+Create a class sleeping_job.rb in app/jobs directory that will sleep as follows:
+
+```ruby
+class SleepingJob
+  
+  def self.perform
+    puts 'I like to sleep'
+    sleep 2
   end
 end
 ```
 
-5. To get the job from any queue and do the work, run the following command. 
+Step 5 
+------
+
+To get the job from any queue and do the work, run the following command. 
 
 ```sh
 rake resque:work QUEUE='*'
 ```
 
-6. To put the job in the queue:
+This command helps to test background jobs in development environment. For production:
 
-Resque.enqueue(SomeJob, some_job_id)
-
-7. Create app/jobs directory.
-
-8. Mount Sinatra Resque Admin app. 
-
-```ruby
-mount Resque::Server.new, at: '/resque'
+```sh
+rake production resque:work QUEUE='*'
 ```
 
-9. Password protect the Sinatra Resque Admin app. Add HTTP Basic Authentication by creating config/initializers/resque_auth.rb with the following contents:
+You will get the error: LoadError: No such file to load -- application_controller, if you don't have the line:
 
 ```ruby
-Resque::Server.use(Rack::Auth::Basic) do |user, password|
-  password == Rails.application.secrets.resque_admin_password
+task 'resque:setup' => :environment
+```
+
+in lib/tasks/resque_tasks.rake.
+
+Step 6 
+------
+
+To put the job in the queue:
+
+```ruby
+Resque.enqueue(SleepingJob)
+```
+
+If the perform method in the background job takes an id argument:
+
+```ruby
+Resque.enqueue(SleepingJob, some_peristence_object_id)
+```
+
+Step 7 
+------
+
+Let's put some jobs in the queue:
+
+```ruby
+$rails c
+Loading development environment (Rails 4.1.4)
+> Resque.enqueue(SleepingJob)
+Resque::NoQueueError: Jobs must be placed onto a queue
+```
+
+Step 8 
+------
+
+Change the test background job as follows:
+
+```ruby
+class SleepingJob
+  def self.queue
+    :sloth
+  end
+  
+  def self.perform
+    puts 'I like to sleep'
+    sleep 2
+  end
 end
 ```
 
+The class method queue specifies the name for this background job.
+
+Step 9
+------
+
+Now, let's test it in the rails console:
+
+```ruby
+$rails c
+ > SleepingJob.queue
+ => :sloth 
+ > Resque.enqueue(SleepingJob)
+ => true 
+```
+
+Step 10
+-------
+
+You will see the output 'I like to sleep' in the terminal where you are running the rake resque:work task.
+
+
+Using Moonshine to Install and Manage Resque on Production Environment
+======================================================
+------------------------------------------------------
+
+Step 1
+------ 
+
+Install Moonshine Resque Plugin
+
+```ruby
+$plugger install git://github.com/railsmachine/moonshine_resque.git
+```
+
+Step 2 
+------
+
+Generate Moonshine resque configuration files.
+
+```ruby
+ $rails g moonshine_resque
+      plugin  moonshine_redis
+remote: Counting objects: 256, done.
+remote: Total 256 (delta 0), reused 0 (delta 0)
+Receiving objects: 100% (256/256), 39.49 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (92/92), done.
+From git://github.com/railsmachine/moonshine_redis
+ * branch            HEAD       -> FETCH_HEAD
+      create  config/resque.yml
+     gemfile  resque
+     gemfile  redis
+    rakefile  resque_tasks.rake
+ initializer  resque.rb
+```
+The generated config/resque.yml file looks like this:
+
+```ruby
+development: localhost:6379
+test: localhost:6379
+cucumber: localhost:6379
+staging: localhost:6379
+production: localhost:6379
+```
+
+The config/initializer/resque.rb looks like this:
+
+```ruby
+require 'resque'
+
+rails_root = ENV['RAILS_ROOT'] || File.dirname(__FILE__) + '/../..'
+rails_env = ENV['RAILS_ENV'] || 'development'
+
+resque_config = YAML.load_file(rails_root + '/config/resque.yml')
+Resque.redis = resque_config[rails_env]
+```
+
+The lib/tasks/resque_tasks.rake looks like this:
+
+```ruby
+require 'resque/tasks'
+```
+
+The following line is missing for Rails 4.1. We can manually add it to the generated rake task to get resque working.
+
+```ruby
+task 'resque:setup' => :environment
+```
+
+Step 3
+------
+
+Add the resque and resque_web recipes to the application to app/manifests/application_manifest.rb, within the ApplicationManifest class as follows:
+
+```ruby
+recipe :resque
+recipe :resque_web 
+```
+
+Step 4
+------
+
+Configure the admin interface for resque_web by defining the password in moonshine.yml.
+
+```ruby
+:resque:
+  :web:
+    :username: resque     # default none
+    :password: sekrit     # default none
+    :port: 5678           # default 8282
+```
+
+Step 5
+------
+
+Mount Sinatra Resque Admin app in routes.rb:
+
+```ruby
+mount ResqueWeb::Engine => "/resque_web"
+```
+
+Step 6
+------
+
+HTTP Basic Authentication is supported out of the box. Simply set the environment variables RESQUE_WEB_HTTP_BASIC_AUTH_USER and RESQUE_WEB_HTTP_BASIC_AUTH_PASSWORD to turn it on. You can add the following lines to the ~/.profile on the production server:
+
+```sh
+export RESQUE_WEB_HTTP_BASIC_AUTH_USER='user-name'
+export RESQUE_WEB_HTTP_BASIC_AUTH_PASSWORD='very-secret'
+```
+
+Step 7
+------
+
+You can view the resque dashboard at the url: http://www.example.com/resque_web/
+
 References
 ==========
-------------
+----------
 
 [Resque Retry](https://gist.github.com/PatrickTulskie/1104922 "Resque Retry")
 [Background Jobs with Resque ](http://tutorials.jumpstartlab.com/topics/performance/background_jobs.html "Background Jobs with Resque")
 [Resque](http://railscasts.com/episodes/271-resque?view=asciicast "Resque")
+
+
+  
+
+
+
+NOT WORKING NOW
+You can use secrets.yml so that you don't checkin the password values in this file.
+
+Define resque_web_password in the secrets.yml and change the moonshine.yml to use ERB tag like this:
+
+```ruby
+:password: <%= Rails.application.secrets.resque_web_password %>
+```
+NOT WORKING NOW
+
+
+DOES NOT SEEM LIKE THIS STEP IS REQUIRED.
+2. Add 
+
+```sh
+require 'resque' 
+```
+to the Rakefile. 
+DOES NOT SEEM LIKE THIS STEP IS REQUIRED.
+
+
+
+

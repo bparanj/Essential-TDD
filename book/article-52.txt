@@ -1,7 +1,6 @@
 Mailchimp on Rails
 
 
-Hosting on a Linode gives you 2 GB of RAM for just $20/month. There is no need to worry about memory footprint for now. So there is no need to use Sidekiq because it requires you use only threadsafe gems. I don't want to check if all the gems that is used in the background jobs is thread safe or not.
 
 Let's use the simple solution that is easy to setup and get it up and running quickly.
 

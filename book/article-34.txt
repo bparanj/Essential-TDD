@@ -322,7 +322,6 @@ end
 
 The first two tests we wrote is like scaffold of a building. Once the building construction is done, scaffold goes away.
 
-
 Step 11
 ----------
 
@@ -357,3 +356,8 @@ class FindPrime
 end
 ```
 
+Summary
+=======
+-------
+
+In this article we saw how the tests that test the implementation eventually is deleted. We hide the implementation details by making it private to the class. 
