@@ -2,9 +2,9 @@ TDD Advanced Concepts : Double Dispatch
 
 Objective
 =========
+----------
 
-- Learn how to use double dispatch to make your code object oriented.
-  
+- Learn how to use double dispatch to make your code object oriented.  
   
 Problem Domain Analysis
 =======================

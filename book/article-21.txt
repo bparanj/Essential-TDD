@@ -4,6 +4,7 @@ TDD Advanced Concepts : Test Spy
 
 Objective
 =========
+----------
 
 - Learn how to use stubs with Test Spy in Ruby.
 

@@ -3,6 +3,7 @@ TDD Basics : Learning Specs
 Objectives
 ================
 ----------------
+
  - Why do we need learning specs?
  - How to write learning specs?
 

@@ -3,11 +3,13 @@ TDD Basics : Code Mutation
 
 Objective
 =========
+---------
 
 - To illustrate the need to mutate the code when the test passes without failing.
 
 Discussion
 ==========
+---------
 
 The test is written before the code and if it passes without failing, then we don't know if the test is correct. In such cases, you must modify the production code to make the test fail to make sure that it is testing the right thing. 
 
@@ -25,12 +27,12 @@ require_relative 'ruby_extensions'
 
 describe 'Ruby extensions' do
   it 'return a list of elements common to both arrays without duplicates' do
-	  a = [1,1,3,5]
-		b = [1,2,3]
-		result = a.intersection(b)
+    a = [1,1,3,5]
+    b = [1,2,3]
+    result = a.intersection(b)
 		
-		result.should == [1, 3]
-	end 
+    result.should == [1, 3]
+  end 
 end
 ```
 
@@ -85,7 +87,7 @@ Change the ruby_extensions.rb so that only the second spec fails like this:
 class Array
   def intersection(another)
     return [1] if another.size == 2
-		self & another
+    self & another
   end
 end
 ```

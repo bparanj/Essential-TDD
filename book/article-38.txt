@@ -7,6 +7,26 @@ Fast Tests With and Without Rails Episode Review
 
 The specs in the final solution abuses mock by mocking the ActiveRecord API. The expectation mocks update_attributes. He says the solution only depends on RSpec and specs run outside of Rails, so the specs run fast. The problem is that the dependency on Rails exists because of the coupling created by the mocking of ActiveRecord. The tests are now brittle and can break when you upgrade Rails if the active record API changes.
 
+Before
+-------
+
+```ruby
+alice.should_receive(:update_attributes).with(happiness => 60)
+```
+
+This ties the test to implementation. Here is a better way:
+
+After
+--------
+
+```ruby
+expect do
+  alice.nice_walk
+end.to increase(:happiness).by(60)
+```
+
+This simplifies outcomes and does not break when implementation of ActiveRecord changes (for instance, when you upgrade the Rails framework).
+
 Growing a Test Suite Episode Review
 ===================================================
 

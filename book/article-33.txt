@@ -1,3 +1,5 @@
+UDPATE IMMEDIATELY AND NEXT ITERATION TACKLE THE FOLLOWING
+
 PENDING: UPDATE THE ARTICLE
 ----------------------------------------------------
 Solution Domain Analysis
@@ -381,6 +383,11 @@ The code evolved from:
 4. If-else condition    --> While loop
 
 While is a more generic construct than if-else. If-else is more generic than returning a constant and so on. We see that the code became more generic as our tests became more specific. For an indepth discussion read about Transformation Priority Premise by Robert Martin on his blog.
+
+Refactoring is changing the structure without changing the behavior.
+Transformation is changing the behavior with the least change in the structure. This forces us to write minimal code to pass the current test.
+
+Transformation and Refactoring are the two sides of the same coin. Red to Green is transformation. Green to Green is refactoring.
 
 Q & A
 =========

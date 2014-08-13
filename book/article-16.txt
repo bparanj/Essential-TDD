@@ -1,11 +1,11 @@
-Guessing Game - Part 6
 
-TDD Basics : Test Behavior Not Implementation
 
+TDD Basics : Test Behavior Not Implementation - Guessing Game Kata Part 6
 
 
 Objective
 =========
+----------
 
 - To lean how to write tests that is focused on behavior and not the implementation details.
   
@@ -77,7 +77,6 @@ Failure/Error:
       got: ("Welcome to the Guessing Game")
 ```
 
-
 Step 5
 -----------
 
@@ -127,12 +126,10 @@ Step 6
 
 All specs pass now. 
 
-
 Step 7
 --------------
 
 Let's make the spec use computer_pick instead of random. This makes the variable expressive of gaming domain instead of being tied to implementation.
-
 
 ```ruby
 require_relative 'guess_game'
@@ -197,7 +194,6 @@ Step 10
 --------------
 
 Now all specs pass.
-
 
 Step 11
 -----------

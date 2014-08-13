@@ -1,6 +1,116 @@
-Fragile Tests
 
+Use the Calculator add method to implement the sum of given list of integers.
+
+
+Rails Test Prescriptions
+--------------------------
+Emphasize what's different in each test.
+View testing: Can you drive the design of view?
+Easy to test when the view is visible. Test at the semantic level not the structure. Use dom ids for testing.
+
+Testing Done Good Presentation
+---------------------------------------
+
+Good test : Independent, Repeatable, Clear, Concise, Reliable
+
+Independent : No dependency on any external tests or data to run.
+
+Antipattern: Global data, Fixtures
+Good practice: Factories, teardown / transactions, Paying attention
+
+Repeatable : Challenges - Date, Time, Random Numbers
+Solution : Encapsulation with service objects, Mocks (???)
+Clear : Challenges - Fixtures, long tests
+
+Incomprehensible naming, magic results, being clever
+Solution: Good naming, factories, refactoring test setups, knowing the big picture (How does this test fit into overall scheme of what you are doing)
+Don't be clever, keep it simple and clean.
+Complicated tests indicate complicated code.
+
+Refactor: Simplify by dealing with dependency.
+Concise : Use minimum amount of code and objects to achieve it's goal.
+
+Antipattern: Long setups, creating too many objects. Multiple assertions. Slow tests. Too many tests.
+
+Pick data that is minimal (boundary condition to deal with off by one error)
+
+Best practices: Macros, single assertion, strategic object and test creation.
+
+Reliable : Fail when code is wrong and vice-versa.
+
+Antipattern: Test is too specific.
+Mocking: When it knows too much about implementation.
+Testing surface issues: String representation
+Testing something that mock returns
+Best practice: Indirect testing (eg using dom ids)
+Defensive mocking : Using null object to ignore unexpected calls.
+
+Interface Sensitivity
+Behavior Sensitivity
+Data Sensitivity
+Context Sensitivity
+
+Executable spefication : Specify behavior
+Defect localization
+Specificity - Simplicity
+Risk Reduction
+Verify behavior in the impossible circumstances
+Don't mock yourself out
+Avoid test-specific hooks in SUT
+
+Simple Tests : Verify one condition per test
+Expressive Test : DSL.
+Separation of concerns : Test concerns separately
+Communicate Intent : Avoid conditional test logic
+Isolate the SUT. Replace DoC with test double using dependency injection.
+
+Goals of Test Automation
+---------------------------------------
+
+Tests as Specification : Executable Spec --> Specify behavior --> Design
+Tests as documentation : Executable Docs --> Communication / Collaboration
+Tests as Safety Net    : Catch Bugs      --> Regression
+Tests as Change Enabler : Test should require minimum maintenance --> Ease of Maintenance
+
+Maintainable – Tests should be easy to understand and modify and extend.
+
+
+
+Production Bugs -- No test, False +, False -, Buggy tests
+High test maintenance cost
+code duplication
+hard-to-test code
+Improve quality
+East to write / maintain
+
+A little bit of test code duplication is ok if it improves readability
+Stub is used to control when and what happens
+Focus on one thing at a time. Get it working. Make it clean. Focus on what and then on how.
+
+
+I use simplicity as the criteria for choosing to use classic or mockist approach.
+
+Simplicity is the Key
+Subjective qualities:
+T Testable
+U Understandable
+B Browsable
+E Explainable
+
+Testable - Can write tests to automatically check for problems. Impacts design.
+Browsable - Able to find what you want when you want it.
+Understandable - Someone new may not understand.
+Explainable - Easy to show new people how everything works.
+
+
+
+
+
+Fragile Tests
+---------------------------------------
 Overspecifying : Specifying purely internal behavior. Using mocks instead of stubs.
+
+
 Separate tests that measure progress from those that catch regressions.
 Start testing with the simplest success case.
 Write the test that you would want to read.
@@ -12,24 +122,15 @@ Tuning the cycle.
 
 Hiding the right info.
 Context independent.
-DAS screencast:
-alice.should_receive(:update_attributes).with(happiness => 60)
-This ties the test to implementation.
+Port and adapters
 
-Better way :
-
-expect do
-  alice.nice_walk
-end.to increase(:happiness).by(60)
-
-Simplifies outcomes and does not break when implementation of ActiveRecord changes (when you upgrade the Rails framework).
 
 Not listening to tests. Using spork to test instead of addressing the design flaw.
 
 
 
-
-
+TDD Workshop
+-------------
 
 Over 50 members of the San Francisco and South Bay Area developer community headed to Thoughtworks SF office on August 9th for an all day TDD Workshop. At this workshop attendees were introduced to Test Driven Development in Ruby using RSpec framework. The introductory talk was presented by Bala Paranj. This presentation was focused on learning subskills required to do TDD. 
 
@@ -40,4 +141,73 @@ Summary of PhantomFlow and PhantomJS
 Summary of Test Fast.
 
 Developers worked in pairs to pair-program on a simple Factorial problem. 
+
+
+
+
+The TDD Express : From Fast to Fastest presentation by Bill DePhillips
+
+describe Dice do
+ it 'returns a random number for a roll' do
+   expect(Dice.roll).to be_a Fixnum 
+ end
+ 
+ it 'is random over many runs' do
+   lots_of_rolls = 100.times.map { Dice.roll }
+   expect(lots_of_rolls.uniq.sort).to eq[1,2,3,4,5,6]
+ end
+end
+
+Problems:
+
+1. Testing for data type : If the data type changes without changing behavior the test will break.
+2. Why 100 for the second spec? What is the minimum number of times you need to loop? What if we can eliminate the loop altogether so that we don't generate 100 random numbers for each test run?
+
+Example for overcoding is a good idea. Bad example.
+
+
+
+TDD Bootcamp Checklist
+------------------------
+
+1. Use names from registration sheet.
+2. Conextra format in cards. Candidate class list. Underline nouns and verbs. Focus on problem domain. No framework.
+3. Email cell phone before event.
+4. RSpec Syntax Cheat Sheet
+5. Ask for a volunteer to do pair programming.
+6. Give materials and exercises before class.
+7. Pass Look and Cook book.
+8. DVD Making Complex Matters Simple
+9. Bose Speakers
+10. Laptop, Power cable, Presentation adapters
+11. Flip charts
+12. Laser pointers
+13. Water
+14. Directions
+15. Recorder and Tripod
+16. Exercise description with guidelines
+17. Answer key
+18. Index cards with notes
+19. Look and Cook book
+20. Critique sheets
+21. USB Drive
+22. Handoouts pdf file (at the end of presentation)
+
+
+References:
+
+List 
+
+Where to Go Next:
+
+Course Structure
+------------------
+
+Episode 1
+
+1. Introduction 
+2. Demo - Factorial
+3. Exercise - Fibonacci
+
+
 

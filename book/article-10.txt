@@ -5,6 +5,7 @@ TDD Beyond Basics : Contract Tests
 
 Objectives
 ==========
+-------------
 
 - Learn how to write Contract tests
 - Learn about reliable test. 
@@ -15,7 +16,7 @@ Discussion
 
 In this lesson you will be introduced to Contract tests. You will learn how to use Contract tests to explicitly document the behavior of an API for invalid inputs. You will also learn about reliable test, a test that fails when it should.
 
-Who should be responsible for handling invalid inputs? Client or the supplier? If we make both client and the supplier code check for invalid inputs, it is called Defensive Programming.
+Who should be responsible for handling invalid inputs? Client or the supplier? If we make both client and the supplier code both check for invalid inputs, it is called Defensive Programming.
 
 **Why Defensive Programming is not a good idea?**
 
@@ -54,7 +55,7 @@ Create week.rb with the following contents:
 ```ruby
 class Week
   DAYS = { "1" => :monday, 
-           "2" => ':tuesday, 
+           "2" => :tuesday, 
            "3" => :wednesday, 
            "4" => :thursday, 
            "5" => :friday, 
@@ -154,7 +155,7 @@ Let's revert back the implementation to working version. Since clients are depen
 ```ruby
 class Week
   DAYS = { "1" => :monday, 
-           "2" => ':tuesday, 
+           "2" => :tuesday, 
            "3" => :wednesday, 
            "4" => :thursday, 
            "5" => :friday, 
@@ -200,7 +201,7 @@ Here is the code for week.rb:
 ```ruby
 class Week
   DAYS = { "1" => :monday, 
-           "2" => ':tuesday, 
+           "2" => :tuesday, 
            "3" => :wednesday, 
            "4" => :thursday, 
            "5" => :friday, 
@@ -216,7 +217,7 @@ class Week
 
   def self.end(n)
     if n.to_i < 5
-      raise 'The given number is not a weekend'
+      raise "The given number is not a weekend"
     else
       DAYS.fetch(n)
     end
@@ -285,5 +286,3 @@ Summary
 -----------
 
 In this lesson you learned about contract tests and why it is important to include them in your specs. You also learned about Bertrand Meyer's guideline about throwing exceptions.
-
-

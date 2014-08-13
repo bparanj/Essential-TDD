@@ -2,6 +2,7 @@ TDD Basics : Bowling Game Kata
 
 Objectives
 ==========
+----------
 
 - Learn why you should not make changes to both production code and specs and then run specs.
 - Learn how to find abstractions in the domain to make your code expressive.

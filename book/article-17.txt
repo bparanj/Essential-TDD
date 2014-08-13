@@ -1,22 +1,23 @@
-Guessing Game - Part 7
 
-TDD Beyond Basics : Synchronization Specs
+
+TDD Beyond Basics : Synchronization Specs - Guessing Game Kata Part 7
 
 
 Objective
 =========
+----------
 
 - To learn how to keep mocks in sync with the real class. 
 
 Discussion
 =========
----------------------------
+-----------
 
 In an earlier article we ran into a problem when the mock went out of sync with the StandardOutput class. We had deferred the discussion about this topic in that article. The StandardOutput class is one of several concrete implementation of an user interfacing object. We could have GuiOutput as another concrete implementation of the same interface. The fake_console mock is a generic **role** that represents an user interfacing object. In this lesson we will write synchronization specs to keep mocks in sync with production code.
   
 Steps
 =========
----------------------------
+----------
 
 Step 1
 -------

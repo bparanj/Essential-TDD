@@ -360,4 +360,4 @@ Summary
 =======
 -------
 
-In this article we saw how the tests that test the implementation eventually is deleted. We hide the implementation details by making it private to the class. 
+In this article we saw how the tests that test the implementation eventually is deleted. We hide the implementation details by making it private to the class. Sometimes, you will have many private methods that operates on the same set of data and might be hiding an abstraction. In such cases, you can extract the functionality in the private methods into it's own class that can be tested separately. 

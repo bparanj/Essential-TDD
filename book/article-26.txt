@@ -2,6 +2,7 @@ TDD Basics : Bowling Game Kata Part 3
 
 Objective
 =========
+----------
 
 - To learn why to fail loudly when something goes wrong.
   

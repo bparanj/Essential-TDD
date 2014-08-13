@@ -31,7 +31,7 @@ describe Calculator do
 end
 ```
 
-The describe is a RSpec method. In this case, we are describing the behavior of the Calculator class. We are expressing the requirement in the method called 'it' that takes a string as it's argument. 
+The **describe** is a RSpec method. In this case, we are describing the behavior of the Calculator class. We are expressing the requirement in the method called **it** that takes a string as it's argument. 
 
 Step 2
 ----------
@@ -39,7 +39,7 @@ Step 2
 Go to the directory where the spec file resides and run the test like this:
 
 ```ruby
-$ rspec calculator_spec.rb --color --format documentation
+$rspec calculator_spec.rb --color --format documentation
 ```
 
 This test fails. 
@@ -52,6 +52,10 @@ Define Calculator class at the top of the calculator_spec.rb file with the code 
 ```ruby
 class Calculator
 end
+
+describe Calculator do
+  it 'should add given two numbers' 
+end
 ```
 
 You now see a pending spec. This is because you have not written the test yet.
@@ -62,6 +66,9 @@ Step 4
 Let's write the test as follows:
 
 ```ruby
+class Calculator
+end
+
 describe Calculator do
   it 'should add given two numbers' do
     calculator = Calculator.new
@@ -73,7 +80,7 @@ describe Calculator do
 end
 ```
 
-The describe is a method that takes the class name as its argument. The test is written inside the do-end block of the 'it' method. The it() method takes a string argument. This string argument is called the 'doc string' and describes the scenario we are testing. 
+The describe() is a method that takes the class name as its argument. The test is written inside the do-end block of the **it** method. The it() method takes a string argument. This string argument is called the **doc string** and describes the scenario we are testing. 
 
 We first create an instance of the Calculator class. The second step is invoking the method add(x, y) to calculate sum of two numbers. The third step is checking if the result is the same as we expect. In this step, we have converted the statement that is true to an assertion. The expect() method is the assertion in rspec. It takes an argument that needs to be verified for correctness.
 
@@ -91,7 +98,11 @@ Define the add method to the class as follows:
 class Calculator
   def add(x,y)
     
-	end
+  end
+end
+
+describe Calculator do
+  # The code here is same as before.
 end
 ```
 
@@ -127,10 +138,9 @@ require_relative 'calculator'
 class Calculator
   def add(x,y)
     x + y 
-	end
+  end
 end
 ```
-
 
 Step 11
 --------------
@@ -139,9 +149,19 @@ Run the test again. It should now pass.
 
 Summary
 =========
+-----------
 
 In this article we took little baby steps. We wrote the test first. Initial error messages were related to setting up the environment. Once you get past that, you can make the test fail for the right reason. Then you implement the code to make the test pass. Once you get to green you can cleanup the test and the production code. This is called as refactoring. We will discuss more about refactoring in another article.
 
+Q&A
+-----------
+**Why do we need to make the test fail for the right reason?**
+
+Test does not have a test to prove its correctness. The correctness of the test is done manually, just once by making sure that it fails for the right reason. Strive to make the test so simple that it does not require a test.
+
+**Why did we define the Calculator class in the same file as the test?**
+
+We did that for convenience, we were able to see all the code at once. You don't have to have them in the same file. You could have split panes in your IDE showing both files so that it is easy to write code.
 
 Exercises
 ===========
@@ -168,5 +188,3 @@ rspec calculator_spec.rb
 ```
 
 What do you see as the output in the terminal?
-
-

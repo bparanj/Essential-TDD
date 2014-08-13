@@ -1,15 +1,21 @@
-Update the following articles on the site:
 
-2,3,4,5,6,7, 8, 9, 10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29, 46 and 49
+Open Closed Principle article: Discussion questions must be answered in the answer key.
+
+1. Update the following articles on the site:
+21,22,23,24,25,27,28,29,33 46, 54 and 49
+2. Test the article content on Resque and background jobs. Update the resque article on the site.
+3. Start from article on Stripe Monthly subscription feature?
+4. Add the free Essential TDD presentations to udemy.com as a free course. Link back to rubyplus.com to capture leads.
+5. In article 31, explain spiking and how it fits with TDD.
 
 
-Test the article content on Resque and background jobs. Update the resque article on the site.
-Start from article on Stripe Monthly subscription feature?
 
 
-Add the free Essential TDD presentations to udemy.com as a free course. Link back to rubyplus.com to capture leads.
 
 
+
+At Home
+----------
 1. Scan Red, Green, Refactor diagram.
 2. Article 7 : Insert the simplified version of the Red, Green, Refactor diagram.
 3. Article 9 should link to a discussion on the most desirable kind of changes to code: configuration driven, additive, localized. Find the scanned notes on this laptop to create that article.
@@ -26,17 +32,23 @@ We change only one specific location in our existing code base to implement a ne
 
 Find the scanned notes that covers the above topic and write an article.
 
-4. In article 31, explain spiking and how it fits with TDD.
-
-
-Environment Variables : https://gorails.com/episodes/environment-variables
-
-Transformation and Refactoring are the two sides of the same coin. Red to Green is transformation. Green to Green is refactoring.
-
-Refactoring is changing the structure without changing the behavior.
-Transformation is changing the behavior with the least change in the structure. This forces us to write minimal code to pass the current test.
-
 
 
 Questions
 Do we test methods?
+
+
+SUBMIT A PULL REQUEST
+
+When the generator is run, the lib/tasks/resque_tasks.rake looks like this:
+ 
+require 'resque/tasks'
+ 
+The following line is missing for Rails 4.1. I had to manually add it to
+the generated rake task to get resque working.
+ 
+```ruby
+task 'resque:setup' => :environment
+```
+Maybe the generator can be changed for Rails 4.1?
+

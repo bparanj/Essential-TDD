@@ -1,6 +1,6 @@
-Guessing Game - Part 9
 
-TDD Beyond Basics : Seams in a System
+
+TDD Beyond Basics : Seams in a System - Guessing Game Kata Part 9
 
 
 Objectives

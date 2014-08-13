@@ -1,10 +1,11 @@
-Guessing Game - Part 5
 
-TDD Basics : Refactor in Green State
+
+TDD Basics : Refactor in Green State - Guessing Game Kata Part 5
 
 
 Objectives
 ==========
+----------
 
 - Start refactoring when in green state and end refactoring in green state
 - Learn how to express the relationship between the doc string and the test data
@@ -102,7 +103,6 @@ GuessGame validates guess entered by the user : lower than 1
     expected: "The number must be between 1 and 100"
     got: nil (using ==)
 ```
-
 
 Step 7
 --------------
@@ -222,6 +222,3 @@ Summary
 -----------
 
 In this article you learned about staring the refactor when in green state and ending in green state when refactoring is complete. You also learned about the using stub for incidental interaction in the spec. We also saw how to express the relationship between the doc string in the spec and the data set.
-
-
-

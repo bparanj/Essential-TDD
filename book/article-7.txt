@@ -11,11 +11,11 @@ Diagram from C1 goes here
 PUBLISHED
 
 5. TDD Basics : TDD Cycle : Red, Green, Refactor
-=========
----------------------
+
 
 Objectives
 =========
+-------------
 
 - Focus on getting it to work first, cleanup by refactoring and then focus on optimization.
 - When refactoring, start green and end in green.
@@ -24,6 +24,7 @@ Objectives
 
 Problem Statement
 ===================
+-------------
 
 Generate Fibonacci sequence for a given number.
 
@@ -408,7 +409,12 @@ Exercises
 ===========
 -----------
 
-- Run the mini-test based Fibonacci and sure all tests pass. ($ ruby fibonacci_test.rb)
+- Run the mini-test based Fibonacci and sure all tests pass. 
+
+```ruby
+$ruby fibonacci_test.rb
+```
+
 - Move the Fibonacci class into its own file and make all the tests pass.
 - Get the output of the mini-test in color.
 - Convert the given mini-test to rspec version fibonacci_spec.rb. You can refer the solution in the appendix of the [Essential TDD book](http://www.rubyplus.com/etdd.pdf "Essential TDD").

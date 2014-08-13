@@ -6,9 +6,21 @@ Objective
 
 - Learn to be minimal when implementing the production code.
 
+Discussion
+=============
+-------------
+
+**Why do we need to be minimal when writing the production code?**
+
+Because, the goal of TDD is to end up with a minimal system. Simplicity is the goal. 
+
+**Why do we aim for a minimal system?**
+
+Because it will be maintainable. In a maintainable system, tests will be easy to understand, modify and extend. Keeping your code ready for unexpected changes is about simple design.
+
 Steps
 ==========
----------------------
+----------
 
 Step 1
 -------
@@ -329,17 +341,21 @@ Step 22
 
 Run the specs. The specs will pass. 
 
-Discussion
+Q&A
 =============
 -------------
 
-**Why do we need to be minimal when writing the production code?**
+**How do we achieve simplicity?**
 
-Because, the goal of TDD is to end up with a minimal system. Simplicity is the goal. 
+It's about saying no to future requirements and extra flexibility. 
 
-**Why do we aim for a minimal system?**
+**How do you recognize simple design?** 
 
-Because it will be easy to maintain.
+Knowledge. Knowledge is insight in problem domain. It develops over time.
+
+**How can you achieve simple design?**
+
+Gain knowledge. Refactor to reflect new understanding. Code bare minimum. Keep things as simple as possible for as long as possible.
 
 **Do we always have to take such small steps?**
 
@@ -354,3 +370,9 @@ Exercises
 - Download the [BDD_Basics_I.mov screencast](https://s3.amazonaws.com/clickplan.com/download/BDD_Basics_I.mov.zip "BDD Basics Part 1") and watch the demo screencast. 
 - Watch [BDD_Basics_II.mov] (https://s3.amazonaws.com/clickplan.com/download/BDD_Basics_II.mov.zip 'BDD Basics Part 2') video.
 - Watch [BDD_Basics_III.mov] (https://s3.amazonaws.com/clickplan.com/download/BDD_Basics_III.mov.zip 'BDD Basics Part 3') video.
+
+Reference
+===========
+-----------
+
+1. The Test Automation Manifesto - A paper by Gerard Meszaros, Shaun Smith and Jennitta Andrea.

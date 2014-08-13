@@ -1,10 +1,11 @@
-Guessing Game - Part 2
 
-TDD Beyond Basics : Single Purpose Principle
+
+TDD Beyond Basics : Single Purpose Principle - Guessing Game Kata Part 2
 
 
 Objective
 ==========
+----------
 
 - To learn about Single Purpose Principle
 

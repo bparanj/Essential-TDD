@@ -11,9 +11,9 @@ Discussion
 ==========
 ---------
 
-The tests must specify and focus on *WHAT* instead of implementation, the *HOW*. Loops are implementation details.
+The tests must specify and focus on **WHAT** instead of implementation, the **HOW**. Loops are implementation details. For an indepth discussion on What vs How, read the [What vs How in Test Driven Development](http://www.rubyplus.com/articles/411 "What vs How in Test Driven Development") article. 
 
-For an indepth discussion on What vs How, read the [What vs How in Test Driven Development](http://www.rubyplus.com/articles/411 "What vs How in Test Driven Development") article. Just quickly read the following code for meszaros gem : https://github.com/bparanj/meszaros to see the utility methods that help to eliminate loops in specs. Here is the loop_spec.rb
+Just quickly read the following code for meszaros gem : https://github.com/bparanj/meszaros to see the utility methods that help to eliminate loops in specs. Here is the loop_spec.rb
 
 ```ruby
 require 'spec_helper'
@@ -137,22 +137,26 @@ Discussion
 
 From the specs, you can see the cases for looping 0, 1 and n times. We gradually increase the complexity of the tests and extend the solution to a generic case of n. It also documents the behavior for illegal inputs. The developer can see how the API works by reading the specs. Data driven spec and repeat methods are available in meszaros gem.
 
-The *WHAT* is like a blue print for a house. Blue print does not get buried under implementation details of a house. The *HOW* is the mechanics of implementation. When you see the blue print for a house you can answer questiosn like:
+The **WHAT** is like a blue print for a house. Blue print does not get buried under implementation details of a house. The **HOW** is the mechanics of implementation. 
+
+![alt text](http://www.rubyplus.com/images/house-blueprint.gif "House Blueprint")
+
+When you see the blue print for a house you can answer questiosn like:
 
 - What is the size of master bed room?
 - What is the living room?
 - Where is the balcony?
 
 and so on. It does not specify the material used to build the house, paint color, whether the floor will be hardwood floor etc. These are implementation details.
-
-Let's take a look at an example to see how the code would look like when it mixes the *WHAT* with *HOW*. The code for before section is stolen from Alex Chaffe's presentation: https://github.com/alexch/test-driven
   
 Before
 =========
---------------
+---------
+
+Let's take a look at an example to see how the code would look like when it mixes the **WHAT** with **HOW**. The code for before section is stolen from Alex Chaffe's presentation: https://github.com/alexch/test-driven
 
 Matrix Test
--------
+-----------
 
 ```ruby
 class String
@@ -170,10 +174,10 @@ describe 'Vowel Checker' do
 end
 ```
 
-This mixes the *WHAT* and *HOW*. It is not clear. Since the implementation detail buries the intent of the spec. It passes with the message:
+This mixes the **WHAT** and **HOW**. It is not clear. Since the implementation detail buries the intent of the spec. It passes with the message:
 
 ```ruby
-$ rspec ruby_extensions_spec.rb --color --format doc
+$rspec ruby_extensions_spec.rb --color --format doc
 
 Vowel Checker
   a is a vowel
@@ -189,7 +193,7 @@ After
 ===========
 -----------
 
-Here is the code after fixing this problem:
+How can we communicate intent in the specs? Here is the code after fixing this problem:
 
 Data Driven Spec
 ----------------
@@ -219,7 +223,7 @@ end
 Run the specs.
 
 ```ruby
-$ rspec ruby_extensions_spec.rb --color --format doc
+$rspec ruby_extensions_spec.rb --color --format doc
 ```
 
 It passes with the following message:
@@ -231,7 +235,7 @@ Finished in 0.00358 seconds
 1 example, 0 failures
 ```
 
-This is a specification that focuses only on *WHAT*. It separates the *WHAT* from the *HOW*. The *HOW* is hidden behind a library call data_driven_spec. The doc string is easily understood without running the program inside your head. Since the spec passed without failing, let's mutate the code like this:
+This is a specification that focuses only on **WHAT**. It separates the **WHAT** from the **HOW**. The **HOW** is hidden behind a library call data_driven_spec. The doc string is easily understood without running the program inside your head. Since the spec passed without failing, let's mutate the code like this:
 
 ```ruby
 class String
@@ -258,5 +262,4 @@ Exercises
 - Can you think of another way to mutate the vowel?() method so that the test fails first? 
 - Can we use the utility method in the Loop class to square or cube all elements in a given array?
 - Can you use a custom RSpec matcher for the vowel check?
-
 

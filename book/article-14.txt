@@ -1,10 +1,10 @@
-Guessing Game - Part 4
 
-TDD Beyond Basics : Null Object
 
+TDD Beyond Basics : Null Object - Guessing Game Kata Part 4
 
 Objective
 =========
+----------
 
 - To learn about as_null_object in rspec
   
@@ -245,8 +245,9 @@ class GuessGame
 end
 ```
 
+Here is the standard_output.rb
+
 ```ruby
-# standard_output.rb
 class StandardOutput 
   def output(message)
     puts message
@@ -264,6 +265,3 @@ Summary
 ---------
 
 In this article you learned about as_null_object and when to use it in your tests. We also ran into the problem of keeping the mock and the real object in sync. We will discuss the solution to this problem later.
-
-
-

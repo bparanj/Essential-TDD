@@ -1,14 +1,17 @@
-5. TDD Beyond Basics : Fakes and Mocks
+TDD Beyond Basics : Fakes and Mocks
 
 
 Objectives
 =========
+-------------
 
+- Learn about Behavior Verification
 - Learn how to use Fakes and Mocks.
 - Learn when to delete a test.
 
 Problem Statement
 ===================
+-------------
 
 Let's consider a scanner that is used in a checkout counter of a store. When you scan an item with a barcode, the name and price of the item is sent to the output console.
 
@@ -150,7 +153,7 @@ Run the specs. The test fails with the following error:
      wrong number of arguments(1 for 0)
 ```
 
-We have two options, either we can delete the first spec or we can move it to a contract spec. Contract specs are discussed in a later chapter. Moving the first spec to a contract spec will be the right choice if we expect our system to be able to deal with different types of scanners which must comply to the same interface.
+We have two options, either we can delete the first spec or we can move it to a contract spec. Contract specs are discussed in an upcoming article. Moving the first spec to a contract spec will be the right choice if we expect our system to be able to deal with different types of scanners which must comply to the same interface.
 
 Step 11
 ----------
@@ -286,7 +289,7 @@ attr_reader :last_line_item
 
 Discussion
 =============
-----------------
+-------------
 
 We broke the dependency on external display object by using a fake object that mimicked the interface of the real object. We used constructor dependency injection to create a scanner object with a fake display. Dependency injection allows us to design loosely coupled objects. We identified the need to decouple the scanner and display objects due to performance problem. This also increases the cohesion of these objects.
 
@@ -316,7 +319,7 @@ describe Scanner do
 end
 ```
 
-The display method is under our control so we can mock it. Mocks is a design technique that is used to discover API. This is an example of right way to Mock. The 'and' part of the doc string has been deleted. The purpose of scanner object is now clear. Scanner object scans items and Display objects display the details of a given line item. Read the article on [Concise Version of Martin Fowler's article on Mocks and Stubs](http://www.rubyplus.com/articles/401 'Mocks are not Stubs') for a quick explanation.
+The display method is under our control so we can mock it. Mocks is a design technique that is used to discover API. This is an example of right way to Mock. The *and* part of the doc string has been deleted. The purpose of scanner object is now clear. Scanner object scans items and Display objects display the details of a given line item. Read the article on [Concise Version of Martin Fowler's article on Mocks and Stubs](http://www.rubyplus.com/articles/401 'Mocks are not Stubs') for a quick explanation.
 
 Summary
 ===========
@@ -326,6 +329,6 @@ In this lesson you learned how to use Fakes and Mocks and when to delete a test.
 
 Reference
 ==========
------------
+----------
 
 Working Effectively with Legacy Code by Michael Feathers

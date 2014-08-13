@@ -2,6 +2,7 @@ TDD Basics : String Calculator Kata
 
 Objectives
 ==========
+----------
 
 - Triangulate to solve the problem
 - Experiment to learn and explore possible solution

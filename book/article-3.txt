@@ -4,11 +4,13 @@ TDD Basics : Canonical Test Structure
 
 Objective
 =========
+---------
 
 - To practice Canonical Test Structure, Given, When, Then
 
 Discussion
 ==========
+---------
 
 According to the dictionary, the term canonical is defined as:
 
@@ -38,22 +40,22 @@ require_relative 'stack'
 
 describe Stack do
   it 'should push a given item' do
-	  stack = Stack.new
-		
-	  stack.push(1)
-		
-    stack.size.should == 1
-	end 
+    stack = Stack.new
 	
-	it 'should pop from the stack' do
-	  stack = Stack.new
+    stack.push(1)
+	
+    stack.size.should == 1
+  end 
+
+  it 'should pop from the stack' do
+    stack = Stack.new
     stack.push(2)
-		
-		result = stack.pop
-		
+	
+    result = stack.pop
+	
     result.should == 2
     stack.size.should == 0
-	end
+  end
 end
 ```
 
@@ -90,7 +92,7 @@ Step 3
 Run the specs. 
 
 ```ruby
-$ rspec stack_spec.rb
+$rspec stack_spec.rb
 ```
 
 You should see them all pass.
@@ -99,7 +101,7 @@ Discussion
 ==========
 ----------
 
-Instead of thinking about 'How do I write a test?'. Ask yourself the following questions:
+Instead of thinking about **How do I write a test?**. Ask yourself the following questions:
 
 - What is the given condition?
 - How do I exercise the system under test?
@@ -107,7 +109,7 @@ Instead of thinking about 'How do I write a test?'. Ask yourself the following q
 
 The answers to these questions will help you write the test. These questions correspond to each of the step in the Canonical Test Structure. 
 
-For example, if you have a class called Car, you need to have fuel in order to drive the car. The given condition in this case is that is has fuel. The 'drive' is the behavior you are testing so you invoke drive() on the instance of a car in order to exercise the system under test. When you drive you expect to travel. So, you can verify the outcome by checking the distance traveled for a given amount of time and average speed.
+For example, if you have a class called Car, you need to have fuel in order to drive the car. The given condition in this case is that is has fuel. The **drive** is the behavior you are testing so you invoke drive() on the instance of a car in order to exercise the system under test. When you drive you expect to travel. So, you can verify the outcome by checking the distance traveled for a given amount of time and average speed.
 
 Identifying Given, When, Then
 =============================
@@ -137,12 +139,12 @@ require_relative 'given_when_then'
 
 describe Stack do
   it 'should push a given item' do
-	  Given { @stack = Stack.new }
+    Given { @stack = Stack.new }
 		
     When { @stack.push(1) }
 		
     Then { @stack.size.should == 1}
-	end
+  end
 end
 ```
 
@@ -152,13 +154,14 @@ Step 4
 Run the stack_spec.rb. It should pass. 
 
 Discussion
-============
+==========
+---------
 
 This is an example for State Verification. We check the state of the system after we exercise the SUT for correctness.
 
 Summary
 =========
-------------
+---------
 
 In this article we used the training wheels given_when_then.rb to practice identifying the three steps of the canonical test structure. It is also called as Arrange Act Assert or AAA. These training wheels are not required once you understand the concept.
 
@@ -176,18 +179,18 @@ Q&A
 ===========
 -----------
 
-1. What if the method does many things things that needs to be tested?
+**What if the method does many things things that needs to be tested?**
 
 Ideally a method should be small and do just one thing. If a method has three steps with different scenarios, then you will write three different specs for each scenario.
 
-2. What if I want to test push and pop in one test?
+**What if I want to test push and pop in one test?**
 
 The structure of the test is Arrange, Act, Assert. There should be only one Arrange, one Act and one Assert per test. In this case you would have multiple of each of these steps. So it does not follow the best practice. 
 
-3. Why do we need just one AAA in our test?
+**Why do we need just one AAA in our test?**
 
 Because if you had multiple of each of the steps, you would have the state at the end of the first assertion interact with the state at the end of the second assertion. Ideally we want each test to be isolated. 
 
-4. What is isolation?
+**What is isolation?**
 
 Isolation means that the state is clean in the beginning of each test and it cleans up the state at the end of each test. This makes our tests independent. Making tests independent is a good practice. When the tests are independent we can run them in any order and they will pass.

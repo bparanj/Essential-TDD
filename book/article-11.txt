@@ -1,13 +1,11 @@
-
-Guessing Game - Part 1
-
-TDD Beyond Basics : Testing Random Behavior
+TDD Beyond Basics : Testing Random Behavior - Guessing Game Kata Part 1
 
 
-Objective
+Objectives
 ==========
 
 - Learn how to test random behavior
+- Learn how to identify and fix overspecifying behavior in your tests
 
 Problem Statement
 ===================
@@ -66,12 +64,30 @@ Run the specs.
 $rspec guess_game_spec.rb 
 ```
 
-The random generator spec will only pass when the generated random number is 50. It will fail more often.
+The random generator spec will only pass when the generated random number is 50. It will fail more often. Here is a solution that is based on 'The TDD Express : From Fast to Fastest' presentation by Bill DePhillips
+
+```ruby
+describe Dice do 
+ it 'is random over many runs' do
+   lots_of_rolls = 100.times.map { Dice.roll }
+   expect(lots_of_rolls.uniq.sort).to eq[1,2,3,4,5,6]
+ end
+end
+```
+
+This is an example for overspecifying in the test. It is also flawed because the randomness is now narrowly defined to be numbers between 1 and 6 inclusive. This accidental complexity also decreases the performance of the test suite. 
+
+- Why generate 100 random numbers? 
+- What is the minimum number of random numbers you need to write the test? 
+- How can we specify that the generated random number is within the expected range of numbers?
+- What if we can eliminate the loop altogether so that we don't generate 100 random numbers for each test run?
+
+We always strive for the minimal data set we need for writing a test. We want the test to be as simple as possible. This makes the tests easy to maintain.  We will come up with a better solution in the next step.
 
 Step 4
 ------------
 
-You cannot use stub to resolve the randomn failures because you will stub yourself out. So, what statement can you make about this code that is true? Can we loosen our assertion and still satisfy the requirement? The guess_game_spec below deals with the problem of randomness.
+Can we use a stub? No, you cannot use stub to resolve the randomn failures because you will stub yourself out. So, what statement can you make about this code that is true? Can we loosen our assertion and still satisfy the requirement? The guess_game_spec below deals with the problem of randomness.
 
 ```ruby
 require_relative 'guess_game'
@@ -93,10 +109,10 @@ This spec checks only the range of the generated random number is within the exp
 expected_range.include?(result)
 ```
 
-This does not use cover rspec matcher.
+This does not use cover rspec matcher. This example shows you that you don't have to overspecify in your tests.
 
 Summary
 ===========
 -----------
 
-In this lesson you learned about testing randomness. In the subsequent lessons we will gradually build the guessing game and learn other design principles and testing techniques.
+In this lesson you learned about testing randomness and how to identify and fix overspecifying behavior. In the subsequent lessons we will gradually build the guessing game and learn other design principles and testing techniques.

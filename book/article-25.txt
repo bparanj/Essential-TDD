@@ -2,6 +2,7 @@ TDD Basics : Bowling Game Kata Part 2
 
 Objective
 =========
+----------
 
 - To learn how to maintain a growing test suite.
 

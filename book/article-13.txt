@@ -1,10 +1,9 @@
-Guessing Game - Part 3
-
-TDD Beyond Basics : Dependency Inversion Principle
+TDD Beyond Basics : Dependency Inversion Principle - Guessing Game Kata Part 3
 
 
 Objective
 =========
+----------
 
 - Learn about Dependency Inversion Principle
 

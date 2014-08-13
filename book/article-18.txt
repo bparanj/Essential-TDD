@@ -1,10 +1,11 @@
-Guessing Game - Part 8
 
-TDD Beyond Basics : Single Purpose Principle Revisited
+
+TDD Beyond Basics : Single Purpose Principle Revisited - Guessing Game Kata Part 8
 
 
 Objective
 =========
+----------
 
 - To learn how to apply Single Purpose Principle.
   
@@ -136,7 +137,7 @@ describe ClassName, 'here you can state the purpose of the class' do
 end
 ```
 
-If the class is focused on doing one thing really well, this second argument will be short. It will *NOT* have the words such as *AND*, *OR*. Because when you use those words, the class is doing more than one purpose. 
+If the class is focused on doing one thing really well, this second argument will be short. It will **NOT** have the words such as **AND**, **OR**. Because when you use those words, the class has more than one purpose. 
 
 Summary
 =========

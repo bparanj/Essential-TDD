@@ -10,16 +10,16 @@ Discussion
 ===================
 -------------------
 
-What does test driven development have to do with design principles? Test driven development is not just about reducing the duplication in code. It involves driving the design of the production code through tests.
+This lesson builds on top of the previous lesson on [Fakes and Mocks](http://www.rubyplus.com/articles/141 "Fakes and Mocks"). What does test driven development have to do with design principles? Test driven development is not just about reducing the duplication in code. It involves driving the design of the production code through tests. 
 
 Steps
 =============
--------------------
+-------------
 
 Step 1
 ------------
 
-This lesson builds on top of the previous lesson. Move fake_display.rb and scanner_spec.rb into spec directory. Move real_display.rb and scanner.rb into lib directory. Change the scanner_spec.rb require_relative statement like this:
+Move fake_display.rb and scanner_spec.rb into spec directory. Move real_display.rb and scanner.rb into lib directory. Change the scanner_spec.rb require_relative statement like this:
 
 ```ruby
 require_relative '../lib/scanner'
