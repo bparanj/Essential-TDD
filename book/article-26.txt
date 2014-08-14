@@ -260,7 +260,7 @@ The error is now:
 Bowling::Game return the total score for first two frames of a game
   Failure/Error: g.roll(7, frame: 2)
   TypeError:
-      can't convert Hash into Integer
+      can t convert Hash into Integer
 ```
 
 Step 13

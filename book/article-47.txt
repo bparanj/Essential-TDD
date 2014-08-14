@@ -97,7 +97,7 @@ describe Factorial do
 end
 ```
 
-The describe is a rspec method. It takes a class name in this case, Factorial as the parameter. 
+The describe() is a rspec method. It takes a class name in this case, Factorial as the parameter. 
 
 Step 2
 ----------------

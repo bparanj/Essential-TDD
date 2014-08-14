@@ -124,12 +124,12 @@ We have two choices : we can either return nil or the client can ignore the retu
 
 Tweet Analyser Example
 ======================
------------------------
+----------------------
 
 This is another example that violates Command Query Separation Principle. This is actually published by the Pragmatic Programmer's book on testing. If an author can write bad code like this then it is easy for other developers to write similar smelling code. 
 
 Before
----------
+-------
 
 Version 1 - tweet_analyser_spec.rb as found in the Pragmatic Programmer's book on testing:
 
@@ -156,7 +156,7 @@ end
 It looks like client is tied to the implementation details (it is accessing a data structure) but it is actually any class that can respond to [] method. The command 'word_frequency' is not only calculating the frequency but also returns a result.
 
 After
----------
+-------
 
 Version 2 - tweet_analyser_spec.rb
 
@@ -220,7 +220,7 @@ Let's now implement the word_frequency for real. Change the word_frequency imple
 
 ```ruby
 class TweetAnalyzer
-  ...  
+  # rest of the code same as before
   def word_frequency
     @histogram = Hash.new{0}
     @user.recent_tweets.each do |tweet|
@@ -235,7 +235,7 @@ end
 Run the spec:
 
 ```ruby
-$ rspec tweet_analyzer_spec.rb --color --format documentation
+$rspec tweet_analyzer_spec.rb --color --format documentation
 ```
 
 We get the failure message:

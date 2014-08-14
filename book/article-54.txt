@@ -9,8 +9,8 @@ Problem Statement
 Given two variables x and y, exchange the values assigned to them.
 
 Objective
-=======================
------------------------
+==========
+----------
 
 Learn when to use Obvious Implementation instead of Fake it Till You Make it or Triangulation.
 
@@ -131,7 +131,6 @@ class Exchange
     
   end
 end
-  
 
 describe Exchange do
   it 'should swap the values of the given two variables' do
@@ -151,20 +150,20 @@ Step 2
 Implementing our algorithm makes our test pass.
 
 ```ruby
-  def perform
-    t = @x
-    @x = @y
-    @y = t
-  end
+def perform
+  t = @x
+  @x = @y
+  @y = t
+end
 ```
 
 Discussion
 ==========
 ----------
 
-We did not use Fake It Till You Make It in this case because the implementation was obvious, so we just typed in the correct implementation. Fake It Till You Make It and Triangulation are helpful when you the solution is not obvious and you need to take small steps to learn more about the problem. 
+We did not use **Fake It Till You Make It** in this case because the implementation was obvious, so we just typed in the correct implementation. **Fake It Till You Make It** and **Triangulation** are helpful when you the solution is not obvious and you need to take small steps to learn more about the problem. 
 
-This problem is small. For big problems, you want to decompose it into smaller problems and solve the smaller problems first and combine the solution to smaller problems to solve the big problem. This divide and conquer strategy becomes necessary when the problem is unfamiliar or complex. Obvious Implementation is also called as Right Solution.
+This problem is small. For big problems, you want to decompose it into smaller problems and solve the smaller problems first and combine the solution to smaller problems to solve the big problem. This divide and conquer strategy becomes necessary when the problem is unfamiliar or complex. **Obvious Implementation** is also called as **Right Solution**.
 
 Summary
 ==========

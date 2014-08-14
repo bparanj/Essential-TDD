@@ -39,7 +39,7 @@ Step 2
 Run the spec:
 
 ```ruby
-$ rspec bowling_game_spec.rb --color
+$rspec bowling_game_spec.rb --color
 ```
 
 You get the error:
@@ -354,7 +354,7 @@ Step 20
 When you run the specs, you now get the output:
 
 ```ruby
-1) BowlingGame scores all 1's with 20
+1) BowlingGame scores all 1 s with 20
     Failure/Error: expect(game.score).to eq(20)
       
       expected: 20
@@ -396,7 +396,7 @@ When you run the specs, you now get the output:
 ```ruby
 BowlingGame
   scores all gutters with 0
-  scores all 1's with 20
+  scores all 1 s with 20
 
 Finished in 0.00145 seconds
 2 examples, 0 failures

@@ -385,7 +385,7 @@ load 'sum.rb'
 
 and test using any data. Verify the answer by using the inject method.
 
-Discussion
+Summary
 ===========
 -----------
 

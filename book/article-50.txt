@@ -218,25 +218,25 @@ Step 10
 Here is the quick and dirty implementation that makes all the tests pass.
 
 ```ruby
-  def calculate
-    result = []
-    
-    until Prime.prime?(@n)
-      if (@n % 2) == 0
-        result << 2
-        @n = @n / 2
-      elsif (@n % 3) == 0
-        result << 3
-        @n = @n / 3
-      elsif (@n % 7) == 0        
-        result << 7
-        @n = @n / 7
-      end
+def calculate
+  result = []
+  
+  until Prime.prime?(@n)
+    if (@n % 2) == 0
+      result << 2
+      @n = @n / 2
+    elsif (@n % 3) == 0
+      result << 3
+      @n = @n / 3
+    elsif (@n % 7) == 0        
+      result << 7
+      @n = @n / 7
     end
-    result << @n
-        
-    result
   end
+  result << @n
+      
+  result
+end
 ```
 
 Step 11
@@ -249,11 +249,11 @@ We have already discussed how to generate primes using The Sieve of Erastosthene
 After experimenting in the irb, here is a function that assumes we only need a list of primes upto 100, it takes a number and gives the next prime in the list. This function is added to our existing Erastostenes class.
 
 ```ruby
-  def self.next(n)
-    e = Erastostenes.new(100)  
-    primes = e.calculate
-    primes.detect{|x| x > n}
-  end
+def self.next(n)
+  e = Erastostenes.new(100)  
+  primes = e.calculate
+  primes.detect{|x| x > n}
+end
 ```
 
 Step 12
@@ -262,27 +262,27 @@ Step 12
 Let's refactor our code so that it uses our Sieve of Erastostenes for the evenly divisible check. Here is a partial refactoring:
 
 ```ruby
-  def calculate
-    result = []
-    
-    current_prime = 2
-    
-    until Prime.prime?(@n)
-      if (@n % current_prime) == 0
-        result << current_prime
-        @n = @n / current_prime
-      elsif (@n % 3) == 0
-        result << 3
-        @n = @n / 3
-      elsif (@n % 7) == 0        
-        result << 7
-        @n = @n / 7
-      end
+def calculate
+  result = []
+  
+  current_prime = 2
+  
+  until Prime.prime?(@n)
+    if (@n % current_prime) == 0
+      result << current_prime
+      @n = @n / current_prime
+    elsif (@n % 3) == 0
+      result << 3
+      @n = @n / 3
+    elsif (@n % 7) == 0        
+      result << 7
+      @n = @n / 7
     end
-    result << @n
-        
-    result
   end
+  result << @n
+      
+  result
+end
 ```
 
 All tests passes. Let's continue the refactoring.
@@ -293,23 +293,23 @@ Step 13
 Here is the cleaned up version of the calculate method:
 
 ```ruby
-  def calculate
-    result = []
-    
-    current_prime = 2
-    
-    until Prime.prime?(@n)
-      if (@n % current_prime) == 0
-        result << current_prime
-        @n = @n / current_prime
-      else
-        current_prime = Erastostenes.next(current_prime)
-      end
+def calculate
+  result = []
+  
+  current_prime = 2
+  
+  until Prime.prime?(@n)
+    if (@n % current_prime) == 0
+      result << current_prime
+      @n = @n / current_prime
+    else
+      current_prime = Erastostenes.next(current_prime)
     end
-    result << @n
-        
-    result
   end
+  result << @n
+      
+  result
+end
 ```
 
 All tests pass.
@@ -320,37 +320,37 @@ Step 14
 I added more specs one by one to check the answer for different numbers, here is the new specs:
 
 ```ruby
-  it 'should return [2,3] for input of 6' do
-    prime_factorial = PrimeFactor.new(6)
+it 'should return [2,3] for input of 6' do
+  prime_factorial = PrimeFactor.new(6)
 
-    prime = prime_factorial.calculate
+  prime = prime_factorial.calculate
 
-    expect(prime).to eq([2, 3])
-  end
-  
-  it 'should return [2,2, 2] for input of 8' do
-    prime_factorial = PrimeFactor.new(8)
+  expect(prime).to eq([2, 3])
+end
 
-    prime = prime_factorial.calculate
+it 'should return [2,2, 2] for input of 8' do
+  prime_factorial = PrimeFactor.new(8)
 
-    expect(prime).to eq([2, 2, 2])
-  end
-  
-  it 'should return [2,7] for input of 14' do
-    prime_factorial = PrimeFactor.new(14)
+  prime = prime_factorial.calculate
 
-    prime = prime_factorial.calculate
+  expect(prime).to eq([2, 2, 2])
+end
 
-    expect(prime).to eq([2, 7])
-  end
+it 'should return [2,7] for input of 14' do
+  prime_factorial = PrimeFactor.new(14)
 
-  it 'should handle any number' do
-    prime_factorial = PrimeFactor.new(168)
+  prime = prime_factorial.calculate
 
-    prime = prime_factorial.calculate
+  expect(prime).to eq([2, 7])
+end
 
-    expect(prime).to eq([2, 2, 2, 3, 7])
-  end
+it 'should handle any number' do
+  prime_factorial = PrimeFactor.new(168)
+
+  prime = prime_factorial.calculate
+
+  expect(prime).to eq([2, 2, 2, 3, 7])
+end
 ```
 
 All the tests pass without making any modification to our solution.

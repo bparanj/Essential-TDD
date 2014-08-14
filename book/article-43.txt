@@ -1,8 +1,3 @@
-UPDATE
-----------------
-Update this article with links for each concept linking to articles on that concept.
-----------------
-
 PUBLISHED
 
 Stubs are not Mocks - Concise Version of Martin Fowler's Article
@@ -27,7 +22,7 @@ Fake Objects
 ================
 ----------------
 
-Fake objects actually have working implementations, but usually take some shortcut which makes them not suitable for production (an in memory database is a good example).
+Fake objects actually have working implementations, but usually take some shortcut which makes them not suitable for production (an in memory database is a good example). For a concrete example, read the article [How to Use Fakes to Speed Up Tests](http://www.rubyplus.com/articles/261 "How to Use Fakes to Speed Up Tests")
 
 Mocks
 ================
@@ -35,7 +30,7 @@ Mocks
 
 Mocks are what we are talking about here: objects pre-programmed with expectations which form a specification of the calls they are expected to receive.
 
-Only mocks insist upon behavior verification. The other doubles can, and usually do, use state verification.
+Only mocks insist upon behavior verification. The other doubles can, and usually do, use state verification. For a concrete example, read the article on [Fake and Mocks] (http://www.rubyplus.com/articles/141 "Fakes and Mocks")
 
 Discussion
 ================
@@ -43,4 +38,4 @@ Discussion
 
 The classical TDD style is to use real objects if possible and a double if it's awkward to use the real thing. A mockist TDD practitioner, however, will always use a mock for any object with interesting behavior.
 
-An acknowledged issue with state-based verification is that it can lead to creating query methods only to support verification. It's never comfortable to add methods to the API of an object purely for testing, using behavior verification avoids that problem. For a concrete example, read the article on [Fake and Mocks] (http://www.rubyplus.com/articles/141 "Fakes and Mocks")
+An acknowledged issue with state-based verification is that it can lead to creating query methods only to support verification. It's never comfortable to add methods to the API of an object purely for testing, using behavior verification avoids that problem. 

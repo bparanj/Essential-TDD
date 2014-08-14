@@ -71,7 +71,7 @@ PONG
 You can also play with it in an interactive mode to make sure it's working as follows:
 
 ```ruby
-$ redis-cli
+$redis-cli
 127.0.0.1:6379> ping
 PONG
 127.0.0.1:6379> set foo bar
@@ -80,4 +80,3 @@ OK
 "bar"
 127.0.0.1:6379> 
 ```
-

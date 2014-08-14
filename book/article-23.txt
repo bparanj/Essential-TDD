@@ -65,7 +65,7 @@ Step 3
 Run the spec and watch it fail:
 
 ```ruby
-$ rspec angry_rock_spec.rb --color --format doc
+$rspec angry_rock_spec.rb --color --format doc
 
 Game::AngryRock
   should pick paper as the winner over rock (FAILED - 1)

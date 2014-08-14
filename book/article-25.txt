@@ -10,7 +10,7 @@ Discussion
 ==========
 ----------
 
-Let's review the production code. What's the 20.times { something } code doing? Can we raise the level of abstraction? Missing all the pins is a gutter game and striking all the pins is a strike. Can we change the first spec to call a gutter method and the second spec to call the strike method? If we do so, then we will be focusing on the *WHAT* instead of *HOW*. Looping is a sign that the spec is focusing on the implementation rather than specifying the behavior.
+Let's review the production code. What's the 20.times { something } code doing? Can we raise the level of abstraction? Missing all the pins is a gutter game and striking all the pins is a strike. Can we change the first spec to call a gutter method and the second spec to call the strike method? If we do so, then we will be focusing on the **WHAT** instead of **HOW**. Looping is a sign that the spec is focusing on the implementation rather than specifying the behavior.
   
 Steps
 =========
@@ -61,7 +61,7 @@ Step 3
 Run the spec:
 
 ```ruby
-$ rspec game_spec.rb --color
+$rspec game_spec.rb --color
 ```
 
 Discussion
@@ -168,7 +168,7 @@ Step 11
 All the specs now pass. Let's review the doc string.
 
 ```ruby
-$ rspec game_spec.rb --color --format doc
+$rspec game_spec.rb --color --format doc
 
 Bowling::Game
   should return 0 for a miss (not knocking down any pins)

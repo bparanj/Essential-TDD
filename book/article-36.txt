@@ -2,7 +2,7 @@ REVISIONS TO BE MADE
 Under Problem Statement : example from notes goes here for GCD of 8 & 12 is 4
 Under gcd(18, 30) : Diagram goes here...
 Under Eculidean Algorithm : show diagrams for the steps
-YouTube video link as been added. This must be updated on the site.
+Replace YouTube video link with video that uses the bamboo tablet to illustrate the same concept and change the link to rubyplus video. 
 
 ----------------------------------------------------------------------------
 PUBLISHED
@@ -53,7 +53,7 @@ Basic strategy for computing the gcd of two numbers:
 
 2. If the smaller number exactly divides into the larger number then the smaller number is the GCD else : remove from the larger number the part common to the smaller number and repeat the whole procedure with the new pair of numbers.
 
-gcd(18,30)
+Let's apply the above steps to calcaulate gcd(18,30):
 
 ```sh
 r = 30 mod 18 = 12

@@ -45,7 +45,8 @@ Step 2
 Read the README file for more instructions.
 
 Version 1
----------
+==========
+----------
 
 Step 1
 --------
@@ -66,7 +67,8 @@ $ruby path_to_enlightenment.rb
 ```
 
 Version 2
-------------
+==========
+----------
 
 Second version is the solution to all the exercises. You can compare your solution by browsing the source at https://github.com/bparanj/mongodb-koans
 

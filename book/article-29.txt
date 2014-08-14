@@ -27,10 +27,10 @@ Step 1
 Follow the steps below for installation:
 
 ```ruby
-$ gem install jeweler
-$ jeweler --rspec twits
-$ cd twits
-$ bundle
+$gem install jeweler
+$jeweler --rspec twits
+$cd twits
+$bundle
 ```
 
 The source code for this article can be found at : https://github.com/bparanj/twits
@@ -41,7 +41,7 @@ Step 2
 Run
 
 ```ruby
-$ rspec spec/twits_spec.rb 
+$rspec spec/twits_spec.rb 
 ```
 
 from the root of the project to run the specs. The generated code fails with the error:

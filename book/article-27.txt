@@ -1,4 +1,4 @@
-TDD Basics : Bowling Game Kata Final Version
+TDD Basics : Bowling Game Kata Final Solution
   
 Steps
 =========
@@ -429,8 +429,7 @@ module Bowling
 
         game.roll(1, frame: 6)      
 
-        game.score_total_upto_frame(5).should == 
-  			(6 + 2) + (7 + 1) + (10 + 9 + 0) + (9 + 0) + (8 + 2 + 1)      
+        expect(game.score_total_upto_frame(5)).to eq((6 + 2) + (7 + 1) + (10 + 9 + 0) + (9 + 0) + (8 + 2 + 1))
       end
 
       it "return the score for a game that includes a strike and a spare" do
@@ -451,8 +450,7 @@ module Bowling
 
         game.roll(1, frame: 6)      
 
-        game.score.should == 
-  			(6 + 2) + (7 + 1) + (10 + 9 + 0) + (8 + 2 + 1)      
+        expect(game.score).to eq((6 + 2) + (7 + 1) + (10 + 9 + 0) + (8 + 2 + 1))
       end      
     end
 

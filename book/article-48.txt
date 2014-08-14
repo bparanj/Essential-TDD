@@ -421,7 +421,7 @@ Step 15
 
 Let's tackle the 'Advantage' case now. This is the fourth rule in the problem statement:
 
-4. If at least three points is scored by both players and a player has one more point than his opponent, the score of the game is 'Advantage' for the player with more points.
+If at least three points is scored by both players and a player has one more point than his opponent, the score of the game is 'Advantage' for the player with more points.
 
 
 Add the new test for this case with the code as follows:
@@ -531,7 +531,7 @@ Step 19
 
 Let's tackle the winning game with the following rule:
 
-1. A game is won by the first player to if the player has won at least four points in total and at least two points more than the opponent. 
+A game is won by the first player to if the player has won at least four points in total and at least two points more than the opponent. 
 
 Add the new test for the winning game as follows:
 

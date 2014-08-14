@@ -5,7 +5,7 @@ TDD Beyond Basics : Seams in a System - Guessing Game Kata Part 9
 
 Objectives
 ==========
-------------
+----------
 
 - Learn how to find the seams in a system
 - Learn about exploratory testing  
