@@ -17,11 +17,10 @@ Write a program to output correct score for a tennis game. Here is the summary o
 Sets and matches are out of scope. We only need to report the score for the current game. 
 
 Difficulty Level
-=========
----------------------
+================
+----------------
 
 Medium
-
 
 Steps
 =====
@@ -577,7 +576,9 @@ Discussion
 ==========
 ----------
 
-In this kata we discovered a missing collaborator when we found that the allocation of responsibilities were not in the right class. We found the missing abstraction Player when we eliminated the duplication is scoring logic. We also found that the scores must provide player's name in order to say who won the game. The attributes and behavior associated with a player is encapsulated in it's own class. TennisGame class can be renamed to TennisUmpire class to better represent the abstraction. Because it knows which player won the point and has the knowledge to decide who wins the game based on the points scored by the players.
+In this kata we discovered a missing collaborator when we found that the allocation of responsibilities were not in the right class. We found the missing abstraction Player when we eliminated the duplication is scoring logic. We also found that the scores must provide player's name in order to say who won the game. The attributes and behavior associated with a player is encapsulated in it's own class. 
+
+TennisGame class can be renamed to TennisUmpire class to better represent the abstraction. Because it knows which player won the point and has the knowledge to decide who wins the game based on the points scored by the players.
 
 Some of the tests has two assertions. In a real tennis game, the score is determined based on who is serving. Since we have not taken that into account, we ended up with two assertions. We will keep the two assertions in the tests.
 

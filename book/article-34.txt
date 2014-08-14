@@ -1,6 +1,6 @@
 PUBLISHED
 
-Generate Prime Numbers
+TDD Basics : Generate Prime Numbers
 
 Problem Statement
 ===================

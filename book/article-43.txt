@@ -1,3 +1,8 @@
+UPDATE
+----------------
+Update this article with links for each concept linking to articles on that concept.
+----------------
+
 PUBLISHED
 
 Stubs are not Mocks - Concise Version of Martin Fowler's Article

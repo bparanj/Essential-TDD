@@ -484,4 +484,4 @@ Exercises
 ----------
 
 1. Can you delete some of the tests? What is the minimum number of tests for this problem?
-2. Study the [Prime Factors Analysis]( 'Prime Factors Analysis'). Compute the prime number required only upto a certain number discussed in that article.
+2. Study the [Prime Factors Analysis](http://www.rubyplus.com/articles/541 'Prime Factors Analysis'). Compute the prime number required only upto a certain number discussed in that article.

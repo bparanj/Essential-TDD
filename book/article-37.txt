@@ -17,7 +17,7 @@ Domain
 ==========
 ----------
 
-A specified sphere of activity or knowledge. Example : Visual communication is the domain of the graphic designers.
+A specified sphere of activity or knowledge.
 
 Examples
 ---------
@@ -27,7 +27,7 @@ Examples
  - Opacity
  - Form
  
-These concepts can be grouped into the Visual Communication domain. 
+These concepts can be grouped into the Visual Communication domain. Visual communication is the domain of the graphic designers.
 
 In Finance domain you find terms such as:
 

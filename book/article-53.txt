@@ -1,4 +1,6 @@
-Prime Factors Analysis
+PUBLISHED
+
+Prime Factors Kata Analysis
 
 Problem Domain Analysis
 =======================
@@ -6,7 +8,9 @@ Problem Domain Analysis
 
 Every integer can be expressed as a product of prime numbers. The prime factors of an integer n can be expressed as:
 
+```sh
 n = f1 * f2 * f3 * .... fk
+```
 
 The elements f1, f2, ... fk are all prime factors.
 

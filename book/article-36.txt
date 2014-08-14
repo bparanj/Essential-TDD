@@ -250,7 +250,7 @@ It passes. Our solution is generic to handle any cases.
 Step 8
 ------
 
-Here is the final version after cleanup.
+Here is the final version after cleanup, gcd_spec.rb:
 
 ```ruby
 class Gcd
@@ -285,7 +285,7 @@ class Gcd
 end
 
 
-describe 'GCD' do  
+describe 'Gcd' do  
   it 'should return 4 for 8 and 12' do
     gcd = Gcd.new(8,12)
     result = gcd.calculate
@@ -311,7 +311,6 @@ end
 ```
 
 We have deleted the test that was coupled to the implementation. It is now in the constructor. The reduce method is deleted.
-
 
 Exercise
 ========

@@ -48,7 +48,7 @@ a.count{|x| x >= 10}
 We need to implement our own version of the Ruby's count method called my_count. In this irb console session we only focus on specifying what needs to be done. The details of counting such as how many elements are in the list to be counted, when we need to terminate the loop etc has been hidden inside the count method. As you already know, what needs to be done is the focus of the problem domain analysis.
 
 Steps to Solve the Problem
-===========================
+---------------------------
 
 ```sh
 while < n numbers have been examined do
@@ -92,10 +92,11 @@ while i < n do
 
 end
 ```
-Terminating Condition
----------
 
-i == n is the *terminating condition*.
+Terminating Condition
+---------------------
+
+i == n is the terminating condition.
 
 Consideration of the problem at its lowest limit (i.e., n=0) leads to a mechanism that can be extended to larger values of n by simple repetition. This is a very common technique in algorithm design.
 
@@ -140,6 +141,7 @@ describe MyCount do
   
 end
 ```
+
 Step 2
 ------
 

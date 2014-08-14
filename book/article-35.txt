@@ -225,7 +225,7 @@ We are still green.
 Step 10
 ----------
 
-Here is the complete listing as of now:
+Here is the complete listing as of now, erastosthenes_spec.rb:
 
 ```ruby
 describe Erastostenes do
@@ -259,6 +259,8 @@ describe Erastostenes do
   
 end
 ```
+
+erastosthenes.rb:
 
 ```ruby
 class Erastostenes 

@@ -1,6 +1,6 @@
 PUBLISHED
 
-FizzBuzz Kata
+TDD Basics : FizzBuzz Kata
 
 Objectives
 ============
