@@ -10,6 +10,12 @@ Objectives
 - Semantic quirkiness of Well Grounded Rubyist solution exposed by specs.
 - Using domain specific terms to make the code expressive
 
+Difficulty Level
+=========
+---------------------
+
+Medium
+
 Violation of Command Query Separation Principle
 ==========================================
 ------------------
@@ -34,7 +40,7 @@ module Game
      winner = choice_1.play(choice_2)
      result = winner.move
      
-     result.should == :paper
+     expect(result).to eq(:paper)
    end    
   end
 end
@@ -102,7 +108,7 @@ So, let's define a empty play method as follows:
 ```ruby
 module Game
   class AngryRock
-    ...    
+    # other code same as before
     def play
       
     end
@@ -151,9 +157,9 @@ Step 9
 Change the play method like this:
 
 ```ruby
-    def play(other)
-      self
-    end
+def play(other)
+  self
+end
 ```
 
 Step 10
@@ -175,7 +181,8 @@ Change the angry_rock.rb as follows:
 module Game
   class AngryRock
     attr_accessor :move
-    ...
+    
+    # rest of the code same as before 
   end
 end
 ```
@@ -204,7 +211,7 @@ It passes immediately. Make it fail by mutating the angry_rock.rb like this:
 ```ruby
 module Game
   class AngryRock
-	...
+    # other code same as before
     def play(other)
       return other if other.move == :paper
       self
@@ -245,7 +252,7 @@ it "picks rock as the winner over scissors " do
   winner = choice_1.play(choice_2)
   result = winner.move
   
-  result.should == :rock      
+  expect(result).to eq(:rock)  
 end
 ```
 
@@ -316,7 +323,7 @@ it "results in a tie when both players pick rock" do
   winner = choice_1.play(choice_2)
   result = winner.move
     
-  result.should == "TIE!"     
+  expect(result).to eq("TIE!") 
 end
 ```
 
@@ -361,7 +368,7 @@ it "results in a tie when both players pick paper" do
   winner = choice_1.play(choice_2)
   result = winner.move
     
-  result.should == "TIE!"     
+  expect(result).to eq("TIE!")      
 end
 
 it "results in a tie when both players pick scissors" do
@@ -370,7 +377,7 @@ it "results in a tie when both players pick scissors" do
   winner = choice_1.play(choice_2)
   result = winner.move
     
-  result.should == "TIE!"     
+  expect(result).to eq("TIE!")      
 end
 ```
 
@@ -394,7 +401,7 @@ it "results in a tie when the same choice is made by both players" do
     winner = choice_1.play(choice_2)
     result = winner.move
     
-    result.should == "TIE!"      
+    expect(result).to eq("TIE!")      
   end     
 end   
 ```
@@ -417,7 +424,7 @@ it "results in a tie when the same choice is made by both players" do
     winner = choice_1.play(choice_2)
     result = winner.move
     
-    result.should == "TIE!"      
+    expect(result).to eq("TIE!")      
   end     
 end   
 ```
@@ -462,13 +469,13 @@ require_relative 'spec_helper'
 
 module AngryRock
   describe Choice do
-   it "should pick paper as the winner over rock" do
+   it "picks paper as the winner over rock" do
      choice_1 = AngryRock::Choice.new(:paper)
      choice_2 = AngryRock::Choice.new(:rock)
      winner = choice_1.play(choice_2)
      result = winner.move
      
-     result.should == :paper
+     expect(result).to eq(:paper)      
    end    
    it "picks scissors as the winner over paper" do
      choice_1 = AngryRock::Choice.new(:scissors)
@@ -476,7 +483,7 @@ module AngryRock
      winner = choice_1.play(choice_2)
      result = winner.move
      
-     result.should == :scissors   
+     expect(result).to eq(:scissors)      
    end
    it "picks rock as the winner over scissors " do
      choice_1 = AngryRock::Choice.new(:rock)
@@ -484,7 +491,7 @@ module AngryRock
      winner = choice_1.play(choice_2)
      result = winner.move
      
-     result.should == :rock      
+     expect(result).to eq(:rock)  
    end
    it "results in a tie when the same choice is made by both players" do
      data_driven_spec([:rock, :paper, :scissors]) do |choice|
@@ -493,7 +500,7 @@ module AngryRock
        winner = choice_1.play(choice_2)
        result = winner.move
 
-       result.should == "TIE!"      
+       expect(result).to eq("TIE!")
      end     
    end   
   end
@@ -514,17 +521,17 @@ module AngryRock
 end
 ```
 
-The specs should still pass. The specs now read well and make much more sense than the previous version. Note: Don't make changes both to production and test code at the same time without running the tests. Unless you have a good readon, we always run tests after we modify either the specs or the production code.
+The specs should still pass. The specs now read well and make much more sense than the previous version. Note: Don't make changes both to production and test code at the same time without running the tests. Unless you have a good reason, we always run tests after we modify either the specs or the production code.
 
 Command Query Separation Principle
 ==================================
 ----------------------------------
 
-Is the play() method a command or a query? It is ambiguous because play seems to be a name of a command and it is returning the winning AngryRock object (result of a query operation). It combines command and query. 
+Is the play() method a command or a query? It is ambiguous because play() seems to be a name of a command and it is returning the winning AngryRock object (result of a query operation). It combines command and query. 
 
 Steps
 =========
----------------
+---------
 
 Step 1
 ----------
@@ -542,7 +549,7 @@ module AngryRock
      game.play
      winning_move = game.winning_move
      
-     winning_move.should == :paper
+     expect(winning_move).to eq(:paper)
    end
 end
 ```
@@ -590,7 +597,7 @@ it "picks scissors as the winner over paper" do
   game.play
 
   winning_move = game.winning_move  
-  winning_move.should == :scissors
+  expect(winning_move).to eq(:scissors)
 end
 
 it "picks rock as the winner over scissors " do
@@ -599,7 +606,7 @@ it "picks rock as the winner over scissors " do
   game.play
 
   winning_move = game.winning_move  
-  winning_move.should == :rock
+  expect(winning_move).to eq(:rock)
 end
 ```
 
@@ -615,8 +622,8 @@ it "results in a tie when the same choice is made by both players" do
 
     game.play
 
-    winning_move = game.winning_move       
-    winning_move.should == :tie
+    winning_move = game.winning_move   
+    expect(winning_move).to eq(:tie)    
   end     
 end
 ```
@@ -665,7 +672,7 @@ end
 ```
 
 Step 2
-----------
+--------
 
 It fails with the following error:
 
@@ -676,7 +683,7 @@ It fails with the following error:
 ```
 
 Step 3
-----------
+--------
 
 To make this spec pass change the winner method like this:
 
@@ -737,7 +744,7 @@ module AngryRock
   class IllegalChoice < Exception ; end;
   
   class Game
-   ...   
+   # rest of the code is same as before 
     def winner
       return :tie if @choice_1 == @choice_2
       begin
@@ -763,7 +770,7 @@ Exercise
 ===========
 ------------
 
-1. Look at the following alternative specs and implementation. This solution is based on Well Grounded Rubyist by David Black. It has been refactored to a better design. Make it even better by making the code expressive with readable specs. Compare your solution with the solutions given in the appendix of my Essential TDD book.
+1. Look at the following alternative specs and implementation. This solution is based on Well Grounded Rubyist by David Black. It has been refactored to a better design. Make it even better by making the code expressive with readable specs. Compare your solution with the solutions given in the appendix of [Essential TDD book](http://www.rubyplus.com/etdd.pdf "Essential TDD") book.
 
 Here is the angry_rock_spec.rb
 
@@ -776,19 +783,19 @@ module Game
      play = Play.new(:paper, :rock)
      
      play.should have_winner
-     play.winning_move.should == "paper"     
+     expect(play.winning_move).to eq("paper")
    end 
    it "picks scissors as the winner over paper" do
      play = Play.new(:scissors, :paper)
      
      play.should have_winner
-     play.winning_move.should == "scissors"     
+     expect(play.winning_move).to eq("scissors")  
    end   
    it "picks rock as the winner over scissors " do
      play = Play.new(:rock, :scissors)
      
      play.should have_winner
-     play.winning_move.should == "rock"          
+     expect(play.winning_move).to eq("rock")       
    end
    it "results in a tie when the same choice is made by both players" do
      data_driven_spec([:rock, :paper, :scissors]) do |choice|

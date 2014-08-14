@@ -1,19 +1,28 @@
 TDD Advanced Concepts : Command Query Separation Principle
-=========
----------------------
+
 
 Objectives
 =========
 ---------------------
 
-- How to fix violation of Command Query Separation principle  ?
-- How to fix abuse of mocks ?
-- How to write focused tests ? 
-- How to deal with external dependencies in your domain code ?
-  
+- How to fix violation of Command Query Separation principle?
+- How to fix abuse of mocks?
+- How to write focused tests? 
+- How to deal with external dependencies in your domain code?
+
+Side Effect
+=============
+-------------
+
+A function or expression modifies some state or has an observable interaction with calling functions or the outside world in addition to returning a value. For example, a function might modify a global or static variable, modify one of its arguments, raise an exception, write data to a display or file, read data, or call other side-effecting functions. In the presence of side effects, a program's behavior depends on history; that is, the order of evaluation matters. Understanding a program with side effects requires knowledge about the context and its possible histories; and is therefore hard to read, understand and debug.
+
+Side effects are the most common way to enable a program to interact with the outside world (people, filesystems, other computers on networks). But the degree to which side effects are used depends on the programming paradigm. Imperative programming is known for its frequent utilization of side effects. In functional programming, side effects are rarely used. 
+
+Source: Wikipedia
+
 Rails Example
 =============
-----------------
+-------------
 
 Before
 --------
@@ -64,7 +73,7 @@ describe Calculator, "Computes addition of given two numbers" do
     calculator = Calculator.new
     result = calculator.add(1,2)
     
-    result.should == 3
+    expect(result).to eq(3)
   end
 end
 ```
@@ -93,7 +102,7 @@ describe Calculator, "Computes addition of given two numbers" do
     calculator.add(1,2) 
     result = calculator.result
     
-    result.should == 3
+    expect(result).to eq(3)
   end
 end
 ```
@@ -431,4 +440,4 @@ class TweetAnalyzer
 end
 ```
 
-Again we are green before and after refactoring. So when do we stub and when do we mock? We can use the Command Query Separation Principle in conjunction with a simple guideline : Stub queries and mock commands. Ideal design will not stub and mock at the same time, since it will violate Command Query Separation Principle. See appendix of [Essential TDD book](http://www.rubyplus.com/etdd.pdf "Essential TDD"). for notes from Martin Fowler's article and jMock Home Page.
+Again we are green before and after refactoring. So when do we stub and when do we mock? We can use the Command Query Separation Principle in conjunction with a simple guideline : Stub queries and mock commands. Ideal design will not stub and mock at the same time, since it will violate Command Query Separation Principle. See appendix of [Essential TDD book](http://www.rubyplus.com/etdd.pdf "Essential TDD") for notes from Martin Fowler's article and jMock Home Page.

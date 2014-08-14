@@ -8,7 +8,7 @@ Objective
   
 Steps
 =========
----------------------------
+---------
 
 Step 1
 -------
@@ -16,12 +16,12 @@ Step 1
 Let's write a spec to find the score for a perfect game. Here is the game_spec.rb:
 
 ```ruby
-  it "return 300 for a perfect game" do
-    game = Game.new
-    30.times { game.strike }
-      
-    game.score.should == 300
-  end
+it "return 300 for a perfect game" do
+  game = Game.new
+  30.times { game.strike }
+    
+  game.score.should == 300
+end
 ```
 
 This fails with the error:
@@ -50,7 +50,7 @@ module Bowling
       @score += 10
     end
         
-	...
+	  # rest of the code same as before
   end
 end
 ```
@@ -76,12 +76,12 @@ Change the spec to use the repeat method like this:
 game_spec.rb
 
 ```ruby    
-    it "return 300 for a perfect game" do
-      game = Game.new
-      repeat(30) { game.strike } 
-      
-      game.score.should == 300
-    end
+  it "return 300 for a perfect game" do
+    game = Game.new
+    repeat(30) { game.strike } 
+    
+    game.score.should == 300
+  end
 ```
 
 Step 5
@@ -216,7 +216,8 @@ require_relative 'game'
 
 module Bowling
   describe Game do
-    ...    
+    # other tests same as before
+    
     it "return the total score for first two frames of a game" do
       g = Game.new
       # Frame #1
@@ -236,7 +237,7 @@ end
 Step 11
 -----------
 
-This new spec passes without failing. Feature already implemented. Comments in the spec is bugging me. How can we make the code expressive so that we don't need any comments to clarify it's intention? To make the intent clear, we can make the second argument in the roll method a hash like this: roll(pins, args)
+This new spec passes without failing. This means the feature is already implemented. Comments in the spec is bugging me. How can we make the code expressive so that we don't need any comments to clarify it's intention? To make the intent clear, we can make the second argument in the roll method a hash like this: roll(pins, args)
 
 ```ruby
 it "return the total score for first two frames of a game" do
@@ -294,4 +295,18 @@ def initialize_frame(args)
 end
 ```
 
-Note that we are using the fetch method which throws an exception if the value for a given key is not found. If we use [] method, then we will get a nil value which will cause crash our program due to nil value. When we fail we should fail loudly with verbose failure messages. Message must say what went wrong and if it is a recoverable error, it should tell you how to fix it. If we fail silently, then the cause of the failure will be hidden and will be difficult to track down.
+Discussion
+=========
+---------
+
+In the initialize_frame() method, we are using the fetch method which throws an exception if the value for a given key is not found. If we use [] method, then we will get a nil value which will crash our program due to nil value. When we fail we should fail loudly with verbose failure messages. Message must say what went wrong and if it is a recoverable error, it should tell you how to fix it. If we fail silently, then the cause of the failure will be hidden and will be difficult to track down.
+
+Exercise
+=========
+---------
+
+Improve the following code:
+
+```ruby
+repeat(30) { game.strike } 
+```

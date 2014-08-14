@@ -1,7 +1,7 @@
 TDD Advanced Concepts : Double Dispatch
 
 Objective
-=========
+==========
 ----------
 
 - Learn how to use double dispatch to make your code object oriented.  
@@ -32,7 +32,7 @@ There are 9 possible combinations. They are as follows:
 
 Steps
 =========
----------------------------
+---------
 
 Step 1
 -------
@@ -141,7 +141,7 @@ Add the setter for choice by changing the player class as follows:
 ```ruby
 class Player
   attr_writer :choice
-  ...  
+  # rest of the code same as before 
 end
 ```
 
@@ -189,7 +189,7 @@ Define the winner method in the game class like this:
 
 ```ruby
 class Game
-  ...  
+  # rest of the code same as before   
   def winner
     
   end 
@@ -382,7 +382,7 @@ beatsRock
 beatsScissor
 ```
 
-and inverts the boolean flag to return the result. This is double dispatch in action. Comparing this solution to the Angry Rock chapter, it might seem that this solution is complex. For this problem, it is true. If the problem involves objects with complicated logic, this solution will be better. By using double dispatch we minimized conditional statements like if.
+and inverts the boolean flag to return the result. This is double dispatch in action. Comparing this solution to the [Angry Rock Kata](http://www.rubyplus.com/articles/291 "Angry Rock Kata"), it might seem that this solution is complex. For this problem, it is true. If the problem involves objects with complicated logic, this solution is better. By using double dispatch we minimized conditional statements like if-else.
 
 Exercises
 =========

@@ -7,6 +7,12 @@ Objectives
 - Learn how to test random behavior
 - Learn how to identify and fix overspecifying behavior in your tests
 
+Difficulty Level
+=========
+---------------------
+
+Medium
+
 Problem Statement
 ===================
 -------------------

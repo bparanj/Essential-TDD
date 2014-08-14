@@ -5,21 +5,33 @@ Mailchimp on Rails
 Let's use the simple solution that is easy to setup and get it up and running quickly.
 
 
-1. Signup for API key here : http://kb.mailchimp.com/article/where-can-i-find-my-api-key
+Step 1 
+-------
 
-2. Add gibbon gem to Gemfile.
+Signup for API key here : http://kb.mailchimp.com/article/where-can-i-find-my-api-key
+
+Step 2
+-------
+
+Add gibbon gem to Gemfile.
 
 ```ruby
 gem 'gibbon', github: "amro/gibbon"
 ```
 
-3. Install the gem.
+Step 3
+-------
+
+Install the gem.
 
 ```ruby
 bundle install
 ```
 
-4. In secrets.yml, set the Mailchimp API key. Here is a sample config file: 
+Step 4
+-------
+
+In secrets.yml, set the Mailchimp API key. Here is a sample config file: 
 
 ```ruby
 development:
@@ -32,6 +44,9 @@ production:
   mailchimp_api_key: your-secret-api-key-goes-here 
 ```
 
+Step 5
+-------
+
 Create gibbon.rb in config/initializers/ directory with the following contents:
 
 ```ruby
@@ -41,7 +56,10 @@ Gibbon::API.timeout = 15
  
 Rails.application.secrets.mailchimp_api_key reads the mailchimp API Key from secrets.yml file.
 
-5. Make sure secrets.yml is added to your .gitignore file. Here is a sample .gitignore file to use in the rails root directory:
+Step 6
+-------
+
+Make sure secrets.yml is added to your .gitignore file. Here is a sample .gitignore file to use in the rails root directory:
 
 ```ruby
 # Ignore bundler config.
@@ -68,7 +86,10 @@ config/secrets.yml
 
 Now the secrets.yml will not get checked in to your project's git repository. You must either use capistrano or manually scp the secrets.yml to your server to shared/config directory of your Rails application. Another alternative is to use the environment variables to set the values for api credentials. 
 
-4. Your background job can run the following Mailchimp.subscribe method:
+Step 7
+-------
+ 
+Your background job can run the following Mailchimp.subscribe method:
 
 ```ruby
 class Mailchimp
@@ -86,7 +107,10 @@ class Mailchimp
 end
 ```
 
-5. If you are using Resque, you can run the failed job again as follows:
+Step 8
+-------
+
+If you are using Resque, you can run the failed job again as follows:
 
 ```ruby
 Resque::Failure.count.times do |i|

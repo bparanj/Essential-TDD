@@ -8,20 +8,20 @@ Objectives
 - Learn how to find abstractions in the domain to make your code expressive.
 
 Difficulty Level
-=========
----------------------
+================
+----------------
 
-Medium
+Difficult
 
 Discussion
-=========
----------------------
+==========
+----------
 
 We will use the scoring rules found at http://www.bowling2u.com/trivia/game/scoring.asp for our specs. You can also refer the rules Scoring Bowling.html at https://github.com/bparanj/polgar/tree/master/13-bowling-game-gem
   
 Steps
 =========
----------------------------
+---------
 
 Step 1
 -------
@@ -34,7 +34,7 @@ end
 ```
 
 Step 2
-----------
+--------
 
 Run the spec:
 
@@ -49,17 +49,20 @@ uninitialized constant Object::BowlingGame (NameError)
 ```
 
 Step 3
-----------
+-------
 
 Add the following code to the top of the bowling_game_spec.rb:
 
 ```ruby
 class BowlingGame
 end
+
+describe BowlingGame do
+end
 ```
 
 Step 4
------------
+-------
 
 Run the spec :
 
@@ -72,18 +75,21 @@ Finished in 0.00005 seconds
 ```
 
 Step 5
------------
+-------
 
 Let's write our first spec:
 
 ```ruby
+class BowlingGame
+end
+
 describe BowlingGame do
   it 'scores all gutters with 0'
 end
 ```
 
 Step 6
------------
+-------
 
 When you run the spec, you now get the output:
 
@@ -101,11 +107,14 @@ Finished in 0.00029 seconds
 ```
 
 Step 7
---------------
+-------
 
-You can use the 'it' block as a to do list of things to implement out of your head. Add another spec:
+You can use the **it** block to get things out of your head as a to do list to implement. Add another spec:
 
 ```ruby
+class BowlingGame
+end
+
 describe BowlingGame do
   it 'scores all gutters with 0'
   it "scores all 1's with 20"
@@ -113,7 +122,7 @@ end
 ```
 
 Step 8
-----------------
+--------
 
 When you run the specs, you now get the output:
 
@@ -140,12 +149,19 @@ Step 9
 Let's now express our first requirement as follows:
 
 ```ruby
-it 'scores all gutters with 0' do
-  game = BowlingGame.new
+class BowlingGame
+end
+
+describe BowlingGame do
+  it 'scores all gutters with 0' do
+    game = BowlingGame.new
   
-  20.times { game.roll(0) }
+    20.times { game.roll(0) }
   
-  expect(game.score).to eq(0)
+    expect(game.score).to eq(0)
+  end
+  
+  it "scores all 1's with 20"
 end
 ```
 
@@ -166,12 +182,16 @@ The test is not failing for the right reason because it is due to an error in no
 Step 11
 -----------
 
-Let's do the minimal thing to get past this error message by defining the roll method in BowlingGame class :
+Let's do the minimal thing to get past this error message by defining the roll() method in BowlingGame class :
 
 ```ruby
 class BowlingGame
   def roll
   end
+end
+
+describe BowlingGame do
+  # same code as before
 end
 ```
 
@@ -200,6 +220,10 @@ class BowlingGame
     
   end
 end
+
+describe BowlingGame do
+  # same code as before
+end
 ```
 
 Step 14
@@ -214,7 +238,7 @@ When you run the specs, you now get the output:
       undefined method `score' for BowlingGame
 ```
 
-The test is not failing for the right reason because it is due to an error in the syntax of score method. We are in yellow state. 
+The test is not failing for the right reason because it is due to an error in the syntax of score() method. We are in yellow state. 
 
 Step 15
 ---------
@@ -226,9 +250,14 @@ class BowlingGame
   def roll(number)
     
   end
+  
   def score
     
   end
+end
+
+describe BowlingGame do
+  # same code as before
 end
 ```
 
@@ -252,8 +281,18 @@ Step 17
 Let's change the score method like this:
 
 ```ruby
-def score
-  0
+class BowlingGame
+  def roll(number)
+    
+  end
+  
+  def score
+    0    
+  end
+end
+
+describe BowlingGame do
+  # same code as before
 end
 ```
 
@@ -284,12 +323,28 @@ Step 19
 Let's now express our second requirement:
 
 ```ruby
-it "scores all 1's with 20" do
-  game = BowlingGame.new
+class BowlingGame
+  def roll(number)
+    
+  end
   
-  20.times { game.roll(1) }
+  def score
+    0    
+  end
+end
+
+describe BowlingGame do
+  it 'scores all gutters with 0' do
+  # same code as before
+  end
   
-  expect(game.score).to eq(20)    
+  it "scores all 1's with 20" do
+    game = BowlingGame.new
+  
+    20.times { game.roll(1) }
+  
+    expect(game.score).to eq(20)    
+  end
 end
 ```
 
@@ -327,6 +382,10 @@ class BowlingGame
     @score
   end
 end
+
+describe BowlingGame do
+  # same code as before
+end
 ```
 
 Step 22
@@ -348,7 +407,7 @@ We are now green. We did not go to the yellow state before we went green. This i
 Step 23
 ---------
 
-Let's cleanup our code like this:
+Let's cleanup our BowlingGame class like this:
 
 ```ruby
 class BowlingGame
@@ -360,6 +419,10 @@ class BowlingGame
   def roll(number)
     @score += number
   end
+end
+
+describe BowlingGame do
+  # same code as before
 end
 ```
 
@@ -381,6 +444,10 @@ class BowlingGame
     @score += pins
   end
 end
+
+describe BowlingGame do
+  # same code as before
+end
 ```
 
 The specs still passes since it does not depend on this implementation detail. 
@@ -392,6 +459,10 @@ Let's move the BowlingGame class into its own file bowling_game.rb. Add the requ
 
 ```ruby
 require_relative 'bowling_game'
+
+describe BowlingGame do
+  # same code as before
+end
 ```
 
 Run the specs again. It should pass. We cleaned up one thing after another, we were green before refactoring and ended in green after refactoring. Why should we not refactor in red state? Refer the appendix of the Essential TDD book for the answer.
@@ -423,23 +494,25 @@ describe BowlingGame do
 end
 ```
 
-The specs still pass. 
+The specs still pass. In the tests where we are looping 20 times, this test is taken from the rspec home page example for bowling game. In the next article we will see why this is a bad idea and how to refactor it to a better solution.
 
 Exercise
 ==========
------------
+----------
 
-Here is a little exercise: Replace the before method with let() method and make all the specs pass.
+Replace the before() method with let() method and make all the specs pass.
 
 Discussion
 ============
 ------------
 
-Do you always need to take small steps when writing tests? If you notice, we change either production code or the spec but not both at the same time. Regardless of whether we are refactoring or driving the design of our code. If we change both the spec and the production code at the same time we will not know which file is causing the problem. If we take small steps, we will be able to immediately fix the problem. Because we know what we just changed. If you are confident you can take bigger steps as long as the duration of the red state is minimum and you get to green and stay in green longer.
+**Do you always need to take small steps when writing tests?** 
+
+If you notice, we change either production code or the spec but not both at the same time. Regardless of whether we are refactoring or driving the design of our code. If we change both the spec and the production code at the same time we will not know which file is causing the problem. If we take small steps, we will be able to immediately fix the problem. Because we know what we just changed. If you are confident you can take bigger steps as long as the duration of the red state is minimum and you get to green and stay in green longer.
 
 
 Summary
 =========
------------
+---------
 
-In this article you learned about why you need to run specs as soon as you make changes to either the production code or the specs. You also learned how to find abstractions to make your code expressive. In the next article we will continue working on the bowling game to discuss more topics.
+In this article you learned about why you need to run specs as soon as you make changes to either the production code or the specs. You also learned how to find abstractions to make your code expressive. In this example, it was a simple change in the name of the variable to make it intention revealing. In the next article we will continue working on the bowling game to discuss more topics.

@@ -306,7 +306,7 @@ it "should return the score for a game that includes a strike and a spare" do
 This spec passes without failing.
 
 Step 9
--------------
+-------
 
 Let's use context to group related specs together. Here is the game_spec.rb:
 

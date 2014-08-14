@@ -1,7 +1,7 @@
 UPDATES TO BE DONE:
 
 Link this to Article 45 Essential Skills for Test Driven Development (Article 45 still in progress)
-LINK TO ARTICLE 31 IN THE SUMMARY SECTION
+
 
 ------------------------------------------------------
 
@@ -20,7 +20,7 @@ Problem Domain Analysis
 -------------------------
 
 Let's consider the set of numbers, numbers = (1, 2, 7, ... n)
-ARTICLE 31 LINK GOES HERE
+
 ```sh
 Sum s = 1 + 2 + 7 + ... + n
 ```
@@ -231,7 +231,7 @@ end
 ```
 
 Discussion 
-========
+==========
 ----------
 
 According to our test case list, next we have to extend the solution to two element case. What should be the values of these two elements? We could choose any two numbers but I am choosing [1,1]. Why use [1,1] instead of set of larger numbers? Because the simplest set of numbers is sufficient to make our production code evolve towards an abstract solution. We have an if-else statement for the fake implementation version. Remember this, because this is going to evolve into another programming construct that we will discuss why when that happens.
@@ -307,7 +307,7 @@ end
 The test now passes. How can we cleanup the mess in calculate() method?
 
 Discussion
-========
+===========
 -----------
 
 Let's refer to our algorithm to guide our cleaned up version of our implementation. 
@@ -389,7 +389,7 @@ Discussion
 ===========
 -----------
 
-In this example we wrote the tests in the order of increasing complexity, ie., 0, 1, 2 and n elements. This is called [Triangulation](ARTICLE 31 LINK GOES HERE 'Triangulation'). We also discussed about how to choose data for test cases.
+In this example we wrote the tests in the order of increasing complexity, ie., 0, 1, 2 and n elements. This is called [Triangulation](http://www.rubyplus.com/articles/371 'Triangulation'). We also discussed about how to choose data for test cases.
 
 Exercises
 ==========

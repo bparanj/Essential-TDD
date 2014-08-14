@@ -16,6 +16,13 @@ Write a program to output correct score for a tennis game. Here is the summary o
 
 Sets and matches are out of scope. We only need to report the score for the current game. 
 
+Difficulty Level
+=========
+---------------------
+
+Medium
+
+
 Steps
 =====
 -----

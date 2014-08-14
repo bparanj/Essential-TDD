@@ -10,7 +10,7 @@ Discussion
 ==========
 ----------
 
-Let's review the production code. What's the 20.times { something } code doing? Can we raise the level of abstraction? Missing all the pins is a gutter game and striking all the pins is strike. Can we change the first spec to call a gutter method and the second spec to call the strike method? If we do so, then we will be focusing on the *WHAT* instead of *HOW*. Looping is a sign that the spec is focusing on the implementation rather than specifying the behavior.
+Let's review the production code. What's the 20.times { something } code doing? Can we raise the level of abstraction? Missing all the pins is a gutter game and striking all the pins is a strike. Can we change the first spec to call a gutter method and the second spec to call the strike method? If we do so, then we will be focusing on the *WHAT* instead of *HOW*. Looping is a sign that the spec is focusing on the implementation rather than specifying the behavior.
   
 Steps
 =========
@@ -37,7 +37,7 @@ end
 ```
 
 Step 2
-----------
+------
 
 Create game.rb file with the following contents:
 
@@ -127,8 +127,11 @@ Step 8
 
 The spec now passes. 
 
-We took a bigger step by providing a non trival implementation of the spare() method. When the implementation is straight forward you can just type in the real implementation. There is no need to triangulate or Fake It Till You Make it. Since this method is just a one-liner we went ahead and implemented it. 
+Discussion
+==========
+-----------
 
+We took a bigger step by providing a non trival implementation of the spare() method. When the implementation is straight forward you can just type in the real implementation. There is no need to triangulate or Fake It Till You Make it. Since this method is just a one-liner we went ahead and implemented it. You can learn more by reading the article on [Obvious Implementation](http://www.rubyplus.com/articles/521 "Obvious Implementation")
 
 Step 9
 -------------
@@ -151,7 +154,7 @@ end
 Step 10
 --------------
 
-To make this spec pass, add the roll method to game.rb as follows:
+To make this spec pass, add the roll() method to game.rb as follows:
 
 ```ruby
 def roll(pins)
@@ -212,7 +215,6 @@ module Bowling
       
       expect(game.score).to eq(22)
     end
-    
   end  
 end
 ```
@@ -245,7 +247,7 @@ end
 ```
 
 Step 15
-----------
+--------
 
 We now have to change the spare method signature and implementation as follows:
 
@@ -257,7 +259,7 @@ def spare
 end
 ```
 
-The specs now pass. Notice that we are not blindly appending to our specs, we are updating the specs as we drive the design of our bowling gaming class.
+The specs now pass. Notice that we are not blindly appending to our specs, we are updating the specs intelligently to reflect our new understanding of the domain as we drive the design of our bowling gaming class. We may also delete the test if it is no longer required.
 
 Summary
 =========

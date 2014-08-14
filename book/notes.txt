@@ -166,6 +166,21 @@ Problems:
 Example for overcoding is a good idea. Bad example.
 
 
+Evaluating the Quality of the Design
+------------------------
+
+When you implement a new feature we aim to achieve a design in the following order:
+
+** Additive **
+
+This is the most desirable option. We add new code without modifying the existing code.
+
+** Localized **
+
+We change only one specific location in our existing code base to implement a new feature.
+
+Find the scanned notes that covers the above topic and write an article.
+
 
 TDD Bootcamp Checklist
 ------------------------

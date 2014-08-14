@@ -1,45 +1,32 @@
-
-Open Closed Principle article: Discussion questions must be answered in the answer key.
+Revise from article 33
 
 1. Update the following articles on the site:
-21,22,23,24,25,27,28,29,33 46, 54 and 49
+21,22,23,24,25,26,27,28,29,30,31,32,33 46, 54 and 49
 2. Test the article content on Resque and background jobs. Update the resque article on the site.
 3. Start from article on Stripe Monthly subscription feature?
 4. Add the free Essential TDD presentations to udemy.com as a free course. Link back to rubyplus.com to capture leads.
 5. In article 31, explain spiking and how it fits with TDD.
-
-
+6. Create an article on using Moonshine and link in the comments section : http://railscasts.com/episodes/337-capistrano-recipes?autoplay=true
+7. Open Closed Principle article: Discussion questions must be answered in the answer key.
 
 
 
 
 
 At Home
-----------
+------------------------------------------------------------
 1. Scan Red, Green, Refactor diagram.
 2. Article 7 : Insert the simplified version of the Red, Green, Refactor diagram.
 3. Article 9 should link to a discussion on the most desirable kind of changes to code: configuration driven, additive, localized. Find the scanned notes on this laptop to create that article.
-
-When you implement a new feature we aim to achieve a design in the following order:
-
-** Additive **
-
-This is the most desirable option. We add new code without modifying the existing code.
-
-** Localized **
-
-We change only one specific location in our existing code base to implement a new feature.
-
-Find the scanned notes that covers the above topic and write an article.
-
 
 
 Questions
 Do we test methods?
 
 
+--------------------------------------------------
 SUBMIT A PULL REQUEST
-
+--------------------------------------------------
 When the generator is run, the lib/tasks/resque_tasks.rake looks like this:
  
 require 'resque/tasks'
@@ -52,3 +39,6 @@ task 'resque:setup' => :environment
 ```
 Maybe the generator can be changed for Rails 4.1?
 
+Change the code that checks for Rails version 4.1 and if so add the additional line for the rake task.
+
+--------------------------------------------------
