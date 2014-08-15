@@ -1,5 +1,8 @@
-PUBLISHED
+REVISED : UPDATE THE ARTICLE AGAIN AFTER TESTING THE RESQUE ADMIN DASHBOARD IS PROTECTED OR NOT
 
+--------------------
+PUBLISHED
+--------------------
 
 How to Install and Configure Resque to Handle Background Jobs in Rails 4.1
 
@@ -268,30 +271,6 @@ Step 6
 
 HTTP Basic Authentication is supported out of the box. Simply set the environment variables RESQUE_WEB_HTTP_BASIC_AUTH_USER and RESQUE_WEB_HTTP_BASIC_AUTH_PASSWORD to turn it on. You can add the following lines to the ~/.profile on the production server:
 
-```sh
-export RESQUE_WEB_HTTP_BASIC_AUTH_USER='user-name'
-export RESQUE_WEB_HTTP_BASIC_AUTH_PASSWORD='very-secret'
-```
-
-Step 7
-------
-
-You can view the resque dashboard at the url: http://www.example.com/resque_web/
-
-References
-==========
-----------
-
-[Resque Retry](https://gist.github.com/PatrickTulskie/1104922 "Resque Retry")
-[Background Jobs with Resque ](http://tutorials.jumpstartlab.com/topics/performance/background_jobs.html "Background Jobs with Resque")
-[Resque](http://railscasts.com/episodes/271-resque?view=asciicast "Resque")
-
-
-  
-
-
-
-
 You can set the environment variable in a terminal like this:
 
 ```ruby
@@ -318,13 +297,41 @@ Rails environment will not be loaded in moonshine.yml runs so you cannot do this
 in moonshine.yml. However you can read from the environment variable like this:
 
 ```ruby
-```ruby
 :resque:
   :web:
     :username: resque     # default none
     :password: <%= ENV["RESQUE_PASSWORD"] %>     # default none
     :port: 5678           # default 8282
 ```
+
+```sh
+export RESQUE_WEB_HTTP_BASIC_AUTH_USER='user-name'
+export RESQUE_WEB_HTTP_BASIC_AUTH_PASSWORD='very-secret'
+```
+
+Step 7
+------
+
+If you are using Moonshine, you must specify the reque_web variables:
+
+```ruby
+:resque:
+  :web:
+    :username: <%= ENV["RESQUE_WEB_HTTP_BASIC_AUTH_USER"] %>     # default none
+    :password: <%= ENV["RESQUE_WEB_HTTP_BASIC_AUTH_PASSWORD"] %>     # default none
+    :port: 5678           # default 8282
+```
+
+You can view the resque dashboard at the url: http://www.example.com/resque_web/
+
+References
+==========
+----------
+
+[Resque Retry](https://gist.github.com/PatrickTulskie/1104922 "Resque Retry")
+[Background Jobs with Resque ](http://tutorials.jumpstartlab.com/topics/performance/background_jobs.html "Background Jobs with Resque")
+[Resque](http://railscasts.com/episodes/271-resque?view=asciicast "Resque")
+
 
 This directive is not even required since Resque by default provides the http basic authentication as in Step 6. TEST THIS ON PRODUCTION AFTER REDEPLOY, CHECK ENVIRONMENT VARIABLE IS SET OR NOT AND VIEW THE RESQUE ADMIN DASHBOARD TO SEE IF IT PROMPTS WITH HTTP BASIC AUTHENTICATION.
 

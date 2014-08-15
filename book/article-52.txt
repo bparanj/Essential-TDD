@@ -1,8 +1,17 @@
-Mailchimp on Rails
+UPDATE : LOOK AT THE TASKS AT THE BOTTOM OF THIS ARTICLE
+
+PUBLISHED
+==========
+
+
+How to use Mailchimp API to subscribe users in Rails 4.1 
 
 
 Let's use the simple solution that is easy to setup and get it up and running quickly.
 
+Steps
+=====
+------
 
 Step 1 
 -------

@@ -1,0 +1,11 @@
+
+Create a SendGrid account first at : http://sendgrid.com/
+
+1
+
+gem 'sendgrid-rails'
+
+bundle
+
+2
+

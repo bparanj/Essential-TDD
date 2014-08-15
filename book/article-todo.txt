@@ -1,4 +1,6 @@
 TEST IF REQUE ADMIN DASHBOARD PROMPTS FOR PASSWORD AFTER REDEPLOY.
+If Someone unsubscribes, subscribed must be set to true. Find out the event hook for unsubscriptions on Mailchimp.
+
 
 gem 'sendgrid_smtpapi' must be installed and setup to send 5 free chapters of Rails 4 Quickly book.
 
@@ -22,6 +24,7 @@ Questions
 Do we test methods?
 
 
+
 --------------------------------------------------
 SUBMIT A PULL REQUEST
 --------------------------------------------------
@@ -35,6 +38,7 @@ the generated rake task to get resque working.
 ```ruby
 task 'resque:setup' => :environment
 ```
+
 Maybe the generator can be changed for Rails 4.1?
 
 Change the code that checks for Rails version 4.1 and if so add the additional line for the rake task.
