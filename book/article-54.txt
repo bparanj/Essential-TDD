@@ -1,3 +1,5 @@
+UPDATE WITH SCANNED DIAGRAMS
+
 PUBLISHED
 
 TDD Basics : Obvious Implementation

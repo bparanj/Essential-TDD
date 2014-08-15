@@ -1,6 +1,6 @@
 PUBLISHED
 
-REVISE this and PUBLISH AGAIN : DIAGRAM MISSING, UNDER ALGORITHM SECTION Refer page F3 for the diagram. MUST GO
+PUBLISH AGAIN 
 
 Factorial
 
@@ -22,18 +22,13 @@ n! = 1 x 2 x 3 x ... n for n >= 1
 
 Given that 0! = 1
 
+![alt text](http://www.rubyplus.com/images/pda-factorial.png "Problem Domain Analysis Factorial")
+
 Solution Domain Analysis
 ================
 ----------------
 
-For n >= 1, here is the examples:
-
-```sh
-1! = 1 x 1
-2! = 1 x 2
-3! = 1 x 2 x 3
-4! = 1 x 2 x 3 x 4
-```
+![alt text](http://www.rubyplus.com/images/sda-factorial3.png "Solution Domain Analysis Factorial")
 
 We observe a pattern, so we can rewrite 4! as :
 
@@ -65,6 +60,8 @@ Algorithm
 2. Treat 0! as a special case
 3. 
 
+![alt text](http://www.rubyplus.com/images/sda-factorial.png "Factorial Index and Increment")
+
 ```sh
 while less than n products has been calculated, repeatedly do
   a) Increment index count
@@ -75,11 +72,11 @@ Return the result
 ``` 
 
 Steps
-================
-----------------
+=========
+---------
 
 Step 1
-----------------
+---------
 
 In our case the class name will be Factorial. Create a file called factorial_spec.rb with the following contents:
 
@@ -100,7 +97,7 @@ end
 The describe() is a rspec method. It takes a class name in this case, Factorial as the parameter. 
 
 Step 2
-----------------
+--------
 
 Run the spec. 
 
@@ -109,7 +106,7 @@ $rspec factorial_spec.rb
 ```
 
 Step 3
-----------------
+-------
 
 Define an empty Factorial class at the top of the factorial_spec.rb as follows:
 
@@ -200,7 +197,7 @@ end
 The test passes. It's obvious why, we still have fake implementation that returns 1.
 
 Step 9
----------
+-------
 
 Let's add the third spec as follows:
 

@@ -24,6 +24,14 @@ John Lennon wrote the song Come Together. This is the 'What'. The examples of 'H
 
 to the same song Come Together.
 
+What vs How
+===========================
+---------------------------
+
+![alt text](http://www.rubyplus.com/images/what-vs-how.png "What vs How")
+
+If you find this diagram overwhelming, don't worry, I will build this diagram gradually in my upcoming TDD course. 
+
 Separate Logical Design from Physical Design 
 ============================================
 --------------------------------------------

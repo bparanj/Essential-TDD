@@ -1,14 +1,5 @@
-UDPATE IMMEDIATELY AND NEXT ITERATION TACKLE THE FOLLOWING
-
 PENDING: UPDATE THE ARTICLE
-----------------------------------------------------
-Solution Domain Analysis
-=========
----------
 
-Diagram goes here.
-
-Table goes here.
 
 ----------------------------------------------------
 PUBLISHED
@@ -21,6 +12,15 @@ Problem Statement
 -----------------
 
 Implement a method called my_count that takes a number and an array of numbers and returns the count representing the total number of elements in the array that is equal or greater than the given number.
+
+Solution Domain Analysis
+=========
+---------
+
+![alt text](http://www.rubyplus.com/images/sda-mycount2.png "Solution Domain Analysis MyCount")
+
+
+![alt text](http://www.rubyplus.com/images/sda-mycount.png "Solution Domain Analysis MyCount")
 
 Problem Domain Analysis
 =======================

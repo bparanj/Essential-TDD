@@ -1,10 +1,5 @@
-REVISION : Add the following diagram and update the article.
+REVISION : update the article.
 
-Solution Domain Analysis
-=========
------------
-
-Diagram from C1 goes here
 -----------------------------------------------------------------------------
 
 
@@ -27,6 +22,12 @@ Problem Statement
 -------------
 
 Generate Fibonacci sequence for a given number.
+
+Solution Domain Analysis
+=========
+-----------
+
+![alt text](http://www.rubyplus.com/images/sda-fib.png "Solution Domain Analysis Fibonacci")
 
 Problem Domain Analysis
 =============
