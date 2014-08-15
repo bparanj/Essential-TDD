@@ -1,7 +1,5 @@
 REVISIONS TO BE MADE
-Under Problem Statement : example from notes goes here for GCD of 8 & 12 is 4
-Under gcd(18, 30) : Diagram goes here...
-Under Eculidean Algorithm : show diagrams for the steps
+
 Replace YouTube video link with video that uses the bamboo tablet to illustrate the same concept and change the link to rubyplus video. 
 
 ----------------------------------------------------------------------------
@@ -10,20 +8,33 @@ PUBLISHED
 
 GCD
 
+Objective
+=========
+---------
+
+Learn how to apply the reduction process to solve problems.
+
 Problem Statement
 ===================
 -------------------
 
 Given two positive non-zero integers n and m, find their greatest common divisor (gcd). The gcd of two integers is the largest integer that will divide exactly into the two integers with no remainder.
 
-Example
+Example 1
 ========
 --------
 
+Here is a worked out example of GCD of 8 and 12.
 
-GCD of 54 and 24
+![alt text](http://www.rubyplus.com/images/gcd-example.png "GCD Example")
 
-The number 54 can be expressed as a product of two other integers in several different ways.
+In the second division, we can divide both numbers without any remainder. So GCD of 8 and 12 is 4.
+
+Example 2
+========
+--------
+
+Let's consider the GCD of 54 and 24. The number 54 can be expressed as a product of two other integers in several different ways.
 
 ```sh
 54 x 1 = 27 x 2 = 18 x 3 = 9 x 6
@@ -55,11 +66,11 @@ Basic strategy for computing the gcd of two numbers:
 
 Let's apply the above steps to calcaulate gcd(18,30):
 
-```sh
-r = 30 mod 18 = 12
-r = 18 mod 12 = 6
-r = 12 mod 6  = 0
-```
+![alt text](http://www.rubyplus.com/images/sda-gcd.png "GCD Example")
+
+The above diagram shows the **reduction** process. Reduction is process where the original problem is reduced to a smaller problem in each iteration until the given problem is solved. 
+
+![alt text](http://www.rubyplus.com/images/sda-gcd2.png "GCD Worked Out Example")
 
 Iterative Construct
 ===================
@@ -88,17 +99,19 @@ while non-zero remainder
 end
 ```
 
-Eculidean Algorithm
+Euclidean Algorithm
 ===================
 -------------------
 
 1. Take the two positive non-zero integers smaller and larger.
 2. Repeat
-     a) Get the remainder from dividing the larger integer by the smaller integer.
-     b) Let the smaller integer assume the role of the divisor until a 0 remainder is obtained.
+- Get the remainder from dividing the larger integer by the smaller integer.
+- Let the smaller integer assume the role of the divisor until a 0 remainder is obtained.
 3. Return the GCD
 
-These three steps is illustrated in a 2 minute video of [Euclidean Algorithm](https://www.youtube.com/watch?v=AJn843kplDw "Euclidean Algorithm") on YouTube.
+![alt text](http://www.rubyplus.com/images/euclidean.png "Euclidean Algorithm")
+
+These three steps is illustrated in a 2 minutes video of [Euclidean Algorithm](https://www.youtube.com/watch?v=AJn843kplDw "Euclidean Algorithm") on YouTube.
 
 Steps
 =========

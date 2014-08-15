@@ -16,13 +16,7 @@ Problem Domain Analysis
 
 Let's say our method takes two parameters, first parameter n for the number used for comparison and an array for the second parameter a that contains a list of numbers to be processed.
 
-```sh
-my_count(n, a)
-
-for :
-n = 10
-a = [2, 7, 10, 15, 25]
-```
+![alt text](http://www.rubyplus.com/images/pda-mycount.png "My Count Example")
 
 The result in this case = 3, since there are only three numbers 10, 15 and 25 that are equal or above 10. We can accomplish this in Ruby in just one line, in the irb:
 

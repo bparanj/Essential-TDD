@@ -1,5 +1,4 @@
-
-SCAN AND UPDATE WITH DIAGRAMS
+UPDATE THIS WITH MORE EXPLANATION FROM THE BOOK, LOOK FOR THE TEXT AFTER 'OBSERVATIONS' IN THE NOTEBOOK.
 
 PUBLISHED
 
@@ -16,6 +15,18 @@ Problem Statement
 -----------------
 
 Factorize a positive integer number into its prime factors.
+
+Solution Domain Analysis
+=================
+-----------------
+
+Start with the divisor 2 and repeatedly reduce n by a factor of 2 until 2 is no longer an exact divisor. We then try 3 as a divisor and again repeat the reduction process and so son until n has been reduced to 1.
+
+Consider n = 60. Marking with an * the unsuccessful attempts to divide, we have:
+
+![alt text](http://www.rubyplus.com/images/sda-prime-factors.png "Prime Factors")
+
+That is, 60 = 2 x 2 x 3 x 5, and those numbers are primes.
 
 Examples
 =========
@@ -488,3 +499,4 @@ Exercises
 
 1. Can you delete some of the tests? What is the minimum number of tests for this problem?
 2. Study the [Prime Factors Analysis](http://www.rubyplus.com/articles/541 'Prime Factors Analysis'). Compute the prime number required only upto a certain number discussed in that article.
+3. To find prime factors of a given number, you can use this online tool [Find the Prime Factors of a Number](http://www.math.wustl.edu/cgi-bin/primes "Find the Prime Factors of a Number")
