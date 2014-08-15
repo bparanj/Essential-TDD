@@ -1,7 +1,5 @@
 PUBLISHED
 
-PUBLISH AGAIN 
-
 Factorial
 
 Problem Statement
@@ -39,6 +37,8 @@ if n = 4,
 
 n! = (n-1)! x n
 ```
+
+![alt text](http://www.rubyplus.com/images/sda-factorial2.png "Solution Domain Analysis Factorial")
 
 We can rewrite the examples as :
 

@@ -1,7 +1,6 @@
 TEST IF REQUE ADMIN DASHBOARD PROMPTS FOR PASSWORD AFTER REDEPLOY.
 If Someone unsubscribes, subscribed must be set to true. Find out the event hook for unsubscriptions on Mailchimp.
 
-
 gem 'sendgrid_smtpapi' must be installed and setup to send 5 free chapters of Rails 4 Quickly book.
 
 1. Test the article content on Resque and background jobs. Update the resque article on the site.
@@ -15,7 +14,7 @@ gem 'sendgrid_smtpapi' must be installed and setup to send 5 free chapters of Ra
 
 At Home
 ------------------------------------------------------------
-1. Scan Red, Green, Refactor diagram.
+1. Create and Scan Red, Green, Refactor diagram.
 2. Article 7 : Insert the simplified version of the Red, Green, Refactor diagram.
 3. Article 9 should link to a discussion on the most desirable kind of changes to code: configuration driven, additive, localized. Find the scanned notes on this laptop to create that article.
 
