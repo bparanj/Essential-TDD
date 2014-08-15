@@ -1,13 +1,13 @@
+TEST IF REQUE ADMIN DASHBOARD PROMPTS FOR PASSWORD AFTER REDEPLOY.
 
+gem 'sendgrid_smtpapi' must be installed and setup to send 5 free chapters of Rails 4 Quickly book.
 
 1. Test the article content on Resque and background jobs. Update the resque article on the site.
 2. Start from article on Stripe Monthly subscription feature?
-3. Add the free Essential TDD presentations to udemy.com as a free course. Link back to rubyplus.com to capture leads.
+3. Add 3 more 10 minutes epispodes to udemy.com as a free course (Essential TDD course).
 4. In article 31, explain spiking and how it fits with TDD.
 5. Create an article on using Moonshine and link in the comments section : http://railscasts.com/episodes/337-capistrano-recipes?autoplay=true
-6. Open Closed Principle article: Discussion questions must be answered in the answer key.
-
-
+6. Open Closed Principle article: Discussion questions must be answered in the answer key. Create Answer Key in the pdf book appendix.
 
 
 

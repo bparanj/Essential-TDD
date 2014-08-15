@@ -291,15 +291,46 @@ References
 
 
 
-NOT WORKING NOW
-You can use secrets.yml so that you don't checkin the password values in this file.
 
-Define resque_web_password in the secrets.yml and change the moonshine.yml to use ERB tag like this:
+You can set the environment variable in a terminal like this:
 
 ```ruby
-:password: <%= Rails.application.secrets.resque_web_password %>
+$export RESQUE_PASSWORD='resque-secret'
+$irb
+ > ENV['RESQUE_PASSWORD']
+ => "resque-secret" 
 ```
-NOT WORKING NOW
+
+Now, you access this in the irb session using ruby's ENV hash. If you open a new terminal this environment variable value will be lost.
+
+To preserve the value across different sessions, you can add the export statement to ~/.profile file. Every terminal session will now have value defined for this environment variable.
+
+Rails environment will not be loaded in moonshine.yml runs so you cannot do this:
+
+```ruby
+:resque:
+  :web:
+    :username: resque     # default none
+    :password: <%= Rails.application.secrets.resque_web_admin_password %>     # default none
+    :port: 5678           # default 8282
+```
+
+in moonshine.yml. However you can read from the environment variable like this:
+
+```ruby
+```ruby
+:resque:
+  :web:
+    :username: resque     # default none
+    :password: <%= ENV["RESQUE_PASSWORD"] %>     # default none
+    :port: 5678           # default 8282
+```
+
+This directive is not even required since Resque by default provides the http basic authentication as in Step 6. TEST THIS ON PRODUCTION AFTER REDEPLOY, CHECK ENVIRONMENT VARIABLE IS SET OR NOT AND VIEW THE RESQUE ADMIN DASHBOARD TO SEE IF IT PROMPTS WITH HTTP BASIC AUTHENTICATION.
+
+
+
+
 
 
 DOES NOT SEEM LIKE THIS STEP IS REQUIRED.

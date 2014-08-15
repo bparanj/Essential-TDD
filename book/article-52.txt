@@ -1,7 +1,6 @@
 Mailchimp on Rails
 
 
-
 Let's use the simple solution that is easy to setup and get it up and running quickly.
 
 
@@ -89,7 +88,7 @@ Now the secrets.yml will not get checked in to your project's git repository. Yo
 Step 7
 -------
  
-Your background job can run the following Mailchimp.subscribe method:
+Your background job in app/jobs folder can run the following Mailchimp.subscribe method:
 
 ```ruby
 class Mailchimp
@@ -107,6 +106,8 @@ class Mailchimp
 end
 ```
 
+You can also define the mailchimp_list_id as a constant in your Lead or User model.
+ 
 Step 8
 -------
 
@@ -118,14 +119,13 @@ Resque::Failure.count.times do |i|
 end
 ```
 
-Rails.application.secrets.mailchimp_rubyplus_rails_list_id
-
-
 References
 ==========
 ------------
 
 [Mailchimp API 2.0](docshttp://apidocs.mailchimp.com/api/2.0/vip/add.php "Mailchimp API 2.0")
+
+
 
 
 
