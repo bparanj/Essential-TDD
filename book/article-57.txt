@@ -1,11 +1,107 @@
+PUBLISHED
+
+Sending Emails using SendGrid API in Rails 4.1
+
+Discussion
+======
+------
+
+There are many Ruby gems available for sending emails using SendGrid API. I choose sendgrid-rails gem due to its simplicity. It was easy to setup and get it working on the production system.
+
+Steps
+======
+------
+
+Step 1
+------
 
 Create a SendGrid account first at : http://sendgrid.com/
 
-1
+Step 2
+------
 
-gem 'sendgrid-rails'
+Add the sendgrid-rails gem to the Gemfile:
 
-bundle
+```ruby
+gem 'sendgrid-rails', '~> 2.0'
+```
 
-2
+run 
 
+```ruby
+bundle install
+```
+
+Step 3
+------
+
+Use secrets.yml to define the SendGrid API credentials:
+
+```ruby
+production:
+  sendgrid_username: your-sendgrid-username
+  sendgrid_password: your-sendgrid-password
+```
+  
+Emails are not sent in development and test environments. So you can define it only for production.
+
+Step 4
+------
+
+In config/initializers/mail.rb:
+
+```ruby
+ActionMailer::Base.register_interceptor(SendGrid::MailInterceptor)
+
+ActionMailer::Base.smtp_settings = {
+  :address => 'smtp.sendgrid.net',
+  :port => '25',
+  :domain => 'example.com',
+  :authentication => :plain,
+  :user_name => Rails.application.secrets.sendgrid_username,
+  :password => Rails.application.secrets.sendgrid_password
+}
+```
+
+Step 5
+------
+
+In config/initializers/mail.rb:
+
+```ruby
+SendGrid.configure do |config|
+  config.dummy_recipient = 'noreply@example.com'
+end
+```
+
+I use my support email so that I can reply to any questions. You can use whatever email you wish for the dummy_recipient.
+
+Step 6
+------
+
+Create mailer class using rails generator.
+
+```ruby
+class WelcomeMailer < ActionMailer::Base
+  default :from => 'no-reply@example.com',
+          :subject => 'An email sent via SendGrid with substitutions'
+
+  def confirmation_email
+    category 'SendGridRocks'
+    mail :to => 'email1@email.com'
+  end
+end
+```
+
+Here category is used to tag the emails so that you can organize your email analytics. When you login to your SendGrid dashboard, it will be easier to analyze.
+
+Step 7
+--------
+
+Send email using ActionMailer as usual. It is better to send it in a background job.
+
+```ruby
+WelcomeMailer.confirmation_email(user).deliver
+```
+
+Of course, you need to create the email content in app/views/welcome_mailer.html.erb and app/views/welcome_mailer.text.erb.

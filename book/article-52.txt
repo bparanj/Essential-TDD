@@ -136,10 +136,6 @@ References
 
 
 
-
-
-
-
 https://github.com/amro/gibbon
 Comment here http://www.bignerdranch.com/blog/email-marketing-for-your-rails-app-made-easy-with-mailchimp/ and provide a link back to rubyplus.com for code samples.
 

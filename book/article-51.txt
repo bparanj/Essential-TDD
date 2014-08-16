@@ -284,6 +284,11 @@ Now, you access this in the irb session using ruby's ENV hash. If you open a new
 
 To preserve the value across different sessions, you can add the export statement to ~/.profile file. Every terminal session will now have value defined for this environment variable.
 
+```sh
+export RESQUE_WEB_HTTP_BASIC_AUTH_USER='user-name'
+export RESQUE_WEB_HTTP_BASIC_AUTH_PASSWORD='very-secret'
+```
+
 Rails environment will not be loaded in moonshine.yml runs so you cannot do this:
 
 ```ruby
@@ -304,11 +309,6 @@ in moonshine.yml. However you can read from the environment variable like this:
     :port: 5678           # default 8282
 ```
 
-```sh
-export RESQUE_WEB_HTTP_BASIC_AUTH_USER='user-name'
-export RESQUE_WEB_HTTP_BASIC_AUTH_PASSWORD='very-secret'
-```
-
 Step 7
 ------
 
@@ -323,6 +323,8 @@ If you are using Moonshine, you must specify the reque_web variables:
 ```
 
 You can view the resque dashboard at the url: http://www.example.com/resque_web/
+
+NOTE : If you are using Moonshine to manage your server, it does not automatically upload the secrets.yml whenever you make a change. You must either scp the latest secrets.yml to your shared/secrets.yml or ssh into your server and manually update the secrets.yml.
 
 References
 ==========
