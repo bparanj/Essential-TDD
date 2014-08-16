@@ -21,25 +21,3 @@ At Home
 
 Questions
 Do we test methods?
-
-
-
---------------------------------------------------
-SUBMIT A PULL REQUEST
---------------------------------------------------
-When the generator is run, the lib/tasks/resque_tasks.rake looks like this:
- 
-require 'resque/tasks'
- 
-The following line is missing for Rails 4.1. I had to manually add it to
-the generated rake task to get resque working.
- 
-```ruby
-task 'resque:setup' => :environment
-```
-
-Maybe the generator can be changed for Rails 4.1?
-
-Change the code that checks for Rails version 4.1 and if so add the additional line for the rake task.
-
---------------------------------------------------

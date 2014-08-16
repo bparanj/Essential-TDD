@@ -129,18 +129,9 @@ Not listening to tests. Using spork to test instead of addressing the design fla
 
 
 
-TDD Workshop
--------------
 
-Over 50 members of the San Francisco and South Bay Area developer community headed to Thoughtworks SF office on August 9th for an all day TDD Workshop. At this workshop attendees were introduced to Test Driven Development in Ruby using RSpec framework. The introductory talk was presented by Bala Paranj. This presentation was focused on learning subskills required to do TDD. 
 
-Summary of Introductory Talk
 
-Summary of PhantomFlow and PhantomJS
-
-Summary of Test Fast.
-
-Developers worked in pairs to pair-program on a simple Factorial problem. 
 
 
 
