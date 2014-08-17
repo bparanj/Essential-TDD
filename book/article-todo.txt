@@ -1,4 +1,4 @@
-START FROM ARTICLE 58 and then 52
+START FROM ARTICLE 52
 
 1. If Someone unsubscribes, subscribed must be set to true. Find out the event hook for unsubscriptions on Mailchimp.
 2. Start from article on Stripe Monthly subscription feature?

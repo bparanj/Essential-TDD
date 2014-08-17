@@ -1,5 +1,3 @@
-UPDATE : LOOK AT THE TASKS AT THE BOTTOM OF THIS ARTICLE
-
 PUBLISHED
 ==========
 
@@ -7,7 +5,7 @@ PUBLISHED
 How to use Mailchimp API to subscribe users in Rails 4.1 
 
 
-Let's use the simple solution that is easy to setup and get it up and running quickly.
+Let's use the simple solution that is easy to setup and get it up and running quickly. The solution uses sucker_punch gem to subscribe user to mailing list in a background job. Read the article on [Sucker Punch](http://www.rubyplus.com/articles/571 'Sucker Punch') to learn how to set it up.
 
 Steps
 =====
@@ -97,27 +95,48 @@ Now the secrets.yml will not get checked in to your project's git repository. Yo
 Step 7
 -------
  
-Your background job in app/jobs folder can run the following Mailchimp.subscribe method:
+Create a background job in app/jobs folder called subscribe_job.rb:
 
 ```ruby
-class Mailchimp
+class SubscribeJob
+  include SuckerPunch::Job
 
-  def self.subscribe(email, mailchimp_list_id)
-    begin
-      g = Gibbon::API.new
-      g.lists.subscribe({ id: mailchimp_list_id, email:  {email: email}})
-    rescue Exception => e
-      # log error in mailchimp.log with the email and mailchimp_list_id values
-      raise e
+  def perform(id)
+    ActiveRecord::Base.connection_pool.with_connection do
+      user = User.find(id)
+      mailchimp_list_id = Rails.application.secrets.mailchimp_list_id
+      email = email.email
+    
+      begin          
+        g = Gibbon::API.new
+        g.lists.subscribe({ id: mailchimp_list_id, email:  {email: email}})
+      
+        SubscribeMailer.confirmation_email(user).deliver
+      rescue Gibbon::MailChimpError => mce
+        SuckerPunch.logger.error("subscribe failed: due to #{mce.message}")
+        raise mce
+      rescue Exception => e
+        SuckerPunch.logger.error("subscribe failed: due to #{e.message}")
+        raise e
+      end      
     end
   end
-
-end
+  
+end    
 ```
 
-You can also define the mailchimp_list_id as a constant in your Lead or User model.
+You can also define the mailchimp_list_id as a constant in your User model.
  
 Step 8
+-------
+
+In your controller, you can put the job in the background by:
+
+```ruby
+SubscribeJob.new.async.perform(user.id)
+```
+
+Step 9
 -------
 
 If you are using Resque, you can run the failed job again as follows:
@@ -133,16 +152,3 @@ References
 ------------
 
 [Mailchimp API 2.0](docshttp://apidocs.mailchimp.com/api/2.0/vip/add.php "Mailchimp API 2.0")
-
-
-
-https://github.com/amro/gibbon
-Comment here http://www.bignerdranch.com/blog/email-marketing-for-your-rails-app-made-easy-with-mailchimp/ and provide a link back to rubyplus.com for code samples.
-
-
-Improve this http://cheshireoctopus.github.io/blog/2014/01/23/mailchimp-plus-gibbon-plus-rails-create-a-basic-sign-up-form/ article. Move the network call to background task. Move the API credentails to secrets.yml.
-
-Improve this http://hankstoever.com/posts/17-Integrating-mailchimp-with-your-Rails-application comment and link to improved solution on rubyplus.com.
-
-
-
