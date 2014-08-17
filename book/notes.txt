@@ -135,26 +135,11 @@ Not listening to tests. Using spork to test instead of addressing the design fla
 
 
 
+------------------------
+Example for overcoding is a good idea.  The minimum possible code to get all tests to pass. If you can remove a line of code and still have all tests pass, **You're Doing it Wrong**.
 
-The TDD Express : From Fast to Fastest presentation by Bill DePhillips
-
-describe Dice do
- it 'returns a random number for a roll' do
-   expect(Dice.roll).to be_a Fixnum 
- end
- 
- it 'is random over many runs' do
-   lots_of_rolls = 100.times.map { Dice.roll }
-   expect(lots_of_rolls.uniq.sort).to eq[1,2,3,4,5,6]
- end
-end
-
-Problems:
-
-1. Testing for data type : If the data type changes without changing behavior the test will break.
-2. Why 100 for the second spec? What is the minimum number of times you need to loop? What if we can eliminate the loop altogether so that we don't generate 100 random numbers for each test run?
-
-Example for overcoding is a good idea. Bad example.
+'The TDD Express : From Fast to Fastest' presentation by Bill DePhillips of Thoughtworks.
+------------------------
 
 
 Evaluating the Quality of the Design

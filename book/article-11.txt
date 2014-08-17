@@ -5,11 +5,11 @@ Objectives
 ==========
 
 - Learn how to test random behavior
-- Learn how to identify and fix overspecifying behavior in your tests
+- Learn how to identify and fix over specifying behavior in your tests
 
 Difficulty Level
-=========
----------------------
+================
+----------------
 
 Medium
 
@@ -43,7 +43,7 @@ describe GuessGame do
     game = GuessGame.new
     result = game.random
     
-    result.should == 50
+    expect(result).to eq(50)
   end
 end
 ```
@@ -56,44 +56,93 @@ Create guess_game.rb with the following contents:
 ```ruby
 class GuessGame
   def random
+    50
+  end
+end
+```
+
+This is the minimal implementation that passes the test, but it does not prove that the numbers generated are random.
+
+
+Step 3
+------
+
+Here is a test that is based on the 'The TDD Express : From Fast to Fastest' presentation by Bill DePhillips of Thoughtworks.
+
+```ruby
+require_relative 'guess_game'
+
+describe GuessGame do
+  it 'generates random number between 1 and 100 inclusive' do
+    game = GuessGame.new
+    result = game.random
+   
+    expect(result).to be_a Fixnum  
+  end
+end
+```
+
+Run the test, it should pass.
+
+Step 4
+--------
+
+There is a relationship between the **doc string** and the test. In this case, we can change the **doc string** to reflect what we are testing like this:
+
+```ruby
+require_relative 'guess_game'
+
+describe GuessGame do
+  it 'returns a number' do
+    game = GuessGame.new
+    result = game.random
+   
+    expect(result).to be_a Fixnum  
+  end
+end
+```
+
+I am still unease when I look at the assertion. It seems to be coupled to the datatype. It is subtle to recognize the fact that this is an example of over specification. An easy way to find out if your test is over specifying or not is to ask the question: Does this test focus on behavior? The answer is clearly, no. So, this test must be deleted.
+
+Step 5
+------------
+
+Let's see how we can test for randomness. Here is another test that is based on 'The TDD Express : From Fast to Fastest' presentation by Bill DePhillips of Thoughtworks.
+
+```ruby
+describe GuessGame do 
+ it 'is random over many runs' do
+   lots_of_rolls = 100.times.map { GuessGame.new.random }
+   expect(lots_of_rolls.uniq.sort).to eq((1..100).to_a)
+ end
+end
+```
+
+Create guess_game.rb with the following contents:
+
+```ruby
+class GuessGame
+  def random
     Random.new.rand(1..100)
   end
 end
 ```
 
-Step 3
-------------
+The tests will pass. But, this is another example for over specifying in the test. Since he uses only [1,2,3,4,5,6] for rolling a dice and generates 100 random numbers. It probably passes when it checks that the dice rolls numbers 1 to 6. 
 
-Run the specs. 
-
-```sh
-$rspec guess_game_spec.rb 
-```
-
-The random generator spec will only pass when the generated random number is 50. It will fail more often. Here is a solution that is based on 'The TDD Express : From Fast to Fastest' presentation by Bill DePhillips
-
-```ruby
-describe Dice do 
- it 'is random over many runs' do
-   lots_of_rolls = 100.times.map { Dice.roll }
-   expect(lots_of_rolls.uniq.sort).to eq[1,2,3,4,5,6]
- end
-end
-```
-
-This is an example for overspecifying in the test. It is also flawed because the randomness is now narrowly defined to be numbers between 1 and 6 inclusive. This accidental complexity also decreases the performance of the test suite. 
+Complexity increases with the problem size. This is also likely fail intermittently, since I am generating random numbers 100 times. My example probably needs 1000 or more random number generation to check for numbers between 1 and 100. This accidental complexity also decreases the performance of the test suite. 
 
 - Why generate 100 random numbers? 
 - What is the minimum number of random numbers you need to write the test? 
 - How can we specify that the generated random number is within the expected range of numbers?
 - What if we can eliminate the loop altogether so that we don't generate 100 random numbers for each test run?
 
-We always strive for the minimal data set we need for writing a test. We want the test to be as simple as possible. This makes the tests easy to maintain.  We will come up with a better solution in the next step.
+We always strive for the minimal data set we need for a particular scenario when writing a test. We want the test to be as simple as possible. This makes the tests easy to maintain.  We will come up with a better solution in the next step.
 
-Step 4
+Step 6
 ------------
 
-Can we use a stub? No, you cannot use stub to resolve the randomn failures because you will stub yourself out. So, what statement can you make about this code that is true? Can we loosen our assertion and still satisfy the requirement? The guess_game_spec below deals with the problem of randomness.
+Can we use a stub? No, you cannot use stub to resolve the random failures because you will stub yourself out. So, what statement can you make about this code that is true? Can we loosen our assertion and still satisfy the requirement? The guess_game_spec below deals with the problem of randomness.
 
 ```ruby
 require_relative 'guess_game'
@@ -103,22 +152,15 @@ describe GuessGame do
     game = GuessGame.new
     result = game.random
 
-    expected_range = 1..100
-    expected_range.should cover(result)
+    expect(1..100).to cover(result)
   end
 end
 ```
 
-This spec checks only the range of the generated random number is within the expected range. This test now passes. You can also use:
-
-```ruby
-expected_range.include?(result)
-```
-
-This does not use cover rspec matcher. This example shows you that you don't have to overspecify in your tests.
+This spec checks only the range of the generated random number is within the expected range of 1 to 100. This test now passes. This test shows you that you don't have to over specify in your tests.
 
 Summary
 ===========
 -----------
 
-In this lesson you learned about testing randomness and how to identify and fix overspecifying behavior. In the subsequent lessons we will gradually build the guessing game and learn other design principles and testing techniques.
+In this lesson you learned about testing randomness and how to identify and fix over specifying behavior. In the subsequent lessons we will gradually build the guessing game and learn other design principles and testing techniques.
