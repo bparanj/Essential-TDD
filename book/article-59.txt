@@ -1,0 +1,343 @@
+1.
+
+require 'sshkit'
+require 'sshkit/dsl'
+
+run_locally do
+  puts capture(:whoami)  
+end
+
+
+
+ruby sk.rb
+
+
+2. 
+
+run_locally do
+  within '/tmp' do
+    puts capture(:ls)
+  end
+end
+
+ruby sk.rb
+
+It lists the files in /tmp directory. This is equivalent to :
+
+$cd /tmp
+$ls
+
+
+
+
+1
+
+lib/tasks/sshkit.rake
+
+task :hello => :environment do  
+  puts "Hello world"
+end
+
+Run
+
+rake hello
+
+
+2.
+
+gem 'sshkit' in Gemfile. Since Capistrano has sshkit dependency it is already installed if you are using Capistrano to deploy your application.
+
+require 'sshkit/dsl'
+
+task :hello => :environment do  
+  puts "Hello world"
+end
+
+task :sshkit_hello => :environment do  
+  run_locally do
+    rake "hello"  
+  end
+end
+
+$rake sshkit_hello
+INFO[dead2d1d] Running /usr/bin/env rake hello on localhost
+INFO[dead2d1d] Finished in 2.688 seconds with exit status 0 (successful).
+
+3. 
+
+task :echo  do  
+  run_locally do
+    execute "echo 'hi'"
+  end
+end
+
+rake echo
+
+$rake echo
+INFO[bba26bc5] Running /usr/bin/env echo 'hi' on localhost
+INFO[bba26bc5] Finished in 0.005 seconds with exit status 0 (successful).
+~/projects/lafon $
+
+
+4.
+
+SSHKit.config.output_verbosity = :debug
+
+task :echo  do  
+  run_locally do
+    execute "echo 'hi'"
+  end
+end
+
+$rake echo
+INFO[dc3b8278] Running /usr/bin/env echo 'hi' on localhost
+DEBUG[dc3b8278] Command: echo 'hi'
+DEBUG[dc3b8278] 	hi
+INFO[dc3b8278] Finished in 0.007 seconds with exit status 0 (successful).
+
+5.
+
+SSHKit.config.output_verbosity = :debug
+
+task :show_secrets  do  
+  run_locally do
+    execute "cat ~/projects/blog/config/secrets.yml"
+  end
+end
+
+This will show the contents of Rails blog project's secrets.yml file.
+
+6. 
+
+task :hi  do  
+  run_locally do
+    execute "echo", 'hi'
+  end
+end
+
+$rake hi
+INFO[04a6d78d] Running /usr/bin/env echo hi on localhost
+DEBUG[04a6d78d] Command: /usr/bin/env echo hi
+DEBUG[04a6d78d] 	hi
+INFO[04a6d78d] Finished in 0.006 seconds with exit status 0 (successful).
+
+7. 
+remote-hello.rake
+
+require 'sshkit/dsl'
+
+SSHKit::Backend::Netssh.configure do |ssh|
+  ssh.ssh_options = {
+      user: 'rails',
+      auth_methods: ['publickey']
+  }
+end
+
+desc 'Who am I on the server'
+task :who do
+
+  on 'www.rubyplus.com' do
+    as :root do
+      execute 'whoami'
+    end
+  end
+
+end
+
+$rake who
+DEBUG[853f1298] Running /usr/bin/env if ! sudo -u root whoami > /dev/null; then echo "You cannot switch to user 'root' using sudo, please check the sudoers file" 1>&2; false; fi on www.rubyplus.com
+DEBUG[853f1298] Command: if ! sudo -u root whoami > /dev/null; then echo "You cannot switch to user 'root' using sudo, please check the sudoers file" 1>&2; false; fi
+DEBUG[853f1298] Finished in 1.634 seconds with exit status 0 (successful).
+INFO[a7d95d3d] Running /usr/bin/env whoami on www.rubyplus.com
+DEBUG[a7d95d3d] Command: sudo -u root -- sh -c '/usr/bin/env whoami'
+DEBUG[a7d95d3d] 	root
+INFO[a7d95d3d] Finished in 0.155 seconds with exit status 0 (successful).
+
+I have copied my public key to my server so that I can securely connect to it without having to enter my password. You can see that I have specified auth_methods: ['publickey'] in the setup.
+
+8.
+
+task :whoami do
+  on 'www.rubyplus.com' do 
+    as 'root' do
+      puts capture(:whoami)
+    end
+  end
+end
+
+
+$rake whoami
+DEBUG[ef246db2] Running /usr/bin/env if ! sudo -u root whoami > /dev/null; then echo "You cannot switch to user 'root' using sudo, please check the sudoers file" 1>&2; false; fi on www.rubyplus.com
+DEBUG[ef246db2] Command: if ! sudo -u root whoami > /dev/null; then echo "You cannot switch to user 'root' using sudo, please check the sudoers file" 1>&2; false; fi
+DEBUG[ef246db2] Finished in 1.427 seconds with exit status 0 (successful).
+DEBUG[46f56882] Running /usr/bin/env whoami on www.rubyplus.com
+DEBUG[46f56882] Command: sudo -u root -- sh -c '/usr/bin/env whoami'
+DEBUG[46f56882] 	root
+DEBUG[46f56882] Finished in 0.156 seconds with exit status 0 (successful).
+root
+
+9
+
+task :check_env do
+  on 'www.rubyplus.com' do 
+    puts capture(:env)
+  end  
+end
+
+This prints the env variables set on the server.
+
+10
+
+task :check_log do
+  on 'www.rubyplus.com' do
+    within '/srv/lafon/shared/log' do
+      puts capture(:head, '-n5', 'sucker_punch.log')
+    end
+  end
+end
+
+$rake check_log
+DEBUG[a97e36b2] Running /usr/bin/env if test ! -d /srv/lafon/shared/log; then echo "Directory does not exist '/srv/lafon/shared/log'" 1>&2; false; fi on www.rubyplus.com
+DEBUG[a97e36b2] Command: if test ! -d /srv/lafon/shared/log; then echo "Directory does not exist '/srv/lafon/shared/log'" 1>&2; false; fi
+DEBUG[a97e36b2] Finished in 1.397 seconds with exit status 0 (successful).
+DEBUG[6ef963e1] Running /usr/bin/env head -n5 sucker_punch.log on www.rubyplus.com
+DEBUG[6ef963e1] Command: cd /srv/lafon/shared/log && /usr/bin/env head -n5 sucker_punch.log
+DEBUG[6ef963e1] 	# Logfile created on 2014-08-16 20:28:41 +0000 by logger.rb/44203
+DEBUG[6ef963e1] Finished in 0.147 seconds with exit status 0 (successful).
+# Logfile created on 2014-08-16 20:28:41 +0000 by logger.rb/44203
+
+11
+
+task :check_uptime do
+  on 'rubyplus.com' do
+    execute :uptime
+  end
+end
+
+$rake check_uptime
+INFO[799d57f4] Running /usr/bin/env uptime on rubyplus.com
+DEBUG[799d57f4] Command: /usr/bin/env uptime
+DEBUG[799d57f4] 	 10:32:43 up 38 days,  9:45,  0 users,  load average: 0.00, 0.01, 0.05
+INFO[799d57f4] Finished in 1.560 seconds with exit status 0 (successful).
+
+12
+
+Executing command with flags.
+
+task :unameit do
+  on 'rubyplus.com' do
+    execute('uname -a')
+  end
+end
+
+
+$rake unameit
+INFO[def8cdee] Running /usr/bin/env uname -a on rubyplus.com
+DEBUG[def8cdee] Command: uname -a
+DEBUG[def8cdee] 	Linux li552-13 3.15.4-x86_64-linode45 #1 SMP Mon Jul 7 08:42:36 EDT 2014 x86_64 x86_64 x86_64 GNU/Linux
+INFO[def8cdee] Finished in 1.506 seconds with exit status 0 (successful).
+
+
+13
+
+task :pwd do
+  on 'rubyplus.com' do
+    execute :pwd
+  end  
+end
+
+$rake pwd
+INFO[a870efb4] Running /usr/bin/env pwd on rubyplus.com
+DEBUG[a870efb4] Command: /usr/bin/env pwd
+DEBUG[a870efb4] 	/home/rails
+INFO[a870efb4] Finished in 1.609 seconds with exit status 0 (successful).
+
+14
+
+require 'sshkit'
+require 'sshkit/dsl'
+
+SSHKit::Backend::Netssh.configure do |ssh|
+  ssh.ssh_options = {
+      user: 'rails',
+      auth_methods: ['publickey']
+  }
+end
+
+SSHKit.config.output_verbosity = :debug
+
+on 'rubyplus.com' do
+  execute :ls, '-l', '/home/rails'
+end  
+
+
+
+ruby lib/tasks/apache.rb
+
+INFO[c43630e8] Running /usr/bin/env ls -l /home/rails on rubyplus.com
+DEBUG[c43630e8] Command: /usr/bin/env ls -l /home/rails
+
+DEBUG[c43630e8] 	total 4
+DEBUG[c43630e8] 	-rw-r--r-- 1 rails rails 401 Jul  9 05:02 my_key.pub
+INFO[c43630e8] Finished in 2.367 seconds with exit status 0 (successful).
+
+
+15
+
+on 'rubyplus.com' do
+  capture(:echo, 'hello sshkit')
+end
+
+
+ruby lib/tasks/apache.rb
+DEBUG[b1e5c25d] Running /usr/bin/env echo hello sshkit on rubyplus.com
+DEBUG[b1e5c25d] Command: /usr/bin/env echo hello sshkit
+DEBUG[b1e5c25d] 	hello sshkit
+DEBUG[b1e5c25d] Finished in 1.538 seconds with exit status 0 (successful).
+
+16 
+
+on 'rubyplus.com' do
+  capture(:uname, '-a')
+end
+
+
+
+ruby lib/tasks/apache.rb
+
+DEBUG[d116fd09] Running /usr/bin/env uname -a on rubyplus.com
+DEBUG[d116fd09] Command: /usr/bin/env uname -a
+
+
+DEBUG[d116fd09] 	Linux li552-13 3.15.4-x86_64-linode45 #1 SMP Mon Jul 7 08:42:36 EDT 2014 x86_64 x86_64 x86_64 GNU/Linux
+DEBUG[d116fd09] Finished in 1.592 seconds with exit status 0 (successful).
+
+17
+
+on 'rubyplus.com' do
+  within('/srv/lafon/current') do
+    capture(:bundle, 'check')
+  end
+end
+
+$ruby lib/tasks/apache.rb
+
+DEBUG[e126b7e1] Running /usr/bin/env if test ! -d /srv/lafon/current; then echo "Directory does not exist '/srv/lafon/current'" 1>&2; false; fi on rubyplus.com
+DEBUG[e126b7e1] Command: if test ! -d /srv/lafon/current; then echo "Directory does not exist '/srv/lafon/current'" 1>&2; false; fi
+
+DEBUG[e126b7e1] Finished in 1.506 seconds with exit status 0 (successful).
+DEBUG[bb8eb516] Running /usr/bin/env bundle check on rubyplus.com
+DEBUG[bb8eb516] Command: cd /srv/lafon/current && /usr/bin/env bundle check
+DEBUG[bb8eb516] 	The Gemfile's dependencies are satisfied
+DEBUG[bb8eb516] Finished in 0.537 seconds with exit status 0 (successful).
+
+18
+
+on 'rubyplus.com' do
+  within('/srv/lafon/shared') do
+    capture(:cat, 'config/secrets.yml')
+  end
+end
+
+This will display the contents of the secrets.yml file.
+
