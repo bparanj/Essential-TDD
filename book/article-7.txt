@@ -12,7 +12,7 @@ Objectives
 - Using existing tests as regression tests when making major changes to existing code.
 
 Problem Statement
-===================
+=================
 -------------
 
 Generate Fibonacci sequence for a given number.
@@ -22,6 +22,8 @@ Problem Domain Analysis
 -------------
 
 In mathematics, the Fibonacci numbers are the numbers in the following integer sequence: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610 ... By definition, the first two numbers in the Fibonacci sequence are 0 and 1 and each subsequent number is the sum of the previous two.
+
+![alt text](http://www.rubyplus.com/images/fibonacci.png "Fibonacci Numbers")
 
 Algebraic Equation
 -------------
@@ -53,6 +55,8 @@ Each input output set is an example. Make each example executable.
 Input  : 0, 1, 2, 3, 4, 5
 Output : 0, 1, 1, 2, 3, 5 
 ```
+
+![alt text](http://www.rubyplus.com/images/FibonacciTable.png "Fibonacci Sample Data")
 
 The final solution should be able to take any random number and calculate the Fibonacci number without any modification to the production code.
 

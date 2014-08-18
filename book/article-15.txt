@@ -1,4 +1,7 @@
+UPDATE TO BE MADE
+FIND THE PRESENTATION THAT HAS SEQUENCE DIAGRAMS FOR INCIDENTAL INTERACTIONS
 
+--------
 
 TDD Basics : Refactor in Green State - Guessing Game Kata Part 5
 

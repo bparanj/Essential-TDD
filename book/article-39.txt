@@ -231,8 +231,8 @@ Failures:
   1) FizzBuzz should generate numbers from 1 to 100
      Failure/Error: result = game.numbers
      NoMethodError:
-       undefined method `numbers' for #<FizzBuzz:0x008c0>
-     # ./fizz_buzz_spec.rb:8:in `block (2 levels) in <top (required)>'
+       undefined method numbers for #<FizzBuzz:0x008c0>
+     # ./fizz_buzz_spec.rb:8:in block (2 levels) in <top (required)>
 
 Finished in 0.00059 seconds (files took 0.12402 seconds to load)
 2 examples, 1 failure, 1 pending
@@ -306,6 +306,8 @@ end
 ```
 
 What is the point of doing the same thing (1..100).to_a that is done in the test? A good explanation is Robert C. Martin's discussion of how [TDD is like double entry bookkeeping](http://butunclebob.com/ArticleS.UncleBob.TheSensitivityProblem 'Double Entry') system in accounting. 
+
+![alt text](http://www.rubyplus.com/images/sample_acctg_equation.gif "Accounting Example")
 
 Ideally if I had followed his suggestion I should have used a different way to create an array of 1 to 100. Since this is just a one-liner I have verified it manually and since my confidence level is high, I did not bother spending more time to find another way of generating the list of numbers.
 

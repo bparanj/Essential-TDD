@@ -8,7 +8,13 @@ Objective
 =========
 ---------
 
-Learn to evaluate whether the amount of test code to production code is reasonable or not.
+Learn to evaluate whether the amount of test code to production code is reasonable or not. 
+
+Discussion
+==========
+----------
+
+The principle of Ensure Commensurate Effort and Responsibility states that the amount of effort it takes to to write or modify tests should not exceed the effort it takes to implement the corresponding functionality. This principle is discussed in depth in xUnit Test Patterns by Gerard Meszaros.
 
 Problem Statement
 =================

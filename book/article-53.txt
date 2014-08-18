@@ -1,5 +1,3 @@
-UPDATE WITH SCANNED DIAGRAMS
-
 PUBLISHED
 
 Prime Factors Kata Analysis
@@ -39,6 +37,8 @@ Marking with an * the unsuccessful attempts to divide, we have:
 2   2   2   3   3   4   5
 60 30  15* 15   5*  5*  5  1
 ```
+
+![alt text](http://www.rubyplus.com/images/sda-prime-factors.png "Prime Factors")
 
 Observations
 ------------

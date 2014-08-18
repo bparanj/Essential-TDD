@@ -341,3 +341,45 @@ end
 
 This will display the contents of the secrets.yml file.
 
+
+19
+
+$rails g controller availability
+
+class AvailabilityController < ApplicationController
+  def index
+    meaning = check_jsruntime
+    
+    if meaning == 42
+      @js = true
+    end
+  end
+  
+  private 
+  
+  def check_jsruntime
+    require 'v8'
+    cxt = V8::Context.new
+    cxt.eval('7 * 6')
+  end
+end
+
+routes.rb
+
+get '/availability' => 'availability#index'
+
+
+app/views/availability
+
+<% if @js %>
+
+Javscript Runtime Check Success
+
+<% else %>
+
+Javscript Runtime Check Failed
+
+<% end %>
+
+
+
