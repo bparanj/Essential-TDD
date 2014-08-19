@@ -1,4 +1,4 @@
-START FROM ARTICLE 53 and then on Availability Check Utility
+START FROM ARTICLE Availability Check Utility
 
 
 1. Start from article on Stripe Monthly subscription feature?
@@ -22,6 +22,6 @@ Do we test methods?
 
 PENDING
 
-1. 55
+1. 55 - PUBLISH IT
 2. 56
 3. 59

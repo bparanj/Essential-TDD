@@ -1,13 +1,17 @@
+REQUIRES IMAGES FROM THE NOTES. SCAN AND INCLUDE
 Character to Number Conversion
 
 
 Convert the character representation of an integer to it's decimal format.
 
 Example
+=========
+---------
 
 Convert 4 character sequence '1984' to the decimal number 1984.
 
 Diagram goes here
+
 
 To convert, 49 needs to be converted to 1000, 57 to 900, 56 to 80 and 52 to 4 units.
 

@@ -1,86 +1,130 @@
-1.
 
+------------------------------------------------------------------------
+Compare the secrets.yml on the local machine and the remote machine.
+If it is not the same, then upload the local secrets to the remote /shared/config/secrets.yml
+How to compare two files in Ruby?
+
+Example 5 must show the solution for keeping the secrets.yml synchornization problem.
+------------------------------------------------------------------------
+
+
+SSH Kit Gem
+
+Example 1
+=========
+---------
+
+In this example we will see how to run a command on a terminal on the local machine and display the output of the command. Create sk.rb with the following contents:
+
+```ruby
 require 'sshkit'
 require 'sshkit/dsl'
 
 run_locally do
   puts capture(:whoami)  
 end
+```
 
+Run this program.
 
+```ruby
+$ruby sk.rb
+```
 
-ruby sk.rb
+The capture method runs the given command and captures the resulting output. This is printed on the screen. You need to include both the sshkit and sshkit/dsl in the require statements.
 
+Example 2
+========= 
+---------
 
-2. 
+In this example we will see how to use the within method to execute a command in a certain directory. Create ls.rb with:
 
+```ruby
 run_locally do
   within '/tmp' do
     puts capture(:ls)
   end
 end
-
-ruby sk.rb
+```
 
 It lists the files in /tmp directory. This is equivalent to :
 
+```sh
 $cd /tmp
 $ls
+```
 
+Example 3
+=========
+--------
 
+Step 1
+------
 
+In this example you will learn how to call a rake task from another rake task that uses sshkit dsl. Create lib/tasks/sshkit.rake in your Rails project.
 
-1
-
-lib/tasks/sshkit.rake
-
-task :hello => :environment do  
+```ruby
+task :hello do  
   puts "Hello world"
 end
+```
 
-Run
+Run:
 
-rake hello
+```sh
+$rake hello
+```
 
+Step 2
+------
 
-2.
+Add gem 'sshkit' in Gemfile. Since Capistrano has sshkit dependency it is already installed if you are using Capistrano to deploy your application.
 
-gem 'sshkit' in Gemfile. Since Capistrano has sshkit dependency it is already installed if you are using Capistrano to deploy your application.
-
+```ruby
 require 'sshkit/dsl'
 
-task :hello => :environment do  
+task :hello do  
   puts "Hello world"
 end
 
-task :sshkit_hello => :environment do  
+task :sshkit_hello do  
   run_locally do
     rake "hello"  
   end
 end
+```
 
+Run the second rake task:
+
+```sh
 $rake sshkit_hello
 INFO[dead2d1d] Running /usr/bin/env rake hello on localhost
 INFO[dead2d1d] Finished in 2.688 seconds with exit status 0 (successful).
+```
 
-3. 
+Example 4
+==========
+----------
 
+In this example you will learn the execute command. Add the echo rake task to your .rake file:
+
+```ruby
 task :echo  do  
   run_locally do
     execute "echo 'hi'"
   end
 end
+```
 
-rake echo
-
+```sh
 $rake echo
 INFO[bba26bc5] Running /usr/bin/env echo 'hi' on localhost
 INFO[bba26bc5] Finished in 0.005 seconds with exit status 0 (successful).
-~/projects/lafon $
+```
+This does not show the output of echo the 'hi'. To display the output, configure SSHKit as follows:
 
 
-4.
-
+```ruby
 SSHKit.config.output_verbosity = :debug
 
 task :echo  do  
@@ -88,42 +132,43 @@ task :echo  do
     execute "echo 'hi'"
   end
 end
+```
 
+Now you can see the output of the echo command.
+
+```sh
 $rake echo
 INFO[dc3b8278] Running /usr/bin/env echo 'hi' on localhost
 DEBUG[dc3b8278] Command: echo 'hi'
 DEBUG[dc3b8278] 	hi
 INFO[dc3b8278] Finished in 0.007 seconds with exit status 0 (successful).
+```
 
-5.
+If you provide two arguments to the echo command, the first argument is command to run and the second argument becomes the argument to the command given in the first argument. Here is an example:
 
-SSHKit.config.output_verbosity = :debug
-
-task :show_secrets  do  
-  run_locally do
-    execute "cat ~/projects/blog/config/secrets.yml"
-  end
-end
-
-This will show the contents of Rails blog project's secrets.yml file.
-
-6. 
-
+```ruby
 task :hi  do  
   run_locally do
     execute "echo", 'hi'
   end
 end
+```
 
+```sh
 $rake hi
 INFO[04a6d78d] Running /usr/bin/env echo hi on localhost
 DEBUG[04a6d78d] Command: /usr/bin/env echo hi
 DEBUG[04a6d78d] 	hi
 INFO[04a6d78d] Finished in 0.006 seconds with exit status 0 (successful).
+```
 
-7. 
-remote-hello.rake
+Example 5
+=========
+---------
 
+In this example, you will learn how to run commands on a remote server. Create remote-hello.rake in the lib/tasks folder.
+
+```ruby
 require 'sshkit/dsl'
 
 SSHKit::Backend::Netssh.configure do |ssh|
@@ -143,7 +188,11 @@ task :who do
   end
 
 end
+```
 
+I have copied my public key to my server so that I can securely connect to it without having to enter my password. You can see that I have specified auth_methods: ['publickey'] in the setup. The on() method takes the server name to run the command. The as() method takes the user as the argument. So the execute command will run the whoami as root. This is a trivial example, but it shows how to remotely execute commands on a given server.
+
+```sh
 $rake who
 DEBUG[853f1298] Running /usr/bin/env if ! sudo -u root whoami > /dev/null; then echo "You cannot switch to user 'root' using sudo, please check the sudoers file" 1>&2; false; fi on www.rubyplus.com
 DEBUG[853f1298] Command: if ! sudo -u root whoami > /dev/null; then echo "You cannot switch to user 'root' using sudo, please check the sudoers file" 1>&2; false; fi
@@ -152,11 +201,11 @@ INFO[a7d95d3d] Running /usr/bin/env whoami on www.rubyplus.com
 DEBUG[a7d95d3d] Command: sudo -u root -- sh -c '/usr/bin/env whoami'
 DEBUG[a7d95d3d] 	root
 INFO[a7d95d3d] Finished in 0.155 seconds with exit status 0 (successful).
+```
 
-I have copied my public key to my server so that I can securely connect to it without having to enter my password. You can see that I have specified auth_methods: ['publickey'] in the setup.
+The output shows that I am 'root' as the result of running the whoami command. You can accomplish the same thing by using capture command instead of execute command:
 
-8.
-
+```ruby
 task :whoami do
   on 'www.rubyplus.com' do 
     as 'root' do
@@ -164,8 +213,9 @@ task :whoami do
     end
   end
 end
+```
 
-
+```sh
 $rake whoami
 DEBUG[ef246db2] Running /usr/bin/env if ! sudo -u root whoami > /dev/null; then echo "You cannot switch to user 'root' using sudo, please check the sudoers file" 1>&2; false; fi on www.rubyplus.com
 DEBUG[ef246db2] Command: if ! sudo -u root whoami > /dev/null; then echo "You cannot switch to user 'root' using sudo, please check the sudoers file" 1>&2; false; fi
@@ -175,85 +225,103 @@ DEBUG[46f56882] Command: sudo -u root -- sh -c '/usr/bin/env whoami'
 DEBUG[46f56882] 	root
 DEBUG[46f56882] Finished in 0.156 seconds with exit status 0 (successful).
 root
+```
 
-9
+Add the following task:
 
+```ruby
 task :check_env do
   on 'www.rubyplus.com' do 
     puts capture(:env)
   end  
 end
+```
 
-This prints the env variables set on the server.
+This prints the env variables set on the server. Here is a task to check the log file:
 
-10
-
+```ruby
 task :check_log do
   on 'www.rubyplus.com' do
-    within '/srv/lafon/shared/log' do
+    within '/var/www/blog/shared/log' do
       puts capture(:head, '-n5', 'sucker_punch.log')
     end
   end
 end
+```
 
+```sh
 $rake check_log
-DEBUG[a97e36b2] Running /usr/bin/env if test ! -d /srv/lafon/shared/log; then echo "Directory does not exist '/srv/lafon/shared/log'" 1>&2; false; fi on www.rubyplus.com
-DEBUG[a97e36b2] Command: if test ! -d /srv/lafon/shared/log; then echo "Directory does not exist '/srv/lafon/shared/log'" 1>&2; false; fi
+DEBUG[a97e36b2] Running /usr/bin/env if test ! -d /var/www/blog/shared/log; then echo "Directory does not exist '/var/www/blog/shared/log'" 1>&2; false; fi on www.rubyplus.com
+DEBUG[a97e36b2] Command: if test ! -d /var/www/blog/shared/log; then echo "Directory does not exist '/var/www/blog/shared/log'" 1>&2; false; fi
 DEBUG[a97e36b2] Finished in 1.397 seconds with exit status 0 (successful).
 DEBUG[6ef963e1] Running /usr/bin/env head -n5 sucker_punch.log on www.rubyplus.com
-DEBUG[6ef963e1] Command: cd /srv/lafon/shared/log && /usr/bin/env head -n5 sucker_punch.log
+DEBUG[6ef963e1] Command: cd /var/www/blog/shared/log && /usr/bin/env head -n5 sucker_punch.log
 DEBUG[6ef963e1] 	# Logfile created on 2014-08-16 20:28:41 +0000 by logger.rb/44203
 DEBUG[6ef963e1] Finished in 0.147 seconds with exit status 0 (successful).
 # Logfile created on 2014-08-16 20:28:41 +0000 by logger.rb/44203
+```
 
-11
+To check how long the server has been up.
 
+```ruby
 task :check_uptime do
   on 'rubyplus.com' do
     execute :uptime
   end
 end
+```
 
+```sh
 $rake check_uptime
 INFO[799d57f4] Running /usr/bin/env uptime on rubyplus.com
 DEBUG[799d57f4] Command: /usr/bin/env uptime
 DEBUG[799d57f4] 	 10:32:43 up 38 days,  9:45,  0 users,  load average: 0.00, 0.01, 0.05
 INFO[799d57f4] Finished in 1.560 seconds with exit status 0 (successful).
+```
 
-12
+Here is a task to print the working directory.
 
-Executing command with flags.
-
-task :unameit do
-  on 'rubyplus.com' do
-    execute('uname -a')
-  end
-end
-
-
-$rake unameit
-INFO[def8cdee] Running /usr/bin/env uname -a on rubyplus.com
-DEBUG[def8cdee] Command: uname -a
-DEBUG[def8cdee] 	Linux li552-13 3.15.4-x86_64-linode45 #1 SMP Mon Jul 7 08:42:36 EDT 2014 x86_64 x86_64 x86_64 GNU/Linux
-INFO[def8cdee] Finished in 1.506 seconds with exit status 0 (successful).
-
-
-13
-
+```ruby
 task :pwd do
   on 'rubyplus.com' do
     execute :pwd
   end  
 end
+```
 
+```sh
 $rake pwd
 INFO[a870efb4] Running /usr/bin/env pwd on rubyplus.com
 DEBUG[a870efb4] Command: /usr/bin/env pwd
 DEBUG[a870efb4] 	/home/rails
 INFO[a870efb4] Finished in 1.609 seconds with exit status 0 (successful).
+```
 
-14
+Example 6
+=========
+---------
 
+Here is an example on how to execute command with flags.
+
+```ruby
+task :unameit do
+  on 'rubyplus.com' do
+    execute('uname -a')
+  end
+end
+```
+
+```
+$rake unameit
+INFO[def8cdee] Running /usr/bin/env uname -a on rubyplus.com
+DEBUG[def8cdee] Command: uname -a
+DEBUG[def8cdee] 	Linux li552-13 3.15.4-x86_64-linode45 #1 SMP Mon Jul 7 08:42:36 EDT 2014 x86_64 x86_64 x86_64 GNU/Linux
+INFO[def8cdee] Finished in 1.506 seconds with exit status 0 (successful).
+```
+
+Here is an example for using a flag and an argument in the execute() method.
+
+```ruby
 require 'sshkit'
 require 'sshkit/dsl'
 
@@ -269,10 +337,10 @@ SSHKit.config.output_verbosity = :debug
 on 'rubyplus.com' do
   execute :ls, '-l', '/home/rails'
 end  
+```
 
-
-
-ruby lib/tasks/apache.rb
+```sh
+$ruby lib/tasks/apache.rb
 
 INFO[c43630e8] Running /usr/bin/env ls -l /home/rails on rubyplus.com
 DEBUG[c43630e8] Command: /usr/bin/env ls -l /home/rails
@@ -280,69 +348,104 @@ DEBUG[c43630e8] Command: /usr/bin/env ls -l /home/rails
 DEBUG[c43630e8] 	total 4
 DEBUG[c43630e8] 	-rw-r--r-- 1 rails rails 401 Jul  9 05:02 my_key.pub
 INFO[c43630e8] Finished in 2.367 seconds with exit status 0 (successful).
+```
 
+This is not a rake task, this is just a ruby script.
 
-15
+Example 7
+=========
+----------
 
+Let's run echo command on the remote server.
+
+```ruby
 on 'rubyplus.com' do
   capture(:echo, 'hello sshkit')
 end
+```
 
-
+```sh
 ruby lib/tasks/apache.rb
 DEBUG[b1e5c25d] Running /usr/bin/env echo hello sshkit on rubyplus.com
 DEBUG[b1e5c25d] Command: /usr/bin/env echo hello sshkit
 DEBUG[b1e5c25d] 	hello sshkit
 DEBUG[b1e5c25d] Finished in 1.538 seconds with exit status 0 (successful).
+```
 
-16 
+Let's run the 'uname -a' command on the remote server.
 
+```ruby
 on 'rubyplus.com' do
   capture(:uname, '-a')
 end
+```
 
-
-
-ruby lib/tasks/apache.rb
+```sh
+$ruby lib/tasks/apache.rb
 
 DEBUG[d116fd09] Running /usr/bin/env uname -a on rubyplus.com
 DEBUG[d116fd09] Command: /usr/bin/env uname -a
-
-
 DEBUG[d116fd09] 	Linux li552-13 3.15.4-x86_64-linode45 #1 SMP Mon Jul 7 08:42:36 EDT 2014 x86_64 x86_64 x86_64 GNU/Linux
 DEBUG[d116fd09] Finished in 1.592 seconds with exit status 0 (successful).
+```
 
-17
+Here is an useful check to see if all the gem dependencies are satisfied on the remote server.
 
+```ruby
 on 'rubyplus.com' do
-  within('/srv/lafon/current') do
+  within('/var/www/blog/current') do
     capture(:bundle, 'check')
   end
 end
+```
 
+```sh
 $ruby lib/tasks/apache.rb
 
-DEBUG[e126b7e1] Running /usr/bin/env if test ! -d /srv/lafon/current; then echo "Directory does not exist '/srv/lafon/current'" 1>&2; false; fi on rubyplus.com
-DEBUG[e126b7e1] Command: if test ! -d /srv/lafon/current; then echo "Directory does not exist '/srv/lafon/current'" 1>&2; false; fi
+DEBUG[e126b7e1] Running /usr/bin/env if test ! -d /var/www/blog/current; then echo "Directory does not exist '/var/www/blog/current'" 1>&2; false; fi on rubyplus.com
+DEBUG[e126b7e1] Command: if test ! -d /var/www/blog/current; then echo "Directory does not exist '/var/www/blog/current'" 1>&2; false; fi
 
 DEBUG[e126b7e1] Finished in 1.506 seconds with exit status 0 (successful).
 DEBUG[bb8eb516] Running /usr/bin/env bundle check on rubyplus.com
-DEBUG[bb8eb516] Command: cd /srv/lafon/current && /usr/bin/env bundle check
+DEBUG[bb8eb516] Command: cd /var/www/blog/current && /usr/bin/env bundle check
 DEBUG[bb8eb516] 	The Gemfile's dependencies are satisfied
 DEBUG[bb8eb516] Finished in 0.537 seconds with exit status 0 (successful).
+```
 
-18
+Example 8
+=========
+---------
 
+Add show_secrets rake task to your .rake file.
+
+```sh
+SSHKit.config.output_verbosity = :debug
+
+task :show_secrets  do  
+  run_locally do
+    execute "cat ~/projects/blog/config/secrets.yml"
+  end
+end
+```
+
+This will show the contents of Rails blog project's secrets.yml file.
+
+```ruby
 on 'rubyplus.com' do
-  within('/srv/lafon/shared') do
+  within('/var/www/blog/shared') do
     capture(:cat, 'config/secrets.yml')
   end
 end
+```
 
 This will display the contents of the secrets.yml file.
 
 
-19
+
+
+
+
+
 
 $rails g controller availability
 
