@@ -23,7 +23,7 @@ Those are monitoring tools. We need something to check dependencies and to make 
 Why SSH Kit?
 -------------------
 
-You can use any Capistrano version to deploy your code. Since I use Moonshine and it depends on Capistrano 2, I cannot take advantage of Capistrano 3 features. So, if I develop my own tools then I can avoid some hairy problems on production. SSHKit was extracted from Capistrano and is a very good tool for interacting with remote servers.
+You can use any Capistrano version to deploy your code. Since I use Moonshine and it depends on Capistrano 2, I cannot take advantage of Capistrano 3 features. So, if I develop my own tools then I can avoid some hairy problems on production. My desire for a tool was fueled by [Docker](https://www.docker.com/ 'Docker'). Developing our own tools to solve these problem allows us to make these tools available for certain people in QA and other departments. This removes the bottlenecks in the organization and speeds up the software release process. SSHKit was extracted from Capistrano and is a very good tool for interacting with remote servers.
 
 So, let's learn SSHKit by examples. We will eventually have enough knowledge about SSHKit to solve our application installation problems.
 
