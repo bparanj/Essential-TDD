@@ -1,8 +1,7 @@
-START FROM ARTICLE Availability Check Utility
 
 
-1. Start from article on Stripe Monthly subscription feature?
-2. Add 3 more 10 minutes epispodes to udemy.com as a free course (Essential TDD course).
+1. START FROM ARTICLE Availability Check Utility
+2. Stripe Monthly subscription feature.
 3. In article 31, explain spiking and how it fits with TDD.
 4. Create an article on using Moonshine and link in the comments section : http://railscasts.com/episodes/337-capistrano-recipes?autoplay=true
 5. Open Closed Principle article: Discussion questions must be answered in the answer key. Create Answer Key in the pdf book appendix.
@@ -21,7 +20,14 @@ Do we test methods?
 
 
 PENDING
+----------
 
-1. 55 - PUBLISH IT
-2. 56
-3. 59
+1. 56
+2. 59
+3. 60
+
+Marketing
+----------
+
+1. Amazon Lead Generator book. Stamp www.rubyplus.com on every page. Find out if free Amazon book can be sold on website.
+2. Udemy. Add 3 more 10 minutes epispodes to udemy.com as a free course (Essential TDD course).
