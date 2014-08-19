@@ -1,30 +1,32 @@
+Create a simple Cahor version with dummy backend
 
 
-1. START FROM ARTICLE Availability Check Utility
+SUBMIT A PULL REQUEST THAT HAS LINK TO THE SSHKIT articles. Include the other blog that has SSHKit article.
+http://ryandoyle.net/posts/embedded-capistrano-with-sshkit/
+
+1. START FROM ARTICLE Availability Check Utility 61
 2. Stripe Monthly subscription feature.
-3. In article 31, explain spiking and how it fits with TDD.
-4. Create an article on using Moonshine and link in the comments section : http://railscasts.com/episodes/337-capistrano-recipes?autoplay=true
-5. Open Closed Principle article: Discussion questions must be answered in the answer key. Create Answer Key in the pdf book appendix.
-
+3. 56
 
 
 At Home
-------------------------------------------------------------
+-----------------------------------------------
 1. Create and Scan Red, Green, Refactor diagram.
 2. Article 7 : Insert the simplified version of the Red, Green, Refactor diagram.
 3. Article 9 should link to a discussion on the most desirable kind of changes to code: configuration driven, additive, localized. Find the scanned notes on this laptop to create that article.
 4. Look at the book for the notes for article 50.
 
 Questions
-Do we test methods?
-
-
-PENDING
 ----------
 
-1. 56
-2. 59
-3. 60
+Do we test methods?
+
+Revisions
+----------
+
+1. In article 31, explain spiking and how it fits with TDD.
+2. Create an article on using Moonshine and link in the comments section : http://railscasts.com/episodes/337-capistrano-recipes?autoplay=true
+3. Open Closed Principle article: Discussion questions must be answered in the answer key. Create Answer Key in the pdf book appendix.
 
 Marketing
 ----------

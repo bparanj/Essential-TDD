@@ -1,0 +1,163 @@
+
+
+The Gemfile has the following gems that is used for availability checks only:
+
+```ruby
+gem 'mailchimp-api'
+gem 'sshkit'
+```
+
+Mailchimp Probe
+--------------------
+
+gem 'mailchimp-api' in Gemfile
+Mailchimp gem Helper class defines ping. This is perfect for our purpose. Reading the docs, we see:
+"Ping" the MailChimp API - a simple method you can call that will return a constant value as long as everything is good. Note than unlike most all of our methods, we don't throw an Exception if we are having issues. You will simply receive a different string back that will explain our view on what is going on.
+@return [Hash] a with a "msg" key {"msg"=>"Everything's Chimpy!"}
+- [String] msg containing "Everything's Chimpy!" if everything is chimpy, otherwise throws an exception :  Excon::Errors::SocketError: hostname "api.mailchimp.com" does not match the server certificate (OpenSSL::SSL::SSLError)
+
+SuckerPunch 
+--------------------
+
+Sucker punch does not crash the application on deploy. So there is no need for doing a PING equivalent of background processing.
+
+Syntax Highlighter
+--------------------
+
+Check is not required because the worst case scenario is that the code will not be syntax highlighted. It will not crash the application at runtime. 
+
+Sendgrid Probe
+--------------------
+
+Create send_grid_probe.rb in lib folder.
+
+```ruby
+require 'net/smtp'
+
+class SendGridProbe
+  def self.test(domain, username, password)
+    # :plan will also work
+    begin          
+      Net::SMTP.start('smtp.sendgrid.net', 587, domain, username, password, :login)
+      "SendGrid connectivity success"
+    rescue Net::SMTPAuthenticationError => smtpe
+      "Bad username / password"
+    rescue Exception => e
+      "#{e.message}"
+    end
+  end  
+end
+```
+
+According to the Ruby docs: The Net::SMTP class supports three authentication schemes; PLAIN, LOGIN and CRAM MD5. (SMTP Authentication: [RFC2554]) To use SMTP authentication, pass extra arguments to ::start/SMTP#start. Here I have used :log authentication scheme.  
+  
+AvailabilityController
+--------------------
+
+```ruby
+class AvailabilityController < ApplicationController  
+  def index
+    @js_runtime = check_jsruntime
+    
+    @current_db = current_database
+    @db_connection = check_db
+    
+    @mailchimp = check_mailchimp
+    
+    @sucker_punch_version = SuckerPunch::VERSION
+    
+    @send_grid_status_message = check_sendgrid
+  end
+  
+  private 
+  
+  def check_jsruntime
+    require 'v8'
+    cxt = V8::Context.new
+    x = cxt.eval('7 * 6')
+    x == 42
+  end
+  
+  def check_db
+    # ActiveRecord::Base.connected? will also work
+    begin
+      ActiveRecord::Base.connection.active?
+    rescue Exception => e
+      logger.error "Exception db connection :  #{e.message} "
+      false
+    end
+  end
+  
+  def current_database
+    begin
+      ActiveRecord::Base.connection.current_database
+    rescue Exception => e
+      e.message
+    end
+  end
+  
+  def check_mailchimp
+    require 'mailchimp'
+    
+    begin
+      mc = Mailchimp::API.new(Gibbon::API.api_key)
+      res = mc.helper.ping
+      res
+    rescue Mailchimp::InvalidApiKeyError => e
+      "The API key is invalid."
+    rescue Mailchimp::Error => mce      
+       mce.message
+    rescue Exception => e
+      e.message
+    end
+  end
+          
+  def check_sendgrid
+    require_relative "#{Rails.root}/lib/send_grid_probe"
+    
+    domain = 'rubyplus.com'
+    username = Rails.application.secrets.sendgrid_username
+    password = Rails.application.secrets.sendgrid_password
+    
+    SendGridProbe.test(domain, username, password)
+  end
+end
+```
+
+It's a good idea to list versions of all libraries. Why? You can use it to compare versions in different environment. It helps to isolate the problem and answer the question: Is this problem related to code or software version differences? Here I am only checking the sucker_punch gem version. Here is the routes.rb.
+
+```ruby
+get '/availability' => 'availability#index'
+```
+
+Here is the view in app/views/availability/index.html.erb
+
+```ruby
+<% if @js %>
+
+Javscript Runtime Check Success
+
+<% else %>
+
+Javscript Runtime Check Failed
+
+<% end %>
+
+<br/><br/>
+
+Current Database <%= @current_db %> Connectivity Status <%= @db_connection %>    
+
+<br/><br/>
+
+Mailchimp <%= @mailchimp %>
+
+<br/><br/>
+
+Sucker Punch Version : <%= @sucker_punch_version %>    
+
+<br/><br/>
+
+Sendgrid status : <%= @send_grid_status_message %>
+
+<br/>    <br/>
+```
