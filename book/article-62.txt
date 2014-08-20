@@ -1,18 +1,102 @@
+
+Objective
+----------
+
 Stripe Monthly subscription feature. 
-Start with the Stripe gem docs.
-Subscription happens in real-time? Can it be done in the background?
-Move Stripe related logic into gateways/stripe folder.
 
-Reply to comment on Railscasts on how to test Stripe integration:http://railscasts.com/episodes/288-billing-with-stripe?view=commentshttps://gist.github.com/justinthiele/1307748
+Step 
+-----
+
+Signup for Stripe Account. Copy the API credentials:
+
+Test Secret Key : sk_test_fIq8gFSbcYN5ENqdGe7Vu329
+Test publishable Key : pk_test_wE4Io131CZgI5yWcRN8OyFkr
+
+Step 
+-----
+
+Install the stripe gem. gem install stripe. If you are using bundler:
+ 
+gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+
+Step 
+-----
+
+Create a Stripe plan.
+
+Step 
+-----
+
+Move all Stripe related logic into app/gateways/stripe folder in your Rails project.
 
 
+Step 
+-----
+
+Create a plan, playing in the irb:
+
+require "stripe"
+Stripe.api_key = "sk_test_BQokikJOvBiI2HlWgH4olfQ2"
+
+Stripe::Plan.create(
+  :amount => 2000,
+  :interval => 'month',
+  :name => 'Amazing Gold Plan',
+  :currency => 'usd',
+  :id => 'gold'
+)
+
+
+Delete a Plan
+---------------
+
+plan = Stripe::Plan.retrieve({PLAN_ID}) plan.delete
+
+Subscribe to a plan
+# Set your secret key: remember to change this to your live secret key in production
+# See your keys here https://dashboard.stripe.com/account
+Stripe.api_key = "sk_test_BQokikJOvBiI2HlWgH4olfQ2"
+
+# Get the credit card details submitted by the form
+token = params[:stripeToken]
+
+# Create a Customer
+customer = Stripe::Customer.create(
+  :card => token,
+  :plan => "gold",
+  :email => "payinguser@example.com"
+)
+
+References
+------------
+
+Stripe gem docs : link goes here
 Refer Daniel Kenahoe's purchased book on Stripe related features.
 
-I got it working following the Stripe tutorial (https://stripe.com/docs/tutorials/forms) which uses https://js.stripe.com/v2/ and has some differences, including the 'data-stripe' attribute.
+Questions
+-----------
 
-Tried to add drop-downs for the expiry date and was told by Stripe support "The data-stripe version of Stripe.js doesn't support dropdowns yet (we're working to fix this). In the meantime, feel free to copy the old method from https://gist.github.com/boucher/1750368)"
+1. Subscription happens in real-time? Can it be done in the background? READ : Mastering Modern Payments.
 
-https://gist.github.com/justinthiele/1307748
+Building Links
+---------------
+
+1. Reply to comment on Railscasts on how to test Stripe integration:http://railscasts.com/episodes/288-billing-with-stripe?view=commentshttps://gist.github.com/justinthiele/1307748
+
+Notes
+-------
+
+1.
+Stripe tutorial (https://stripe.com/docs/tutorials/forms) which uses https://js.stripe.com/v2/ and has some differences, including the 'data-stripe' attribute.
+
+Tried to add drop-downs for the expiry date and was told by Stripe support "The data-stripe version of Stripe.js doesn't support dropdowns yet. In the meantime, feel free to copy the old method from https://gist.github.com/boucher/1750368)"
+
+2. https://gist.github.com/justinthiele/1307748
+
+3. Create Test Cases Using https://stripe.com/docs/testing
 
 
-Create Test Cases Using https://stripe.com/docs/testing
+
+
+
+

@@ -1,3 +1,5 @@
+UPDATE WITH THE NOTES IN THE BOTTOM.
+
 PUBLISHED
 
 Availability Tests
@@ -195,3 +197,26 @@ Conclusion
 ----------
 
 In this article we discussed how we can write tests to check the credentials and connectivity. These tests make the deployment a bit painless. Troubleshooting in different environments also becomes easier with these tools. You can write similar tests for other dependencies that are specific to your Rails application.
+
+
+
+REVISE WITH THE FOLLOWING CHECK:
+
+config.secret_key_base.nil?
+
+if Lafon::Application.config.secret_key_base.nil?
+  "You didn't set config.secret_key_base "
+end
+
+
+# def env_config
+#   @env_config ||= begin
+#     if
+#       ActiveSupport::Deprecation.warn "in config/initializers/secret_token.rb file. " +
+#         "This should be used instead of the old deprecated config.secret_token in order to use the new EncryptedCookieStore. " +
+#         "To convert safely to the encrypted store (without losing existing cookies and sessions), see http://guides.rubyonrails.org/upgrading_ruby_on_rails.html#action-pack"
+#
+#       if config.secret_token.blank?
+#         raise "You must set config.secret_key_base in your app's config"
+#       end
+#     end
