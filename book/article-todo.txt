@@ -1,12 +1,9 @@
-Create a simple Cahor version with dummy backend
+Create a simple Cahor version with dummy backend. Maybe?
 
 
-SUBMIT A PULL REQUEST THAT HAS LINK TO THE SSHKIT articles. Include the other blog that has SSHKit article.
-http://ryandoyle.net/posts/embedded-capistrano-with-sshkit/
+Relationship between Test Data and Verification
 
-1. START FROM ARTICLE Availability Check Utility 61
-2. Stripe Monthly subscription feature.
-3. 56
+ The test fixture influences the expected outcome of each test: which inputs result in which outputs. A rich library of Test Utility Methods also makes tests easier to write because we don't have to code the details in every test. 
 
 
 At Home
@@ -15,11 +12,7 @@ At Home
 2. Article 7 : Insert the simplified version of the Red, Green, Refactor diagram.
 3. Article 9 should link to a discussion on the most desirable kind of changes to code: configuration driven, additive, localized. Find the scanned notes on this laptop to create that article.
 4. Look at the book for the notes for article 50.
-
-Questions
-----------
-
-Do we test methods?
+5. 56 (requires images)
 
 Revisions
 ----------
@@ -33,3 +26,8 @@ Marketing
 
 1. Amazon Lead Generator book. Stamp www.rubyplus.com on every page. Find out if free Amazon book can be sold on website.
 2. Udemy. Add 3 more 10 minutes epispodes to udemy.com as a free course (Essential TDD course).
+
+Questions
+----------
+
+Do we test methods?

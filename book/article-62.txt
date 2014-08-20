@@ -1,0 +1,18 @@
+Stripe Monthly subscription feature. 
+Start with the Stripe gem docs.
+Subscription happens in real-time? Can it be done in the background?
+Move Stripe related logic into gateways/stripe folder.
+
+Reply to comment on Railscasts on how to test Stripe integration:http://railscasts.com/episodes/288-billing-with-stripe?view=commentshttps://gist.github.com/justinthiele/1307748
+
+
+Refer Daniel Kenahoe's purchased book on Stripe related features.
+
+I got it working following the Stripe tutorial (https://stripe.com/docs/tutorials/forms) which uses https://js.stripe.com/v2/ and has some differences, including the 'data-stripe' attribute.
+
+Tried to add drop-downs for the expiry date and was told by Stripe support "The data-stripe version of Stripe.js doesn't support dropdowns yet (we're working to fix this). In the meantime, feel free to copy the old method from https://gist.github.com/boucher/1750368)"
+
+https://gist.github.com/justinthiele/1307748
+
+
+Create Test Cases Using https://stripe.com/docs/testing

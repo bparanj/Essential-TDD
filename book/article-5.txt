@@ -11,6 +11,8 @@ Discussion
 ==========
 ---------
 
+This article illustrates the Communicate Intent Principle discussed in the xUnit Test Patterns by Gerard Mezaros. This principle is also known as: Higher Level Language, Single Glance Readable. If we have to squint our eyes when we look at the test, then it is harder to understand because we need to infer the "big picture" from all the details.
+
 The tests must specify and focus on **WHAT** instead of implementation, the **HOW**. Loops are implementation details. For an indepth discussion on What vs How, read the [What vs How in Test Driven Development](http://www.rubyplus.com/articles/411 "What vs How in Test Driven Development") article. 
 
 Just quickly read the following code for meszaros gem : https://github.com/bparanj/meszaros to see the utility methods that help to eliminate loops in specs. Here is the loop_spec.rb

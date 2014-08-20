@@ -1,4 +1,12 @@
+PUBLISHED
 
+Availability Tests
+
+Discussion
+==========
+----------
+
+In this article we will discuss how to check the credentials and connectivity for SQL database, Sendgrid SMTP API and Mailchimp API.
 
 The Gemfile has the following gems that is used for availability checks only:
 
@@ -8,35 +16,24 @@ gem 'sshkit'
 ```
 
 Mailchimp Probe
---------------------
+----------------
 
-gem 'mailchimp-api' in Gemfile
 Mailchimp gem Helper class defines ping. This is perfect for our purpose. Reading the docs, we see:
 "Ping" the MailChimp API - a simple method you can call that will return a constant value as long as everything is good. Note than unlike most all of our methods, we don't throw an Exception if we are having issues. You will simply receive a different string back that will explain our view on what is going on.
 @return [Hash] a with a "msg" key {"msg"=>"Everything's Chimpy!"}
 - [String] msg containing "Everything's Chimpy!" if everything is chimpy, otherwise throws an exception :  Excon::Errors::SocketError: hostname "api.mailchimp.com" does not match the server certificate (OpenSSL::SSL::SSLError)
 
-SuckerPunch 
---------------------
-
-Sucker punch does not crash the application on deploy. So there is no need for doing a PING equivalent of background processing.
-
-Syntax Highlighter
---------------------
-
-Check is not required because the worst case scenario is that the code will not be syntax highlighted. It will not crash the application at runtime. 
-
 Sendgrid Probe
---------------------
+---------------
 
-Create send_grid_probe.rb in lib folder.
+Create send_grid_probe.rb in lib folder of your Rails project.
 
 ```ruby
 require 'net/smtp'
 
 class SendGridProbe
   def self.test(domain, username, password)
-    # :plan will also work
+    # Replacing :login with :plan will also work
     begin          
       Net::SMTP.start('smtp.sendgrid.net', 587, domain, username, password, :login)
       "SendGrid connectivity success"
@@ -49,10 +46,30 @@ class SendGridProbe
 end
 ```
 
-According to the Ruby docs: The Net::SMTP class supports three authentication schemes; PLAIN, LOGIN and CRAM MD5. (SMTP Authentication: [RFC2554]) To use SMTP authentication, pass extra arguments to ::start/SMTP#start. Here I have used :log authentication scheme.  
+According to the Ruby docs: The Net::SMTP class supports three authentication schemes; PLAIN, LOGIN and CRAM MD5. (SMTP Authentication: [RFC2554]) To use SMTP authentication, pass extra arguments to ::start/SMTP#start. Here I have used :login authentication scheme.  
+
+MySQL Database Probe
+----------------------
+
+You can read the database for the current environment by doing:
+
+```ruby
+ActiveRecord::Base.connection.current_database
+```
+
+You can test the database connectivity as follows:
+
+```ruby
+ActiveRecord::Base.connection.active?
+```
   
+Complete Code Listing
+=====================
+----------------------
+
+
 AvailabilityController
---------------------
+----------------------
 
 ```ruby
 class AvailabilityController < ApplicationController  
@@ -161,3 +178,20 @@ Sendgrid status : <%= @send_grid_status_message %>
 
 <br/>    <br/>
 ```
+
+SuckerPunch 
+-------------
+
+Sucker punch does not crash the application on deploy. So there is no need for doing a PING equivalent of background processing.
+
+Syntax Highlighter
+-------------------
+
+Check is not required because the worst case scenario is that the code will not be syntax highlighted. It will not crash the application at runtime. 
+
+
+Conclusion
+==========
+----------
+
+In this article we discussed how we can write tests to check the credentials and connectivity. These tests make the deployment a bit painless. Troubleshooting in different environments also becomes easier with these tools. You can write similar tests for other dependencies that are specific to your Rails application.
