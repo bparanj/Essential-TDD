@@ -1,0 +1,37 @@
+Web Console
+------------
+
+Add "<%= console %>" to the app/views/welcome/index.html.erb
+Go to localhost:3000
+Play with console
+
+If you restart the server. You need to reload the page to get a new active console session.
+
+ActiveJob
+----------
+
+```ruby
+class MyJob < ActiveJob::Base
+  queue_as :my_jobs
+
+  def perform(record)
+    record.do_work
+  end
+end
+```
+
+Enqueue a job like so:
+
+```ruby
+MyJob.enqueue record  # Enqueue a job to be performed as soon the queueing system is free.
+```
+
+You can now pass live Active Record objects to your job.
+
+class VideoProcessJob < ActiveJob::Base
+    queue_as :default
+
+    def perform(video)
+      video.process
+    end
+end
