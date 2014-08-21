@@ -7,7 +7,7 @@ Stripe Monthly subscription feature.
 Step 
 -----
 
-Signup for Stripe Account. Copy the API credentials:
+Signup for Stripe Account. See your keys here https://dashboard.stripe.com/account. Copy the API credentials:
 
 Test Secret Key : sk_test_fIq8gFSbcYN5ENqdGe7Vu329
 Test publishable Key : pk_test_wE4Io131CZgI5yWcRN8OyFkr
@@ -53,8 +53,9 @@ Delete a Plan
 plan = Stripe::Plan.retrieve({PLAN_ID}) plan.delete
 
 Subscribe to a plan
+---------------
+
 # Set your secret key: remember to change this to your live secret key in production
-# See your keys here https://dashboard.stripe.com/account
 Stripe.api_key = "sk_test_BQokikJOvBiI2HlWgH4olfQ2"
 
 # Get the credit card details submitted by the form
@@ -66,6 +67,54 @@ customer = Stripe::Customer.create(
   :plan => "gold",
   :email => "payinguser@example.com"
 )
+
+
+Create a Customer
+-------------------
+
+# Create a token
+# card = { :number => "4242424242424242", :exp_month => 8, :exp_year => 2015, :cvc => "314" }
+# response = Stripe::Token.create(:card => card)
+# puts response['id']
+
+# tok_14Tj2w2eZvKYlo2C0ce3RoTz
+
+response = Stripe::Customer.create(:description => "Customer for test@example.com",
+                                   :card => "tok_14Tj2w2eZvKYlo2C0ce3RoTz")
+
+puts response
+puts response.class
+
+puts response['id']
+
+
+{
+  "id": "cus_4cz7I6SnCZIrYF",
+  "object": "customer",
+  "created": 1408579761,
+  "livemode": false,
+  "description": "Customer for test@example.com",
+  "email": null,
+  "delinquent": false,
+  "metadata": {},
+at top level in "subscriptions": {"object":"list","total_count" at line 0
+  "discount": null,
+  "account_balance": 0,
+  "currency": null,
+at top level in "cards": {"object":"list","total_count" at line 1
+  "default_card": "card_14Tj2w2eZvKYlo2CcnXI9SCh"
+}
+Stripe::Customer
+cus_4cz7I6SnCZIrYF
+
+Check the id is not nil for testing.
+
+------------------------------------------------
+
+
+
+
+
 
 References
 ------------
