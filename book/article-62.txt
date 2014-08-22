@@ -111,6 +111,53 @@ Check the id is not nil for testing.
 
 ------------------------------------------------
 
+# Subscribing a customer to a plan
+# --------------------------------
+
+# plans = Stripe::Plan.all
+#
+# puts plans.class
+#
+# plans.each do |plan|
+#   puts plan
+# end
+
+# Store stripe plan id locally.
+
+# Stripe::ListObject
+
+#
+# customer = Stripe::Customer.retrieve(CUSTOMER_ID) customer.subscriptions.create({:plan => PLAN_ID})
+
+customer = Stripe::Customer.retrieve('cus_4cz7I6SnCZIrYF')
+subscription = customer.subscriptions.create({:plan => 'usqfhq'})
+
+puts subscription.class
+puts subscription.id
+puts subscription
+
+# Stripe::Subscription
+# sub_4dFhAPa595XZsN
+# {
+#   "id": "sub_4dFhAPa595XZsN",
+#   "plan": {"id":"usqfhq","interval":"month","name":"Basic","created" }
+#   "object": "subscription",
+#   "start": 1408641490,
+#   "status": "active",
+#   "customer": "cus_4cz7I6SnCZIrYF",
+#   "cancel_at_period_end": false,
+#   "current_period_start": 1408641490,
+#   "current_period_end": 1411319890,
+#   "ended_at": null,
+#   "trial_start": null,
+#   "trial_end": null,
+#   "canceled_at": null,
+#   "quantity": 1,
+#   "application_fee_percent": null,
+#   "discount": null,
+#   "metadata": {}
+# }
+# Check subscription.id has some value
 
 
 

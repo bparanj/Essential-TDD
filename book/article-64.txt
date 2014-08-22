@@ -1,0 +1,57 @@
+Essential Skills for TDD Part 2
+
+In this article I will walk you through a simple example to illustrate Problem Domain Analysis and Solution Domain Analysis. 
+
+Problem Domain Analysis
+==============
+--------------
+
+Let's look at Problem Domain Analysis first. Where do we begin? We begin with the Problem Statement. The problem statement for our problem is : Sum a set of numbers. 
+
+If we assume a list of numbers consisting of 1, 2, 5. The results will be the sum of 1, 2, and 5. 
+
+(1,2,5) ----> (1 + 2 + 5) = the total sum
+
+During this analysis I have not calculated the sum by saying the sum is 8. I am not solving the given problem. This will be done later during Solution Domain Analysis.
+
+If we have a list of numbers upto n elements: (1, 2, 5, ... n). The result will be the sum of all the given numbers: 1 + 2 + 3 + ... + n) = result.
+
+We have now understood the problem statement. So, we have completed the Problem Domain Analysis. Let's now look at Solution Domain Analysis.
+
+Solution Domain Analysis
+==============
+--------------
+
+When you add numbers using a calculator you first enter the number, then press +, then enter another number, then press either + if you want to continue adding or press = to get final result. You see the running total displayed. Hitting the = lets the calculator know that there are no more numbers to be added. 
+
+Terminating Condition
+----------------------
+
+For our problem the terminating condition is processing the last element. We also have a variable to track the running total.
+
+1. List = (1,2,5)
+2. Initial sum = 0 (intial condition)
+3. New sum = Previous sum + first element
+4. New sum = Previous sum + second element
+   ...
+n. New sum = Previous sum + last element
+
+Algorithm
+--------------
+
+1. Take the list of numbers as an argument
+2. Initialize the running total to 0
+3. While index < n
+     repeat 
+     a) Read the number in the array at index = 0
+     b) Add the number to running total
+     c) Go to the next element by incrementing the index
+4. Return the result
+
+This is the blueprint for our program. This can be implemented in any programming language. We have solved the given problem. We have completed the Solution Domain Analysis.
+
+Conclusion
+==============
+--------------
+
+In this article, you learned how to do Problem Domain Analysis and Solution Domain Analysis for a simple problem of adding a list of numbers. I picked a simple problem to focus on describing the subskills. The more difficult the problem, the more important these subskills become to solve the problem. We gained the understanding of the problem in Problem Domain Analysis phase. In Solution Domain Analysis we came up with step-by-step instructions to solve the given problem. 
