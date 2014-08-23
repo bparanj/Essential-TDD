@@ -293,6 +293,8 @@ Discussion
 
 We broke the dependency on external display object by using a fake object that mimicked the interface of the real object. We used constructor dependency injection to create a scanner object with a fake display. Dependency injection allows us to design loosely coupled objects. We identified the need to decouple the scanner and display objects due to performance problem. This also increases the cohesion of these objects.
 
+![alt text](http://www.rubyplus.com/images/large_crash_test_dummy.jpg "Crash Test Dummy")
+
 When we write tests, we have to divide and conquer. This test tells us how scanner objects affect displays. This test helps us to see whether a problem is due to scanner. Is scanner fulfilling its responsibility? This helps us localize errors and save time during troubleshooting. 
 
 When we write tests for individual units, we end up with small well-understood pieces. This makes it easy to reason about code.

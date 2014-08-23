@@ -1,3 +1,7 @@
+NOT PUBLISHED YET.
+
+
+
 Essential Skills for Test Driven Development
 
 Mathematician Guass
@@ -30,12 +34,14 @@ Gauss took a big picture view. He saw the forest (entire data set) instead of on
 He saw the relationship between data. He extended the solution to derive the generalization. 
 
 
-
+![alt text](http://www.rubyplus.com/images/forest.jpg "Forest")
 
 
 Zoom In, Zoom Out
 ===================
 -------------------
+
+![alt text](http://www.rubyplus.com/images/micro-macro.png "Micro Macro")
 
 Problem 
 

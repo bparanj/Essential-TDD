@@ -14,8 +14,8 @@ Objective
 Learn about assertion. 
 
 Scope
-===========
-----------
+=========
+---------
 
 In Test First Programming, you write the test before you write the code. This article does not use Test First Programming. Test First Programming is introduced in the next article.
  
@@ -198,7 +198,6 @@ result = calculator.add(1, 2)
 verify(3, result, 'Addition')
 result2 = calculator.subtract(2, 1)
 verify(1, result2, 'Subtraction')
-
 ```
 
 The verify() method that we have developed is called assertion. It automates the manual verification of the test result.
@@ -233,7 +232,12 @@ def verify(expected, actual, message)
 end
 ```
 
+![alt text](http://www.rubyplus.com/images/big-picture.jpeg "TDD Cycle : Improving Diagnostics"). 
+
+We will learn more about TDD cycle in an upcoming article.
+
 Summary
-============
+========
+---------
 
 In this article you learned about assertion and why you need them. Assertion is at the heart of a test. You cannot write a test without an assertion. In the next article we will discuss Test First Programming.

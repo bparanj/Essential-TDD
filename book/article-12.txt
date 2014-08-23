@@ -1,5 +1,3 @@
-
-
 TDD Beyond Basics : Single Purpose Principle - Guessing Game Kata Part 2
 
 
@@ -14,6 +12,8 @@ Discussion
 ----------
 
 Robert C. Martin came up with the Single Responsibility Principle in 1995. The problem is CRC card already had used the term Responsibility to mean something different. CRC cards came way back in 1989. Also Robert Martin redefined the term responsibility to mean a reason to change. He basically took the concept of cohesion and added his own insights to come up with Single Responsibility Principle. 
+
+![alt text](http://www.rubyplus.com/images/bigstock_Time_For_Change.jpg "Time to Change")
 
 The main point of this principle is that there should be only one reason to change. I don't want to call it Single Responsibility Principle because of the confusion it creates with the existing terminology. Since this principle says that the set of responsibilities (as used by CRC cards) should be focused on one purpose, I think it is appropriate to call it Single Purpose Principle.
 
@@ -180,14 +180,51 @@ Discussion
 ============
 --------------
 
-The public interface output(string) of the Console object is discovered during the mocking step. It hides the details about the type of interface that must be implemented to communicate with an user. Game delegates any user interfacing code to a collaborating console object therefore it obeys Single Purpose Principle. Console object also object the Single Purpose Principle by focusing only on one concrete implementation of dealing with user interaction.
+The public interface output(string) of the Console object is discovered during the mocking step. It hides the details about the type of interface that must be implemented to communicate with an user. Game delegates any user interfacing code to a collaborating console object therefore it obeys Single Purpose Principle. Console object also obeys the Single Purpose Principle by focusing only on one concrete implementation of dealing with user interaction.
 
-We could have implemented this similar to the code breaker game in The RSpec book by calling the puts method on output variable. By doing so we tie our game object to the implementation details. This results in tightly coupled objects which is not desirable. Whenever we change the way we interface with the external world, the code will break. We desire loosely coupled objects with high cohesion.
+We could have implemented this similar to the code breaker game in The RSpec book by calling the puts method on output variable. 
+
+```ruby
+module Codebreaker
+  class Game
+    def initialize(output)
+      @output = output
+    end
+    def start
+      @output.puts("Welcome to Codebreaker!")
+    end
+  end
+end
+
+module Codebreaker
+  describe Game do
+    describe "#start" do
+      it "sends a welcome message" do
+        output = double('output')
+        game = Game.new(output)
+        output.should_receive(:puts).with('Welcome to Codebreaker!')
+        game.start
+      end
+      it "prompts for the first guess"
+    end
+  end
+end
+```
+
+
+By doing so we tie our game object to the implementation details. This results in tightly coupled objects which is not desirable. Whenever we change the way we interface with the external world, the code will break. We desire loosely coupled objects with high cohesion.
 
 You might encounter a problem where random number generation spec fails when user interfacing feature is modified. Random number generation and user interfacing logic are not related in any way. Ideally they should be split into separate classes that has only one purpose. We will revisit this topic later.
   
 Summary
 ===========
---------------------
+-----------
 
 In this lesson you learned about Single Purpose principle and how to design collaborators that are highly cohesive. We also saw some bad code examples in RSpec book that ties implementation level details with game logic. In the next lesson we will continue building the guessing game.
+
+
+Reference
+=========
+---------
+
+[Everything that is wrong with mocking, bdd, and rspec](http://ngauthier.com/2010/12/everything-that-is-wrong-with-mocking.html "Everything that is wrong with mocking, bdd, and rspec")

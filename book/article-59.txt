@@ -1,5 +1,7 @@
 PUBLISHED
 
+SSHKit Gem Basics
+
 Background
 ==========
 ------------------
@@ -14,6 +16,12 @@ How to make sure that the code is ready to be deployed to a server? Whatever too
 I need to connect using the correct credentials for the external services, database etc and also test the connectivity to make sure that the process is running. My application dependencies such as Mailchimp, Redis, Resque, Amazon S3, Stripe etc must be configured properly and the processes must be running on the correct port and URL.
 
 Why should I as a developer care? This is the job of Devops guy. The reason is if we have a way to test the configuration and the connectivity then we can quickly fix issues in any environment (QA, Staging, Acceptance, Production). We can also isolate and tell whether the problem is due to the code or configuration / connectivity issue. We also avoid deploying code to the server that blows up due to configuration issues. 
+
+It's like the washing machine problem. You put the coins in, the detergent and you expect the machine to work. Sometimes it takes your money and the detergent but does not work. You can kick it, curse and scream. You become more frustrated when you find out you cannot get your clothes out since the door gets jammed.
+
+![alt text](http://www.rubyplus.com/images/washing-machine.jpg "Washing Machine")
+
+What if you had a switch that you could push to find out whether it's in good status or not? You will not waste your money or energy on an inoperative washing machine.
 
 Why not use Monit or God?
 ------------------------------------

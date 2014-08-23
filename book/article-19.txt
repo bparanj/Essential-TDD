@@ -1,6 +1,4 @@
-
-
-TDD Beyond Basics : Seams in a System - Guessing Game Kata Part 9
+TDD Beyond Basics : Seams in a System - Guessing Game Kata Final Solution
 
 
 Objectives
@@ -13,6 +11,15 @@ Objectives
 Discussion
 ============
 ------------
+
+You can use the electrical outlet to plugin a lamp, a laptop adapter, TV etc as long as the device can handle the voltage and frequency rating. There is one outlet but different devices connect to it that has different functionality. Seams in a system are similar to electrical plugin points. Why do we care about seams? Seams make the code testable and flexible. 
+
+![alt text](http://www.rubyplus.com/images/socket.jpg "Seams")
+  
+>> Seam is a place where you can alter behavior of your program without editing in that place. Every seam has an enabling point, a place wehre you can make the decision to use one behavior or another.
+>>  -- Michael C. Feathers (Working Effectively with Legacy Code)
+
+Why do we need to apply concepts that is discussed in a book about legacy code? Because it is a design technique, if you build a system with flexibility where it is needed, it becomes easy to test. You can also identify that when it is difficult to test, it is a symptom of bad design. In such cases, you need to think hard about improving the design.
 
 The guess_game.rb still has a fake implementatin for get_user_guess method:
 
@@ -407,17 +414,17 @@ Summary
 =========
 ---------
 
-In this article you learned about exploratory testing and how sometimes you make changes that is not driven by a test. You may not need a test for that change if you are confident or you feel that the consequences are not critical.
+In this article you learned about exploratory testing and how sometimes you make changes that is not driven by a test. You may not need a test for that change if you are confident or you feel that the consequences are not critical. You also learned about seams in a system.
 
 Exercises
 ===========
 -----------
 
-1. Use the highline gem to develop a command line interface to the guess game.
+1) Use the highline gem to develop a command line interface to the guess game.
 
-2. Play the game with Guess game and make sure you can use it's interface and it works as expected. Use any feedback to write new specs. 
+2) Play the game with Guess game and make sure you can use it's interface and it works as expected. Use any feedback to write new specs. 
 
-3. What if the client were to use the GuessGame like this :
+3) What if the client were to use the GuessGame like this :
 
 ```ruby
 	game = GuessGame.new
@@ -430,14 +437,14 @@ This raises the level of abstraction and we use gaming domain specific method in
 - Can start and get_user_guess methods be made into private methods?
 
 Bonus
-===========
-------------
+=======
+-------
 
-1. 	It would be nice to be able to say: result.should be_between(expected_range). Implement a custom matcher be_between for a given range.
+1) 	It would be nice to be able to say: result.should be_between(expected_range). Implement a custom matcher be_between for a given range.
 
-2. Write fake_console_spec.rb that uses the shared examples to make sure it implements the abstract console interface. This will allow us to keep the FakeConsole in sync with any changes to the interface of the abstract console.
+2) Write fake_console_spec.rb that uses the shared examples to make sure it implements the abstract console interface. This will allow us to keep the FakeConsole in sync with any changes to the interface of the abstract console.
 
-3. Version 2 of our game has to satisfy the following new requirements:
+3) Version 2 of our game has to satisfy the following new requirements:
  
   Once the user has guessed the target number correctly, you should display a "report" to them on their performance. This report should provide the following information:
 	- The target number
@@ -447,12 +454,10 @@ Bonus
 
 	|50-30| + |25-30| + |35-30| + |30-30| = 35
 
-	Hint: See http://www.w3schools.com/jsref/jsref_abs.asp for assistance
+	Hint: See [Abs method](http://www.w3schools.com/jsref/jsref_abs.asp "Abs method") for assistance
 	- A calculated value called "Average Error" which is calculated as follows: cumulative error / number of valid guesses. Using the above number set, the average error is 8.75.
 	- A text feedback response based on the following rules:
 	- If average error is 10.0 or lower, the message "Incredible guessing!"
 	- If average error is higher than above but under 20.0, "Good job!"
 	- If average error is higher than 20 but under 30.0, "Fair!"
 	- Anything other score: "You are horrible at this game!"
-
-

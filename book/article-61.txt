@@ -191,7 +191,6 @@ Syntax Highlighter
 
 Check is not required because the worst case scenario is that the code will not be syntax highlighted. It will not crash the application at runtime. 
 
-
 Conclusion
 ==========
 ----------
@@ -205,18 +204,14 @@ REVISE WITH THE FOLLOWING CHECK:
 config.secret_key_base.nil?
 
 if Lafon::Application.config.secret_key_base.nil?
-  "You didn't set config.secret_key_base "
+  raise "You didn't set config.secret_key_base "
+end
+
+if ENV['SECRET_KEY_BASE'].nil or blank 
+  raise "Environment variable is not set for SECRET_KEY_BASE"
 end
 
 
-# def env_config
-#   @env_config ||= begin
-#     if
-#       ActiveSupport::Deprecation.warn "in config/initializers/secret_token.rb file. " +
-#         "This should be used instead of the old deprecated config.secret_token in order to use the new EncryptedCookieStore. " +
-#         "To convert safely to the encrypted store (without losing existing cookies and sessions), see http://guides.rubyonrails.org/upgrading_ruby_on_rails.html#action-pack"
-#
-#       if config.secret_token.blank?
-#         raise "You must set config.secret_key_base in your app's config"
-#       end
-#     end
+if config.secret_token.blank?
+  raise "You must set config.secret_key_base in your app's config"
+end

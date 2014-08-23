@@ -1,3 +1,5 @@
+UPDATE : DRAW DECLARTIVE PROGR AND IMPERATIVE PROGR DIAGRAM BY HAND WITH COLORS AND EMBED THE IMAGE.image[8] should be hand drawn with different colors.
+
 PUBLISHED
 
 What vs How in Test Driven Development
@@ -6,7 +8,7 @@ Example #1 for What vs How
 ===========================
 ---------------------------
 
-Music sheet is not music. It is the description of music. This is the 'What' or Logical Design.
+Music sheet is not music. It is the description of music. This is the **What** or Logical Design.
 
 ![Music Sheet](http://www.rubyplus.com/images/music_sheet.png "Music Sheet")
 
@@ -16,7 +18,7 @@ Example #2 for What vs How
 ===========================
 ---------------------------
 
-John Lennon wrote the song Come Together. This is the 'What'. The examples of 'How' in this case are the performances of :
+John Lennon wrote the song Come Together. This is the **What**. The examples of **How** in this case are the performances of :
 
 - Beatles
 - Aerosmith
@@ -36,7 +38,11 @@ Separate Logical Design from Physical Design
 ============================================
 --------------------------------------------
 
-Why do we need to separate logical design from physical design? Because it allows us to change implementation without breaking the tests. So, how do you separate What from How in our code? Chris Stevenson's TestDox style expresses the subject in the code as part of a sentence.
+Why do we need to separate logical design from physical design? Because it allows us to change implementation without breaking the tests. 
+
+![alt text](http://www.rubyplus.com/images/bigstock_Time_For_Change.jpg "Time to Change")
+
+So, how do you separate What from How in our code? Chris Stevenson's TestDox style expresses the subject in the code as part of a sentence.
 
 - A Sheep eats grass
 - A Sheep bleats when frightened
@@ -100,6 +106,8 @@ References
 Exercises
 ==========
 ----------
-1. Does the blueprint for a house focus on What or How ?
-2. Does the car blue print focus on What or How? 
-3. Search YouTube and watch the videos for Come Together performed by The Beatles, Michael Jackson, Aerosmith and Elton John 
+1) Does the blueprint for a car focus on What or How ?
+
+![alt text](http://www.rubyplus.com/images/car-blueprint.jpg "Car Blueprint")
+
+2) Search YouTube and watch the videos for Come Together performed by The Beatles, Michael Jackson, Aerosmith and Elton John 

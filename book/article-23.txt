@@ -3,11 +3,11 @@ TDD Advanced Concepts : Angry Rock Kata
 
 Objectives
 ============
---------------
+------------
 
 - How to fix Command Query Separation violation?
 - Refactoring : Retaining the old interface and the new one at the same time to avoid old tests from failing.
-- Semantic quirkiness of Well Grounded Rubyist solution exposed by specs.
+- Semantic quirkiness of Well Grounded Rubyist book solution exposed by specs.
 - Using domain specific terms to make the code expressive
 
 Difficulty Level
@@ -306,6 +306,8 @@ Discussion
 -----------
 
 Now all the specs will pass. This implementation of play method is a lousy design. The false case breaks the consistency of the returned value and violates the semantics of the API. Also the play method is a “Command” not a “Query”. This method violates the Command Query Separation Principle.
+
+![alt text](http://www.rubyplus.com/images/angry-rock.jpg "Angry Rock")
 
 Fixing the Bad Design
 =====================
@@ -768,7 +770,7 @@ All specs now pass. This concise solution is based on Sinatra Up and Running By 
 
 Exercise
 ===========
-------------
+-----------
 
 1. Look at the following alternative specs and implementation. This solution is based on Well Grounded Rubyist by David Black. It has been refactored to a better design. Make it even better by making the code expressive with readable specs. Compare your solution with the solutions given in the appendix of [Essential TDD book](http://www.rubyplus.com/etdd.pdf "Essential TDD") book.
 

@@ -191,6 +191,14 @@ The structure of the test is Arrange, Act, Assert. There should be only one Arra
 
 Because if you had multiple of each of the steps, you would have the state at the end of the first assertion interact with the state at the end of the second assertion. Ideally we want each test to be isolated. 
 
+This is discussed in depth in xUnit Test Patterns by Gerard Mesaros. Here is a concise version of his discussion on this topic.
+
+**Principle: Verify One Condition per Test**
+
+Also known as: Single Condition Test
+
+When one assertion fails, the rest of the test is not executed. This makes it hard to achieve Defect Localization. A single failed assertion will cause the test to stop running and the rest of the test will provide no data on what works and what doesn't.
+
 **What is isolation?**
 
 Isolation means that the state is clean in the beginning of each test and it cleans up the state at the end of each test. This makes our tests independent. Making tests independent is a good practice. When the tests are independent we can run them in any order and they will pass.
