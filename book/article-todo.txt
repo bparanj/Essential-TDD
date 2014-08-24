@@ -1,6 +1,7 @@
 
 UNPUBLISHED
-45
+
+45 : Essential TDD Presentation
 
 
 
@@ -18,7 +19,7 @@ At Home
 2. Article 7 : Insert the simplified version of the Red, Green, Refactor diagram.
 3. Article 9 should link to a discussion on the most desirable kind of changes to code: configuration driven, additive, localized. Find the scanned notes on this laptop to create that article.
 4. Look at the book for the notes for article 50.
-5. 56 (requires images)
+5. 56 (requires images) Character to number conversion
 
 
 Revisions
