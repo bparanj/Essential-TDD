@@ -14,9 +14,13 @@ Discussion
 
 Because, the goal of TDD is to end up with a minimal system. Simplicity is the goal. 
 
+![alt text](http://www.rubyplus.com/images/zen5.jpg "Simplicity")
+
 **Why do we aim for a minimal system?**
 
-Because it will be maintainable. In a maintainable system, tests will be easy to understand, modify and extend. Keeping your code ready for unexpected changes is about simple design.
+Because it will be maintainable. In a maintainable system, tests will be easy to understand, modify and extend. Keeping your code ready for unexpected changes is about simple design. The only thing you can bet on tomorrow is change.
+
+![alt text](http://www.rubyplus.com/images/bigstock_Time_For_Change.jpg "Time to Change")
 
 Steps
 ==========

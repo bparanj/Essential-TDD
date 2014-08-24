@@ -2,7 +2,7 @@ TDD Beyond Basics : Fakes and Mocks
 
 
 Objectives
-=========
+==========
 -------------
 
 - Learn about Behavior Verification
@@ -333,4 +333,5 @@ Reference
 ==========
 ----------
 
-Working Effectively with Legacy Code by Michael Feathers
+1. Working Effectively with Legacy Code by Michael Feathers
+2. Test-driven Development: By Example by Kent Beck

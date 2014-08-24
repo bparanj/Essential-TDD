@@ -10,6 +10,7 @@ Objectives
 ==========
 ----------
 
+- What is a Starter Test? When to use it?
 - Focus on getting it to work first, cleanup by refactoring and then focus on optimization.
 - When refactoring, start green and end in green.
 - Learn recursive solution and optimize the execution by using non-recursive solution.
@@ -126,6 +127,15 @@ class FibonacciTest < Test::Unit::TestCase
   end
 end
 ```
+
+
+Starter Test
+-------------
+
+>> Start by testing a variant of an operation that doesn't do anything. If you write a realistic test first, then you will find yourself solving a bunch of problems at once. Realistic test will leave you too long without feedback. You want the red/green/refactor loop to take just minutes. You can shorten the loop by choosing inputs and outputs that are trivially easy to discover. Pick a Starter Test that will teach you something but that you are certain you can quickly get to work. 
+>> ----- Kent Beck (Test-driven Development: By Example)
+
+Starter Test is helpful when you are implementing something unfamiliar or complicated. You don't need the Starter Test when you are confident, you can pick a test that will require a non-trivial operation.
 
 Step 3
 --------
@@ -432,12 +442,12 @@ Exercises
 ===========
 -----------
 
-- Run the mini-test based Fibonacci and sure all tests pass. 
+1) Run the mini-test based Fibonacci and make sure all tests pass. 
 
 ```ruby
 $ruby fibonacci_test.rb
 ```
 
-- Move the Fibonacci class into its own file and make all the tests pass.
-- Get the output of the mini-test in color.
-- Convert the given mini-test to rspec version fibonacci_spec.rb. You can refer the solution in the appendix of the [Essential TDD book](http://www.rubyplus.com/etdd.pdf "Essential TDD").
+2) Move the Fibonacci class into its own file and make all the tests pass.
+3) Get the output of the mini-test in color.
+4) Convert the given mini-test to rspec version fibonacci_spec.rb. You can refer the solution in the appendix of the [Essential TDD book](http://www.rubyplus.com/etdd.pdf "Essential TDD").
