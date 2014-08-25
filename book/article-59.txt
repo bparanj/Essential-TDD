@@ -23,6 +23,10 @@ It's like the washing machine problem. You put the coins in, the detergent and y
 
 What if you had a switch that you could push to find out whether it's in good status or not? You will not waste your money or energy on an inoperative washing machine.
 
+![alt text](http://www.rubyplus.com/images/checklist.jpg "Check List")
+
+Pilots use checklist before takeoff. Why can't software engineers use tools that automates the checklist review and gives us the confidence that the deployed application will work on the target environment even before we deploy it?
+
 Why not use Monit or God?
 ------------------------------------
 

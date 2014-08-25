@@ -17,6 +17,10 @@ Robert C. Martin came up with the Single Responsibility Principle in 1995. The p
 
 The main point of this principle is that there should be only one reason to change. I don't want to call it Single Responsibility Principle because of the confusion it creates with the existing terminology. Since this principle says that the set of responsibilities (as used by CRC cards) should be focused on one purpose, I think it is appropriate to call it Single Purpose Principle.
 
+![alt text](http://www.rubyplus.com/images/unix_test.png "Good Design is Timeless")
+
+Unix is a perfect example for following the Single Purpose Principle. Each command line utility does one thing really well. It proves that good design is timeless.
+
 Problem Statement
 ===================
 -------------------
