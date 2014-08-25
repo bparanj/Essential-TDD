@@ -1,5 +1,3 @@
-UPDATE WITH THE NOTES IN THE BOTTOM.
-
 PUBLISHED
 
 Availability Tests
@@ -17,13 +15,19 @@ gem 'mailchimp-api'
 gem 'sshkit'
 ```
 
+![alt text](http://www.rubyplus.com/images/scope-probe.png "Probe"). 
+
 Mailchimp Probe
 ----------------
 
 Mailchimp gem Helper class defines ping. This is perfect for our purpose. Reading the docs, we see:
+
 "Ping" the MailChimp API - a simple method you can call that will return a constant value as long as everything is good. Note than unlike most all of our methods, we don't throw an Exception if we are having issues. You will simply receive a different string back that will explain our view on what is going on.
+
+```sh
 @return [Hash] a with a "msg" key {"msg"=>"Everything's Chimpy!"}
 - [String] msg containing "Everything's Chimpy!" if everything is chimpy, otherwise throws an exception :  Excon::Errors::SocketError: hostname "api.mailchimp.com" does not match the server certificate (OpenSSL::SSL::SSLError)
+```
 
 Sendgrid Probe
 ---------------
@@ -35,7 +39,7 @@ require 'net/smtp'
 
 class SendGridProbe
   def self.test(domain, username, password)
-    # Replacing :login with :plan will also work
+    # Replacing :login with :plain will also work
     begin          
       Net::SMTP.start('smtp.sendgrid.net', 587, domain, username, password, :login)
       "SendGrid connectivity success"
@@ -69,13 +73,20 @@ Complete Code Listing
 =====================
 ----------------------
 
-
 AvailabilityController
 ----------------------
 
 ```ruby
 class AvailabilityController < ApplicationController  
+  http_basic_authenticate_with name: Rails.application.secrets.http_basic_user,
+                               password: Rails.application.secrets.http_basic_password
+  
   def index
+    @secret_key_env = secret_key_env_check
+    @secret_key_base = secret_key_base_check
+    
+    @yaml_config_files_check, @yaml_config_file_errors = check_yaml_config_files
+    
     @js_runtime = check_jsruntime
     
     @current_db = current_database
@@ -140,8 +151,35 @@ class AvailabilityController < ApplicationController
     
     SendGridProbe.test(domain, username, password)
   end
+
+  def secret_key_base_check    
+    Lafon::Application.config.secret_key_base.present?
+  end
+  
+  def secret_key_env_check
+    ENV['SECRET_KEY_BASE'].present?
+  end
+  
+  def check_yaml_config_files
+    result = true
+    errors = []
+    require 'yaml'
+    d = Dir["./**/*.yml"]
+    d.each do |file|
+      begin
+        logger.info "Checking : #{file}"
+        f =  YAML.load_file(file)
+      rescue Exception
+        errors << "Failed to read #{file}: #{$!}"
+        result = false
+      end
+    end
+    [result, errors]
+  end
 end
 ```
+
+I am using require_relative "#{Rails.root}/lib/send_grid_probe" because I have not added all the files in lib folder to the autoload path in application.rb.
 
 It's a good idea to list versions of all libraries. Why? You can use it to compare versions in different environment. It helps to isolate the problem and answer the question: Is this problem related to code or software version differences? Here I am only checking the sucker_punch gem version. Here is the routes.rb.
 
@@ -152,7 +190,7 @@ get '/availability' => 'availability#index'
 Here is the view in app/views/availability/index.html.erb
 
 ```ruby
-<% if @js %>
+<% if @js_runtime %>
 
 Javscript Runtime Check Success
 
@@ -176,9 +214,31 @@ Sucker Punch Version : <%= @sucker_punch_version %>
 
 <br/><br/>
 
-Sendgrid status : <%= @send_grid_status_message %>
+<%= @send_grid_status_message %>
 
-<br/>    <br/>
+<br/><br/>
+
+<% if @secret_key_env %>
+  ENV['SECRET_KEY_BASE'] is defined.
+<% else %>
+  ENV['SECRET_KEY_BASE'] is NOT defined.
+<% end %>
+
+<br/><br/>
+
+Secret Key Base : <%= @secret_key_base %>
+
+<br/><br/>
+
+Yaml config files syntax check : <%= @yaml_config_files_check %>
+
+<br/><br/>
+
+Yaml config files syntax check errors : 
+
+<% @yaml_config_file_errors.each do |error| %> 
+  <%= error %> <br/><br/>
+<% end %>
 ```
 
 SuckerPunch 
@@ -195,23 +255,10 @@ Conclusion
 ==========
 ----------
 
-In this article we discussed how we can write tests to check the credentials and connectivity. These tests make the deployment a bit painless. Troubleshooting in different environments also becomes easier with these tools. You can write similar tests for other dependencies that are specific to your Rails application.
+In this article we discussed how we can write tests to check the credentials and connectivity. These tests reduces deployment risk and makes the deployment a bit painless. Troubleshooting in different environments also becomes easier with these tools. You can write similar tests for other dependencies that are specific to your Rails application.
 
+Exercise
+=========
+----------
 
-
-REVISE WITH THE FOLLOWING CHECK:
-
-config.secret_key_base.nil?
-
-if Lafon::Application.config.secret_key_base.nil?
-  raise "You didn't set config.secret_key_base "
-end
-
-if ENV['SECRET_KEY_BASE'].nil or blank 
-  raise "Environment variable is not set for SECRET_KEY_BASE"
-end
-
-
-if config.secret_token.blank?
-  raise "You must set config.secret_key_base in your app's config"
-end
+Develop a gem that will allow developers to specify the application dependencies in a file, the gem will provide methods to check the connectivity, installation and version information. 
