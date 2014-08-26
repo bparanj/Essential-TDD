@@ -91,6 +91,9 @@ declaration. This means you have a foreign key article_id in the comments table.
 
 The belongs_to declaration in the model will not create or manipulate database tables. The belongs_to or references in the migration will manipulate the database tables. Since your models are not aware of the database relationships, you need to declare them.
 
+![Belongs To Declaration](./figures/belongs_to.png)
+
+
 ### Step 10 ###
 
 Open the app/models/article.rb file. Add the following declaration:
@@ -100,6 +103,8 @@ has_many :comments
 ```
 
 This means each article can have many comments. Each comment points to it's corresponding article. 
+
+![Has Many Declaration](./figures/has_many.png)
 
 ### Step 11 ###
 
