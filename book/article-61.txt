@@ -8,13 +8,6 @@ Discussion
 
 In this article we will discuss how to check the credentials and connectivity for SQL database, Sendgrid SMTP API and Mailchimp API.
 
-The Gemfile has the following gems that is used for availability checks only:
-
-```ruby
-gem 'mailchimp-api'
-gem 'sshkit'
-```
-
 ![alt text](http://www.rubyplus.com/images/scope-probe.png "Probe"). 
 
 Mailchimp Probe
@@ -71,7 +64,7 @@ ActiveRecord::Base.connection.active?
   
 Complete Code Listing
 =====================
-----------------------
+---------------------
 
 AvailabilityController
 ----------------------
@@ -239,6 +232,16 @@ Yaml config files syntax check errors :
 <% @yaml_config_file_errors.each do |error| %> 
   <%= error %> <br/><br/>
 <% end %>
+```
+
+Gemfile
+---------
+
+The Gemfile has the following gems that is used for availability checks only:
+
+```ruby
+gem 'mailchimp-api'
+gem 'sshkit'
 ```
 
 SuckerPunch 

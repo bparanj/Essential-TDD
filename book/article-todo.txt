@@ -1,17 +1,28 @@
+Check the hand drawn diagrams for diagrams that is not scanned.
 
 UNPUBLISHED
 
 45 : Essential TDD Presentation
 
+Pending
+
+56
 
 
+Update
 
-http://xunitpatterns.com/Principles%20of%20Test%20Automation.html
+54
 
-Relationship between Test Data and Verification
+Ideas
+-----------
+
+1. http://xunitpatterns.com/Principles%20of%20Test%20Automation.html
+
+2. Relationship between Test Data and Verification
 
 The test fixture influences the expected outcome of each test: which inputs result in which outputs. A rich library of Test Utility Methods also makes tests easier to write because we don't have to code the details in every test. 
 
+3. Simple Mysql client using mysql2 gem to demo client server application. Discuss connection pool and active record.
 
 At Home
 -----------------------------------------------
@@ -19,7 +30,6 @@ At Home
 2. Article 7 : Insert the simplified version of the Red, Green, Refactor diagram.
 3. Article 9 should link to a discussion on the most desirable kind of changes to code: configuration driven, additive, localized. Find the scanned notes on this laptop to create that article.
 4. Look at the book for the notes for article 50.
-5. 56 (requires images) Character to number conversion
 
 
 Revisions

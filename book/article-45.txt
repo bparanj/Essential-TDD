@@ -4,7 +4,7 @@ NOT PUBLISHED YET.
 
 Essential Skills for Test Driven Development
 
-Mathematician Guass
+Mathematician Gauss
 ===================
 -------------------
 
@@ -43,6 +43,9 @@ Zoom In, Zoom Out
 
 ![alt text](http://www.rubyplus.com/images/micro-macro.png "Micro Macro")
 
+![alt text](http://www.rubyplus.com/images/sda-sum.png "Big Picture of Summing")
+
+![alt text](http://www.rubyplus.com/images/sda-sum2.png "Big Picture Summing")
 Problem 
 
 Solution 1 , 2, 3, ... n

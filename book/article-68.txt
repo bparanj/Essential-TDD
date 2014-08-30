@@ -1,0 +1,11 @@
+
+Convert number to octal
+
+
+![alt text](http://www.rubyplus.com/images/problem-octal.png "Octal Problem")
+![alt text](http://www.rubyplus.com/images/sda-octal-1.png "Octal Problem")
+![alt text](http://www.rubyplus.com/images/sda-octal-2.png "Octal Problem")
+![alt text](http://www.rubyplus.com/images/sda-octal-3.png "Octal Problem")
+![alt text](http://www.rubyplus.com/images/sda-octal-4.png "Octal Problem")
+![alt text](http://www.rubyplus.com/images/sda-octal.png "Octal Problem")
+![alt text](http://www.rubyplus.com/images/sda-octal2.png "Octal Problem")

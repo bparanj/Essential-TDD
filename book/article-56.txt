@@ -1,4 +1,4 @@
-REQUIRES IMAGES FROM THE NOTES. SCAN AND INCLUDE
+
 Character to Number Conversion
 
 
@@ -10,7 +10,9 @@ Example
 
 Convert 4 character sequence '1984' to the decimal number 1984.
 
-Diagram goes here
+
+![alt text](http://www.rubyplus.com/images/ "character-number-conversion.png")
+![alt text](http://www.rubyplus.com/images/ "character-number-conversion2.png")
 
 
 To convert, 49 needs to be converted to 1000, 57 to 900, 56 to 80 and 52 to 4 units.
@@ -37,3 +39,7 @@ Assumption
 ----------
 
 Length of the character 
+
+
+
+
