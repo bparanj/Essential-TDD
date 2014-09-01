@@ -1,0 +1,44 @@
+
+Software does not exist in a vaccum. It interacts with environment and the environment interacts with it. The only thing that is constant is change. It evolves over time. You need to work on a existing code base in order to :
+
+1. Improve Performance
+2. Improve the Design
+3. Fix Bugs
+4. Enhance existing features
+5. Make it compatible with newer software it depends on
+6. Add or remove features
+
+
+Evaluating the Flexibility of a Design
+=================================
+---------------------------------
+
+?
+
+Flexible design in highest to lowest order of flexibility:
+
+Data Driven
+-----------
+
+New data is added to make the system implement a new feature. This is the most flexible design. Probably this design will demand the highest effort of implementation. No code deployment necessary. A good example is the encrypt_decrypt.rb. Reduce this to a simplest password generator for one time password use.
+
+Additive
+-----------
+
+We add new code to the existing system without modifying the existing code to implement a new feature. Risk of introducing bugs to existing code is very low. Code must be deployed. 
+
+Localized Modification
+-----------
+
+According to the dictionary, localized means restrict something to a particular area. Code must be deployed. We change only one specific location in our existing code base to implement a new feature.
+
+Design Techniques
+===========
+-----------
+
+What are the design techniques to achieve these three kinds of design?
+
+1. Data Driven Dynamic Code Generation. Obeys Open Closed Principle. No change is made in existing code. No new code is added.
+2. Use of polymorphism. Obeys Open Closed Principle. New code is added.
+
+ Use Code Simplicity 'The Three Laws' as the basis for discussing design principles.

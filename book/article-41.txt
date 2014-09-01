@@ -61,7 +61,19 @@ end
 ```
 
 When you think about the system from outside-in fashion you focus on intent. You focus on what you are doing rather than the implementation which is the 'how'. Now that we understand the difference between the What and How. We know how to write the doc string. But what code should go between the do-end block of the it() method? To answer that question, let's look at the difference between imperative vs declarative programming.
- 
+
+Technique : Seeing at Different Abstract Levels
+===============================================
+-----------------------------------------------
+
+We can see object and behavior at different levels:
+
+- At the **conceptual** level - a set of responsibilities.
+- At the **specification** level - set of methods that can be invoked. 
+- At the **implementation** level - code and data. 
+
+Responsibility is defined as an obligation to perform a task or know information. At the conceptual and specification level we are focused on **WHAT**. At the implementation level we deal with the **HOW**.
+
 Imperative Programming
 ========================
 ------------------------
@@ -102,6 +114,8 @@ References
 1. [Test Driven Development: Ten Years Later](http://www.infoq.com/presentations/tdd-ten-years-later "Ten Years Later by Michael Feathers and Steve Freeman") by Michael Feathers and Steve Freeman
 
 2. [Presentation by Computer Science Assistant Professor Mary Ellen Weisskopf](http://www.cs.uah.edu/~weisskop/ "Presentation by Computer Science Assistant Professor Mary Ellen") 
+
+3. A Brief Tour of Responsibility Driven Design. Presentation by Rebecca Wirfs-Brock.
 
 Exercises
 ==========

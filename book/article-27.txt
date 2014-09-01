@@ -1,4 +1,14 @@
 TDD Basics : Bowling Game Kata Final Solution
+
+Getting Unstuck
+===============
+---------------
+
+>> Ideas must be put to the test. That’s why we make things; otherwise they would be no more than ideas. There is often a huge difference between an idea and its realisation. 
+
+>> —Andy Goldsworthy
+
+If you are spending too much time on requirements and you are stuck, break down big statements into smaller statements and test your ideas by writing a small and focused test. 
   
 Steps
 =========
@@ -474,3 +484,9 @@ Exercises
 		 You can checkout a particular commit by :
 		  git co 5102f45b2c584cf2f5efaa17e9640c0c288bcf8d
 4. Private methods are not tested. Why?
+
+Reference
+==========
+----------
+
+1. Design for Test by Rebecca J. Wirfs-Brock
