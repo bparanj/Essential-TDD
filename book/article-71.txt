@@ -1,0 +1,75 @@
+t = Thread.new { puts 'hello thread' }
+
+Here we create a new thread separate from the main thread's execution using Thread.new. If you run this you will not see the output of puts. The reason is that the new thread gets killed when the main thread exits the program.
+
+t = Thread.new { puts 'hello thread' }
+t.join
+
+Now you will see the output.
+
+
+
+
+Using an array for handling multiple threads at once.
+
+threads = []
+threads << Thread.new { puts 'hello from thread' }
+threads << Thread.new { 3.times { puts 'I will not talk during the class' } }
+
+No output again.
+
+threads = []
+threads << Thread.new { puts 'hello from thread' }
+threads << Thread.new { 3.times { puts 'I will not talk during the class' } }
+
+threads.each { |t| t.join }
+
+
+You can see how the threads run by taking turns. 
+
+
+t = Thread.new
+
+ThreadError: must be called with a block
+
+
+
+
+result = 0
+
+v = Thread.new do
+  puts 'Other Thread : A long process goes here'
+  sleep 5
+  result = 10
+end
+
+puts 'Main Thread : do other stuff while other thread is running'
+puts 'Main Thread : now wait for the thread to finish'
+v.join
+
+puts "Main Thread : The result is #{result}"
+
+Though you don't have to, it's a good idea to always use #join to close the threads that you create to ensure that any cleanup code in your threads runs before your program exits.
+
+
+
+
+
+result = 0
+
+v = Thread.new do
+  puts "Child Thread : #{Thread.current} "
+  puts 'Other Thread : A long process goes here'
+  sleep 5
+  result = 10
+end
+
+
+
+puts "Main Thread : #{Thread.current} do other stuff in main thread"
+puts 'Main Thread : now wait for the thread to finish'
+v.join
+puts Thread.current
+puts "Main Thread : The result is #{result}"
+
+

@@ -50,7 +50,7 @@ Behavior Sensitivity
 Data Sensitivity
 Context Sensitivity
 
-Executable spefication : Specify behavior
+Executable specification : Specify behavior
 Defect localization
 Specificity - Simplicity
 Risk Reduction

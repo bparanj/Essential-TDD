@@ -43,3 +43,34 @@ What makes TDD difficult
 
 - Doing TDD without pair programming. TDD and pair programming are complementary.
 - Existing code base with no tests
+
+
+Kent Beck writes in Guide to Better Smalltalk:
+
+    Sometimes I call this a "spike," because we are driving a spike through the entire design. We are not searching for completeness. Instead, we want to illustrate the kinds of responsibilities accepted by all the major ojbects in the system.  Because people variously associate "spike" with volleyball, railroads, or dogs, I have begun using "architectural prototype" to describe this implementation.
+    
+
+Spike
+
+A story or task aimed at answering a question or gathering information, rather than at producing shippable product. Sometimes a user story is generated that cannot be estimated until the development team does some actual work to resolve a technical question or a design problem. The solution is to create a “spike,” which is a story whose purpose is to provide the answer or solution. Like any other story or task, the spike is then given an estimate and included in the sprint backlog.
+Etymology
+
+The term spike comes from Extreme Programming (XP), where “A spike solution is a very simple program to explore potential solutions.” XP guru Ward Cunningham describes how the term was coined on the C2.com wiki: “I would often ask Kent [Beck], ‘What is the simplest thing we can program that will convince us we are on the right track?’ Such stepping outside the difficulties at hand often led us to simpler and more compelling solutions. Kent dubbed this a Spike. I found the practice particularly useful while maintaining large frameworks.”
+
+http://agiledictionary.com/209/spike/
+
+
+Spiking
+
+ when I start on new programming problems, I invariably come across things that I don’t know how to solve. 
+ 
+ I started building the code in my normal fashion using TDD and ended up getting myself into a horrible mess.
+ 
+The reason was that I didn’t know enough about what I was doing to write the tests to drive the design. In the words of Obi-Wan, These are not the tests you are looking for. I spent a lot of time going nowhere because I didn’t know where my goal was. So, I deleted all the code and started again. This time I started by creating a spike. This is essentially a single vertical slice of functionality through what I wanted to do. I didn’t do it using TDD, I just wrote code to explore the landscape. I wrote code to learn what is possible, and what is not possible. This code does not end up in a production system, but it gives me all the information that I need to know to build the code properly. This is almost the case of “build one to throw away”.
+
+After spending a relatively short time exploring the capabilities, I was in a much better position to use TDD to drive me to a goal, and the resulting code was much cleaner and had a better “feel” about it. New functionality was added in a more natural way.
+
+“when do you not use TDD”, and this is one of those cases for me. I don’t use TDD when I don’t know what to do. This makes sense to me because TDD is a design activity, and if you don’t know how to design something, you need to have a better understanding of the problem (and solution) domain or you’ll end up in a horrible mess.
+
+
+http://joneaves.wordpress.com/2004/02/18/spike_to_learn_tdd_to_build/
