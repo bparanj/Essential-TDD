@@ -4,16 +4,6 @@ Apply Napkin Academy Techniques to Summarize the Following Notes
 Solving Programming Problems
 ----------------------------------------
 
-1. Write down your question.
-       This makes you think and clarify your thoughts.
-2. Design an experiment to answer that question.
-       Keep the variables to a minimum so that you can solve the problem easily.
-3. Run the experiment to learn.
-
-Scientists test their hypothesis by designing and running experiments to prove or disprove a hypothesis.
-
-----------------------------------------
-
 See the transcript.txt on more discussion of problem solving and merge with this document and 'Making Complex Matters Simple' notes.
 
 ----------------------------------------
@@ -29,7 +19,7 @@ PeepCode
 6. Analyze the Solution Domain   Read the Code
 7. Try Another Angle
 
-Most of the time we don't know the problem. 
+Most of the time we don't know the problem. We only know about the symptoms. Most of the time, exception handling provides vague messages that does not provide enough information on how to resolve the problem. Code fails silently making it difficult to isolate the problem. Exceptions are not raised as close to the problem as possible. Exceptions are not translated from one layer to another layer to provide a higher abstraction. Meaningless error messages are shown to the user that does not give enough information to resolve problems.
 
 Gather Data
 
@@ -37,7 +27,7 @@ Collect all the information available to you: log files, terminal output, error 
 
 Isolate the Fault
 
-Find the breaking point. Iteratively reduce the search space. This could be deleting code gradually till the error disappears. It could be downgrading the dependent libraries to revert back to a working version. Look at open bugs of dependent libraries to check if it's a known problem. Verify that supporting parts of the system are working. Then try to identify and recreate the exact error. List all possible sources of problem. 
+Find the breaking point. Iteratively reduce the search space. This could be deleting the code gradually till the error disappears. It could be downgrading the dependent libraries to revert back to a working version. Look at open bugs of dependent libraries to check if it's a known problem. Verify that supporting parts of the system are working by using diagnostic tools such as curl, telnet or library you developed. Then try to identify and recreate the exact error. Make a list all possible sources of problem. 
 
 Form a Hypothesis
 
@@ -67,7 +57,7 @@ If you want to solve a technical problem, you need a logical and systematic proc
 
 The Scientific Method
 
-The Scientific Method burns away irrelevancies and brings you to the root cause. There are six steps in the scientific method:
+The Scientific Method eliminates irrelevancies and brings you to the root cause. There are six steps in the scientific method:
 
 1. Gather Information
 2. State the Problem
@@ -76,12 +66,11 @@ The Scientific Method burns away irrelevancies and brings you to the root cause.
 5. Observe Results & Draw conclusions
 6. Repeat as necessary
 
- 
 Gather Information
 
     "It is a capital mistake to theorize before you have all the evidence. It biases the judgment." -- Shirlock Holmes, A Study In Scarlet, Ch. 3, p. 27
 
-You must gather reliable information about what problem is occurring in order to discover what is not functioning properly. It is absolutely critical that you gather as much information as possible. The most common cause of extended problems and outages is a lack of information.
+Gather reliable information about what problem is occurring in order to discover what is not functioning properly. Gather as much information as possible. The most common cause of extended problems is a lack of information.
 
 When gathering information:
 
@@ -91,17 +80,24 @@ When gathering information:
     Sketching a diagram of everything you believe to be involved the problem may be helpful.
 
 The information you gather can and should come from multiple sources. There are several ways to gather information about the problem.
+
 Check the Fundamentals
 
 Here, during the early information collection phase is where knowing how a system works from the bottom up becomes useful.
 
 Checking Event Logs and System Data
 
-There is a wealth of good information in the system and application logs including error messages, crash notifications, errors and exit codes. 
+There is good information in the system and application logs including error messages, crash notifications, errors and exit codes. 
 
 Pinpoint When the Problem Began (What Changed?)
 
-When you are working with a system or application that has always worked perfectly well in the past, you have to determine what changed to cause the current problem to appear. Knowing what changed and when is why you need some sort of Change Management and Change Notification processes within your organization.
+When a system has worked in the past, determine what changed to cause the current problem. Knowing what changed and when is why you need Change Management and Change Notification processes within your organization.
+
+
+Change Management
+Release Management
+What fixes are in which release? By versioning your software and providing a change log that documents the fixes and features for each version of the software we make it easier to troubleshoot problems. We will be able to isolate problems due to version. For instance the fix may not be deployed on acceptance environment since it is still in QA, so we don't have to waste time on troubleshooting.
+
 
     In solving a problem of this sort, the grand thing is to be able to reason backward.
 
@@ -117,14 +113,13 @@ Note Common Symptoms, Causes and Results
     What do the symptoms have in common?
     Is there some symptom that is unique to this problem?
     When you do X, expecting Y, does Z also always happen?
-    If all computers share a common problem, then the probability is very good that the cause is also something they share. If only one computer has the problem, then the odds are good that the computer itself is the problem.
-
+    
 Interview the User
 
-Ask the user what he is experiencing, but treat this information source with extreme caution. Users also lie on occasion, especially when they think they might be held responsible for whatever is broken or inoperative.
+Ask the user what he is experiencing, but treat it with extreme caution. Users also lie on occasion.
 
     Try to reproduce the user's error
-    Is the problem a real technical failure, or is the computer not doing what the user thinks or expects it should be doing?"
+    Is the problem a real technical failure, or is the computer not doing what the user expects it should be doing?"
 
 Sometimes the key to fixing a problem is to observe the actual failure as it occurs. It is often a good idea to turn on additional logging or diagnostic modes, run the command in verbose mode or use other diagnostic tools to gather information.
 
@@ -136,7 +131,7 @@ The problem statement should include as much of the following information as pos
 
     When the problem started
     Who is affected, one person, several people, all users
-    Which specific service, function or equipment is down or impaired
+    Which specific service, function impaired
     What action or activity triggers the problem.
     Where the problem is observed.
 
@@ -145,11 +140,11 @@ Troubleshooting is the science of figuring out the why.
 Examples of good Problem Statements:
 
     Since Tuesday, all users logging into the Active Directory network have been reporting that they cannot access their personal share because the drive icon is missing.
-    Today--around 1pm, users in the billing department reported that Internet Explorer browser crashes when browsing http://www.blah-blah-website.com.
+    Today--around 1pm, users in the billing department reported that Internet Explorer browser crashes when browsing http://www.example.com.
 
 Form a Hypothesis
 
-After collecting information and clearly stating exactly what the problem is, formulate a theory as to a possible cause--this should take the form of a question.
+After collecting information and clearly stating the problem, formulate a theory as to a possible cause. This should take the form of a question.
 
     PROBLEM STATEMENT: Since Tuesday, all users logging into the Active Directory network have been reporting that they cannot access their personal share because the drive icon is missing.
         HYPOTHESIS 1: The file server is down
@@ -166,11 +161,11 @@ Once you have stated the problem, devise a method to test your hypothesis of the
 
     Change only one variable at a time.
     No other variables should be changed.
-    The test you devise should categorically eliminate at least one possible cause.
+    The test should categorically eliminate at least one possible cause.
 
 Observe Test Results & Draw Conclusions
 
-After each test, note whether the change you made did, or did not solve the problem. You must note the results of your test, gather any new information from the system, application or user and draw a conclusion as to whether the problem is solved or whether the change you made had any affect on the problem. Once you have drawn conclusions, you can devise new tests to eliminate other possible causes.
+After each test, note whether the change you made did, or did not solve the problem. You must note the results of your test, gather any new information from the system or user and draw a conclusion as to whether the problem is solved or whether the change you made had any affect on the problem. Once you have drawn conclusions, you can devise new tests to eliminate other possible causes.
 
 To quote the great Shirlock Holmes:
 
@@ -179,25 +174,25 @@ To quote the great Shirlock Holmes:
  
 Repeat as Necessary
 
-The entire troubleshooting process feeds into itself and must be repeated until a solution is found. This troubleshooting method relies on identifying possible causes, categorically eliminating each possible cause until the true, root cause of the problem is found. You cannot find and fix the true root cause of the problem unless you apply the scientific method to your troubleshooting.
+The troubleshooting process is iterative and must be repeated until a solution is found. This troubleshooting method relies on identifying possible causes, categorically eliminating each possible cause until the true, root cause of the problem is found. You cannot find and fix the true root cause of the problem unless you apply the scientific method to your troubleshooting.
 
 
 A Scientific Method for Troubleshooting
 
 
-Troubleshooting, which I define as “uncovering the root cause of an issue and then resolving it deliberately.” The scientific method can provide a common framework for an effective troubleshooting.
+Troubleshooting is uncovering the root cause of an issue and then resolving it deliberately. The scientific method can provide a common framework for an effective troubleshooting.
 
 Step 1: Describe the problem [THIS CANNOT BE THE FIRST STEP WHEN YOU DON'T KNOW THE PROBLEM YET]
 
-This is the easy part. Find out what the problem is and reproduce it. That 2nd part is important, because the typical user can’t always be trusted to know what they’re doing. By reproducing the problem, you can rule out user error and verify that there actually is a problem.
+Find out what the problem is and reproduce it. Users can’t always be trusted to know what they’re doing. By reproducing the problem, you can rule out user error and verify the existence of a problem.
 
 Step 2: Gather and analyze data
 
-This requires direct observations in order to find out exactly what is happening. How you do this is very much dependent on the problem at hand.
+This requires direct observations in order to find out what is happening. This is dependent on the problem.
 
 Step 3: Form a hypothesis
 
-It isn’t until you figure out what’s happening that you can address the question of why it’s happening. Step three is where you use the information you gathered in step two to determine a logical course of action. Remember that a hypothesis beginning with “maybe” or “I think” with little or no direct evidence to back it up is often a dead giveaway for someone who doesn’t know what the hell they’re talking about.
+It isn’t until you figure out what’s happening that you can address the question of why it’s happening. Step three is where you use the information you gathered in step two to determine a logical course of action. Remember that a hypothesis beginning with “maybe” or “I think” with no evidence to back it up is a sign of ignorance.
 
 Step 4: Test your hypothesis
 
@@ -207,10 +202,7 @@ Step 5: Analyze results and draw conclusions
 
 Check to see if the issue is resolved. If not, revert your changes and go back to step three. When drawing conclusions, ask yourself how this problem occurred in the first place. Was your most recent fix permanent or just a temporary band-aid? If the fix was temporary, make sure you schedule a time to implement a permanent fix.
 
-
-
 --------------------------------------------------------------------------------
-
  
 The Scientific Method & Computer Troubleshooting By Bennett Hendry
 
@@ -218,21 +210,21 @@ A description of the application of formal scientific methods to computer proble
 
 1 Define the Problem 
 
-Usually, what the client is complaining about is only a symptom of the actual problem. You must evaluate the complaint and determine if the client is telling you the actual problem, or just a symptom of the problem. In many cases, this can only be done by direct interaction with the computer.
+Usually, we only observe the symptom of the problem. We must distinguish between the problem and the symptom. 
 
 2 Review the literature
 
-Use the resources available to learn about the symptom and the factors involved. If the problem you are working on has been handled by someone else before, there is probably a solution documented somewhere. Look it up.
+Use the resources available to learn about the symptom and the factors involved. If a similar problem has been handled by someone else before, there is probably a solution documented somewhere. Look it up.
 
 3 Make Observations and Form a Generalization
 
-The more information you can gather about the problem and the computer, the better your chances of finding the solution quickly. Pay attention to details. Find out what has been done to the computer recently. You should be able to describe the characteristics of the symptom and the computer in detail, and understand how the symptom is affecting the user.
+The more information you can gather about the problem, the better your chances of finding the solution quickly. Find out what has been done to the system recently. You should be able to describe the characteristics of the symptom in detail, and understand how the symptom is affecting the user.
 
 4 Formulate a Hypothesis
 
-"An hypothesis is a statement about concepts, which may be judged true or false with respect to observable phenomena,formulated in a manner suitable for empirical testing." In other words, it is a description of what you believe to be the cause of the symptom and the solution, based on your observations. It must be clear, concise, and detailed. A good hypothesis predicts test results.
+"An hypothesis is a statement about concepts, which may be judged true or false with respect to observable phenomena,formulated in a manner suitable for empirical testing." Tt is a description of what you believe to be the cause of the symptom and the solution, based on your observations. It must be clear, concise, and detailed. A good hypothesis predicts test results.
 
-5 Design a Study and Test the Hypothesis
+5 Design an Experiment and Test the Hypothesis
 
 A good test conforms to the following criteria:
 
@@ -248,14 +240,23 @@ Change one thing, then test. Then change another thing, and re-test. Use the pro
 
 After performing your test, check again for the symptom. If the symptom is gone, you have probably found the cause (Is your test repeatable?). If the symptom is still present, you have learned something about what is not the cause. Since there are a finite number of causes for any particular symptom, you have made progress by eliminating one of them. You will always learn something from a good test, even if the results are negative.
 
-
 Example 1: Load balancer routing to dead processes due to configuration change. 
 We were able to observe only the symptom. We did not know the cause of the problem. The memory grew gradually and the machine had to be rebooted before the server crashed. Someone had changed the configuration file that lead to the inconsistency between the load balancer and the application server processes. 
 
-Why did they change it? We don't know. Who changed it? We don't know. This is a communication problem. 
-Why did we have the communication problem? Our team was distributed and we did not track every change made on the server.
-Why changes in the server was not tracked? We did not use tools like Chef, Puppet etc to manage our infrastructure.
-Why did we not manage our infrastructure using tools like Chef? This is a training problem.
+Why did they change it? We don't know. 
+Who changed it? We don't know. 
+
+This is a communication problem. 
+
+Why did we have the communication problem? 
+Our team was distributed and we did not track every change made on the server.
+
+Why changes in the server was not tracked? 
+We did not use tools like Chef, Puppet etc to manage our infrastructure.
+
+Why did we not manage our infrastructure using tools like Chef? 
+This is a training problem.
+
 Why did we have training problem?
   
 Example 2: Installing a software on EC2 for a specific environment was throwing an exception.
@@ -271,11 +272,6 @@ to check the installed version. To verify the ImageMagick install worked properl
 $ /usr/local/bin/convert logo: logo.gif
 
 This isolates the problem and tells us whether the problem is due to our application code or installation issues.
-
-
-Change Management
-Release Management
-What fixes are in which release? By versioning your software and providing a change log that documents the fixes and features for each version of the software we make it easier to troubleshoot problems. We will be able to isolate problems due to version. For instance the fix may not be deployed on acceptance environment since it is still in QA, so we don't have to waste time on troubleshooting.
 
 
 Five Why Analysis
@@ -302,9 +298,10 @@ Make it fail
 
 3. Establish a Hypothesis
 
-4. Design the Experiment
+4. Design an Experiment to test the hypothesis
+
 Divide and conquer
-Limit the variables
+Keep the variables to a minimum so that you can solve the problem easily.
 Try something weird
 Hierarchy of Blame
 
@@ -313,7 +310,7 @@ Current status
 Read the error message
 
 5. Analyze Your Results
- Problem Solved?
+Problem Solved?
 Learn anything?
 Understand the Why
 Future Experiments
@@ -334,7 +331,7 @@ http://www.sciencebuddies.org/science-fair-projects/project_scientific_method.sh
 
 Overview of the Scientific Method
 
-The scientific method is a process for experimentation that is used to explore observations and answer questions. Scientists use the scientific method to search for cause and effect relationships in nature. They design an experiment so that changes to one item cause something else to vary in a predictable way. The scientific method can help you to focus your software development question, construct a hypothesis, design, execute and evaluate your experiment.
+The scientific method is a process for experimentation that is used to explore observations and answer questions. Scientists use the scientific method to search for cause and effect relationships in nature. They design an experiment so that changes to one variable cause something else to vary in a predictable way. The scientific method can help you to focus your software development question, construct a hypothesis, design, execute and evaluate your experiment.
 
 Steps of the Scientific Method
 
@@ -344,7 +341,8 @@ The scientific method starts when you ask a question about something that you ob
 
 And in order for the scientific method to answer the question it must be about something that you can measure, preferably with a number.
 
-Write down the question that you want to answer.
+Write down the question that you want to answer. This makes you think and clarify your thoughts.
+
 Can you design a fair test to answer your question? A "fair test" requires that you change only one variable and keep all other conditions the same. If you cannot design a fair test, then you should change your question.
 
 Do Background Research
