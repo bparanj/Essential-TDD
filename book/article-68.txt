@@ -2,6 +2,19 @@
 Convert number to octal
 
 
+Problem Statement
+==================
+------------------
+
+
+Steps
+=====
+------
+
+Step
+-----
+
+
 ![alt text](http://www.rubyplus.com/images/problem-octal.png "Octal Problem")
 ![alt text](http://www.rubyplus.com/images/sda-octal-1.png "Octal Problem")
 ![alt text](http://www.rubyplus.com/images/sda-octal-2.png "Octal Problem")
