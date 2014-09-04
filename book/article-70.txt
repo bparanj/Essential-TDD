@@ -1,3 +1,6 @@
+Apply Napkin Academy Techniques to Summarize the Following Notes
+
+
 Solving Programming Problems
 ----------------------------------------
 
@@ -21,9 +24,9 @@ PeepCode
 1. Gather Data
 2. Isolate the Fault
 3. Form a Hypothesis
-4. Analyze the Problem Domain                         Read the Docs
-5. Describe the Problem
-6. Analyze the Solution Domain                        Read the Code
+4. Read the Docs                 Analyze the Problem Domain
+5. Describe the Problem          Analyze the Problem Domain
+6. Analyze the Solution Domain   Read the Code
 7. Try Another Angle
 
 Most of the time we don't know the problem. 
@@ -38,7 +41,7 @@ Find the breaking point. Iteratively reduce the search space. This could be dele
 
 Form a Hypothesis
 
-Ask a question that can be verified with a test. A good hypothesis will explain both the working parts of the system and the parts that are broken.
+Ask a question that can be verified with a test. A good hypothesis will explain both the working parts and the broken parts of the system.
 
 Read the Docs
 
