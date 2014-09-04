@@ -344,17 +344,17 @@ The scientific method starts when you ask a question about something that you ob
 
 And in order for the scientific method to answer the question it must be about something that you can measure, preferably with a number.
 
-write down the question that you want to answer.
-Can you design a fair test to answer your question? A "fair test" requires that you change only one factor (variable) and keep all other conditions the same. If you cannot design a fair test, then you should change your question.
+Write down the question that you want to answer.
+Can you design a fair test to answer your question? A "fair test" requires that you change only one variable and keep all other conditions the same. If you cannot design a fair test, then you should change your question.
 
 Do Background Research
 
-Rather than starting from scratch in putting together a plan for answering your question, you want to be a savvy scientist using library and Internet research to help you find the best way to do things and insure that you don't repeat mistakes from the past.
+Rather than starting from scratch in putting together a plan for answering your question, be savvy in using library and Internet research to help you find the best way to do things and insure that you don't repeat mistakes from the past.
 
 Construct a Hypothesis: A hypothesis is an educated guess about how things work:
 "If _____[I do this] _____, then _____[this]_____ will happen."
 
-You must state your hypothesis in a way that you can easily measure, and of course, your hypothesis should be constructed in a way to help you answer your original question.
+You must state your hypothesis in a way that you can easily measure and your hypothesis should be constructed in a way to help you answer your original question.
 
 Test Your Hypothesis by Doing an Experiment: Your experiment tests whether your hypothesis is supported or not. It is important for your experiment to be a fair test. You conduct a fair test by making sure that you change only one factor at a time while keeping all other conditions the same.
 
@@ -364,11 +364,11 @@ Analyze Your Data and Draw a Conclusion: Once your experiment is complete, you c
 
 Scientists often find that their hypothesis was not supported, and in such cases they will construct a new hypothesis based on the information they learned during their experiment. This starts the entire process of the scientific method over again. Even if they find that their hypothesis was supported, they may want to test it again in a new way.
 
-Communicate Your Results: To complete your science fair project you will communicate your results to others in a final report and/or a display board. Professional scientists do almost exactly the same thing by publishing their final report in a scientific journal or by presenting their results on a poster at a scientific meeting. In a science fair, judges are interested in your findings regardless of whether or not they support your original hypothesis.
+Communicate Your Results: Communicate your results to others in a final report and share it with others.
 
 Even though we show the scientific method as a series of steps, keep in mind that new information or thinking might cause a scientist to back up and repeat steps at any point during the process. A process like the scientific method that involves such backing up and repeating is called an iterative process.
 
-Throughout the process of doing your science fair project, you should keep a journal containing all of your important ideas and information. This journal is called a laboratory notebook.
+Throughout this process, keep a journal containing all of your important ideas and information. This journal is called a laboratory notebook.
 
 
 Background Research Plan
@@ -376,7 +376,7 @@ Background Research Plan
 
 Background research is necessary so that you know how to design and understand your experiment. To make a background research plan — a roadmap of the research questions you need to answer — follow these steps:
 
-    Identify the keywords in the question for your science fair project. Brainstorm additional keywords and concepts.
+    Identify the keywords in the question for your project. Brainstorm additional keywords and concepts.
     Use a table with the "question words" (why, how, who, what, when, where) to generate research questions from your keywords. For example:
 
     What is the difference between a series and parallel circuit?
@@ -386,12 +386,12 @@ Background research is necessary so that you know how to design and understand y
     Does a truss make a bridge stronger?
     Why are moths attracted to light?
     Which cleaning products kill the most bacteria?
+    
     Throw out irrelevant questions.
 
     Add to your background research plan a list of mathematical formulas or equations (if any) that you will need to describe the results of your experiment.
     You should also plan to do background research on the history of similar experiments or inventions.
-    Network with other people with more experience than yourself: your mentors, parents, and teachers. Ask them: "What science concepts should I study to better understand my science fair project?" and "What area of science covers my project?" Better yet, ask even more specific questions.
-
+    Network with other people with more experience than yourself: your mentors, parents, and teachers. Ask them: "What software concepts should I study to better understand my software project?" and "What area of computer science covers my project?" Better yet, ask even more specific questions.
 
 
 
@@ -399,36 +399,15 @@ Scientists use an experiment to search for cause and effect relationships in nat
 
 These changing quantities are called variables. A variable is any factor, trait, or condition that can exist in differing amounts or types. An experiment usually has three kinds of variables: independent, dependent, and controlled.
 
-The independent variable is the one that is changed by the scientist. To insure a fair test, a good experiment has only one independent variable. As the scientist changes the independent variable, he or she observes what happens.
+The independent variable is the one that is changed by the scientist. To insure a fair test, a good experiment has only one independent variable. As the scientist changes the independent variable, he observes what happens.
 
-The scientist focuses his or her observations on the dependent variable to see how it responds to the change made to the independent variable. The new value of the dependent variable is caused by and depends on the value of the independent variable.
-
-For example, if you open a faucet (the independent variable), the quantity of water flowing (dependent variable) changes in response--you observe that the water flow increases. The number of dependent variables in an experiment varies, but there is often more than one.
-
-Experiments also have controlled variables. Controlled variables are quantities that a scientist wants to remain constant, and he must observe them as carefully as the dependent variables. For example, if we want to measure how much water flow increases when we open a faucet, it is important to make sure that the water pressure (the controlled variable) is held constant. That's because both the water pressure and the opening of a faucet have an impact on how much water flows. If we change both of them at the same time, we can't be sure how much of the change in water flow is because of the faucet opening and how much because of the water pressure. In other words, it would not be a fair test. Most experiments have more than one controlled variable. Some people refer to controlled variables as "constant variables."
-
-In a good experiment, the scientist must be able to measure the values for each variable. Weight or mass is an example of a variable that is very easy to measure. However, imagine trying to do an experiment where one of the variables is love. There is no such thing as a "love-meter." You might have a belief that someone is in love, but you cannot really be sure, and you would probably have friends that don't agree with you. So, love is not measurable in a scientific sense; therefore, it would be a poor variable to use in an experiment.
-
-
-
-Email
-Print
-
-Scientists use an experiment to search for cause and effect relationships in nature. In other words, they design an experiment so that changes to one item cause something else to vary in a predictable way.
-
-These changing quantities are called variables. A variable is any factor, trait, or condition that can exist in differing amounts or types. An experiment usually has three kinds of variables: independent, dependent, and controlled.
-
-The independent variable is the one that is changed by the scientist. To insure a fair test, a good experiment has only one independent variable. As the scientist changes the independent variable, he or she observes what happens.
-
-The scientist focuses his or her observations on the dependent variable to see how it responds to the change made to the independent variable. The new value of the dependent variable is caused by and depends on the value of the independent variable.
+The scientist focuses his observations on the dependent variable to see how it responds to the change made to the independent variable. The new value of the dependent variable is caused by and depends on the value of the independent variable.
 
 For example, if you open a faucet (the independent variable), the quantity of water flowing (dependent variable) changes in response--you observe that the water flow increases. The number of dependent variables in an experiment varies, but there is often more than one.
 
 Experiments also have controlled variables. Controlled variables are quantities that a scientist wants to remain constant, and he must observe them as carefully as the dependent variables. For example, if we want to measure how much water flow increases when we open a faucet, it is important to make sure that the water pressure (the controlled variable) is held constant. That's because both the water pressure and the opening of a faucet have an impact on how much water flows. If we change both of them at the same time, we can't be sure how much of the change in water flow is because of the faucet opening and how much because of the water pressure. In other words, it would not be a fair test. Most experiments have more than one controlled variable. Some people refer to controlled variables as "constant variables."
 
 In a good experiment, the scientist must be able to measure the values for each variable. Weight or mass is an example of a variable that is very easy to measure. However, imagine trying to do an experiment where one of the variables is love. There is no such thing as a "love-meter." You might have a belief that someone is in love, but you cannot really be sure, and you would probably have friends that don't agree with you. So, love is not measurable in a scientific sense; therefore, it would be a poor variable to use in an experiment.
-
-
 
 Hypothesis
 
@@ -436,52 +415,38 @@ After having thoroughly researched your question, you should have some educated 
 
 The hypothesis must be worded so that it can be tested in your experiment. Do this by expressing the hypothesis using your independent variable (the variable you change during your experiment) and your dependent variable (the variable you observe-changes in the dependent variable depend on changes in the independent variable). In fact, many hypotheses are stated exactly like this: "If a particular independent variable is changed, then there is also a change in a certain dependent variable."
 
-
-
     A hypothesis is an educated guess about how things work.
-    Most of the time a hypothesis is written like this: "If _____[I do this] _____, then _____[this]_____ will happen." (Fill in the blanks with the appropriate information from your own experiment.)
+    Most of the time a hypothesis is written like this: "If [I do this], then [this] will happen." (Replace the place holder with the appropriate information from your own experiment.)
 
-    Your hypothesis should be something that you can actually test, what's called a testable hypothesis. In other words, you need to be able to measure both "what you do" and "what will happen."
+    Your hypothesis should be something that you can test. This is called a testable hypothesis. It means that you can measure both "what you do" and "what will happen."
 
 
 Example Hypotheses
 
-    "If I open the faucet [faucet opening size is the independent variable], then it will increase the flow of water [flow of water is the dependent variable].
     "Raising the temperature of a cup of water [temperature is the independent variable] will increase the amount of sugar that dissolves [the amount of sugar is the dependent variable]."
     "If a plant receives fertilizer [having fertilizer is the independent variable], then it will grow to be bigger than a plant that does not receive fertilizer [plant size is the dependent variable]."
-    "If I put fenders on a bicycle [having fenders is the independent variable], then they will keep the rider dry when riding through puddles [the dependent variable is how much water splashes on the rider]."
-
-Note: When you write your own hypothesis you can leave out the part in the above examples that is in brackets [ ].
 
 Notice that in each of the examples it will be easy to measure the independent variables. This is another important characteristic of a good hypothesis. If we can readily measure the variables in the hypothesis, then we say that the hypothesis is testable.
 
 Not every question can be answered by the scientific method. The hypothesis is the key. If you can state your question as a testable hypothesis, then you can use the scientific method to obtain an answer.
 Advanced Topic -- Cause & Effect or Correlation?
 
-In some experiments it is not possible to demonstrate that a change in the independent variable causes a change in the dependent variable. Instead one may only be able to show that the independent variable is related to the dependent variable. This relationship is called a correlation. One of the most common reasons to see a correlation is that "intervening variables are also involved which may give rise to the appearance of a possibly direct cause-and-effect relationship, but which upon further investigation turn out to be more directly caused by some other factor" (Wikipedia, 2006).
-Advanced Topic -- Is it OK to Disprove Your Hypothesis?
-
-Is all science accomplished using this same method that is taught in schools and emphasized at science fairs? Should you worry if you end up disproving your hypothesis? Actually, the answers are no it's not, and no don't worry if you disprove your hypothesis. Learn more in this essay written by a veteran Science Buddies Adviser, Dr. Bruce Weaver.
-
+In some experiments it is not possible to demonstrate that a change in the independent variable causes a change in the dependent variable. Instead one may only be able to show that the independent variable is related to the dependent variable. This relationship is called a correlation. One of the most common reasons to see a correlation is that "intervening variables are also involved which may give rise to the appearance of a possibly direct cause-and-effect relationship, but which upon further investigation turn out to be more directly caused by some other factor" (Wikipedia).
 
 
     Write the experimental procedure like a step-by-step recipe for your science experiment. A good procedure is so detailed and complete that it lets someone else duplicate your experiment exactly!
     Repeating a science experiment is an important step to verify that your results are consistent and not just an accident.
-        For a typical experiment, you should plan to repeat it at least three times (more is better).
+        For a typical experiment, you should plan to repeat it at least three times. More is better.
         If you are doing something like growing plants, then you should do the experiment on at least three plants in separate pots (that's the same as doing the experiment three times).
-        If you are doing an experiment that involves testing or surveying different groups, you won't need to repeat the experiment three times, but you will need to test or survey a sufficient number of participants to insure that your results are reliable. You will almost always need many more than three participants! See our Science Buddies resource, How Many Survey Participants Do I Need?
-
-
+        If you are doing an experiment that involves testing or surveying different groups, you won't need to repeat the experiment three times, but you will need to test or survey a sufficient number of participants to insure that your results are reliable. You will almost always need many more than three participants! 
 
 Conducting a Science Experiment
-
 
     If you haven't already, obtain a notebook to record all of your observations during your experiment.
     Before starting your experiment, prepare a data table so you can quickly write down your measurements as you observe them.
     Follow your experimental procedure exactly. If you need to make changes in the procedure (which often happens), write down the changes exactly as you made them.
     Be consistent, careful, and accurate when you take your measurements. Numerical measurements are best.
-    Take pictures of your experiment for use on your display board if you can.
-
+    Take pictures of your experiment for notes.
 
 Data Analysis & Graphs
 
