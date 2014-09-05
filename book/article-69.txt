@@ -1,5 +1,11 @@
+UPDATE : Use Code Simplicity 'The Three Laws' as the basis for discussing design principles.
 
-Software does not exist in a vaccum. It interacts with environment and the environment interacts with it. The only thing that is constant is change. It evolves over time. You need to work on a existing code base in order to :
+PUBLISHED
+----------
+
+Flexible Design
+
+Software does not exist in a vacuum. It interacts with environment and the environment interacts with it. The environment is market forces, users, external systems, operating systems, competing software, changes in law etc. It evolves, either it improves or decays over time. The only thing that is constant is change demanded by the environment. You need to work on a existing code base in order to :
 
 1. Improve Performance
 2. Improve the Design
@@ -8,29 +14,109 @@ Software does not exist in a vaccum. It interacts with environment and the envir
 5. Make it compatible with newer software it depends on
 6. Add or remove features
 
-
-Evaluating the Flexibility of a Design
-=================================
----------------------------------
-
-?
-
-Flexible design in highest to lowest order of flexibility:
-
-Data Driven
------------
-
-New data is added to make the system implement a new feature. This is the most flexible design. Probably this design will demand the highest effort of implementation. No code deployment necessary. A good example is the encrypt_decrypt.rb. Reduce this to a simplest password generator for one time password use.
-
-Additive
------------
-
-We add new code to the existing system without modifying the existing code to implement a new feature. Risk of introducing bugs to existing code is very low. Code must be deployed. 
+How do we evaluate a design that will make the software easy to do all of the above? Flexible design in least to most desirable order of flexibility are localized modification, additive, data driven or meta-programming.
 
 Localized Modification
+=============
 -----------
 
-According to the dictionary, localized means restrict something to a particular area. Code must be deployed. We change only one specific location in our existing code base to implement a new feature.
+According to the dictionary, localized means restrict something to a particular area. Code must be deployed. We change only one specific location in our existing code base to implement a new feature. For the example code to work you need to install highline and clipboard gems.
+
+```ruby
+$gem install highline
+$gem install clipboard
+```
+
+Here is the localized modification version of the password recall script:
+
+```ruby
+#!/usr/local/bin/ruby
+require 'digest/sha1'
+require 'highline/import'
+require 'clipboard'
+
+
+def unlock_password(account, domain)
+  salt = ask("Enter your secret key : ") do |q|
+    q.echo = false
+    q.verify_match = true
+    q.gather = {"Enter your secret key" => '', "" => ''}
+  end
+  
+  password = Digest::SHA1.hexdigest(domain + account + salt)
+  Clipboard.copy(password)  
+end
+
+choose do |menu|
+  domain = ask("Enter the website : ")
+  menu.prompt = "Please make a selection : "
+  
+  menu.choice :yahoo do 
+    unlock_password('email', domain)
+    say("Yahoo password copied.") 
+  end
+
+  menu.choice :google do 
+    unlock_password('email', domain)
+    say("Gmail password copied.") 
+  end
+
+  menu.choice :microsoft do 
+    unlock_password('email', domain)
+    say("Live password copied.") 
+  end
+    
+end
+```
+
+Here we modify just one file and we add a new site to items array.
+
+Additive
+=============
+-----------
+
+We add new code to the existing system without modifying the existing code to implement a new feature. Risk of introducing bugs to existing code is very low. New code must be deployed. This will use polymorphism so that the new object introduced will have the same interface that the existing code uses.
+
+Data Driven
+=============
+-----------
+
+New data is added to make the system implement a new feature. This is the most flexible design. Probably this design will demand the highest effort of implementation. No code deployment necessary. This requires reading the value of the array items from an external configuration file.
+
+```ruby
+#!/usr/local/bin/ruby
+
+require 'digest/sha1'
+require 'highline/import'
+require 'clipboard'
+
+def unlock_password(account, domain)
+  salt = ask("Enter your secret key : ") do |q|
+    q.echo = false
+    q.verify_match = true
+    q.gather = {"Enter your secret key" => '', "" => ''}
+  end
+  
+  password = Digest::SHA1.hexdigest(domain + account.to_s + salt)
+  Clipboard.copy(password)  
+end
+
+choose do |menu|
+  domain = ask("Enter the website : ")
+  menu.prompt = "Please make a selection : "
+
+  # This is hard-coded. You must read the values of the list from an external configuration file  
+  items = [:yahoo, :google, :microsoft]
+  
+  items.each do |item|
+    menu.choice item do 
+      unlock_password(item, domain)
+      say("#{item.to_s} password copied to clipboard.") 
+    end
+  end
+      
+end
+```
 
 Design Techniques
 ===========
@@ -38,7 +124,13 @@ Design Techniques
 
 What are the design techniques to achieve these three kinds of design?
 
-1. Data Driven Dynamic Code Generation. Obeys Open Closed Principle. No change is made in existing code. No new code is added.
-2. Use of polymorphism. Obeys Open Closed Principle. New code is added.
+1. Localized changes are better than changes that ripple across your code base.
+2. Additive technique uses polymorphism, meta-programming etc. It obeys Open Closed Principle if properly designed. New code is added.
+3. Data driven technique obeys Open Closed Principle. No change is made in existing code. No new code is added.
 
- Use Code Simplicity 'The Three Laws' as the basis for discussing design principles.
+Summary
+======
+-------
+
+In this article we saw three different kinds of design that gives different levels of flexibility. Sometimes you have to make a trade off between complexity and flexibility. You can recognize these different types of flexibility in your code and make decisions based on your current requirements.
+

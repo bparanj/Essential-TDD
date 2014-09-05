@@ -1,4 +1,13 @@
+PUBLISHED
+
 Direct File Upload to Amazon S3
+
+
+Problem
+=======
+-------
+
+I watched the railscast episode on uploading to S3 that uses carrierwave, carrierwave_direct, fog and more gems. I was not satisfied with his solution. I wanted something simple that has the benefits of offloading the upload from the passenger process to Amazon S3. I also wanted a nice looking progress bar for upload process. In this article I discuss my elegant solution to this problem without unnecessary indirect dependencies forced by gems in Ryan Bate's solution.
 
 Steps
 =====
@@ -6,7 +15,6 @@ Steps
 
 Step 1 - Configure S3 for CORS
 ---------
-
 
 1. Create an Amazon S3 Bucket
 2. Click on Properties -> Permissions -> Edit CORS
@@ -69,3 +77,9 @@ The most important files are are:
 
 - `app/assets/javascripts/cors.js` - Performs the actual upload using an XMLHttpRequest. Required the signed URL, and the file to perform the request.
 - `app/assets/javascripts/products.js` - Handles UI callbacks, such as updating the progress bar. Also handles the file-upload callback. When the user chooses a file, the server is contacted to generate a signed URL, which is then passed to the CORS script described above to complete the upload.
+
+Complete Source Code
+====================
+--------------------
+
+The source code is available from : [s3-cors-upload-rails](https://github.com/bparanj/s3-cors-upload-rails 's3-cors-upload-rails')

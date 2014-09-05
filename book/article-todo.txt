@@ -11,6 +11,7 @@ Pending
 Update
 
 1. Find the image for double dispatch and add it to angry rock kata.
+2. 69
 
 Ideas
 -----------
@@ -25,12 +26,12 @@ The test fixture influences the expected outcome of each test: which inputs resu
 
 4. Thread series
 
+
 At Home
 -----------------------------------------------
 1. Create and Scan Red, Green, Refactor diagram.
 2. Article 7 : Insert the simplified version of the Red, Green, Refactor diagram.
-3. Article 9 should link to a discussion on the most desirable kind of changes to code: configuration driven, additive, localized. Find the scanned notes on this laptop to create that article.
-4. Look at the book for the notes for article 50.
+3. Look at the book for the notes for article 50.
 
 
 Revisions

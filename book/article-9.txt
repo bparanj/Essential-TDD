@@ -91,4 +91,4 @@ Summary
 ===========
 -----------
 
-In this lesson you learned how to apply Open Closed Principle to design a system that is flexible to new requirements. We used constructor dependency injection to achieve decoupling of the scanner from the display. So interchanging new displays that conform to our interface works without any modification to the original code. 
+In this lesson you learned how to apply Open Closed Principle to design a system that is [flexible](http://www.rubyplus.com/articles/661 'Flexible Design') to new requirements. We used constructor dependency injection to achieve decoupling of the scanner from the display. So interchanging new displays that conform to our interface works without any modification to the original code. 
