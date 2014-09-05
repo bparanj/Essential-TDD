@@ -7,7 +7,9 @@ Problem
 =======
 -------
 
-I watched the railscast episode on uploading to S3 that uses carrierwave, carrierwave_direct, fog and more gems. I was not satisfied with his solution. I wanted something simple that has the benefits of offloading the upload from the passenger process to Amazon S3. I also wanted a nice looking progress bar for upload process. In this article I discuss my elegant solution to this problem without unnecessary indirect dependencies forced by gems in Ryan Bate's solution.
+I watched the railscast episode on uploading to S3 that uses carrierwave, carrierwave_direct, fog and more gems. I was not satisfied with his solution. I wanted something simple that has the benefits of offloading the upload from the passenger process to Amazon S3. I also wanted a nice looking progress bar for upload process. In this article I discuss my simple direct File Upload to Amazon S3 using Javascript, jQuery, Amazon S3 CORS support, Simple Form with progress bar. Designed by me in Silicon Valley and developed by Denny: https://github.com/dennybritz or https://github.com/bparanj/s3-cors-upload-rails. 
+
+If you are looking for an elegant solution to this problem without unnecessary indirect dependencies forced by gems in Ryan Bate's solution, read on.
 
 Steps
 =====
