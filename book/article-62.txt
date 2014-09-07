@@ -10,8 +10,7 @@ Steps
 =====
 ------
 
-
-Step 
+Step 1
 -----
 
 Signup for Stripe Account. See your keys here https://dashboard.stripe.com/account. Copy the API credentials:
@@ -19,29 +18,32 @@ Signup for Stripe Account. See your keys here https://dashboard.stripe.com/accou
 Test Secret Key : sk_test_fIq8gFSbcYN5ENqdGe7Vu329
 Test publishable Key : pk_test_wE4Io131CZgI5yWcRN8OyFkr
 
-Step 
+Step 2
 -----
 
-Install the stripe gem. gem install stripe. If you are using bundler:
- 
+Install the stripe gem. 
+
+```ruby
+gem install stripe. 
+```
+
+If you are using bundler:
+
+```ruby 
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+```
 
-Step 
------
-
-Create a Stripe plan.
-
-Step 
+Step 3
 -----
 
 Move all Stripe related logic into app/gateways/stripe folder in your Rails project.
 
-
-Step 
+Step 4
 -----
 
-Create a plan, playing in the irb:
+Create a Stripe plan. Playing in the irb:
 
+```ruby
 require "stripe"
 Stripe.api_key = "sk_test_BQokikJOvBiI2HlWgH4olfQ2"
 
@@ -52,16 +54,24 @@ Stripe::Plan.create(
   :currency => 'usd',
   :id => 'gold'
 )
+```
 
+The amount is in cents. The interval specifies ???. The id specifies ? LIST WHY THE INPUT PARAMETERS ARE REQUIRED. WHAT ARE THEY? OPTIONAL? 
 
 Delete a Plan
 ---------------
 
-plan = Stripe::Plan.retrieve({PLAN_ID}) plan.delete
+```ruby
+plan = Stripe::Plan.retrieve({PLAN_ID}) 
+plan.delete
+```
+
+Where do you get the PLAN_ID ?
 
 Subscribe to a plan
 ---------------
 
+```ruby
 # Set your secret key: remember to change this to your live secret key in production
 Stripe.api_key = "sk_test_BQokikJOvBiI2HlWgH4olfQ2"
 
@@ -74,27 +84,34 @@ customer = Stripe::Customer.create(
   :plan => "gold",
   :email => "payinguser@example.com"
 )
-
+```
 
 Create a Customer
 -------------------
 
-# Create a token
-# card = { :number => "4242424242424242", :exp_month => 8, :exp_year => 2015, :cvc => "314" }
-# response = Stripe::Token.create(:card => card)
-# puts response['id']
+You need a token before you can create a customer. Create a token:
 
-# tok_14Tj2w2eZvKYlo2C0ce3RoTz
-
-response = Stripe::Customer.create(:description => "Customer for test@example.com",
-                                   :card => "tok_14Tj2w2eZvKYlo2C0ce3RoTz")
-
-puts response
-puts response.class
-
+```ruby
+card = { :number => "4242424242424242", :exp_month => 8, :exp_year => 2015, :cvc => "314" }
+response = Stripe::Token.create(:card => card)
 puts response['id']
 
+> tok_14Tj2w2eZvKYlo2C0ce3RoTz
+```
 
+Create a customer using the token generated in the above call:
+
+```ruby
+response = Stripe::Customer.create(:description => "Customer for test@example.com",
+                                   :card => "tok_14Tj2w2eZvKYlo2C0ce3RoTz")
+puts response
+puts response.class
+puts response['id']
+```
+
+The JSON response is :
+
+```json
 {
   "id": "cus_4cz7I6SnCZIrYF",
   "object": "customer",
@@ -111,10 +128,9 @@ at top level in "subscriptions": {"object":"list","total_count" at line 0
 at top level in "cards": {"object":"list","total_count" at line 1
   "default_card": "card_14Tj2w2eZvKYlo2CcnXI9SCh"
 }
-Stripe::Customer
-cus_4cz7I6SnCZIrYF
+```
 
-Check the id is not nil for testing.
+Stripe::Customer id is cus_4cz7I6SnCZIrYF. Check this id is not nil for testing.
 
 ------------------------------------------------
 
@@ -171,12 +187,14 @@ puts subscription
 
 
 References
+============
 ------------
 
 Stripe gem docs : link goes here
 Refer Daniel Kenahoe's purchased book on Stripe related features.
 
 Questions
+==========
 -----------
 
 1. Subscription happens in real-time? Can it be done in the background? READ : Mastering Modern Payments.
