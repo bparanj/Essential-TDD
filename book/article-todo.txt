@@ -1,17 +1,19 @@
-
-
 UNPUBLISHED
+-----------
 
 45 : Essential TDD Presentation
 
 Pending
+-----------
 
-70
+70. Troubleshooting Programming Problems article
 
 Update
+-----------
 
 1. Find the image for double dispatch and add it to angry rock kata.
-2. 69
+2. 69  : Use Code Simplicity 'The Three Laws' as the basis for discussing design principles.
+
 
 Ideas
 -----------
@@ -37,9 +39,8 @@ At Home
 Revisions
 ----------
 
-1. In article 31, explain spiking and how it fits with TDD.
-2. Create an article on using Moonshine and link in the comments section : http://railscasts.com/episodes/337-capistrano-recipes?autoplay=true
-3. Open Closed Principle article: Discussion questions must be answered in the answer key. Create Answer Key in the pdf book appendix.
+1. Create an article on using Moonshine and link in the comments section : http://railscasts.com/episodes/337-capistrano-recipes?autoplay=true
+2. Open Closed Principle article: Discussion questions must be answered in the answer key. Create Answer Key in the pdf book appendix.
 
 Marketing
 ----------

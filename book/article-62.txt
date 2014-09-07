@@ -1,8 +1,15 @@
+Recurring Billing using Stripe API
+
 
 Objective
 ----------
 
-Stripe Monthly subscription feature. 
+To develop monthly subscription feature using Stripe API.
+
+Steps
+=====
+------
+
 
 Step 
 -----

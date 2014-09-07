@@ -1,5 +1,3 @@
-UPDATE : Use Code Simplicity 'The Three Laws' as the basis for discussing design principles.
-
 PUBLISHED
 ----------
 
