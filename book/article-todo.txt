@@ -27,6 +27,8 @@ The test fixture influences the expected outcome of each test: which inputs resu
 
 3. Discuss connection pool and active record. Using sequel gem.
 
+4. Examples on using sqlite3-ruby:  https://github.com/sparklemotion/sqlite3-ruby
+
 4. Thread series, celluloid
 
 5. Simplicity book review article.
