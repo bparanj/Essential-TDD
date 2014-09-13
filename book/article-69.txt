@@ -1,3 +1,52 @@
+UPDATE
+
+Change to Flexible Design article:
+
+Localized changes:
+
+```ruby
+class OrderConverter
+  constructor
+  order = order
+ 
+  to_xml
+  to_json
+  to_csv
+  to_pdf
+ 
+ 
+  ...
+ 
+  to_mobi
+
+end
+
+oc = OrderConverter.new(order)
+oc.to_xml
+```
+
+vs
+
+```ruby
+class OrderXmlConverter
+  def convert
+    xml conversion happens here
+  end
+end
+```
+
+Instead of hard-coding class name:
+
+```sh
+class_name = "Order#{format}Converter"
+
+oc = class_name.new(order)
+oc.convert
+```
+
+Uniform interface allows additive change.
+
+
 PUBLISHED
 ----------
 

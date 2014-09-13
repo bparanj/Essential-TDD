@@ -6,15 +6,16 @@ UNPUBLISHED
 Pending
 -----------
 
-70. Troubleshooting Programming Problems article
+70. Troubleshooting Programming Problems article. Create a cards of concepts to organize the material.
 
 Update
 -----------
 
 1. Find the image for double dispatch and add it to angry rock kata.
-2. 69  : Use Code Simplicity 'The Three Laws' as the basis for discussing design principles.
-
-
+2. 69  : 
+    a) Use Code Simplicity 'The Three Laws' as the basis for discussing design principles.
+    b) Use Order example
+    
 Ideas
 -----------
 
@@ -24,10 +25,11 @@ Ideas
 
 The test fixture influences the expected outcome of each test: which inputs result in which outputs. A rich library of Test Utility Methods also makes tests easier to write because we don't have to code the details in every test. 
 
-3. Simple Mysql client using mysql2 gem to demo client server application. Discuss connection pool and active record.
+3. Simple Mysql client using mysql2 gem to demo client server application. Discuss connection pool and active record. Using sequel gem.
 
-4. Thread series
+4. Thread series, celluloid
 
+5. Simplicity book review article.
 
 At Home
 -----------------------------------------------
