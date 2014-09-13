@@ -1,0 +1,108 @@
+PUBLISHED
+
+MySql2 Gem Basics
+
+Connecting to the Database
+===========
+-------------
+
+Experimenting in the rails console:
+
+```sh
+> client = Mysql2::Client.new(:host => "localhost", :username => "root")
+> client.query("SELECT count(*) from articles")
+```
+
+This gives the error: 'Mysql2::Error: No database selected'. Searching the error message in the mysql2 gem source code does not give any result. Reading the lib/mysql2/client.rb constructor shows the key required for specifying the database name. So let's specify the database as follows:
+
+```sh
+> client = Mysql2::Client.new(:host => "localhost", :username => "root", :database => 'lafon')
+
+=> #<Mysql2::Client:0x007f58 @read_timeout=nil, @query_options={:as=>:hash, :async=>false, :cast_booleans=>false, :symbolize_keys=>false, :database_timezone=>:local, :application_timezone=>nil, :cache_rows=>true, :connect_flags=>2147525125, :cast=>true, :default_file=>nil, :default_group=>nil, :host=>"localhost", :username=>"root", :database=>"lafon"}>
+```
+
+Querying the Database
+===========
+-------------
+
+```sh
+> result = client.query("SELECT count(*) from articles")
+
+=> #<Mysql2::Result:0x007f38 @query_options={:as=>:hash, :async=>false, :cast_booleans=>false, :symbolize_keys=>false, :database_timezone=>:local, :application_timezone=>nil, :cache_rows=>true, :connect_flags=>2147525125, :cast=>true, :default_file=>nil, :default_group=>nil, :host=>"localhost", :username=>"root", :database=>"lafon_production"}>
+irb(main):010:0> result.class
+=> Mysql2::Result
+```
+
+Viewing the Result
+===========
+-------------
+
+How do we see the result? Looking at the lib/mysql2/result.rb:
+
+```sh
+module Mysql2
+  class Result
+    include Enumerable
+  end
+end
+```
+
+Ahh, any methods in enumerable can be used. Let's see what's in the result variable now.
+
+```sh
+>result.class
+=> Mysql2::Result
+> result.superclass
+```
+
+This gives : NoMethodError: undefined method superclass for <Mysql2::Result:0x007b38>. That makes sense since, Mysql2::Result is not a subclass of any other class.
+
+```sh
+> result.size
+=> 1
+> result[0]
+```
+
+This gives 'NoMethodError: undefined method [] for <Mysql2::Result:0x007f5>'
+
+```sh
+> result.each do |row|
+*   puts row.class
+> end
+Hash
+=> [{"count(*)"=>72}]
+```
+
+We see the Mysql2::Result acts like a hash, in this case the key is 'count(*)' with the result 72.
+
+Selecting a Record
+===========
+-------------
+
+```sh
+> result = client.query("SELECT title from articles where id=711")
+=> #<Mysql2::Result:0x00fde0 @query_options={:as=>:hash, :async=>false, :cast_booleans=>false, :symbolize_keys=>false, :database_timezone=>:local, :application_timezone=>nil, :cache_rows=>true, :connect_flags=>2147525125, :cast=>true, :default_file=>nil, :default_group=>nil, :host=>"localhost", :username=>"root", :database=>"lafon"}>
+> puts result
+#<Mysql2::Result:0x007de0>
+=> nil
+> result.each do |row|
+*   puts row
+> end
+{"title"=>"Git Command Quick Reference"}
+=> [{"title"=>"Git Command Quick Reference"}]
+```
+
+Discussion
+===========
+-----------
+
+First thing I did was to read the tests of the mysql2 gem to learn how to use the gem. The tests were very difficult to read and understand. It is not a good place for learning about the gem. So, I browsed the code with specific question in my mind to find an answer. This allowed me to focus on learning something about the gem without getting distracted by bad coding practices. For instance the constructor of the Mysql2::Client class is about 50 lines long with some clever meta-programming to make it more confusing.
+
+Exercises
+===========
+-------------
+
+1. Print the result for the query: select * from articles where id=711;
+2. For more details read the [README](https://github.com/brianmario/mysql2 'mysql2')
+3. Download the source code of the gem. Read the source code. Read the examples in the examples directory.
+

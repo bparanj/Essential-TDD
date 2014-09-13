@@ -25,7 +25,7 @@ Ideas
 
 The test fixture influences the expected outcome of each test: which inputs result in which outputs. A rich library of Test Utility Methods also makes tests easier to write because we don't have to code the details in every test. 
 
-3. Simple Mysql client using mysql2 gem to demo client server application. Discuss connection pool and active record. Using sequel gem.
+3. Discuss connection pool and active record. Using sequel gem.
 
 4. Thread series, celluloid
 
