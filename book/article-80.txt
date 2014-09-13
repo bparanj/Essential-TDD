@@ -1,0 +1,112 @@
+Rails Tips
+
+Discussion
+==========
+----------
+
+The following tips are the result of searching for solutions for problems encountered during work. So these tips are tested solutions discussed in the online forum and blogs. 
+
+Array in MySQL Database
+=====
+-----
+
+Steps
+=====
+-----
+
+Here are the steps to Store Array in MySQL database in a Rails project.
+
+Step 1
+-----------
+
+The column type should be text
+
+Step 2
+-----------
+
+Serialize the column. In the active record class : 
+
+```ruby
+serialize :your_field
+```
+
+Step 3
+-----------
+
+```ruby
+Book.new(:your_field => [1,2])
+```
+
+How to load nested models in Rails 3.2
+==========
+-----------
+
+```ruby
+config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**}')]
+```
+
+How to setup Authlogic 3.1.3, Rails 3.2, Rspec 2.11
+==========
+-----------
+
+Add the following two lines to spec_helper.rb
+
+```ruby
+require "authlogic/test_case"
+include Authlogic::TestCase
+```
+
+in the controller spec add : before { activate_authlogic }
+
+Pry
+=========
+---------
+
+Step 1 
+---------
+
+Add 
+
+```ruby
+gem 'pry' 
+```
+  
+to Gemfile in the development group
+
+Step 2
+---------
+
+```ruby
+bundle
+```
+
+Step 3
+---------
+
+In the source : 
+
+```ruby
+binding.pry 
+```
+
+to halt execution. Type 'exit' to pop from the binding. The pry-nav gem provides step, next, and continue to create a simple debugger.
+
+Turn off generating css.sass and js.coffee files
+==========
+-----------
+
+```ruby
+config.generators.stylesheets = false
+config.generators.javascripts = false
+```
+
+in application.rb
+
+Decode URL Parameters 
+==========
+-------------------
+
+```ruby
+> u = URI.unescape('2013-03-01%2000:00Z')
+=> "2013-03-01 00:00Z"
+```

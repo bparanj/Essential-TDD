@@ -1,0 +1,69 @@
+PUBLISHED
+
+How to install Nokogiri on Lion
+
+STEPS
+=================
+-----------------
+
+Step 1
+-----------------
+
+```sh
+brew install libxml2 libxslt
+brew link libxml2 libxslt
+
+brew link -f libxml2
+```
+
+Link with force flag if needed.
+
+Step 2 
+----------------
+
+Install libiconv :
+
+```sh
+wget http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.13.1.tar.gz
+tar xvfz libiconv-1.13.1.tar.gz
+cd libiconv-1.13.1
+./configure --prefix=/usr/local/Cellar/libiconv/1.13.1
+make
+sudo make install
+```
+
+Step 3
+-----------------
+
+Install libxslt from source
+
+```sh
+wget ftp://xmlsoft.org/libxml2/libxslt-1.1.26.tar.gz
+tar -zxvf libxslt-1.1.26.tar.gz
+cd libxslt-1.1.26
+./configure --prefix=/usr/local/Cellar/libxslt/1.1.26 --with-libxml-prefix=/usr/local/Cellar/libxml2/2.8.0
+make
+sudo make install
+```
+
+Step 4
+-----------------
+
+Install Nokogiri
+
+```sh
+gem install nokogiri -- --with-xml2-include=/usr/local/Cellar/libxml2/2.8.0/include/libxml2 
+                        --with-xml2-lib=/usr/local/Cellar/libxml2/2.8.0/lib 
+                        --with-xslt-dir=/usr/local/Cellar/libxslt/1.1.26 
+                        --with-iconv-include=/usr/local/Cellar/libiconv/1.13.1/include 
+                        --with-iconv-lib=/usr/local/Cellar/libiconv/1.13.1/lib
+```
+
+Make sure that you have the versions of libxml2 as you have them in /usr/local/Cellar/libxml (in my case it was 2.8.0).
+
+References
+==========
+----------
+
+http://nokogiri.org/tutorials/installing_nokogiri.html
+https://github.com/schacon/git-scribe/issues/20

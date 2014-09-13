@@ -1,0 +1,103 @@
+PUBLISHED
+
+Unix Tips
+
+Discussion
+===========
+-----------
+
+These tips are the result of online search to solve problems arising from working on real projects at work.
+
+Curl
+============
+------------
+
+Download CSV File using Curl
+---------------
+
+```sh
+curl -H "Accept:text/csv" http://localhost:3000/report_jobs/9
+```
+
+This will invoke the format.csv block to download the csv file.
+
+Using curl to Post xml Document
+---------------
+
+```sh
+curl -X POST -d '<run><log encoding="hexBinary">4142430A</log><result>0</result><duration>2000</duration></run>' http://www.example.com/rest/api 
+```
+
+Vi Editor Tips
+===============
+---------------
+
+Go to a given line in vi
+---------------
+
+```sh
+:15
+```
+
+goes to line 15
+
+Move to the end of the file in vi
+---------------
+
+```sh
+$ then A
+```
+
+Delete in vi
+---------------
+
+```sh
+d$
+```
+
+This deletes from the current position to the end of the line in vi editor
+
+Miscellaneous Tips
+===========
+-----------
+
+Check how long a process has been running
+---------------
+
+```sh
+$ps -p 64622 -o etime=
+
+PID is 64622
+
+16-19:18:35
+DD-HH:MM:SS
+```
+
+How to search for last occurrence of a string in a file
+---------------
+
+```sh
+grep 'string to search' log-file-name.log | tail -1
+```
+
+Count the Number of Occurrences of a Given String
+----------------
+
+```sh
+grep -c 'string to search' file-name.log 
+```
+
+List Processes Running with the Ports on Mac OS
+---------------
+
+```sh
+lsof -i | grep LISTEN
+```
+
+Find Files
+---------------
+
+```sh
+find . -name '*.sql' -print
+```
+

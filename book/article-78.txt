@@ -1,0 +1,68 @@
+PUBLISHED
+
+Memcache and Redis Installation
+
+Memcache
+==========
+-----------------
+
+Installation:
+
+```sh
+brew install memcached
+```
+
+If you get error message during linking: 
+
+```sh
+brew link -f memcached 
+```
+
+To Start Memcache
+-----------------
+
+```sh
+memcached -vv
+```
+
+Redis
+==========
+-----------------
+
+Installation :
+
+```sh
+wget http://redis.googlecode.com/files/redis-2.6.9.tar.gz
+tar xvzf redis-2.6.9.tar.gz
+cd redis-2.6.9
+make
+sudo mv src/redis-server /usr/bin
+sudo mv src/redis-cli /usr/bin
+mkdir ~/.redis
+touch ~/.redis/redis.conf
+```
+
+Starting Redis Server
+-----------------
+
+```sh
+$cd /Users/zepho/temp/redis-2.6.9
+$redis-server
+```
+
+Interact with Redis:
+-----------------
+
+```sh
+redis-cli
+redis> set foo bar
+OK
+redis> get foo
+"bar"
+```
+
+Reference
+=========
+-----------------
+
+[Installing Redis on Mac OS] (http://jasdeep.ca/2012/05/installing-redis-on-mac-os/ 'Install Redis')

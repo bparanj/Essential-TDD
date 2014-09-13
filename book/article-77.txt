@@ -1,0 +1,77 @@
+PUBLISHED
+
+Installing Ruby 1.9.3 using RVM in Lion
+
+Notes
+======
+------
+
+1. To install readline without using any package managers. Follow this [link](https://rvm.io/packages/readline 'link')
+2. XCode must be installed after the GCC and Command line tools are installed.
+
+-----------------
+
+STEP 1
+
+Uninstall XCode. Drag the Xcode from applications folder to the trash.
+
+STEP 2
+
+Install GCC 10.7-v2 dmg
+
+STEP 3
+
+Install command line tools for Lion. Command Line Tools (Lion).mpkg
+
+STEP 4
+
+```sh
+brew install automake
+```
+
+STEP 5
+
+```sh
+brew install readline
+```
+
+STEP 6
+
+```sh
+brew link readline
+```
+
+STEP 7
+
+```sh
+brew install libxml2
+```
+
+STEP 8
+
+```sh
+brew link libxml2
+```
+
+STEP 9
+
+Add :
+
+```sh
+export ARCHFLAGS="-arch x86_64" 
+```
+
+to ~/.bash_profile
+
+STEP 10
+
+```sh
+rvm install 1.9.2 -C --with-readline-dir=/usr/local/Cellar/readline/6.2.4/ --with-libxml2-dir=/usr/local/Cellar/libxml2/2.8.0
+```
+
+References:
+----------
+
+[How to Install XCode, Homebrew, Git, rvm, Ruby on Mac](http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/ 'XCode, Ruby')
+[OSX GCC Installer](https://github.com/kennethreitz/osx-gcc-installer/downloads 'OS X GCC Installer')
+
