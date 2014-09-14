@@ -1,0 +1,265 @@
+PUBLISHED
+
+Top 20 Things a Programmer Should Know
+
+
+I applied the 80/20 principle to the 97 Things a Programmer Should Know book. I have eliminated things that are too obvious or trivial to me. This is a good book, buy it. Here is my top 20:
+
+1. Apply Functional Programming Principles 
+==========
+-----------
+
+Referential transparency is a very desirable property. It implies that functions consistently yield the same results given the same input, irrespective of where and why they are invoked. That is, function evaluation does not depend on the side effects of mutable state.
+
+2. Ask, "What would the user do?". 
+==========
+-----------
+
+You are not the user. We all tend to assume that other people think like us. This is not true. Spending an hour watching users is more informative than spending a day guessing what they want.
+
+3. Your customers do not mean what they say. 
+==========
+-----------
+
+Discuss topics numerous times with your customers before you decide that you understand what they need. Try restating the problem two or three times. Talk to them about the things that happen just before or just after the topic you’re talking about to get better context. If at all possible, have multiple people tell you about the same topic in separate conversations. You will hear different stories, which will uncover separate yet related facts. Two people telling you about the same topic will often contradict each other. Your best chance for success is to has out the differences before you start development.
+
+Use visual aids in your conversation. You could use whiteboard, visual mockup early in the design phase or a complex functional prototype. Visual aids lengthens attention span and increases the retention rate of the information.  
+
+4. Start with Why
+==========
+-----------
+
+Instead of starting with a yes or no, start with why. Find the reason behind the request. Usually you will find that when you know the context of the request, new possibilities open up. It’s common for the request to be accomplished with the existing product in some other way, allowing you to say yes with no work at all.
+
+Sometimes they might have an idea that is incompatible with your view of the product. Turn that ‘Why?’ on yourself. Sometimes the act of voicing the reason will make it clear that your first reaction doesn’t make sense. If not, you might need to kick it up a notch and bring in other key decision makers. Remember, the goal of all of this sis to say yes to the other person and try to make it work, not just for him but for you and your team as well. 
+
+If you can voice a compelling explanation as to why the feature request is incompatible with the existing product, then you are likely to have a productive conversation about whether you are building the right product. 
+
+5. Hard work does not pay off. 
+==========
+-----------
+
+You are working too hard if you are trying to be focused and productive for more than 30 hours a week. Reduce your workload to become more effective and get more done. This is a direct consequence of the fact that programming and software development involve a continuous learning process. As you work on a project, you will understand more of the problem domain and find effective ways of reaching the goal. To avoid wasted work, you must allow time to observe the effects of what you are doing, reflect on the things that you see and change your behavior accordingly.
+
+Most software projects are like a long orienteering marathon. In the dark, with a sketchy map as guidance. If you set off in one direction, running as fast as you can, you might impress some, but you are not likely to succeed. You need to keep a sustainable pace, and you need to adjust the course when you learn more about where you are and where you are heading.
+
+Learn more about software development and programming techniques. Read books, go to conferences, communicate with other professionals, experiment with new implementation techniques and learn about powerful tools that simplify your job. Keep yourself updated in your field of expertise. Preparation and education are an essential part of our profession. 
+
+Be focused on the project, contribute as much as you can by finding smart solutions, improve your skills, reflect on what you are doing and adapt your behavior. Being focused and productive 60 hours a week is not a sensible thing to do. Prepare, effect, observe, reflect and change.
+
+6. Do lots of deliberate practice.
+==========
+-----------
+
+You do deliberate practice to improve your ability to perform a task. It’s about skill and technique. Deliberate practice means repetition. It means performing the task with the aim of increasing your mastery of one or more aspects of the task. It means repeating the repetition. Slowly, over and over again, until you achieve your desired level of mastery. You do deliberate practice to master the task, not to complete the task. The principal aim of deliberate practice is to improve your performance.
+ 
+>> The key to developing expertise is deliberate practice: not just doing it again and again, but challenging yourself with a task that is just beyond your current ability, trying it, analyzing your performance while and after doing it and correcting any mistakes.
+>> Peter Norvig
+
+7. Reinvent the wheel often. 
+==========
+-----------
+
+The same way that watching a movie about sailing is very different from going sailing, so too is using existing code versus designing your own software from the ground up, testing it, breaking it, repairing it and improving it along the way. Reinventing the wheel is about how to get an intimate knowledge of the inner workings of various components that already exist. 
+
+Most developers have never created core software libraries and therefore do not have an intimate knowledge of how they work. The consequence is that all these kinds of software are viewed as mysterious black boxes that just work. Understanding only the surface of the water is not enough to reveal the hidden dangers beneath. Not knowing the deeper things in software development will limit your ability to create stellar work.
+
+Reinventing the wheel and getting it wrong is more valuable than nailing it first time. There are lessons learned from trial and error that have an emotional component to them that reading a technical book alone just cannot deliver.
+
+Learned facts and book smarts are crucial, but becoming a great programmer is as much about acquiring experience as it is about collecting facts. Reinventing the wheel is as important to a developer’s education and skill as weightlifting is to a body builder.
+
+8. Continuous learning.
+==========
+-----------
+
+Read. Join mailing list. Get hands on and write code. Find a mentor and work. Get to know the frameworks and libraries you use. When you make a mistake, fix a bug or run into a problem, understand what happened. Teaching is a good way to learn. Participate in lunch-and-learn, user group or local conference. Join or start a study group. Go to conferences or watch the talks online. Learn a new language. Branching out gives you new ideas you can use in your current technology stack. Learn about your domain. It helps you to understand the requirements and solve business problems. 
+
+9. Know how to use command line tools. 
+==========
+-----------
+
+The search and replace capabilities provided by the grep and sed utilities are often more powerful than IDEs.
+
+To find classes with same name:
+
+```sh
+find . -name ‘*.rb’ | see ’s/.*\///‘ | sort | uniq -c | grep -v “^ *1” | sort -r
+```
+
+10. The Unix tools are your friends. 
+==========
+-----------
+
+It’s very easy to extend the world of the Unix tools. Just write a program in any language that plays by a few simple rules:
+
+1. Your program should perform just a single task
+2. It should read data as text lines from its standard input
+3. It should display its results unadorned by headers and other noise on its standard output
+4. Parameters affecting the tool’s operation are given in the command line. 
+
+11. Step back and automate, automate, automate. 
+==========
+-----------
+
+You can go a long way with a shell language such as bash or PowerShell and a build automation system. If you need to interact with websites, use a tool such as iMacros or Selenium.
+
+You don’t have to learn all of bash to get started. Learn as you go. When you have a task that you think can be automated, learn just enough about your tools to do it. And do it early in a project when time is usually easier to find. 
+
+12. Put everything under version control. 
+==========
+-----------
+
+Tag a software release with a symbolic name so that you can easily revisit in the future the exact version of the software your customer runs. You can create branches of parallel development: most projects have an active development branch and one or more maintenance branches for released versions that are actively supported.
+
+Commit each logical change in a separate operation. Lumping many changes together in a single commit will make it difficult to disentangle them in the feature. This is especially important when you make project-wide refactorings or style changes, which can easily obscure other modifications.
+
+13. Put the mouse down and step away from the keyboard. 
+==========
+-----------
+
+While you’re coding, the logical part of your brain is active and the creative side is shut out. It can’t present anything to you until the logical side takes a break.
+
+Next time you hit a nasty problem, do yourself a favor. Once you really understand the problem, go do something involving the creative side of your brain - sketch out the problem, listen to music or go for a walk. Sometimes the best thing you can do to solve a problem is to put the mouse down and step away from the keyboard.
+
+14. Missing opportunities for polymorphism. 
+==========
+-----------
+
+Polymorphism creates tiny localized execution contexts that let us work without the need for if-else blocks. Being in a context allows us to do the right thing directly, whereas being outside of that context forces us to reconstruct it so that we can then do the right thing. With careful use of alternate implementations, we can capture context that can help us produce less code that is more readable. 
+
+Command and Double Dispatch play well together. By applying polymorphism, we reduce the if-else blocks in our code.
+
+15. Prefer domain-specific types to primitive types. 
+==========
+-----------
+
+The code becomes more readable, as it expresses concepts of a domain, not just Float or String. The code becomes more testable, as the code encapsulates behavior that is easily testable. The code facilities across applications and systems. Start exploring domain-specific types for the purpose of developing quality software.
+
+16. Test for required behavior, not incidental behavior. 
+==========
+-----------
+
+A common pitfall in testing is to hardwire tests to the specifics of an implementation, where those specifics are incidental and have no bearing on the desired functionality. 
+
+When tests are hardwired to implementation incidentals, changes to the implementation that are actually compatible with the required behavior may cause tests to fail, leading to false positives.
+
+To be effective, tests need to state contractual obligations rather than parrot implementations. They need to take a blackbox view of the units under test, sketching out the interface contracts in executable form. Therefore, align tested behavior with required behavior.
+
+17. Test precisely and concretely. 
+==========
+-----------
+
+In specifying behavior, tests should not simply be accurate: they must also be precise. The result of adding an item to an empty collection is not simply that it is not empty: it is that the collection now has a single item and that the single item held is the item added. Two or more items would qualify as not empty and would also be wrong. A single item of a different value would also be wrong. 
+
+18. The golden rule of API design. 
+==========
+-----------
+
+It’s not enough to write tests for an API you develop; you have to write unit tests for code that uses your API. When you follow this rule, you learn firsthand the hurdles that your users will have to overcome when they test their code independently.
+
+19. Write Tests for People
+==========
+-----------
+
+Good tests act as documentation for the code they are testing. They describe how the code works. For each usage scenario, the tests:
+
+1. Describe the context, starting point or preconditions that must be satisfied
+2. Illustrate how the software is invoked.
+3. Describe the expected results or postconditions to be verified
+
+Different usage scenarios will have slightly different versions of each of these. Others should be able to look at a few tests and by comparing these three parts of the tests, be able to see what causes the software to behave differently. Each test should clearly illustrate the cause-and-effect relationship among these three parts.
+
+Give each test a meaningful name that describes the particular usage scenario. It is a good idea to test your tests. You can verify that they detect the errors you think they detect by inserting those errors into the production code. Make sure they report errors in a meaningful way. You should also verify that your tests speak clearly to a person trying to understand your code. The only way to do this is to have someone who isn’t familiar with your code read your tests and tell you what they learned. 
+
+20. One binary rule. 
+==========
+-----------
+
+Build a single binary that you can identify and promote through all the stages in the release pipeline. Hold environment-specific details in the environment. This could mean, keeping them in a file or in the path. Keep the environment information versioned too. If the environment configuration breaks, without versioning we cannot figure out what changed. The environmental information should be versioned separately from the code, since they’ll change at different rates and for different reasons. 
+
+
+
+
+
+
+Writing unit tests provides evidence about how easy the code is to unit test. It helps reveal the presence or absence of good design elements such as low coupling and high cohesion.
+
+Running unit tests provides evidence about the code’s behavior. It helps reveal the presence of absence of desirable runtime qualities such as robustness and correctness.
+
+
+1. Beauty is in simplicity. Beauty of style, harmony, grace and good rhythm depends on simplicity.
+
+
+2. Comments should say something code does not and cannot say.
+
+3. Code Layout Matters. Optimize for navigating and reading code. Easy to scan. Expressive layout. Compact format.
+
+4. The purpose of code reviews should be to share knowledge and establish common coding guidelines.
+
+5. Encapsulate behavior, not just state. An object encapsulates both state and behavior, where the behavior is defined by the actual state.
+
+6. Fulfill your ambitions with open source. If you want to get involved, you could offer to help out with the documentation. Volunteer to write test code. You learn much faster by writing test code for other people’s software. Find bugs, suggest fixes, make friends, work on software you like and fulfill your software development ambitions.
+
+7. How to use a bug tracker. A good bug report conveys three things: 
+
+1. How to reproduce the bug, as precisely as possible and how often this will make the bug appear.
+2. What should have happened. 
+3. What actually happened.
+
+
+8. Interprocess communication affects application response time. 
+
+9. Just because the problems are difficult does not mean solutions will be difficult for everyone to understand and maintain.
+
+Think of every line of code you write as a message for someone in the future. Pretend you’re explaining to this smart person how to solve this tough problem. Can you write code that solves a difficult problem but will also be beautiful? 
+
+10. If you need to explain a change, do so in the version control system check-in message and not in the code. Decouple your code to achieve orthogonality. 
+
+
+11. Thinking in states. 
+
+12. Read Donald Knuth’s : The Art of Computer Programming
+
+
+One of the developer at work had developed a reporting web application in GO language. He said : I want you to ‘proxy’ the reporting app html output through a Rails app that handling authentication of users. 
+
+I had no idea what he meant by proxing his web app content through the Rails app. What does this reporting app do? It displays reports in an ugly table. By the way it also has table sorting feature and searching by date range. What are you using for the interactive UI? I am using AngularJS. How many users are there for this reporting app? Three internal users. This is not a simple change that can just work. So I asked why not expose this application through http basic authentication applied at the web server?
+
+13. Distinguish between business exceptions and technical. Create a specific exception so that the client can handle the situation on its own terms. THIS IS A GOOD TOPIC FOR AN ARTICLE WITH EXAMPLES.
+
+14. Take advantage of code analysis tools. 
+
+15. Decouple your code to achieve orthogonality. 
+
+16. Pay off technical debt as soon as possible.
+
+
+17. The Boy Scout Rule 
+
+Always check a module in cleaner than when you checked it out.
+
+18. Floating-point numbers are not real. 
+
+They are approximation of real numbers, there is inevitably a little error present. This error, called roundoff, can lead to surprising results. You should not use floating-point numbers for financial applications. They are intended for efficient scientific computation.
+
+19. Learn to estimate.
+
+Estimate
+
+An estimate is an approximate calculation or judgment of the value, number, quantity or extent of something. This definition implies that an estimate is a factual measure based on hard data and previous experience - hopes and wishes must be ignored when calculating it. The definition also implies that, being approximate, and estimate cannot be precise, e.g., a development task cannot be estimated to last 234.14 days.
+
+Target
+
+A target is a statement of a desirable business objective, e.g., ‘The system must support at least 400 concurrent users’.
+
+Commitment
+
+A commitment is a promise to deliver specified functionality at a certain level of quality by a certain date or event. Example: The search functionality will be available in the next release of the product.
+
+>> The primary purpose of software estimation is not to predict a project’s outcome; it is to determine whether a project’s targets are realistic enough to allow the project to be controlled to meet them. 
+>> Steve McConnell
+
+Thus the purpose of estimation is to make proper project management and planning possible, allowing the project stakeholders to make commitments based on realistic targets.
+
+
+
