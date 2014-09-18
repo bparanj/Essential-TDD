@@ -1,0 +1,13 @@
+
+
+
+Objective
+
+Illustrate using TDD
+
+Floating-point numbers are not real. 
+
+They are approximation of real numbers, there is inevitably a little error present. This error, called roundoff, can lead to surprising results. You should not use floating-point numbers for financial applications. They are intended for efficient scientific computation.
+
+
+>> Tip by ??? from the book 97 Things a Programmer Should Know

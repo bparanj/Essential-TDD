@@ -1,0 +1,17 @@
+
+
+Objective
+----------
+
+- How to test your test
+
+Discussion
+==========
+----------
+
+>> It is a good idea to test your tests. You can verify that they detect the errors you think they detect by inserting those errors into the production code. Make sure they report errors in a meaningful way. You should also verify that your tests speak clearly to a person trying to understand your code. The only way to do this is to have someone who isn’t familiar with your code read your tests and tell you what they learned. 
+>> Tip by Gerard Meszaros in 97 Things a Programmer Should Know
+
+
+
+Use Ryan Davis Heckle gem to illustrate this tip.

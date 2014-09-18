@@ -12,9 +12,6 @@ Update
 -----------
 
 1. Find the image for double dispatch and add it to angry rock kata.
-2. 69  : 
-    a) Use Code Simplicity 'The Three Laws' as the basis for discussing design principles.
-    b) Use Order example
     
 Ideas
 -----------
@@ -29,16 +26,17 @@ The test fixture influences the expected outcome of each test: which inputs resu
 
 4. Examples on using sqlite3-ruby:  https://github.com/sparklemotion/sqlite3-ruby
 
-4. Thread series, celluloid
+5. Thread series, celluloid
 
-5. Simplicity book review article.
+6. Impose constraints such as no if-else etc for existing katas.
+
+7. Create an article that shows how to practice strace using simple commands (check the existing notes)
 
 At Home
 -----------------------------------------------
 1. Create and Scan Red, Green, Refactor diagram.
 2. Article 7 : Insert the simplified version of the Red, Green, Refactor diagram.
 3. Look at the book for the notes for article 50.
-
 
 Revisions
 ----------

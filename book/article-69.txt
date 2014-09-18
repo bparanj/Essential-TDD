@@ -1,67 +1,28 @@
-UPDATE
-
-Change to Flexible Design article:
-
-Localized changes:
-
-```ruby
-class OrderConverter
-  constructor
-  order = order
- 
-  to_xml
-  to_json
-  to_csv
-  to_pdf
- 
- 
-  ...
- 
-  to_mobi
-
-end
-
-oc = OrderConverter.new(order)
-oc.to_xml
-```
-
-vs
-
-```ruby
-class OrderXmlConverter
-  def convert
-    xml conversion happens here
-  end
-end
-```
-
-Instead of hard-coding class name:
-
-```sh
-class_name = "Order#{format}Converter"
-
-oc = class_name.new(order)
-oc.convert
-```
-
-Uniform interface allows additive change.
-
-
 PUBLISHED
 ----------
 
 Flexible Design
 
-Software does not exist in a vacuum. It interacts with environment and the environment interacts with it. The environment is market forces, users, external systems, operating systems, competing software, changes in law etc. It evolves, either it improves or decays over time. The only thing that is constant is change demanded by the environment. You need to work on a existing code base in order to :
+Software does not exist in a vacuum. It interacts with environment and the environment interacts with it. The environment is market forces, users, external systems, operating systems, competing software, changes in law etc. It evolves, either it improves or decays over time. The only thing that is constant is change demanded by the environment. 
+
+>> The Law of Change: The longer your program exists, the more probable it is that any piec of it will have to change.
+>> Max Kanat-Alexander in Code Simplicity book
+
+You need to work on a existing code base in order to :
 
 1. Improve Performance
 2. Improve the Design
 3. Fix Bugs
 4. Enhance existing features
-5. Make it compatible with newer software it depends on
+5. Upgrade to newer software it depends on
 6. Add or remove features
 
-How do we evaluate a design that will make the software easy to do all of the above? Flexible design in least to most desirable order of flexibility are localized modification, additive, data driven or meta-programming.
+How do we evaluate a design that will make the software easy to do all of the above? If we order from most to least desirable ways to achieve quality, they are data driven or meta-programming, additive, localized modification. Just because meta-programming is on the top of the list, I am not advocating that is the first choice for every design problem. As long as meta-programming is used to achieve a good design that obeys good design principles, it is ok.
+
+Remember the two golden rules from Code Simplicity book:
+
+- It is more important to reduce the effort of maintenance than it is to reduce the effort of implementation. 
+- The effort of maintenance is proportional to the complexity of the system.
 
 Localized Modification
 =============
@@ -124,6 +85,79 @@ Additive
 
 We add new code to the existing system without modifying the existing code to implement a new feature. Risk of introducing bugs to existing code is very low. New code must be deployed. This will use polymorphism so that the new object introduced will have the same interface that the existing code uses.
 
+Here is an example from Thoughtbot's Ruby Science book that I have improved the design from localized modification to additive. 
+
+Before 
+-------
+
+```ruby
+class OrderConverter
+  def initialize(order)
+    @order = order
+  end
+  
+  def to_xml
+  end
+  
+  def to_json
+  end
+  
+  def to_csv
+  end
+  
+  def to_pdf
+  end
+end
+
+oc = OrderConverter.new(order)
+oc.to_xml
+```
+
+This solution needs localized changes to add a new conversion format for the order. 
+
+After
+-------
+
+Here is my solution that allows additive changes:
+
+```ruby
+class Order
+  attr_reader :amount, :number
+  
+  def initialize(amount, number)
+    @amount = amount
+    @number = number
+  end
+end
+
+class OrderXmlConverter
+  def initialize(order)
+    @order = order
+  end
+  def convert
+    "<order><amount>#{@order.amount}</amount><number>#{@order.number}</number></order>"
+  end
+end
+```
+
+Instead of hard-coding class name, you can use const_get to dynamically instantiate a class:
+
+```ruby
+order = Order.new(19, 2)
+format = 'Xml'
+class_name = Object.const_get("Order#{format}Converter")
+converter = class_name.new(order)
+puts converter.convert
+```
+
+In rails, you can use **constantize** method: 
+
+```ruby
+class_name = "Order#{format}Converter".constantize
+```
+
+By following a convention in naming the converter class, we eliminate dependency on a specific class name. In order to add a new format, for instance json, we add a new class OrderJsonConverter which has the same interface **convert** that returns JSON representation. Uniform interface allows additive change. We end up with small classes that is focused on doing one thing really well, they all obey the same interface, **convert** in our example.
+
 Data Driven
 =============
 -----------
@@ -179,5 +213,10 @@ Summary
 ======
 -------
 
-In this article we saw three different kinds of design that gives different levels of flexibility. Sometimes you have to make a trade off between complexity and flexibility. You can recognize these different types of flexibility in your code and make decisions based on your current requirements.
+In this article we saw three different kinds of design that gives different levels of flexibility. Sometimes you have to make a trade off between complexity and flexibility. You can recognize these different types of flexibility in your code and make decisions based on your current requirements. 
 
+Reference
+=========
+---------
+
+Ruby Science by Thoughtbot

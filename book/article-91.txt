@@ -1,0 +1,6 @@
+
+
+
+>> Distinguish between business exceptions and technical. Create a specific exception so that the client can handle the situation on its own terms. 
+
+>> Tip by ??? from the book 97 Things a Programmer Should Know

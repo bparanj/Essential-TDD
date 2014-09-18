@@ -1,0 +1,18 @@
+
+Stack example to illustrate
+
+Objective
+=========
+---------
+
+Test precisely and concretely.
+
+Discussion
+==========
+-----------
+
+Test precisely and concretely. 
+-----------
+
+>> In specifying behavior, tests should not simply be accurate: they must also be precise. The result of adding an item to an empty collection is not simply that it is not empty: it is that the collection now has a single item and that the single item held is the item added. Two or more items would qualify as not empty and would also be wrong. A single item of a different value would also be wrong. 
+>> Tip by ????? from the book 97 Things a Programmer Should Know 

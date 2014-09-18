@@ -3,7 +3,7 @@ PUBLISHED
 Top 20 Things a Programmer Should Know
 
 
-I applied the 80/20 principle to the 97 Things a Programmer Should Know book. I have eliminated things that are too obvious or trivial to me. This is a good book, buy it. Here is my top 20:
+I applied the 80/20 principle to the 97 Things a Programmer Should Know book. I have eliminated things that are too obvious or trivial to me. This is a good book, buy it. There were 16 more that was almost good enough to be in this list but did not make it. Here is my top 20:
 
 1. Apply Functional Programming Principles 
 ==========
@@ -15,25 +15,25 @@ Referential transparency is a very desirable property. It implies that functions
 ==========
 -----------
 
-You are not the user. We all tend to assume that other people think like us. This is not true. Spending an hour watching users is more informative than spending a day guessing what they want.
+You are not the user. We all tend to assume that others think like us. This is not true. Spending an hour watching users is more informative than spending a day guessing what they want.
 
 3. Your customers do not mean what they say. 
 ==========
 -----------
 
-Discuss topics numerous times with your customers before you decide that you understand what they need. Try restating the problem two or three times. Talk to them about the things that happen just before or just after the topic you’re talking about to get better context. If at all possible, have multiple people tell you about the same topic in separate conversations. You will hear different stories, which will uncover separate yet related facts. Two people telling you about the same topic will often contradict each other. Your best chance for success is to has out the differences before you start development.
+Discuss topics numerous times with your customers before you decide that you understand their needs. Try restating the problem two or three times. Talk to them about the things that happen just before or just after the topic you’re talking about to get better context. If at all possible, have multiple people tell you about the same topic in separate conversations. You will hear different stories, which will uncover separate yet related facts. Two people telling you about the same topic will often contradict each other. Your best chance for success is to hash out the differences before you start development.
 
-Use visual aids in your conversation. You could use whiteboard, visual mockup early in the design phase or a complex functional prototype. Visual aids lengthens attention span and increases the retention rate of the information.  
+Use visual aids in your conversation. You could use whiteboard, visual mockup early in the design phase or a complex functional prototype. Visual aids lengthen attention span and increases the retention rate of the information.  
 
 4. Start with Why
 ==========
 -----------
 
-Instead of starting with a yes or no, start with why. Find the reason behind the request. Usually you will find that when you know the context of the request, new possibilities open up. It’s common for the request to be accomplished with the existing product in some other way, allowing you to say yes with no work at all.
+Instead of starting with a yes or no, start with why. Find the reason behind the request. Usually when you know the context of the request, new possibilities open up. It’s common for the request to be accomplished with the existing product in some other way, allowing you to say yes with no work.
 
-Sometimes they might have an idea that is incompatible with your view of the product. Turn that ‘Why?’ on yourself. Sometimes the act of voicing the reason will make it clear that your first reaction doesn’t make sense. If not, you might need to kick it up a notch and bring in other key decision makers. Remember, the goal of all of this sis to say yes to the other person and try to make it work, not just for him but for you and your team as well. 
+Sometimes their idea might be incompatible with your view of the product. Turn that ‘Why?’ on yourself. Sometimes the act of voicing the reason will make it clear that your first reaction doesn’t make sense. If not, bring in other key decision makers. Remember, the goal of all of this is to say yes to the other person and try to make it work, not just for him but for you and your team as well. 
 
-If you can voice a compelling explanation as to why the feature request is incompatible with the existing product, then you are likely to have a productive conversation about whether you are building the right product. 
+If you explain why the feature request is incompatible with the existing product, then you can have a productive conversation about whether you are building the right product. 
 
 5. Hard work does not pay off. 
 ==========
@@ -111,13 +111,13 @@ You don’t have to learn all of bash to get started. Learn as you go. When you 
 
 Tag a software release with a symbolic name so that you can easily revisit in the future the exact version of the software your customer runs. You can create branches of parallel development: most projects have an active development branch and one or more maintenance branches for released versions that are actively supported.
 
-Commit each logical change in a separate operation. Lumping many changes together in a single commit will make it difficult to disentangle them in the feature. This is especially important when you make project-wide refactorings or style changes, which can easily obscure other modifications.
+Commit each logical change in a separate operation. Lumping many changes together in a single commit will make it difficult to disentangle them in the future. This is especially important when you make project-wide refactorings or style changes, which can easily obscure other modifications.
 
 13. Put the mouse down and step away from the keyboard. 
 ==========
 -----------
 
-While you’re coding, the logical part of your brain is active and the creative side is shut out. It can’t present anything to you until the logical side takes a break.
+While coding, the logical part of your brain is active and the creative side is shut out. It can’t present anything to you until the logical side takes a break.
 
 Next time you hit a nasty problem, do yourself a favor. Once you really understand the problem, go do something involving the creative side of your brain - sketch out the problem, listen to music or go for a walk. Sometimes the best thing you can do to solve a problem is to put the mouse down and step away from the keyboard.
 
@@ -125,15 +125,13 @@ Next time you hit a nasty problem, do yourself a favor. Once you really understa
 ==========
 -----------
 
-Polymorphism creates tiny localized execution contexts that let us work without the need for if-else blocks. Being in a context allows us to do the right thing directly, whereas being outside of that context forces us to reconstruct it so that we can then do the right thing. With careful use of alternate implementations, we can capture context that can help us produce less code that is more readable. 
-
-Command and Double Dispatch play well together. By applying polymorphism, we reduce the if-else blocks in our code.
+Polymorphism creates tiny localized execution contexts that let us work without the need for if-else blocks. Being in a context allows us to do the right thing directly, whereas being outside of that context forces us to reconstruct it so that we can then do the right thing. With careful use of alternate implementations, we can capture context that can help us produce less code that is more readable. Command and Double Dispatch play well together. By applying polymorphism, we reduce the if-else blocks in our code.
 
 15. Prefer domain-specific types to primitive types. 
 ==========
 -----------
 
-The code becomes more readable, as it expresses concepts of a domain, not just Float or String. The code becomes more testable, as the code encapsulates behavior that is easily testable. The code facilities across applications and systems. Start exploring domain-specific types for the purpose of developing quality software.
+The code becomes more readable, as it expresses concepts of a domain, not just Float or String. The code becomes more testable, as the code encapsulates behavior that is easily testable. The code facilities reuse across applications and systems. Start exploring domain-specific types for the purpose of developing quality software.
 
 16. Test for required behavior, not incidental behavior. 
 ==========
@@ -165,7 +163,7 @@ Good tests act as documentation for the code they are testing. They describe how
 
 1. Describe the context, starting point or preconditions that must be satisfied
 2. Illustrate how the software is invoked.
-3. Describe the expected results or postconditions to be verified
+3. Describe the expected results or post conditions to be verified
 
 Different usage scenarios will have slightly different versions of each of these. Others should be able to look at a few tests and by comparing these three parts of the tests, be able to see what causes the software to behave differently. Each test should clearly illustrate the cause-and-effect relationship among these three parts.
 
@@ -189,7 +187,6 @@ Running unit tests provides evidence about the code’s behavior. It helps revea
 
 1. Beauty is in simplicity. Beauty of style, harmony, grace and good rhythm depends on simplicity.
 
-
 2. Comments should say something code does not and cannot say.
 
 3. Code Layout Matters. Optimize for navigating and reading code. Easy to scan. Expressive layout. Compact format.
@@ -202,10 +199,9 @@ Running unit tests provides evidence about the code’s behavior. It helps revea
 
 7. How to use a bug tracker. A good bug report conveys three things: 
 
-1. How to reproduce the bug, as precisely as possible and how often this will make the bug appear.
-2. What should have happened. 
-3. What actually happened.
-
+    1. How to reproduce the bug, as precisely as possible and how often this will make the bug appear.
+    2. What should have happened. 
+    3. What actually happened.
 
 8. Interprocess communication affects application response time. 
 
@@ -215,34 +211,23 @@ Think of every line of code you write as a message for someone in the future. Pr
 
 10. If you need to explain a change, do so in the version control system check-in message and not in the code. Decouple your code to achieve orthogonality. 
 
-
 11. Thinking in states. 
 
 12. Read Donald Knuth’s : The Art of Computer Programming
-
 
 One of the developer at work had developed a reporting web application in GO language. He said : I want you to ‘proxy’ the reporting app html output through a Rails app that handling authentication of users. 
 
 I had no idea what he meant by proxing his web app content through the Rails app. What does this reporting app do? It displays reports in an ugly table. By the way it also has table sorting feature and searching by date range. What are you using for the interactive UI? I am using AngularJS. How many users are there for this reporting app? Three internal users. This is not a simple change that can just work. So I asked why not expose this application through http basic authentication applied at the web server?
 
-13. Distinguish between business exceptions and technical. Create a specific exception so that the client can handle the situation on its own terms. THIS IS A GOOD TOPIC FOR AN ARTICLE WITH EXAMPLES.
+13. Decouple your code to achieve orthogonality. 
 
-14. Take advantage of code analysis tools. 
+14. Pay off technical debt as soon as possible.
 
-15. Decouple your code to achieve orthogonality. 
-
-16. Pay off technical debt as soon as possible.
-
-
-17. The Boy Scout Rule 
+15. The Boy Scout Rule 
 
 Always check a module in cleaner than when you checked it out.
 
-18. Floating-point numbers are not real. 
-
-They are approximation of real numbers, there is inevitably a little error present. This error, called roundoff, can lead to surprising results. You should not use floating-point numbers for financial applications. They are intended for efficient scientific computation.
-
-19. Learn to estimate.
+16. Learn to estimate.
 
 Estimate
 

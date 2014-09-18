@@ -1,0 +1,60 @@
+Args Kata
+
+Problem Description
+=======
+-------
+
+The arguments passed to the program consist of flags and values. Flags should be one character, preceded by a minus sign. Each flag should have zero, or one value associated with it.
+
+Write a parser for this kind of arguments. This parser takes a **schema** detailing what arguments the program expects. The schema specifies the number and types of flags and values the program expects.
+
+Once the schema has been specified, the program should pass the actual argument list to the args parser. It will verify that the arguments match the schema. The program can then ask the args parser for each of the values, using the names of the flags. The values are returned with the correct types, as specified in the schema.
+
+For example if the program is to be called with these arguments: 
+
+```sh
+-l -p 8080 -d /usr/logs
+```
+
+this indicates a schema with 3 flags: l, p, d. The 'l' (logging) flag has no values associated with it, it is a boolean flag, True if present, False if not. The 'p' (port) flag has an integer value, and the 'd' (directory) flag has a string value.
+
+If a flag mentioned in the schema is missing in the arguments, a suitable default value should be returned. For example, 'False' for a boolean, 0 for a number and an empty string '' for a string.
+
+If the arguments given do not match the schema, it is important that a good error message is given, explaining exactly what is wrong. 
+
+Your code must be extensible. It should be straightforward and obvious how to add new types of values.
+
+Problem Domain Analysis
+==========
+----------
+
+We have three components:
+
+1. The main program that takes flags and values.
+2. Parser for arguments passed into the main program.
+3. Schema that specifies the number and types of flags the program expects.
+
+Here is the list of their responsibilities
+
+Main Program
+------------
+
+1. Pass the argument list to the parser.
+2. Request value for a given flag from the parser.
+
+Parser
+------------
+
+1. Verify that the arguments match the schema.
+2. Provide the values for a given flag name.
+3. Validate arguments with the schema.
+4. Provide clear error messages. 
+
+Schema
+------------
+
+1. Number of flags
+2. Type of flag
+
+
+

@@ -1,0 +1,6 @@
+Take advantage of code analysis tools. 
+
+
+Objective
+
+Use code analysis tools and kick the shit out of gem like Spree.
