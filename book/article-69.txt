@@ -85,7 +85,7 @@ Additive
 
 We add new code to the existing system without modifying the existing code to implement a new feature. Risk of introducing bugs to existing code is very low. New code must be deployed. This will use polymorphism so that the new object introduced will have the same interface that the existing code uses.
 
-Here is an example from Thoughtbot's Ruby Science book that I have improved the design from localized modification to additive. 
+Here is an example from Rails Antipatterns by Chad Pytel and Tammer Saleh book that I have improved the design from localized modification to additive. 
 
 Before 
 -------
@@ -219,4 +219,4 @@ Reference
 =========
 ---------
 
-Ruby Science by Thoughtbot
+Rails Antipatterns by Chad Pytel and Tammer Saleh
