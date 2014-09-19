@@ -17,9 +17,7 @@ You need to work on a existing code base in order to :
 5. Upgrade to newer software it depends on
 6. Add or remove features
 
-How do we evaluate a design that will make the software easy to do all of the above? If we order from most to least desirable ways to achieve quality, they are data driven or meta-programming, additive, localized modification. Just because meta-programming is on the top of the list, I am not advocating that is the first choice for every design problem. As long as meta-programming is used to achieve a good design that obeys good design principles, it is ok.
-
-Remember the two golden rules from Code Simplicity book:
+How do we evaluate a design that will make the software easy to do all of the above? If we order from most to least desirable ways to achieve quality, they are data driven or meta-programming, additive, localized modification. Just because meta-programming is on the top of the list, I am not advocating that is the first choice for every design problem. As long as meta-programming is used to achieve a good design that obeys good design principles, it is ok. Remember the two golden rules from Code Simplicity book:
 
 - It is more important to reduce the effort of maintenance than it is to reduce the effort of implementation. 
 - The effort of maintenance is proportional to the complexity of the system.
