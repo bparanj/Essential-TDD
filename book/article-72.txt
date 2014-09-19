@@ -1,4 +1,11 @@
 What is strace?
+What are the different flags?
+What kind of problems can you troubleshoot with it?
+How to practice strace command?
+How to interpret the strace output?
+
+
+What is strace?
 
 strace is a command line tool which lets you trace the system calls and signals received by a given process and its children. You can either use it to start a program or you can attach to an existing program to trace the calls the program makes to the system.
 
@@ -19,25 +26,20 @@ strace -T program_name
 -T flag tells strace to time the execution of each system call during tracing.
 
 
-
-
 Strace Overview
-strace can be seen as a light weight debugger. It allows a programmer / user to quickly find out how a program is interacting with the OS. It does this by monitoring system calls and signals.
+
+strace can be seen as a light weight debugger. We can quickly find out how a program is interacting with the OS. It does this by monitoring system calls and signals.
 
 Uses
-Good for when you don't have source code or don't want to be bothered to really go through it.
+
+Good when you don't have source code or don't want to be bothered to really go through it.
 Also, useful for your own code if you don't feel like opening up GDB, but are just interested in understanding external interaction.
-
-
 
 Strace stands out as a tool for investigating production systems where you can't afford to run these programs under a debugger. In particular, we have used strace in the following two situations:
 
     Program foo seems to be in deadlock and has become unresponsive. This could be a target for gdb; however, we haven't always had the source code or sometimes were dealing with scripted languages that weren't straight-forward to run under a debugger. In this case, you run strace on an already running program and you will get the list of system calls being made. This is particularly useful if you are investigating a client/server application or an application that interacts with a database
+
     Investigating why a program is slow. In particular, we had just moved to a new distributed file system and the new throughput of the system was very slow. You can specify strace with the '-T' option which will tell you how much time was spent in each system call. This helped to determine why the file system was causing things to slow down.
-
-
-
-
 
 Strace can be used as a debugging tool, or as a primitive profiler.
 
@@ -85,6 +87,13 @@ puts "hi!"
 
 Both programs look pretty simple, but the strace output is not so simple. I like to use “strace -ttT executable” which gives the time each syscall was made and how long each syscall took. Check the strace man page for more flags – it is very flexible. strace allows you to track the syscall counts, filter for specific syscalls, and more.
 
+
+When using strace to attach to a process that is running many threads, use the following format:
+
+strace -f -c -p PID  -o /tmp/outfile.strace
+
+This will capture system calls from all threads within the process.
+
 Strace output:
 [joe@mawu:/home/joe]% strace -ttT ./hello.rb 
 
@@ -102,3 +111,6 @@ https://blogs.oracle.com/ksplice/entry/strace_the_sysadmin_s_microscope
 
 http://www.unlimitednovelty.com/2011/05/introducing-celluloid-concurrent-object.html
 http://www.sitepoint.com/an-introduction-to-celluloid-part-i/
+http://blog.softlayer.com/2013/sysadmin-tips-and-tricks-using-strace-to-monitor-system-calls
+http://meenakshi02.wordpress.com/2011/02/02/strace-hanging-at-futex/
+

@@ -74,7 +74,7 @@ stack.instance_variable_get(:@elements).should == [1]
 
 This couples your test with the implementation details, so when you change the elements variable during refactor, the behavior does not change but your tests will fail. The tests become brittle.
 
-You have another option of exposing the elements using attr_reader just for testability. This does not break encapsulation since it is read only, it needs a custom implementation of getting **elements** in order to avoid breaking existing clients using the attr_reader if there is a refactor that affects the naming of elements. Another option is to just update your first test, so that it uses the pop to make the test more precise. This option results in less production code. Less mass results in lean system capable of changing faster to requirements in future. The updated first test looks like this:
+You have another option of exposing the elements using attr_reader just for testability. This does not break encapsulation since it is read only. It needs a custom implementation of getting **elements** in order to avoid breaking existing clients using the attr_reader if there is a refactor that affects the naming of elements. Another option is to just update your first test, so that it uses the pop to make the test more precise. This option results in less production code. Less mass results in lean system capable of changing faster to requirements in future. The updated first test looks like this:
 
 ```ruby
   it 'should push a given item' do
