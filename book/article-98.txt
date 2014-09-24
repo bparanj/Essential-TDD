@@ -1,0 +1,132 @@
+Thread Deadlocks
+
+We have source code for the Dining Philosopher's problem. What if it is in a language that you are not familiar? What if you don't have the source code? How will you verify that program that is hanging is due to thread deadlocks?
+
+Create chopstick.rb with the following code:
+
+```ruby
+class Chopstick
+  def initialize
+    @mutex = Mutex.new
+  end
+
+  def take
+    @mutex.lock
+  end
+
+  def drop
+    @mutex.unlock
+
+  rescue ThreadError
+    puts "Trying to drop a chopstick not acquired"
+  end
+
+  def in_use?
+    @mutex.locked?
+  end
+end
+```
+
+Create philosopher.rb with the following code:
+
+```ruby
+class Philosopher
+  def initialize(name)
+    @name = name
+  end
+
+  def dine(table, position)
+    @left_chopstick  = table.left_chopstick_at(position)
+    @right_chopstick = table.right_chopstick_at(position)
+
+    loop do
+      think
+      eat
+    end
+  end
+
+  def think
+    puts "#{@name} is thinking"
+  end
+
+  def eat
+    take_chopsticks
+
+    puts "#{@name} is eating."
+
+    drop_chopsticks
+  end
+
+  def take_chopsticks
+    @left_chopstick.take
+    @right_chopstick.take
+  end
+
+  def drop_chopsticks
+    @left_chopstick.drop
+    @right_chopstick.drop
+  end
+end
+```
+
+Create table.rb with the following code:
+
+```ruby
+require_relative 'chopstick'
+
+class Table
+  def initialize(num_seats)
+    @chopsticks  = num_seats.times.map { Chopstick.new }
+  end
+
+  def left_chopstick_at(position)
+    index = (position - 1) % @chopsticks.size
+    @chopsticks[index]
+  end
+
+  def right_chopstick_at(position)
+    index = position % @chopsticks.size
+    @chopsticks[index]
+  end
+
+  def chopsticks_in_use
+    @chopsticks.select { |f| f.in_use? }.size
+  end
+end
+```
+
+Create driver.rb with the following code:
+
+```ruby
+require_relative 'philosopher'
+require_relative 'table'
+
+names = %w{Heraclitus Aristotle Epictetus Schopenhauer Popper}
+
+philosophers = names.map { |name| Philosopher.new(name) }
+table        = Table.new(philosophers.size)
+
+threads = philosophers.map.with_index do |philosopher, i|
+  Thread.new { philosopher.dine(table, i) }
+end
+
+threads.each(&:join)
+sleep
+```
+
+Run the driver.rb.
+
+Strace to View Deadlocks
+========================
+-------------------------
+
+Syntax of strace command to view deadlocks. Start the driver program with the stract command. How to view the thread ids? Everything in Unix is a File or Proccesses. So the threads created by the processes get it's own process id.
+
+Refer Meenakshi's blog post notes and explain it here...
+
+References
+==========
+-----------
+
+Gregory Brown article link goes here...
+Meenakshi's blog post link goes here...
