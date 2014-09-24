@@ -1,14 +1,3 @@
-UPDATE
-
-Cracking the Coding Interview
-
-Extreme cases: 0, negative, null, maximums, etc
-User error: What happens if the user passes in null or a negative value?
-Normal cases
-
----------------
-
-
 PUBLISHED
 
 TDD Beyond Basics : Test Precisely and Concretely

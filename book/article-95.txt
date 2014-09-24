@@ -1,0 +1,12 @@
+
+WRITE AN ARTICLE BASED ON STACK EXAMPLE IN ARTICLE 89
+
+
+Extreme cases: 0, negative, null, maximums, etc
+User error: What happens if the user passes in null or a negative value?
+Normal cases
+
+
+References
+
+Cracking the Coding Interview

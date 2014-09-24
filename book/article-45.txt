@@ -4,6 +4,12 @@ NOT PUBLISHED YET.
 
 Essential Skills for Test Driven Development
 
+
+General Dwight David Eisenhower:
+
+"In preparing for battle I have always found that plans are useless, but planning is indispensable."
+
+
 Mathematician Gauss
 ===================
 -------------------

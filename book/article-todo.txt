@@ -1,3 +1,5 @@
+Email all images for Rob Martin's book concepts from work laptop.
+
 UNPUBLISHED
 -----------
 
@@ -12,7 +14,8 @@ Update
 -----------
 
 1. Find the image for double dispatch and add it to angry rock kata.
-    
+2. 69
+
 Ideas
 -----------
 
@@ -31,6 +34,8 @@ The test fixture influences the expected outcome of each test: which inputs resu
 6. Impose constraints such as no if-else etc for existing katas.
 
 7. Create an article that shows how to practice strace using simple commands (check the existing notes)
+
+8. Interview problem of parsing an URL with changing requirements. The consequence of not cleaning up in the refactor phase.
 
 At Home
 -----------------------------------------------

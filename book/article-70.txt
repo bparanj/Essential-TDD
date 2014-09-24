@@ -467,58 +467,7 @@ http://www.sciencebuddies.org/science-fair-projects/project_learn_more_weaver.sh
 
 
 
-How to Debug Anything Presentation by James Golick
 
-A blind debugging session. 
-
-The website using PHP is down.
-
-What we have to work with
-
-The source code. (No)
-Knowledge of the system. (No)
-Familiarity with the programming language. (No)
-SSH Access. (Yes)
-
-Logging in the real world is often useless. 
-Find a pid. ps aux | grep apache
-
-sudo strace -ff -s 2048 -p pid
-
-How to read strace output
-
-write(l, "hi\n", 3) = 3
-
-write -> function name
-arguments are l, "hi\n" and 3
-return value is 3
-
-To learn more about system calls: man 2 write
-
-strace gives lot of output. Work backwards and find the failure. Look for the error message in the strace output. Find the cause by reading the strace output. Find the offender and write down your hypothesis. Prove your hypothesis. Find the offender. Fix the bug.
-
-0. Forget everything you think you know.
-1. Get a third party opinion.
-2. Refer the 'Linux Performance Tools' diagram for a list of third-party tools.
-
-You can also use strace to start a process.
-
-sudo strace -ff apt-get update
-
-Work backwards, find failure. Find the cause. Confirm your hypothesis. Locate a hook. Stare at the code. Confirm your hypothesis. 
-
-2. Locate the correct source code. 
-3. Identify a hard-coded string to grep for.
-4. Stare at the code until it makes sense. 
-5. Fix whatever is broken.
-
-
-0. Forget everything you think you know.
-1. Get a third party opinion.
-2. Locate the correct source code.
-3. Identify a hard-coded string to grep for.
-4. Stare at the code until it makes sense.
-5. Fix whatever is broken.
 
 
 

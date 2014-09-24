@@ -1,40 +1,96 @@
+PUBLISHED
+
+Thread Basics
+
+Create One Thread
+=================
+-----------------
+
+```ruby
+t = Thread.new
+```
+
+When you run this program, you get: 
+
+```sh
+ThreadError: must be called with a block
+```
+
+Let's use a block when we create the thread:
+
+```ruby
 t = Thread.new { puts 'hello thread' }
+```
 
-Here we create a new thread separate from the main thread's execution using Thread.new. If you run this you will not see the output of puts. The reason is that the new thread gets killed when the main thread exits the program.
+Here we create a new thread separate from the main thread's execution using Thread.new. If you run this you will **not** see the 'hello thread' in the output. The reason is that the new thread gets killed when the main thread exits the program.
 
+Joining a Thread
+================
+----------------
+
+```ruby
 t = Thread.new { puts 'hello thread' }
 t.join
+```
 
-Now you will see the output.
+Now you will see the output. The main thread waits for the child thread to finish before it exits the program.
 
+Multiple Threads
+================
+----------------
 
+Let's use an array for handling multiple threads at once.
 
-
-Using an array for handling multiple threads at once.
-
+```ruby
 threads = []
 threads << Thread.new { puts 'hello from thread' }
 threads << Thread.new { 3.times { puts 'I will not talk during the class' } }
+```
 
-No output again.
+When you run this, there is no output.
 
+Joining Multiple Threads
+=========================
+-------------------------
+
+```ruby
 threads = []
 threads << Thread.new { puts 'hello from thread' }
 threads << Thread.new { 3.times { puts 'I will not talk during the class' } }
 
 threads.each { |t| t.join }
+```
 
+You can see now the threads run by taking turns. Run this program several times. Here I show only the output that is different from each run.
 
-You can see how the threads run by taking turns. 
+```sh
+I will not talk during the classhello from thread
 
+I will not talk during the class
+I will not talk during the class
+```
 
-t = Thread.new
+```sh
+hello from threadI will not talk during the class
 
-ThreadError: must be called with a block
+I will not talk during the class
+I will not talk during the class
+```
 
+```sh
+hello from thread
+I will not talk during the class
+I will not talk during the class
+I will not talk during the class
+```
 
+As you can see from the output, you cannot predict which thread will run first. The scheduler picks one of the threads that is in ready to run state and gives it time to run in the CPU.
 
+Long Running Thread
+===================
+-------------------
 
+```ruby
 result = 0
 
 v = Thread.new do
@@ -48,13 +104,32 @@ puts 'Main Thread : now wait for the thread to finish'
 v.join
 
 puts "Main Thread : The result is #{result}"
+```
 
-Though you don't have to, it's a good idea to always use #join to close the threads that you create to ensure that any cleanup code in your threads runs before your program exits.
+Here is the output of this program for one of my runs:
 
+```sh
+Main Thread : do other stuff while other thread is running
+Main Thread : now wait for the thread to finish
+Other Thread : A long process goes here
+Main Thread : The result is 10
+```
 
+The main thread will wait for the long running thread to finish before the program exits. Though you don't have to, it's a good idea to always use #join to close the threads that you create to ensure that any cleanup code in your threads runs before your program exits. 
 
+Quiz
+----
 
+1. What is the value of the result before the join call? Why do you see that value?
+2. What is the value of the result after the join call? Why do you see that value?
 
+You can add the puts statement to verify your answers to these questions.
+
+Current Thread
+==============
+--------------
+
+```ruby
 result = 0
 
 v = Thread.new do
@@ -64,12 +139,28 @@ v = Thread.new do
   result = 10
 end
 
-
-
 puts "Main Thread : #{Thread.current} do other stuff in main thread"
 puts 'Main Thread : now wait for the thread to finish'
 v.join
 puts Thread.current
 puts "Main Thread : The result is #{result}"
+```
+Here is the output from one of the runs of this program:
 
+```sh
+Main Thread : <Thread:0x000001010cb7d0> do other stuff in main thread
+Child Thread : <Thread:0x0000010123c8f8> 
+Other Thread : A long process goes here
+Main Thread : now wait for the thread to finish
+<Thread:0x000001010cb7d0>
+Main Thread : The result is 10
+```
+
+If you run this program several times, you will see the thread gets its turn based on when it gets a chance to run. There is no guarantee the output you see will be the same everytime you run this program. We are using the Thread.current method to identify the thread. It is unique for any given thread.
+
+Summary
+=======
+--------
+
+In this article, you learned how to create one thread, many threads, using join and current. In the next article we will learn about deadlocks and how to use strace to view details about a program that is in deadlock.
 

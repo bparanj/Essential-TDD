@@ -1,0 +1,16 @@
+Software Estimation: Demystifying the Black Art
+
+ Understand the requirements. Determine the scope of the problem.
+
+
+    Take a good look at the requirements you have.
+    Make assumptions to fill in the gaps based on your best guess of what they want
+    Write down all your assumptions
+    Make them sit down, read, and agree to your assumptions (or, if you're lucky, get them to give in and give you real requirements).
+    Now you have detailed requirements that you can estimate from.
+
+
+References
+
+http://programmers.stackexchange.com/questions/648/how-to-respond-when-you-are-asked-for-an-estimate
+http://www.fogcreek.com/fogbugz/docs/70/topics/schedules/Estimatingsoftwaretasks.html

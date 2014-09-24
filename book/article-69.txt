@@ -1,3 +1,17 @@
+UPDATE : Desirable Changes SECTION
+
+
+2. Update article : Variations of order converter obeys LSP.
+
+Applications are more maintainable, reusable, and robust when LSP is obeyed. The Liskov Substitution Principle is one of the prime enablers of OCP. The substitutability of subtypes allows a module, expressed in terms of a base type, to be extensible without modification. That substitutability must be something that developers can depend on implicitly. Thus, the contract of the base type has to be well understood, if not explicitly enforced, by the code.
+
+The term IS-A is too broad to act as a definition of a subtype. The true definition of a subtype is substitutable, where substitutability is defined by either an explicit or implicit contract.
+
+Program to an interface to obey OCP. Strategy and Template patterns.
+
+--------------------------------------------------
+
+
 PUBLISHED
 ----------
 
@@ -197,11 +211,11 @@ choose do |menu|
 end
 ```
 
-Design Techniques
+Desirable Changes
 ===========
 -----------
 
-What are the design techniques to achieve these three kinds of design?
+What are the desirable changes to achieve these three kinds of design?
 
 1. Localized changes are better than changes that ripple across your code base.
 2. Additive technique uses polymorphism, meta-programming etc. It obeys Open Closed Principle if properly designed. New code is added.
@@ -211,7 +225,7 @@ Summary
 ======
 -------
 
-In this article we saw three different kinds of design that gives different levels of flexibility. Sometimes you have to make a trade off between complexity and flexibility. You can recognize these different types of flexibility in your code and make decisions based on your current requirements. 
+In this article we saw three different kinds of changes that gives different levels of flexibility. Sometimes you have to make a trade off between complexity and flexibility. You can recognize these different types of flexibility in your code and make decisions based on your current requirements. 
 
 Reference
 =========

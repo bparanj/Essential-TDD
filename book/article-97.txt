@@ -1,0 +1,55 @@
+How do we know how whether the design of a software system is good?
+=============
+-------------
+
+Robert Martin states in in Agile Principles, Patterns and Practices in C#, that symptoms of poor design are:
+
+Rigidity. The design is difficult to change.
+Fragility. The design is easy to break.
+Immobility. The design is difficult to reuse.
+Viscosity. It is difficult to do the right thing.
+Needless complexity. Overdesign.
+Needless repetition. Mouse abuse.
+Opacity. Disorganized expression. 
+
+Rigidity and fragility seem at odds. How can something be both rigid and fragile? Other terminology such as viscosity and opacity are scientific terms that are not applicable to software. Let's convert these negative characteristics to positive desirable characteristics that makes more sense.
+
+Flexible : The design is easy to change.
+Robust : The design does not break.
+Reusable : The design is easy to reuse.
+Fluidity : It is easy to do the right thing.
+Needless Complexity
+Needless repetition
+Clarity : The code is clear and expressive.
+
+
+Future proofing. Making it flexible for future requirements.
+
+-------------
+Create a checklist of questions for these characteristics that can be graded in a scale of 1 to 10.
+
+Why is it difficult to change?
+Why does it break?
+Why is it difficult to reuse?
+Why is it difficult to do the right thing instead of using a band-aid?
+Why over design?
+Why duplication in the code?
+Why is the code convoluted?
+
+-------------
+-------------
+
+References
+==========
+----------
+
+Agile Principles, Patterns and Practices in C#
+http://operaramblings.files.wordpress.com/2014/03/rigidity.jpg
+http://www.rimage.com/blog/wp-content/uploads/2011/03/cracked-egg.jpg
+http://www.reologie.ro/wp-content/uploads/2011/09/viscosity.jpg
+http://www.libacas.com/wp-content/uploads/2012/02/complexity-knots.jpg
+http://static.simpledesktops.com/uploads/desktops/2013/03/20/opacity.jpg.625x385_q100.png
+http://elonen.iki.fi/code/misc-notes/after-effects-camera/ae-axes.png
+
+
+The point of the story is to show how the design of a program can rapidly degrade in the presence of change.
