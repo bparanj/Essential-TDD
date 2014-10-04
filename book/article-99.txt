@@ -110,12 +110,18 @@ Server has startup warnings:
 >
 ```
 
+Current Database
+-----------
+
 By default, mongodb uses test database, you can see the current database by using the 'db' command:
 
 ```sh
 > db
 test
 ```
+
+List all Databases
+-----------
 
 To see a list of all databases:
 
@@ -124,6 +130,9 @@ To see a list of all databases:
 admin  (empty)
 local  0.078GB
 ```
+
+New Database
+-----------
 
 To use a new database 'mydb':
 
@@ -158,6 +167,9 @@ Let's create two new documents using javascript functions:
 { "x" : 3 }
 ```
 
+Insert Documents
+-----------
+
 To insert the two documents into the mydb database:
 
 ```sh
@@ -170,6 +182,9 @@ WriteResult({ "nInserted" : 1 })
 Here the testData is a collection that can hold documents. In this case we have
 two documents in the testData collection. The collection is equivalent to table in
 relational databases.
+
+View Collections
+-----------
 
 To view all the collections:
 
@@ -212,6 +227,9 @@ References:
 4. [CAP Theorem: Revisited](http://robertgreiner.com/2014/08/cap-theorem-revisited/ 'CAP Theorem: Revisited')
 5. [Why is MongoDB wildly popular?](http://blog.mongolab.com/2012/08/why-is-mongodb-wildly-popular/ 'Why MongoDB')
 6. [Where does MongoDB stand in CAP Theorem](http://stackoverflow.com/questions/11292215/where-does-mongodb-stand-in-the-cap-theorem 'cap theorem mongodb')
+
+
+
 
 Next Article Resources
 
@@ -318,6 +336,7 @@ Select all documents in a collection.
 ```
 
 Specify Equality Condition
+-----------
 
 To retrieve from the inventory collection all documents where the category field is houseware:
 
@@ -327,6 +346,7 @@ To retrieve from the inventory collection all documents where the category field
 ```
 
 Specify Conditions Using Query Operators
+-----------
 
 To find documents in the inventory collection where the value of category field is either 'houseware' or 'clothing'.
 
@@ -351,6 +371,7 @@ You can also use $or operator to achieve the same result :
 The $or operator is not preferred when performing equality checks on the same field.
 
 Specify AND Conditions
+-----------
 
 ```sh
 > db.inventory.find({ category: 'houseware', item: 'IJK2'} )
@@ -360,11 +381,16 @@ Specify AND Conditions
 This query selects all documents where category is houseware and the item value is IKJ2.
 
 Specify OR Conditions
+-----------
 
 ```sh
 > db.inventory.find(    {      $or: [ { qty: { $gt: 1 } }, { category: 'houseware' } ]    } )
 { "_id" : ObjectId("5425a9080b73fd80bdd0724f"), "item" : "IJK2", "details" : { "model" : "14Q2", "manufacturer" : "M5 Corporation" }, "stock" : [ { "size" : "S", "qty" : 5 }, { "size" : "L", "qty" : 1 } ], "category" : "houseware" }
 ```
+
+References
+===========
+-----------
 
 
 1. [MongoDB Map Reduce](http://docs.mongodb.org/manual/core/map-reduce/ 'MongoDB Map Reduce')

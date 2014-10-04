@@ -1,5 +1,8 @@
 Thread Deadlocks
 
+================
+-----------
+
 We have source code for the Dining Philosopher's problem. What if it is in a language that you are not familiar? What if you don't have the source code? How will you verify that program that is hanging is due to thread deadlocks?
 
 Create chopstick.rb with the following code:

@@ -1,5 +1,6 @@
 Software Estimation: Demystifying the Black Art
 
+
  Understand the requirements. Determine the scope of the problem.
 
 
@@ -11,6 +12,8 @@ Software Estimation: Demystifying the Black Art
 
 
 References
+==========
+----------
 
 http://programmers.stackexchange.com/questions/648/how-to-respond-when-you-are-asked-for-an-estimate
 http://www.fogcreek.com/fogbugz/docs/70/topics/schedules/Estimatingsoftwaretasks.html

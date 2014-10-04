@@ -121,6 +121,8 @@ http://meenakshi02.wordpress.com/2011/02/02/strace-hanging-at-futex/
 
 
 How to Debug Anything Presentation by James Golick
+=========
+---------
 
 A blind debugging session. 
 

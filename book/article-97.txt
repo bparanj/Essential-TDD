@@ -37,7 +37,6 @@ Why duplication in the code?
 Why is the code convoluted?
 
 -------------
--------------
 
 References
 ==========

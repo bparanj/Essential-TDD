@@ -41,9 +41,11 @@ svn log -l 5
 ```
 
 Moving a Repo from SVN to GIT
+===============
 ---------------
 
 Step 1
+---------------
 
 Use git-svn to clone the repository:
 
@@ -54,6 +56,7 @@ git svn clone --stdlayout svn+ssh:/svn/srv/svn/zephoinc/<your repo>
 This will take a while.
 
 Step 2
+---------------
 
 Run this script to create git tags from svn tags
 
@@ -76,6 +79,7 @@ git tag
 to verify that the tags were actually created.
 
 Step 3
+---------------
 
 Add a remote repo and push everything.
 
