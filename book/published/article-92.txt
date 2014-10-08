@@ -1,0 +1,64 @@
+
+TDD Basics : Testing computation involving floating-point numbers
+
+Objective
+=========
+---------
+
+- Floating-point numbers are not real. 
+
+Discussion
+=========
+---------
+
+>> They are approximation of real numbers, there is inevitably a little error present. This error, called roundoff, can lead to surprising results. You should not use floating-point numbers for financial applications. They are intended for efficient scientific computation.
+
+>> Tip by Chuck Allison from the book 97 Things a Programmer Should Know
+
+We can compare adding two floats as follows:
+
+```ruby
+ > (0.25 + 0.79)
+ => 1.04 
+ > (0.25 + 0.79) == 1.04
+  => true
+ ```
+
+Consider this example:
+ 
+ ```ruby
+ > 139.25 + 74.79
+ => 214.04000000000002 
+ > (139.25 + 74.79)
+ => 214.04000000000002 
+ > (139.25 + 74.79) == 214.04
+ => false 
+```
+
+Floats cannot store decimal numbers precisely. If we are interested only in comparing upto two decimal places, we can do so in our test like this:
+
+```ruby
+describe 'Float accuracy' do
+  it 'should be within a given decimal places' do
+    x = 139.25
+    y = 74.79
+    
+    expect(x + y).to be_within(0.001).of(214.04)
+  end  
+end
+```
+
+Run the spec:
+
+```sh
+rspec float_spec.rb
+```
+
+It will pass.
+
+References
+=========
+---------
+
+[Ruby Float quirks] (http://www.rails-troubles.com/2011/12/ruby-float-quirks.html 'Ruby Float quirks')
+[be_within matcher] (https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers/be-within-matcher 'rspec docs')

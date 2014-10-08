@@ -176,3 +176,42 @@ Work backwards, find failure. Find the cause. Confirm your hypothesis. Locate a 
 5. Fix whatever is broken.
 
 
+
+puts Process.ppid
+
+t = Thread.new do
+   sleep 10 
+end
+
+# Grabbing the pid.
+pid = Process.pid
+
+puts pid 
+
+# Get the child pids.
+pipe = IO.popen("ps -ef | grep #{pid}")
+
+child_pids = pipe.readlines.map do |line|
+  puts line
+  parts = line.split(/\s+/)
+  # puts parts
+  # parts[2] if parts[3] == pid.to_s and parts[2] != pipe.pid.to_s
+end.compact
+
+ # Show the child processes.
+# puts child_pids
+#
+#
+# q = Queue.new
+# # q.pop
+#
+#
+#
+t.join
+
+
+
+http://blog.newrelic.com/2013/04/29/debugging-stuck-ruby-processes-what-to-do-before-you-kill-9/
+http://blog.newrelic.com/2013/04/22/cross-app-tracing-time-to-break-up-that-huge-rails-application/
+http://www.youtube.com/watch?v=sOJaGIP03As
+
