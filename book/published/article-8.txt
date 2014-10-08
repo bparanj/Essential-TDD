@@ -329,7 +329,7 @@ Summary
 
 In this lesson you learned how to use Fakes and Mocks and when to delete a test. Mocks can be used not only for improving the performance if the real object is slow, but also if the real object is currently under development by some other team within your company. As long as you have a contract with the team developing the Scanner, you can develop in parallel by using Mocks. In the next lesson we will learn about Open Closed Principle by using the Scanner example.
 
-Reference
+References
 ==========
 ----------
 
