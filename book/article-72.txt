@@ -112,7 +112,7 @@ https://blogs.oracle.com/ksplice/entry/strace_the_sysadmin_s_microscope
 http://www.unlimitednovelty.com/2011/05/introducing-celluloid-concurrent-object.html
 http://www.sitepoint.com/an-introduction-to-celluloid-part-i/
 http://blog.softlayer.com/2013/sysadmin-tips-and-tricks-using-strace-to-monitor-system-calls
-http://meenakshi02.wordpress.com/2011/02/02/strace-hanging-at-futex/
+
 
 
 

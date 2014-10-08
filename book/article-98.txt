@@ -123,13 +123,27 @@ Strace to View Deadlocks
 ========================
 -------------------------
 
-Syntax of strace command to view deadlocks. Start the driver program with the stract command. How to view the thread ids? Everything in Unix is a File or Proccesses. So the threads created by the processes get it's own process id.
+Syntax of strace command to view deadlocks. Start the driver program with the strace command. 
 
-Refer Meenakshi's blog post notes and explain it here...
+[[[[[[]]]]]] Run threads 6/driver.rb in a Linux instance.
+
+In Unix everything is a file or process. So what happens when a process uses multiple threads? There is no thread id to identify a specific thread, every new thread gets its own process id. So you can run strace for a specific thread as follows:
+
+How can we get the pids of all the threads executing in a single process? Run the following command:
+
+```sh
+ps -efL|grep <Process Name>
+```
+
+Now, you can trace each of the thread using it's pid as follows:
+
+```sh
+strace -p pid-of-a-thread
+```
 
 References
 ==========
 -----------
 
-Gregory Brown article link goes here...
-Meenakshi's blog post link goes here...
+[A gentle introduction to actor-based concurrency](https://practicingruby.com/articles/gentle-intro-to-actor-based-concurrency 'Concurrency')
+[Strace Hanging at Futex](http://meenakshi02.wordpress.com/2011/02/02/strace-hanging-at-futex/ 'strace')

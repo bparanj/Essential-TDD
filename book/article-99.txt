@@ -15,14 +15,13 @@ Availability  - If a value is written, a success message should always be return
                 stale value, it's ok.
 Partition Tolerance - The system will continue to function when network partitions occur.
 
-
 Why Mongodb?
 ===========
 -----------
 
 Here is a visual guide to NoSQL systems:
 
-http://i.stack.imgur.com/a9hMn.png
+![alt text](http://www.rubyplus.com/images/cp.png "NoSQL Visual Guide")
 
 You can see that mongodb has picked consistency and partition tolerance. This diagram also gives you a good big
 picture of how different NoSQL databases fit in the CAP triangle.
@@ -218,8 +217,8 @@ _id has unique value for every document. Mongodb automatically generates the val
 when it is created.
 
 References:
-=========
----------
+==========
+----------
 
 1. [MongoDb and the "10309 Unable to create/open lock file" on Ubuntu ] (http://www.marcusoft.net/2014/05/mongodb-and-10309-unable-to-createopen.html '10309 Unable to create/open lock file')
 2. [Getting Started with MongoDB] (http://docs.mongodb.org/manual/tutorial/getting-started/ 'Mongodb Getting Started')
@@ -227,171 +226,4 @@ References:
 4. [CAP Theorem: Revisited](http://robertgreiner.com/2014/08/cap-theorem-revisited/ 'CAP Theorem: Revisited')
 5. [Why is MongoDB wildly popular?](http://blog.mongolab.com/2012/08/why-is-mongodb-wildly-popular/ 'Why MongoDB')
 6. [Where does MongoDB stand in CAP Theorem](http://stackoverflow.com/questions/11292215/where-does-mongodb-stand-in-the-cap-theorem 'cap theorem mongodb')
-
-
-
-
-Next Article Resources
-
-Insert Document
-========
----------
-
-The db.collection.insert() method inserts new documents to a collection.
-
-```sh
-> db.inventory.insert(
-...    {
-...      item: "ABC1",
-...      details: {
-...         model: "14Q3",
-...         manufacturer: "XYZ Company"
-...      },
-...      stock: [ { size: "S", qty: 25 }, { size: "M", qty: 50 } ],
-...      category: "clothing"
-...    }
-... )
-WriteResult({ "nInserted" : 1 })
-```
-
-The result is a WriteResult object that shows the number of documents inserted.
-
-Read Document
-========
---------
-
-```sh
-> db.inventory.find()
-{ "_id" : ObjectId("5425a7730b73fd80bdd0724c"), "item" : "ABC1",
-"details" : { "model" : "14Q3", "manufacturer" : "XYZ Company" },
-"stock" : [ { "size" : "S", "qty" : 25 }, { "size" : "M", "qty" : 50 } ], "category" : "clothing" }
-```
-
-Insert Multiple Documents
-===========
------------
-
-Create an array that holds multiple documents to insert.
-
-```sh
-> var mydocuments =
-...     [
-...       {
-...         item: "ABC2",
-...         details: { model: "14Q3", manufacturer: "M1 Corporation" },
-...         stock: [ { size: "M", qty: 50 } ],
-...         category: "clothing"
-...       },
-...       {
-...         item: "MNO2",
-...         details: { model: "14Q3", manufacturer: "ABC Company" },
-...         stock: [ { size: "S", qty: 5 }, { size: "M", qty: 5 }, { size: "L", qty: 1 } ],
-...         category: "clothing"
-...       },
-...       {
-...         item: "IJK2",
-...         details: { model: "14Q2", manufacturer: "M5 Corporation" },
-...         stock: [ { size: "S", qty: 5 }, { size: "L", qty: 1 } ],
-...         category: "houseware"
-...       }
-...     ];
-```
-
-Insert the documents.
-
-```sh
-> db.inventory.insert(mydocuments)
-BulkWriteResult({
-"writeErrors" : [ ],
-"writeConcernErrors" : [ ],
-"nInserted" : 3,
-"nUpserted" : 0,
-"nMatched" : 0,
-"nModified" : 0,
-"nRemoved" : 0,
-"upserted" : [ ]
-})
-```
-
-Query Documents
-=========
----------
-
-Select all documents in a collection.
-
-```sh
-> db.inventory.find()
-{ "_id" : ObjectId("5425a7730b73fd80bdd0724c"), "item" : "ABC1",
-"details" : { "model" : "14Q3", "manufacturer" : "XYZ Company" },
-"stock" : [ { "size" : "S", "qty" : 25 }, { "size" : "M", "qty" : 50 } ], "category" : "clothing" }
-{ "_id" : ObjectId("5425a9080b73fd80bdd0724d"), "item" : "ABC2",
-"details" : { "model" : "14Q3", "manufacturer" : "M1 Corporation" },
-"stock" : [ { "size" : "M", "qty" : 50 } ], "category" : "clothing" }
-{ "_id" : ObjectId("5425a9080b73fd80bdd0724e"), "item" : "MNO2",
-"details" : { "model" : "14Q3", "manufacturer" : "ABC Company" },
-"stock" : [ { "size" : "S", "qty" : 5 }, { "size" : "M", "qty" : 5 }, { "size" : "L", "qty" : 1 } ], "category" : "clothing" }
-{ "_id" : ObjectId("5425a9080b73fd80bdd0724f"), "item" : "IJK2",
-"details" : { "model" : "14Q2", "manufacturer" : "M5 Corporation" },
-"stock" : [ { "size" : "S", "qty" : 5 }, { "size" : "L", "qty" : 1 } ], "category" : "houseware" }
-```
-
-Specify Equality Condition
------------
-
-To retrieve from the inventory collection all documents where the category field is houseware:
-
-```sh
-> db.inventory.find({category: 'houseware'})
-{ "_id" : ObjectId("5425a9080b73fd80bdd0724f"), "item" : "IJK2", "details" : { "model" : "14Q2", "manufacturer" : "M5 Corporation" }, "stock" : [ { "size" : "S", "qty" : 5 }, { "size" : "L", "qty" : 1 } ], "category" : "houseware" }
-```
-
-Specify Conditions Using Query Operators
------------
-
-To find documents in the inventory collection where the value of category field is either 'houseware' or 'clothing'.
-
-```sh
-> db.inventory.find({category: {$in: ['houseware', 'clothing']}})
-{ "_id" : ObjectId("5425a7730b73fd80bdd0724c"), "item" : "ABC1", "details" : { "model" : "14Q3", "manufacturer" : "XYZ Company" }, "stock" : [ { "size" : "S", "qty" : 25 }, { "size" : "M", "qty" : 50 } ], "category" : "clothing" }
-{ "_id" : ObjectId("5425a9080b73fd80bdd0724d"), "item" : "ABC2", "details" : { "model" : "14Q3", "manufacturer" : "M1 Corporation" }, "stock" : [ { "size" : "M", "qty" : 50 } ], "category" : "clothing" }
-{ "_id" : ObjectId("5425a9080b73fd80bdd0724e"), "item" : "MNO2", "details" : { "model" : "14Q3", "manufacturer" : "ABC Company" }, "stock" : [ { "size" : "S", "qty" : 5 }, { "size" : "M", "qty" : 5 }, { "size" : "L", "qty" : 1 } ], "category" : "clothing" }
-{ "_id" : ObjectId("5425a9080b73fd80bdd0724f"), "item" : "IJK2", "details" : { "model" : "14Q2", "manufacturer" : "M5 Corporation" }, "stock" : [ { "size" : "S", "qty" : 5 }, { "size" : "L", "qty" : 1 } ], "category" : "houseware" }
-```
-
-You can also use $or operator to achieve the same result :
-
-```sh
-> db.inventory.find({ $or: [{ category: 'houseware'}, {category: 'clothing'}]})
-{ "_id" : ObjectId("5425a7730b73fd80bdd0724c"), "item" : "ABC1", "details" : { "model" : "14Q3", "manufacturer" : "XYZ Company" }, "stock" : [ { "size" : "S", "qty" : 25 }, { "size" : "M", "qty" : 50 } ], "category" : "clothing" }
-{ "_id" : ObjectId("5425a9080b73fd80bdd0724d"), "item" : "ABC2", "details" : { "model" : "14Q3", "manufacturer" : "M1 Corporation" }, "stock" : [ { "size" : "M", "qty" : 50 } ], "category" : "clothing" }
-{ "_id" : ObjectId("5425a9080b73fd80bdd0724e"), "item" : "MNO2", "details" : { "model" : "14Q3", "manufacturer" : "ABC Company" }, "stock" : [ { "size" : "S", "qty" : 5 }, { "size" : "M", "qty" : 5 }, { "size" : "L", "qty" : 1 } ], "category" : "clothing" }
-{ "_id" : ObjectId("5425a9080b73fd80bdd0724f"), "item" : "IJK2", "details" : { "model" : "14Q2", "manufacturer" : "M5 Corporation" }, "stock" : [ { "size" : "S", "qty" : 5 }, { "size" : "L", "qty" : 1 } ], "category" : "houseware" }
-```
-
-The $or operator is not preferred when performing equality checks on the same field.
-
-Specify AND Conditions
------------
-
-```sh
-> db.inventory.find({ category: 'houseware', item: 'IJK2'} )
-{ "_id" : ObjectId("5425a9080b73fd80bdd0724f"), "item" : "IJK2", "details" : { "model" : "14Q2", "manufacturer" : "M5 Corporation" }, "stock" : [ { "size" : "S", "qty" : 5 }, { "size" : "L", "qty" : 1 } ], "category" : "houseware" }
-```
-
-This query selects all documents where category is houseware and the item value is IKJ2.
-
-Specify OR Conditions
------------
-
-```sh
-> db.inventory.find(    {      $or: [ { qty: { $gt: 1 } }, { category: 'houseware' } ]    } )
-{ "_id" : ObjectId("5425a9080b73fd80bdd0724f"), "item" : "IJK2", "details" : { "model" : "14Q2", "manufacturer" : "M5 Corporation" }, "stock" : [ { "size" : "S", "qty" : 5 }, { "size" : "L", "qty" : 1 } ], "category" : "houseware" }
-```
-
-References
-===========
------------
-
-
-1. [MongoDB Map Reduce](http://docs.mongodb.org/manual/core/map-reduce/ 'MongoDB Map Reduce')
-2. [MongoDB Ruby Driver Tutorial](https://github.com/mongodb/mongo-ruby-driver/wiki/Tutorial 'MongoDB Ruby Driver')
+7. [Stack Exchange](http://stackexchange.com/ 'stack exchange')
