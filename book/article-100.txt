@@ -1,51 +1,51 @@
-The Next 16 Things a Programmer Should Know
+PUBLISHED
+
+The Next 17 Things a Programmer Should Know
 
 
-Things that did not make the top 20 list. Some of the items in this list will not make any sense if you have not read the book. Read the book to get the context.
+Things that did not make the [Top 20 Things a Programmer Should Know] (http://rubyplus.com/articles/811 'Top 20 Things a Programmer Should Know') list. Some of the items in this list will not make any sense if you have not read the book. Read the book to get the context.
 
-1. Beauty is in simplicity. Beauty of style, harmony, grace and good rhythm depends on simplicity.
+1) Beauty is in simplicity. Beauty of style, harmony, grace and good rhythm depends on simplicity.
 
-2. Comments should say something code does not and cannot say.
+2) Comments should say something code does not and cannot say.
 
-3. Code Layout Matters. Optimize for navigating and reading code. Easy to scan. Expressive layout. Compact format.
+3) Code Layout Matters. Optimize for navigating and reading code. Easy to scan. Expressive layout. Compact format.
 
-4. The purpose of code reviews should be to share knowledge and establish common coding guidelines.
+4) The purpose of code reviews should be to share knowledge and establish common coding guidelines.
 
-5. Encapsulate behavior, not just state. An object encapsulates both state and behavior, where the behavior is defined by the actual state.
+5) Encapsulate behavior, not just state. An object encapsulates both state and behavior, where the behavior is defined by the actual state.
 
-6. Fulfill your ambitions with open source. If you want to get involved, you could offer to help out with the documentation. Volunteer to write test code. You learn much faster by writing test code for other people’s software. Find bugs, suggest fixes, make friends, work on software you like and fulfill your software development ambitions.
+6) Fulfill your ambitions with open source. If you want to get involved, you could offer to help out with the documentation. Volunteer to write test code. You learn much faster by writing test code for other people’s software. Find bugs, suggest fixes, make friends, work on software you like and fulfill your software development ambitions.
 
-7. How to use a bug tracker. A good bug report conveys three things: 
+7) How to use a bug tracker. A good bug report conveys three things: 
 
-    1. How to reproduce the bug, as precisely as possible and how often this will make the bug appear.
-    2. What should have happened. 
-    3. What actually happened.
+    a) How to reproduce the bug, as precisely as possible and how often this will make the bug appear.
+    b) What should have happened. 
+    c) What actually happened.
 
-8. Interprocess communication affects application response time. 
+8) Interprocess communication affects application response time. 
 
-9. Just because the problems are difficult does not mean solutions will be difficult for everyone to understand and maintain.
+9) Just because the problems are difficult does not mean solutions will be difficult for everyone to understand and maintain.
 
 Think of every line of code you write as a message for someone in the future. Pretend you’re explaining to this smart person how to solve this tough problem. Can you write code that solves a difficult problem but will also be beautiful? 
 
-10. If you need to explain a change, do so in the version control system check-in message and not in the code. Decouple your code to achieve orthogonality. 
+10) If you need to explain a change, do so in the version control system check-in message and not in the code. Decouple your code to achieve orthogonality. 
 
-11. Thinking in states. 
+11) Thinking in states. 
 
-12. Read Donald Knuth’s : The Art of Computer Programming
+12) Read Donald Knuth’s : The Art of Computer Programming
 
 One of the developer at work had developed a reporting web application in GO language. He said : I want you to ‘proxy’ the reporting app html output through a Rails app that handling authentication of users. 
 
 I had no idea what he meant by proxing his web app content through the Rails app. What does this reporting app do? It displays reports in an ugly table. By the way it also has table sorting feature and searching by date range. What are you using for the interactive UI? I am using AngularJS. How many users are there for this reporting app? Three internal users. This is not a simple change that can just work. So I asked why not expose this application through http basic authentication applied at the web server?
 
-13. Decouple your code to achieve orthogonality. 
+13) Decouple your code to achieve orthogonality. 
 
-14. Pay off technical debt as soon as possible.
+14) Pay off technical debt as soon as possible.
 
-15. The Boy Scout Rule 
+15) The Boy Scout Rule. Always check a module in cleaner than when you checked it out.
 
-Always check a module in cleaner than when you checked it out.
-
-16. Learn to estimate.
+16) Learn to estimate.
 
 Estimate
 ---------
@@ -67,13 +67,15 @@ A commitment is a promise to deliver specified functionality at a certain level 
 
 Thus the purpose of estimation is to make proper project management and planning possible, allowing the project stakeholders to make commitments based on realistic targets.
 
-17.
-
-Writing unit tests provides evidence about how easy the code is to unit test. It helps reveal the presence or absence of good design elements such as low coupling and high cohesion.
+17) Writing unit tests provides evidence about how easy the code is to unit test. It helps reveal the presence or absence of good design elements such as low coupling and high cohesion.
 
 Running unit tests provides evidence about the code’s behavior. It helps reveal the presence of absence of desirable runtime qualities such as robustness and correctness.
 
 
-Question from a Pointy Haired Boss:  Why should I write tests that is obvious to me when I look at my code?
+**Question from a Pointy Haired Boss**  
 
-Because you cannot manually eye-ball the entire code base whenever someone makes a change. 
+Why should I write tests that is obvious to me when I look at my code?
+
+**Answer**
+
+It may be obvious to you, since you are very intelligent. Also, you cannot manually eye-ball the entire code base whenever someone makes a change. 

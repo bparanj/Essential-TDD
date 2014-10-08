@@ -1,3 +1,5 @@
+PUBLISHED
+
 MongoDB Basics Part 2
 
 Insert Document

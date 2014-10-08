@@ -1,14 +1,176 @@
+PUBLISHED
 
-WRITE AN ARTICLE BASED ON STACK EXAMPLE IN ARTICLE 89
+TDD Basics : Make Your Code Robust
+
+Objective
+==========
+----------
+
+- Learn to make the code robust
+
+Discussion
+==========
+----------
+
+In the previous article [TDD Beyond Basics : Test Precisely and Concretely](http://rubyplus.com/articles/831 'TDD Beyond Basics : Test Precisely and Concretely') we worked on a simple stack implementation that deals with normal cases. To make that code robust, it's time to think about cases such as:
+
+- Extreme cases: 0, negative, null, maximums, etc
+- User error: What happens if the user passes in null or a negative value?
+
+These cases do not seem to be relevant to our stack example but it's a good starting point. So, here is the list of relevant test cases:
+
+-  A stack is empty on construction
+-  After n pushes to an empty stack, n > 0, the stack is not empty and its size is n
+-  If one pushes x then pops, the value popped is x.
+-  If one pushes x then peeks, the value returned is x, but the size stays the same
+-  If the size is n, then after n pops, the stack is empty and has a size 0
+-  Popping from an empty stack throws an Exception
+-  Peeking into an empty stack throws an Exception
+
+Steps
+=======
+-------
+
+Step 1
+-------
+
+```ruby
+  it 'should be empty on construction' do
+    stack = Stack.new
+    
+    expect(stack.empty?).to be(true)
+  end
+```
+
+Let's define empty? method to get past 'undefined method empty?' error.
+
+Step 2
+-------
+
+```ruby
+  def empty?
+    @elements.empty?
+  end
+```
+
+The test passes. Split the second test case into two tests in order to test one thing at a time.
+
+Step 3
+-------
+
+```ruby
+  it 'after n pushes to an empty stack, n > 0, the stack is not empty' do
+    
+  end
+
+  it 'after n pushes to an empty stack, n > 0, its size is n' do
+    
+  end
+```
+
+Step 4
+-------
+
+```ruby
+  it 'after n pushes to an empty stack, n > 0, the stack is not empty' do
+    stack = Stack.new
+    stack.push(1)
+    stack.push(2)
+    
+    expect(stack.empty?).to be(false)
+  end
+```
+
+This test passes due to existing implementation.
+
+Step 5
+-------
+
+```ruby
+  it 'after n pushes to an empty stack, n > 0, its size is n' do
+    stack = Stack.new
+    stack.push(1)
+    stack.push(2)
+    
+    expect(stack.size).to eq(2)
+  end
+```
+
+passes.
+
+Let's update the existing test as follows:
+
+Step 6
+-------
+
+```ruby
+  it 'should push a given item' do
+    stack = Stack.new
+	
+    stack.push(1)
+	
+    expect(stack.pop).to eq(1)
+  end 
+```
+
+Here we only have one assertion. We updated this test to eliminate overlap in the tests.
 
 
-Extreme cases: 0, negative, null, maximums, etc
-User error: What happens if the user passes in null or a negative value?
-Normal cases
+Step 7
+-------
 
+```ruby
+  it 'if one pushes x then peeks, the value returned is x, but the size stays the same' do
+    stack = Stack.new
+    stack.push(1)
+    
+    expect(stack.peek).to eq(1)
+    expect(stack.size).to eq(1)
+  end
+```
+
+This fails.
+
+
+```ruby
+  def peek
+    @elements.last
+  end
+```
+
+Since I had two assertions, I made the test fail by changing the assertion to eq(2) to make the test fail for the second assertion.
+
+Step 8
+------
+
+```ruby
+  it 'If the size is n, then after n pops, the stack is empty and has a size 0' do
+    stack = Stack.new
+    stack.push(1)
+    stack.push(2)
+    
+    stack.pop
+    stack.pop
+    
+    expect(stack.empty?).to be(true)
+    expect(stack.size).to eq(0)
+  end
+```
+
+Exercises
+=========
+---------
+
+Implement the last two test cases:
+
+-  Popping from an empty stack throws an Exception
+-  Peeking into an empty stack throws an Exception
+
+Give clear message in the exception why the failure occurred and how to overcome the failure.
 
 References
 ==========
 ----------
 
-Cracking the Coding Interview by ?
+1. Cracking the Coding Interview by Gayle Laakmann McDowell
+2. [Stacks](http://cs.lmu.edu/~ray/notes/stacks/ 'Stacks')
