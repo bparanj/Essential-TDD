@@ -1,0 +1,17 @@
+1. http://xunitpatterns.com/Principles%20of%20Test%20Automation.html
+
+2. Relationship between Test Data and Verification
+
+The test fixture influences the expected outcome of each test: which inputs result in which outputs. A rich library of Test Utility Methods also makes tests easier to write because we don't have to code the details in every test. 
+
+3. Discuss connection pool and active record. Using sequel gem.
+
+4. Examples on using sqlite3-ruby:  https://github.com/sparklemotion/sqlite3-ruby
+
+5. Thread series, celluloid
+
+6. Impose constraints such as no if-else etc for existing katas.
+
+7. Create an article that shows how to practice strace using simple commands (check the existing notes)
+
+8. Interview problem of parsing an URL with changing requirements. The consequence of not cleaning up in the refactor phase.

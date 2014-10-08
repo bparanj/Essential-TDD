@@ -3,7 +3,7 @@ Discussion
 ==========
 ----------
 
-The following tips are the result of searching for solutions for problems encountered during work. So these tips are tested solutions discussed in the online forum and blogs.
+The following tips are the result of searching for solutions to problems encountered during work. So these tips are tested solutions discussed in the online forum and blogs.
 
 How to post XML data in controller spec
 =============

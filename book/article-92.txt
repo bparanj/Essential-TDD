@@ -1,13 +1,30 @@
 
-
+TDD Basics : Testing computation involving floating-point numbers
 
 Objective
+=========
+---------
 
-Illustrate using TDD
-
-Floating-point numbers are not real. 
+- Floating-point numbers are not real. 
 
 They are approximation of real numbers, there is inevitably a little error present. This error, called roundoff, can lead to surprising results. You should not use floating-point numbers for financial applications. They are intended for efficient scientific computation.
 
 
 >> Tip by Chuck Allison from the book 97 Things a Programmer Should Know
+
+```ruby
+ > (0.25 + 0.79)
+ => 1.04 
+ > 139.25 + 74.79
+ => 214.04000000000002 
+ > (139.25 + 74.79)
+ => 214.04000000000002 
+ > (139.25 + 74.79) == 214.04
+ => false 
+```
+
+Reference
+=========
+---------
+
+http://www.rails-troubles.com/2011/12/ruby-float-quirks.html
