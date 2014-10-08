@@ -1,0 +1,67 @@
+
+RabbitMQ on Mac OS X
+--------------------
+
+STEPS
+=====
+--------
+
+Step 1 
+--------
+
+Download the latest [Mac OS X package](https://www.erlang-solutions.com/downloads/download-erlang-otp 'OS X package') and install Erlang.
+
+Step 2
+--------
+
+Download RabbitMQ from : https://www.rabbitmq.com/releases/rabbitmq-server/v2.8.7/rabbitmq-server-generic-unix-2.8.7.tar.gz
+
+Step 3
+--------
+
+Unpackage it with : 
+
+```sh
+tar -xzvf rabbitmq-server-generic-unix-2.8.7.tar.gz
+```
+
+Step 4
+--------
+
+```sh
+rabbitmq_server-2.8.7/sbin/rabbitmq-plugins enable rabbitmq_management
+```
+
+Step 5
+--------
+
+Start the Server : 
+
+```sh
+$ rabbitmq_server-2.8.7/sbin/rabbitmq-server -detached
+```
+
+Step 6
+--------
+
+Stop the Server: 
+
+```sh
+$ rabbitmq_server-2.8.7/sbin/rabbitmqctl stop
+```
+
+Step 7
+--------
+
+To access management console. Go to http://localhost:55672/mgmt/. User name and password is guest, guest.
+
+Optional
+----------
+
+Setup alias in your ~/.bash_profile to stop and start the server:
+
+```sh
+alias mq='/Users/zepho/Downloads/rabbitmq_server-2.8.7/sbin/rabbitmq-server -detached'
+alias mqd='/Users/zepho/Downloads/rabbitmq_server-2.8.7/sbin/rabbitmqctl stop'
+```
+

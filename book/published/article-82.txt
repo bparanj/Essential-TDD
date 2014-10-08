@@ -1,0 +1,54 @@
+
+RVM Tips
+
+Uninstall RVM
+=============
+-----------------
+
+```sh
+rvm implode 
+```
+
+or
+
+```sh
+rm -rf ~/.rvm
+```
+
+List all .rvmrc contents and save it to a file.
+=============
+-----------------
+
+I had to list .rvmrc contents for a lot of rails projects. Instead of doing it manually, here is the power of unix commands solving that problem.
+
+Step 1
+-----------------
+
+List all directories. 
+
+```sh
+ls -l | cut -c 47-
+```
+
+	Grab the string from character position 47 to the end of the string 
+
+Step 2
+-----------------
+
+For each directory
+	a) cd to that directory
+	a) cat .rvmrc
+	b) append output to rvm.txt file
+	
+Solution
+-----------------
+
+```sh
+ls -l | cut -c 47- | xargs -I {} cat {}/.rvmrc
+```
+
+To sort and save only unique entries: 
+
+```sh
+ls -l | cut -c 47- | xargs -I {} cat {}/.rvmrc | sort | uniq > rvmrc.txt
+```

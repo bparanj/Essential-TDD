@@ -1,0 +1,369 @@
+
+TDD Beyond Basics : Character to Number Conversion
+
+Objective
+=========
+---------
+
+Learn what happens when you don't have an algorithm to guide your implementation of the solution.
+
+Problem Statement
+=========
+---------
+
+Convert the character representation of an integer to it's decimal format.
+
+Discussion
+=========
+---------
+
+Computers can store data in bits (zeroes and ones) which are numbers that can be converted to decimal, octal etc. They cannot store letters or other special symbols. ASCII character encoding allows computers to store letters, text, symbols and control characters.
+
+Solution Domain Analysis
+=========
+---------
+
+Let's convert 4 character sequence '1984' to the decimal number 1984.
+
+![alt text](http://www.rubyplus.com/images/character-number-conversion.png "Character to Number")
+
+Here is the ASCII table, you can see the decimal representation of the characters '0' to '9'.
+
+![alt text](http://www.rubyplus.com/images/ascii-table.png "ASCII Table")
+
+To convert, 49 needs to be converted to 1000, 57 to 900, 56 to 80 and 52 to 4 units. To get the decimal digit we have to subtract 48 (ASCII value of character '0') from each of the decimal value for the character.
+
+To convert the one-character string to it's decimal representation in ASCII we can use the ord method of String class in Ruby. Playing in the irb:
+
+```ruby
+  > '0'.ord
+ => 48 
+  > '1'.ord
+ => 49 
+  > '9'.ord
+ => 57 
+  > '8'.ord
+ => 56 
+  > '4'.ord
+ => 52 
+```
+
+First number  = 49 - 48 = 1
+Second number = 57 - 48 = 9
+Third number  = 56 - 48 = 8
+Fourth number = 52 - 48 = 4
+
+![alt text](http://www.rubyplus.com/images/character-number-conversion2.png "Character to Number")
+
+The shifting to the left mechanism can be obtained at each step by multiplying the previous decimal value by 10 and adding it to current decimal digit.
+
+Test Cases
+==========
+----------
+
+```ruby
+class CharacterConverter
+  
+end
+
+describe CharacterConverter do
+  it "should convert '0' to 0" 
+  it "should convert '1' to 1"
+  it "should convert '10' to 10"
+  it "should convert '100' to 100"
+  it "should convert '1000' to 1000"
+end
+```
+
+Here I have listed the tests in increasing level of difficulty. I have also chosen the data set that is lowest to test that the solution works.
+
+Steps
+======
+------
+
+Step 1
+------
+
+```ruby
+class CharacterConverter
+  def initialize(n)
+    @n = n
+  end
+  
+  def to_i
+    @n.to_i
+  end
+end
+
+describe CharacterConverter do
+  it "should convert '0' to 0" do
+    cc = CharacterConverter.new('0')
+    result = cc.to_i
+    expect(result).to eq(0)
+  end
+  
+  it "should convert '1' to 1"
+  it "should convert '10' to 10"
+  it "should convert '100' to 100"
+  it "should convert '1000' to 1000"
+end
+```
+
+Simplest implementation passes.
+
+
+Step 2
+-------
+
+Let's tackle the second test.
+
+```ruby
+  it "should convert '1' to 1" do 
+    cc = CharacterConverter.new('1')
+    result = cc.to_i
+    expect(result).to eq(1)    
+  end
+```
+
+This passes without any change to the code.
+
+
+Step 3
+-------
+
+Let's add the story test:
+
+```ruby
+  it "should convert '1984' to 1984" do
+    cc = CharacterConverter.new('1984')
+    result = cc.to_i
+    expect(result).to eq(1984)        
+  end
+```
+
+Also passes. We don't want to use Ruby's to_i method which does the conversion. We want to develop our own implementation of to_i. 
+
+Step 4
+------
+
+Let's not call the to_i on the String.
+
+```ruby
+  def to_i
+    '0'.ord - @n.ord
+  end
+```
+
+This passes first test. 
+
+Step 5
+------
+
+Add the second test. 
+
+```ruby 
+  it "should convert '10' to 10" do
+    cc = CharacterConverter.new('10')
+    result = cc.to_i
+    expect(result).to eq(10)    
+  end
+```
+
+It fails. There is gap in our problem domain analysis. We have not thought about how many digits there are in a given string, so we don't know when to terminate. Reading the Ruby documentation, I found a method that solves that problem for us. Playing in the irb:
+
+```ruby
+ > n = '1984'
+ > n.bytes
+ => [49, 57, 56, 52] 
+```
+
+Step 6
+------- 
+ 
+```ruby
+class CharacterConverter
+  def initialize(n)
+    @n = n
+    @numbers = n.bytes
+  end
+  
+  def to_i
+    first_element = @numbers.shift
+    first_number = (first_element.ord - '0'.ord)
+
+    if @numbers.size > 0    
+      next_element = @numbers.shift
+      next_number = (next_element.ord - '0'.ord)
+      puts 'inside if'
+      first_number * 10 + next_number
+    else
+      puts 'hi'
+      first_number
+    end
+  end
+end
+
+describe CharacterConverter do
+  it "should convert '0' to 0" do
+    cc = CharacterConverter.new('0')
+    result = cc.to_i
+    expect(result).to eq(0)
+  end
+  
+  it "should convert '1' to 1" do 
+    cc = CharacterConverter.new('1')
+    result = cc.to_i
+    expect(result).to eq(1)    
+  end
+
+  it "should convert '10' to 10" do
+    cc = CharacterConverter.new('10')
+    result = cc.to_i
+    expect(result).to eq(10)    
+  end
+
+  xit "should convert '1984' to 1984" do
+    cc = CharacterConverter.new('1984')
+    result = cc.to_i
+    expect(result).to eq(1984)        
+  end
+  
+end
+```
+
+This implementation passes all three tests. I had to add puts statements to evolve the logic to get the tests passing. The puts statement is the simplest debugging tool. Why do we need debugger when we are using TDD? The test was forcing the code to evolve fast so I had to see what was happening. Adding assertion to check our code is another alternative. But the implementation details cannot be exposed to the test, so I used the print statements. This happened because that I did not have an algorithm as a guide for my code. I had to come up with the solution by trial and error.
+
+
+Step 7
+------
+
+Add the story test:
+
+```ruby
+  it "should convert '1984' to 1984" do
+    cc = CharacterConverter.new('1984')
+    result = cc.to_i
+    expect(result).to eq(1984)        
+  end
+```
+  
+It fails.
+
+Step 8
+-------
+
+Let's take a step back. Make the failing test pending for now. Let's refactor to get the code ready to be generalized. After cleanup:
+
+```ruby
+  def to_i
+    first_element = @numbers.shift
+    first_number = (first_element.ord - '0'.ord)
+    result = first_number
+    
+    if @numbers.size > 0    
+      next_element = @numbers.shift
+      next_number = (next_element.ord - '0'.ord)
+      result = first_number * 10 + next_number
+    end
+    result
+  end
+```  
+
+Step 9
+------
+
+Run the story test now. It will fail. Change the implementation.
+
+```ruby
+  def to_i
+    first_element = @numbers.shift
+    first_number = (first_element.ord - '0'.ord)
+    
+    previous_number = first_number
+    while @numbers.size > 0    
+      next_element = @numbers.shift
+      next_number = (next_element.ord - '0'.ord)
+      previous_number = previous_number * 10 + next_number
+    end
+    previous_number
+  end
+```
+
+The story test passes. This is a one-two-three punch, **BOOM** here is the solution example. In order to arrive at this solution, you must know how to apply reduction process, terminating condition and initial condition that we have discussed in previous articles.
+
+Step 10
+--------
+
+Let's cleanup.
+
+```ruby
+  def to_i
+    first_element = @numbers.shift
+    first_number = ascii_value(first_element)
+    
+    previous_number = first_number
+    while not_complete?   
+      next_element = @numbers.shift
+      next_number = ascii_value(next_element)
+      previous_number = previous_number * 10 + next_number
+    end
+    previous_number
+  end
+  
+  private
+  
+  def ascii_value(n)
+    n.ord - '0'.ord
+  end
+  
+  def not_complete?
+    @numbers.size > 0
+  end
+```  
+  
+Idiomatic loop:
+
+```ruby
+  def to_i
+    first_element = @numbers.shift
+    first_number = ascii_value(first_element)
+    
+    previous_number = first_number
+    until complete?   
+      next_element = @numbers.shift
+      next_number = ascii_value(next_element)
+      previous_number = previous_number * 10 + next_number
+    end
+    previous_number
+  end
+  
+  private
+  
+  def ascii_value(n)
+    n.ord - '0'.ord
+  end
+  
+  def complete?
+    !(@numbers.size > 0)
+  end
+```
+
+Exercises
+========
+--------
+
+1) Write the tests:
+
+it "should convert '100' to 100"
+it "should convert '1000' to 1000"
+
+Does it pass without making any modifications to the solution? Do you need these two tests?
+
+2) Solve the problem without using Ruby's builtin bytes method.
+
+Reference
+=========
+---------
+
+1. [Table of ASCII Characters](http://web.cs.mun.ca/~michael/c/ascii-table.html 'ASCII Table')
+2. How to Solve it Using Computers by R. G. Dromey

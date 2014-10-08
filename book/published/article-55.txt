@@ -1,0 +1,511 @@
+
+TDD Basics : Reverse the Digits of an Integer
+
+Objective
+===========
+-----------
+
+Learn the importance of designing test cases before writing tests.
+
+Discussion
+===========
+-----------
+
+This problem uses reduction process. It is a common interview question. So, this is a good problem to practice your TDD skills. Read the article on GCD if you want to refresh your memory on [reduction](http://www.rubyplus.com/articles/481 'reduction')
+
+Problem Statement
+=================
+-----------------
+
+Reverse the order of digits of a given positive integer.
+
+Problem Domain Analysis
+=================
+-----------------
+
+![alt text](http://www.rubyplus.com/images/pda-reverse.png "Reverse Digits")
+
+Solution Domain Analysis
+=================
+-----------------
+
+The given number can be expressed as follows:
+
+![alt text](http://www.rubyplus.com/images/pda-reverse-equation.png "Reverse Digits")
+
+To extract the rightmost digit, we can divide the given number by 10:
+
+![alt text](http://www.rubyplus.com/images/pda-reverse-mod.png "Reverse Digits")
+
+Playing in the irb:
+
+```ruby
+$irb
+> 79815 / 10
+=> 7981 
+> 79815 / 10.0
+=> 7981.5 
+```
+ 
+We can extract the digit programmatically by using the modulo operator like this:
+ 
+```ruby
+> 79815 % 10
+ => 5 
+```
+
+After we extract the rightmost digit, we need to reduce the original number to a number without the rightmost digit so that we can extract the next digit. To accomplish that we already know that we can divide the original number by 10.
+
+![alt text](http://www.rubyplus.com/images/pda-reverse-table.png "Reverse")
+
+Extract         : 5
+Transform       : 5 x 10*0
+Reversed Number : 5
+
+Extract         : 51
+Transform       : 5 x 10 + 1
+Reversed Number : 51
+
+Extract         : 5
+Transform       : 51 x 10 + 8 
+Reversed Number : 518
+
+From these examples, we can generalize the steps as follows:
+
+reversed number = (previous reverse value) x 10 + (recently extracted digit)
+
+![alt text](http://www.rubyplus.com/images/pda-reverse-iterate.png "Reverse Digits")
+
+Algorithm Description
+=====================
+---------------------
+
+```sh
+while there are still digits in the number to be reversed do
+  1. Extract the rightmost digit from the number
+  2. Append this digit to right hand end of the reversed number
+  3. Remove the rightmost digit from number
+end
+```
+
+![alt text](http://www.rubyplus.com/images/pda-reverse-terminate.png "Reverse")
+
+Terminating condition is that the last number divided by 10 becomes 0.x so :
+
+```sh
+while n > 0
+
+end
+```
+
+Steps
+==========
+----------
+
+Step 1
+--------
+
+```ruby
+class ReverseDigit
+  def initialize(n)
+    @n = n
+  end
+  
+  def reverse
+    @n
+  end
+end
+
+
+describe ReverseDigit do
+  it 'should return the same number for single digit number' do
+    rd = ReverseDigit.new(1)
+    
+    result = rd.reverse
+    
+    expect(result).to eq(1)
+  end  
+end
+```
+
+This test passes. 
+
+
+Step 2
+--------
+
+```ruby
+  it 'should return the reversed number for a two digit number' do
+    rd = ReverseDigit.new(15)
+    
+    result = rd.reverse
+    
+    expect(result).to eq(51)
+  end  
+```
+
+Let's play in the irb to see how we can tackle the two digit number case:
+
+```ruby
+  >   x = 15
+ => 15 
+  > x / 10
+ => 1 
+  > x
+ => 15 
+  > x % 10
+ => 5 
+  > 1 % 10
+ => 1 
+  > 2 % 10
+ => 2 
+  > 3 % 10
+ => 3 
+  > 4 % 10
+ => 4 
+  > 5 % 10
+ => 5 
+  > 6 % 10
+ => 6 
+  > 7 % 10
+ => 7 
+  > 8 % 10
+ => 8 
+  > 9 % 10
+ => 9 
+  > 10 % 10
+ => 0 
+  > 15 % 10
+ => 5 
+```
+
+Step 3
+------
+
+```ruby
+  def reverse
+    if @n % 10 == @n
+      @n
+    else
+      d = @n % 10
+      result = 5
+      while (@n / 10) > 0
+        result = (result * 10) + (@n / 10)
+        @n = @n / 10
+      end
+    end
+    result
+  end
+```
+
+This passes the second test but fails the first test.
+
+Step 4
+-------
+
+After referring our algorithm and playing the irb console, here is the solution that passes both tests:
+
+```ruby
+  def reverse
+    result = @n % 10
+      while (@n / 10) > 0
+        result = (result * 10) + (@n / 10)
+        @n = @n / 10
+      end
+    result
+  end
+```
+
+Step 5
+-------
+
+Story test fails:
+
+```ruby
+  it 'shourd return 51897 for 79815' do
+    rd = ReverseDigit.new(79815)
+    
+    result = rd.reverse
+    
+    expect(result).to eq(51897)    
+  end
+```
+
+What went wrong with our implementation? We took big steps. 
+
+Step 6
+-------
+
+I was in red for a long time. So, use that feedback. Let's step back and see if we can write some tests to extract the rightmost digit of any given number.
+
+```ruby
+class ReverseDigit
+  def initialize(n)
+    @n = n
+  end
+  
+  def reverse
+    return @n if @n < 10
+  end
+  
+  def extract_rightmost_digit
+    @n % 10
+  end
+end
+
+
+describe ReverseDigit do
+  it 'should return the same number for single digit number' do
+    rd = ReverseDigit.new(1)
+    
+    result = rd.reverse
+    
+    expect(result).to eq(1)
+  end  
+  
+  it 'should extract rightmost digit' do
+    rd = ReverseDigit.new(1)  
+    
+    expect(rd.extract_rightmost_digit).to eq(1)
+  end
+
+  it 'should extract rightmost digit for two digit numbers' do
+    rd = ReverseDigit.new(15)  
+    
+    expect(rd.extract_rightmost_digit).to eq(5)
+  end
+
+  it 'should extract rightmost digit for three digit numbers' do
+    rd = ReverseDigit.new(158)  
+    
+    expect(rd.extract_rightmost_digit).to eq(8)
+  end
+  
+  it 'should return the reversed number for a two digit number' do
+    rd = ReverseDigit.new(15)
+    
+    result = rd.reverse
+    
+    expect(result).to eq(51)
+  end  
+
+  xit 'shourd return 897 for 798' do
+    rd = ReverseDigit.new(798)
+
+    result = rd.reverse
+
+    expect(result).to eq(897)
+  end
+
+  xit 'shourd return 51897 for 79815' do
+    rd = ReverseDigit.new(79815)
+
+    result = rd.reverse
+
+    expect(result).to eq(51897)
+  end
+end
+```
+
+Can I extract rightmost digit for any given number? Yes. The two failing tests are marked as pending for now.
+
+Step 7
+------
+
+
+Let's experiment with the new implementation and see if we can make the pending test pass.
+
+```ruby
+  def reverse
+    return @n if @n < 10
+    
+    extracted_digit = extract_rightmost_digit
+    extracted_digit * 10 + extract_rightmost_digit
+    @n = @n / 10
+  end
+```
+
+Two tests fail.
+
+
+The following implementation passes the two digit tests.
+
+```ruby
+  def reverse
+    return @n if @n < 10
+    while (@n / 10) > 0
+      extracted_digit = extract_rightmost_digit
+      @n = @n / 10
+      reversed_digit = extracted_digit * 10 + extract_rightmost_digit
+    end
+    reversed_digit
+  end
+```
+
+Step 8
+------
+
+Refactored in red and still the new test is red. This is not a good practice.
+
+```ruby
+class ReverseDigit
+  def initialize(n)
+    @n = n
+  end
+  
+  def reverse
+    reversed_digit = @n
+    
+    while (@n / 10) > 0
+      extracted_digit = extract_rightmost_digit
+      @n = @n / 10
+      reversed_digit = extracted_digit * 10 + extract_rightmost_digit
+    end
+    reversed_digit
+  end
+  
+  def extract_rightmost_digit
+    @n % 10
+  end
+end
+```
+
+Step 9
+-------
+
+After muddling through different approaches and referring the solution domain analysis section, here is the final solution:
+
+```ruby
+  def reverse
+    reversed_digit = extract_rightmost_digit * 1
+    
+    while (@n / 10) > 0
+      extracted_digit = extract_rightmost_digit
+      @n = @n / 10
+      reversed_digit = reversed_digit * 10 + extract_rightmost_digit
+    end
+    reversed_digit
+  end
+  
+  def extract_rightmost_digit
+    @n % 10
+  end
+```
+
+The story test also passes.
+
+Step 10
+-------
+
+Here is the final solution after refactoring.
+
+```ruby
+class ReverseDigit
+  def initialize(n)
+    @n = n
+  end
+  
+  def reverse
+    reversed_digit = extract_rightmost_digit
+    
+    while digits_remain_to_be_reversed?
+      remove_rightmost_digit
+      reversed_digit = reversed_digit * 10 + extract_rightmost_digit
+    end
+    reversed_digit
+  end
+  
+  private
+    
+  def extract_rightmost_digit
+    @n % 10
+  end
+  
+  def remove_rightmost_digit
+    @n = @n / 10
+  end
+  
+  def digits_remain_to_be_reversed?
+    (@n / 10) > 0
+  end
+end
+
+
+describe ReverseDigit do
+  it 'should return the same number for single digit number' do
+    rd = ReverseDigit.new(1)
+    
+    result = rd.reverse
+    
+    expect(result).to eq(1)
+  end  
+    
+  it 'should return the reversed number for a two digit number' do
+    rd = ReverseDigit.new(15)
+    
+    result = rd.reverse
+    
+    expect(result).to eq(51)
+  end  
+
+  it 'shourd return 897 for 798' do
+    rd = ReverseDigit.new(798)
+
+    result = rd.reverse
+
+    expect(result).to eq(897)
+  end
+
+  it 'shourd return 51897 for 79815' do
+    rd = ReverseDigit.new(79815)
+
+    result = rd.reverse
+
+    expect(result).to eq(51897)
+  end
+end
+```
+
+Step 11
+---------
+
+Here is a solution that makes the loop idiomatic.
+
+```ruby
+class ReverseDigit
+  def initialize(n)
+    @n = n
+  end
+  
+  def reverse
+    reversed_digit = extract_rightmost_digit
+    
+    until all_digits_reversed?
+      remove_rightmost_digit
+      reversed_digit = reversed_digit * 10 + extract_rightmost_digit
+    end
+    reversed_digit
+  end
+  
+  private
+    
+  def extract_rightmost_digit
+    @n % 10
+  end
+  
+  def remove_rightmost_digit
+    @n = @n / 10
+  end
+  
+  def all_digits_reversed?
+    (@n / 10) == 0
+  end
+end
+```
+
+Exercises
+==========
+----------
+
+1. We skipped the designing test cases and got into problematic situations. Design sequence of test cases that gradually increases in complexity and minimizes ending up in dead-end situations.
+2. Write the tests first to develop the algorithm discussed above by following your list of test cases.

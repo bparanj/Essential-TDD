@@ -1,0 +1,89 @@
+
+Subversion Tips
+
+
+Tree conflicts in SVN
+---------------
+
+```sh
+svn resolve --accept working -R .
+```
+
+Where . is the directory in conflict
+
+
+Compare 
+---------------
+
+To compare working copy with all of its local changes to the latest version of that tree in the repository
+
+```sh
+svn diff -r HEAD
+```
+
+Create a Branch
+---------------
+
+```sh
+svn copy svn+ssh://host.example.com/repos/project/trunk \
+           svn+ssh://host.example.com/repos/project/branches/NAME_OF_BRANCH \
+      -m "Creating a branch of project"
+```
+
+Limit Log Output
+---------------
+
+How to limit svn log output to a given number of entries. Use limit option:
+
+```sh
+svn log -l 5
+```
+
+Moving a Repo from SVN to GIT
+===============
+---------------
+
+Step 1
+---------------
+
+Use git-svn to clone the repository:
+
+```sh
+git svn clone --stdlayout svn+ssh:/svn/srv/svn/zephoinc/<your repo>
+```
+
+This will take a while.
+
+Step 2
+---------------
+
+Run this script to create git tags from svn tags
+
+```sh
+cd <your repo>
+
+git for-each-ref --format="%(refname:short) %(objectname)" refs/remotes/tags |  cut -d / -f 2- |
+while read ref
+do
+  echo git tag -a $ref -m 'import tag from svn'
+done
+```
+
+Remove the echo to make it actually do work. Run 
+
+```sh
+git tag 
+```
+
+to verify that the tags were actually created.
+
+Step 3
+---------------
+
+Add a remote repo and push everything.
+
+```sh
+git remote add origin git@github.com:zepho-inc/<your repo>.git
+git push
+git push --tags
+```

@@ -1,0 +1,36 @@
+
+Spiking and TDD
+
+
+Etymology
+==========
+----------
+
+The term spike comes from Extreme Programming, where "A spike solution is a very simple program to explore potential solutions." Ward Cunningham says: "I would often ask Kent, 'What is the simplest thing we can program that will convince us we are on the right track?’ Such stepping outside the difficulties at hand often led us to simpler and more compelling solutions. Kent dubbed this a Spike. I found the practice particularly useful while maintaining large frameworks."
+
+>>    Sometimes I call this a "spike," because we are driving a spike through the entire design. We are not searching for completeness. Instead, we want to illustrate the kinds of responsibilities accepted by all the major ojbects in the system.  Because people variously associate "spike" with volleyball, railroads, or dogs, I have begun using "architectural prototype" to describe this implementation.
+>>             ---- Guide to Better Smalltalk by Kent Beck
+
+When to Spike
+=============
+--------------
+ 
+When you come across problems that you don't know how to solve, using TDD can lead to a dead-end. You have to start over by deleting all the code. Create a spike, a single vertical slice of functionality that does not use TDD. This helps you to learn what is possible. The code is not production quality and will be thrown away. It provides enough information to build the functionality that is production quality.
+
+It's called a spike because we're driving a spike through all layers of the application. We're building a very thin slice of functionality. It is an architectural prototype.
+
+TDD is a design activity, and if you don’t know how to design something, you need to have a better understanding of the problem and solution domain or you’ll end up in a horrible mess.
+
+Spikes in Sprint
+================
+----------------
+
+A story or task aimed at answering a question or gathering information, rather than at producing shippable product. Sometimes a user story is generated that cannot be estimated until the development team does some actual work to resolve a technical question or a design problem. The solution is to create a **spike**, which is a story whose purpose is to provide the answer or solution. Like any other story or task, the spike is then given an estimate and included in the sprint backlog.
+
+References
+===========
+-----------
+
+[Spike](http://agiledictionary.com/209/spike/  'Spike')
+[Spike to Learn, TDD to Build](http://joneaves.wordpress.com/2004/02/18/spike_to_learn_tdd_to_build/ 'Spike to Learn')
+Guide to Better Smalltalk by Kent Beck

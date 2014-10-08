@@ -1,0 +1,152 @@
+
+
+How to use Mailchimp API to subscribe users in Rails 4.1 
+
+
+Let's use the simple solution that is easy to setup and get it up and running quickly. The solution uses sucker_punch gem to subscribe user to mailing list in a background job. Read the article on [Sucker Punch](http://www.rubyplus.com/articles/571 'Sucker Punch') to learn how to set it up.
+
+Steps
+=====
+------
+
+Step 1 
+-------
+
+Signup for API key here : http://kb.mailchimp.com/article/where-can-i-find-my-api-key
+
+Step 2
+-------
+
+Add gibbon gem to Gemfile.
+
+```ruby
+gem 'gibbon', github: "amro/gibbon"
+```
+
+Step 3
+-------
+
+Install the gem.
+
+```ruby
+bundle install
+```
+
+Step 4
+-------
+
+In secrets.yml, set the Mailchimp API key. Here is a sample config file: 
+
+```ruby
+development:
+  mailchimp_api_key: your-secret-api-key-goes-here 
+
+test:
+  mailchimp_api_key: your-secret-api-key-goes-here 
+
+production:
+  mailchimp_api_key: your-secret-api-key-goes-here 
+```
+
+Step 5
+-------
+
+Create gibbon.rb in config/initializers/ directory with the following contents:
+
+```ruby
+Gibbon::API.api_key = Rails.application.secrets.mailchimp_api_key
+Gibbon::API.timeout = 15
+```
+ 
+Rails.application.secrets.mailchimp_api_key reads the mailchimp API Key from secrets.yml file.
+
+Step 6
+-------
+
+Make sure secrets.yml is added to your .gitignore file. Here is a sample .gitignore file to use in the rails root directory:
+
+```ruby
+# Ignore bundler config.
+/.bundle
+
+# Ignore the default SQLite database.
+/db/*.sqlite3
+/db/*.sqlite3-journal
+
+# Ignore all config files
+config/amazon_s3.yml
+config/database.yml
+config/secrets.yml
+
+# Ignore all logfiles and tempfiles.
+/log/*.log
+/tmp
+/upload
+/coverage
+/log/.development.log.swp
+/public/uploads/tmp/*
+/public/assets/*
+```
+
+Now the secrets.yml will not get checked in to your project's git repository. You must either use capistrano or manually scp the secrets.yml to your server to shared/config directory of your Rails application. Another alternative is to use the environment variables to set the values for api credentials. 
+
+Step 7
+-------
+ 
+Create a background job in app/jobs folder called subscribe_job.rb:
+
+```ruby
+class SubscribeJob
+  include SuckerPunch::Job
+
+  def perform(id)
+    ActiveRecord::Base.connection_pool.with_connection do
+      user = User.find(id)
+      mailchimp_list_id = Rails.application.secrets.mailchimp_list_id
+      email = email.email
+    
+      begin          
+        g = Gibbon::API.new
+        g.lists.subscribe({ id: mailchimp_list_id, email:  {email: email}})
+      
+        SubscribeMailer.confirmation_email(user).deliver
+      rescue Gibbon::MailChimpError => mce
+        SuckerPunch.logger.error("subscribe failed: due to #{mce.message}")
+        raise mce
+      rescue Exception => e
+        SuckerPunch.logger.error("subscribe failed: due to #{e.message}")
+        raise e
+      end      
+    end
+  end
+  
+end    
+```
+
+You can also define the mailchimp_list_id as a constant in your User model.
+ 
+Step 8
+-------
+
+In your controller, you can put the job in the background by:
+
+```ruby
+SubscribeJob.new.async.perform(user.id)
+```
+
+Step 9
+-------
+
+If you are using Resque, you can run the failed job again as follows:
+
+```ruby
+Resque::Failure.count.times do |i|
+  Resque::Failure.requeue(i)
+end
+```
+
+References
+==========
+------------
+
+[Mailchimp API 2.0](docshttp://apidocs.mailchimp.com/api/2.0/vip/add.php "Mailchimp API 2.0")

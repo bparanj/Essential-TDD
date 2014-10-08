@@ -1,0 +1,52 @@
+
+Git Command Quick Reference
+
+
+Discussion
+==========
+----------
+
+The commands in this article is the result of searching online for solution to common tasks during a project.
+
+List all Tags
+---------------
+
+```sh
+git tag -l
+```
+
+Checkout a Specific Tag
+---------------
+
+```sh
+git checkout tag-name
+```
+
+Color the Git Output
+---------------
+
+```sh
+git config --global color.ui true
+```
+
+Create a Branch and Push
+---------------
+
+```sh
+git co branch-name
+git push -u https://github.com/repo-name.git branch-name
+```
+
+Create a Tag from a Branch
+---------------
+
+```sh
+git tag -a tag-name -m 'commit message'
+```
+
+How to Push Tag
+---------------
+
+```sh
+git push --tags
+```

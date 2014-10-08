@@ -1,0 +1,129 @@
+
+TDD Beyond Basics : Test Precisely and Concretely
+
+Objective
+=========
+---------
+
+- Learn how to test precisely and concretely.
+
+Discussion
+==========
+-----------
+
+Test precisely and concretely. 
+-----------
+
+>> In specifying behavior, tests should not simply be accurate: they must also be precise. The result of adding an item to an empty collection is not simply that it is not empty: it is that the collection now has a single item and that the single item held is the item added. Two or more items would qualify as not empty and would also be wrong. A single item of a different value would also be wrong. 
+>> Tip by Kevlin Henny from the book 97 Things a Programmer Should Know 
+
+In a previous article discussing [how to identify Given, When and Then](http://rubyplus.com/articles/91 'Given When Then') we used a stack example. Here is that example:
+
+```ruby
+require_relative 'stack'
+
+describe Stack do
+  it 'should push a given item' do
+    stack = Stack.new
+	
+    stack.push(1)
+	
+    stack.size.should == 1
+  end 
+
+  it 'should pop from the stack' do
+    stack = Stack.new
+    stack.push(2)
+	
+    result = stack.pop
+	
+    result.should == 2
+    stack.size.should == 0
+  end
+end
+```
+
+Here is the file stack.rb:
+
+```ruby
+class Stack
+  def initialize
+	  @elements = []
+  end
+	
+  def push(item)
+	  @elements << item
+  end
+	
+  def	pop
+	  @elements.pop
+  end
+	
+  def size
+	  @elements.size
+  end
+end
+```
+
+You can see in this example, the first test does not follow the 'Test precisely and concretely' guideline. The reason is that we implemented the push first, so we did not have the pop to check the value that was pushed. If you read some of the online implementations of the stack, you will see you could use 
+
+```ruby
+stack.instance_variable_get(:@elements).should == [1]
+```
+
+This couples your test with the implementation details, so when you change the elements variable during refactor, the behavior does not change but your tests will fail. The tests become brittle.
+
+You have another option of exposing the elements using attr_reader just for testability. This does not break encapsulation since it is read only. It needs a custom implementation of getting **elements** in order to avoid breaking existing clients using the attr_reader if there is a refactor that affects the naming of elements. Another option is to just update your first test, so that it uses the pop to make the test more precise. This option results in less production code. Less mass results in lean system capable of changing faster to requirements in future. The updated first test looks like this:
+
+```ruby
+  it 'should push a given item' do
+    stack = Stack.new
+	
+    stack.push(1)
+	
+    expect(stack.size).to eq(1)
+    expect(stack.pop).to eq(1)
+  end 
+```
+
+Here is Jim Weirich's stack implementation:
+
+```ruby
+class Stack
+  class StackError < StandardError; end
+  class UnderflowError < StackError; end
+
+  def initialize
+    @items = []
+  end
+
+  def depth
+    @items.size
+  end
+
+  def empty?
+    @items.empty?
+  end
+
+  def top
+    @items.last
+  end
+
+  def push(item)
+    @items << item
+  end
+
+  def pop
+    fail UnderflowError, "Cannot pop an empty stack" if empty?
+    @items.pop
+  end
+end
+```
+
+He uses the **top** method in order to follow the good advice from Kevlin Henny. You can read his stack_spec from his git repo (examples directory) : https://github.com/jimweirich/rspec-given 
+
+Summary
+========
+--------
+
+In this article we looked at a simple implementation of Stack and we analyzed several options and picked a solution that required least amount of code that still satisfies the good practice tip 'Test Precisely and Concretely'.
