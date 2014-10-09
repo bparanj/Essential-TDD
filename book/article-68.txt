@@ -1,17 +1,39 @@
-
-Convert number to octal
+Base Conversion 
 
 
 Problem Statement
 ==================
 ------------------
 
+Convert a decimal integer to octal representation. 
+
+```sh
+(891) in base 10 = ? in base 8
+```
 
 Steps
 =====
 ------
 
-Step
+Step 
+-----
+
+Step 
+-----
+
+Step 
+-----
+
+Step 
+-----
+
+Step 
+-----
+
+Step 
+-----
+
+Step 
 -----
 
 
@@ -22,3 +44,6 @@ Step
 ![alt text](http://www.rubyplus.com/images/sda-octal-4.png "Octal Problem")
 ![alt text](http://www.rubyplus.com/images/sda-octal.png "Octal Problem")
 ![alt text](http://www.rubyplus.com/images/sda-octal2.png "Octal Problem")
+
+
+Refer 'Base Conversion' chapter in How to Solve it using Computer by R.G. Dromney (page 74)

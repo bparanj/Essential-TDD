@@ -15,3 +15,21 @@ Discussion
 
 
 Use Ryan Davis Heckle gem to illustrate this tip.
+
+```ruby
+gem install heckle --pre
+```
+
+Fails with 
+
+```sh
+ERROR:  Error installing heckle:
+	ZenTest requires RubyGems version ~> 1.8. Try 'gem update --system' to update RubyGems itself.
+```
+
+Heckle is outdated and has installation problems because it depends on ruby gems 1.8. My Rubygems version is 2.2. Enter the Mutant gem. The alternative to Heckle.
+
+```sh
+gem install mutant
+gem install mutant-rspec
+```
