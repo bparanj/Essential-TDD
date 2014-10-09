@@ -11,39 +11,43 @@ Convert a decimal integer to octal representation.
 (891) in base 10 = ? in base 8
 ```
 
+![alt text](http://www.rubyplus.com/images/problem-octal.png "Octal Problem")
+
 Steps
 =====
 ------
 
-Step 
+Step 1
 -----
 
-Step 
------
-
-Step 
------
-
-Step 
------
-
-Step 
------
-
-Step 
------
-
-Step 
------
-
-
-![alt text](http://www.rubyplus.com/images/problem-octal.png "Octal Problem")
 ![alt text](http://www.rubyplus.com/images/sda-octal-1.png "Octal Problem")
+
+Step 2
+-----
+
 ![alt text](http://www.rubyplus.com/images/sda-octal-2.png "Octal Problem")
+
+
+Step 3
+-----
+
 ![alt text](http://www.rubyplus.com/images/sda-octal-3.png "Octal Problem")
+
+Step 4
+-----
+
 ![alt text](http://www.rubyplus.com/images/sda-octal-4.png "Octal Problem")
+
+Step 5
+-----
+
 ![alt text](http://www.rubyplus.com/images/sda-octal.png "Octal Problem")
+
+Step 6
+-----
+
 ![alt text](http://www.rubyplus.com/images/sda-octal2.png "Octal Problem")
 
 
-Refer 'Base Conversion' chapter in How to Solve it using Computer by R.G. Dromney (page 74)
+
+Correct the above diagrams. Rescan and explain PDA and SDA. Refer 'Base Conversion' chapter in How to Solve it using Computer by R.G. Dromney (page 74)
