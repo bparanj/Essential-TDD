@@ -7,15 +7,20 @@ Problem Statement
 
 Convert a decimal integer to octal representation. 
 
+
+Problem Domain Analysis
+==================
+------------------
+
 ```sh
 (891) in base 10 = ? in base 8
 ```
 
 ![alt text](http://www.rubyplus.com/images/problem-octal.png "Octal Problem")
 
-Steps
-=====
-------
+Solution Domain Analysis
+==================
+------------------
 
 Step 1
 -----
@@ -49,5 +54,16 @@ Step 6
 ![alt text](http://www.rubyplus.com/images/sda-octal2.png "Octal Problem")
 
 
-
 Correct the above diagrams. Rescan and explain PDA and SDA. Refer 'Base Conversion' chapter in How to Solve it using Computer by R.G. Dromney (page 74)
+
+Algorithm
+=========
+---------
+
+
+
+Reference
+=========
+---------
+
+How to Solve it Using Computer by R.G. Dromney

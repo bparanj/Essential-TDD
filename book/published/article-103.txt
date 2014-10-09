@@ -1,0 +1,292 @@
+HBase Basics
+
+Discussion
+==========
+----------
+
+This tutorial is based on the [Quick Start - Standalone HBase] (http://hbase.apache.org/book/quickstart.html 'Quick Start - Standalone HBase') guide. I have explained the difficulties that I encountered when following this guide. The intention is to help you get it up and running quickly, so that you can play with HBase. If you need more explanation for the **Playing with HBase** section, read the HBase quick start guide.
+
+Why HBase?
+==========
+----------
+
+The visual guide to NoSQL systems shows you where HBase fits into the CAP theorem triangle:
+
+![alt text](http://www.rubyplus.com/images/cap.png "NoSQL Visual Guide")
+
+You can also read why you would use Apache HBase and its features on its home page : http://hbase.apache.org/
+
+Prerequisites
+=========
+---------
+
+You need Java 7 for HBase 1.0 version.
+
+Installation
+=========
+---------
+
+Download
+---------
+
+1) Go to [Apache Download Mirrors] (http://www.apache.org/dyn/closer.cgi/hbase/ 'Download HBase') 
+2) Click on the suggested download link at the top of the page.
+3) Click on the stable directory.
+4) Download hbase-0.98.6.1-hadoop2-bin.tar.gz file. This corresponds to the Hadoop version 2.
+
+Extract
+---------
+
+```sh
+$tar xzvf hbase-0.98.6.1-hadoop2-bin.tar.gz
+$cd hbase-0.98.6.1-hadoop2-bin
+```
+
+Configure
+---------
+
+1) Edit conf/hbase-env.sh, uncomment JAVA_HOME and set it to the appropriate location for your machine.
+
+```sh
+$which java
+/usr/bin/java
+```
+
+```sh
+export JAVA_HOME=/usr
+```
+
+Yes, it's twisted and it will crash when you start the server. 
+
+```sh
+~/Downloads/hbase-0.98.6.1-hadoop2 $bin/start-hbase.sh
+/Users/bparanj/Downloads/hbase-0.98.6.1-hadoop2/bin/hbase: line 386: /usr/bin/java/bin/java: Not a directory
+/Users/bparanj/Downloads/hbase-0.98.6.1-hadoop2/bin/hbase: line 386: exec: /usr/bin/java/bin/java: cannot execute: Not a directory
+/Users/bparanj/Downloads/hbase-0.98.6.1-hadoop2/bin/hbase: line 386: /usr/bin/java/bin/java: Not a directory
+/Users/bparanj/Downloads/hbase-0.98.6.1-hadoop2/bin/hbase: line 386: exec: /usr/bin/java/bin/java: cannot execute: Not a directory
+starting master, logging to /Users/bparanj/Downloads/hbase-0.98.6.1-hadoop2/bin/../logs/hbase-bparanj-master-Millions.local.out
+/Users/bparanj/Downloads/hbase-0.98.6.1-hadoop2/bin/../bin/hbase: line 386: /usr/bin/java/bin/java: Not a directory
+/Users/bparanj/Downloads/hbase-0.98.6.1-hadoop2/bin/../bin/hbase: line 386: exec: /usr/bin/java/bin/java: cannot execute: Not a directory
+localhost: ssh: connect to host localhost port 22: Connection refused
+```
+
+Just specify /usr and not the entire path to java. For some reason even that does not work but it uses system-provided Java on Mac OS 10.9.4.
+
+2) Edit conf/hbase-site.xml and specify the directory to store data.
+
+```xml
+<configuration>
+  <property>
+    <name>hbase.rootdir</name>
+    <value>file:///home/user/hbase</value>
+  </property>
+  <property>
+    <name>hbase.zookeeper.property.dataDir</name>
+    <value>/home/user/zookeeper</value>
+  </property>
+</configuration>     
+```
+
+Do not create this directory. For explanation on why, read: http://hbase.apache.org/book/quickstart.html#d4063e153. This is not user friendly.
+
+
+Start HBase
+===========
+-----------
+
+Run bin/start-hbase.sh script to start the server.
+
+```sh
+~/Downloads/hbase-0.98.6.1-hadoop2 $bin/start-hbase.sh
+Unable to find a $JAVA_HOME at "/usr", continuing with system-provided Java...
+starting master, logging to /Users/bparanj/Downloads/hbase-0.98.6.1-hadoop2/bin/../logs/hbase-bparanj-master-Millions.local.out
+Unable to find a $JAVA_HOME at "/usr", continuing with system-provided Java...
+```
+
+Verify if the server is running.
+
+```sh
+$jps
+16079 Jps
+15653 HMaster
+```
+
+We see HMaster process running. So HBase server is now running.
+
+Playing with HBase
+===========
+-----------
+
+Connect to HBase
+-----------------
+
+HBase console:
+
+```sh
+~/Downloads/hbase-0.98.6.1-hadoop2 $bin/hbase shell
+Unable to find a $JAVA_HOME at "/usr", continuing with system-provided Java...
+2014-10-09 11:00:29,079 INFO  [main] Configuration.deprecation: hadoop.native.lib is deprecated. Instead, use io.native.lib.available
+HBase Shell; enter 'help<RETURN>' for list of supported commands.
+Type "exit<RETURN>" to leave the HBase Shell
+Version 0.98.6.1-hadoop2, r96a1af660b33879f19a47e9113bf802ad59c7146, Sun Sep 14 21:27:25 PDT 2014
+1.8.7-p357 :001 > 
+```
+
+Getting Help
+-----------------
+
+```sh
+1.8.7-p357 :001 > help
+HBase Shell, version 0.98.6.1-hadoop2, r96a1af660b33879f19a47e9113bf802ad59c7146, Sun Sep 14 21:27:25 PDT 2014
+Type 'help "COMMAND"', (e.g. 'help "get"' -- the quotes are necessary) for help on a specific command.
+Commands are grouped. Type 'help "COMMAND_GROUP"', (e.g. 'help "general"') for help on a command group.
+```
+
+Create a Table
+-----------------
+
+```sh
+1.8.7-p357 :003 >   create 'test', 'cf'
+2014-10-09 11:02:21.435 java[17305:1407] Unable to load realm info from SCDynamicStore
+2014-10-09 11:02:22,164 WARN  [main] util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+0 row(s) in 4.0640 seconds
+
+ => Hbase::Table - test 
+ ```
+
+List Details about a Table
+-----------------
+ 
+```sh
+1.8.7-p357 :004 > list 'test'
+TABLE                                                                                                                                                             
+test                                                                                                                                                              
+1 row(s) in 0.0650 seconds
+
+=> ["test"] 
+```
+
+Populate Data
+-----------------
+
+The put command is used to put data into table.
+
+```sh
+1.8.7-p357 :005 > put 'test', 'row1', 'cf:a', 'value1'
+0 row(s) in 0.2750 seconds
+
+1.8.7-p357 :006 > put 'test', 'row2', 'cf:b', 'value2'
+0 row(s) in 0.0090 seconds
+
+1.8.7-p357 :007 > put 'test', 'row3', 'cf:c', 'value3'
+0 row(s) in 0.0110 seconds
+```
+
+View All Data at Once
+-----------------
+
+```sh
+1.8.7-p357 :008 > scan 'test'
+ROW                                       COLUMN+CELL                                                                                                             
+ row1                                     column=cf:a, timestamp=1412877863749, value=value1                                                                      
+ row2                                     column=cf:b, timestamp=1412877877347, value=value2                                                                      
+ row3                                     column=cf:c, timestamp=1412877889991, value=value3                                                                      
+3 row(s) in 0.0810 seconds
+```
+
+Get a Single Row 
+-----------------
+
+```sh
+1.8.7-p357 :009 > get 'test', 'row1'
+COLUMN                                    CELL                                                                                                                    
+ cf:a                                     timestamp=1412877863749, value=value1                                                                                   
+1 row(s) in 0.0250 seconds
+```
+
+Disable a Table
+-----------------
+
+```sh
+1.8.7-p357 :010 > disable 'test'
+0 row(s) in 1.3810 seconds
+```
+
+```sh
+1.8.7-p357 :011 > get 'test', 'row1'
+COLUMN                                    CELL                                                                                                                    
+
+ERROR: test is disabled.
+```
+
+Enable a Table
+-----------------
+
+```sh
+1.8.7-p357 :012 > enable 'test'
+0 row(s) in 0.3170 seconds
+```
+
+```sh
+1.8.7-p357 :013 > get 'test', 'row1'
+COLUMN                                    CELL                                                                                                                    
+ cf:a                                     timestamp=1412877863749, value=value1                                                                                   
+1 row(s) in 0.0180 seconds
+```
+
+Delete a Table
+-----------------
+
+```sh
+1.8.7-p357 :014 > drop 'test'
+
+ERROR: Table test is enabled. Disable it first.'
+
+Here is some help for this command:
+Drop the named table. Table must first be disabled:
+  hbase> drop 't1'
+  hbase> drop 'ns1:t1'
+```
+
+```sh
+1.8.7-p357 :015 > disable 'test'
+0 row(s) in 1.3160 seconds
+
+1.8.7-p357 :016 > drop 'test'
+0 row(s) in 0.2100 seconds
+```
+
+```sh
+1.8.7-p357 :017 > scan 'test'
+ROW                                       COLUMN+CELL                                                                                                             
+
+ERROR: Unknown table test!
+```
+
+Exit the Console
+-----------------
+
+```sh
+1.8.7-p357 :018 > quit
+```
+
+Stop the Server
+-----------------
+
+```sh
+~/Downloads/hbase-0.98.6.1-hadoop2 $bin/stop-hbase.sh
+stopping hbase............................
+Unable to find a $JAVA_HOME at "/usr", continuing with system-provided Java...
+```
+
+Summary
+=======
+-------
+
+In this article we installed HBase and played in the console to create a table, insert records, retrieve record and view all data. I found HBase easier to install, configure and get it working than Riak.
+
+References
+==========
+----------
+
+1) [Quick Start - Standalone HBase] (http://hbase.apache.org/book/quickstart.html 'Standalone HBase')

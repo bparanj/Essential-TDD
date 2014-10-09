@@ -1,3 +1,11 @@
-Example for overcoding is a good idea.  The minimum possible code to get all tests to pass. If you can remove a line of code and still have all tests pass, **You're Doing it Wrong**.
+Example for overcoding.  
+
+
+>> The minimum possible code to get all tests to pass. If you can remove a line of code and still have all tests pass, **You're Doing it Wrong**.
+>> 'The TDD Express : From Fast to Fastest' presentation by Bill DePhillips
+
+Reference
+=========
+---------
 
 'The TDD Express : From Fast to Fastest' presentation by Bill DePhillips of Thoughtworks.
