@@ -129,7 +129,26 @@ Unable to find a $JAVA_HOME at "/usr", continuing with system-provided Java...
 HBase Shell; enter 'help<RETURN>' for list of supported commands.
 Type "exit<RETURN>" to leave the HBase Shell
 Version 0.98.6.1-hadoop2, r96a1af660b33879f19a47e9113bf802ad59c7146, Sun Sep 14 21:27:25 PDT 2014
-1.8.7-p357 :001 > 
+```
+
+Check Version
+-----------------
+
+```sh
+1.8.7-p357 :002 >   version
+0.98.6.1-hadoop2, r96a1af660b33879f19a47e9113bf802ad59c7146, Sun Sep 14 21:27:25 PDT 2014
+```
+
+Check Server Status
+-----------------
+
+Instead of using jps command in the terminal, you can also use the status command in the hbase shell.
+
+```sh
+1.8.7-p357 :003 > status
+2014-10-09 14:23:00.873 java[33633:d0f] Unable to load realm info from SCDynamicStore
+2014-10-09 14:23:16,363 WARN  [main] util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+1 servers, 0 dead, 2.0000 average load
 ```
 
 Getting Help
@@ -290,3 +309,4 @@ References
 ----------
 
 1) [Quick Start - Standalone HBase] (http://hbase.apache.org/book/quickstart.html 'Standalone HBase')
+2) Seven Databases in Seven Weeks by Eric Redmond and Jim R. Wilson

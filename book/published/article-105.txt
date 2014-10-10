@@ -1,0 +1,89 @@
+CouchDB Basics
+
+
+Installation
+=============
+-------------
+
+Here is the installation instructions for Mac using the Apache CouchDB native application. 
+
+1) Download from Apache website:
+http://www.apache.org/dyn/closer.cgi?path=/couchdb/binary/mac/1.6.1/Apache-CouchDB-1.6.1.zip
+2) Unzip the Apache-CouchDB-1.6.1.zip file.
+3) Move the unzipped 'Apache CouchDB' to Applications folder.
+
+Run CouchDB
+===========
+-----------
+
+Click on the 'Apache CouchDB' application in the Applications folder. It will open the CouchDB admin interface in the browser http://localhost:5984/_utils/. We will play with Futon admin web interface later. For now, let's interact with CouchDB from a terminal using Curl command.
+
+Welcome CouchDB
+-------------
+
+```sh
+$curl http://127.0.0.1:5984
+{"couchdb":"Welcome","uuid":"d53285f595c9133f3ba9e5599b951410","version":"1.6.1","vendor":{"version":"1.6.1-1","name":"Homebrew"}}
+```
+
+List All Databases
+------------------
+
+```sh
+$curl -X GET http://127.0.0.1:5984/_all_dbs
+["_replicator","_users","test_suite_db","test_suite_db2"]
+```
+
+Create a Database
+-----------------
+
+```sh
+$curl -X PUT http://127.0.0.1:5984/espresso
+{"ok":true}
+$curl -X GET http://127.0.0.1:5984/_all_dbs
+["_replicator","_users","espresso","test_suite_db","test_suite_db2"]
+```
+
+If you create a database that already exists:
+
+```sh
+$curl -X PUT http://127.0.0.1:5984/espresso
+{"error":"file_exists","reason":"The database could not be created, the file already exists."}
+```
+
+Delete a Database
+-----------------
+
+Let's create a new database called wave, view all the databases and delete the new database wave.
+
+```sh
+$curl -X PUT http://127.0.0.1:5984/wave
+{"ok":true}
+$curl -X GET http://127.0.0.1:5984/_all_dbs
+["_replicator","_users","espresso","test_suite_db","test_suite_db2","wave"]
+$curl -X DELETE http://127.0.0.1:5984/wave
+{"ok":true}
+$curl -X GET http://127.0.0.1:5984/_all_dbs
+["_replicator","_users","espresso","test_suite_db","test_suite_db2"]
+```
+
+Futon Interface
+===========
+-----------
+
+Go to http://localhost:5984/_utils/ URL in a browser. Click 'Verify Installation' link. Follow the [quick tour](http://guide.couchdb.org/draft/tour.html 'Futon tour'). The only difference is that this version of CouchDB will show you _rev only after you save the document. 
+
+The web interface has changed for this version of CouchDB, so you will not be able to follow the instructions for 'Running a Query using MapReduce'. However you will be able to follow the instructions for 'Triggering Replication'.
+
+Summary
+===========
+-----------
+
+I found CouchDB easy to install and start playing with it from a terminal. It uses a standard HTTP verbs to interact with the CouchDB server.
+
+References
+===========
+-----------
+
+1) [Installation on Mac OS X](http://docs.couchdb.org/en/1.6.1/install/mac.html 'CouchDB Installation')
+2) [CouchDB Definitive Guide] (http://guide.couchdb.org/draft/tour.html 'CouchDB Definitive Guide')

@@ -14,4 +14,4 @@ The test fixture influences the expected outcome of each test: which inputs resu
 
 7. Create an article that shows how to practice strace using simple commands (check the existing notes)
 
-8. Interview problem of parsing an URL with changing requirements. The consequence of not cleaning up in the refactor phase.
+

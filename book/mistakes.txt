@@ -5,3 +5,5 @@ These are the mistakes that must be demonstrated in the video:
 3. Changing the production code and test code before running the test.
 4. Writing tests that are semantically wrong.
 5. Getting stuck : Writing test that is too large.
+6. Not cleaning up the code in Refactor stage which makes implementing gradually increase level
+   of test cases difficult.

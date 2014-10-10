@@ -1,0 +1,380 @@
+Update
+
+Correct the above diagrams. Rescan and explain PDA and SDA. Refer 'Base Conversion' chapter in How to Solve it using Computer by R.G. Dromney (page 74)
+
+------------------------------------------------------------------------
+
+TDD Basics : Base Conversion 
+
+
+Objective
+==================
+------------------
+
+- Learn the consequence of not cleaning up in the refactor phase.
+
+Prerequisites
+==================
+------------------
+
+- Read the article on GCD if you want to refresh your memory on [reduction](http://www.rubyplus.com/articles/481 'reduction')
+
+- Read these articles to learn about terminating condition:
+
+1) [TDD Basics : The Sieve of Erastosthenes] (http://www.rubyplus.com/articles/471 'The Sieve of Erastosthenes')
+2) [Facotrial] (http://www.rubyplus.com/articles/441 'Facotrial')
+3) [TDD Basics : Reverse the Digits of an Integer] (http://www.rubyplus.com/articles/581 'Reverse')
+4) [TDD Advanced Concepts : Sum Kata] (http://www.rubyplus.com/articles/431 'Sum Kata')
+
+Problem Statement
+==================
+------------------
+
+Convert a decimal integer to octal representation. 
+
+
+Problem Domain Analysis
+==================
+------------------
+
+```sh
+(891) in base 10 = ? in base 8
+```
+
+![alt text](http://www.rubyplus.com/images/problem-octal.png "Octal Problem")
+
+Solution Domain Analysis
+==================
+------------------
+
+Step 1
+-----
+
+![alt text](http://www.rubyplus.com/images/sda-octal-1.png "Octal Problem")
+
+Step 2
+-----
+
+![alt text](http://www.rubyplus.com/images/sda-octal-2.png "Octal Problem")
+
+
+Step 3
+-----
+
+![alt text](http://www.rubyplus.com/images/sda-octal-3.png "Octal Problem")
+
+Step 4
+-----
+
+![alt text](http://www.rubyplus.com/images/sda-octal-4.png "Octal Problem")
+
+Step 5
+-----
+
+![alt text](http://www.rubyplus.com/images/sda-octal.png "Octal Problem")
+
+Step 6
+-----
+
+![alt text](http://www.rubyplus.com/images/sda-octal2.png "Octal Problem")
+
+
+Algorithm
+=========
+---------
+
+This will use the concept of reduction to reach the terminating condition. The terminating condition is reached when the remainder becomes less than 8. 
+
+1) Find the remainder of the given number by using mod 8. This is first digit of the new base.
+2) Divide the given number by 8, the reduced number becomes the new quotient.
+3) The two steps are repeated until the reduced quotient becomes < 8.
+
+Step 2 is the reduction step.
+
+Code
+=====
+------
+
+The implementation is trivial until we hit the number 8.
+
+```ruby
+describe OctalConverter do
+  it 'should return 1 for 1' do
+    converter = OctalConverter.new(1)
+    
+    expect(converter.result).to eq(1)
+  end
+
+  it 'should return 2 for 2' do
+    converter = OctalConverter.new(2)
+    
+    expect(converter.result).to eq(2)
+  end
+  
+  it 'should return 10 for 8' do
+    converter = OctalConverter.new(8)
+    
+    expect(converter.result).to eq(10)    
+  end
+end
+```
+
+The current implementation that fails :
+
+```ruby
+class OctalConverter
+  def initialize(number)
+    @number = number
+  end
+  
+  def result
+    if @number < 8
+      @number
+    else
+      remainder = @number % 8
+      @number = @number / 8 
+    end
+  end
+end
+```
+
+This brings up a question. The converter takes a decimal number as it's argument so the what is the base of the converted number? It should be 8. How do you return a value that is octal base? Let's store the digits of the octal number in an array and return that as the result.
+
+Here is the implementation that works for the third test case:
+
+```ruby
+class OctalConverter
+  def initialize(number)
+    @number = number
+  end
+  
+  def result
+    if @number < 8
+      [@number]
+    else
+      remainder = @number % 8
+      @number = @number / 8 
+      octal = [@number, remainder]
+    end
+  end
+end
+
+
+describe OctalConverter do
+  it 'should return 1 for 1' do
+    converter = OctalConverter.new(1)
+    
+    expect(converter.result).to eq([1])
+  end
+
+  it 'should return 2 for 2' do
+    converter = OctalConverter.new(2)
+    
+    expect(converter.result).to eq([2])
+  end
+  
+  it 'should return 10 for 8' do
+    converter = OctalConverter.new(8)
+    
+    expect(converter.result).to eq([1,0])    
+  end
+end
+```
+
+The current logic works until we hit a number that needs to generate three digits for the octal number.
+
+```ruby
+  it 'should return 137 for 95' do
+    converter = OctalConverter.new(95)
+    
+    expect(converter.result).to eq([1,3, 7])    
+  end
+```
+
+The failure message is :
+
+```sh
+expected: [1, 3, 7]
+  got: [11, 7]
+```
+
+After some print statements and thinking through the logic, here is the solution that works for the fifth test case:
+
+```ruby
+class OctalConverter
+  def initialize(number)
+    @number = number
+  end
+  
+  def result
+    octal = []
+    if @number < 8
+      octal << @number
+    else
+      
+      if (@number % 8) == 0
+        remainder = @number % 8
+        @number = @number / 8 
+        
+        octal << @number
+        octal << remainder
+      end
+      
+      until remainder == 0
+        remainder = @number % 8
+        @number = @number / 8 
+        octal << remainder unless remainder == 0
+        
+        octal.sort!
+      end
+      octal
+    end
+  end
+end
+
+
+describe OctalConverter do
+  it 'should return 1 for 1' do
+    converter = OctalConverter.new(1)
+    
+    expect(converter.result).to eq([1])
+  end
+
+  it 'should return 2 for 2' do
+    converter = OctalConverter.new(2)
+    
+    expect(converter.result).to eq([2])
+  end
+  
+  it 'should return 10 for 8' do
+    converter = OctalConverter.new(8)
+    
+    expect(converter.result).to eq([1,0])    
+  end
+  
+  it 'should return 20 for 16' do
+    converter = OctalConverter.new(16)
+    
+    expect(converter.result).to eq([2,0])    
+  end
+  
+  it 'should return 137 for 95' do
+    converter = OctalConverter.new(95)
+    
+    expect(converter.result).to eq([1, 3, 7])    
+  end
+    
+end
+```
+
+Once I got the right terminating condition, the ugliness in the solution was reduced by the following solution:
+
+```ruby
+class OctalConverter
+  def initialize(number)
+    @number = number
+  end
+  
+  def result
+    octal = []
+    if @number < 8
+      octal << @number
+    else
+      
+      until @number == 0
+        remainder = @number % 8
+        @number = @number / 8 
+        octal.unshift(remainder)
+      end
+      
+      octal
+    end
+  end
+  
+end
+
+
+describe OctalConverter do
+  it 'should return 1 for 1' do
+    converter = OctalConverter.new(1)
+    
+    expect(converter.result).to eq([1])
+  end
+
+  it 'should return 2 for 2' do
+    converter = OctalConverter.new(2)
+    
+    expect(converter.result).to eq([2])
+  end
+  
+  it 'should return 10 for 8' do
+    converter = OctalConverter.new(8)
+    
+    expect(converter.result).to eq([1,0])    
+  end
+  
+  it 'should return 20 for 16' do
+    converter = OctalConverter.new(16)
+    
+    expect(converter.result).to eq([2,0])    
+  end
+  
+  it 'should return 137 for 95' do
+    converter = OctalConverter.new(95)
+    
+    expect(converter.result).to eq([1, 3, 7])    
+  end
+  
+  it 'should return 4000 for 2048' do
+    converter = OctalConverter.new(2048)
+    
+    expect(converter.result).to eq([4, 0, 0, 0])    
+  end
+  
+end
+```
+
+Surprisingly the last test (an acceptance test) also passes when it is uncommented. This is a very good example how cleaning up the code in refactoring stage allows us to handle more complicated test cases.
+
+Here is the final refactored solution:
+
+```ruby
+class OctalConverter
+  def initialize(number)
+    @number = number
+  end
+  
+  def result
+    octal = []
+    until finished?
+      digit = extract_octal_digit
+      reduce
+        
+      octal.unshift(digit)
+    end
+      
+    octal
+  end
+  
+  private
+  
+  def extract_octal_digit
+    @number % 8
+  end
+  
+  def reduce
+    @number = @number / 8 
+  end
+  
+  def finished?
+    @number == 0
+  end
+end
+```
+
+References
+=========
+---------
+
+1. How to Solve it Using Computer by R.G. Dromney
+2. [Decimal to Octal Converter](http://www.binaryhexconverter.com/decimal-to-octal-converter 'Decimal to Octal Converter')
