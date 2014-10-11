@@ -1,7 +1,3 @@
-NOT PUBLISHED YET.
-
-
-
 Essential Skills for Test Driven Development
 
 

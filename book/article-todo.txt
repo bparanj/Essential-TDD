@@ -1,26 +1,11 @@
 
 
-
-UNPUBLISHED
------------
-
-45 : Essential TDD Presentation
-
-Pending
------------
-
-70. Troubleshooting Programming Problems article. Create cards of concepts to organize the material.
-
-Update
------------
-
 1. Find the image for double dispatch and add it to angry rock kata : article 28
+2. Create and Scan Red, Green, Refactor diagram.
+3. Article 7 : Insert the simplified version of the Red, Green, Refactor diagram.
+4. Look at the book for the notes for article 50.
 
-At Home
------------------------------------------------
-1. Create and Scan Red, Green, Refactor diagram.
-2. Article 7 : Insert the simplified version of the Red, Green, Refactor diagram.
-3. Look at the book for the notes for article 50.
+
 
 Revisions
 ----------

@@ -1,6 +1,17 @@
 CouchDB Basics
 
 
+Why CouchDB?
+=============
+-------------
+
+Here is a visual guide to NoSQL systems:
+
+![alt text](http://www.rubyplus.com/images/cap.png "NoSQL Visual Guide")
+
+You can see that CouchDB has picked availability and partition tolerance. This diagram also gives you a good big picture view of how different NoSQL databases fit in the CAP triangle.
+
+
 Installation
 =============
 -------------
@@ -79,7 +90,7 @@ Summary
 ===========
 -----------
 
-I found CouchDB easy to install and start playing with it from a terminal. It uses a standard HTTP verbs to interact with the CouchDB server.
+I found CouchDB easy to install and play with it from a terminal. It uses a standard HTTP verbs to interact with the CouchDB server. It would be a great fit for developing your own [ESCAPE](https://code.google.com/p/escservesconfig/ 'ESCAPE') server for serving configuration information. CouchDB picks availability and partition tolerance. Since consistency is not issue for this type of applications, it's a great fit. 
 
 References
 ===========
@@ -87,3 +98,5 @@ References
 
 1) [Installation on Mac OS X](http://docs.couchdb.org/en/1.6.1/install/mac.html 'CouchDB Installation')
 2) [CouchDB Definitive Guide] (http://guide.couchdb.org/draft/tour.html 'CouchDB Definitive Guide')
+3) Continuous Delivery: Reliable Software Releases through Build, Test, and Deployment Automation by Jez Humble and David Farley 
+4) Diagram from [Stack Exchange](http://stackexchange.com/ 'stack exchange')

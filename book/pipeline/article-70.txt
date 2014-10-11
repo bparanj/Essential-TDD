@@ -1,6 +1,8 @@
 Apply Napkin Academy Techniques to Summarize the Following Notes
 
 
+Troubleshooting Programming Problems article. Create cards of concepts to organize the material.
+
 Solving Programming Problems
 ----------------------------------------
 
