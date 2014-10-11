@@ -86,6 +86,8 @@ Go to http://localhost:5984/_utils/ URL in a browser. Click 'Verify Installation
 
 The web interface has changed for this version of CouchDB, so you will not be able to follow the instructions for 'Running a Query using MapReduce'. However you will be able to follow the instructions for 'Triggering Replication'.
 
+The beam.smp process was using 80% of CPU and my MacBook Pro fan was spinning loudly with lot of heat from the laptop. Just go to activity monitor and kill the beam.smp process your laptop will get back to normal within a few minutes. I had to kill two beam.smp processes that had taken over most of the CPU time. After killing both processes, since CouchDB was still running it created a new beam.smp process that did not create any problems. I was able to interact with CouchDB.
+
 Summary
 ===========
 -----------
@@ -100,3 +102,4 @@ References
 2) [CouchDB Definitive Guide] (http://guide.couchdb.org/draft/tour.html 'CouchDB Definitive Guide')
 3) Continuous Delivery: Reliable Software Releases through Build, Test, and Deployment Automation by Jez Humble and David Farley 
 4) Diagram from [Stack Exchange](http://stackexchange.com/ 'stack exchange')
+5) [Runaway applications can shorten battery runtime, affect performance, and increase heat and fan activity](http://support.apple.com/kb/TS1473 'High Heat, Fan noise in Mac OS')
