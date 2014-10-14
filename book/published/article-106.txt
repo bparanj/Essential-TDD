@@ -1,0 +1,384 @@
+MongoDB Ruby Driver Tutorial
+
+
+Installation
+============
+------------
+
+```sh
+$gem install mongo
+Fetching: bson-1.11.1.gem (100%)
+Successfully installed bson-1.11.1
+Fetching: mongo-1.11.1.gem (100%)
+Successfully installed mongo-1.11.1
+2 gems installed
+```
+
+Let's use it in irb.
+
+```ruby
+$irb
+> require 'mongo'
+      ** Notice: The native BSON extension was not loaded. **
+
+      For optimal performance, use of the BSON extension is recommended.
+
+      To enable the extension make sure ENV['BSON_EXT_DISABLED'] is not set
+      and run the following command:
+
+        gem install bson_ext
+
+      If you continue to receive this message after installing, make sure that
+      the bson_ext gem is in your load path.
+ => true 
+```
+
+For improved performance:
+
+```sh
+$gem install bson_ext
+Fetching: bson_ext-1.11.1.gem (100%)
+Building native extensions.  This could take a while...
+Successfully installed bson_ext-1.11.1
+1 gem installed
+```
+
+Using the Gem
+============
+------------
+
+
+```sh
+$irb
+> require 'mongo'
+ => true 
+```
+
+Creating a Database Client
+============
+------------
+
+
+```ruby
+mongo_client = MongoClient.new('localhost', 27017)
+Mongo::ConnectionFailure: Failed to connect to a master node at localhost:27017
+```
+
+Let's start the server.
+
+```sh
+$mongod
+mongod --help for help and startup options
+Sat Oct 11 15:06:47 MongoDB starting : pid=61878 port=27017 dbpath=/data/db/ 64-bit 
+Sat Oct 11 15:06:47 db version v1.6.2, pdfile version 4.5
+Sat Oct 11 15:06:47 git version: aef371ecf5d2a824f16ccdc3b745f3702165602f
+Sat Oct 11 15:06:47 sys info: Darwin erh2.10gen.cc 9.6.0 Darwin Kernel Version 9.6.0: Mon Nov 24 17:37:00 PST 2008; root:xnu-1228.9.59~1/RELEASE_I386 i386 BOOST_LIB_VERSION=1_37
+Sat Oct 11 15:06:47 exception in initAndListen std::exception: dbpath (/data/db/) does not exist, terminating
+Sat Oct 11 15:06:47  dbexit: 
+
+Sat Oct 11 15:06:47 	 shutdown: going to close listening sockets...
+Sat Oct 11 15:06:47 	 shutdown: going to flush oplog...
+Sat Oct 11 15:06:47 	 shutdown: going to close sockets...
+Sat Oct 11 15:06:47 	 shutdown: waiting for fs preallocator...
+Sat Oct 11 15:06:47 	 shutdown: closing all files...
+Sat Oct 11 15:06:47      closeAllFiles() finished
+
+Sat Oct 11 15:06:47  dbexit: really exiting now
+```
+
+To resolve this problem, I created /data/db directory manually. Now, mongod brings up the MongoDB server.
+
+```sh
+~ $mongod
+mongod --help for help and startup options
+Sat Oct 11 15:09:03 MongoDB starting : pid=62610 port=27017 dbpath=/data/db/ 64-bit 
+Sat Oct 11 15:09:03 db version v1.6.2, pdfile version 4.5
+Sat Oct 11 15:09:03 git version: aef371ecf5d2a824f16ccdc3b745f3702165602f
+Sat Oct 11 15:09:03 sys info: Darwin erh2.10gen.cc 9.6.0 Darwin Kernel Version 9.6.0: Mon Nov 24 17:37:00 PST 2008; root:xnu-1228.9.59~1/RELEASE_I386 i386 BOOST_LIB_VERSION=1_37
+Sat Oct 11 15:09:03 [initandlisten] waiting for connections on port 27017
+Sat Oct 11 15:09:03 [websvr] web admin interface listening on port 28017
+```
+
+Let's create a connection to the server.
+
+```ruby
+> mongo_client = MongoClient.new('localhost', 27017)
+ => #<Mongo::MongoClient:0x00000101312318 @host="localhost", @port=27017, 
+ => ["admin", "local"] 
+> mongo_client.database_info.each {|info| puts info.inspect}
+["admin", 1]
+["local", 1]
+ => {"admin"=>1, "local"=>1} 
+```
+
+Here you see the database sizes in bytes.
+
+Create a New Database
+============
+------------
+
+```ruby
+> db = mongo_client.db('mydb')
+```
+
+Using a Collection
+============
+------------
+ 
+```ruby
+> coll = mydb_conn.collection('testCollection')
+```
+
+The collection method provides you with a collection object. This is used to interact with the persistent storage.
+
+Insert Document
+============
+------------ 
+
+```ruby
+> doc = {'name' => 'MongoDB', 'type' => 'database', 'count' => 1, 'info' => {'x' => 203, 'y' => '102'}}
+ => {"name"=>"MongoDB", "type"=>"database", "count"=>1, "info"=>{"x"=>203, "y"=>"102"}} 
+> id = coll.insert(doc)
+ => BSON::ObjectId('5439ac843a10e7ef65000001') 
+```
+
+Retrieve Collections
+============
+------------
+
+```ruby
+> mydb_conn.collection_names
+ => ["testCollection", "system.indexes"] 
+```
+
+Insert Multiple Documents
+============
+------------
+
+```ruby
+> 100.times {|i| coll.insert('i' => i)}
+ => 100 
+```
+ 
+Finding a Document
+============
+------------
+
+```ruby
+> coll.find_one
+ => {"_id"=>BSON::ObjectId('5439ac843a10e7ef65000001'), "name"=>"MongoDB", "type"=>"database", "count"=>1, "info"=>{"x"=>203, "y"=>"102"}} 
+```
+
+```ruby
+ > coll.find.each {|row| puts row.inspect}
+{"_id"=>BSON::ObjectId('5439ac843a10e7ef65000001'), "name"=>"MongoDB", "type"=>"database", "count"=>1, "info"=>{"x"=>203, "y"=>"102"}}
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef65000002'), "i"=>0}
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef65000003'), "i"=>1}
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef65000004'), "i"=>2}
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef65000005'), "i"=>3}
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef65000006'), "i"=>4}
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef65000007'), "i"=>5}
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef65000008'), "i"=>6}
+```
+
+Output goes till i => 100.
+
+
+Specific Query
+============
+------------
+
+```ruby
+> id
+ => BSON::ObjectId('5439ac843a10e7ef65000001') 
+```
+
+```ruby
+ > coll.find('_id' => id).to_a
+ => [{"_id"=>BSON::ObjectId('5439ac843a10e7ef65000001'), "name"=>"MongoDB", "type"=>"database", "count"=>1, "info"=>{"x"=>203, "y"=>"102"}}] 
+```
+
+Sorting Documents
+============
+------------
+
+```ruby
+> coll.find.sort(:i)
+ => <Mongo::Cursor:0x808a5d9c namespace='mydb.testCollection' @selector={} @cursor_id=> 
+ > coll.find.sort(:i => :desc)
+ => <Mongo::Cursor:0x808948a8 namespace='mydb.testCollection' @selector={} @cursor_id=> 
+```
+
+Counting Documents
+============
+------------
+
+```ruby
+> coll.count
+ => 101
+``` 
+ 
+Get a Set of Documents
+============
+------------
+
+```ruby
+> puts coll.find('i' => {'$gt' => 95}).to_a
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef65000062'), "i"=>96}
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef65000063'), "i"=>97}
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef65000064'), "i"=>98}
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef65000065'), "i"=>99}
+ => nil 
+```
+
+```ruby
+> puts coll.find('i' => {'$gt' => 20, '$lte' => 30}).to_a
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef65000017'), "i"=>21}
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef65000018'), "i"=>22}
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef65000019'), "i"=>23}
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef6500001a'), "i"=>24}
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef6500001b'), "i"=>25}
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef6500001c'), "i"=>26}
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef6500001d'), "i"=>27}
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef6500001e'), "i"=>28}
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef6500001f'), "i"=>29}
+{"_id"=>BSON::ObjectId('5439ae2b3a10e7ef65000020'), "i"=>30}
+ => nil 
+```
+
+Select a Subset of Fields
+============
+------------
+
+```ruby
+> coll.find({'_id' => id}, :fields => ['name', 'type']).to_a
+ => [{"_id"=>BSON::ObjectId('5439ac843a10e7ef65000001'), "name"=>"MongoDB", "type"=>"database"}] 
+```
+
+Query with Regex
+============
+------------
+
+```ruby
+> coll.find({'name' => /^M/}).to_a
+ => [{"_id"=>BSON::ObjectId('5439ac843a10e7ef65000001'), "name"=>"MongoDB", "type"=>"database", "count"=>1, "info"=>{"x"=>203, "y"=>"102"}}] 
+```
+
+Update Document
+============
+------------
+
+```ruby
+> doc
+ => {"name"=>"MongoDB", "type"=>"database", "count"=>1, "info"=>{"x"=>203, "y"=>"102"}, :_id=>BSON::ObjectId('5439ac843a10e7ef65000001')} 
+
+ doc['name']
+ => "MongoDB" 
+
+ doc['name'] = 'MongoDB Ruby'
+ => "MongoDB Ruby" 
+ > coll.update({'_id' => id}, doc)
+ => {"err"=>nil, "updatedExisting"=>true, "n"=>1, "ok"=>1.0} 
+```
+
+Verify update 
+------------
+
+```ruby
+ > coll.find('_id' => id).to_a
+ => [{"_id"=>BSON::ObjectId('5439ac843a10e7ef65000001'), "name"=>"MongoDB Ruby", "type"=>"database", "count"=>1, "info"=>{"x"=>203, "y"=>"102"}}] 
+ 
+ > coll.count
+ => 101 
+ > coll.remove('i' => 70)
+ => {"err"=>nil, "n"=>1, "ok"=>1.0} 
+ > coll.count
+ => 100 
+ > coll.find('i' => 70).to_a
+ => [] 
+``` 
+ 
+coll.remove will delete everything. This is a badly named method. It should have been named remove_all.
+
+Create Index
+============
+------------
+
+Let's see what we have in the testCollection.
+
+```ruby
+ > db_client = MongoClient.new('localhost', 27017)
+ > db = db_client.db('mydb')
+ > coll = db.collection('testCollection')
+ > coll.count
+```
+
+Let's now create an index on i.
+
+```ruby
+ > coll.create_index('i')
+ => "i_1" 
+ > coll.find('i' => 10).explain
+ => {"cursor"=>"BtreeCursor i_1", "nscanned"=>1, "nscannedObjects"=>1, "n"=>1, "millis"=>0, "indexBounds"=>{"i"=>[[10, 10]]}, "allPlans"=>[{"cursor"=>"BtreeCursor i_1", "indexBounds"=>{"i"=>[[10, 10]]}}]} 
+```
+
+The output shows faster indexed BtreeCursor is used for i.
+
+```ruby
+coll.find({'name' => 'MongoDB Ruby'}).explain
+ => {"cursor"=>"BasicCursor", "nscanned"=>100, "nscannedObjects"=>100, "n"=>1, "millis"=>0, "indexBounds"=>{}, "allPlans"=>[{"cursor"=>"BasicCursor", "indexBounds"=>{}}], "oldPlan"=>{"cursor"=>"BasicCursor", "indexBounds"=>{}}} 
+ > coll.find('type' => 'database').explain
+  => {"cursor"=>"BasicCursor", "nscanned"=>100, "nscannedObjects"=>100, "n"=>1, "millis"=>0, "indexBounds"=>{}, "allPlans"=>[{"cursor"=>"BasicCursor", "indexBounds"=>{}}]} 
+```
+
+If there is no index then a slower BasicCursor is used.
+ 
+
+List Indexes on a Collection
+============
+------------
+
+```ruby
+ > coll.index_information
+  => {"_id_"=>{"name"=>"_id_", "ns"=>"mydb.testCollection", "key"=>{"_id"=>1}}, "i_1"=>{"name"=>"i_1", "key"=>{"i"=>1}, "ns"=>"mydb.testCollection"}}
+```  
+  
+Drop an Index
+============
+------------
+
+```ruby
+ > coll.drop_index('i_1')
+   => true 
+ > coll.index_information
+   => {"_id_"=>{"name"=>"_id_", "ns"=>"mydb.testCollection", "key"=>{"_id"=>1}}} 
+```
+
+Drop all Indexes
+============
+------------
+
+```ruby
+ > coll.drop_indexes
+   => true 
+ > coll.index_information
+   => {"_id_"=>{"name"=>"_id_", "ns"=>"mydb.testCollection", "key"=>{"_id"=>1}}} 
+ > coll.drop_indexes
+```
+
+Drop a Collection
+============
+------------
+
+```ruby
+ > coll.drop
+   => true 
+ > db.collection_names
+   => ["system.indexes"] 
+```
+  
+Reference
+===========
+-----------
+
+[MongoDB Ruby Driver Tutorial](https://github.com/mongodb/mongo-ruby-driver/wiki/Tutorial 'MongoDB Ruby Driver')

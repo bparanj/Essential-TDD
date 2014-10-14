@@ -1,0 +1,184 @@
+Recurring Billing using Stripe API
+
+
+Objective
+----------
+
+To develop monthly subscription feature using Stripe API.
+
+Steps
+=====
+------
+
+Step 1
+-----
+
+Signup for Stripe Account. See your keys here https://dashboard.stripe.com/account. Copy the API credentials:
+
+Test Secret Key : sk_test_fIq8gFSbcYN5ENqdGe7Vu329
+Test publishable Key : pk_test_wE4Io131CZgI5yWcRN8OyFkr
+
+Step 2
+-----
+
+Install the stripe gem. 
+
+```ruby
+gem install stripe. 
+```
+
+If you are using bundler:
+
+```ruby 
+gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+```
+
+Step 3
+-----
+
+I have all Stripe related logic in app/gateways/stripe folder in my Rails project.
+
+Step 4
+-----
+
+Create a Stripe plan. Playing in the irb:
+
+```ruby
+require "stripe"
+Stripe.api_key = "sk_test_BQokikJOvBiI2HlWgH4olfQ2"
+
+Stripe::Plan.create(
+  :amount => 2000,
+  :interval => 'month',
+  :name => 'Amazing Gold Plan',
+  :currency => 'usd',
+  :id => 'gold'
+)
+```
+
+The amount is in cents. The interval specifies frequency of billing for subscription. The id is a unique string that identifies this plan when subscribing a customer. It could be a string or a primary key from your own database. For more details on the fields, read the docs: https://stripe.com/docs/api#plans 
+
+Delete a Plan
+---------------
+
+```ruby
+plan = Stripe::Plan.retrieve({PLAN_ID}) 
+plan.delete
+```
+
+PLAN_ID is from your database or stored as a constant in your server side code.
+
+
+Create a Customer
+-------------------
+
+You need a token before you can create a customer. Create a token:
+
+```ruby
+card = { :number => "4242424242424242", :exp_month => 8, :exp_year => 2015, :cvc => "314" }
+response = Stripe::Token.create(:card => card)
+puts response['id']
+
+> tok_14Tj2w2eZvKYlo2C0ce3RoTz
+```
+
+Later, we will use Stripe.js in our web application to create token because it makes PCI compliance easy. Now, create a customer using the token generated in the above call as follows:
+
+```ruby
+response = Stripe::Customer.create(:description => "Customer for test@example.com",
+                                   :card => "tok_14Tj2w2eZvKYlo2C0ce3RoTz")
+puts response
+puts response.class
+puts response['id']
+```
+
+The JSON response is :
+
+```json
+{
+  "id": "cus_4cz7I6SnCZIrYF",
+  "object": "customer",
+  "created": 1408579761,
+  "livemode": false,
+  "description": "Customer for test@example.com",
+  "email": null,
+  "delinquent": false,
+  "metadata": {},
+at top level in "subscriptions": {"object":"list","total_count" at line 0
+  "discount": null,
+  "account_balance": 0,
+  "currency": null,
+at top level in "cards": {"object":"list","total_count" at line 1
+  "default_card": "card_14Tj2w2eZvKYlo2CcnXI9SCh"
+}
+```
+
+Stripe::Customer id is cus_4cz7I6SnCZIrYF. For writing tests, check this id is not nil.
+
+Subscribe a Customer to a Plan
+--------------------------------
+
+```ruby
+customer = Stripe::Customer.retrieve('cus_4cz7I6SnCZIrYF')
+subscription = customer.subscriptions.create({:plan => 'gold'})
+
+puts subscription.class
+puts subscription.id
+puts subscription
+```
+
+The output is :
+
+```ruby
+Stripe::Subscription
+sub_4dFhAPa595XZsN
+{
+  "id": "sub_4dFhAPa595XZsN",
+  "plan": {"id":"gold","interval":"month","name":"Basic","created" }
+  "object": "subscription",
+  "start": 1408641490,
+  "status": "active",
+  "customer": "cus_4cz7I6SnCZIrYF",
+  "cancel_at_period_end": false,
+  "current_period_start": 1408641490,
+  "current_period_end": 1411319890,
+  "ended_at": null,
+  "trial_start": null,
+  "trial_end": null,
+  "canceled_at": null,
+  "quantity": 1,
+  "application_fee_percent": null,
+  "discount": null,
+  "metadata": {}
+}
+```
+
+For writing tests, check subscription.id has some value. Later, we will get the Stripe token as a result of the form that is submitted to Stripe, the code will look something like this:
+
+```ruby
+# Set your secret key: remember to change this to your live secret key in production
+Stripe.api_key = "sk_test_BQokikJOvBiI2HlWgH4olfQ2"
+
+# Get the credit card details submitted by the form
+token = params[:stripeToken]
+
+# Create a Customer
+customer = Stripe::Customer.create(
+  :card => token,
+  :plan => "gold",
+  :email => "payinguser@example.com"
+)
+```
+
+Summary
+============
+------------
+
+In this article, we played in the irb to get familiar with Stripe API for charging a customer for a subscription. To make the PCI compliance easy, we need to use Stripe.js to create the Stripe token instead of creating it manually by providing the credit card value in the irb. We also need to handle form validation, notifying customers about their upcoming credit card expiry etc. We will discuss them in upcoming articles on Stripe.
+
+References
+============
+------------
+
+1. [Stripe Examples] (https://stripe.com/docs/examples 'Stripe Examples')
+2. [Stripe Gem] (https://github.com/stripe/stripe-ruby 'Stripe Gem')
