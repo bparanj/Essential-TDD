@@ -1,0 +1,15 @@
+-----------------------
+
+class Foo
+  def bar
+    @v = 'hi'
+  end
+end
+
+f = Foo.new
+p f.instance_variables
+
+f.bar
+p f.instance_variables
+
+-----------------------

@@ -1,0 +1,36 @@
+1. Select the playground database that we created in the previous article. Click on View dropdown and select 'Temporary View'. This gives you the View Code section to enter Map Function.
+
+2
+
+For the Map Function, enter:
+
+```javascript
+function(doc) {
+  emit(doc._id, doc);
+}
+```
+
+By default, you see the language is javascript. Click 'Run' button, you can see the result on the browser. You will see three documents. 
+
+This map function takes one parameter called doc. Our map function calls the emit(key, value) function with doc._id and doc as the arguments.
+
+3
+
+Instead of getting the _id and the entire document, let's retreive only the street name and the street number.
+
+```javascript
+function(doc) {
+  emit(doc.street.name, doc.street.number);
+}
+```
+
+In this case, there is only one document that has street name and number. So, you only see one document in the result.
+
+
+
+References
+==========
+----------
+
+1) [Introduction to CouchDB Views] (http://wiki.apache.org/couchdb/Introduction_to_CouchDB_views 'Introduction to CouchDB Views')
+2) [Finding Your Data with Views] (http://guide.couchdb.org/draft/views.html 'Finding Your Data with Views')
