@@ -1,0 +1,137 @@
+
+TDD Beyond Basics : Mutation Testing
+
+Objective
+----------
+
+- How to test your test
+
+Discussion
+==========
+----------
+
+>> It is a good idea to test your tests. You can verify that they detect the errors you think they detect by inserting those errors into the production code. Make sure they report errors in a meaningful way. You should also verify that your tests speak clearly to a person trying to understand your code. The only way to do this is to have someone who isn’t familiar with your code read your tests and tell you what they learned. 
+>> Tip by Gerard Meszaros in 97 Things a Programmer Should Know
+
+What is Mutation Testing?
+==========
+----------
+
+Mutation testing is the process re-writing code to flush out ambiguities in the code. These ambiguities can cause failures. Since these faults are often very subtle, it can easily pass testing and debugging and end up in production.
+
+What Can be Mutated?
+==========
+----------
+
+- Changes if to unless, while to until etc.
+- Replace logical operator with its inverse. Ex: && with || etc.
+- Replace arithmetic operations with others. Ex: + with -, * with / etc.
+- Replace boolean relations with others. Ex: == becomes !=, < becomes > etc.
+- Replace true with false and vice-versa
+
+Conditonals Boundary Mutator
+----------
+
+![alt text](http://www.rubyplus.com/images/conditionals-boundary-mutator.png "Conditonals Boundary Mutator")
+
+Negate Conditionals Mutator
+----------
+
+![alt text](http://www.rubyplus.com/images/negate-conditionals-mutator.png "Negate Conditionals Mutator")
+
+Remove Conditionals Mutator
+----------
+
+Replace conditional statement with true.
+
+```ruby
+if (a == b) {
+ // do something 
+}
+```
+
+becomes:
+
+```ruby
+if true {
+  // do something
+}
+```
+
+Math Mutator
+----------
+
+![alt text](http://www.rubyplus.com/images/math-mutator.png "Math Mutator")
+
+Increments Mutator
+----------
+
+Replace += with -=.
+
+Invert Negatives Mutator
+----------
+
+The return values will be inverted. So a positive number will be changed to negative and vice-versa.
+
+Mutation in Ruby Projects
+==========
+----------
+
+Ruby has heckle and mutant gems for mutation testing.
+
+```ruby
+gem install heckle --pre
+```
+
+Fails with :
+
+```sh
+ERROR:  Error installing heckle:
+	ZenTest requires RubyGems version ~> 1.8. Try 'gem update --system' to update RubyGems itself.
+```
+
+Heckle is outdated and has installation problems because it depends on ruby gems 1.8. My Rubygems version is 2.2. The alternative to Heckle is Mutant. I had difficulties running the Mutant gem with my project. Reading the tests for Heckle adn Mutant gems does not provide any information on what gets mutated. The tests and the code are difficult to understand. These two gems has failed the Gerard Meszaros tip mentioned in the beginning of this article. So, let's do the mutation testing manually and see if our test fails to catch the bugs. Here is the code from previous article:
+
+```ruby
+class OctalConverter
+  def initialize(number)
+    @number = number
+  end
+  
+  def result
+    octal = []
+    until finished?
+      digit = extract_octal_digit
+      reduce
+        
+      octal.unshift(digit)
+    end
+      
+    octal
+  end
+  
+  private
+  
+  def extract_octal_digit
+    @number % 8
+  end
+  
+  def reduce
+    @number = @number / 8 
+  end
+  
+  def finished?
+    @number == 0
+  end
+end
+```
+
+The mutations that I made manually are: changing 'until' to 'while', / to *, == to !=. The tests either failed or was caught in an infinite loop. So our tests break when the code is mutated.
+
+References
+==========
+----------
+
+1. [Mutation Testing] (https://www.simple-talk.com/dotnet/.net-tools/mutation-testing/ 'Mutation Testing')
+2. [Mutation Testing: A New Approach to Automatic Error-Detection] (http://www.parasoft.com/products/article.jsp?articleId=291 'Mutation Testing')
+3. [Mutators] (http://pitest.org/quickstart/mutators/ 'Mutators')

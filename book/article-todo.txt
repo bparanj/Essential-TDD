@@ -4,9 +4,6 @@
 2. Create and Scan Red, Green, Refactor diagram.
 3. Article 7 : Insert the simplified version of the Red, Green, Refactor diagram.
 4. Look at the book for the notes for article 50.
-5. MongoDB basics part 2 only covers using the shell. Update it to use ruby driver
-   for interaction (https://github.com/mongodb/mongo-ruby-driver/wiki/Tutorial)
-   Continue from Indexing section.
 
 Revisions
 ----------
