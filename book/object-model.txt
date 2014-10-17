@@ -13,3 +13,30 @@ f.bar
 p f.instance_variables
 
 -----------------------
+
+
+class Foo
+  def hi
+    'hi'
+  end
+end
+
+f = Foo.new
+
+# p f.methods
+
+p f.methods.grep(/^h/)
+
+
+-----------------------
+
+p String.instance_methods.size
+p String.methods.size
+
+# 164 and 100
+
+p 'a'.methods.size
+p 'a'.instance_methods
+
+
+-----------------------
