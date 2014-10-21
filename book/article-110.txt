@@ -1,0 +1,227 @@
+Install Sqlite3
+-----------------
+
+```sh
+$ gem install sqlite3
+Fetching: sqlite3-1.3.9.gem (100%)
+Building native extensions.  This could take a while...
+Successfully installed sqlite3-1.3.9
+1 gem installed
+```
+
+Create a Database
+-----------------
+
+```sh
+$ sqlite3 play.sqlite3
+SQLite version 3.7.7 2011-06-25 16:35:41
+Enter ".help" for instructions
+Enter SQL statements terminated with a ";"
+```
+
+Create a Table
+-----------------
+
+```sh
+sqlite> .tables
+sqlite> CREATE TABLE users(
+   ...>    id int primary key not null,
+   ...>    first_name char(50),
+   ...>    last_name char(50),
+   ...>    email char(50) not null);
+sqlite> .tables
+users
+```
+
+Counting Records
+-----------------
+
+To count the number of records in a table, use count(*) in the select statement as follows:
+
+```sh
+sqlite> select count(*) from users;
+0
+```
+
+Inserting Rows 
+-----------------
+
+Let's insert some rows in the user table.
+
+```sh
+sqlite> INSERT INTO users(first_name, last_name, email)
+   ...> VALUES('bugs', 'bunny', 'bbunny@disney.com');
+Error: users.id may not be NULL
+```
+
+We get an error because we have a 'not null' constraint on the primary key id of the users table. So, we need to provide it :
+
+```sh
+sqlite> INSERT INTO users(id, first_name, last_name, email)
+   ...> VALUES(1,'bugs', 'bunny', 'bbunny@disney.com');
+```
+
+Now if we count again, we get:
+
+```sh
+sqlite> select count(*) from users;
+1
+```
+
+Retrieving All Columns
+-----------------
+
+To retrieve data for all columns, use * after the select keyword as follows:
+
+```sh
+sqlite> select * from users;
+1|bugs|bunny|bbunny@disney.com
+```
+
+Let's turn on the column names to be displayed.
+
+```sh
+sqlite> .headers on
+sqlite> select * from users;
+id|first_name|last_name|email
+1|bugs|bunny|bbunny@disney.com
+```
+
+Let's insert a second row into the users table.
+
+```sh
+sqlite> INSERT INTO users(id, first_name, last_name, email)
+   ...> VALUES(2,'daffy', 'duck', 'daffy@disney.com');
+
+sqlite> select count(*) from users;
+count(*)
+2
+```
+
+Now we have two rows in the users table.
+
+Retrieving Single Column
+-----------------
+
+```sh
+sqlite> select first_name from users where id=2;
+first_name
+daffy
+```
+
+Let's make the output pretty with the column aligned.
+
+```sh
+sqlite> .mode column
+sqlite> select first_name from users where id=2;
+first_name
+----------
+daffy
+```
+
+If you retrieve all the columns, you will get a nice output:
+
+```sh
+sqlite> select * from users;
+id          first_name  last_name   email            
+----------  ----------  ----------  -----------------
+1           bugs        bunny       bbunny@disney.com
+2           daffy       duck        daffy@disney.com 
+```
+
+Retrieving Multiple Columns
+-----------------
+
+To retrieve data for multiple columns from a table, specify the column names after the select keyword separated by a comma, like this:
+
+```sh
+sqlite> select first_name, last_name from users;
+first_name  last_name 
+----------  ----------
+bugs        bunny     
+daffy       duck
+```
+
+Exercise
+==========
+----------
+
+1) Insert three records into users table. One of the record must have the same first_name any one of the existing record.
+
+Answer
+----------
+
+```sh
+sqlite> INSERT INTO users(id, first_name, last_name, email)
+   ...> VALUES(3,'porky', 'pig', 'ppig@disney.com');
+sqlite> INSERT INTO users(id, first_name, last_name, email)
+   ...> VALUES(4,'pluto', 'dog', 'pdog@disney.com');
+sqlite> INSERT INTO users(id, first_name, last_name, email)
+   ...> VALUES(5,'pluto', 'pet', 'pdog@disney.com');
+sqlite> select count(*) from users;
+count(*)  
+----------
+5         
+```
+
+Limiting Results
+----------
+
+To limit the number of rows to retrieve from the database, use the 'limit' keyword:
+
+```sh
+sqlite> select * from users limit 2;
+id          first_name  last_name   email            
+----------  ----------  ----------  -----------------
+1           bugs        bunny       bbunny@disney.com
+2           daffy       duck        daffy@disney.com
+```
+
+To get the next two rows, specify where to start and the number of rows to retrieve:
+
+```sh
+sqlite> select * from users limit 2 offset 2;
+id          first_name  last_name   email          
+----------  ----------  ----------  ---------------
+3           porky       pig         ppig@disney.com
+4           pluto       dog         pdog@disney.com
+```
+
+In this example it starts from row 3 (offset = 2) and retrieves two records (limit = 2).
+
+Retrieving Distinct Rows
+----------
+
+We have 5 records in the users table.
+
+```sh
+sqlite> select * from users;
+id          first_name  last_name   email            
+----------  ----------  ----------  -----------------
+1           bugs        bunny       bbunny@disney.com
+2           daffy       duck        daffy@disney.com 
+3           porky       pig         ppig@disney.com  
+4           pluto       dog         pdog@disney.com  
+5           pluto       pet         pdog@disney.com  
+```
+
+If we want to retrieve only unique user names :
+
+```sh
+sqlite> select DISTINCT(first_name) from users;
+first_name
+----------
+bugs      
+daffy     
+pluto     
+porky
+```
+
+Summary
+==========
+----------
+
+In this article, you learned how to create a new database, create a table, populate the table with data and the basics of SQL SELECT statement. In the next article, you will learn how to sort the retrieved data.
+
+
+
