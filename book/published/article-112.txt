@@ -1,0 +1,128 @@
+SQL Basics : Search Conditions
+
+Objective
+==========
+----------
+
+In this lesson, you will learn how to use the WHERE clause in SELECT statement to filter data.
+
+Where Clause
+==========
+----------
+
+To avoid retrieving large number of records we specify search criteria to extract a subset of the table's data.
+
+```sh
+sqlite> select * from users where id > 5;
+id          first_name  last_name   email            
+----------  ----------  ----------  -----------------
+6           tasmanian   devil       tdevil@disney.com
+7           tweety      bird        tweety@disney.com
+8           elmer       fudd        efudd@disney.com 
+9           speedy      gonzales    gonzales@disney.c
+10          yosemite    sam         sam@disney.com
+```
+
+Here the where clause is used as the filter condition to retrieve records with primary key greater than 5. 
+
+Where Clause Operator
+==========
+----------
+
+The example above used greater than as the operator for the search criteria. We can also use any of the following operators:
+
+1. Equality
+2. Non-Equality
+3. Less than
+4. Less than or equal to
+5. Not less than
+6. Greater than
+7. Greater than or equal to
+8. Not greater than
+9. Between two values
+10. Is a NULL value
+
+Here is the equality operator as the filter condition:
+
+```sh
+sqlite> select * from users where id = 5;
+id          first_name  last_name   email          
+----------  ----------  ----------  ---------------
+5           pluto       pet         pdog@disney.com
+```
+
+Here is the non-equality operator as the filter condition:
+
+```sh
+sqlite> select * from users where first_name <> 'pluto';
+id          first_name  last_name   email            
+----------  ----------  ----------  -----------------
+1           bugs        bunny       bbunny@disney.com
+2           daffy       duck        daffy@disney.com 
+3           porky       pig         ppig@disney.com  
+6           tasmanian   devil       tdevil@disney.com
+7           tweety      bird        tweety@disney.com
+8           elmer       fudd        efudd@disney.com 
+9           speedy      gonzales    gonzales@disney.c
+10          yosemite    sam         sam@disney.com
+```
+
+The result filters out two of the records which contains pluto as the first_name.
+
+Exercise
+==========
+----------
+
+Change the above non-equality query to use != instead of <>. What do you see as the result?
+
+Between a Range
+----------
+
+We need to specify the beginning and end of the range as follows:
+
+```sh
+sqlite> select * from users where id between 5 and 10;
+id          first_name  last_name   email          
+----------  ----------  ----------  ---------------
+5           pluto       pet         pdog@disney.com
+6           tasmanian   devil       tdevil@disney.c
+7           tweety      bird        tweety@disney.c
+8           elmer       fudd        efudd@disney.co
+9           speedy      gonzales    gonzales@disney
+10          yosemite    sam         sam@disney.com
+```
+
+Here we retrieve all records between 5 and 10, where 5 is the beginning and 10 is the end of the range. The range values is separated by the AND keyword.
+
+NULL Value
+----------
+
+When a column does not have any value, it contains a NULL value. Since our database does not contain any record with NULL value, let's first insert a record with NULL value for last_name by not providing a value in the insert statement.
+
+```sh
+sqlite> select * from users where last_name is NULL;
+sqlite> INSERT INTO users(id, first_name, email)
+   ...> VALUES(12,'bosko', 'bosko@disney.com');
+sqlite> select * from users where last_name is NULL;
+id          first_name  last_name   email         
+----------  ----------  ----------  --------------
+12          bosko                   bosko@disney.com
+```
+
+In this case, bosko does not have any last_name, it is NULL in database terminology.
+
+Exercise
+==========
+----------
+
+Experiment with the remaining where clause operators from the list shown in the Where Clause Operator section by querying the users table.
+
+
+Summary
+==========
+----------
+
+In this article, you learned how to specify search criteria to filter data using the WHERE clause of the SELECT statement. You also learned how to use various WHERE clause operators.
+
+
+
