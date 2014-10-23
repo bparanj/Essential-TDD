@@ -1,0 +1,95 @@
+SQL Basics : Wildcard Search
+
+Objective
+==========
+----------
+
+In this article you will learn how to use wildcard for searches using the LIKE operator.
+
+The LIKE Operator
+==========
+----------
+
+The Percent Wildcard
+----------
+
+Let's insert few more rows to the products table.
+
+```sh
+sqlite> INSERT INTO products(id, price, name, user_id)
+   ...> VALUES(7, 80, 'Cage Wire', 3);
+sqlite> INSERT INTO products(id, price, name, user_id)
+   ...> VALUES(8, 80, 'Camel Rope', 3);
+```
+
+The wildcard search can only be used with string fields. Let's search for product names that has 'Ca' in it.
+
+```sh
+sqlite> select id, name from products where name LIKE 'Ca%';
+id          name      
+----------  ----------
+3           Carrot    
+6           Cage      
+7           Cage Wire 
+8           Camel Rope
+```
+
+If we do :
+
+```sh
+sqlite> select id, name from products where name LIKE 'age%';
+```
+
+We don't get any results, to find the product with Cage and Cage Wire, we can modify the query as follows:
+
+```sh
+sqlite> select id, name from products where name LIKE '%age%';
+id          name      
+----------  ----------
+6           Cage      
+7           Cage Wire
+```
+
+So, the percent sign in the beginning matches any number of occurrences of any character before the letter 'a'. The percent sign at the end of 'age' matches any number of occurrences of any character after the string 'age'.
+
+
+We can use the wildcard character anywhere in the string:
+
+```sh
+sqlite> select id, name from products where name LIKE 'C%e';
+id          name      
+----------  ----------
+6           Cage      
+7           Cage Wire 
+8           Camel Rope
+```
+
+Here we search for products that begins with the letter 'C' and has any number of characters after that and ends in the letter 'e'.
+
+The Underscore Wildcard
+----------
+
+The underscore wildcard is used to match just a single character. Here is an example:
+
+```sh
+sqlite> select id, name from products where name LIKE '_ock';
+id          name      
+----------  ----------
+1           Rock
+```
+
+Here we match product with the name that has any letter before the 'ock'. We can also combine both the wildcards:
+
+```sh
+sqlite> select id, name from products where name LIKE '_am%';
+id          name      
+----------  ----------
+4           Hammer    
+8           Camel Rope
+```
+
+Summary
+==========
+----------
+
+In this article you learned how to use wildcards to search text fields in the WHERE clause. You learned about the percent and the underscore wildcards.
