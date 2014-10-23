@@ -1,0 +1,138 @@
+SQL Basics : Calculated Fields
+
+
+Objective
+==========
+----------
+
+To learn about calculated fields.
+
+Calculated Fields
+==========
+----------
+
+Calculated fields are useful to calculate total, averages or other calculations based on table data. The calculated field does not exist in the tables, it is created on demand within a SELECT statement. Why do we need to let the database do the calculation instead of doing it in your client code? Because it is faster to perform the calculations on the database server.
+
+Concatenating Fields
+==========
+----------
+
+Let's display the name of all the users by concatenating the first_name and last_name.
+
+```sh
+sqlite> select first_name || ' ' || last_name from users;
+first_name || ' ' || last_name
+------------------------------
+bugs bunny                    
+daffy duck                    
+porky pig                     
+pluto dog                     
+pluto pet                     
+tasmanian devil               
+tweety bird                   
+elmer fudd                    
+speedy gonzales               
+yosemite sam                  
+sylvester
+```
+
+Here we are using the two pipes || operator to concatenate first_name and last_name. You can change the name of the resulting header to name by using the AS keyword. The new header 'name' is an alias for the concatenated field.
+
+```sh
+sqlite> select first_name || ' ' || last_name as name from users;
+name      
+----------
+bugs bunny
+daffy duck
+porky pig 
+pluto dog 
+pluto pet 
+tasmanian 
+tweety bir
+elmer fudd
+speedy gon
+yosemite s
+sylvester
+```
+
+The last name is getting cut-off. Let's fix that by specifying the width for the columns.
+
+```sh
+sqlite> .width 20 20
+sqlite> select first_name || ' ' || last_name as name from users;
+name                
+--------------------
+bugs bunny          
+daffy duck          
+porky pig           
+pluto dog           
+pluto pet           
+tasmanian devil     
+tweety bird         
+elmer fudd          
+speedy gonzales     
+yosemite sam        
+sylvester           
+```                    
+
+Performing Calculations
+==========
+----------
+
+Let's create a line_items table.
+
+```sh
+sqlite> CREATE TABLE line_items(
+   ...> id int primary key not null,
+   ...> product_id int not null,
+   ...> quantity int,
+   ...> price real,
+   ...> order_number int);
+sqlite> .tables
+line_items  products    users
+```
+
+Populate line_times with some sample data.
+
+```sh
+sqlite> INSERT INTO line_items(id, product_id, quantity, price, order_number)
+   ...> VALUES(1, 1, 4, 10, 1);
+sqlite> INSERT INTO line_items(id, product_id, quantity, price, order_number)
+   ...> VALUES(2, 3, 10, 10, 1);
+sqlite> INSERT INTO line_items(id, product_id, quantity, price, order_number)
+   ...> VALUES(3, 2, 1, 40, 1);
+sqlite> INSERT INTO line_items(id, product_id, quantity, price, order_number)
+   ...> VALUES(4, 4, 15, 30, 1);
+```
+
+We now have four rows in line_items table.
+
+```sh
+sqlite> select * from line_items;
+id                    product_id            quantity    price       order_number
+--------------------  --------------------  ----------  ----------  ------------
+1                     1                     4           10.0        1           
+3                     2                     1           40.0        1           
+2                     3                     10          10.0        1           
+4                     4                     15          30.0        1
+```
+
+Let's calculate line_item_price for each of the line_items :
+
+```sh
+sqlite> select product_id, quantity, price, quantity * price AS line_item_price from line_items;
+product_id            quantity              price       line_item_price
+--------------------  --------------------  ----------  ---------------
+1                     4                     10.0        40.0           
+2                     1                     40.0        40.0           
+3                     10                    10.0        100.0          
+4                     15                    30.0        450.0
+```
+
+The last column shows the line_item_price for each row in the line_items table. You can add, subtract, multiply and divide to perform any mathematical calculations.
+
+Summary
+==========
+----------
+
+In this article you learned how to use calculated fields and why it is used. You also learned about the aliases for the calculated fields.
