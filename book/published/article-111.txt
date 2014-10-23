@@ -1,0 +1,171 @@
+SQL Basics : Sorting
+
+Objective
+==========
+----------
+
+Learn how to use ORDER By clause to sort retrieved data.
+
+Sorting Single Column
+==========
+----------
+
+When you select a column, the data seems to be not ordered:
+
+```sh
+sqlite> select first_name from users;
+first_name
+----------
+bugs      
+daffy     
+porky     
+pluto     
+pluto     
+tasmanian 
+tweety    
+elmer     
+speedy    
+yosemite
+```
+
+However, if you select the primary key and the first name:
+
+```sh
+sqlite> select id, first_name from users;
+id          first_name
+----------  ----------
+1           bugs      
+2           daffy     
+3           porky     
+4           pluto     
+5           pluto     
+6           tasmanian 
+7           tweety    
+8           elmer     
+9           speedy    
+10          yosemite
+```
+
+You see that it is displayed in the order the record was inserted into the database. You should not rely on this default behavior since the ordering can be changed when you delete and update records in the users table. It is a good practice to explicitly specify the sort order.
+
+```sh
+sqlite> select first_name from users order by first_name;
+first_name
+----------
+bugs      
+daffy     
+elmer     
+pluto     
+pluto     
+porky     
+speedy    
+tasmanian 
+tweety    
+yosemite
+```
+
+You can now see that these are ordered by the first_name and not by the primary key:
+
+```sh
+sqlite> select id, first_name from users order by first_name;
+id          first_name
+----------  ----------
+1           bugs      
+2           daffy     
+8           elmer     
+4           pluto     
+5           pluto     
+3           porky     
+9           speedy    
+6           tasmanian 
+7           tweety    
+10          yosemite
+```
+
+Sorting by Multiple Columns
+==========
+----------
+
+Here the data is not sorted in any order:
+
+```sh
+sqlite> select last_name, first_name from users;
+last_name   first_name
+----------  ----------
+bunny       bugs      
+duck        daffy     
+pig         porky     
+dog         pluto     
+pet         pluto     
+devil       tasmanian 
+bird        tweety    
+fudd        elmer     
+gonzales    speedy    
+sam         yosemite
+```
+
+Let's sort the users first by last_name and then first_name:
+
+```sh
+sqlite> select last_name, first_name from users order by last_name, first_name;
+last_name   first_name
+----------  ----------
+bird        tweety    
+bunny       bugs      
+devil       tasmanian 
+dog         pluto     
+duck        daffy     
+fudd        elmer     
+gonzales    speedy    
+pet         pluto     
+pig         porky     
+sam         yosemite
+```
+
+Specifying Sort Direction
+==========
+----------
+
+In the previous examples, the sorting by default was in ascending order, if you want to order by descending, you can use DESC keyword:
+
+```sh
+sqlite> select first_name from users order by first_name desc;
+first_name
+----------
+yosemite  
+tweety    
+tasmanian 
+speedy    
+porky     
+pluto     
+pluto     
+elmer     
+daffy     
+bugs
+```
+
+Here is another example, this time with multiple columns:
+
+```sh
+select last_name, first_name from users order by last_name desc, first_name;
+last_name   first_name
+----------  ----------
+sam         yosemite  
+pig         porky     
+pet         pluto     
+gonzales    speedy    
+fudd        elmer     
+duck        daffy     
+dog         pluto     
+devil       tasmanian 
+bunny       bugs      
+bird        tweety
+```
+
+Summary
+==========
+----------
+
+In this article, you learned how to sort data using the ORDER By clause in the SELECT statement. This clause must be the last in the SELECT statement. It can be used to sort data in ascending or descending order on one or more columns.
+
+

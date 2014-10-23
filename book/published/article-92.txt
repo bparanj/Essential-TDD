@@ -24,7 +24,14 @@ We can compare adding two floats as follows:
   => true
  ```
 
-Consider this example:
+You see that the result of adding these two numbers is a Float:
+
+```ruby
+(139.25 + 74.79).class
+ => Float 
+```
+
+Let's now consider this example:
  
  ```ruby
  > 139.25 + 74.79
@@ -35,7 +42,7 @@ Consider this example:
  => false 
 ```
 
-Floats cannot store decimal numbers precisely. If we are interested only in comparing upto two decimal places, we can do so in our test like this:
+Floats cannot store decimal numbers precisely. If we are interested only in comparing up-to two decimal places, we can do so in our test like this:
 
 ```ruby
 describe 'Float accuracy' do
