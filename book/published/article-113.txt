@@ -1,0 +1,177 @@
+SQL Basics : Advanced Search Conditions
+
+Objective
+==========
+----------
+
+Learn how to combine WHERE clauses to create advanced data filters and how to use NOT and IN operators.
+
+Multiple Conditions in WHERE Clauses
+==========
+----------
+
+You can use more than one search criteria by combining where clauses with AND or OR clauses. The AND and OR is known as logical operators.
+
+Create the table and populate some data as follows:
+
+```sh
+sqlite> CREATE TABLE products(
+   ...> id int primary key not null,
+   ...> price int,
+   ...> name char(50),
+   ...> user_id int not null)
+   ...> ;
+sqlite> .tables
+products  users   
+sqlite> INSERT INTO products(id, price, name, user_id)
+   ...> VALUES(1, 10, 'Rock', 1);
+sqlite> INSERT INTO products(id, price, name, user_id)
+   ...> VALUES(2, 20, 'Sand', 1);
+sqlite> INSERT INTO products(id, price, name, user_id)
+   ...> VALUES(3, 30, 'Carrot', 1);
+sqlite> INSERT INTO products(id, price, name, user_id)
+   ...> VALUES(4, 40, 'Hammer', 1);
+```
+
+The AND Operator
+==========
+----------
+
+You can use AND operator to filter by more than one column as follows:
+
+```sh
+sqlite> select * from products where user_id = 1 AND price < 30;
+id          price       name        user_id   
+----------  ----------  ----------  ----------
+1           10          Rock        1         
+2           20          Sand        1
+```
+
+We have two conditions that is joined by the AND logical operator. In this case the user_id must be 1 and the price must be less than 30. We have 4 records as demonstrated below:
+
+```sh
+sqlite> select * from products;
+id          price       name        user_id   
+----------  ----------  ----------  ----------
+1           10          Rock        1         
+2           20          Sand        1         
+3           30          Carrot      1         
+4           40          Hammer      1
+```
+
+We found only two records when we applied the multiple conditions to the query. You can have as many conditions as you want separated by AND keyword.
+
+The OR Operator
+==========
+----------
+
+The OR operator is used to retrieve rows that match any of the condition in the WHERE clause. Insert two records for product that belongs to different users.
+
+```sh
+sqlite> INSERT INTO products(id, price, name, user_id)
+   ...> VALUES(5, 40, 'Tree', 2);
+sqlite> INSERT INTO products(id, price, name, user_id)
+   ...> VALUES(6, 80, 'Cage', 3);
+```
+
+Let's retrieve all products that belong to user with id 2 or 3:
+
+```sh
+sqlite> select id, name, price from products where user_id=2 OR user_id = 3;
+id          name        price     
+----------  ----------  ----------
+5           Tree        40        
+6           Cage        80
+```
+
+Combining AND and OR Operators
+==========
+----------
+
+Use parenthesis to group multiple conditions to avoid problems due to the order of evaluation of the logical operators. Here is an example to combine logical operators:
+
+```sh
+select id, user_id, name, price from products where (user_id = 1 OR user_id = 2) AND price > 30;
+id          user_id     name        price     
+----------  ----------  ----------  ----------
+4           1           Hammer      40        
+5           2           Tree        40
+```
+
+You can see that there are 5 products that does not have the condition to filter products with price greater than 30.
+
+```sh
+sqlite> select id, user_id, name, price from products where user_id = 1 OR user_id = 2;
+id          user_id     name        price     
+----------  ----------  ----------  ----------
+1           1           Rock        10        
+2           1           Sand        20        
+3           1           Carrot      30        
+4           1           Hammer      40        
+5           2           Tree        40
+```
+
+The IN Operator
+==========
+----------
+
+The IN operator is used to specify a range of conditions. The results contain matches that satisfy any of the conditions.
+
+```sh
+sqlite> select user_id, name, price from products where user_id IN (1,2,5);
+user_id     name        price     
+----------  ----------  ----------
+1           Rock        10        
+1           Sand        20        
+1           Carrot      30        
+1           Hammer      40        
+2           Tree        40
+```
+
+In this example there are four rows that match the first value in the comma separated list, just one row for the second value and  no rows for user_id = 5, because there is products that belongs to user_id = 5.
+
+```sh
+select user_id from products;
+user_id   
+----------
+1         
+1         
+1         
+1         
+2         
+3
+```
+
+There are products only for user_id = 1, 2 and 3.
+
+The NOT Operator
+==========
+----------
+
+The NOT is a negation operator that is always used in conjunction with another operator.
+
+```sh
+sqlite> select * from products where NOT user_id = 1;
+id          price       name        user_id   
+----------  ----------  ----------  ----------
+5           40          Tree        2         
+6           80          Cage        3
+```
+
+Here we retrieve all rows that does not belong to user_id = 1. 
+
+We could have accomplished the same thing with the <> operator as follows:
+
+```sh
+sqlite> select * from products where user_id <> 1;
+id          price       name        user_id   
+----------  ----------  ----------  ----------
+5           40          Tree        2         
+6           80          Cage        3
+```
+
+Summary
+==========
+----------
+
+In this article you learned how to use multiple conditions with WHERE clauses by combining AND and OR operators. You also learned how to use the IN and NOT operators.
