@@ -1,9 +1,7 @@
-Thread Deadlocks
+Troubleshooting Thread Deadlocks using strace
 
-================
------------
+In this article you will learn how to identify thread deadlocks using UNIX strace command. This is a very useful command that you can use to troubleshoot problems in production. It will trace all system calls and can slow down your system, so run it during slow periods. Sometimes you don't see any log messages in any of the servers when you are troubleshooting, this command becomes very useful in such cases.
 
-We have source code for the Dining Philosopher's problem. What if it is in a language that you are not familiar? What if you don't have the source code? How will you verify that program that is hanging is due to thread deadlocks?
 
 Create chopstick.rb with the following code:
 
@@ -119,17 +117,52 @@ sleep
 
 Run the driver.rb.
 
+Discussion
+================
+-----------
+
+We have source code for the Dining Philosopher's problem. What if it is in a language that you are not familiar? What if you don't have the source code? How will you verify that program that is hanging is due to thread deadlocks? You can use strace to find thread deadlocks.
+
 Strace to View Deadlocks
 ========================
 -------------------------
 
-Syntax of strace command to view deadlocks. Start the driver program with the strace command. 
+Let's use strace command to view deadlocks. Start the driver program with the strace command like this: 
 
-[[[[[[]]]]]] Run threads 6/driver.rb in a Linux instance.
+```ruby
+$strace -s 2000 -p ruby driver.rb
+```
+You get lot of output, here is the output that is relevant to the deadlock. We can see the futex system call.
 
-In Unix everything is a file or process. So what happens when a process uses multiple threads? There is no thread id to identify a specific thread, every new thread gets its own process id. So you can run strace for a specific thread as follows:
+```sh
+[pid  2299] select(4, [3], NULL, NULL, NULL <unfinished ...>
+[pid  2301] <... futex resumed> )       = -1 ETIMEDOUT (Connection timed out)
+[pid  2301] futex(0x989a8c8, FUTEX_WAKE_PRIVATE, 1) = 0
+[pid  2301] futex(0x96e38b8, FUTEX_WAKE_OP_PRIVATE, 1, 1, 0x96e38b4, {FUTEX_OP_SET, 0, FUTEX_OP_CMP_GT, 1}) = 1
+[pid  2298] <... futex resumed> )       = 0
+[pid  2301] futex(0x96e390c, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+[pid  2298] futex(0x96e390c, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+[pid  2301] <... futex resumed> )       = 0
+[pid  2298] <... futex resumed> )       = -1 EAGAIN (Resource temporarily unavailable)
+[pid  2301] futex(0x989a8e4, FUTEX_WAIT_PRIVATE, 7, NULL <unfinished ...>
+[pid  2298] futex(0x96e390c, FUTEX_WAKE_PRIVATE, 1) = 0
+[pid  2298] time(NULL)                  = 1413743725
+[pid  2298] clock_gettime(CLOCK_MONOTONIC, {1621, 935083702}) = 0
+[pid  2298] clock_gettime(CLOCK_MONOTONIC, {1621, 935107966}) = 0
+[pid  2298] clock_gettime(CLOCK_MONOTONIC, {1621, 935128739}) = 0
+[pid  2298] futex(0x96e38b8, FUTEX_WAIT_PRIVATE, 3, {9, 999979227}) = -1 ETIMEDOUT (Connection timed out)
+[pid  2298] futex(0x96e390c, FUTEX_WAKE_PRIVATE, 1) = 0
+[pid  2298] clock_gettime(CLOCK_MONOTONIC, {1631, 935391621}) = 0
+[pid  2298] time(NULL)                  = 1413743735
+[pid  2298] write(1, "Exception occured due to No live threads left. Deadlock?", 56Exception occured due to No live threads left. Deadlock?) = 56
+[pid  2298] write(1, "\n", 1
+)           = 1
+[pid  2298] write(1, "#<Class:0x97163b8>", 18#<Class:0x97163b8>) = 18
+[pid  2298] write(1, "\n", 1
+)           = 1
+```
 
-How can we get the pids of all the threads executing in a single process? Run the following command:
+In Unix everything is a file or process. So what happens when a process uses multiple threads? There is no thread id to identify a specific thread, every new thread gets its own process id. How can we get the pids of all the threads executing in a single process? Run the following command:
 
 ```sh
 ps -efL|grep <Process Name>
@@ -141,9 +174,13 @@ Now, you can trace each of the thread using it's pid as follows:
 strace -p pid-of-a-thread
 ```
 
+So you can run strace for a specific thread using it's process id.
+ 
 References
 ==========
 -----------
 
-[A gentle introduction to actor-based concurrency](https://practicingruby.com/articles/gentle-intro-to-actor-based-concurrency 'Concurrency')
-[Strace Hanging at Futex](http://meenakshi02.wordpress.com/2011/02/02/strace-hanging-at-futex/ 'strace')
+1. [A gentle introduction to actor-based concurrency](https://practicingruby.com/articles/gentle-intro-to-actor-based-concurrency 'Concurrency')
+2. [Strace Hanging at Futex](http://meenakshi02.wordpress.com/2011/02/02/strace-hanging-at-futex/ 'strace')
+3. [The Magic of Strace](http://chadfowler.com/blog/2014/01/26/the-magic-of-strace/ 'Strace')
+4. [GoRuCo 2014 - How to Debug Anything by James Golick ] (https://www.youtube.com/watch?v=VV7b7fs4VI8 'GoRuCo 2014 - How to Debug Anything by James Golick ')
