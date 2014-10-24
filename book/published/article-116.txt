@@ -1,0 +1,216 @@
+SQL Basics : Aggregate Functions
+
+Objective
+==========
+----------
+
+In this article, you will learn how to use aggregate functions in SQL to summarize table data.
+
+Aggregate Functions
+==========
+----------
+
+SQL provides functions to summarize data without retrieving data. This saves bandwidth and avoids unnecessary retrieval of data. This is useful for analysis and reporting purposes. These functions can compute number of rows in a table, calculating sum of a set of rows in a table, finding highest, lowest and average values in a table column. 
+
+
+The AVG() Function
+==========
+----------
+
+Here is the average function :
+
+```sh
+sqlite> select AVG(price) AS average_price from products;
+average_price       
+--------------------
+47.5
+```
+
+This query calculates the average price of all the products. You can also calculate average price for a subset of rows.
+
+```sh
+sqlite> select AVG(price) AS average_price from products where user_id = 1;
+average_price       
+--------------------
+25.0
+```
+
+In this example we calculate the average price of all products for a user with user_id = 1.
+
+The COUNT function
+==========
+----------
+
+Let's count the number of products in the products table.
+
+```sh
+sqlite> select count(*) from products;
+count(*)            
+--------------------
+8
+```
+
+Currently, we have 8 products. We have 12 rows in the users table.
+
+```sh
+sqlite> select * from users;
+id                    first_name            last_name   email            
+--------------------  --------------------  ----------  -----------------
+1                     bugs                  bunny       bbunny@disney.com
+2                     daffy                 duck        daffy@disney.com 
+3                     porky                 pig         ppig@disney.com  
+4                     pluto                 dog         pdog@disney.com  
+5                     pluto                 pet         pdog@disney.com  
+6                     tasmanian             devil       tdevil@disney.com
+7                     tweety                bird        tweety@disney.com
+8                     elmer                 fudd        efudd@disney.com 
+9                     speedy                gonzales    gonzales@disney.c
+10                    yosemite              sam         sam@disney.com   
+11                    sylvester                         sam@disney.com   
+12                    bosko                             sam@disney.com   
+```
+
+We get 12 when we count the users table.
+
+```sh
+sqlite> select count(*) from users;
+count(*)            
+--------------------
+12   
+```
+
+If we want to ignore NULL values and count only the number of rows that have values in a specific column, we can use count(column_name).
+
+```sh               
+sqlite> select count(last_name) from users;
+count(last_name)    
+--------------------
+11                  
+```
+
+Although we see two blank values in the last_name column, we see 11 because only one of the column is NULL. We can find out which row it is by firing this query:
+
+```sh
+sqlite> select * from users where last_name is NULL;
+id                    first_name            last_name   email         
+--------------------  --------------------  ----------  --------------
+12                    bosko                             sam@disney.com
+```
+
+The other record contains a blank string, we can find the row with blank string using this query:
+
+```sh
+sqlite> select * from users where last_name ='';
+id                    first_name            last_name   email         
+--------------------  --------------------  ----------  --------------
+11                    sylvester                         sam@disney.com
+```
+
+We can provide a different name for the column name using AS keyword:
+
+```sh
+sqlite> select count(last_name) as last_name_count from users;
+last_name_count     
+--------------------
+11
+```
+
+The MAX function
+==========
+----------
+
+Let's find the price of the most expensive product.
+
+```sh
+sqlite> select MAX(price) from products;
+MAX(price)          
+--------------------
+80
+```
+
+Exercise
+==========
+----------
+
+Change the above query so that the name of the column is called 'Most Expensive'.
+
+The MIN Function
+==========
+----------
+
+Let's find the price of the cheapest product.
+
+```sh
+sqlite> select MIN(price) from products;
+MIN(price)          
+--------------------
+10
+```
+
+The SUM Function
+==========
+----------
+
+```sh
+sqlite> select SUM(quantity) as ordered_items from line_items where order_number = 1;
+ordered_items       
+--------------------
+30
+```
+
+The SUM function returns the sum of all the quantity in the line_items table, the WHERE clause restricts it to the order_number = 1.
+
+```sh
+sqlite> select * from line_items where order_number = 1;
+id                    product_id            quantity    price       order_number
+--------------------  --------------------  ----------  ----------  ------------
+1                     1                     4           10.0        1           
+3                     2                     1           40.0        1           
+2                     3                     10          10.0        1           
+4                     4                     15          30.0        1           
+```
+
+There is data for line_items for only one order. If you add all the columns under the quantity, you get 30. We can also use SUM to total calculated values. Here is an example to calculate the total amount for order with order_number = 1.
+
+```sh
+sqlite> select SUM(price * quantity) AS Total from line_items where order_number = 1;
+Total               
+--------------------
+630.0               
+```
+
+This is the total amount that a customer would pay when they checkout the cart on the online store. 
+
+```sh
+sqlite> select * from line_items;
+id                    product_id            quantity    price       order_number
+--------------------  --------------------  ----------  ----------  ------------
+1                     1                     4           10.0        1           
+3                     2                     1           40.0        1           
+2                     3                     10          10.0        1           
+4                     4                     15          30.0        1           
+```
+
+You can double check the calculated answer by multiplying the quantity and price and adding them up.
+
+Combining Aggregate Functions
+==========
+----------
+
+Here is an example that combines aggregate functions.
+
+```sh
+sqlite> select count(*) as count, 
+			   avg(price) as average_price, 
+			   max(price) as maximum_price, 
+			   min(price) as minimum_price from products;
+count                 average_price         maximum_price  minimum_price
+--------------------  --------------------  -------------  -------------
+8                     47.5                  80             10
+```
+
+Summary
+==========
+----------
+
+In this article, you learned about aggregate functions. They are faster than if you were to calculate these values in your code. They can be combined together to perform powerful calculations quickly.
