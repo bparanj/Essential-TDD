@@ -1,0 +1,178 @@
+SQL Basics : Inner Join
+
+Objective
+==========
+----------
+
+Learn how to use inner joins
+
+Inner Joins
+==========
+----------
+
+In the previous article on Joins, the join we used is called as equijoin or inner join. It is called inner join because it is the intersection of the two tables. If you had two circles to represent two tables, the common overlapping area is the inner join of those two tables. Here is an example:
+
+```sh
+sqlite> select first_name as user_name, name as product_name, price as product_price from users INNER JOIN products ON users.id = products.user_id;
+user_name   product_name  product_price
+----------  ------------  -------------
+bugs        Rock          10           
+bugs        Sand          20           
+bugs        Carrot        30           
+bugs        Hammer        40           
+daffy       Tree          40           
+porky       Cage          80           
+porky       Cage Wire     80           
+porky       Camel Rope    80
+```
+
+Instead of comma separating the tables as we saw in the previous article on join, here we have INNER JOIN between the table names. The WHERE clause is replaced by ON keyword. Here is the query we used in the previous article, you can compare both the queries and see the difference.
+
+```sh
+sqlite> select first_name as user_name, name as product_name, price as product_price from users, products WHERE users.id = products.user_id;
+user_name   product_name  product_price
+----------  ------------  -------------
+bugs        Rock          10           
+bugs        Sand          20           
+bugs        Carrot        30           
+bugs        Hammer        40           
+daffy       Tree          40           
+porky       Cage          80           
+porky       Cage Wire     80           
+porky       Camel Rope    80
+```
+
+The query is different, but the output is the same in both cases.
+
+Joining Multiple Tables
+==========
+----------
+
+You can join as many tables as you want. You have to list all the tables and define the relationship between them. Let's consider an example where we need to display product name, user name, product price and quantity for an order with order_number = 1. We know that product name and product price are stored in the products table. The user name is stored in the users table and the quantity is in the line_items table. Before we join these tables, let's take a look at the data to help us form the query.
+
+```sh
+sqlite> select * from line_items;
+id          product_id  quantity    price       order_number
+----------  ----------  ----------  ----------  ------------
+1           1           4           10.0        1           
+3           2           1           40.0        1           
+2           3           10          10.0        1           
+4           4           15          30.0        1           
+sqlite> select * from products;
+id          price       name        user_id   
+----------  ----------  ----------  ----------
+1           10          Rock        1         
+2           20          Sand        1         
+3           30          Carrot      1         
+4           40          Hammer      1         
+5           40          Tree        2         
+6           80          Cage        3         
+7           80          Cage Wire   3         
+8           80          Camel Rope  3         
+sqlite> select * from users;
+id          first_name  last_name   email            
+----------  ----------  ----------  -----------------
+1           bugs        bunny       bbunny@disney.com
+2           daffy       duck        daffy@disney.com 
+3           porky       pig         ppig@disney.com  
+4           pluto       dog         pdog@disney.com  
+5           pluto       pet         pdog@disney.com  
+6           tasmanian   devil       tdevil@disney.com
+7           tweety      bird        tweety@disney.com
+8           elmer       fudd        efudd@disney.com 
+9           speedy      gonzales    gonzales@disney.c
+10          yosemite    sam         sam@disney.com   
+11          sylvester               sam@disney.com   
+12          bosko                   sam@disney.com
+```
+
+Let's now join these three tables to get the data.
+
+```sh
+sqlite> select name, first_name, price, quantity from line_items, products, users 
+   ...> where products.user_id = users.id
+   ...> and line_items.product_id = products.id
+   ...> and order_number = 1;
+Error: ambiguous column name: price
+```
+
+We get this error because we have price column in line_times as well as the products table. So we need to explicitly indicate which table the price column we are interested in resides. We can do that by prefixing the price with the name of the table as follows:
+
+```sh
+sqlite> select name, first_name, line_items.price, quantity from line_items, products, users
+   ...> where products.user_id = users.id
+   ...> and line_items.product_id = products.id
+   ...> and order_number = 1;
+name        first_name  price       quantity  
+----------  ----------  ----------  ----------
+Rock        bugs        10.0        4         
+Sand        bugs        40.0        1         
+Carrot      bugs        10.0        10        
+Hammer      bugs        30.0        15
+```
+
+We had to specify line_items.price to avoid ambiguity. The WHERE clauses are separated by AND keyword to specify the relationships between the tables. The foreign key in the products table user_id is the primary key in users table id. This is the first condition of the WHERE clause. The condition relates the foreign key product_id in the line_items table to the primary key of products, id in the products table. The final order_number = 1 condition filters the results only for that order.
+
+You might be wondering why I picked line_items price column instead of products' price column. The reason is that once the line_items is created the price column will not change. The price column in the products table can be changed by the user who owns it anytime. This avoids people who are shopping our products getting confused by sudden changes in the price of the product they are about to buy.
+
+Exercise
+==========
+----------
+
+The first column in the above output is the name of the product. Change the name of the column from 'name' to 'product name'.
+
+Using Joins Instead of Subqueries
+==========
+----------
+
+In the previous article on subqueries we had this query:
+
+```sh
+sqlite> select name, email from customers where id IN (select customer_id from orders where id IN (select order_number from line_items where product_id = 1));
+name         email               
+-----------  --------------------
+Big Spender  bspender@example.com
+```
+
+Let's use joins instead of subqueries. To create this query, it helps to list all the table to be joined so that you can see the relationship between them. This will be used in the WHERE clauses.
+
+```sh
+sqlite> select * from customers;
+id          name         email               
+----------  -----------  --------------------
+1           Big Spender  bspender@example.com
+2           Big Saver    bsaver@example.com  
+sqlite> select * from orders;
+id          confirmation  customer_id  created_at         
+----------  ------------  -----------  -------------------
+1           1             1            2014-10-25 00:11:51
+2           2             1            2014-10-25 00:14:29
+3           3             2            2014-10-25 01:16:10
+sqlite> select * from line_items;
+id          product_id  quantity    price       order_number
+----------  ----------  ----------  ----------  ------------
+1           1           4           10.0        1           
+3           2           1           40.0        1           
+2           3           10          10.0        1           
+4           4           15          30.0        1
+```
+
+Here is the query:
+
+```sh
+sqlite> select name, email 
+   ...> from customers, orders, line_items
+   ...> where customers.id = orders.customer_id
+   ...> and line_items.order_number = orders.id
+   ...> and product_id = 1;
+name         email               
+-----------  --------------------
+Big Spender  bspender@example.com
+```
+
+As you can see the result is the same as using the subquery. Which one should you use? Prefer joins because it more efficient.
+
+Summary
+==========
+----------
+In this article you learned the basics of relationships between tables that is required to use joins. You also learned the most frequently used joins, the inner join. In the next article, we will explore other types of joins.
