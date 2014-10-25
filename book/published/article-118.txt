@@ -1,0 +1,141 @@
+SQL Basics : Subqueries
+
+Objective
+==========
+----------
+
+To learn how to use subqueries.
+
+Subqueries
+==========
+----------
+
+Subqueries are queries that are embedded into other queries. 
+
+Let's create the orders table.
+
+```sh
+sqlite> CREATE TABLE orders(
+   ...> id int primary key not null,
+   ...> confirmation char(50),
+   ...> customer_id int not null,
+   ...> created_at datetime default current_timestamp
+   ...> );
+```
+
+Let's insert some records into the order table.
+
+```sh
+sqlite> INSERT INTO orders(id, confirmation, customer_id)
+   ...> VALUES(1, 1, 1);
+sqlite> INSERT INTO orders(id, confirmation, customer_id)
+   ...> VALUES(2, 2, 1);
+sqlite> INSERT INTO orders(id, confirmation, customer_id)   
+...> VALUES(3, 3, 2);
+```
+
+Let's create customers table.
+
+```sh
+sqlite> CREATE TABLE customers(
+   ...> id int primary key not null,
+   ...> name char(50),
+   ...> email char(50)
+   ...> );
+```
+
+Let's insert some records into the customers table.
+
+```sh
+sqlite> INSERT INTO customers(id, name, email)
+   ...> VALUES(1, 'Big Spender', 'bspender@example.com');
+sqlite> INSERT INTO customers(id, name, email)
+   ...> VALUES(2, 'Big Saver', 'bsaver@example.com');
+```
+
+Problem
+----------
+
+List all customers who ordered item with product_id = 1: 
+
+Step 1
+----------
+
+```sh
+sqlite> select order_number from line_items where product_id = 1;
+order_number
+------------
+1
+```
+
+Step 2
+----------
+
+```sh
+sqlite> select customer_id from orders where id = 1;
+customer_id
+-----------
+1
+```
+
+We use the order_number retrieved from step 1 as the value for id because, id is the primary key of orders and order_number in line_items is basically the order_id. It should have been named order_id to be clear.
+
+Step 3
+----------
+
+```sh
+sqlite> select customer_id from orders where id IN (select order_number from line_items where product_id = 1);
+customer_id
+-----------
+1
+```
+
+We can have subquery that finds the primary key of orders as above. Now we can list the customer details as follows.
+
+```sh
+sqlite> select name, email from customers where id IN (select customer_id from orders where id IN (select order_number from line_items where product_id = 1));
+name         email               
+-----------  --------------------
+Big Spender  bspender@example.com
+```
+
+Subqueries as Calculated Fields
+==========
+----------
+
+Let's find out the total number of orders placed by every customer in the customers table. Orders table has the orders with the corresponding customer_id. We have two steps:
+
+1. Get the list of customers from customers table.
+2. For each customer, count the number of orders placed from the orders table. 
+
+```sh
+sqlite> select count(*) as number_of_orders from orders where customer_id = 1;
+number_of_orders
+----------------
+2               
+sqlite> select count(*) as number_of_orders from orders where customer_id = 2;
+number_of_orders
+----------------
+1
+```
+
+Here is the subquery that uses calculated fields.
+
+```sh
+sqlite> select name, (select count(*) from orders where orders.customer_id = customers.id) as number_of_orders from customers;
+name         number_of_orders
+-----------  ----------------
+Big Spender  2               
+Big Saver    1
+```
+
+To avoid ambiguity we have the order.customer_id = customers.id, this relates the orders table and the customers table.
+
+Summary
+==========
+----------
+
+In this article, you learned how to use subqueries in WHERE clause IN operators and for populating calculated columns.
+
+
+
