@@ -1,0 +1,178 @@
+SQL Basics : Joins
+
+Objective
+==========
+----------
+
+Learn the why and how to use joins.
+
+Why Joins?
+==========
+----------
+
+We currently have products and users table. Here is the list of records they contain.
+
+```sh
+sqlite> select * from products;
+id          price       name        user_id   
+----------  ----------  ----------  ----------
+1           10          Rock        1         
+2           20          Sand        1         
+3           30          Carrot      1         
+4           40          Hammer      1         
+5           40          Tree        2         
+6           80          Cage        3         
+7           80          Cage Wire   3         
+8           80          Camel Rope  3         
+sqlite> select * from users;
+id          first_name  last_name   email            
+----------  ----------  ----------  -----------------
+1           bugs        bunny       bbunny@disney.com
+2           daffy       duck        daffy@disney.com 
+3           porky       pig         ppig@disney.com  
+4           pluto       dog         pdog@disney.com  
+5           pluto       pet         pdog@disney.com  
+6           tasmanian   devil       tdevil@disney.com
+7           tweety      bird        tweety@disney.com
+8           elmer       fudd        efudd@disney.com 
+9           speedy      gonzales    gonzales@disney.c
+10          yosemite    sam         sam@disney.com   
+11          sylvester               sam@disney.com   
+12          bosko                   sam@disney.com
+```
+
+We are storing the name and email in it's own table instead of storing it in products table. Updating the users information becomes easy since it is in just one place. This also saves storage space. The users and products table are related to each other through common values. In this case the user_id ties a row in the product to a user in the users table. The id in users and products uniquely identifies a row in that table. This id field is called a primary key. 
+
+The join is used to retrieve data from multiple tables with a single SELECT statement. A single set of output is returned by matching the correct rows in the multiple tables on the fly.
+
+How to Join
+==========
+----------
+
+The FROM clause in the SELECT select includes all the tables to be joined and they are related to each other. 
+
+```sh
+sqlite> select first_name as user_name, name as product_name, price as product_price from users, products where users.id = products.user_id;
+user_name   product_name  product_price
+----------  ------------  -------------
+bugs        Rock          10           
+bugs        Sand          20           
+bugs        Carrot        30           
+bugs        Hammer        40           
+daffy       Tree          40           
+porky       Cage          80           
+porky       Cage Wire     80           
+porky       Camel Rope    80
+```
+
+The first_name is in the users table whereas the product name and product price is in the products table. The FROM clause has tables separated by comma. These are the tables to be joined. The WHERE clause specifies that primary key in users table (users.id) must match the foreign key of the user in products table (products.user_id). The output shows data from two different tables retrieved using a single SELECT statement. Let's see what happens when we don't have the WHERE clause.
+
+```sh
+sqlite> select first_name, name, price from users, products;
+first_name  name        price     
+----------  ----------  ----------
+bugs        Rock        10        
+bugs        Sand        20        
+bugs        Carrot      30        
+bugs        Hammer      40        
+bugs        Tree        40        
+bugs        Cage        80        
+bugs        Cage Wire   80        
+bugs        Camel Rope  80        
+daffy       Rock        10        
+daffy       Sand        20        
+daffy       Carrot      30        
+daffy       Hammer      40        
+daffy       Tree        40        
+daffy       Cage        80        
+daffy       Cage Wire   80        
+daffy       Camel Rope  80        
+porky       Rock        10        
+porky       Sand        20        
+porky       Carrot      30        
+porky       Hammer      40        
+porky       Tree        40        
+porky       Cage        80        
+porky       Cage Wire   80        
+porky       Camel Rope  80        
+pluto       Rock        10        
+pluto       Sand        20        
+pluto       Carrot      30        
+pluto       Hammer      40        
+pluto       Tree        40        
+pluto       Cage        80        
+pluto       Cage Wire   80        
+pluto       Camel Rope  80        
+pluto       Rock        10        
+pluto       Sand        20        
+pluto       Carrot      30        
+pluto       Hammer      40        
+pluto       Tree        40        
+pluto       Cage        80        
+pluto       Cage Wire   80        
+pluto       Camel Rope  80        
+tasmanian   Rock        10        
+tasmanian   Sand        20        
+tasmanian   Carrot      30        
+tasmanian   Hammer      40        
+tasmanian   Tree        40        
+tasmanian   Cage        80        
+tasmanian   Cage Wire   80        
+tasmanian   Camel Rope  80        
+tweety      Rock        10        
+tweety      Sand        20        
+tweety      Carrot      30        
+tweety      Hammer      40        
+tweety      Tree        40        
+tweety      Cage        80        
+tweety      Cage Wire   80        
+tweety      Camel Rope  80        
+elmer       Rock        10        
+elmer       Sand        20        
+elmer       Carrot      30        
+elmer       Hammer      40        
+elmer       Tree        40        
+elmer       Cage        80        
+elmer       Cage Wire   80        
+elmer       Camel Rope  80        
+speedy      Rock        10        
+speedy      Sand        20        
+speedy      Carrot      30        
+speedy      Hammer      40        
+speedy      Tree        40        
+speedy      Cage        80        
+speedy      Cage Wire   80        
+speedy      Camel Rope  80        
+yosemite    Rock        10        
+yosemite    Sand        20        
+yosemite    Carrot      30        
+yosemite    Hammer      40        
+yosemite    Tree        40        
+yosemite    Cage        80        
+yosemite    Cage Wire   80        
+yosemite    Camel Rope  80        
+sylvester   Rock        10        
+sylvester   Sand        20        
+sylvester   Carrot      30        
+sylvester   Hammer      40        
+sylvester   Tree        40        
+sylvester   Cage        80        
+sylvester   Cage Wire   80        
+sylvester   Camel Rope  80        
+bosko       Rock        10        
+bosko       Sand        20        
+bosko       Carrot      30        
+bosko       Hammer      40        
+bosko       Tree        40        
+bosko       Cage        80        
+bosko       Cage Wire   80        
+bosko       Camel Rope  80
+```
+
+The output now has every row in the users table paired with every row in the products table. They are paired without considering any logical relationship between them exists or not. The is called the Cartesian Product and the number of rows returned will be equal to the number of rows in users table multiplied by the number of rows in the products table. 
+
+Summary
+==========
+----------
+
+In this article you learned the basics of joins and how to use them. You also learned about Cartesian Product. In the next article we will explore inner joins. 
