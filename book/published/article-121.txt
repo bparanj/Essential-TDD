@@ -1,0 +1,165 @@
+SQL Basics : Advanced Joins
+
+Objective
+==========
+----------
+
+To learn about outer joins and how to use them with aggregate functions.
+
+Data Population
+==========
+----------
+
+Populate a few records into the customers table as follows:
+
+```sh
+sqlite> INSERT INTO customers(id, name, email)
+   ...> VALUES(3, 'Big Saver', 'bsaver2@example.com');
+sqlite> INSERT INTO customers(id, name, email)
+   ...> VALUES(4, 'Big Browser', 'browser@example.com');
+```
+
+We now have four records in the customers table.
+
+```sh
+sqlite> select * from customers;                                                                                          
+id          name         email               
+----------  -----------  --------------------
+1           Big Spender  bspender@example.com
+2           Big Saver    bsaver@example.com  
+3           Big Saver    bsaver2@example.com 
+4           Big Browser  browser@example.com
+```
+
+Self Join
+==========
+----------
+
+Let's get a list of customers who work for the same company for which 'bsaver@example.com' works. The first query must find out the customer name for 'bsaver@example.com', where he works. Then, find a list of customers who work for the same company. Here is one way of solving this problem using subquery:
+
+```sh
+sqlite> select id, name, email from customers 
+where name = (select name from customers where email='bsaver@example.com');
+id          name        email             
+----------  ----------  ------------------
+2           Big Saver   bsaver@example.com
+3           Big Saver   bsaver2@example.com
+```
+
+Here is another way of solving the problem that uses join.
+
+```sh
+sqlite> select c1.id, c1.name, c1.email from customers as c1, customers as c2 
+   ...> where c1.name = c2.name 
+   ...> and c2.email = 'bsaver@example.com';
+id          name        email             
+----------  ----------  ------------------
+2           Big Saver   bsaver@example.com
+3           Big Saver   bsaver2@example.com
+```
+
+Instead of joining two different tables, in this case we are joining with the same table. The c1 and c2 are aliases for the customers table. The WHERE clause condition filters the customer name that match on both customers table. The second condition of the WHERE clause finds records for the company where 'bsaver@example.com' works.
+
+Natural Joins
+==========
+----------
+
+```sh
+sqlite> select c.*, o.id, o.created_at, li.product_id, li.quantity, li.price
+   ...> from customers as c, orders as o, line_items as li
+   ...> where c.id = o.customer_id
+   ...> and li.order_number = o.id
+   ...> and product_id = 1;
+id          name         email                 id          created_at           product_id  quantity    price     
+----------  -----------  --------------------  ----------  -------------------  ----------  ----------  ----------
+1           Big Spender  bspender@example.com  1           2014-10-25 00:11:51  1           4           10.0
+```
+
+In this example, a wildcard is used for the customers table only. All other columns are explicitly specified to avoid retrieving duplicate columns.
+
+Outer Joins
+==========
+----------
+
+Let's find out how many orders is placed by every customer. You can use joins with aggregate functions like this:
+
+```sh
+sqlite> select customer_id, count(*) as number_of_order from orders group by customer_id;
+customer_id  number_of_order
+-----------  ---------------
+1            2              
+2            1
+```
+
+This is same as the following query:
+
+```sh
+sqlite> select customers.id, orders.id 
+   ...> from customers INNER JOIN orders
+   ...> ON customers.id = orders.customer_id;
+customer_id  order_id  
+-----------  ----------
+1            1         
+1            2         
+2            3
+```
+
+We see only two customers who have placed orders. What if we want to include customers who have not placed any orders yet?
+
+```sh
+sqlite> select customers.id as customer_id, orders.id as order_id
+   ...> from customers LEFT OUTER JOIN orders
+   ...> on customers.id = orders.customer_id;
+customer_id  order_id  
+-----------  ----------
+1            1         
+1            2         
+2            3         
+3                      
+4
+```
+
+The left outer join query returns customers who have not placed any order yet. It includes the rows in the left of the LEFT OUTER JOIN, customers, even if they don't have any corresponding value in the other table, in this case, orders table. Let's combine the joins with aggregate functions to list the number of orders placed by every customer.
+
+```sh
+sqlite> select customers.id as customer_id, count(orders.id) as number_of_orders
+   ...> from customers LEFT OUTER JOIN orders 
+   ...> on customers.id = orders.customer_id
+   ...> group by customers.id;
+customer_id  number_of_orders
+-----------  ----------------
+1            2               
+2            1               
+3            0               
+4            0
+```
+
+If you find any of the query difficult to follow, list all the data in all tables and refer them while you analyze the query. Here is the complete list of all data. For subqueries, run one query at a time and then combine them together.
+
+```sh
+sqlite> select * from orders;
+id          confirmation  customer_id  created_at         
+----------  ------------  -----------  -------------------
+1           1             1            2014-10-25 00:11:51
+2           2             1            2014-10-25 00:14:29
+3           3             2            2014-10-25 01:16:10
+sqlite> select * from line_items;
+id          product_id  quantity    price       order_number
+----------  ----------  ----------  ----------  ------------
+1           1           4           10.0        1           
+3           2           1           40.0        1           
+2           3           10          10.0        1           
+4           4           15          30.0        1           
+sqlite> select * from customers;
+id          name         email               
+----------  -----------  --------------------
+1           Big Spender  bspender@example.com
+2           Big Saver    bsaver@example.com  
+3           Big Saver    bsaver2@example.com 
+4           Big Browser  browser@example.com 
+```
+
+Summary
+==========
+----------
+In this article you learned about self join where we join with the same table, outer join and natural joins. You also learned how to use them in combination with aggregate functions.
