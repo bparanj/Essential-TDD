@@ -1,0 +1,127 @@
+SQL Basics : Update and Delete
+
+Objective
+==========
+----------
+
+To learn how to use UPDATE and DELETE statements to update and delete rows in a table.
+
+Update
+==========
+----------
+
+To update data in a table the UPDATE statement is used. Let's take a look at the existing data in the customers table.
+
+```sh
+sqlite> select * from customers;
+id          name         email               
+----------  -----------  --------------------
+1           Big Spender  bspender@example.com
+2           Big Saver    bsaver@example.com  
+3           Big Saver    bsaver2@example.com 
+4           Big Browser  browser@example.com 
+```
+
+Let's now update the email for the customer with id = 1.
+
+```sh
+sqlite> update customers
+   ...> set email = 'bspender@spender.com'
+   ...> where id = 1;
+```
+
+The update statement takes the name of table to be updated followed by the SET keyword with the column name set to a new value. In this example we are updating just one row because of the WHERE condition. Now the change made can be verified by looking at the customers table.
+
+```sh
+sqlite> select * from customers;
+id          name         email               
+----------  -----------  --------------------
+1           Big Spender  bspender@spender.com
+2           Big Saver    bsaver@example.com  
+3           Big Saver    bsaver2@example.com 
+4           Big Browser  browser@example.com
+```
+
+Let's now look at updating more than one column. 
+
+```sh
+sqlite> update customers
+   ...> set name = 'Bugs Bunny',
+   ...>     email = 'bbunny@disney.com'
+   ...> where id = 1;
+```
+
+The only difference here is that we specify multiple columns to be updated separated by comma after the SET keyword.
+
+```sh
+sqlite> select * from customers;
+id          name        email            
+----------  ----------  -----------------
+1           Bugs Bunny  bbunny@disney.com
+2           Big Saver   bsaver@example.co
+3           Big Saver   bsaver2@example.c
+4           Big Browse  browser@example.c
+```
+
+We see that both both the name and email has been changed to the new values. To display the entire value for email column, let's increase the width of that column.
+
+```sh
+sqlite> .width 2 25 25
+sqlite> select * from customers;
+id  name                       email                    
+--  -------------------------  -------------------------
+1   Bugs Bunny                 bbunny@disney.com        
+2   Big Saver                  bsaver@example.com       
+3   Big Saver                  bsaver2@example.com      
+4   Big Browser                browser@example.com
+```
+
+Delete
+==========
+----------
+
+The DELETE statement is used to remove data from a table. Here is the list of customers before delete.
+
+```sh
+sqlite> select * from customers;
+id  name                       email                    
+--  -------------------------  -------------------------
+1   Bugs Bunny                 bbunny@disney.com        
+2   Big Saver                  bsaver@example.com       
+3   Big Saver                  bsaver2@example.com      
+4   Big Browser                browser@example.com      
+```
+
+Let's delete the last record in the customers table.
+
+```sh
+sqlite> delete from customers
+   ...> where id = 4;
+```
+
+You can see that the customer 'Big Browser' is not in customers table.
+
+```sh
+sqlite> select * from customers;
+id  name                       email                    
+--  -------------------------  -------------------------
+1   Bugs Bunny                 bbunny@disney.com        
+2   Big Saver                  bsaver@example.com       
+3   Big Saver                  bsaver2@example.com
+```
+
+If you don't provide the WHERE clause in the delete statement, all records will be deleted.
+
+```sh
+sqlite> delete from customers;
+sqlite> select count(*) from customers;
+count
+--
+0 
+```
+
+Summary
+==========
+----------
+
+In this article you learned how to use the UPDATE and DELETE statements for changing and deleting rows in a table. 
