@@ -17,6 +17,9 @@ TDD Basics
 [Learning Specs](http://www.rubyplus.com/articles/361 "Learning Specs")
 [Essential Skills for TDD](http://www.rubyplus.com/articles/381 "Essential Skills for TDD")
 [What vs How in TDD](http://www.rubyplus.com/articles/411 "What vs How in TDD")
+[Make Your Code Robust](http://www.rubyplus.com/articles/881 'Make Your Code Robust')
+[Testing computation involving floating-point numbers](http://www.rubyplus.com/articles/891 'Testing computation involving floating-point numbers')
+[Base Conversion](http://www.rubyplus.com/articles/911 'Base Conversion')
 
 TDD Beyond Basics
 =================
@@ -34,6 +37,11 @@ TDD Beyond Basics
 [Seams in a System](http://www.rubyplus.com/articles/251 "Seams in a System")
 [How to Use Fakes to Speed Up Tests](http://www.rubyplus.com/articles/261 "How to Use Fakes to Speed Up Tests")
 [Stubs are Not Mocks](http://www.rubyplus.com/articles/401 "Stubs are Not Mocks")
+[Factorial Kata](http://rubyplus.com/articles/441 'Factorial Kata')
+[Counting](http://rubyplus.com/articles/451 'Counting')
+[Character to Number Conversion](http://rubyplus.com/articles/641 'Character to Number Conversion')
+[Test Precisely and Concretely](http://www.rubyplus.com/articles/831 'Test Precisely and Concretely')
+[Mutation Testing](http://www.rubyplus.com/articles/951 'Mutation Testing')
 
 TDD Advanced Concepts
 =====================
@@ -43,12 +51,13 @@ TDD Advanced Concepts
 [Command Query Separation Principle](http://www.rubyplus.com/articles/281 "Command Query Separation Principle")
 [Double Dispatch](http://www.rubyplus.com/articles/341 "Double Dispatch")
 [Dealing with External API](http://www.rubyplus.com/articles/351 "Dealing with External API")
+[Spiking and TDD](http://rubyplus.com/articles/671 'Spiking and TDD')
 
 TDD Best Practice
 =================
 -----------------
 
-[Eliminating Loops in Tests](http://www.rubyplus.com/articles/ "Eliminating Loops in Tests")
+[Eliminating Loops in Tests](http://rubyplus.com/articles/111 "Eliminating Loops in Tests")
 
 
 Katas
@@ -65,8 +74,8 @@ Basics
 [Bowling Game Kata part 3](http://www.rubyplus.com/articles/321 "Bowling Game Kata")
 [Bowling Game Kata Final Solution](http://www.rubyplus.com/articles/331 "Bowling Game Kata")
 [FizzBuzz Kata](http://www.rubyplus.com/articles/421 "FizzBuzz Kata")
-[Generate Prime Numbers](http://www.rubyplus.com/articles/ "Generate Prime Numbers")
-[The Sieve of Erastosthenes](http://www.rubyplus.com/articles/ "The Sieve of Erastosthenes")
+[Generate Prime Numbers](http://rubyplus.com/articles/461 'Generate Prime Numbers')
+[The Sieve of Erastosthenes](http://rubyplus.com/articles/471 'The Sieve of Erastosthenes')
 
 Beyond Basics
 --------------
@@ -88,7 +97,7 @@ Rails
 =======
 -------
 
-[How to Install Redis](http://www.rubyplus.com/articles/ "How to Install Redis")
+[How to Install Redis](http://rubyplus.com/articles/501 "How to Install Redis")
 [How to install and configure Resque](http://www.rubyplus.com/articles/531 "How to install and configure Resque")
 [How to use Mailchimp API to subscribe users in Rails 4.1](http://www.rubyplus.com/articles/551 "Mailchimp API")
 [Sending emails using SendGrid API in Rails 4.1](http://www.rubyplus.com/articles/561 "SendGrid API")
@@ -97,3 +106,85 @@ Rails
 [SSHKit Gem Basics Part 2](http://www.rubyplus.com/articles/601 "SSHKit")
 [Availability Tests](http://www.rubyplus.com/articles/611 "Availability Tests")
 [How to Install Alpha SSL certificate using Moonshine for Rails 4.1](http://www.rubyplus.com/articles/621 "Alpha SSL")
+[Simple Direct File Upload to Amazon S3 in Rails](http://rubyplus.com/articles/651 'Simple Direct File Upload to Amazon S3 in Rails')
+[Rails Tips](http://www.rubyplus.com/articles/771 'Rails Tips')
+
+No SQL
+=======
+-------
+
+[MongoDB Basics](http://www.rubyplus.com/articles/851 'MongoDB Basics')
+[MongoDB Basics Part 2](http://www.rubyplus.com/articles/861 'MongoDB Basics Part 2')
+[HBase Basics](http://www.rubyplus.com/articles/901 'HBase Basics')
+[CouchDB Basics](http://www.rubyplus.com/articles/921 'CouchDB Basics')
+[MongoDB Ruby Driver Tutorial](http://www.rubyplus.com/articles/931 'MongoDB Ruby Driver Tutorial')
+
+SQL Basics
+=======
+-------
+
+[Create, Insert and Select Statements](http://rubyplus.com/articles/981 'Create, Insert and Select Statements')
+[Sorting](http://rubyplus.com/articles/991 'Sorting')
+[Search Conditions] (http://rubyplus.com/articles/1001 'Search Conditions')
+[Advanced Search Conditions](http://rubyplus.com/articles/1011 'Advanced Search Conditions')
+[Wildcard Search](http://rubyplus.com/articles/1021 'Wildcard Search')
+[Calculated Fields](http://rubyplus.com/articles/1031 'Calculated Fields')
+[Aggregate Functions](http://rubyplus.com/articles/1041 'Aggregate Functions')
+[Grouping Data](http://rubyplus.com/articles/1051 'Grouping Data')
+[Subqueries](http://rubyplus.com/articles/1061 'Subqueries')
+[Joins](http://rubyplus.com/articles/1071 'Joins')
+[Inner Join](http://rubyplus.com/articles/1081 'Inner Join')
+[Advanced Joins](http://rubyplus.com/articles/1091 'Advanced Joins')
+[Update and Delete](http://rubyplus.com/articles/1101 'Update and Delete')
+[MySql2 Gem Basics](http://www.rubyplus.com/articles/791 'MySql2 Gem Basics')
+[SQLite Basics](http://www.rubyplus.com/articles/801 'SQLite Basics')
+
+Ruby Threads
+=======
+-------
+
+[Ruby Thread Basics](http://www.rubyplus.com/articles/841 'Ruby Thread Basics')
+[Troubleshooting Thread Deadlocks using strace](http://www.rubyplus.com/articles/971 'Troubleshooting Thread Deadlocks using strace')
+
+Payment Gateways
+=======
+-------
+
+[Recurring Billing using Stripe API](http://www.rubyplus.com/articles/941 'Recurring Billing using Stripe API')
+[Stripe Recurring Billing Part 2](http://www.rubyplus.com/articles/961 'Stripe Recurring Billing Part 2')
+
+Books
+=======
+-------
+
+[Top 20 Things a Programmer Should Know](http://www.rubyplus.com/articles/811 'Top 20 Things a Programmer Should Know')
+[The Next 17 Things a Programmer Should Know](http://www.rubyplus.com/articles/871 'The Next 17 Things a Programmer Should Know')
+[Code Simplicity Book Review](http://www.rubyplus.com/articles/821 'Code Simplicity Book Review')
+
+
+Design
+=======
+-------
+
+[Flexible Design](http://rubyplus.com/articles/661 'Flexible Design')
+
+Tips
+=======
+-------
+
+[Unix Tips](http://www.rubyplus.com/articles/681 'Unix Tips')
+[Subversion Tips](http://www.rubyplus.com/articles/691 'Subversion Tips')
+[Ruby Gem Tips](http://www.rubyplus.com/articles/701 'Ruby Gem Tips')
+[RSpec Tips](http://www.rubyplus.com/articles/761 'RSpec Tips')
+[RVM Tips](http://www.rubyplus.com/articles/781 'RVM Tips')
+
+
+Miscellaneous
+=======
+-------
+
+[Git Command Quick Reference](http://www.rubyplus.com/articles/711 'Git Command Quick Reference')
+[How to install Nokogiri on Lion](http://www.rubyplus.com/articles/721 'How to install Nokogiri on Lion')
+[Installing Ruby 1.9.3 using RVM in Lion](http://www.rubyplus.com/articles/731 'Installing Ruby 1.9.3 using RVM in Lion')
+[Memcache and Redis Installation](http://www.rubyplus.com/articles/741 'Memcache and Redis Installation')
+[RabbitMQ on Mac OS X](http://www.rubyplus.com/articles/751 'RabbitMQ on Mac OS X')
