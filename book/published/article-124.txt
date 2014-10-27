@@ -1,0 +1,52 @@
+SQL Basics : Indexes
+
+Objective
+==========
+----------
+
+Learn how and when to use indexes on one or more columns in a table.
+
+What are Indexes?
+==========
+----------
+
+Tables are sorted by primary key, so retrieving rows using primary key is fast. If you want to retrieve records where you use a filter condition that contains some other column other than the primary key, the database will start at the first row and look for matches from all the rows in the table. This is slow. Indexes improve searching and sorting speed. You can define an index on one or more columns so that the database server keeps a sorted list of the records for fast lookup.
+
+But indexes come with a cost:
+
+- Indexes improve the lookup performance at the cost of degrading the performance of insert, update and delete operations. When any of the data manipulation operations are executed, the database server has to update the index dynamically.
+- Indexed data can take up more storage space than non-indexed data.
+- Data that is not unique such as country names will not be suitable for indexing.
+- If you frequently sort data in a specific order, it could be a good candidate for indexing.
+
+Create Index
+==========
+----------
+
+CREATE INDEX statement is used to create indexes. Let's create an index on the name column of the products table.
+
+```sh
+sqlite> create index product_name_index
+   ...> on products (name);
+```
+
+Indexes must have unique name. In this example, product_name_index is the index name, ON is used to specify the table name to be indexed followed by the columns to include in the index inside parentheses. You can describe the schema of the products table to check if the index has been defined.
+
+```sh
+sqlite> .schema products
+CREATE TABLE products(
+id int primary key not null,
+price int,
+name char(50),
+user_id int not null);
+CREATE INDEX product_name_index
+on products (name);
+```
+
+You can see the index definition after the create table definition.
+
+Summary
+==========
+----------
+
+In this article you learned how and when to use indexes in a table. 
