@@ -1,0 +1,140 @@
+SQL Basics : Constraints
+
+Objective
+==========
+----------
+
+To learn about constraints, primary keys, foreign keys and referential integrity.
+
+What are Constraints?
+==========
+----------
+
+Relational databases store data into multiple tables. There are relationships that exist between the tables. That's why it's called **Relational** database. Keys reference from one table to another. This is called **referential integrity**. In our example, when we store a record in the line_items table, the order_number references the id column in the orders table. There cannot be a line_items record that does not have a order_number or a order_number that does not exist in the orders table. This would violate the referential integrity. 
+
+Relational databases enforce referential integrity by imposing constraints on database tables. You can create the constraints when you use the CREATE TABLE or ALTER TABLE commands.
+
+Primary Keys
+==========
+----------
+
+A primary key ensures that values in a column are unique. So, you can uniquely identify each row in a table. This makes the UPDATE or DELETE safe to use, ie., they don't affect other rows. Let's create a credit_cards table.
+
+```sh
+sqlite> CREATE TABLE credit_cards
+   ...> (
+   ...> id int primary key not null,
+   ...> type char(10) not null,
+   ...> user_id int not null
+   ...> );
+```
+
+The keyword **primary key** in the table definition defines id as the primary key of the credit_cards table. We can see the new table.
+
+```sh
+sqlite> .tables
+credit_cards  line_items    products    
+customers     orders        users
+```
+
+We can also see the table structure.
+
+```sh
+sqlite> .schema credit_cards
+CREATE TABLE credit_cards
+(
+id int primary key not null,
+type char(10) not null,
+user_id int not null
+);
+```
+
+Foreign Keys
+==========
+----------
+
+A foreign key is a column in a table that references the primary key in another table. They are used to enforce referential integrity. 
+
+Let's delete the table we just created.
+
+```sh
+sqlite> drop table credit_cards;
+sqlite> .tables
+customers   line_items  orders      products    users
+```
+
+Now lets create the credit_cards table again that will use a foreign key.
+
+```sh
+sqlite> CREATE TABLE credit_cards
+   ...> (
+   ...> id int primary key not null,
+   ...> type char(10) not null,
+   ...> user_id int not null,
+   ...> FOREIGN KEY (user_id) REFERENCES users(id) 
+   ...> );
+```
+
+We can see the schema of the new table.
+
+```sh
+sqlite> .schema credit_cards
+CREATE TABLE credit_cards
+(
+id int primary key not null,
+type char(10) not null,
+user_id int not null,
+FOREIGN KEY (user_id) REFERENCES users(id) 
+);
+```
+
+Here the table definition uses the FOREIGN KEY keyword to make the user_id field a foreign key, it uses REFERENCES to indicate that it references the id field in users table. Now, we cannot create any records in the credit_cards table that does not have a user_id value that does not exist in the users table. 
+
+Here is an example that creates a new credit card for Yosemite Sam.
+
+```sh
+sqlite> INSERT INTO credit_cards(id, type, user_id)
+   ...> VALUES (1, 'VISA', 10);
+sqlite> select * from credit_cards;
+id          type        user_id   
+----------  ----------  ----------
+1           VISA        10        
+sqlite> select * from users;
+id          first_name  last_name   email            
+----------  ----------  ----------  -----------------
+1           bugs        bunny       bbunny@disney.com
+2           daffy       duck        daffy@disney.com 
+3           porky       pig         ppig@disney.com  
+4           pluto       dog         pdog@disney.com  
+5           pluto       pet         pdog@disney.com  
+6           tasmanian   devil       tdevil@disney.com
+7           tweety      bird        tweety@disney.com
+8           elmer       fudd        efudd@disney.com 
+9           speedy      gonzales    gonzales@disney.c
+10          yosemite    sam         sam@disney.com   
+11          sylvester               sam@disney.com   
+12          bosko                   sam@disney.com
+```
+
+Here is an example that shows creating a row that violates the foreign key constraint results in an error.
+
+```sh
+sqlite> INSERT INTO credit_cards(id, type, user_id)
+   ...> VALUES (1, 'VISA', 13);
+Error: column id is not unique
+```
+
+We can verify that there is only one record in the credit_cards table.
+
+```sh
+sqlite> select * from credit_cards;
+id          type        user_id   
+----------  ----------  ----------
+1           VISA        10
+```
+
+Summary
+==========
+----------
+
+In this article you learned about constraints, primary key and foreign key. You also learned about how they enforce referential integrity.
