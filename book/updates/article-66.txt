@@ -123,6 +123,7 @@ SQL Basics
 =======
 -------
 
+[Introduction](http://rubyplus.com/articles/1131 'Introduction')
 [Create, Insert and Select Statements](http://rubyplus.com/articles/981 'Create, Insert and Select Statements')
 [Sorting](http://rubyplus.com/articles/991 'Sorting')
 [Search Conditions] (http://rubyplus.com/articles/1001 'Search Conditions')

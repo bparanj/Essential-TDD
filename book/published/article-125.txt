@@ -1,0 +1,34 @@
+SQL Basics : Introduction
+
+What is a Database? 
+==========
+----------
+
+A database is a container that helps us to organize data. Databases are good at storing large amounts of data in one place and make it easier to query the data, add, update and delete data.
+
+There are many types of databases, relational, object-oriented and document-based. We will be focusing only on relational database. Most of the NoSQL databases are documented based systems. They have their own query language that have some similarity to SQL. So it is useful to learn SQL. 
+
+
+What is Relational?
+==========
+----------
+
+According to the dictionary relational means things that relate to other things. The relational model is a way to describe the data and the relationship between those data. In a relational database, data is stored in a Table. A Table is something that has a name. The table names describe the type of data that is stored in that table. Every table also has a collection of columns that define data that are stored in the Table. 
+
+Data is stored in columns. Every column has a name. Every column also has a restriction that can restrict the size and the type of data that can be stored in that column. So columns can store numbers, strings, date etc based on their type. Columns can have restrictions on the value of data that could be stored in them. Every column can be required or optional. The required columns must have values whereas the optional columns do not force us to provide any value. It could be a blank string or NULL value.
+
+A column can be a Key. A Primary Key can uniquely identify that row. Because the value in that column for that row is unique. No other row in that table can have that same value. Now, if another table has a column that contains that same key, we can then merge those two tables together. We can query them together. A Foreign Key means that column's value is the same as the Primary Key in another table. This allows rows the related tables to be linked together. Keys establish the relationship between tables.
+
+What is SQL? 
+==========
+----------
+
+SQL stands for Structured Query Language. SQL is what is a special-purpose programming language. SQL is specifically built to manipulate relational databases. It's a declarative language. So, we basically declare statements, and the database system executes those statements. SQL is based on English, so it is human readable. When we put SQL into a statement, we create an actionable sentence. So a valid SQL statement is made up of a set of valid actionable words. SQL is not case sensitive. Most SQL statements start with a command. Generally that command is some sort of a verb to tell the database to do something.  
+
+It has two parts. One is a part that is for defining the data in a relational database, and the other part is a language for querying and manipulating that data. By the end of this series of articles, you will be able to create a database, query a database, add, update and delete data.
+
+Summary
+==========
+----------
+
+In this article you learned the meaning of the terminology used in relational database. This gives you the background required to learn the SQL basics in subsequent articles.
