@@ -6,12 +6,25 @@ The test fixture influences the expected outcome of each test: which inputs resu
 
 3. Discuss connection pool and active record. Using sequel gem.
 
-4. Examples on using sqlite3-ruby:  https://github.com/sparklemotion/sqlite3-ruby
+4. Thread series, celluloid
 
-5. Thread series, celluloid
+5. Impose constraints such as no if-else etc for existing katas.
 
-6. Impose constraints such as no if-else etc for existing katas.
-
-7. Create an article that shows how to practice strace using simple commands (check the existing notes)
+6. Create an article that shows how to practice strace using simple commands (check the existing notes)
 
 
+Normalization
+==========
+----------
+
+Why can't we just have one table to store multiple email addresses? Consider a users table that has first name, last name, and email address. Let's say we have column for first name, a column for last name and a column for email address. So, what happens if I have more than one email address? I can have a work email address and a home email address. We could additional columns work_email, home_email etc. But this solutions has a problem. Now we are limited to just two emails. What if I have three emails? What if I have four? If I keep adding new columns, there will be lot of NULL values in the table. 
+
+Are we able to ask the questions that we want? How many email addresses does Bugs have? We have to check columns instead of rows, is also very cumbersome and difficult in a relational database. We want data to be row-based rather than column-based. 
+
+So here's a better solution. Create another table for email address. Each of the rows in the emails table will reference their corresponding parent in the users table. So the foreign key user_id in emails table will associate to it's user record in the users table. Now, we can ask the question that we were trying to answer before: How many email addresses does Bugs have? What are they? This eliminates lot of NULL values in the users table therefore saving space. This is known as normalization. 
+
+Limiting The Result Set
+==========
+----------
+
+By default, all the rows that match the filter condition in the WHERE clause is returned. If you have thousands of rows, all of them will be returned. There are two ways to limit the number of rows that are returned from a SELECT statement. One way is to add additional clauses after the FROM clause. Another way is to add the DISTINCT qualifier. DISTINCT is called a result set qualifier. So, it limits the result set to all the DISTINCT values. For example, if you want to find out all the unique first names in the users table, you will use SELECT DISTINCT first_name FROM users;. You can have as many columns as you want and it will retrieve only DISTINCT rows based upon those columns.
