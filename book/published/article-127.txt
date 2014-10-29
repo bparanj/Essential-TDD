@@ -1,0 +1,201 @@
+SQL Basics : SQLite Ruby Driver Part 2
+
+Objective
+==========
+----------
+
+To learn about in-memory database, prepared statements and other features of SQLite Ruby gem.
+
+Why in-memory Database?
+==========
+----------
+
+SQLite in-memory database can be used in testing environment to speed up the tests a little bit. It is also useful when you want to build your own lightweight diagnostics utility to troubleshoot problems. Let's create an in-memory database with an employees table that has one record. Create memory.rb with the following code.
+
+```ruby
+require 'sqlite3'
+
+db = SQLite3::Database.new(':memory:')
+db.execute 'CREATE TABLE "employees" ("token" integer(8), "name" varchar(20) NOT NULL)'
+db.execute "INSERT INTO employees(token, name) VALUES('employee-1', ?)", 5000
+rows = db.execute 'select token from employees'
+puts rows
+puts rows.inspect
+puts "Employee token is : #{rows.first.first}"
+```
+
+The Database#execute method will return the results in an array. In this example the rows is an array that contains the records. Each record is stored as an array inside. So we have an array that contains array of records. The execute method is used for insert, update and delete operations. 
+
+To iterate through the rows you can use the block form.
+
+```ruby
+require 'sqlite3'
+
+db = SQLite3::Database.new(':memory:')
+db.execute 'CREATE TABLE "employees" ("token" integer(8), "name" varchar(20) NOT NULL)'
+db.execute "INSERT INTO employees(token, name) VALUES('employee-1', ?)", 5000
+db.execute "INSERT INTO employees(token, name) VALUES('employee-2', ?)", 1000
+db.execute('select * from employees') do |row|
+  puts row
+end
+```
+
+If you want to get just the first row, you can use get_first_row method.
+
+```ruby
+puts 'First row is '
+puts db.get_first_row 'select token from employees'
+```
+
+You can check the encoding by using the encoding method.
+
+```ruby
+puts db.encoding
+```
+
+You can get the table info by using the table_info method.
+
+```ruby
+puts db.table_info('employees')
+```
+
+To close the database and check if it's closed:
+
+```ruby
+puts db.close
+puts db.closed?
+```
+
+To get the column names as wells as the rows use the execute2 method. Create headers.rb:
+
+```ruby
+require 'sqlite3'
+
+db = SQLite3::Database.new(':memory:')
+db.execute 'CREATE TABLE "employees" ("token" integer(8), "name" varchar(20) NOT NULL)'
+db.execute "INSERT INTO employees(token, name) VALUES('employee-1', ?)", 5000
+db.execute "INSERT INTO employees(token, name) VALUES('employee-2', ?)", 1000
+
+columns, *rows = db.execute2( "select * from employees" )
+puts columns
+rows.each do |row|
+  puts row
+end
+```
+
+Run this to see the columns and the rows. You can also use the block form. Create headers2.rb:
+
+```ruby
+require 'sqlite3'
+
+db = SQLite3::Database.new(':memory:')
+db.execute 'CREATE TABLE "employees" ("token" integer(8), "name" varchar(20) NOT NULL)'
+db.execute "INSERT INTO employees(token, name) VALUES('employee-1', ?)", 5000
+db.execute "INSERT INTO employees(token, name) VALUES('employee-2', ?)", 1000
+
+columns = nil
+db.execute2( "select * from employees" ) do |row|
+  if columns.nil?
+    columns = row
+    puts columns
+  else
+    puts row
+  end
+end
+```
+
+To get just the first value of the first row of the result set, use the get_first_value method. Create count.rb:
+
+```ruby
+require 'sqlite3'
+
+db = SQLite3::Database.new(':memory:')
+db.execute 'CREATE TABLE "employees" ("token" integer(8), "name" varchar(20) NOT NULL)'
+db.execute "INSERT INTO employees(token, name) VALUES('employee-1', ?)", 5000
+db.execute "INSERT INTO employees(token, name) VALUES('employee-2', ?)", 1000
+
+count = db.get_first_value('select count(*) from employees')
+puts count
+```
+
+Run this, you will the count value is 2. To get only the first row of the result set, use the get_first_row. Create first.rb:
+
+```ruby
+require 'sqlite3'
+
+db = SQLite3::Database.new(':memory:')
+db.execute 'CREATE TABLE "employees" ("token" integer(8), "name" varchar(20) NOT NULL)'
+db.execute "INSERT INTO employees(token, name) VALUES('employee-1', ?)", 5000
+db.execute "INSERT INTO employees(token, name) VALUES('employee-2', ?)", 1000
+
+row = db.get_first_row('select * from employees')
+puts row
+```
+
+This will print only the first record in the employees table. To get the first value of the first row of the result set, use the get_first_value method:
+
+```ruby
+require 'sqlite3'
+
+db = SQLite3::Database.new(':memory:')
+db.execute 'CREATE TABLE "employees" ("token" integer(8), "name" varchar(20) NOT NULL)'
+db.execute "INSERT INTO employees(token, name) VALUES('employee-1', ?)", 5000
+db.execute "INSERT INTO employees(token, name) VALUES('employee-2', ?)", 1000
+
+value = db.get_first_value('select * from employees')
+puts value
+```
+
+You can use place holders in the SQL statement. Create bind.rb :
+
+```ruby
+require 'sqlite3'
+
+db = SQLite3::Database.new(':memory:')
+db.execute 'CREATE TABLE "employees" ("token" integer(8), "name" varchar(20) NOT NULL)'
+db.execute "INSERT INTO employees(token, name) VALUES(?, ?)", 'employee-1', 5000
+db.execute "INSERT INTO employees(token, name) VALUES(?, ?)", 'employee-2', 1000
+
+result = db.execute("select count(*) from employees")
+puts result
+```
+
+Here there are two bind variables for token and name in the employees table. These bind variables have '?' as the place holders for the column values. The values are provided as a comma separated list.
+
+Prepared Statements
+==========
+----------
+
+Prepare statement is a way to execute the same database statements repeatedly with high efficiency. The create a statement that take parameters and can be used with different values each time it is executed. Create prepare.rb with the following contents:
+
+```ruby
+require 'sqlite3'
+
+db = SQLite3::Database.new(':memory:')
+db.execute 'CREATE TABLE "employees" ("token" integer(8), "name" varchar(20) NOT NULL)'
+
+stmt = db.prepare("INSERT INTO employees(token, name) VALUES(:token, :name)")
+
+stmt.bind_param('token', 1)
+stmt.bind_param('name', 'Bugs')
+stmt.execute
+stmt.close
+
+rows = db.execute('select * from employees')
+
+puts rows
+```
+
+Here the binding variables :token and :name is used to create a prepared statement. We then bind values to the place holders and execute the statement. You can see the inserted row in the output. We close the prepared statement as soon as we are done. This prevents memory leak.
+
+Summary
+==========
+----------
+
+In this article you learned about in-memory database and why it is useful. You also learned about prepared statement and other features of sqlite ruby gem. Read the FAQ and the tests for sqlite3 ruby gem to learn more.
+
+Reference
+==========
+----------
+
+1. [SQLite3 Ruby](https://github.com/sparklemotion/sqlite3-ruby 'SQLite3 Ruby')
