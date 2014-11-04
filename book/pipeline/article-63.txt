@@ -7,6 +7,11 @@ Play with console
 
 If you restart the server. You need to reload the page to get a new active console session.
 
+
+config/environments/development.rb
+
+config.web_console.automount = true
+
 ActiveJob
 ----------
 
