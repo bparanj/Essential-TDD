@@ -16,7 +16,7 @@ This map function takes one parameter called doc. Our map function calls the emi
 
 3
 
-Instead of getting the _id and the entire document, let's retreive only the street name and the street number.
+Instead of getting the _id and the entire document, let's retrieve only the street name and the street number.
 
 ```javascript
 function(doc) {

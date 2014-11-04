@@ -8,7 +8,7 @@ Rigidity. The design is difficult to change.
 Fragility. The design is easy to break.
 Immobility. The design is difficult to reuse.
 Viscosity. It is difficult to do the right thing.
-Needless complexity. Overdesign.
+Needless complexity. Over design.
 Needless repetition. Mouse abuse.
 Opacity. Disorganized expression. 
 

@@ -1,7 +1,9 @@
 Building Links
 ---------------
 
-1. Reply to comment on Railscasts on how to test Stripe integration:http://railscasts.com/episodes/288-billing-with-stripe?view=commentshttps://gist.github.com/justinthiele/1307748
+0. Use VCR to record the network interactions and to speed up the tests.
+1. Reply to comment on Railscasts on how to test Stripe integration:
+http://railscasts.com/episodes/288-billing-with-stripe?view=commentshttps://gist.github.com/justinthiele/1307748
 
 Notes
 -------
