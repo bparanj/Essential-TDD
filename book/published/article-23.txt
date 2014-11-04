@@ -1,10 +1,10 @@
 TDD Advanced Concepts : Angry Rock Kata
 
-
 Objectives
 ============
 ------------
 
+- What is Command Query Separation Principle?
 - How to fix Command Query Separation violation?
 - Refactoring : Retaining the old interface and the new one at the same time to avoid old tests from failing.
 - Semantic quirkiness of Well Grounded Rubyist book solution exposed by specs.
@@ -12,9 +12,32 @@ Objectives
 
 Difficulty Level
 =========
----------------------
+----------------
 
 Medium
+
+Command Query Separation Principle
+=========
+----------------
+ 
+The term 'command query separation' was coined by Bertrand Meyer in his book "Object Oriented Software Construction". The fundamental idea is that we should divide an object's methods into two categories:
+
+    Queries: Return a result and do not change the observable state of the system (are free of side effects).
+    Commands: Change the state of a system but do not return a value.
+
+Because the term 'command' is widely used in other contexts Martin Fowler refers to it as 'modifiers' and 'mutators'. It's useful if you can clearly separate methods that change state from those that don't. This is because you can use queries in many situations with much more confidence, changing their order. You have to be careful with modifiers.
+
+The return type is the give-away for the difference. It's a good convention because most of the time it works well. Consider iterating through a collection in Java: the next method both gives the next item in the collection and advances the iterator. It's preferable to separate advance and current methods. There are exceptions. Popping a stack is a good example of a modifier that modifies state. Meyer correctly says that you can avoid having this method, but it is a useful idiom. Follow this principle when you can.
+
+Source : [Command Query Separation] (http://martinfowler.com/bliki/CommandQuerySeparation.html 'Command Query Separation') by Martin Fowler.
+
+Testing and Command Query Separation Principle
+=========
+---------------------
+
+Tests are kept flexible when we follow this rule of thumb: Stub queries and expect commands, where a query is a method with no side effects that does nothing but query the state of an object and a command is a method with side effects that may, or may not, return a result. Of course, this rule does not hold all the time, but it's a useful starting point.
+
+Source : [jMock Home Page] (http://jmock.org 'jMock Home Page')
 
 Violation of Command Query Separation Principle
 ==========================================
@@ -230,7 +253,7 @@ It now fails with :
 ```
 
 Step 14
-----------
+-------
 
 Remove the short circuit statement:      
 
@@ -525,7 +548,7 @@ end
 
 The specs should still pass. The specs now read well and make much more sense than the previous version. Note: Don't make changes both to production and test code at the same time without running the tests. Unless you have a good reason, we always run tests after we modify either the specs or the production code.
 
-Command Query Separation Principle
+Violation of Command Query Separation Principle
 ==================================
 ----------------------------------
 

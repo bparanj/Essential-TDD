@@ -4,13 +4,12 @@
 2. Create and Scan Red, Green, Refactor diagram.
 3. Article 7 : Insert the simplified version of the Red, Green, Refactor diagram.
 4. Look at the book for the notes for article 50.
+5. Article on 'How to integrate front end code to Rails'.
 
 Revisions
 ----------
 
 1. Create an article on using Moonshine and link in the comments section : http://railscasts.com/episodes/337-capistrano-recipes?autoplay=true
 2. Open Closed Principle article: Discussion questions must be answered in the answer key. Create Answer Key in the pdf book appendix.
-
-
-
-Update 'Article by Category' : Start from article 105 SQL Basics : Constraints.
+3. Update 'Article by Category' : Start from article 105 SQL Basics : Constraints.
+4. Update article 23 on the site with the existing version.

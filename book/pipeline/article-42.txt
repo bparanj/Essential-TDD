@@ -42,4 +42,4 @@ What makes TDD difficult
 ----------------------------------
 
 - Doing TDD without pair programming. TDD and pair programming are complementary.
-- Existing code base with no tests    
+- Existing code base with no tests.    
