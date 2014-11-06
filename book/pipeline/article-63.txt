@@ -1,16 +1,5 @@
-Web Console
-------------
 
-Add "<%= console %>" to the app/views/welcome/index.html.erb
-Go to localhost:3000
-Play with console
-
-If you restart the server. You need to reload the page to get a new active console session.
-
-
-config/environments/development.rb
-
-config.web_console.automount = true
+Rails 4.2
 
 ActiveJob
 ----------

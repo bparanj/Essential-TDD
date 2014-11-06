@@ -1,0 +1,143 @@
+Stripe Recurring Billing Part 3
+
+Jeff Thomas has written a blog post on [Integration tests with Stripe](http://www.jeffthomas.xyz/integration-tests-with-stripe/ 'Integration tests with Stripe'). I followed his instructions, but I was not able to get it working. So, I had to use just Capybara with RSpec. In this article you will learn how to check the API credentials using a rake task and how to write integration tests using Capybara for testing the subscription feature using Stripe API.
+
+Credentials Check
+==========
+----------
+
+Here is a rake task that you can use to make sure that the Stripe credentials are defined.
+
+```ruby
+namespace :stripe do
+  task :credentials_check => :environment do
+    message = <<ERROR 
+Stripe Credentials is not set. Define the following Stripe Environment variables.
+
+export STRIPE_PUBLISHABLE_KEY='pk_test_your publishable key' 
+export STRIPE_SECRET_KEY='sk_test_your secret key'
+
+Check config/initializers/stripe.rb for more details on this works.
+ERROR
+              
+    if Rails.configuration.stripe[:secret_key].blank?
+      puts message
+    else
+      begin
+        Stripe::Account.retrieve
+        puts "Stripe Secret Key is defined properly"
+      rescue  Stripe::AuthenticationError => e
+        puts "Stripe Secret Key is not correct"
+      end
+    end
+  end
+
+end
+```
+
+Ideally, the API should provide something similar to ping to verify the credentials. Unfortunately, there is no API for credentials check. The closest thing that I could find is retrieving the Stripe account details for the website owner who wants to charge their customers using Stripe API.
+
+Integration Tests using Feature Specs
+==========
+----------
+
+Step 1
+----------
+
+Add the following gems to the Gemfile.
+
+```ruby
+group :test do
+  gem 'capybara'
+  gem 'selenium-webdriver'
+end
+```
+
+Step 2
+----------
+
+Run bundle.
+
+Step 3
+----------
+
+Create a features directory under spec folder. Create a file subscribe_spec.rb under the features directory with the following contents.
+
+```ruby
+require 'rails_helper'
+
+feature 'Subscription' do
+  scenario 'Customer subscribes to Gold plan', js: true do
+    visit "/subscriptions/new"
+    fill_in "Card Number", with: '4242424242424242'
+    page.select '10', from: "card_month"
+    page.select '2029', from: 'card_year'
+    
+    click_button 'Subscribe Me'
+    expect(page).to have_content('You have been subscribed to Gold.')
+  end
+end
+```
+
+Step 4 
+----------
+
+Run the feature spec.
+
+```ruby
+$spec/features/subscribe_spec.rb 
+```
+
+You can download the entire source code for this project from bitbucket: git@bitbucket.org:bparanj/striped.git
+
+References
+===========
+-----------
+
+1. [Feature Spec] (https://www.relishapp.com/rspec/rspec-rails/docs/feature-specs/feature-spec 'Feature Spec')
+2. [Stripe Ruby Mock] (https://github.com/rebelidealist/stripe-ruby-mock 'Stripe Ruby Mock')
+3. [Integration tests with Stripe](http://www.jeffthomas.xyz/integration-tests-with-stripe/ 'Integration tests with Stripe')
+4. [Capybara Docs](http://www.rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Actions#select-instance_method 'Capybara Docs')
+
+
+
+
+
+
+
+
+
+
+1. Add the following gems to the Gemfile.
+
+```ruby
+group :test do
+  gem 'stripe-ruby-mock'
+  gem 'slim'
+end
+```
+
+2. Add the following to the top of the spec/rails_helper.rb
+
+```ruby
+require 'stripe_mock'
+
+StripeMock.spawn_server
+```
+
+3. Create a features directory under spec folder. Create a file subscribe_spec.rb under the features directory with the following contents.
+
+```ruby
+require 'rails_helper'
+
+feature 'Subscription' do
+  scenario 'Customer subscribes Gold plan', js: true do
+
+  end
+end
+```
+
+This gives error:
+
+bundle exec rspec spec/features/subscribe_spec.rb 
+/Users/zepho/.rvm/gems/ruby-2.1.2@stripe/gems/sass-3.4.7/lib/sass/util/normalized_map.rb:2: warning: loading in progress, circular require considered harmful - /Users/zepho/.rvm/gems/ruby-2.1.2@stripe/gems/sass-3.4.7/lib/sass/util.rb

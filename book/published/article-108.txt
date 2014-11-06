@@ -52,6 +52,7 @@ Rails.configuration.stripe = {
 }
 
 Stripe.api_key = Rails.configuration.stripe[:secret_key]
+STRIPE_PUBLIC_KEY = Rails.configuration.stripe[:publishable_key]
 ```
 
 Step 5
@@ -86,7 +87,7 @@ In the application.html.erb file, within the head tag add:
 <%= javascript_include_tag 'https://js.stripe.com/v2/' %>
 ```
 
-Refer [Building a Custom Payment Form] (https://stripe.com/docs/tutorials/forms 'Building a Custome Payment Form') for more explanation. The final layout file looks like this:
+Refer [Building a Custom Payment Form] (https://stripe.com/docs/tutorials/forms 'Building a Custom Payment Form') for more explanation. The final layout file looks like this:
 
 ```ruby
 <!DOCTYPE html>
@@ -97,10 +98,11 @@ Refer [Building a Custom Payment Form] (https://stripe.com/docs/tutorials/forms 
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   
   <%= javascript_include_tag 'https://js.stripe.com/v2/' %>
-  
+  <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
+
   <script type="text/javascript">
     // This identifies your website in the createToken call below
-    Stripe.setPublishableKey('pk_test_wE4Io131CZgI5yWcRN8OyFkr');
+    Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'));
   
     var stripeResponseHandler = function(status, response) {
       var $form = $('#payment-form');
@@ -145,6 +147,8 @@ Refer [Building a Custom Payment Form] (https://stripe.com/docs/tutorials/forms 
 </body>
 </html>
 ```
+
+Here the meta-tag stripe-key defines the Stripe public key. Refer railscasts for more details.
 
 Step 8
 -------
@@ -292,7 +296,6 @@ class SubscriptionsController < ApplicationController
 end
 ```
 
-
 routes.rb
 
 ```ruby
@@ -313,10 +316,11 @@ application.html.erb
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   
   <%= javascript_include_tag 'https://js.stripe.com/v2/' %>
-  
+  <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
+
   <script type="text/javascript">
     // This identifies your website in the createToken call below
-    Stripe.setPublishableKey('pk_test_wE4Io131CZgI5yWcRN8OyFkr');
+    Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'));
   
     var stripeResponseHandler = function(status, response) {
       var $form = $('#payment-form');
@@ -371,6 +375,7 @@ Rails.configuration.stripe = {
 }
 
 Stripe.api_key = Rails.configuration.stripe[:secret_key]
+STRIPE_PUBLIC_KEY = Rails.configuration.stripe[:publishable_key]
 ```
 
 app/gateways/stripe_gateway.rb

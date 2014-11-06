@@ -25,7 +25,7 @@ The term 'command query separation' was coined by Bertrand Meyer in his book "Ob
     Queries: Return a result and do not change the observable state of the system (are free of side effects).
     Commands: Change the state of a system but do not return a value.
 
-Because the term 'command' is widely used in other contexts Martin Fowler refers to it as 'modifiers' and 'mutators'. It's useful if you can clearly separate methods that change state from those that don't. This is because you can use queries in many situations with much more confidence, changing their order. You have to be careful with modifiers.
+Because the term 'command' is widely used in other contexts, Martin Fowler refers to it as 'modifiers' and 'mutators'. It's useful if you can clearly separate methods that change state from those that don't. This is because you can use queries in many situations with much more confidence, changing their order. You have to be careful with modifiers.
 
 The return type is the give-away for the difference. It's a good convention because most of the time it works well. Consider iterating through a collection in Java: the next method both gives the next item in the collection and advances the iterator. It's preferable to separate advance and current methods. There are exceptions. Popping a stack is a good example of a modifier that modifies state. Meyer correctly says that you can avoid having this method, but it is a useful idiom. Follow this principle when you can.
 
