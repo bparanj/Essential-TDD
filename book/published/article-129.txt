@@ -1,0 +1,376 @@
+Calling Native Library Code from Ruby
+
+Background
+===========
+-----------
+
+If you have encountered a situation where you want to wrap C, C++ library in Ruby and create a gem that you can use anywhere, then ffi-gem is for you. Without this gem you have to write your own C extension for Ruby to wrap an existing C library (if it's not already available). This is not easy, especially if you are not familiar with C. 
+
+What is FFI?
+============
+------------
+
+FFI stands for Foreign Function Interface. A foreign function interface is the popular name for the interface that allows code written in one language to call code written in another language. 
+
+Advantages of FFI
+------------------
+
+- You often don't have to write C/C++ code. 
+- FFI will run on MRI, Rubinius and JRuby.
+- The end users don't need development headers or a C/C++ compiler.
+
+For a discussion on when it is not the right tool, read the [Detecting Faces with Ruby: FFI in a Nutshell] (http://www.sitepoint.com/detecting-faces-with-ruby-ffi-in-a-nutshell/ 'Detecting Faces with Ruby: FFI in a Nutshell') article.
+
+What is libffi?
+===============
+---------------
+
+The libffi library provides a portable, high level programming interface to various calling conventions. This allows a programmer to call any function specified by a call interface description at run-time. The libffi library is useful to anyone trying to build a bridge between interpreted and natively compiled code. Some notable users include:
+
+Java Native Access (JNA) - the JNI-free way to call native code from Java.
+Ruby-FFI - a Foreign Function Interface extension for Ruby.
+
+What is Ruby-FFI?
+===============
+---------------
+
+Ruby-FFI is a ruby extension for programmatically loading dynamic libraries, binding functions within them, and calling those functions from Ruby code. Moreover, a Ruby-FFI extension works without changes on Ruby and JRuby.
+
+Simple Example
+==============
+--------------
+
+Install the FFI gem.
+
+```ruby
+$ gem install ffi
+```
+
+Let's now write a program to use a function from LIBC. By the way, [LIBC] (http://www.gnu.org/software/libc/manual/html_mono/libc.html 'The GNU C Library') is the GNU C Library. Our program will print the process ID of the current process. LIBC provides a [getpid](http://www.gnu.org/software/libc/manual/html_mono/libc.html#index-getpid 'Process Identification') function that we can use in our program through FFI. According to the GNU docs, this function returns an integer and does not take any parameter.
+
+```c
+Function: pid_t getpid (void)
+```
+
+We use that fact in the attach_function, the first parameter is the symbol of the function inside the native library, the second parameter is empty since it does not take any input parameter. The third parameter is int, the return value from the function.
+
+```ruby
+require 'ffi'
+
+module Foo
+  extend FFI::Library
+
+  ffi_lib FFI::Library::LIBC
+  attach_function :getpid, [ ], :int
+end
+puts "My pid=#{Foo.getpid}"
+puts $$
+
+My pid=18185
+18185
+```
+
+We first require the FFI gem. This will load and initialize the FFI library. We then define a module that extends the FFI::Library module. This attaches the native functions to the Foo module. The ffi_lib call can take multiple arguments to load native libraries. In this case we are loading just one native library, namely FFI::Library::LIBC. Now we can use the methods from this module to bind to the LIBC library. The attach_function will link the native C functions into the Foo module. In our example, it attaches the getpid function to our module. Now the getpid function can be accessed as a static function of our module. The value returned by the C function is the same as the Ruby global variable $$ that returns the process ID.
+
+Example 2
+==============
+--------------
+
+The getuid function returns the real user ID of the process. Let's write a program to print this value.
+
+```ruby
+require 'ffi'
+
+module RubyFFI
+  extend FFI::Library
+  attach_function :getuid, [], :uint
+end
+```
+
+You will get the error:
+
+```ruby
+LoadError: no library specified
+    from /home/zepho/.rvm/gems/ruby-2.1.4@ffi/gems/ffi-1.9.6/lib/ffi/library.rb:162:in `ffi_libraries'
+    from /home/zepho/.rvm/gems/ruby-2.1.4@ffi/gems/ffi-1.9.6/lib/ffi/library.rb:240:in `attach_function'
+    from (irb):4:in `<module:RubyFFI>'
+    from (irb):2
+    from /home/zepho/.rvm/rubies/ruby-2.1.4/bin/irb:11:in `<main>'
+```
+
+We know that getuid function is provided by the GNU C library. We need to specify this before the attach_function.
+
+```ruby
+require 'ffi'
+
+module RubyFFI
+  extend FFI::Library
+  ffi_lib FFI::Library::LIBC
+
+  attach_function :getuid, [], :uint
+end
+```
+
+On my machine the output is :
+
+```ruby
+Uid is 1000
+```
+
+Example 3
+==============
+--------------
+
+Let's write a program to call the standard C library function puts().
+
+```ruby
+module MyLib
+  extend FFI::Library
+  ffi_lib 'c'
+  
+  attach_function :puts, [ :string ], :int
+end
+
+MyLib.puts 'Hello, World using libc!'
+Hello, World using libc!
+ => 25
+```
+
+Example 4
+==============
+--------------
+
+The getlogin identifies who logged in. Let's write a program to print who is logged in.
+
+```ruby
+require 'ffi'
+module Foo
+  extend FFI::Library
+  ffi_lib FFI::Library::LIBC
+
+  attach_function :getlogin, [ ], :string
+end
+puts "getlogin=#{Foo.getlogin}"
+
+getlogin=zepho
+```
+
+Example 5
+==============
+--------------
+
+Let's write a program to wrap the power math function in Ruby.
+
+```ruby
+require 'ffi'
+
+module FfiMathTest
+  extend FFI::Library
+  ffi_lib 'c'
+  ffi_lib 'm'
+  attach_function :pow, [ :double, :double ], :double
+end
+puts FfiMathTest.pow(2.2, 10)
+
+2655.99
+```
+
+In this example we are using the ffi_lib 'm' that loads the pow(double x, double, y) C library function in math.h that returns x raised to the power of y.
+
+Exposing Native Libraries to Ruby
+=================
+-----------------
+
+We now know enough to write programs using FFI to wrap the existing native code. What if we want to write Ruby wrapper for our custom native code? Let's know write a simple c program that calculates the power, square_root and factorial. Here is the simple_math.c
+
+```c
+#include <math.h>
+
+double power(double base, double power) {
+  return pow(base, power);
+}
+
+double square_root(double x) {
+  return sqrt(x);
+}
+
+long ffi_factorial(int max) {
+  int i = max, result = 1;
+  while (i >= 2) {
+	result *= i--;
+  }
+  return result;
+}
+```
+
+Let's compile this as follows:
+
+```sh
+$gcc -shared -Wl,-soname,libsimplemath -o libsimplemath.so simple_math.c -lm
+```
+
+You now see the .so file:
+
+```sh
+~/projects/ffi$ ll
+total 24
+drwxrwxr-x 2 zepho zepho 4096 Nov  5 23:26 ./
+drwxr-xr-x 5 zepho zepho 4096 Nov  5 23:15 ../
+-rwxrwxr-x 1 zepho zepho 6781 Nov  5 23:19 libsimplemath.so*
+-rw-rw-r-- 1 zepho zepho  262 Nov  5 23:18 simple_math.c
+```
+
+Create simple_math.rb that will wrap the C code.
+
+```ruby
+require 'ffi'
+
+class FFIMath
+  extend FFI::Library
+
+  ffi_lib "./libsimplemath.so"
+
+  functions = [
+   [:power, [:double, :double], :double],
+   [:square_root, [:double], :double],
+   [:ffi_factorial, [:int], :long]
+  ]
+
+  functions.each do |func|
+	begin
+  	attach_function(*func)
+	rescue Object => e
+  	  puts "Could not attach #{func}, #{e.message}"
+	end
+  end
+end
+
+puts FFIMath.power(3, 5)
+puts FFIMath.square_root(81)
+puts FFIMath.ffi_factorial(10)
+```
+
+If you don’t specify ‘./’ in the ffi_lib call, you will get the error:
+
+```sh
+~/projects/ffi$ ruby simple_math.rb
+/home/zepho/.rvm/gems/ruby-2.1.4@ffi/gems/ffi-1.9.6/lib/ffi/library.rb:133:in `block in ffi_lib': Could not open library 'libsimplemath.so': libsimplemath.so: cannot open shared object file: No such file or directory (LoadError)
+    from /home/zepho/.rvm/gems/ruby-2.1.4@ffi/gems/ffi-1.9.6/lib/ffi/library.rb:100:in `map'
+    from /home/zepho/.rvm/gems/ruby-2.1.4@ffi/gems/ffi-1.9.6/lib/ffi/library.rb:100:in `ffi_lib'
+    from simple_math.rb:6:in `<class:FFIMath>'
+    from simple_math.rb:3:in `<main>'
+```
+
+Let's look at another example. Create ffi_test.c with the following contents:
+
+```c
+#include <stdlib.h>
+#include <math.h>
+
+int ffi_pow(int a, int n) {
+  return pow(a,n);
+}
+
+int ffi_factorial(int max) {
+  int i=max, result=1;
+  while (i >= 2) { result *= i--; }
+  return result;
+}
+
+int ffi_fibonacci(int n) {
+  int a = 1, b = 1, c, i;
+  if (n == 0) {
+	return 0;
+  }
+
+  for (i= 3; i <= n; i++) {
+	c = a + b;
+	c = b;
+	b = c;
+  }
+
+  return b;
+}
+```
+
+Compile it :
+
+```sh
+gcc -c -fPIC ffi_test.c
+gcc -shared -o ffi_test.so ffi_test.o
+```
+
+Create the Ruby wrapper ffi_test.rb.
+
+```ruby
+require 'ffi'
+
+module FfiCustomTest
+  extend FFI::Library
+  ffi_lib 'c'
+  ffi_lib './ffi_test.so'
+
+  attach_function :ffi_pow, [ :int, :int ], :int
+  attach_function :ffi_factorial, [ :int ], :int
+  attach_function :ffi_fibonacci, [ :int ], :int
+end
+
+puts FfiCustomTest.ffi_factorial(5)
+puts FfiCustomTest.ffi_fibonacci(9)
+puts FfiCustomTest.ffi_pow(2, 10)
+
+~/projects/ffi$ ruby ffi_test.rb
+120
+1
+1024
+```
+
+Exercises
+==========
+----------
+
+1. If you are using rvm, install jruby and rubinius. 
+2. Run the code examples above on jruby, rubinius and mri. 
+
+Summary
+==========
+----------
+
+In this article we wrapped the native C code from standard library using ffi gem. We also wrapped our own C code so that we know how to wrap code that is developed within our company. If you have suffered due to gem installation problems due to native extensions, the ffi gem provides an easy way to share your native libraries by exposing it to your ruby programs via Ruby wrapper. You can also package your native libraries as a gem using this technique. 
+
+References
+==========
+----------
+
+[Bridging MRI JRuby Rubinius with FFI](https://www.igvita.com/2009/01/15/bridging-mri-jruby-rubinius-with-ffi/ 'Bridging MRI JRuby Rubinius with FFI')
+[Calling C, CPP from Ruby](https://www.amberbit.com/blog/2014/6/12/calling-c-cpp-from-ruby/ 'Calling C, CPP from Ruby')
+[libffi] (http://sourceware.org/libffi/ 'libffi')
+[libffi on github](https://github.com/atgreen/libffi 'libffi')
+[Ruby-FFI](https://github.com/ffi/ffi 'Ruby FFI')
+[Extending Ruby with C](http://www.sitepoint.com/extending-ruby-with-c/ 'Extending Ruby with C')
+[FFI Ruby Docs](http://www.rubydoc.info/github/ffi/ffi/FFI/Library 'FFI Ruby Docs')
+[ffi/samples directory in ffi github repo] (https://github.com/ffi/ffi/tree/master/samples 'FFI Samples')
+
+
+
+
+
+require 'ffi'
+class Timeval < FFI::Struct
+  rb_maj, rb_min, rb_micro = RUBY_VERSION.split('.')
+  if rb_maj.to_i >= 1 && rb_min.to_i >= 9 || RUBY_PLATFORM =~ /java/
+    layout :tv_sec => :ulong, :tv_usec => :ulong
+  else
+    layout :tv_sec, :ulong, 0, :tv_usec, :ulong, 4
+  end
+end
+module LibC
+  extend FFI::Library
+  ffi_lib FFI::Library::LIBC
+  attach_function :gettimeofday, [ :pointer, :pointer ], :int
+end
+t = Timeval.new
+LibC.gettimeofday(t.pointer, nil)
+puts "t.tv_sec=#{t[:tv_sec]} t.tv_usec=#{t[:tv_usec]}"
+
+t.tv_sec=1415257219 t.tv_usec=467247

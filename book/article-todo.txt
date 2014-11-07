@@ -6,6 +6,7 @@
 4. Look at the book for the notes for article 50.
 5. Article on 'How to integrate front end code to Rails'.
 
+
 Revisions
 ----------
 
