@@ -1,0 +1,342 @@
+Stripe Recurring Billing Part 4
+
+Discussion
+==========
+----------
+
+In part 2 of the [Stripe Recurring Billing](http://rubyplus.com/articles/961 'Stripe Recurring Billing') series, we made the assumption: To make the demo simple, the stripe related code is in the application wide layout. This should be moved to a separate app/views/layouts/subscriptions.html.erb layout file. Use this layout in subscriptions controller by using the Rails layout method. 
+
+In this article, we will not make this assumption anymore. We will also create a separate pricing page where we display list of plans available for subscription. The customer will select the plan to subscribe and then fill out the credit card details to complete the subscription. 
+
+Steps
+======
+------
+
+Step 1
+------
+
+Create a separate layout file app/views/layouts/subscribe.html.erb for subscription. Here is the contents of this layout file:
+
+```ruby
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Subscribe Now</title>
+
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application' %>
+  
+  <%= javascript_include_tag 'https://js.stripe.com/v2/' %>
+  <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
+
+  <script type="text/javascript">
+    // This identifies your website in the createToken call below
+    Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'));
+  
+    var stripeResponseHandler = function(status, response) {
+      var $form = $('#payment-form');
+
+      if (response.error) {
+        // Show the errors on the form
+        $form.find('.payment-errors').text(response.error.message);
+        $form.find('button').prop('disabled', false);
+      } else {
+        // token contains id, last4, and card type
+        var token = response.id;
+        // Insert the token into the form so it gets submitted to the server
+        $form.append($('<input type="hidden" name="stripeToken" />').val(token));
+        // and re-submit
+        $form.get(0).submit();
+      }
+    };
+    
+    jQuery(function($) {
+      $('#payment-form').submit(function(event) {
+        var $form = $(this);
+
+        // Disable the submit button to prevent repeated clicks
+        $form.find('button').prop('disabled', true);
+
+        Stripe.card.createToken($form, stripeResponseHandler);
+
+        // Prevent the form from submitting with the default action
+        return false;
+      });
+    });
+      
+  </script>  
+
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>
+```
+
+Step 2
+------
+
+Use the subscribe layout in the subscriptions controller.
+
+```ruby
+class SubscriptionsController < ApplicationController
+  layout 'subscribe'
+  
+  # rest of the code not shown
+end
+```
+
+Step 3
+------
+
+Turn off turbo links in app/views/layouts/subscribe.html.erb by adding data-no-turbolink to the body tag.
+
+```ruby
+<body data-no-turbolink>
+
+<%= yield %>
+
+</body>
+```
+
+Otherwise you will get the following error: 
+
+```sh
+Stripe::InvalidRequestError : This customer has no attached card. 
+```
+
+This poor error message does not tell you anything about the cause of the problem or the solution.
+
+Remove : 
+
+```ruby
+'data-turbolinks-track' => true 
+```
+
+from the javascript_include_tag in app/views/layouts/subscribe.html.erb file.
+
+Step 4
+------
+
+Create a page where a user can select a plan to signup, app/views/subscriptions/pricing.html.erb
+
+```ruby
+<%= link_to 'Gold', new_subscription_path(:plan_name => 'gold') %> <br/>
+<%= link_to 'Silver', new_subscription_path(:plan_name => 'silver') %> <br/>
+<%= link_to 'Platinum', new_subscription_path(:plan_name => 'platinum') %> <br/>
+```
+
+Make sure the plan name you use here are available in your Stripe dashboard. In my case, I have 'gold', 'silver' and 'platinum' plans in the Stripe 'Plans' tab. In Stripe dashboard,  go to 'Plans' tab and click on the details of a plan. The ID of the plan in the plan details page will correspond to the plan name 'gold', 'silver' and 'platinum'.
+
+Step 5
+------
+
+Add the code for the new method in subscriptions controller:
+
+```ruby
+def new
+  @plan_name = params[:plan_name]
+end
+```
+
+When the user clicks on the plan they want to subscribe in the pricing plan page, let's say 'Gold', the name-value pair will be plan_name='gold'. This plan_name value will be used as the hidden field in the subscription form page. 
+
+Step 6
+------
+
+Change the view to add hidden field for plan_name in app/views/subscriptions/new.html.erb file.
+
+```ruby
+<%= hidden_field_tag :plan_name, @plan_name %>
+```
+
+Step 7
+------
+
+Replace the hard-coded value of plan in the subscriptions controller with the value of hidden field for 'plan name'. Here is the subscriptions controller:
+
+```ruby
+class SubscriptionsController < ApplicationController
+    
+  def create
+    stripe = StripeGateway.new(logger)
+
+    @subscription = stripe.create_subscription('current_user.email', params[:stripeToken], params[:plan_name])
+  end
+  
+  # other code not shown
+end
+```
+
+Step 8
+------
+
+Define the route for pricing page in config/routes.rb file:
+
+```ruby
+get 'pricing' => 'subscriptions#pricing'
+```
+
+Step 9
+------
+
+Give named route for new subscription page so that plan_name can be passed as the name-value pair in the URL. Add the following to config/routes.rb:
+
+```ruby
+get 'subscriptions/new' => 'subscriptions#new', as: :new_subscription
+```
+
+Step 10
+------
+
+Change the integration test, spec/features/subscribe_spec.rb as follows:
+
+```ruby
+require 'rails_helper'
+
+feature 'Subscription' do
+  scenario 'Customer subscribes to Gold plan', js: true do
+    visit "/pricing"
+    click_link 'Gold'
+    fill_in "Card Number", with: '4242424242424242'
+    page.select '10', from: "card_month"
+    page.select '2029', from: 'card_year'
+    
+    click_button 'Subscribe Me'
+    expect(page).to have_content('You have been subscribed to Gold.')
+  end
+end
+```
+
+Run it.
+
+```ruby
+$rspec spec/features/subscribe_spec.rb
+```
+
+It will pass.
+
+Entire Source Code
+==================
+------------------
+
+app/controllers/subscriptions_controller.rb:
+
+```ruby
+class SubscriptionsController < ApplicationController
+  layout 'subscribe'
+  
+  def new
+    @plan_name = params[:plan_name]
+  end
+  
+  def create
+    stripe = StripeGateway.new(logger)
+
+    @subscription = stripe.create_subscription('current_user.email', params[:stripeToken], params[:plan_name])
+  end
+  
+  def pricing
+  end
+end
+```
+
+config/routes.rb:
+
+```ruby
+Rails.application.routes.draw do
+  get 'subscriptions/new' => 'subscriptions#new', as: :new_subscription
+  post 'subscriptions/create' => 'subscriptions#create'
+  
+  get 'pricing' => 'subscriptions#pricing'
+end
+```
+
+spec/features/subscribe_spec.rb:
+
+```ruby
+require 'rails_helper'
+
+feature 'Subscription' do
+  scenario 'Customer subscribes to Gold plan', js: true do
+    visit "/pricing"
+    click_link 'Gold'
+    fill_in "Card Number", with: '4242424242424242'
+    page.select '10', from: "card_month"
+    page.select '2029', from: 'card_year'
+    
+    click_button 'Subscribe Me'
+    expect(page).to have_content('You have been subscribed to Gold.')
+  end
+end
+```
+
+app/views/subscriptions/new.html.erb:
+
+```ruby
+<form action="create" method="POST" id="payment-form">
+  <span class="payment-errors">
+  	<noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+	</div>
+  </span>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+  <%= hidden_field_tag :plan_name, @plan_name %>
+
+  <div class="form-row">
+    <label>
+      <span>Card Number</span>
+      <input type="text" size="20" data-stripe="number"/>
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span>Expiration</span>
+<%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month", data: {stripe: "exp-month"}} %>
+      
+    </label>
+    <span>/</span>
+	<%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year", data: {stripe: "exp-year"}} %>
+	
+  </div>
+
+  <button type="submit">Subscribe Me</button>
+</form>
+```
+
+app/views/layouts/subscriptions/pricing.html.erb:
+
+```ruby
+<%= link_to 'Gold', new_subscription_path(:plan_name => 'gold') %> <br/>
+<%= link_to 'Silver', new_subscription_path(:plan_name => 'silver') %> <br/>
+<%= link_to 'Platinum', new_subscription_path(:plan_name => 'platinum') %> <br/>
+```
+
+app/views/subscriptions/create.html.erb:
+
+```ruby
+<% if @subscription.complete? %>
+You have been subscribed to <%= @subscription.plan_display_name %>.
+<% end %>
+```
+
+Code Download
+=======
+-------
+
+You can download the entire source code from : git@bitbucket.org:bparanj/striped.git. Use the commit hash a58d293 to checkout the code for the version corresponding to this article.
+
+Summary
+=======
+-------
+
+In this article, we created a separate layout to handle subscription. We also created a separate page to display pricing plans available for subscription and updated the integration test to test this new flow of the subscription feature using Capybara and RSpec.
+
+Reference
+=========
+---------
+
+[Capybara Cheatsheet](https://gist.github.com/zhengjia/428105 'Capybara Cheatsheet')
