@@ -1,0 +1,279 @@
+Stripe Recurring Billing Part 6 : Making Use Cases Explicit to Achieve Traceability in a System.
+
+Discussion
+==========
+----------
+
+I had read the book written by I. Jacobson, Object-Oriented Software Engineering: A Use Case Driven Approach in the 1990s. But the problem has been that once we write the use cases, it becomes documentation and it does not exist in the code. I have worked on many complex Rails projects. I have seen the lack of object oriented code. I have cleaned up the code to bring abstractions into the code base to make it stable. I was able to apply separation of concerns and other good design principles. But the use cases are cross cutting, so it cuts through layers and calls methods on objects in different layers.
+
+I was under the impression that code written by other developers is always bad. Then I realized that the projects that I had developed from scratch that evolved over a period of years lacked something. The code was very object oriented. But whenever I went back to the code base after some break, I had the 'WTF' moments. I was not able to understand my own code base. I did not know what features were used by what actors. I had no idea which classes were involved in implementing a given use case. 
+
+I had over 95% test coverage. Tests are executable documentation. But, there is a major flaw in the argument that tests can be an executable documentation. This might be true when you view the software in terms of class and group of classes collaborating with each other. But when you view the software as a system viewed from a user perspective, you do not see how the features are implemented in the system. The problems that I could not pinpoint became very clear as I read the papers that I have listed in the references section of this article. These problems are:
+
+1. Program Comprehension
+2. Debugging
+3. Re-engineering
+
+Program comprehension is about forming a hypothesis about how the code functions. It also is about locating code that supports a hypothesis. This is a search in space. 
+
+What is software re-engineering? Re-engineering is the examination, analysis and alteration of an existing software system to reconstitute it in a new form and the subsequent implementation of the new form. To a large extent, it involves maintenance activities:
+
+- Understanding (predictive)
+- Repairing (corrective)
+- Improving (perfective)
+- Evolving (adaptive)
+
+The intentions of the user stated in the requirements is transformed to software architecture and source code. There is a gap in the representation of the software by the developers and the user's representation of the system. The repairing, improving and evolving requirements comes from the user. It is represented in terms of user's perspective. We have a problem mapping these bug fixes, enhancements and changes demanded to the system implemented in terms of developer's view.
+
+The main cause of all these problems is lack of traceability. Requirement tracing is about locating source code that corresponds to a program specification. It enables code inspection. So, how can we recover the intentions of the user's view of the system? How do we make them explicit in the code? How to associate source code with use cases? How to easily map change requests and failure reports to use cases and source code entities. How does change to one use-case implementation affect others? We need to have program comprehension with use case traceability. Our aim is to achieve use case driven fault localization. This is a search problem in time (when) and space (where) of programs. Is there an alternative to grep and find all files for given search string? How to reduce the large result set of the search? Can we reduce the effort required by the developer?
+
+Actors and Use Cases
+==========
+----------
+
+Here is a list of actors and their use cases from a real project. Notice that the system is represented as an actor, since certain domain events triggers its corresponding use cases.
+
+- Seller
+	- Login
+	- Logout
+	- Register for a publisher account
+	- View sales report
+	- Upgrade to paid account
+	- Setup Product
+	- Get buy now link
+	- Setup profile
+- Buyer
+ 	- Buy product
+	- View order confirmation
+- System
+	- Send order confirmation email to buyer
+	- Send digital product delivery email to buyer
+	- Fulfill order
+- Affiliate
+	- Register for an affiliate account
+	- View referrals
+	- View bounties
+	- Get affiliate link for a product
+
+As you can see from this list, there are quite a few actors with lot of use cases. Each use case will have alternate scenarios. Let's look at some code where we can represent the use cases in the structure of the code. The use case and alternate scenarios can be encapsulated in a way that preserves traceability. If you watch Robert Martin's clean code screencasts, he talks about making use cases explicit. We want our solution to be practical that achieves our traceability goal. So let's see how we can implement this in our Stripe Recurring Billing project.
+
+Steps
+==========
+----------
+
+Step 1
+----------
+
+The directory structure we would like to have is app/actors/{actor name}/use_cases/use_case_name.rb. This allows several actors to be included inside the actors directory. Each actor will have list of use cases under use_cases directory. Create app/actors/customer/use_cases directory. Create a file subscribe_to_a_plan.rb under this directory. The contents of this file is as follows:
+
+```ruby
+module Actors
+  module Customer
+    module UseCases
+      
+      def self.subscribe_to_a_plan(email, stripe_token, plan_name, logger)
+        stripe = StripeGateway.new(logger)
+        customer = stripe.create_subscription(email, stripe_token, plan_name)    
+        
+        subscription = Subscription.new
+        subscription.save_details(customer.id, plan_name)
+      end      
+      
+    end
+  end
+end
+```
+
+You can see the use case delegates the implementation to the objects in the appropriate layer. We can now see clearly what methods in which classes are invoked to accomplish a given use case. We have achieved traceability. You can also easily see all the use cases for a given actor by expanding the use_cases folder for a given actor. We can quickly locate the relevant classes used to implement a given use case.
+
+By the way, this is a great place to trigger filter logic that delegates to appropriate objects. Having lot of filters and call backs in the model in a Rails project can become a nightmare to maintain in a big project. This nightmare is due to the fact that you don't know which use case uses which call back, which needs to be skipped for which cases and the order in which the call backs execute. There can be lot of different combinations of use cases and call backs that can create lot of stress and slow down development.
+
+Step 2
+==========
+----------
+
+Add the following to the bottom of application.rb file:
+
+```ruby
+require_relative '../app/actors/customer/use_cases/subscribe_to_a_plan'
+```
+
+Step 3
+==========
+----------
+
+The StripeGateway is now more cohesive now and is the great implementation of Gateway pattern as described in [Patterns of Enterprise Application Architecture](http://martinfowler.com/books/eaa.html 'Patterns of Enterprise Application Architecture'). 
+
+```ruby
+class StripeGateway
+  def initialize(logger)
+    @logger = logger
+  end
+  
+  def create_subscription(email, stripe_token, plan_id)
+    begin
+      customer = Stripe::Customer.create(description: email, card: stripe_token, plan: plan_id)
+    rescue Stripe::InvalidRequestError => e
+      @logger.error "Create subscription failed due to Stripe::InvalidRequestError : #{e.message}"
+    rescue Exception => ex
+      @logger.error "Create subscription failed due to : #{ex.message}"  
+    end
+  end
+  
+end
+```
+
+Here is the stripe_gateway_spec.rb.
+
+```ruby
+require 'stripe_mock'
+require 'rails_helper'
+
+
+describe StripeGateway do
+  let(:stripe_helper) { StripeMock.create_test_helper }
+  let(:plan) { stripe_helper.create_plan(:id => 'gold', :amount => 1500) }
+  
+  before { StripeMock.start }
+  after { StripeMock.stop }
+  
+  it 'customer should be subscribed to gold plan' do
+    sg = StripeGateway.new(Rails.logger)
+    customer = sg.create_subscription('test-email', stripe_helper.generate_card_token, plan.id)
+    
+    expect(customer.id).to eq('test_cus_3')
+  end
+  
+end
+```
+
+Step 4
+==========
+----------
+
+Subscriptions controller becomes simple.
+
+```ruby
+class SubscriptionsController < ApplicationController
+  layout 'subscribe'
+  
+  def new
+    @plan_name = params[:plan_name]
+  end
+  
+  def create
+    @subscription = Actors::Customer::UseCases.subscribe_to_a_plan('current_user.email', 
+                                                                   params[:stripeToken], 
+                                                                   params[:plan_name], 
+                                                                   logger)    
+  end
+  
+  def pricing
+  end
+end
+```
+
+Step 5
+==========
+----------
+
+Update the controller spec, subscriptions_controller_spec.rb:
+
+```ruby
+require 'rails_helper'
+
+describe SubscriptionsController do
+  
+  it 'should delegate creating stripe customer to stripe gateway' do    
+    allow(Actors::Customer::UseCases).to receive(:subscribe_to_a_plan).with('current_user.email', '1', 'gold', Rails.logger)
+
+    post :create, { stripeToken: '1', plan_name: 'gold'}
+  end
+  
+  it 'should initialize plan name' do
+    get :new, {plan_name: 'gold'}
+    
+    expect(assigns(:plan_name)).to eq('gold')
+  end
+end
+```
+
+Step 6
+==========
+----------
+
+Here is the latest code for subscription model.
+
+```ruby
+class Subscription < ActiveRecord::Base
+  
+  def plan_display_name
+    self.plan_name.humanize
+  end
+  
+  def complete?
+    self.stripe_customer_token.present?
+  end
+  
+  def save_details(customer_id, plan_id)
+    self.stripe_customer_token = customer_id
+    self.plan_name = plan_id
+    self.save!
+    self
+  end
+end
+```
+
+New spec is now added to subscription_spec.rb.
+
+```ruby
+require 'rails_helper'
+
+describe Subscription do
+  it 'should display plan name in human readable form' do
+    subscription = Subscription.new(plan_name: 'gold')
+    
+    expect(subscription.plan_display_name).to eq('Gold')
+  end
+  
+  it 'subscription is not complete when the customer is not in stripe system' do
+    subscription = Subscription.new
+    
+    expect(subscription).not_to be_complete
+  end
+
+  it 'subscription is complete when the customer is in the strip system' do
+    subscription = Subscription.new(stripe_customer_token: 1)
+    
+    expect(subscription).to be_complete
+  end  
+  
+  it 'should save customer subscription details' do
+    subscription = Subscription.new
+    subscription.save_details('1', 'gold')
+    
+    expect(subscription.stripe_customer_token).to eq('1')
+    expect(subscription.plan_name).to eq('gold')
+  end
+end
+```
+
+You can download the entire source code for this article from bitbucket repository git@bitbucket.org:bparanj/striped.git using the commit hash a3829cf. There are other approaches that I don't really like, such as [Writing Use Cases] (http://hawkins.io/2014/01/writing_use_cases/ 'Writing Use Cases') blog post by Adam Hawkins and the horrible [Interactor Gem](https://github.com/collectiveidea/interactor 'interactor'). For more details, read [Why using Interactor Gem is a Very Bad Idea](http://bparanj.blogspot.com/2014/06/why-using-interactor-gem-is-very-bad.html 'Why using Interactor Gem is a Very Bad Idea'). I don't think it's a good idea to have use case name as the class name. It's just ugly.
+
+Summary
+==========
+----------
+
+In this article we discussed about making use cases explicit in the source code to achieve traceability. The bigger your project more important it becomes to have traceability in the system. We refactored our existing code base and re-allocated responsibility to the appropriate layer in our system. This also had a nice benefit of simplifying the classes and the tests. 
+
+References
+==========
+----------
+
+1. A Scenario-Driven Approach to Traceability. Paper by Alexander Egyed Teknowledge Corporation.
+2. Recovering Traceability Links Between Code and Documentation. Paper by Giuliano Antoniol, Gerardo Canfora, Gerardo Casazza, Andrea De Lucia and Ettore Merlo.
+3. Explicit Use-Case Representation in Object-Oriented Programming Languages. Paper by Robert Hirschfeld, Michael Perscheid, Michael Haupt. University of Potsdam, Germany.
+4. [Software Re-engineering Lecture Slides](http://www.cs.toronto.edu/~yijun/ece450h/handouts/lecture2.pdf 'Software Re-engineering')
+5. [Software Reengineering](http://www.slideshare.net/awahid/software-reengineering 'Software Reengineering')
+6. [Gateway Pattern](http://martinfowler.com/eaaCatalog/gateway.html 'Gateway Pattern')
+7. [Why using Interactor Gem is a Very Bad Idea](http://bparanj.blogspot.com/2014/06/why-using-interactor-gem-is-very-bad.html 'Why using Interactor Gem is a Very Bad Idea')

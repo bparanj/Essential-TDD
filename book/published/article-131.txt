@@ -1,0 +1,125 @@
+Stripe Recurring Billing Part 5 : Testing using Stripe Ruby Mock Gem 
+
+Discussion
+========
+--------
+
+Testing Stripe related code becomes difficult because of too much stubbing code. To make this easier, we will use stripe-ruby-mock gem. This gem does not make any network calls, so we don't hit stripe's servers. So, our tests run faster.
+
+Steps
+========
+--------
+
+Step 1
+--------
+
+Add the stripe-ruby-mock gem to Gemfile and run bundle install.
+
+```ruby
+group :test do
+  gem 'capybara'
+  gem 'selenium-webdriver'
+  gem 'stripe-ruby-mock'
+end
+```
+
+Step 2
+--------
+
+Here is the tests that checks if we are saving the subscription details in our database and if the customer subscribed to our gold plan.
+
+```ruby
+require 'stripe_mock'
+require 'rails_helper'
+
+
+describe StripeGateway do
+  let(:stripe_helper) { StripeMock.create_test_helper }
+  let(:plan) { stripe_helper.create_plan(:id => 'gold', :amount => 1500) }
+  
+  before { StripeMock.start }
+  after { StripeMock.stop }
+  
+  it 'creates a stripe customer in our database' do
+    sg = StripeGateway.new(Rails.logger)
+    
+    expect do
+      subscription = sg.create_subscription('test-email', stripe_helper.generate_card_token, plan.id)
+    end.to change{Subscription.count}.by(1)
+  end
+
+  it 'customer should be subscribed to gold plan' do
+    sg = StripeGateway.new(Rails.logger)
+    subscription = sg.create_subscription('test-email', stripe_helper.generate_card_token, plan.id)
+    
+    expect(subscription.plan_name).to eq('gold')
+  end
+  
+end
+```
+
+Step 3
+--------
+
+Here is the spec/controllers/subscriptions_controller_spec.rb:
+
+```ruby
+require 'rails_helper'
+
+describe SubscriptionsController do
+  
+  it 'should delegate creating stripe customer and subscription record to stripe gateway' do
+    stripe_gateway = instance_double('StripeGateway')    
+    allow(StripeGateway).to receive_messages(:new => stripe_gateway)
+    allow(stripe_gateway).to receive(:create_subscription).with('current_user.email', '1', 'gold')
+
+    post :create, { stripeToken: '1', plan_name: 'gold'}
+  end
+  
+  it 'should initialize plan name' do
+    get :new, {plan_name: 'gold'}
+    
+    expect(assigns(:plan_name)).to eq('gold')
+  end
+end
+```
+
+Step 4
+-------
+
+Here is the test for the subscription model.
+
+```ruby
+require 'rails_helper'
+
+describe Subscription do
+  it 'should display plan name in human readable form' do
+    subscription = Subscription.new(plan_name: 'gold')
+    
+    expect(subscription.plan_display_name).to eq('Gold')
+  end
+  
+  it 'subscription is not complete when the customer is not in stripe system' do
+    subscription = Subscription.new
+    
+    expect(subscription).not_to be_complete
+  end
+
+  it 'subscription is complete when the customer is in the strip system' do
+    subscription = Subscription.new(stripe_customer_token: 1)
+    
+    expect(subscription).to be_complete
+  end  
+  
+end
+```
+
+This spec uses the latest stubbing and mocking syntax for RSpec mocks version 3.0.4. See the link in the reference section for more details. You can checkout the code for this article by cloning 91944df commit of git repository git@bitbucket.org:bparanj/striped.git.
+
+References
+=========
+---------
+
+[Notable Changes in RSpec 3] (http://myronmars.to/n/dev-blog/2014/05/notable-changes-in-rspec-3 'Notable Changes in RSpec 3')
+[Stripe Ruby Mock Gem Home Page](https://github.com/rebelidealist/stripe-ruby-mock 'Stripe Ruby Mock Gem')
+[RSpec Builtin Matchers](https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers 'RSpec Builtin Matchers')
