@@ -228,8 +228,7 @@ Summary
 ===========
 -----------
 
-In this lesson you learned about Single Purpose principle and how to design collaborators that are highly cohesive. We also saw some bad code examples in RSpec book that ties implementation level details with game logic. In the next lesson we will continue building the guessing game.
-
+In this lesson you learned about Single Purpose principle and how to design collaborators that are highly cohesive. We also saw some bad code examples in RSpec book that ties implementation level details with game logic. If we apply Single Purpose Principle throughout the system we will obey the Separation of Concerns principle and the system will be organized into different layers. Each layer will be focused on fulfilling one purpose such as Object Relational Mapping layer, data conversion for external system and so on. For a good discussion on this topic, read [The Art of Separation of Concerns](http://aspiringcraftsman.com/2008/01/03/art-of-separation-of-concerns/ 'The Art of Separation of Concerns'). In the next lesson we will continue building the guessing game.
 
 Reference
 =========

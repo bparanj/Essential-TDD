@@ -4,9 +4,19 @@ Discussion
 ==========
 ----------
 
-I had read the book written by I. Jacobson, Object-Oriented Software Engineering: A Use Case Driven Approach in the 1990s. But the problem has been that once we write the use cases, it becomes documentation and it does not exist in the code. I have worked on many complex Rails projects. I have seen the lack of object oriented code. I have cleaned up the code to bring abstractions into the code base to make it stable. I was able to apply separation of concerns and other good design principles. But the use cases are cross cutting, so it cuts through layers and calls methods on objects in different layers.
+I had read the book written by I. Jacobson, Object-Oriented Software Engineering: A Use Case Driven Approach in the 1990s. But the problem is that once we write the use cases, it becomes documentation and it does not exist in the code. I have worked on many complex Rails projects. I have seen the lack of object oriented code. I have cleaned up the code to bring abstractions into the code base to make it stable. I was able to apply separation of concerns and other good design principles. But the use cases are cross cutting, so it cuts through layers and calls methods on objects in different layers.
 
 I was under the impression that code written by other developers is always bad. Then I realized that the projects that I had developed from scratch that evolved over a period of years lacked something. The code was very object oriented. But whenever I went back to the code base after some break, I had the 'WTF' moments. I was not able to understand my own code base. I did not know what features were used by what actors. I had no idea which classes were involved in implementing a given use case. 
+
+Of course, you might think BDD solves that problem. Where you have story in a specific format:
+
+Feature : [Feature Name]
+
+As an [Actor]
+I want to [some system behavior]
+So that I can [have a tangible benefit]
+
+This does not solve the problems that I am talking about here. In my opinion Cucumber brings in additional complexity instead of helping to bring simplicity into our software. 
 
 I had over 95% test coverage. Tests are executable documentation. But, there is a major flaw in the argument that tests can be an executable documentation. This might be true when you view the software in terms of class and group of classes collaborating with each other. But when you view the software as a system viewed from a user perspective, you do not see how the features are implemented in the system. The problems that I could not pinpoint became very clear as I read the papers that I have listed in the references section of this article. These problems are:
 
@@ -23,9 +33,21 @@ What is software re-engineering? Re-engineering is the examination, analysis and
 - Improving (perfective)
 - Evolving (adaptive)
 
-The intentions of the user stated in the requirements is transformed to software architecture and source code. There is a gap in the representation of the software by the developers and the user's representation of the system. The repairing, improving and evolving requirements comes from the user. It is represented in terms of user's perspective. We have a problem mapping these bug fixes, enhancements and changes demanded to the system implemented in terms of developer's view.
+The intentions of the user stated in the requirements is transformed to software architecture and source code. There is a gap in the representation of the software by the developers and the user's representation of the system. The repairing, improving and evolving requirements comes from users. It is represented in terms of user's perspective. We have a problem mapping these bug fixes, enhancements and changes demanded to the system implemented in terms of developer's view.
 
-The main cause of all these problems is lack of traceability. Requirement tracing is about locating source code that corresponds to a program specification. It enables code inspection. So, how can we recover the intentions of the user's view of the system? How do we make them explicit in the code? How to associate source code with use cases? How to easily map change requests and failure reports to use cases and source code entities. How does change to one use-case implementation affect others? We need to have program comprehension with use case traceability. Our aim is to achieve use case driven fault localization. This is a search problem in time (when) and space (where) of programs. Is there an alternative to grep and find all files for given search string? How to reduce the large result set of the search? Can we reduce the effort required by the developer?
+The main cause of all these problems is lack of traceability. Requirement tracing is about locating source code that corresponds to a program specification. It enables code inspection. So, here are the questions we need to ask ourselves:
+
+- How can we recover the intentions of the user's view of the system? 
+- How do we make them explicit in the code? 
+- How to associate source code with use cases? 
+- How to easily map change requests and failure reports to use cases and source code entities? 
+- How does change to one use-case implementation affect others? 
+
+We need to have program comprehension with use case traceability. Our aim is to achieve use case driven fault localization. This is a search problem in time (when) and space (where) of programs. So:
+
+- Is there an alternative to grep and find all files for given search string? 
+- How to reduce the large result set of the search? 
+- Can we reduce the effort required by the developer?
 
 Actors and Use Cases
 ==========
@@ -55,7 +77,11 @@ Here is a list of actors and their use cases from a real project. Notice that th
 	- View bounties
 	- Get affiliate link for a product
 
-As you can see from this list, there are quite a few actors with lot of use cases. Each use case will have alternate scenarios. Let's look at some code where we can represent the use cases in the structure of the code. The use case and alternate scenarios can be encapsulated in a way that preserves traceability. If you watch Robert Martin's clean code screencasts, he talks about making use cases explicit. We want our solution to be practical that achieves our traceability goal. So let's see how we can implement this in our Stripe Recurring Billing project.
+As you can see from this list, there are quite a few actors with lot of use cases. Each use case will have alternate scenarios. The alternate scenarios will make the code base even more difficult to understand. Especially when it is handled without making the use cases explicit in the source code. 
+
+Let's look at some code where the structure of the code reflects what the system can do and for whom - the use cases and the actors. The use case and alternate scenarios can be encapsulated together to preserve traceability. Now, we can get a quick view of all use cases by looking at the file names.
+
+Alternate scenarios can go into the same use case. If you watch Robert Martin's clean code screencasts, he talks about making use cases explicit. We want our solution to be practical that achieves our traceability goal. So let's see how we can implement this in our Stripe Recurring Billing project.
 
 Steps
 ==========
@@ -64,7 +90,9 @@ Steps
 Step 1
 ----------
 
-The directory structure we would like to have is app/actors/{actor name}/use_cases/use_case_name.rb. This allows several actors to be included inside the actors directory. Each actor will have list of use cases under use_cases directory. Create app/actors/customer/use_cases directory. Create a file subscribe_to_a_plan.rb under this directory. The contents of this file is as follows:
+The directory structure we would like to have is app/actors/{actor name}/use_cases/use_case_name.rb. This allows several actors to be included inside the actors directory. Each actor will have list of use cases under use_cases directory. Each each use-case-name.rb file will provide an entry point to the fulfillment of the use case. One nice side-effect of this is that we will now have an API layer that is just below the UI layer that the view layer, scripts and tests can invoke. This means our entire system can be tested without testing it through an UI. We can drop into Rails console and invoke this API to learn and debug our software.
+
+Create app/actors/customer/use_cases directory. Create a file subscribe_to_a_plan.rb under this directory. The contents of this file is as follows:
 
 ```ruby
 module Actors
@@ -86,7 +114,7 @@ end
 
 You can see the use case delegates the implementation to the objects in the appropriate layer. We can now see clearly what methods in which classes are invoked to accomplish a given use case. We have achieved traceability. You can also easily see all the use cases for a given actor by expanding the use_cases folder for a given actor. We can quickly locate the relevant classes used to implement a given use case.
 
-By the way, this is a great place to trigger filter logic that delegates to appropriate objects. Having lot of filters and call backs in the model in a Rails project can become a nightmare to maintain in a big project. This nightmare is due to the fact that you don't know which use case uses which call back, which needs to be skipped for which cases and the order in which the call backs execute. There can be lot of different combinations of use cases and call backs that can create lot of stress and slow down development.
+By the way, this is a great place to trigger active record call backs logic that delegates to appropriate objects. Having lot of active record call backs in the models in a Rails project can become a nightmare to maintain in big projects. This nightmare is due to the fact that you don't know which use case uses which call back, which needs to be skipped for which cases and the order in which the call backs execute. There can be lot of different combinations of use cases and call backs that can create lot of confusion, stress and slow down development. By encapsulating use case specific callbacks within the use case itself makes it easy to see the runtime behavior of the system and to reason about the code.
 
 Step 2
 ==========
