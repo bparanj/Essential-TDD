@@ -1,0 +1,130 @@
+Stripe Recurring Billing Part 7 : Dealing with Exceptions
+
+Objective
+=========
+---------
+
+To learn how to handle exceptions and make the code robust.
+
+Discussion
+=========
+---------
+
+>> Distinguish between business exceptions and technical. Create a specific exception so that the client can handle the situation on its own terms. 
+
+>> Tip by Dan Bergh Johnsson from the book 97 Things a Programmer Should Know
+
+The application should separate data access logic from business logic. We don't want our application to be dependent on the external systems such as database, API, messaging bus etc. We encapsulate the low-lever data manipulation logic in a data access layer. This is isolated from the domain model. External systems have their own errors and exceptions. These errors should not propagate to other layers, if it does, the other layers will become specific to the implementation details and will make switching to a different data source difficult. Therefore we lose flexibility. To prevent this, we can translate the technical exceptions to business exceptions in the data access layer. 
+
+We can also have a data mapper layer that maps the persistence objects to domain objects. Thus the data mapper layer protects the application from the data formats dictated by the persistence layer. It also makes the data access layer agnostic to how the domain model works. So, the application logic and data access logic are separated from each other. This means we have achieved Separation of Concerns. This also means that these layers can developed in parallel by different teams without depending on each other. Changes in one layer does not affect any changes to the other layers. Testing will also be easier since we test each layer in isolation. As long as we program to an interface that defines the communication between layers, changes do not ripple into other layers of the system. External systems are wrapped in a well defined interface.
+
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+The credit card 4000000000000069 can be used to simulate a decline due to expired card. The Stripe API will throw a Stripe::CardError exception for this case. We must notify the user about the reason for the decline so that they can use a different card to subscribe to our SaaS application. The business exception in this case is CreditCardDeclined with the message 'Your card has expired'. 
+
+Create a directory named exceptions/striped under app directory. Create application specific exception class, under this directory: credit_card_declined.rb:
+
+```ruby
+module Striped
+  class  CreditCardDeclined < Exception
+  end
+end
+```
+
+Step 2
+-------
+
+Add rescue clause to handle Stripe::CardError in the create_subscription method of the StripeGateway class as follows:
+
+```ruby
+def create_subscription(email, stripe_token, plan_id)
+  begin
+    customer = Stripe::Customer.create(description: email, card: stripe_token, plan: plan_id)
+  rescue Stripe::CardError => e
+    # Since it's a decline, Stripe::CardError will be caught
+    body = e.json_body
+    err  = body[:error]
+
+    @logger.error "Status is: #{e.http_status}"
+    @logger.error "Type is: #{err[:type]}"
+    @logger.error "Code is: #{err[:code]}"
+    # param is '' in this case
+    @logger.error "Param is: #{err[:param]}"
+    @logger.error "Message is: #{err[:message]}" 
+
+    raise Striped::CreditCardDeclined.new(err[:message])     
+  rescue Stripe::InvalidRequestError => e
+    @logger.error "Create subscription failed due to Stripe::InvalidRequestError : #{e.message}"
+  rescue Exception => ex
+    @logger.error "Create subscription failed due to : #{ex.message}"  
+  end
+end
+```
+
+The StripeGateway class now translates the external Stripe specific exception Stripe::CardError to our application specific Striped::CreditCardDeclined exception.
+
+Step 3
+-------
+
+Change the SubscriptionsController#create method to handle the credit card decline.
+
+```ruby
+def create
+  begin
+    @subscription = Actors::Customer::UseCases.subscribe_to_a_plan('current_user.email', 
+                                                                   params[:stripeToken], 
+                                                                   params[:plan_name], 
+                                                                   logger)    
+  rescue Striped::CreditCardDeclined => e
+    @error_message = e.message
+    @subscription = Subscription.new
+                
+    render :new
+  end
+end
+```
+
+Our application now depends on our application specific exception class, Striped::CreditCardDeclined. 
+
+Step 4
+-------
+
+Change the app/views/subscriptions/new.html.erb to display the error message above the credit card number text field:
+
+```ruby
+<% if @error_message %>
+	<%= @error_message %>
+<% end %>
+```
+
+Step 5
+-------
+
+Using stripe mock to simulate a declined credit card gets very messy. So we will use Capybara integration test to test the credit card decline. Let's add a new scenario to spec/features/subscribe_spec.rb
+
+```ruby
+scenario 'Customer subscription credit card decline', js: true do
+  visit "/pricing"
+  click_link 'Gold'
+  fill_in "Card Number", with: '4000000000000069'
+  page.select '10', from: "card_month"
+  page.select '2029', from: 'card_year'
+  
+  click_button 'Subscribe Me'
+  expect(page).to have_content('Your card has expired.')
+end
+```
+
+All tests will pass. You can download the entire source code for this article using the commit hash 121f34e from : git@bitbucket.org:bparanj/striped.git.
+
+Summary
+=======
+-------
+
+In this article you learned how to make the code robust by defining application specific exceptions to handle edge cases. You also learned not to dependent upon technical exceptions and how to use application specific exceptions.
