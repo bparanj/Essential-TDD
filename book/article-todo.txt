@@ -13,4 +13,3 @@ Revisions
 1. Create an article on using Moonshine and link in the comments section : http://railscasts.com/episodes/337-capistrano-recipes?autoplay=true
 2. Open Closed Principle article: Discussion questions must be answered in the answer key. Create Answer Key in the pdf book appendix.
 3. Update 'Article by Category' : Start from article 105 SQL Basics : Constraints.
-4. Update article 23 on the site with the existing version.

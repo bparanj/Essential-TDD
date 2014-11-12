@@ -120,10 +120,179 @@ scenario 'Customer subscription credit card decline', js: true do
 end
 ```
 
-All tests will pass. You can download the entire source code for this article using the commit hash 121f34e from : git@bitbucket.org:bparanj/striped.git.
+All tests will pass. 
+
+Step 6
+-------
+
+Create credit_card_exception.rb in app/exceptions/striped directory.
+
+```ruby
+module Striped
+  class  CreditCardException < Exception
+  end
+end
+```
+
+Step 7
+-------
+
+Let's add more tests to make the controller robust. Here is the complete source code for subscriptions_controller_spec.rb.
+
+```ruby
+require 'rails_helper'
+
+describe SubscriptionsController do
+  
+  it 'should delegate creating stripe customer to stripe gateway' do    
+    allow(Actors::Customer::UseCases).to receive(:subscribe_to_a_plan).with('current_user.email', '1', 'gold', Rails.logger)
+
+    post :create, { stripeToken: '1', plan_name: 'gold'}
+  end
+  
+  it 'should initialize plan name' do
+    get :new, {plan_name: 'gold'}
+    
+    expect(assigns(:plan_name)).to eq('gold')
+  end
+
+  it 'should handle credit card exception' do
+    post :create, {stripeToken: 'bogus', plan_name: 'junk' }
+    
+    expect(assigns(:error_message)).to eq('Subscription failed. We have been notified about this problem.')
+  end
+  
+  it 'should render the form when credit card exception occurs' do
+    post :create, {stripeToken: 'bogus', plan_name: 'junk' }
+    
+    expect(response).to render_template(:new)
+  end
+  
+  it 'should raise credit card exception when authentication error occurs' do
+    Stripe.api_key = 'junk'
+
+    post :create, {stripeToken: 'bogus', plan_name: 'junk' }
+    
+    expect(assigns(:error_message)).to eq('Subscription failed. We have been notified about this problem.')
+  end
+end
+```
+
+Step 8
+-------
+
+Here is the complete source code for subscriptions_controller.rb.
+
+```ruby
+def create
+  begin
+    @subscription = Actors::Customer::UseCases.subscribe_to_a_plan('current_user.email', 
+                                                                   params[:stripeToken], 
+                                                                   params[:plan_name], 
+                                                                   logger)    
+  rescue Striped::CreditCardDeclined => e
+    redisplay_form(e.message)
+  rescue Striped::CreditCardException, Exception => e
+    redisplay_form("Subscription failed. We have been notified about this problem.")
+  end
+end
+```
+
+Step 9
+-------
+
+Here is the complete source code for stripe_gateway_spec.rb.
+
+```ruby
+require 'stripe_mock'
+require 'rails_helper'
+require 'stripe'
+
+describe StripeGateway do
+  context 'success scenario' do
+    let(:stripe_helper) { StripeMock.create_test_helper }
+    let(:plan) { stripe_helper.create_plan(:id => 'gold', :amount => 1500) }
+
+    before { StripeMock.start }
+    after { StripeMock.stop }
+
+    it 'customer should be subscribed to gold plan' do
+      sg = StripeGateway.new(Rails.logger)
+      customer = sg.create_subscription('test-email', stripe_helper.generate_card_token, plan.id)
+
+      expect(customer.id).to eq('test_cus_3')
+    end
+  end
+
+  it 'should raise credit card exception when Stripe::InvalidRequestError occurs' do
+    sg = StripeGateway.new(Rails.logger)
+
+    expect do
+      customer = sg.create_subscription('fake', 'bogus', 'junk')
+    end.to raise_error Striped::CreditCardException
+
+  end
+  
+end
+```
+
+Step 10
+-------
+
+Here is the complete source code for stripe_gateway.rb.
+
+```ruby
+class StripeGateway
+  def initialize(logger)
+    @logger = logger
+  end
+  
+  def create_subscription(email, stripe_token, plan_id)
+    begin
+      customer = Stripe::Customer.create(description: email, card: stripe_token, plan: plan_id)
+    rescue Stripe::CardError => e
+      # Since it's a decline, Stripe::CardError will be caught
+      body = e.json_body
+      err  = body[:error]
+
+      @logger.error "Status is: #{e.http_status}"
+      @logger.error "Type is: #{err[:type]}"
+      @logger.error "Code is: #{err[:code]}"
+      # param is '' in this case
+      @logger.error "Param is: #{err[:param]}"
+      @logger.error "Message is: #{err[:message]}" 
+
+      raise Striped::CreditCardDeclined.new(err[:message])     
+    rescue Stripe::InvalidRequestError => e
+      @logger.error "Create subscription failed due to Stripe::InvalidRequestError : #{e.message}"
+      
+      raise Striped::CreditCardException.new(e.message)
+    rescue Stripe::AuthenticationError => e
+      @logger.error "Authentication with Stripe's API failed"
+      @logger.error "(maybe you changed API keys recently)"
+      
+      raise Striped::CreditCardException.new(e.message)
+    rescue Stripe::APIConnectionError => e
+      @logger.error "Network communication with Stripe failed"
+    
+      raise Striped::CreditCardException.new(e.message)
+    rescue Stripe::StripeError => e
+      @logger.error "Display a very generic error to the user, and maybe send yourself an email"
+      
+      raise Striped::CreditCardException.new(e.message)
+    rescue Exception => ex
+      @logger.error "Create subscription failed due to : #{ex.message}"  
+      
+      raise
+    end
+  end  
+end
+```
+
+You can download the entire source code for this article using the commit hash 31652ff from : git@bitbucket.org:bparanj/striped.git.
 
 Summary
 =======
 -------
 
-In this article you learned how to make the code robust by defining application specific exceptions to handle edge cases. You also learned not to dependent upon technical exceptions and how to use application specific exceptions.
+In this article you learned how to make the code robust by defining application specific exceptions to handle edge cases. You also learned not to depend upon technical exceptions and how to use application specific exceptions.
