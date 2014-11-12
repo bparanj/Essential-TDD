@@ -1,0 +1,251 @@
+Riak Basics 
+
+Background
+============
+------------
+
+Riak installation on Mac OS is a big headache. I installed it on 64 bit Ubuntu 12.04 running in Virtual Box. Riak runs only on 64 bit Ubuntu. I setup a shared folder between the Mac OS and the Ubuntu. This allows me to edit on Textmate and run the program on Ubuntu environment. 
+
+Installation
+============
+------------
+
+Riak 2.0.0.1 Installation on Ubuntu 12.04.
+
+```sh
+curl https://packagecloud.io/install/repositories/basho/riak/script.deb | sudo bash
+sudo apt-get install riak=2.0.0-1
+```
+
+Checking Installation
+============
+------------
+
+To check the installed version.
+
+```sh
+root@riak:~# riak version
+2.0.0
+```
+
+To check if the Riak node is running, use the ping command.
+
+```sh
+root@riak:~# riak ping
+pong
+```
+
+Prints pong for success.
+
+```sh
+~ $riak ping
+Node 'riak@127.0.0.1' not responding to pings.
+```
+This is the error when then node is not responding or running.
+
+Riak console starts the Riak node in the foreground and gives access to the Erlang shell.
+
+```sh
+root@riak:~# riak console
+Node is already running - use 'riak attach' instead
+```
+
+This means that the node is running in the background.
+
+```sh
+root@riak:~# riak attach
+Remote Shell: Use "Ctrl-C a" to quit. q() or init:stop() will terminate the riak node.
+Erlang R16B02-basho5 (erts-5.10.3) [source] [64-bit] [async-threads:10] [kernel-poll:false]
+
+Eshell V5.10.3  (abort with ^G)
+(riak@127.0.0.1)1> 
+```
+
+Riak attach command attaches to the console of a Riak node running in the background. The console gives you access to the Erlang shell. You can exit out of the shell by pressing CTRL+C twice.
+
+To run a test of a few standard Riak operations against the running node, you can use riak-admin command.
+
+```sh
+root@riak:~# riak-admin test
+Successfully completed 1 read/write cycle to 'riak@127.0.0.1'
+```
+
+This shows the output for successful test.
+
+```sh
+~ $riak-admin test
+Node is not running!
+```
+
+This is the output for failed test.
+
+Playing with Riak in Ruby
+==========================
+--------------------------
+
+Install the riak-client gem.
+
+```sh
+$gem install riak-client
+```
+
+Let's now play with riak in the irb console.
+
+```sh
+# irb
+01 > require 'riak'
+ => true 
+02 > client = Riak::Client.new
+ => #<Riak::Client [#<Node 127.0.0.1:8087>]> 
+```
+
+Creating Objects
+----------------
+
+Let's create a bucket called 'test' and store a few objects in it.
+
+```sh
+03 > bucket = client.bucket('test')
+ => #<Riak::Bucket {test}> 
+04 > val1 = 1
+ => 1 
+05 > obj1 = bucket.new('one')
+ => #<Riak::RObject {test,one} [#<Riak::RContent [application/json]:nil>]> 
+06 > obj1.data = val1
+ => 1 
+07 > obj1.store
+ => #<Riak::RObject {test,one} [#<Riak::RContent [application/json]:1>]> 
+08 > val2 = 'two'
+ => "two" 
+09 > obj2 = bucket.new('two')
+ => #<Riak::RObject {test,two} [#<Riak::RContent [application/json]:nil>]> 
+10 > obj2.data = val2
+ => "two" 
+11 > obj2.store
+ => #<Riak::RObject {test,two} [#<Riak::RContent [application/json]:"two">]> 
+12 > val3 = { foo: 3 }
+ => {:foo=>3} 
+13 > obj3 = bucket.new('three')
+ => #<Riak::RObject {test,three} [#<Riak::RContent [application/json]:nil>]> 
+14 > obj3.data = val3
+ => {:foo=>3} 
+15 > obj3.store
+ => #<Riak::RObject {test,three} [#<Riak::RContent [application/json]:{"foo"=>3}>]> 
+```
+
+Reading Objects
+----------------
+
+We have three objects in the test bucket. Let's read them to verify the stored values.
+
+```sh
+16 > fetched1 = bucket.get('one')
+ => #<Riak::RObject {test,one} [#<Riak::RContent [application/json]:1>]> 
+17 > fetched2 = bucket.get('two')
+ => #<Riak::RObject {test,two} [#<Riak::RContent [application/json]:"two">]> 
+18 > fetched3 = bucket.get('three')
+ => #<Riak::RObject {test,three} [#<Riak::RContent [application/json]:{"foo"=>3}>]> 
+19 > fetched1.data == val1
+ => true 
+20 > val1
+ => 1 
+21 > fetched1.data
+ => 1 
+22 > fetched2.data
+ => "two" 
+23 > val2
+ => "two" 
+24 > fetched3.data
+ => {"foo"=>3} 
+25 > fetched3.data.class
+ => Hash 
+26 > fetched3.data.to_json
+ => "{\"foo\":3}" 
+27 > val3.class
+ => Hash 
+28 > val3.to_json
+ => "{\"foo\":3}" 
+29 > fetched3.data.to_json == val3.to_json
+ => true 
+```
+
+Updating Objects
+-----------------
+
+Updating objects is easy. We set the new value of a stored hash like this:
+
+```sh
+30 > fetched3.data['foo'] = 42
+ => 42 
+31 > fetched3.store
+ => #<Riak::RObject {test,three} [#<Riak::RContent [application/json]:{"foo"=>42}>]> 
+32 > fetched3.data
+ => {"foo"=>42} 
+```
+
+Deleting Objects
+-----------------
+
+We can either delete the bucket or the objects.
+
+```sh
+33 > bucket.delete('one')
+ => true 
+34 > obj2.delete
+ => #<Riak::RObject {test,two} [#<Riak::RContent [application/json]:"two">]> 
+35 > obj3.delete
+ => #<Riak::RObject {test,three} [#<Riak::RContent [application/json]:{"foo"=>3}>]> 
+36 > obj2
+ => #<Riak::RObject {test,two} [#<Riak::RContent [application/json]:"two">]> 
+37 > f1 = bucket.get('one')
+Riak::ProtobuffsFailedRequest: Expected success from Riak but received not_found. The requested object was not found.
+38 > f2 = bucket.get('two')
+Riak::ProtobuffsFailedRequest: Expected success from Riak but received not_found. The requested object was not found.
+39 > f2 = bucket.get('three')
+Riak::ProtobuffsFailedRequest: Expected success from Riak but received not_found. The requested object was not found.
+```
+
+Complex Objects
+----------------
+
+Let's store a hash that contains details about a book.
+
+```sh
+40 > book = { isbn: '11111876755', title: 'Get Rick Quick', author: 'Scam Artist', body: 'Sell something to people that they do not need', copies_owned: 4 }
+ => {:isbn=>"11111876755", :title=>"Get Rick Quick", :author=>"Scam Artist", :body=>"Sell something to people that they do not need", :copies_owned=>4} 
+41 > books_bucket = client.bucket('books')
+ => #<Riak::Bucket {books}> 
+42 > new_book = books_bucket.new(book[:isbn])
+ => #<Riak::RObject {books,11111876755} [#<Riak::RContent [application/json]:nil>]> 
+43 > new_book.data = book
+ => {:isbn=>"11111876755", :title=>"Get Rick Quick", :author=>"Scam Artist", :body=>"Sell something to people that they do not need", :copies_owned=>4} 
+44 > new_book.store
+ => #<Riak::RObject {books,11111876755} [#<Riak::RContent [application/json]:{"isbn"=>"11111876755", "title"=>"Get Rick Quick", "author"=>"Scam Artist", "body"=>"Sell something to people that they do not need", "copies_owned"=>4}>]> 
+45 > fetched_book = books_bucket.get(book[:isbn])
+ => #<Riak::RObject {books,11111876755} [#<Riak::RContent [application/json]:{"isbn"=>"11111876755", "title"=>"Get Rick Quick", "author"=>"Scam Artist", "body"=>"Sell something to people that they do not need", "copies_owned"=>4}>]> 
+46 > fetched_book.class
+ => Riak::RObject 
+47 > p fetched_book
+#<Riak::RObject {books,11111876755} [#<Riak::RContent [application/json]:{"isbn"=>"11111876755", "title"=>"Get Rick Quick", "author"=>"Scam Artist", "body"=>"Sell something to people that they do not need", "copies_owned"=>4}>]>
+ => #<Riak::RObject {books,11111876755} [#<Riak::RContent [application/json]:{"isbn"=>"11111876755", "title"=>"Get Rick Quick", "author"=>"Scam Artist", "body"=>"Sell something to people that they do not need", "copies_owned"=>4}>]> 
+48 > p fetched_book.raw_data
+"{\"isbn\":\"11111876755\",\"title\":\"Get Rick Quick\",\"author\":\"Scam Artist\",\"body\":\"Sell something to people that they do not need\",\"copies_owned\":4}"
+ => "{\"isbn\":\"11111876755\",\"title\":\"Get Rick Quick\",\"author\":\"Scam Artist\",\"body\":\"Sell something to people that they do not need\",\"copies_owned\":4}" 
+49 > new_book.delete
+ => #<Riak::RObject {books,11111876755} [#<Riak::RContent [application/json]:{"isbn"=>"11111876755", "title"=>"Get Rick Quick", "author"=>"Scam Artist", "body"=>"Sell something to people that they do not need", "copies_owned"=>4}>]> 
+```
+
+Summary
+==========
+----------
+
+In this article, we installed riak database and played with it to learn how to store, retrieve and delete objects in Riak using the riak-client gem. You also learned how to check if the installation was successful.
+
+References
+==========
+----------
+
+1. [Installing on Mac OS X] (http://docs.basho.com/riak/latest/ops/building/installing/mac-osx/ 'Installing on Mac OS X')
+2. [Starting with Riak – Part I] (http://fundatascience.wordpress.com/2014/02/15/starting-with-riak-part-i/ 'Starting with Riak – Part I')
+3. [Taste of Riak](http://docs.basho.com/riak/latest/dev/taste-of-riak/ruby/ 'Taste of Riak')
+
