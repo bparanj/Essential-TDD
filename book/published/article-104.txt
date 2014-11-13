@@ -1,0 +1,136 @@
+Stripe Recurring Billing Part 8 : Using Devise for User Account Management
+
+Objective
+==========
+----------
+
+In this article, you will learn how to integrate the devise gem with our recurring billing application.
+
+Steps
+=======
+-------
+
+Step 1
+-------
+
+Add the devise gem to Gemfile.
+
+```sh
+gem 'devise'
+```
+
+Run 
+
+```sh
+bundle install
+```
+
+Step 2
+-------
+
+Create the user model.
+
+```sh
+rails generate devise user
+```
+
+Step 3
+-------
+
+Generate devise configuration files.
+
+```sh
+rails generate devise:install
+```
+
+You will get : NoMethodError: undefined method `devise' for User (call 'User.connection' to establish a connection):Class error if you skip this step. This will create  config/initializers/devise.rb and config/locales/devise.en.yml files.
+
+Step 4 
+-------
+
+Create the user table. 
+
+```sh
+rake db:migrate
+```
+
+Step 5
+-------
+
+Follow the instructions that is displayed by devise. In config/environments/development.rb:
+
+```ruby
+config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+```
+
+In production, :host should be set to the actual host of your application.
+
+Step 6
+-------
+
+In your config/routes.rb, define the root path.
+
+```ruby
+root 'subscriptions#pricing'
+```
+
+Step 7
+-------
+
+Add flash messages in app/views/layouts/application.html.erb.
+
+```ruby
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>
+```
+
+Step 8
+-------
+
+You can copy Devise views (for customization) to your app by running:
+
+```sh
+rails g devise:views
+```
+
+Step 9.
+-------
+
+Check the routes to see what URL to use for signup.
+
+```sh
+ rake routes
+```
+
+Step 10
+-------
+
+Replace the hard-coded email with the current user email in the subscriptions controller create action.
+
+```ruby
+def create
+  begin
+    @subscription = Actors::Customer::UseCases.subscribe_to_a_plan(current_user.email, 
+                                                                   params[:stripeToken], 
+                                                                   params[:plan_name], 
+                                                                   logger)    
+  rescue Striped::CreditCardDeclined => e
+    redisplay_form(e.message)
+  rescue Striped::CreditCardException, Exception => e
+    redisplay_form("Subscription failed. We have been notified about this problem.")
+  end
+end
+```
+
+Step 11
+-------
+
+Let's signup. Go to http://localhost:3000/users/sign_up
+
+Once you signup, you will go to the pricing page, subscribe to a plan. Check the new customer created in Stripe dashboard, you will see the email of the new user in the Customers tab. You can download the entire source code by checking out the commit hash 929c464 from git@bitbucket.org:bparanj/striped.git.
+
+Summary
+=======
+-------
+
+In this article you learned how to integrate devise gem with our existing project. So that we can replace the hard-coded email with the current logged in user email. 

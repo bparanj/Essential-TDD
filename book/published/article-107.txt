@@ -4,7 +4,35 @@ Background
 ============
 ------------
 
-Riak installation on Mac OS is a big headache. I installed it on 64 bit Ubuntu 12.04 running in Virtual Box. Riak runs only on 64 bit Ubuntu. I setup a shared folder between the Mac OS and the Ubuntu. This allows me to edit on Textmate and run the program on Ubuntu environment. 
+Riak installation on Mac OS is a big headache. I installed it on 64 bit Ubuntu 12.04 running in Virtual Box. Riak runs only on 64 bit Ubuntu. I setup a shared folder between the Mac OS and the Ubuntu. This allows me to edit on Mac OS using Textmate and run the program on Ubuntu environment. 
+
+What is Riak?
+============
+------------
+
+Riak is an open source, distributed database. What is a distributed database? In order to answer that question let's take a look at different types of network computing. In centralized computing, there is one location where the functions are carried out. This results in single point of failure. In decentralized computing, there can be many locations where the functions are carried out. So, we don't have a single point of failure anymore. In distributed computing, each node is connected to every other node. It provides very high fault tolerance.
+
+![alt text](http://cffn.ca/img/articles/Centralized-Decentralized-And-Distributed-System.jpg "NoSQL Visual Guide")
+
+Why Riak?
+============
+------------
+
+Here is a visual guide to NoSQL systems:
+
+![alt text](http://www.rubyplus.com/images/cap.png "NoSQL Visual Guide")
+
+You can see that Riak has picked availability and partition tolerance. This diagram also gives you a good big picture view of how different NoSQL databases fit in the CAP triangle.
+
+Advantages of Riak are:
+
+- Availability
+- Fault-Tolerance
+- Operational Simplicity
+- Low-Latency
+- Scalability
+
+We already know the first two advantages from looking at the NoSQL visual guide. You can read more about the advantages from the [Riak](http://basho.com/riak/ 'Riak') home page.
 
 Installation
 ============
@@ -248,4 +276,4 @@ References
 1. [Installing on Mac OS X] (http://docs.basho.com/riak/latest/ops/building/installing/mac-osx/ 'Installing on Mac OS X')
 2. [Starting with Riak – Part I] (http://fundatascience.wordpress.com/2014/02/15/starting-with-riak-part-i/ 'Starting with Riak – Part I')
 3. [Taste of Riak](http://docs.basho.com/riak/latest/dev/taste-of-riak/ruby/ 'Taste of Riak')
-
+4. [Centralized Decentralized and Distributed Systems] (http://www2.cffn.ca/usha/part-iii-article-by-pramod-dhakal/129-the-law-of-rule-centralized-decentralized-and-distributed-systems 'Centralized Decentralized and Distributed Systems')

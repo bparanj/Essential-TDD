@@ -1,4 +1,5 @@
 
+0. Hand drawn diagrams for CAP Theorem. Good explanation of CAP. ACID. Revise article-99 (MongoDB Basics)
 
 1. Find the image for double dispatch and add it to angry rock kata : article 28
 2. Create and Scan Red, Green, Refactor diagram.

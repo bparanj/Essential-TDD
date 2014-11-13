@@ -296,3 +296,8 @@ Summary
 -------
 
 In this article you learned how to make the code robust by defining application specific exceptions to handle edge cases. You also learned not to depend upon technical exceptions and how to use application specific exceptions.
+
+Reference
+=======
+-------
+[Stripe Testing Docs] (https://stripe.com/docs/testing 'Stripe Testing Docs')
