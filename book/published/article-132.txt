@@ -1,0 +1,276 @@
+Striped Recurring Billing Part 9 : Reusing Integration Tests
+
+Objective
+=====
+-----
+
+To learn how to cleanup database after running every integration tests and reuse integration tests.
+
+Discussion
+=====
+-----
+
+After integrating Devise for user account management, the subscription features are broken. I was getting the error: SQLite3::BusyException: database is locked while running feature specs. Let's use MySQL server to solve this problem. After resolving that problem we will use database_cleaner gem to cleanup data between tests.
+
+Steps
+=====
+-----
+
+Step 1
+--------
+
+Replace the existing database.yml with the following:
+
+```ruby
+# MySQL.  Versions 4.1 and 5.0 are recommended.
+# 
+# Install the MYSQL driver
+#   gem install mysql2
+#
+# Ensure the MySQL gem is defined in your Gemfile
+#   gem 'mysql2'
+#
+# And be sure to use new-style password hashing:
+#   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
+development:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: striped_development
+  pool: 5
+  username: jack
+  password: jill
+  host: localhost
+  port: 3306
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: striped_test
+  pool: 5
+  username: jack
+  password: jill
+  host: localhost
+  port: 3306
+
+production:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: striped_production
+  pool: 5
+  host: localhost
+  port: 3306
+```
+
+Change the username and password to your database specific values.
+
+Step 2
+-------
+
+Replace sqlite3 gem with mysql2 in the Gemfile. Run bundle install. Run rake db:create && rake db:migrate. Run the migration in test environment.
+
+```sh
+RAILS_ENV=test rake db:migrate
+```
+
+Step 3
+-------
+
+Just delete the password confirmation field from app/views/registrations/new.html.erb file. It's less work for the users.
+
+```ruby
+<h2>Sign up</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %>
+    <% if @validatable %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "off" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Sign up" %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>
+```
+
+Step 4
+-------
+
+Create spec/support/features folder. Create session_helpers.rb in this folder.
+
+```ruby
+module Features
+  module SessionHelpers
+    def sign_up(email, password)
+      User.destroy_all
+      visit new_user_registration_path
+      fill_in 'Email', with: email
+      fill_in 'Password', with: password
+      
+      click_button 'Sign up'
+    end
+  end
+end
+```
+
+I had to call User.destroy_all to get rid of the nasty error message, user is already taken.
+
+Step 5
+-------
+
+Create spec/support/features.rb file.
+
+```ruby
+RSpec.configure do |config|
+  config.include Features::SessionHelpers, type: :feature
+end
+```
+
+Step 6
+-------
+
+Create spec/features/sign_up_spec.rb.
+
+```ruby
+require 'rails_helper'
+require 'spec_helper'
+
+feature 'Signup' do
+  
+  scenario 'User with email and password' do    
+    sign_up('test@example.com', '12345678')
+    
+    expect(page).to have_content('Gold')
+  end
+end
+````
+
+Step 7
+-------
+
+I have added all tests recommended by [Stripe Testing](https://stripe.com/docs/testing 'Stripe Testing') to the subscribe_spec.rb.
+
+```ruby
+require 'rails_helper'
+require 'spec_helper'
+
+feature 'Subscription' do
+    
+  scenario 'Customer subscribes to Gold plan', js: true do
+    sign_up('test@example.com', '12345678') 
+
+    click_link 'Gold'
+    fill_in "Card Number", with: '4242424242424242'
+    page.select '10', from: "card_month"
+    page.select '2029', from: 'card_year'
+     
+    click_button 'Subscribe Me'
+    expect(page).to have_content('You have been subscribed to Gold.')
+  end
+  
+  scenario 'Customer credit card expired', js: true do
+    sign_up('test@example.com', '12345678') 
+        
+    click_link 'Gold'
+    fill_in "Card Number", with: '4000000000000069'
+    page.select '10', from: "card_month"
+    page.select '2029', from: 'card_year'
+    
+    click_button 'Subscribe Me'
+    expect(page).to have_content('Your card has expired.')
+  end
+  
+  scenario 'Customer credit card number incorrect', js: true do
+    sign_up('test@example.com', '12345678') 
+    
+    click_link 'Gold'
+    fill_in "Card Number", with: '4242424242424241'
+    page.select '10', from: "card_month"
+    page.select '2029', from: 'card_year'
+    
+    click_button 'Subscribe Me'
+    expect(page).to have_content('Your card number is incorrect.')    
+  end
+
+  scenario 'Customer credit card declined', js: true do
+    sign_up('test@example.com', '12345678') 
+    
+    click_link 'Gold'
+    fill_in "Card Number", with: '4000000000000002'
+    page.select '10', from: "card_month"
+    page.select '2029', from: 'card_year'
+    
+    click_button 'Subscribe Me'
+    expect(page).to have_content('Your card was declined.')
+  end
+
+  scenario 'Customer credit card processing error', js: true do
+    sign_up('test@example.com', '12345678') 
+    
+    click_link 'Gold'
+    fill_in "Card Number", with: '4000000000000119'
+    page.select '10', from: "card_month"
+    page.select '2029', from: 'card_year'
+    
+    click_button 'Subscribe Me'
+    expect(page).to have_content('An error occurred while processing your card. Try again in a little bit.')
+  end
+  
+end
+```
+
+Step 8
+-------
+
+Change the use_transactional_fixtures configuration flag in spec/rails_helper.rb. This setting will cleanup the database between each tests.
+
+```ruby
+config.use_transactional_fixtures = false
+```
+
+Step 9
+--------
+
+You can run the integration tests.
+
+```sh
+rspec spec/features/subscribe_spec.rb
+```
+
+```sh
+rspec spec/features/signup_spec.rb 
+```
+
+You can download the source code for this article using the commit hash c27b618 from git@bitbucket.org:bparanj/striped.git.
+
+Summary
+==========
+----------
+
+In this article we resolved the SQLite3 problem, fixed the broken integration tests and added more integration tests to test the subscription and user signup features.
+
+References
+==========
+----------
+
+1. [End-to-End Testing with RSpec Integration Tests and Capybara] (http://robots.thoughtbot.com/rspec-integration-tests-with-capybara 'End-to-End Testing with RSpec Integration Tests and Capybara')
+2. [Database Cleaner](https://github.com/DatabaseCleaner/database_cleaner 'Database Cleaner')
+3. [RSpec, Capybara, Devise Login Tests](http://www.simple10.com/rspec-capybara-devise-login-tests/ 'RSpec, Capybara, Devise Login Tests')
+4. [How to Test with Capybara] (https://github.com/plataformatec/devise/wiki/How-To:-Test-with-Capybara 'How to Test with Capybara')
