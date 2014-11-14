@@ -1,4 +1,4 @@
-Stripe Recurring Billing Part 4
+Stripe Recurring Billing Part 4 : Pricing Page
 
 Discussion
 ==========

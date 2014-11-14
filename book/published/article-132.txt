@@ -260,11 +260,80 @@ rspec spec/features/signup_spec.rb
 
 You can download the source code for this article using the commit hash c27b618 from git@bitbucket.org:bparanj/striped.git.
 
+Step 10
+--------
+
+Let's eliminate the duplication in our integration tests. Create subscribe_to_a_plan method in session_helpers.rb.
+
+```ruby
+def subscribe_to_a_plan(plan, credit_card)
+  click_link plan
+  fill_in "Card Number", with: credit_card
+  page.select '10', from: "card_month"
+  page.select '2029', from: 'card_year'
+
+  click_button 'Subscribe Me'
+end
+```
+
+Replace the duplicate code with this new method in subscribe_spec.rb.
+
+```ruby
+require 'rails_helper'
+require 'spec_helper'
+
+feature 'Subscription' do
+    
+  scenario 'Customer subscribes to Gold plan', js: true do
+    sign_up('test@example.com', '12345678') 
+
+    subscribe_to_a_plan('Gold', '4242424242424242')
+    
+    expect(page).to have_content('You have been subscribed to Gold.')
+  end
+  
+  scenario 'Customer credit card expired', js: true do
+    sign_up('test@example.com', '12345678') 
+    
+    subscribe_to_a_plan('Gold', '4000000000000069')
+        
+    expect(page).to have_content('Your card has expired.')
+  end
+  
+  scenario 'Customer credit card number incorrect', js: true do
+    sign_up('test@example.com', '12345678') 
+    
+    subscribe_to_a_plan('Gold', '4242424242424241')
+    
+    expect(page).to have_content('Your card number is incorrect.')    
+  end
+
+  scenario 'Customer credit card declined', js: true do
+    sign_up('test@example.com', '12345678') 
+    
+    subscribe_to_a_plan('Gold', '4000000000000002')
+    
+    expect(page).to have_content('Your card was declined.')
+  end
+
+  scenario 'Customer credit card processing error', js: true do
+    sign_up('test@example.com', '12345678') 
+    
+    subscribe_to_a_plan('Gold', '4000000000000119')
+    
+    expect(page).to have_content('An error occurred while processing your card. Try again in a little bit.')
+  end
+  
+end
+```
+
+You can download the source code for this article using the commit hash 5d965d2 from git@bitbucket.org:bparanj/striped.git.
+
 Summary
 ==========
 ----------
 
-In this article we resolved the SQLite3 problem, fixed the broken integration tests and added more integration tests to test the subscription and user signup features.
+In this article we resolved the SQLite3 problem, fixed the broken integration tests and added more integration tests to test the subscription and user signup features. We also refactored to eliminate duplication in integration tests.
 
 References
 ==========

@@ -1,4 +1,4 @@
-Stripe Recurring Billing Part 3
+Stripe Recurring Billing Part 3 : Integration Testing using Capybara
 
 Jeff Thomas has written a blog post on [Integration tests with Stripe](http://www.jeffthomas.xyz/integration-tests-with-stripe/ 'Integration tests with Stripe'). I followed his instructions, but I was not able to get it working. So, I had to use just Capybara with RSpec. In this article you will learn how to check the API credentials using a rake task and how to write integration tests using Capybara for testing the subscription feature using Stripe API.
 
