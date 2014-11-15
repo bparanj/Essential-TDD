@@ -8,7 +8,7 @@
 5. Article on 'How to integrate front end code to Rails'.
 
 
-
+git@bitbucket.org:bparanj/striped.git
 
 Revisions
 ----------

@@ -1,4 +1,4 @@
-Striped Recurring Billing Part 9 : Reusing Integration Tests
+Stripe Recurring Billing Part 9 : Reusing Integration Tests
 
 Objective
 =====
