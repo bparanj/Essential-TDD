@@ -1,0 +1,169 @@
+RSpec 3.1 Basics : Stubs, Mocks and Verifying Double
+
+Objective
+=========
+---------
+
+To learn the new syntax for using stubs, mocks and verifying doubles in RSpec 3.1
+
+Stubs
+=====
+-----
+
+```ruby
+class Book
+end
+
+describe Book do
+  it 'rspec 3 stub syntax example' do
+    book = double('book')  
+    allow(book).to receive(:name) { 'Get Rich Quick'}
+    
+    expect(book.name).to eq("Get Rich Quick")
+  end  
+  
+end
+```
+
+```sh
+$ rspec stub_spec.rb --color --format doc
+```
+
+```ruby
+Book
+  rspec 3 stub syntax example
+
+Finished in 0.00896 seconds (files took 0.11378 seconds to load)
+1 example, 0 failures
+```
+
+Verifying Double
+================
+----------------
+
+Create verifying_double_spec.rb with the following code.
+
+```ruby
+class Book
+end
+
+describe Book do
+  it 'rspec 3 stub syntax example' do
+    book = instance_double('book')  
+    allow(book).to receive(:name) { 'Get Rich Quick'}
+    
+    expect(book.name).to eq("Get Rich Quick")
+  end    
+end
+```
+
+Run it.
+
+```ruby
+$rspec verifying_double_spec.rb --color --format doc
+```
+
+You will get the following error:
+
+```sh
+Book
+  rspec 3 stub syntax example (FAILED - 1)
+
+Failures:
+
+  1) Book rspec 3 stub syntax example
+     Failure/Error: allow(book).to receive(:name) { 'Get Rich Quick'}
+       Book does not implement: name
+     # ./verifying_double_spec.rb:10:in `block (2 levels) in <top (required)>'
+
+Finished in 0.0083 seconds (files took 0.11439 seconds to load)
+1 example, 1 failure
+
+Failed examples:
+
+rspec ./verifying_double_spec.rb:8 # Book rspec 3 stub syntax example
+```
+
+Let's define the name method.
+
+```ruby
+class Book
+  def name
+    
+  end
+end
+```
+
+Run the test again.
+
+```ruby
+rspec verifying_double_spec.rb --color --format doc
+
+Book
+  rspec 3 stub syntax example
+
+Finished in 0.00908 seconds (files took 0.11459 seconds to load)
+1 example, 0 failures
+```
+
+Mocks
+=======
+-------
+
+Create message_expectations_spec.rb
+
+```ruby
+class Account
+  def close
+    @logger.account_closed(self)
+  end
+  
+  def logger=(l)
+    @logger = l
+  end
+end
+
+describe Account do
+  context "when closed" do
+    it "logs an 'account closed' message" do
+      logger = double()
+      account = Account.new
+      account.logger = logger
+
+      expect(logger).to receive(:account_closed).with(account)
+
+      account.close
+    end
+  end
+end
+```
+
+Run the test.
+
+```sh
+$ rspec message_expectations_spec.rb --color --format doc
+```
+
+This test passes.
+
+```sh
+Account
+  when closed
+    logs an 'account closed' message
+
+Finished in 0.00846 seconds (files took 0.11452 seconds to load)
+1 example, 0 failures
+```
+
+Summary
+=======
+-------
+
+In this article you learned the new syntax for using Mocks, Stubs and Verifying doubles in RSpec 3.1.
+
+Reference
+=========
+---------
+
+[RSpec Mocks](http://relishapp.com/rspec/rspec-mocks/docs 'RSpec Mocks')
+
