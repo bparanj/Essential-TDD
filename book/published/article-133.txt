@@ -1,0 +1,259 @@
+Stripe Guest Checkout
+
+Objective
+=========
+---------
+
+- To allow anyone to buy a product
+
+Steps
+=====
+-----
+
+We will continue developing from where we left at part 9 of the Stripe Recurring Billing series of articles.
+
+Step 1
+-----
+
+Let's display the product details with price in the products show page. Create products controller:
+
+```ruby
+rails g controller products show
+```
+
+Step 2
+-----
+
+The product show page will have the link to 'Buy Now'. Create app/views/products/show.html.erb
+
+```ruby
+<h1>Rails 4 Quickly</h1>
+
+Price : $27
+
+<%= link_to 'Buy Now', buy_path %>
+```
+
+Step 3
+-----
+
+To load the product show page, let's define the route in config/routes.rb.
+
+```ruby
+get 'products/show'
+```
+
+Step 4
+-----
+
+Go to http://localhost:3000/products/show to view the product show page. When we click on the 'Buy Now' link it should load the payment form. Create app/views/sales/new.html.erb.
+
+```ruby
+<form action="create" method="POST" id="payment-form">
+  <span class="payment-errors"></span>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+
+  <div class="form-row">
+    <label>
+      <span>Card Number</span>
+      <input type="text" size="20" data-stripe="number"/>
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span>Expiration (MM/YYYY)</span>
+      <input type="text" size="2" data-stripe="exp-month"/>
+    </label>
+    <span> / </span>
+    <input type="text" size="4" data-stripe="exp-year"/>
+  </div>
+
+  <button type="submit">Submit Payment</button>
+</form>
+```
+
+Step 5
+-----
+
+Let's use a separate layout for checkout. The reason is that during checkout we will hide navigation links and any other distractions. It will also have the javascript related to checkout. Create app/views/layouts/sales.html.erb.
+
+```ruby
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Buy Now</title>
+
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application' %>
+  
+  <%= javascript_include_tag 'https://js.stripe.com/v2/' %>
+  <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
+
+  <script type="text/javascript">
+    // This identifies your website in the createToken call below
+	Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'));
+
+	var stripeResponseHandler = function(status, response) {
+      var $form = $('#payment-form');
+
+      if (response.error) {
+        // Show the errors on the form
+        $form.find('.payment-errors').text(response.error.message);
+        $form.find('button').prop('disabled', false);
+      } else {
+        // token contains id, last4, and card type
+        var token = response.id;
+        // Insert the token into the form so it gets submitted to the server
+        $form.append($('<input type="hidden" name="stripeToken" />').val(token));
+        // and re-submit
+        $form.get(0).submit();
+      }
+    };
+	
+	jQuery(function($) {
+	  $('#payment-form').submit(function(event) {
+	    var $form = $(this);
+
+	    // Disable the submit button to prevent repeated clicks
+	    $form.find('button').prop('disabled', true);
+
+	    Stripe.card.createToken($form, stripeResponseHandler);
+
+	    // Prevent the form from submitting with the default action
+	    return false;
+	  });
+	});
+    
+  </script>  
+
+  <%= csrf_meta_tags %>
+</head>
+<body data-no-turbolink>
+
+<%= yield %>
+
+</body>
+</html>
+```
+
+Step 6
+-----
+
+When this payment form is submitted to our server, it will go to sales controller, create action. Let's create the sales controller.
+
+```ruby
+rails g controller sales new create
+```
+
+Step 7
+-----
+
+The sales controller will load the payment form for new action and charge the customer when the payment form is posted to create action.
+
+```ruby
+class SalesController < ApplicationController
+  layout 'sales'
+  
+  def new
+  end
+
+  def create
+    begin
+      stripe_gateway = StripeGateway.new(logger)
+      stripe_gateway.charge(2700, params[:stripeToken])
+    rescue Striped::CreditCardDeclined => e
+      redisplay_form(e.message)
+    rescue Exception => e
+      redisplay_form("Subscription failed. We have been notified about this problem.")
+    end
+  end
+end
+```
+
+Step 8
+-----
+
+Add a charge method to stripe_gateway.rb.
+
+```ruby
+def charge(amount, stripe_token)
+  # amount in cents
+  begin
+    charge = Stripe::Charge.create(amount:      amount, 
+                                   currency:    "usd",
+                                   card:        stripe_token,
+                                   description: "guest-checkout@example.com")
+  rescue Stripe::CardError => e
+    # Since it's a decline, Stripe::CardError will be caught
+    body = e.json_body
+    err  = body[:error]
+
+    @logger.error "Status is: #{e.http_status}"
+    @logger.error "Type is: #{err[:type]}"
+    @logger.error "Code is: #{err[:code]}"
+    # param is '' in this case
+    @logger.error "Param is: #{err[:param]}"
+    @logger.error "Message is: #{err[:message]}" 
+
+    raise Striped::CreditCardDeclined.new(err[:message])     
+  rescue Exception => ex
+    @logger.error "Purchase failed due to : #{ex.message}"  
+    
+    raise
+  end
+```
+
+Step 9
+-----
+
+Add new routes for guest checkout in config/routes.rb.
+
+```ruby
+get 'sales/new' => 'sales#new', as: :buy
+post 'sales/create' 
+```
+
+Step 10
+-----
+
+Create the integration test in spec/features/guest_checkout_spec.rb.
+
+```ruby
+require 'rails_helper'
+require 'spec_helper'
+
+feature 'Guest Checkout' do
+  scenario 'Complete purchase of one product', js: true do
+    visit products_show_path
+    click_link 'Buy Now'
+    
+    fill_in "Card Number", with: '4242424242424242'    
+    page.select '10', from: "card_month"
+    page.select '2029', from: 'card_year'
+    click_button 'Submit Payment'
+    
+    expect(page).to have_content('Receipt')
+  end
+  
+  scenario 'Fails due to credit card declined', js: true do
+    visit products_show_path
+    click_link 'Buy Now'
+    
+    fill_in "Card Number", with: '4000000000000002'    
+    page.select '10', from: "card_month"
+    page.select '2029', from: 'card_year'
+    click_button 'Submit Payment'
+    
+    expect(page).to have_content('Your card was declined.')
+  end
+end
+```
+
+You can check the payments has been made successful by looking at the Payments tab in your Stripe dashboard. The complete source code that handles failure cases and has been refactored can be downloaded from git@bitbucket.org:bparanj/striped.git using the commit hash 1c04385.
+
+Summary
+=======
+-------
+
+In this article, we implemented guest checkout feature. In the next article we will prompt the user to provide us an email and password at the end of the purchase so that they can view their purchases and use one-click checkout in subsequent purchases.
