@@ -1,0 +1,483 @@
+Stripe Guest Checkout Part 2 : Optional Account Registration
+
+Discussion
+=====
+-----
+
+We want anyone to buy our products without logging in or registering up front. At the end of the purchase, we will prompt the guest user to signup. This makes skippers skip the signup process but still allow them to buy products.
+
+Steps
+=====
+-----
+
+Step 1
+-----
+
+Add devise customization code to app/controllers/application_controller.rb.
+
+```ruby
+# if user is logged in, return current_user, else return guest_user
+def current_or_guest_user
+  
+  if current_user
+    if session[:guest_user_id] && session[:guest_user_id] != current_user.id        
+      guest_user(with_retry = false).try(:destroy)
+      session[:guest_user_id] = nil
+    end
+    current_user
+  else      
+    guest_user
+  end
+end
+
+# find guest_user object associated with the current session,
+# creating one as needed
+def guest_user(with_retry = true)
+  # Cache the value the first time it's gotten.
+  @cached_guest_user ||= User.find(session[:guest_user_id] ||= create_guest_user.id)
+
+rescue ActiveRecord::RecordNotFound # if session[:guest_user_id] invalid
+  session[:guest_user_id] = nil
+  guest_user if with_retry
+end
+
+private
+
+def create_guest_user
+  u = User.create(:email => "guest_#{Time.now.to_i}#{rand(100)}@example.com")
+  u.save!(:validate => false)
+  session[:guest_user_id] = u.id
+  u
+end
+```
+
+This helps us to implement the guest checkout feature. Read the devise wiki for more details. The link is in the references section of this article.
+
+
+Step 2
+-----
+
+Create the app/views/products/show.html.erb.
+
+```ruby
+<h1>Rails 4 Quickly</h1>
+
+Price : $27
+
+<%= link_to 'Buy Now', buy_path %>
+```
+
+Step 3
+-----
+
+Add download action to app/controllers/products_controller.rb. This action will initialize the download link for a given product in a later version. For now the view just renders static text.
+
+```ruby
+def download 
+end
+```
+
+Here is app/views/download.html.erb.
+
+```ruby
+Download details about the book goes here
+```
+
+Step 4
+-----
+
+Add the products download page route to config/routes.rb. This is the last page of the purchase flow.
+
+```ruby
+get 'products/download' => 'products#download', as: :download
+```
+
+Step 5
+-----
+
+Let's customize the Devise registrations controller to transfer the stripe_customer_id from guest_user to the user created at the end of checkout process.
+
+```ruby
+class RegistrationsController < Devise::RegistrationsController
+  
+  def create    
+    super    
+    current_user.save_stripe_customer_id(guest_user.stripe_customer_id)
+  end  
+  
+  def after_sign_up_path_for(resource)
+    if session[:guest_user_id].blank?
+      after_sign_in_path_for(resource)
+    else
+      download_path
+    end
+  end
+  
+end
+```
+
+Step 6
+-----
+
+Add the custom registrations controller to config/routes.rb.
+
+```ruby
+devise_for :users, :controllers => {:registrations => "registrations"}
+```
+
+Step 7
+-----
+
+The controller app/controllers/sales_controller.rb will now use a use case handler to manage the guest checkout use case.
+
+```ruby
+class SalesController < ApplicationController
+  layout 'sales'
+  
+  def new
+  end
+
+  def create
+    begin
+      user = current_or_guest_user
+      # TODO : The price must come from product model.
+      amount = 2700
+      Actors::Customer::UseCases.guest_checkout(amount, params[:stripeToken], user, logger)
+    rescue Striped::CreditCardDeclined => e
+      redisplay_form(e.message)
+    rescue Exception => e
+      logger.error "Guest checkout failed due to #{e.message}"
+      redisplay_form("Checkout failed. We have been notified about this problem.")
+    end
+  end
+end
+```
+
+Step 8
+-----
+
+Let's add the guest_checkout use case handler to the app/actors/customer/use_cases/guest_checkout.rb.
+
+```ruby
+module Actors
+  module Customer
+    module UseCases
+      
+      def self.guest_checkout(amount, stripe_token, user, logger)
+        stripe_gateway = StripeGateway.new(logger)
+        customer_id = stripe_gateway.charge(amount, stripe_token)
+
+        user.save_stripe_customer_id(customer_id)      
+      end      
+      
+    end
+  end
+end
+```
+
+Step 9
+-----
+
+Add the new use case controller in config/application.rb.
+
+```ruby
+require_relative '../app/actors/customer/use_cases/guest_checkout'
+```
+
+Step 10
+-----
+
+The new implementation for the charge method in app/gateways/stripe_gateway.rb allows one-click checkout feature that we will be implementing in an upcoming article. It currently allows guest checkout, the guest user might register for an account at the end of the purchase flow.
+
+```ruby
+def charge(amount, stripe_token)
+  # amount in cents, again
+  begin
+    # Create a Customer
+    customer = Stripe::Customer.create(card: stripe_token, description: "guest-user@example.com")
+    # Charge the Customer instead of the card
+    Stripe::Charge.create(amount:   amount, 
+                          currency: "usd",
+                          customer: customer.id)
+    customer.id
+  rescue Stripe::CardError => e
+    # Since it's a decline, Stripe::CardError will be caught
+    body = e.json_body
+    err  = body[:error]
+  
+    @logger.error "Status is: #{e.http_status}"
+    @logger.error "Type is: #{err[:type]}"
+    @logger.error "Code is: #{err[:code]}"
+    # param is '' in this case
+    @logger.error "Param is: #{err[:param]}"
+    @logger.error "Message is: #{err[:message]}" 
+  
+    raise Striped::CreditCardDeclined.new(err[:message])     
+  rescue Exception => ex
+    @logger.error "Purchase failed due to : #{ex.message}"  
+    
+    raise
+  end
+end
+```
+
+Step 11
+-----
+
+Add stripe_customer_id field to users so that we can save it in our database for one click checkout feature.
+
+```sh
+$ rails g migration add_stripe_customer_id_to_users
+```
+
+Step 12
+-----
+
+Let's save the stripe_customer_id in app/models/user.rb. This allows us to charge the customer without asking them for a credit card again. We use stripe_customer_id to charge the customer for the purchase amount using Stripe::Charge.create method of Stripe API.
+
+```ruby
+def save_stripe_customer_id(sci)
+  self.stripe_customer_id = sci
+  save!                
+end
+```
+
+Step 13
+-----
+
+Here is app/views/sales/create.html.erb.
+
+```ruby
+<p>You just bought 'Rails 4 Quickly book' for $27. If you signup for an account, you can :
+
+<ol>
+	<li>View all your purchases.</li>
+	<li>Download your books anytime.</li>
+	<li>Checkout faster without entering your credit card details by using our one-click checkout.</li>	
+</ol>
+
+<p><%= link_to 'Create your free account now', new_user_registration_path %>. </p> <%= link_to 'No thanks, take me to my download', download_path %>.
+```
+
+Step 14
+-------
+
+The guest_checkout_spec.rb integration tests.
+
+```ruby
+require 'rails_helper'
+require 'spec_helper'
+
+feature 'Guest Checkout' do
+  scenario 'Complete purchase of one product and register for an account', js: true do
+    visit products_show_path
+    click_link 'Buy Now'
+    
+    fill_in "Card Number", with: '4242424242424242'    
+    page.select '10', from: "card_month"
+    page.select '2029', from: 'card_year'
+    click_button 'Submit Payment'
+    
+    click_link 'Create your free account now'
+    fill_in 'Email', with: test_email
+    fill_in 'Password', with: '12345678'
+
+    click_button 'Sign up'
+        
+    expect(page).to have_content('Welcome! You have signed up successfully')
+    expect(page).to have_content('Download details about the book goes here')
+  end
+
+  scenario 'Complete purchase of one product and do not register for an account', js: true do
+    visit products_show_path
+    click_link 'Buy Now'
+    
+    fill_in "Card Number", with: '4242424242424242'    
+    page.select '10', from: "card_month"
+    page.select '2029', from: 'card_year'
+    click_button 'Submit Payment'
+    
+    click_link 'No thanks, take me to my download'
+        
+    expect(page).to have_content('Download details about the book goes here')
+  end
+  
+  scenario 'Fails due to credit card declined', js: true do
+    visit products_show_path
+    click_link 'Buy Now'
+    
+    fill_in "Card Number", with: '4000000000000002'    
+    page.select '10', from: "card_month"
+    page.select '2029', from: 'card_year'
+    click_button 'Submit Payment'
+    
+    expect(page).to have_content('Your card was declined.')
+  end
+
+  scenario 'Fails due to credit card expired', js: true do
+    visit products_show_path
+    click_link 'Buy Now'
+    
+    fill_in "Card Number", with: '4000000000000069'    
+    page.select '10', from: "card_month"
+    page.select '2029', from: 'card_year'
+    click_button 'Submit Payment'
+    
+    expect(page).to have_content('Your card has expired.')
+  end
+
+  scenario 'Fails due to incorrect credit card number', js: true do
+    visit products_show_path
+    click_link 'Buy Now'
+    
+    fill_in "Card Number", with: '4242424242424241'    
+    page.select '10', from: "card_month"
+    page.select '2029', from: 'card_year'
+    click_button 'Submit Payment'
+      
+    expect(page).to have_content('Your card number is incorrect.')    
+  end
+
+  scenario 'Fails due to credit card processing error', js: true do
+    visit products_show_path
+    click_link 'Buy Now'
+    
+    fill_in "Card Number", with: '4000000000000119'    
+    page.select '10', from: "card_month"
+    page.select '2029', from: 'card_year'
+    click_button 'Submit Payment'
+    
+    expect(page).to have_content('An error occurred while processing your card. Try again in a little bit.')
+  end
+  
+end
+```
+
+Step 15
+-------
+
+Here is the spec/features/signup_spec.rb.
+
+```ruby
+require 'rails_helper'
+require 'spec_helper'
+
+feature 'Signup' do
+  after do
+    User.destroy_all
+  end
+  
+  scenario 'User with email and password' do    
+    sign_up(test_email, '12345678')
+    
+    expect(page).to have_content('Gold')
+  end
+end
+```
+
+For some reason the user records are not getting cleaned. The after method cleans up any user records in the test database. The spec/features/subscribe_spec.rb integration test remains the same. The test_email is a helper method defined in spec/support/features/ session_helpers.rb.
+
+```ruby
+def test_email
+  "guest_#{Time.now.to_i}#{rand(100)}@example.com"
+end
+```
+
+Cleanup and Minor Bug Fixes
+=====
+-----
+
+Cleanup
+-----
+
+Delete the following line in app/actors/customer/customer.rb. We don't need it.
+
+```ruby
+require_relative './use_cases/subscribe'
+```
+
+However, this empty file is still required to get the use case handlers to work. This is a hack for now.
+
+Bug Fix
+-----
+
+We forgot to link the user and subscription models. Create the migration.
+
+```sh
+$ rails g migration add_user_id_to_subscriptions user_id:integer
+```
+
+Run the migration.
+
+```sh
+$ rake db:migrate
+$ RAILS_ENV=test rake db:migrate
+```
+
+Setup the associations for subscription and the user models.
+
+```ruby
+class Subscription < ActiveRecord::Base
+  belongs_to :user
+end
+```
+
+```ruby
+class User < ActiveRecord::Base  
+  has_one :subscription
+end
+```
+
+Change the create action in app/controllers/subscriptions_controller.rb.
+
+```ruby
+def create
+  begin
+    @subscription = Actors::Customer::UseCases.subscribe_to_a_plan(current_user, 
+                                                                   params[:stripeToken], 
+                                                                   params[:plan_name], 
+                                                                   logger)    
+  rescue Striped::CreditCardDeclined => e
+    redisplay_form(e.message)
+  rescue Striped::CreditCardException, Exception => e
+    redisplay_form("Subscription failed. We have been notified about this problem.")
+  end
+end
+```
+
+Change the app/actors/customer/use_cases/subscribe_to_a_plan.rb as follows.
+
+```ruby
+module Actors
+  module Customer
+    module UseCases
+      
+      def self.subscribe_to_a_plan(user, stripe_token, plan_name, logger)
+        stripe = StripeGateway.new(logger)
+        customer = stripe.create_subscription(user.email, stripe_token, plan_name)    
+                
+        subscription = Subscription.new(user_id: user.id)
+        subscription.save_details(customer.id, plan_name)
+      end      
+      
+    end
+  end
+end
+```
+
+We are now passing the user object, since we need the email as well as the user_id when creating the subscription. The user_id will associate a subscription to a particular user. You can download the source code for this article from git@bitbucket.org:bparanj/striped.git
+using the commit hash 935113f.
+
+Summary
+========
+--------
+
+In this article we implemented the guest checkout feature with an option to register at the end of the purchase flow. We also cleaned up and fixed a bug related to user and subscription model association. We also added new integration tests for failure cases in guest_checkout_spec.rb.
+
+References
+==========
+----------
+
+[How to create a guest user](https://github.com/plataformatec/devise/wiki/How-To:-Create-a-guest-user 'Devise Gem')
+[How to redirect to a specific page after successful signup](https://github.com/plataformatec/devise/wiki/How-To:-Redirect-to-a-specific-page-on-successful-sign-up-(registration) 'Devise Gem')
+[Making Your First Charge](https://stripe.com/docs/tutorials/charges 'Making Your First Charge')
