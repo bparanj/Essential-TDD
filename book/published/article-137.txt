@@ -1,0 +1,387 @@
+One Click Checkout using Stripe 
+
+
+Objective 
+==========
+----------
+
+Our objective is to implement One-Click checkout using Stripe. 
+
+Discussion
+==========
+----------
+
+The sequence of steps for this feature is as follows:
+
+1. A customer makes a purchase.
+2. Registers for an account.
+3. Logs out.
+4. Logs in.
+5. Makes a purchase without providing any credit card details.
+
+We already have integration tests for step 1 and 2. Let's now tackle the other steps.
+
+Steps
+======
+------
+
+Step 1
+-----
+
+Let's create a home page. Change the config/routes.rb root method.
+
+```ruby
+root 'welcome#index'
+```
+
+Step 2
+-----
+
+Create the welcome controller with an index action.
+
+```ruby
+rails g controller welcome index
+```
+
+Step 3
+-----
+
+After sign_up, we must now 
+
+```ruby
+visit pricing_path
+```
+
+in our scenarios in spec/features/subscribe_spec.rb.
+
+Step 4
+-----
+
+The spec/features/signup_spec.rb should now check for successful signup message.
+
+```ruby
+expect(page).to have_content('Welcome! You have signed up successfully.')
+```
+
+Step 5
+-----
+
+Here is the unit test for user model.
+
+```ruby
+require 'rails_helper'
+
+describe User, :type => :model do
+  
+  it 'should save stripe customer id' do
+    u = User.new(email: 'bogus@exmaple.com', password: '12345678')
+    
+    u.save_stripe_customer_id('sk12')
+    # can also do : u.reload.stripe_customer_id, but it's hackish.
+    expect(User.last.stripe_customer_id).to eq('sk12')
+  end
+end
+```
+
+Step 6
+-----
+
+Add the database_cleaner gem to Gemfile.
+
+```ruby
+group :test do
+  gem 'capybara'
+  gem 'selenium-webdriver'
+  gem 'stripe-ruby-mock'
+  gem 'database_cleaner'
+end
+```
+
+Step 7
+-----
+
+In spec/rails_helper.rb, add:
+
+```ruby
+require 'database_cleaner'
+```
+
+at the top.
+
+Also add the following code within the Rspec.configure block:
+
+```ruby
+config.before(:suite) do
+  DatabaseCleaner.clean_with(:truncation)
+end
+
+config.before(:each) do
+  DatabaseCleaner.strategy = :transaction
+end
+
+config.before(:each, js: true) do
+  DatabaseCleaner.strategy = :truncation
+end
+
+config.before(:each) do
+  DatabaseCleaner.start
+end
+
+config.after(:each) do
+  DatabaseCleaner.clean
+end
+```
+
+Step 8
+-----
+
+Comment out the line:
+
+```ruby
+config.use_transactional_fixtures = false
+```
+
+in rails_helper.rb.
+
+Step 9
+-----
+
+We can now delete the User.destroy_all in spec/features/signup_spec.rb.
+
+```ruby
+require 'rails_helper'
+require 'spec_helper'
+
+feature 'Signup' do  
+  scenario 'User with email and password' do    
+    sign_up(test_email, '12345678')
+    
+    expect(page).to have_content('Welcome! You have signed up successfully.')
+  end
+end
+```
+
+Step 10
+-----
+
+Run all controller specs.
+
+```sh
+rake spec:controllers
+```
+
+Run all model specs.
+
+```sh
+rake spec:models
+```
+
+We are now using database cleaner to cleanup database. Let's change the before(:all) to before(:each). This will make sure we have a product to buy. 
+
+```ruby
+feature 'Guest Checkout' do
+  before(:each) do
+    Product.create(name: 'Rails 4 Quickly', price: 47)  
+  end
+
+end
+```
+
+Run all feature specs.
+rake spec:features
+
+Step 11
+-----
+
+Create app/views/devise/menu/_login_items.html.erb.
+
+```ruby
+<% if user_signed_in? %>
+  <li>
+  <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
+  </li>
+<% else %>
+  <li>
+  <%= link_to('Login', new_user_session_path)  %>  
+  </li>
+<% end %>
+```
+
+Step 12
+-----
+
+Create app/views/devise/menu/_registration_items.html.erb.
+
+```ruby
+<% if user_signed_in? %>
+  <li>
+  <%= link_to('Edit registration', edit_user_registration_path) %>
+  </li>
+<% else %>
+  <li>
+  <%= link_to('Register', new_user_registration_path)  %>
+  </li>
+<% end %>
+```
+
+Step 13
+-----
+
+Add login, logout and registration links to app/views/layouts/application.html.erb.
+
+```ruby
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Striped</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  
+  <%= javascript_include_tag 'https://js.stripe.com/v2/' %>
+  
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+
+	<ul class="hmenu">
+	  <%= render 'devise/menu/registration_items' %>
+	  <%= render 'devise/menu/login_items' %>
+	</ul>
+	
+<%= yield %>
+
+</body>
+</html>
+```
+
+Step 14
+-----
+
+To help troubleshoot problems, let's dump the exception stack trace to the log file. In sales_controller.rb:
+
+```ruby
+StripeLogger.error "Guest checkout failed due to #{e.message}. #{e.backtrace.join("\n")}"
+```
+
+Since I am running Rails 4.2 beta version. There seems to be a problem with reloading classes. Sometimes, I have to restart the server to test code with changes. 
+
+Step 15
+-----
+
+Change the new action to handle the one-click checkout if the customer has already purchased a product on our site.
+
+```ruby
+class SalesController < ApplicationController
+  layout 'sales'
+  
+  def new
+    begin
+      user = current_or_guest_user
+      if user.has_saved_credit_card?
+        Actors::Customer::UseCases.one_click_checkout(user, params[:id])
+
+        redirect_to download_path
+      else
+        session[:product_id] = params[:id]
+      end
+    rescue Striped::CreditCardDeclined => e
+      redisplay_form(e.message)
+    rescue Exception => e
+      StripeLogger.error "One Click Checkout failed due to #{e.message}. #{e.backtrace.join("\n")}"
+      redisplay_form("Checkout failed. We have been notified about this problem.")
+    end
+  end
+end
+```
+
+Step 16
+-----
+
+In app/models/user.rb, define has_saved_credit_card? method.
+
+```ruby
+def has_saved_credit_card?
+  !stripe_customer_id.nil?
+end
+```
+
+Step 17
+-----
+
+In application.rb, at the bottom of the file, add:
+
+```ruby
+require_relative '../app/actors/customer/use_cases/one_click_checkout'
+```
+
+Step 18
+-----
+
+Create app/actors/customer/one_click_checkout.rb.
+
+```ruby
+module Actors
+  module Customer
+    module UseCases
+      
+      def self.one_click_checkout(user, product_id)
+        customer_id = user.stripe_customer_id
+        amount = Product.price_in_cents_for(product_id)
+        
+        StripeGateway.charge(amount: amount, customer: customer_id)
+      end      
+      
+    end
+  end
+end
+```
+
+Step 19
+-----
+
+Add test for the user model.
+
+```ruby
+it 'should return true if credit card token is present' do
+  u = User.new(email: 'bogus@exmaple.com', password: '12345678', stripe_customer_id: 'sk10')
+
+  expect(u.has_saved_credit_card?).to be(true)
+end
+
+it 'should return false if credit card token is present' do
+  u = User.new(email: 'bogus@exmaple.com', password: '12345678')
+
+  expect(u.has_saved_credit_card?).to be(false)
+end
+```
+
+Step 20
+-----
+
+Add the charge method to the stripe_gateway.rb.
+
+```ruby
+def self.charge(amount, customer_id)
+  begin
+    Stripe::Charge.create(amount: amount, currency: "usd", customer: customer_id)
+  rescue Exception => e
+    StripeLogger.error "Could not charge customer due to : #{e.message},  #{e.backtrace.join("\n")}"
+    
+    raise      
+  end
+end
+```
+
+All the methods in the stripe_gateway is now a class method. This avoid unnecessary object creation. The latest specs can be found from the git repo : git@bitbucket.org:bparanj/striped.git. Use the commit hash 35f4210 to get the code for this article.
+
+References
+==========
+----------
+
+[How We Test Rails Applications](http://robots.thoughtbot.com/how-we-test-rails-applications 'How We Test Rails Applications')
+[ActiveRecord and In-Memory Object State](http://railsadventures.wordpress.com/2012/11/24/activerecord-and-in-memory-object-state/ 'ActiveRecord and In-Memory Object State')
+[How To: Add sign_in, sign_out, and sign_up links](https://github.com/plataformatec/devise/wiki/How-To:-Add-sign_in,-sign_out,-and-sign_up-links-to-your-layout-template 'How To: Add sign_in, sign_out, and sign_up links')
+[Ruby 2.1 Exception](http://ruby-doc.org/core-2.1.1/Exception.html 'Ruby 2.1 Exception')

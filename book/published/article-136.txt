@@ -1,0 +1,288 @@
+Stripe Guest Checkout and Subscriptions : Cleanup
+
+Steps
+=====
+-----
+
+Step 1
+------
+
+Let's fix controller specs. In spec/support/controller_helpers.rb, define sign_in method.
+
+```ruby
+module ControllerHelpers
+  def sign_in(user = double('user'))
+    if user.nil?
+      allow(request.env['warden']).to receive(:authenticate!).and_throw(:warden, {:scope => :user})
+      allow(controller).to receive(:current_user).and_return(nil)
+    else
+      allow(request.env['warden']).to receive(:authenticate!).and_return(user)
+      allow(controller).to receive(:current_user).and_return(user)
+    end
+  end
+end
+```
+
+Step 2
+------
+
+In rails_helper.rb, include the sign_in controller helper.
+
+```ruby
+RSpec.configure do |config|
+  config.include Devise::TestHelpers, :type => :controller
+  config.include ControllerHelpers, :type => :controller
+end
+```
+
+Step 3
+------
+
+Here is the subscriptions controller specs that has fixes for the tests.
+
+```ruby
+require 'rails_helper'
+
+describe SubscriptionsController do
+  
+  it 'should delegate creating stripe customer to stripe gateway' do 
+    sign_in   
+    expect(Actors::Customer::UseCases).to receive(:subscribe_to_a_plan) { true }
+
+    post :create, { stripeToken: '1', plan_name: 'gold'}
+  end
+  
+  it 'should initialize plan name' do
+    get :new, {plan_name: 'gold'}
+    
+    expect(assigns(:plan_name)).to eq('gold')
+  end
+  
+  it 'should handle credit card exception' do
+    post :create, {stripeToken: 'bogus', plan_name: 'junk' }
+    
+    expect(assigns(:error_message)).to eq('Subscription failed. We have been notified about this problem.')
+  end
+  
+  it 'should render the form when credit card exception occurs' do
+    post :create, {stripeToken: 'bogus', plan_name: 'junk' }
+    
+    expect(response).to render_template(:new)
+  end
+  
+  it 'should raise credit card exception when authentication error occurs' do
+    sign_in(User.new(email: 'junk'))   
+    Stripe.api_key = 'junk'
+  
+    post :create, {stripeToken: 'bogus', plan_name: 'junk' }
+    
+    expect(assigns(:error_message)).to eq('Subscription failed. We have been notified about this problem.')
+  end
+end
+```
+
+Removing Hard-Coded Amount
+=========
+---------
+
+Step 1
+------
+
+Let's create the product model that has name and price.
+
+```sh
+$rails g model product name:string price:decimal
+```
+
+Step 2
+------
+
+Let's change the generated migration file to define the precision and scale for the price field. 
+
+```ruby
+t.decimal :price, precision: 5, scale: 2
+```
+
+This means the decimal number can be 5 digits maximum and can have 2 digits after the decimal point. 
+
+Step 3
+------
+
+Create the products table.
+
+```sh
+$rake db:migrate
+```
+
+Step 4
+------
+
+Create one product in the rails console.
+
+```sh
+$rails c
+Product.create(name: 'Rails 4 Quickly', price: 27.00)
+```
+
+Step 5
+------
+
+Add the price in cents method to the product model. Stripe requires the amount to be in cents and it must be an integer.
+
+```ruby
+class Product < ActiveRecord::Base
+  def price_in_cents
+    (price * 100).to_i
+  end
+  
+  def self.price_in_cents_for(product_id)
+    product = Product.find(product_id)
+    product.price_in_cents
+  end
+end
+```
+
+Step 6
+------
+
+Here is the product_spec.rb.
+
+```ruby
+require 'rails_helper'
+
+RSpec.describe Product, :type => :model do
+  
+  before do
+    Product.destroy_all
+    Product.create(name: "Get Rich Quick", price: 10)
+  end
+  
+  it 'should return price in cents for a given product' do  
+    product_id = Product.first
+    
+    price_in_cents = Product.price_in_cents_for(product_id)
+    
+    expect(price_in_cents).to eq(1000)
+  end
+end
+```
+
+Step 7
+------
+
+Change the sales_controller to use product_id instead of amount for the first parameter.
+
+```ruby
+class SalesController < ApplicationController
+  layout 'sales'
+  
+  def new
+    session[:product_id] = params[:id]
+  end
+
+  def create
+    begin
+      user = current_or_guest_user
+      Actors::Customer::UseCases.guest_checkout(session[:product_id], params[:stripeToken], user)
+    rescue Striped::CreditCardDeclined => e
+      redisplay_form(e.message)
+    rescue Exception => e
+      logger.error "Guest checkout failed due to #{e.message}"
+      redisplay_form("Checkout failed. We have been notified about this problem.")
+    ensure
+      session[:product_id] = nil
+    end
+  end
+end
+```
+
+Here we save the product_id in the session and as soon as the purchase is complete we delete it from the session. This happens in the ensure clause. Thus regardless of success or failure, we cleanup our session.
+
+Step 8
+------
+
+Change the guest_checkout use case handler.
+
+```ruby
+module Actors
+  module Customer
+    module UseCases
+      
+      def self.guest_checkout(product_id, stripe_token, user)
+        amount = Product.price_in_cents_for(product_id)
+
+        stripe_gateway = StripeGateway.new(Rails.logger)
+        customer_id = stripe_gateway.save_credit_card_and_charge(amount, stripe_token)
+
+        user.save_stripe_customer_id(customer_id)      
+      end      
+      
+    end
+  end
+end
+```
+
+We got rid of the logger parameter, since the use case handler can access Rails.logger. Eventually we will use a separate log file for Stripe called as stripe.log to make it easy to troubleshoot problems.
+
+Step 9
+------
+
+For now, the products controller show action will load the first product in the database.
+
+```ruby
+class ProductsController < ApplicationController
+  def show
+    @product = Product.first
+  end
+  
+  def download
+    
+  end
+end
+```
+
+Step 10
+------
+
+Change the app/views/products/show.html.erb
+
+```ruby
+<h1><%= @product.name %></h1>
+
+Price : <%= number_to_currency(@product.price) %>
+
+<%= link_to 'Buy Now', buy_path(id: @product) %>
+```
+
+Step 11
+------
+
+We need to load a product from the database before we can run integration spec. In spec/features/guest_checkout_spec.rb, define before method.
+
+```ruby
+before(:all) do
+  Product.create(name: 'Rails 4 Quickly', price: 47)  
+end
+```
+
+Step 12
+------
+
+Add a new logger for stripe log messages in config/initializers/stripe.rb.
+
+```ruby
+# Create a logger which ages the log file once it reaches a certain size. 
+# Leave 10 old log files where each file is about 1,024,000 bytes.
+StripeLogger = Logger.new("#{Rails.root}/log/stripe.log", 10, 1024000)
+```
+
+All controllers and the stripe_gateway class now uses StripeLogger to log messages related to Stripe. The entire source code for this article can be downloaded from git@bitbucket.org:bparanj/striped.git using the commit hash 510ca86.
+
+References
+=========
+---------
+
+[Devise Gem Wiki](https://github.com/plataformatec/devise/wiki/How-To:-Stub-authentication-in-controller-specs 'Devise Gem Wiki')
+[Rails Tip: Precision and scale for decimals](http://millarian.com/programming/ruby-on-rails/precision-and-scale-for-ruby-on-rails-migrations/ 'Rails Tip: Precision and scale for decimals')
+[Ruby Logger](http://www.ruby-doc.org/stdlib-2.1.0/libdoc/logger/rdoc/Logger.html 'Ruby Logger')
+[Custom log files for your ruby on rails applications](http://robaldred.co.uk/2009/01/custom-log-files-for-your-ruby-on-rails-applications/ 'Custom Rails Logs')
