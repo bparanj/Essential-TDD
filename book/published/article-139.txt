@@ -1,0 +1,417 @@
+Using Stripe Webhook to Handle Subscription Payment Failures
+
+
+Objective
+==========
+----------
+
+Send email to subscribed users when the subscription payment fails and prompt them to update their credit card expiration date on our site.
+
+Discussion
+===========
+-----------
+
+We need to store the expiration_month and expiration_year in our database so that we can retrieve the list of customers whose credit cards are about to expire and send them email to update their credit card expiration date.
+
+Steps
+=====
+-----
+
+Step 1
+------
+
+Let's create a credit card model.
+
+```ruby
+rails g model credit_card last4digits:string expiration_month:integer expiration_year:integer
+```
+
+We store the last 4 digits of the credit card, so that we can display the expiration date to the user to update the expiration date on our site.
+
+Step 2
+------
+
+Add the user_id foreign key to the credit cards table.
+
+```ruby
+class CreateCreditCards < ActiveRecord::Migration
+  def change
+    create_table :credit_cards do |t|
+      t.integer :user_id
+      t.string :last4digits
+      t.integer :expiration_month
+      t.integer :expiration_year
+
+      t.timestamps null: false
+    end
+  end
+end
+```
+
+Step 3
+------
+
+Let's define the user has one credit card associations.
+
+```ruby
+class User
+  has_one :credit_card
+end
+```
+
+```ruby
+class CreditCard < ActiveRecord::Base
+  belongs_to :user
+end
+```
+
+Step 4
+------
+
+We are going to store the last 4 digits, expiration month and expiration year after we store the credit card details on Stripe servers. Create a StripeCustomer class.
+
+```ruby
+class StripeCustomer
+  
+  def self.save(customer, user)
+    last4digits = customer.cards.data[0].last4
+    expiration_month = customer.cards.data[0].exp_month
+    expiration_year = customer.cards.data[0].exp_year
+    
+    user.save_stripe_customer_id(customer.id)
+    user.create_credit_card(last4digits: last4digits, 
+                            expiration_month: expiration_month, 
+                            expiration_year: expiration_year)
+  end
+  
+  def self.transfer_guest_user_values_to_registered_user(guest_user, current_user)
+    current_user.save_stripe_customer_id(guest_user.stripe_customer_id)
+    credit_card = guest_user.credit_card
+    credit_card.user_id = current_user.id
+    credit_card.save!
+  end
+end
+```
+
+The save method will save the credit card details and stripe_customer_id in our database.
+
+Step 5
+------
+
+Let's change the registrations controller.
+
+```ruby
+def create    
+  super    
+  StripeCustomer.transfer_guest_user_values_to_registered_user(guest_user, current_user)
+end  
+```
+
+We associate the credit card details to the registered user by transferring the guest user stripe_customer_id and the credit card details. This happens when the optional registration is completed during the guest checkout process. 
+
+Step 6
+------
+
+The StripeCustomer save method will be used by guest_checkout use case handler.
+
+```ruby
+module Actors
+  module Customer
+    module UseCases
+      
+      def self.guest_checkout(product_id, stripe_token, user)
+        amount = Product.price_in_cents_for(product_id)
+        customer = StripeGateway.save_credit_card_and_charge(amount, stripe_token)
+
+        StripeCustomer.save(customer, user)      
+      end      
+      
+    end
+  end
+end
+```
+
+Step 7
+------
+
+We can now write a rake task to retrieve all credit cards that will expire next month of the current year and email them. 
+
+```ruby
+expiring_cards = c = CreditCard.where(expiration_year: Date.today.year, expiration_month: Date.today.month)
+```
+
+The email will be something along the lines of:
+
+Subject of Email: Subscription to [YOUR BUSINESS NAME] Update Your Credit Card
+Body of Email:
+
+Your credit card is about to expire. Please log on to [CREDIT_CARD UPDATE URL] and update your credit card info to keep your subscription active. 
+
+If you have any questions, please reply to [CUSTOMER SERVICE EMAIL]
+
+– YOUR COMPANY NAME
+
+Webhooks
+========
+--------
+
+The rake task does not handle all the edge cases. We want to handle the payment failure for a subscription using Stripe Webhook. The invoice.payment_failed event is sent by Stripe when recurring payment fails for our subscribed customer. Create a controller for handling this Webhook.
+
+Step 1
+------
+
+```sh
+rails g controller stripe webhook
+```
+
+Step 2
+------
+
+Change the config/routes.rb.
+
+```ruby
+post 'stripe/webhook'
+```
+
+Step 3
+------
+
+Turn off CSRF protection in the Stripe controller.
+
+```ruby
+class StripeController < ApplicationController
+  protect_from_forgery except: :webhook
+  
+  def webhook
+  end
+end
+```
+
+Step 4
+------
+
+Let's handle the call back for subscription payment failure.
+
+```ruby
+class StripeController < ApplicationController
+  protect_from_forgery except: :webhook
+  
+  SUBSCRIPTION_PAYMENT_FAILED = "invoice.payment_failed"
+  
+  def webhook    
+    StripeLogger.info "Received event with ID: #{params[:id]} Type: #{params[:type]}"
+
+    # Retrieving the event from the Stripe API guarantees its authenticity  
+    event = Stripe::Event.retrieve(params[:id])
+
+    if event.type == SUBSCRIPTION_PAYMENT_FAILED
+      stripe_customer_token = event.data.object.customer
+      user = User.where(stripe_customer_id: stripe_customer_token).first
+      
+      UserMailer.suscription_payment_failed(user).deliver
+    else
+      StripeLogger.info "Webhook received params.inspect. Did not handle this event."  
+    end  
+    
+    render text: "success"
+  end  
+  
+end
+```
+
+You can use the following email and customize it.
+
+Email:
+
+Subject Of Email: Payment to [YOUR BUSINESS NAME] Failed
+Body Of Email:
+
+Your latest payment failed to go through. Please log on to [YOUR WEBSITE URL] and update your credit card info to keep your subscription active. 
+
+If you have any questions, please reply to [CUSTOMER SERVICE EMAIL]
+
+– YOUR COMPANY NAME
+
+Step 5
+------
+
+```sh
+rails g mailer user_mailer
+```
+
+Step 6
+------
+
+Update the app/mailers/user_mailer.rb.
+
+```ruby
+class UserMailer < ActionMailer::Base
+  default from: "from@your-domain.com"
+  
+  def suscription_payment_failed(user)
+    @user = user
+    @url = 'http://yoursite.com/update/credit_card'
+    
+    mail(to: @user.email, subject: 'Payment to RubyPlus Failed')
+  end
+end
+```
+
+Step 7
+------
+
+Create the app/views/user_mailer/suscription_payment_failed.text.erb.
+
+```ruby
+Your latest payment failed to go through. Please log on to <%= @url %>  and update your credit card info to keep your subscription active. 
+
+If you have any questions, please reply to [CUSTOMER SERVICE EMAIL]
+
+– YOUR COMPANY NAME
+```
+
+Step 8
+-------
+
+You can copy the sample response for a Stripe API call from its documentation to spec/fixtures/subscription_charge_failed.json. I have customized the data that is valid for a failed subscription. Refer the Stripe documentation for more details.
+
+```json
+{
+  "id": "evt_150MhXKmUHg13gkF5GmUVsEz",
+  "created": 1416358327,
+  "livemode": false,
+  "type": "invoice.payment_failed",
+  "data": {
+    "object": {
+      "id": "ch_150MhXKmUHg13gkFrIAL0SYi",
+      "object": "charge",
+      "created": 1416358327,
+      "livemode": false,
+      "paid": true,
+      "amount": 4700,
+      "currency": "usd",
+      "refunded": false,
+      "card": {
+        "id": "card_150MhWKmUHg13gkFLNAGoMfA",
+        "object": "card",
+        "last4": "4242",
+        "brand": "Visa",
+        "funding": "credit",
+        "exp_month": 1,
+        "exp_year": 2015,
+        "fingerprint": "JbFvkc6RO9g2yFua",
+        "country": "US",
+        "name": null,
+        "address_line1": null,
+        "address_line2": null,
+        "address_city": null,
+        "address_state": null,
+        "address_zip": null,
+        "address_country": null,
+        "cvc_check": null,
+        "address_line1_check": null,
+        "address_zip_check": null,
+        "dynamic_last4": null,
+        "customer": "cus_5Ai7NfoTq4ECl8"
+      },
+      "captured": true,
+      "refunds": {
+        "object": "list",
+        "total_count": 0,
+        "has_more": false,
+        "url": "/v1/charges/ch_150MhXKmUHg13gkFrIAL0SYi/refunds",
+        "data": [
+
+        ]
+      },
+      "balance_transaction": "txn_150MhXKmUHg13gkFlEfxFP5T",
+      "failure_message": null,
+      "failure_code": null,
+      "amount_refunded": 0,
+      "customer": "cus_5Ai7NfoTq4ECl8",
+      "invoice": null,
+      "description": null,
+      "dispute": null,
+      "metadata": {
+      },
+      "statement_description": null,
+      "fraud_details": {
+        "stripe_report": "unavailable",
+        "user_report": null
+      },
+      "receipt_email": null,
+      "receipt_number": null,
+      "shipping": null
+    }
+  },
+  "object": "event",
+  "pending_webhooks": 1,
+  "request": "iar_5Ai76TaDoUlhI2",
+  "api_version": "2014-10-07"
+}
+```
+
+Step 9
+-------
+
+Create spec/controllers/stripe_controller_spec.rb.
+
+```ruby
+require 'rails_helper'
+require 'stripe_mock'
+
+describe StripeController, :type => :controller do
+
+  before do
+    user = User.new(email: 'dummy@email.com', stripe_customer_id: 'cus_5Ai7NfoTq4ECl8')
+    user.save(validate: false)
+  end
+
+  it "returns http success" do
+    h = JSON.parse(File.read("spec/support/fixtures/subscription_charge_failed.json"))
+    event = Stripe::Event.construct_from(h)    
+    allow(Stripe::Event).to receive(:retrieve) { event }
+        
+    post :webhook, h
+    
+    expect(response).to be_success
+  end
+
+  it "sends email when subscription charge fails" do
+    h = JSON.parse(File.read("spec/support/fixtures/subscription_charge_failed.json"))
+    event = Stripe::Event.construct_from(h)    
+    allow(Stripe::Event).to receive(:retrieve) { event }
+            
+    expect { post :webhook, h }.to change { ActionMailer::Base.deliveries.count }.by(1)
+  end
+
+end
+```
+
+We read the json data from our fixture file and stub the call to Stripe server. We test to make sure that we send out the customized email to the user. You can customize the email content and the url for your webapp.
+
+Step 10
+==========
+----------
+
+Register your Webhook endpoint with Stripe. Go to your Stripe account, Account Settings -> Webhooks. Enter:
+
+```sh
+https://your-domain.com/stripe/webhook
+```
+
+in the URL field. Remember to replace the your-domain.com with your domain name. Click 'Create Webhook URL'. You can download the source code for this article from git@bitbucket.org:bparanj/striped.git using the commit hash 8c55af1.
+
+Summary
+==========
+----------
+
+In this article, we setup Stripe Webhook handler to handle payment failures for subscribed users. The email has the link to the URL where our customers can update their credit card. In the next article, we will implement the credit card update feature.
+
+References
+==========
+----------
+[What are Webhooks?](http://webhooks.us/ 'What are Webhooks?')
+[Stripe Subscriptions guide](https://stripe.com/docs/guides/subscriptions#payment-failures 'Stripe Subscriptions guide')
+[Webhook-Mailer: A simple example of using Stripe webhooks](https://github.com/boucher/stripe-webhook-mailer/blob/master/mailer.rb 'Webhook-Mailer: A simple example of using Stripe webhooks')
+[Be lazy when testing Stripe webhooks](https://coderwall.com/p/yqp1wa/be-lazy-when-testing-stripe-webhooks 'Be lazy when testing Stripe webhooks')
