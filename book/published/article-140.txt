@@ -42,6 +42,34 @@ To create a Stripe subscription. We use the plan id we see from Stripe::Plan.all
 s = Stripe::Customer.create(description: 'test subscription', card: 'tok_150UekKmUHg13gkFTRbLaBPs', plan: 'gold')
 ```
 
+```ruby
+ c = Stripe::Customer.retrieve("cus_5Ai7NfoTq4ECl8")
+ => #<Stripe::Customer:0x3ff55e8af834 id=cus_5Ai7NfoTq4ECl8> JSON: {
+  "id": "cus_5Ai7NfoTq4ECl8",
+  "object": "customer",
+  "created": 1416358326,
+  "livemode": false,
+  "description": "guest-user@example.com",
+  "email": null,
+  "delinquent": false,
+  "metadata": {},
+  "subscriptions": {"object":"list","total_count":0,"has_more":false,"url":"/v1/customers/cus_5Ai7NfoTq4ECl8/subscriptions","data":[]},
+  "discount": null,
+  "account_balance": 0,
+  "currency": null,
+  "cards": {"object":"list","total_count":1,"has_more":false,"url":"/v1/customers/cus_5Ai7NfoTq4ECl8/cards","data":[{"id":"card_150MhWKmUHg13gkFLNAGoMfA","object":"card","last4":"4242","brand":"Visa","funding":"credit","exp_month":1,"exp_year":2015,"fingerprint":"JbFvkc6RO9g2yFua","country":"US","name":null,"address_line1":null,"address_line2":null,"address_city":null,"address_state":null,"address_zip":null,"address_country":null,"cvc_check":null,"address_line1_check":null,"address_zip_check":null,"dynamic_last4":null,"customer":"cus_5Ai7NfoTq4ECl8"}]},
+  "default_card": "card_150MhWKmUHg13gkFLNAGoMfA"
+} 
+> c.class
+ => Stripe::Customer 
+> c.id
+ => "cus_5Ai7NfoTq4ECl8" 
+> c.email
+ => nil 
+> c.description
+ => "guest-user@example.com"
+```
+
 Step 2
 -----
 
