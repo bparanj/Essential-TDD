@@ -1,0 +1,478 @@
+Stripe Subscription and Charge Customer Test Improvements
+
+Objective
+==========
+----------
+
+To eliminate the dependency on stripe-ruby-mock gem and simplify our tests.
+
+Steps
+=====
+-----
+
+Step 1
+-----
+
+In the rails console, you can play with Stripe API and copy the response JSON to create the fixtures.
+
+```ruby
+Stripe::Plan.all
+```
+
+```
+Stripe::Token.create(
+  :card => {
+    :number => "4242424242424242",
+    :exp_month => 11,
+    :exp_year => 2015,
+    :cvc => "314"
+  },
+)
+```
+
+To create a Stripe customer. We use the token we created in the Stripe::Token.create call.
+
+```ruby
+c = Stripe::Customer.create(:description => "Customer for railsc@example.com", :card => "tok_150UYNKmUHg13gkFv1pyZGZu")
+```
+
+To create a Stripe subscription. We use the plan id we see from Stripe::Plan.all call.
+
+```ruby
+s = Stripe::Customer.create(description: 'test subscription', card: 'tok_150UekKmUHg13gkFTRbLaBPs', plan: 'gold')
+```
+
+Step 2
+-----
+
+Copy the JSON from the rails console and paste it on the [JSON Validator](http://jsonlint.com/ 'JSON Validator') to make sure it is valid. JSON validator also indents the JSON document nicely. This formatted JSON can now be copied to spec/support/fixtures directory. I have created create_subscription_success.json and create_customer_success.json files.
+
+Step 3
+-----
+
+Create the fixture file in spec/support/fixtures/create_subscription_success.json.
+
+```json
+{
+    "id": "cus_5AqM5SPXDkx4Tl",
+    "object": "customer",
+    "created": 1416388954,
+    "livemode": false,
+    "description": "test subscription",
+    "email": null,
+    "delinquent": false,
+    "metadata": {},
+    "subscriptions": {
+        "object": "list",
+        "total_count": 1,
+        "has_more": false,
+        "url": "/v1/customers/cus_5AqM5SPXDkx4Tl/subscriptions",
+        "data": [
+            {
+                "id": "sub_5AqM073tSdkMgv",
+                "plan": {
+                    "id": "gold",
+                    "interval": "month",
+                    "name": "Amazing Gold Plan",
+                    "created": 1415160352,
+                    "amount": 2000,
+                    "currency": "usd",
+                    "object": "plan",
+                    "livemode": false,
+                    "interval_count": 1,
+                    "trial_period_days": null,
+                    "metadata": {},
+                    "statement_description": null
+                },
+                "object": "subscription",
+                "start": 1416388954,
+                "status": "active",
+                "customer": "cus_5AqM5SPXDkx4Tl",
+                "cancel_at_period_end": false,
+                "current_period_start": 1416388954,
+                "current_period_end": 1418980954,
+                "ended_at": null,
+                "trial_start": null,
+                "trial_end": null,
+                "canceled_at": null,
+                "quantity": 1,
+                "application_fee_percent": null,
+                "discount": null,
+                "metadata": {}
+            }
+        ]
+    },
+    "discount": null,
+    "account_balance": 0,
+    "currency": "usd",
+    "cards": {
+        "object": "list",
+        "total_count": 1,
+        "has_more": false,
+        "url": "/v1/customers/cus_5AqM5SPXDkx4Tl/cards",
+        "data": [
+            {
+                "id": "card_150UekKmUHg13gkFdTz9kRjI",
+                "object": "card",
+                "last4": "4242",
+                "brand": "Visa",
+                "funding": "credit",
+                "exp_month": 11,
+                "exp_year": 2015,
+                "fingerprint": "JbFvkc6RO9g2yFua",
+                "country": "US",
+                "name": null,
+                "address_line1": null,
+                "address_line2": null,
+                "address_city": null,
+                "address_state": null,
+                "address_zip": null,
+                "address_country": null,
+                "cvc_check": "pass",
+                "address_line1_check": null,
+                "address_zip_check": null,
+                "dynamic_last4": null,
+                "customer": "cus_5AqM5SPXDkx4Tl"
+            }
+        ]
+    },
+    "default_card": "card_150UekKmUHg13gkFdTz9kRjI"
+}
+```
+
+Step 4
+-----
+
+Create the fixture file in spec/support/fixtures/create_customer_success.json.
+
+```json
+{
+    "id": "cus_5AqFj04bLNXGYL",
+    "object": "customer",
+    "created": 1416388537,
+    "livemode": false,
+    "description": "Customer for railsc@example.com",
+    "email": null,
+    "delinquent": false,
+    "metadata": {},
+    "subscriptions": {
+        "object": "list",
+        "total_count": 0,
+        "has_more": false,
+        "url": "/v1/customers/cus_5AqFj04bLNXGYL/subscriptions",
+        "data": []
+    },
+    "discount": null,
+    "account_balance": 0,
+    "currency": null,
+    "cards": {
+        "object": "list",
+        "total_count": 1,
+        "has_more": false,
+        "url": "/v1/customers/cus_5AqFj04bLNXGYL/cards",
+        "data": [
+            {
+                "id": "card_150UYNKmUHg13gkF9kj0jWeE",
+                "object": "card",
+                "last4": "4242",
+                "brand": "Visa",
+                "funding": "credit",
+                "exp_month": 11,
+                "exp_year": 2015,
+                "fingerprint": "JbFvkc6RO9g2yFua",
+                "country": "US",
+                "name": null,
+                "address_line1": null,
+                "address_line2": null,
+                "address_city": null,
+                "address_state": null,
+                "address_zip": null,
+                "address_country": null,
+                "cvc_check": "pass",
+                "address_line1_check": null,
+                "address_zip_check": null,
+                "dynamic_last4": null,
+                "customer": "cus_5AqFj04bLNXGYL"
+            }
+        ]
+    },
+    "default_card": "card_150UYNKmUHg13gkF9kj0jWeE"
+}
+```
+
+You can play in the rails console and interact with the Stripe API, use JSON Lint to format the response from Stripe and copy it to your fixtures folder.
+
+Step 5
+-----
+
+Remove:
+
+```ruby
+gem 'stripe-ruby-mock'
+```
+
+in Gemfile. So the test group in Gemfile now looks like this:
+
+```ruby
+group :test do
+  gem 'capybara'
+  gem 'selenium-webdriver'
+  gem 'database_cleaner'
+end
+```
+
+Run bundle install.
+
+Step 6
+-----
+
+Let's now get rid of the require statement:
+
+```ruby
+require 'strip-mock' 
+```
+
+in spec/gateways/stripe_gateway_spec.rb. Your will only have two require statements as follows:
+
+```ruby
+require 'rails_helper'
+require 'stripe'
+```
+
+Step 7
+-----
+
+Here is the stripe_gateway_spec that uses our fixtures to test instead of using stripe-ruby-mock gem.
+
+```ruby
+require 'rails_helper'
+require 'stripe'
+
+describe StripeGateway do
+  it 'subscribe customer to gold plan' do
+    # The fixture file is the Stripe response to a successful subscription to a gold plan
+    h = JSON.parse(File.read("spec/support/fixtures/create_subscription_success.json"))
+    customer = Stripe::Customer.construct_from(h)        
+    allow(Stripe::Customer).to receive(:create) { customer }
+    
+    customer = StripeGateway.create_subscription('test-email', 'test-token', 'doesnot-matter')
+
+    expect(customer.id).to eq('cus_5AqM5SPXDkx4Tl')
+    expect(customer.subscriptions.data[0].plan.id).to eq('gold')
+  end
+
+  it 'should raise credit card exception when Stripe::InvalidRequestError occurs' do
+    expect do
+      customer = StripeGateway.create_subscription('fake', 'bogus', 'junk')
+    end.to raise_error Striped::CreditCardException
+
+  end
+
+  it 'save customer credit card and charge' do
+    h = JSON.parse(File.read("spec/support/fixtures/create_customer_success.json"))
+    customer = Stripe::Customer.construct_from(h)        
+    allow(Stripe::Customer).to receive(:create) { customer }
+    allow(Stripe::Charge).to receive(:create) { true }
+    
+    customer = StripeGateway.save_credit_card_and_charge(2000, 1)
+  
+    expect(customer.id).to eq('cus_5AqFj04bLNXGYL')
+  end
+  
+end
+```
+
+Run the stripe_gateway_spec.rb.
+
+```sh
+rspec spec/gateways/stripe_gateway_spec.rb 
+```
+
+Bug Fixes and Enhancements
+==============
+--------------
+
+Steps
+======
+------
+
+Step 1
+-----
+
+Let's make the StripeCustomer.save(customer, user) method in app/actors/customer/use_cases/guest_checkout.rb intention revealing by renaming it to:
+
+```ruby
+StripeCustomer.save_credit_card_and_stripe_customer_id(customer, user)
+```
+
+Rename the method in app/models/stripe_customer.rb :
+
+```ruby
+def self.save_credit_card_and_stripe_customer_id(customer, user)
+```
+
+Now we don't have a vague and generic name called save.
+
+Step 2
+-----
+
+Let's cleanup stripe_gateway.rb.
+
+```ruby
+class StripeGateway
+  
+  def self.create_subscription(email, stripe_token, plan_id)
+    run_with_stripe_exception_handler('Create subscription failed due to') do
+      Stripe::Customer.create(description: email, card: stripe_token, plan: plan_id)
+    end    
+  end
+  # amount in cents
+  def self.save_credit_card_and_charge(amount, stripe_token)
+    run_with_stripe_exception_handler('StripeGateway.save_credit_card_and_charge failed due to') do
+      # Create a Customer (save credit card)
+      customer = Stripe::Customer.create(card: stripe_token, description: "guest-user@example.com")
+      # Charge the Customer instead of the card
+      Stripe::Charge.create(amount:   amount, 
+                            currency: "usd",
+                            customer: customer.id)
+      customer
+    end    
+  end
+  
+  def self.charge(amount, customer_id)
+    run_with_stripe_exception_handler('Could not charge customer due to') do
+      Stripe::Charge.create(amount: amount, currency: "usd", customer: customer_id)
+    end
+  end
+  
+  private
+  
+  def self.run_with_stripe_exception_handler(message)
+    begin
+      yield
+    rescue Stripe::CardError => e
+      # Since it's a decline, Stripe::CardError will be caught
+      body = e.json_body
+      err  = body[:error]
+
+      StripeLogger.error "Status is: #{e.http_status}"
+      StripeLogger.error "Type is: #{err[:type]}"
+      StripeLogger.error "Code is: #{err[:code]}"
+      # param is '' in this case
+      StripeLogger.error "Param is: #{err[:param]}"
+      StripeLogger.error "Message is: #{err[:message]} :  #{e.backtrace.join("\n")}" 
+
+      raise Striped::CreditCardDeclined.new(err[:message])     
+    rescue Stripe::InvalidRequestError => e
+      StripeLogger.error "#{message} Stripe::InvalidRequestError : #{e.message} :  #{e.backtrace.join("\n")}"
+      
+      raise Striped::CreditCardException.new(e.message)
+    rescue Stripe::AuthenticationError => e
+      StripeLogger.error "Authentication with Stripe's API failed :  #{e.backtrace.join("\n")}"
+      StripeLogger.error "(maybe you changed API keys recently)"
+      
+      raise Striped::CreditCardException.new(e.message)
+    rescue Stripe::APIConnectionError => e
+      StripeLogger.error "Network communication with Stripe failed :  #{e.backtrace.join("\n")}"
+    
+      raise Striped::CreditCardException.new(e.message)
+    rescue Stripe::StripeError => e
+      StripeLogger.error "Display a very generic error to the user, and maybe send yourself an email :  #{e.backtrace.join("\n")}"
+      
+      raise Striped::CreditCardException.new(e.message)
+    rescue Exception => e
+      StripeLogger.error "#{message} : #{e.message} :  #{e.backtrace.join("\n")}"  
+      
+      raise
+    end
+  end
+end
+```
+
+Here we have extracted a private method that is focused only on dealing with Stripe exceptions.
+
+Step 3
+-----
+
+Let's fix a bug that broke normal user registration. We need to transfer values from guest user only for a user who registers after a guest checkout.
+
+```ruby
+class StripeCustomer
+  
+  def self.save(customer, user)
+    last4digits = customer.cards.data[0].last4
+    expiration_month = customer.cards.data[0].exp_month
+    expiration_year = customer.cards.data[0].exp_year
+    
+    user.save_stripe_customer_id(customer.id)
+    user.create_credit_card(last4digits: last4digits, 
+                            expiration_month: expiration_month, 
+                            expiration_year: expiration_year)
+  end
+  
+  def self.transfer_guest_user_values_to_registered_user(guest_user, current_user)
+    # Bypass transfer for normal user registration. 
+    if user_registration_after_guest_checkout?(guest_user)
+      current_user.save_stripe_customer_id(guest_user.stripe_customer_id)
+      current_user.create_credit_card(last4digits: guest_user.credit_card.last4digits, 
+                                      expiration_month: guest_user.credit_card.expiration_month,  
+                                      expiration_year: guest_user.credit_card.expiration_year)
+    end
+  end
+  
+  private
+  # This is true only if someone registers after guest checkout is complete.
+  def self.user_registration_after_guest_checkout?(user)
+    user && user.credit_card
+  end
+end
+```
+
+Step 4
+-----
+
+We also need to rename the route used in products show page to avoid confusion later. We will use a different controller to handle the case where a logged in user makes a purchase.
+
+```ruby
+<%= link_to 'Buy Now', guest_checkout_path(id: @product) %>
+```
+
+Step 5
+-----
+
+Change the config/routes.rb.
+
+```ruby
+get 'sales/new' => 'sales#new', as: :guest_checkout
+```
+
+Step 6
+-----
+
+Fix one-click checkout bug.
+
+```ruby
+StripeGateway.charge(amount, customer_id)
+```
+
+Step 7
+-----
+
+Rename the save method in stripe_customer.rb to intention revealing method name. In app/models/stripe_customer.rb:
+
+```ruby
+class StripeCustomer   
+  def self.save_credit_card_and_stripe_customer_id(customer, user)
+
+
+  end
+end
+```
+
+The complete source code for this article can be downloaded from git@bitbucket.org:bparanj/striped.git using the commit hash 42da805. 
+
+Summary
+=======
+-------
+
+In this article we increase the test coverage for our stripe_gateway class. We eliminated the dependency on stripe-ruby-mock gem in our tests. This simplifies our test code.
