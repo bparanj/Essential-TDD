@@ -1,0 +1,436 @@
+Stripe Recurring Billing : Update Credit Card Expiration 
+
+
+Objective
+=========
+
+When the customer clicks the link in the email that reminds subscriber's credit card that is about to expire, display a page with the last 4 digits of the credit card and current expiration month and year for the subscriber to update the expiration month and year on Stripe server and store expiration month and year in our database.
+
+Steps
+=====
+-----
+
+Step 1
+------
+
+Create the controller to update credit card expiration date.
+
+```ruby
+rails g controller credit_cards edit update
+```
+
+Step 2
+-----
+
+Change the route for credit cards edit page.
+
+```ruby
+get 'credit_cards/edit'
+```
+
+Step 3
+-----
+
+Define the edit and update actions for credit_cards_controller.
+
+```ruby
+class CreditCardsController < ApplicationController
+  before_action :authenticate_user!
+  
+  def edit
+    @credit_card = CreditCard.where(user_id: current_user.id).first
+  end
+
+  def update
+    Actors::Customer::UseCases.update_credit_card_expiration_date(current_user, 
+                                                                  params[:card_month], 
+                                                                  params[:card_year])
+    flash.notice = 'Credit card update successful'    
+  end
+end
+```
+
+Step 4
+-----
+
+Create the app/views/credit_cards/edit.html.erb.
+
+```ruby
+<%= form_for(@credit_card, :url => credit_cards_update_url, :html => {:method => :post}) do |f| %>
+
+      <h3>Change Expiration Date for Credit Card</h3>
+
+	  <div class="form-row">
+	    <label>
+	      <span>Your Credit Card Last 4 Digits : <%= @credit_card.last4digits %></span>
+	    </label>
+	  </div>
+
+	  <div class="form-row">
+	    <label>
+	      <span>Expiration</span>
+	<%= select_month @credit_card.expiration_month, {add_month_numbers: true}, {name: 'card_month', id: "card_month"} %>
+
+	    </label>
+	    <span>/</span>
+		<%= select_year @credit_card.expiration_year, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: "card_year", id: "card_year"} %>
+
+	  </div>
+
+	  <button type="submit">Change Expiration Date</button>
+
+<% end %>
+```
+
+We display the edit credit card form with last 4 digits of the credit card with the current expiration_month and expiration_year of the credit card.
+
+Step 5
+-----
+
+Create the app/views/credit_cards/update.html.erb.
+
+```ruby
+Expiration date for your credit card ending in last 4 digits : <%= @user.credit_card.last4digits %>
+has been updated to : <%= @user.credit_card.expiration_month %> / <%= @user.credit_card.expiration_year %>
+```
+
+Step 6
+-----
+
+Create app/actors/customer/user_cases/update_credit_card_expiration_date.rb
+
+```ruby
+module Actors
+  module Customer
+    module UseCases
+      
+      def self.update_credit_card_expiration_date(user, card_month, card_year)
+        cc = StripeGateway.update_credit_card_expiration_date(user.stripe_customer_id, card_month, card_year)
+        
+        user.update_credit_card_expiration_date(cc.last4, cc.exp_month, cc.exp_year)
+      end      
+      
+    end
+  end
+end
+```
+
+Step 7
+-----
+
+Hookup the use case handler in config/application.rb.
+
+```ruby
+require_relative '../app/actors/customer/use_cases/update_credit_card_expiration_date'
+```
+
+Step 8
+-----
+
+Define the update_credit_card_expiration_date method in app/models/user.rb.
+
+```ruby
+class User < ActiveRecord::Base  
+  def update_credit_card_expiration_date(last4digits, expiration_month, expiration_year)
+    self.credit_card.update_credit_card_expiration_date(last4digits, expiration_month, expiration_year)
+  end
+end
+```
+
+Step 9
+-----
+
+Create update_credit_card_expiration_date method in app/models/credit_card.rb
+
+```ruby
+class CreditCard < ActiveRecord::Base
+  belongs_to :user
+  
+  def update_credit_card_expiration_date(last4digits, expiration_month, expiration_year)
+    self.last4digits = last4digits
+    self.expiration_month = expiration_month
+    self.expiration_year = expiration_year
+    self.save!
+  end
+end
+```
+
+Step 10
+-----
+
+Define the update_credit_card_expiration_date in app/gateways/stripe_gateway.rb. This updates the credit card expiration date on Stripe servers.
+
+```ruby
+def self.update_credit_card_expiration_date(stripe_customer_id, card_month, card_year)
+  run_with_stripe_exception_handler("Failed to update credit card expiration date") do
+    customer = Stripe::Customer.retrieve(stripe_customer_id)
+    card = customer.cards.first
+    card.exp_month = card_month
+    card.exp_year = card_year
+    card.save      
+  end
+end
+```
+
+Step 11
+-------
+
+Let's cleanup the app/views/subscriptions/create.html.erb.
+
+```ruby 
+<% if @success %>
+	You have been subscribed to <%= @plan_name.humanize %>.
+<% else %>
+  Subscription failed.
+<% end %>
+```
+
+Step 12
+-----
+
+Define the routes for credit cards update action in config/routes.rb
+
+```ruby
+Rails.application.routes.draw do
+  get 'credit_cards/edit'
+  post 'credit_cards/update'
+end
+```
+
+Step 13
+-----
+
+Create spec/support/fixtures/credit_card.json
+
+```json
+{
+    "id": "card_150UekKmUHg13gkFdTz9kRjI",
+    "object": "card",
+    "last4": "4242",
+    "brand": "Visa",
+    "funding": "credit",
+    "exp_month": 11,
+    "exp_year": 2015,
+    "fingerprint": "JbFvkc6RO9g2yFua",
+    "country": "US",
+    "name": "Jane Austen",
+    "address_line1": null,
+    "address_line2": null,
+    "address_city": null,
+    "address_state": null,
+    "address_zip": null,
+    "address_country": null,
+    "cvc_check": "pass",
+    "address_line1_check": null,
+    "address_zip_check": null,
+    "dynamic_last4": null,
+    "customer": "cus_5AqM5SPXDkx4Tl"
+}
+```
+
+Step 14
+-----
+
+spec/support/fixtures/customer.json
+
+```json
+{
+    "id": "cus_5AqFj04bLNXGYL",
+    "object": "customer",
+    "created": 1416388537,
+    "livemode": false,
+    "description": "Customer for railsc@example.com",
+    "email": null,
+    "delinquent": false,
+    "metadata": {},
+    "subscriptions": {
+        "object": "list",
+        "total_count": 0,
+        "has_more": false,
+        "url": "/v1/customers/cus_5AqFj04bLNXGYL/subscriptions",
+        "data": []
+    },
+    "discount": null,
+    "account_balance": 0,
+    "currency": null,
+    "cards": {
+        "object": "list",
+        "total_count": 1,
+        "has_more": false,
+        "url": "/v1/customers/cus_5AqFj04bLNXGYL/cards",
+        "data": [
+            {
+                "id": "card_150UYNKmUHg13gkF9kj0jWeE",
+                "object": "card",
+                "last4": "4242",
+                "brand": "Visa",
+                "funding": "credit",
+                "exp_month": 11,
+                "exp_year": 2015,
+                "fingerprint": "JbFvkc6RO9g2yFua",
+                "country": "US",
+                "name": null,
+                "address_line1": null,
+                "address_line2": null,
+                "address_city": null,
+                "address_state": null,
+                "address_zip": null,
+                "address_country": null,
+                "cvc_check": "pass",
+                "address_line1_check": null,
+                "address_zip_check": null,
+                "dynamic_last4": null,
+                "customer": "cus_5AqFj04bLNXGYL"
+            }
+        ]
+    },
+    "default_card": "card_150UYNKmUHg13gkF9kj0jWeE"
+}
+```
+
+Step 15
+-----
+
+Create test for updating credit card expiration date in spec/gateways/stripe_gateway_spec.rb.
+
+```ruby
+require 'rails_helper'
+require 'stripe'
+
+describe StripeGateway do  
+  it 'update credit card expiration date' do
+    h = JSON.parse(File.read("spec/support/fixtures/customer.json"))
+    customer = Stripe::Customer.construct_from(h)        
+    allow(Stripe::Customer).to receive(:retrieve) { customer }
+    
+    h2 = JSON.parse(File.read("spec/support/fixtures/credit_card.json"))
+    cc = Stripe::Card.construct_from(h2)
+    allow(customer).to receive_message_chain(:cards, :first) { cc }
+    
+    credit_card = StripeGateway.update_credit_card_expiration_date(1, 1, 2050)
+    
+    expect(credit_card.id).to eq('card_150UekKmUHg13gkFdTz9kRjI')
+  end
+end
+```
+
+Step 16
+-----
+
+Create integration test for updating credit card expiration in spec/features/update_credit_card_expiration_date_spec.rb.
+
+```ruby
+require 'rails_helper'
+require 'spec_helper'
+
+feature 'Credit Card Update' do
+
+  scenario 'signup, subscribe, edit credit card expiration date', js: true do
+    # signup
+    visit new_user_registration_path
+    fill_in 'Email', with: test_email
+    fill_in 'Password', with: '12345678'
+    click_button 'Sign up'
+    
+    # subscribe
+    visit pricing_path    
+    click_link 'Gold'
+    fill_in "Card Number", with: '4242424242424242'
+    page.select '10', from: "card_month"
+    page.select '2029', from: 'card_year'
+    click_button 'Subscribe Me'
+    
+    # Need to wait for response from Stripe servers before we can continue.
+    sleep 5
+    
+    # edit cc expiration date
+    visit credit_cards_edit_path    
+    page.select '10', from: "card_month"
+    page.select '2028', from: 'card_year'
+    click_button 'Change Expiration Date'
+    
+   expect(page).to have_content('Credit card update successful')  
+  end
+
+end
+```
+
+Step 17
+-----
+
+Create spec/controllers/credit_cards_controller_spec.rb.
+
+```ruby
+require 'rails_helper'
+
+describe CreditCardsController, :type => :controller do
+  it "initializes credit card variable" do
+    User.create(email: 'bugs@disney.com', password: '12345678')
+    user = User.last
+    user.create_credit_card
+    sign_in(user)   
+
+    get :edit
+    expect(assigns[:credit_card]).not_to be_nil
+  end
+
+  it "edit page returns http success if user is logged in" do
+    User.create(email: 'bugs@disney.com', password: '12345678')
+    user = User.last
+    sign_in(user)   
+
+    get :edit
+    expect(response).to be_success
+  end
+
+  it "edit page returns http failure if user is not logged in" do      
+    get :edit
+
+    expect(response).not_to be_success
+  end
+
+  it "update returns http failure if user is not logged in" do
+    get :update
+
+    expect(response).not_to be_success
+  end
+
+  it 'delegates the update of credit card expiration to use case handler' do
+    User.create(email: 'bugs@disney.com', password: '12345678')
+    user = User.last
+    user.create_credit_card
+    sign_in(user)   
+
+    expect(Actors::Customer::UseCases).to receive(:update_credit_card_expiration_date)
+
+    get :update
+  end
+  
+  it 'should initialize the user variable' do
+    User.create(email: 'bugs@disney.com', password: '12345678')
+    user = User.last
+    user.create_credit_card
+    sign_in(user)   
+
+    allow(Actors::Customer::UseCases).to receive(:update_credit_card_expiration_date) { true }
+
+    get :update
+    
+    expect(assigns[:user]).not_to be_nil
+  end
+  
+end
+```
+
+Summary
+==========
+----------
+
+In this article, we implemented updating the credit card expiration month and year on Stripe servers. We also saved them in our database for sending reminder emails for our customers to update the credit card.
+
+References
+==========
+----------
+
+[Action Mailer Basics](http://guides.rubyonrails.org/action_mailer_basics.html 'Action Mailer Basics')
+[Message Chains](https://relishapp.com/rspec/rspec-mocks/docs/working-with-legacy-code/message-chains 'Message Chains')

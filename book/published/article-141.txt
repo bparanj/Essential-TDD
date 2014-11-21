@@ -1,0 +1,177 @@
+Stripe Recurring Billing and Update Credit Card Expiration Cleanup
+
+
+Objective
+=========
+
+To cleanup subscription related code.
+
+Steps
+=====
+-----
+
+Step 1
+-----
+
+In config/application.rb:
+
+```ruby
+config.action_mailer.default_url_options = { host: 'rubyplus.com' }
+```
+
+This will generate the url in the user mailer with the host rubyplus.com.
+
+Step 2
+------
+
+Initialize the url for use in the mailer view.
+
+```ruby
+class UserMailer < ActionMailer::Base
+  default from: "from@your-domain.com"
+  
+  def suscription_payment_failed(user)
+    @user = user
+    @url = credit_cards_edit_url
+    
+    mail(to: @user.email, subject: 'Payment to RubyPlus Failed')
+  end
+end
+```
+
+Step 3
+-----
+
+Plugin the url variable in app/views/user_mailer:
+
+```sh
+Your latest payment failed to go through. Please log on to  <%= @url %> and update your credit card info to keep your subscription active. 
+
+If you have any questions, please reply to [CUSTOMER SERVICE EMAIL]
+
+– YOUR COMPANY NAME
+```
+
+Step 4
+-----
+
+Let's cleanup app/models/stripe_customer.rb.
+
+```ruby
+class StripeCustomer
+  
+  # Use Case : Subscribe to a plan
+  def self.save_subscription_details(user, customer, plan_name)
+    user.create_subscription(stripe_customer_token: customer.id, plan_name: plan_name)    
+    save_credit_card_and_stripe_customer_id(customer, user)    
+  end
+  
+  # Use Case : Guest Checkout
+  # Save the stripe response values in our database
+  def self.save_credit_card_and_stripe_customer_id(customer, user)
+    last4digits = customer.cards.data[0].last4
+    expiration_month = customer.cards.data[0].exp_month
+    expiration_year = customer.cards.data[0].exp_year
+    
+    user.save_stripe_customer_id(customer.id)
+    user.create_credit_card(last4digits: last4digits, 
+                            expiration_month: expiration_month, 
+                            expiration_year: expiration_year)
+  end
+  
+  # Transfer guest user to current user. Happens when guest user registers for an account at the end of guest checkout.
+  def self.transfer_guest_user_values_to_registered_user(guest_user, current_user)
+    # Bypass transfer for normal user registration. 
+    if user_registration_after_guest_checkout?(guest_user)
+      current_user.save_stripe_customer_id(guest_user.stripe_customer_id)
+      current_user.create_credit_card(last4digits: guest_user.credit_card.last4digits, 
+                                      expiration_month: guest_user.credit_card.expiration_month,  
+                                      expiration_year: guest_user.credit_card.expiration_year)
+    end
+  end
+  
+  private
+  
+  # This is true only if someone registers after guest checkout is complete.
+  def self.user_registration_after_guest_checkout?(user)
+    user && user.credit_card
+  end
+  
+end
+```
+
+Comments above the methods make the traceability clear. Some of the methods are used by classes other than use case handler.
+
+Step 5
+-----
+
+Let's cleanup app/actors/customer/subscribe_to_a_plan.rb.
+
+```ruby
+module Actors
+  module Customer
+    module UseCases
+      
+      def self.subscribe_to_a_plan(user, stripe_token, plan_name)
+        customer = StripeGateway.create_subscription(user.email, stripe_token, plan_name)    
+        
+        StripeCustomer.save_subscription_details(user, customer, plan_name)
+      end      
+      
+    end
+  end
+end
+```
+
+Step 6
+-----
+
+Let's cleanup the app/controller/subscriptions_controller.rb.
+
+```ruby
+class SubscriptionsController < ApplicationController
+  def create    
+    begin      
+      @success = Actors::Customer::UseCases.subscribe_to_a_plan(current_user, 
+                                                                params[:stripeToken], 
+                                                                params[:plan_name])    
+      @plan_name = params[:plan_name]
+    rescue Striped::CreditCardDeclined => e
+      redisplay_form(e.message)
+    rescue Striped::CreditCardException, Exception => e
+      StripeLogger.error e.message
+      redisplay_form("Subscription failed. We have been notified about this problem.")
+    end
+  end
+end
+```
+
+Step 7
+-----
+
+Add a new test for checking the plan name is initialized for display in app/views/subscriptions/create.html.erb page.
+
+```ruby
+require 'rails_helper'
+
+describe SubscriptionsController do
+  
+  it 'should initialize the plan name to be displayed in create page' do 
+    sign_in   
+    allow(Actors::Customer::UseCases).to receive(:subscribe_to_a_plan) { true }
+
+    post :create, { stripeToken: '1', plan_name: 'gold'}
+    
+    expect(assigns(:plan_name)).to eq('gold')
+  end
+  
+end
+```
+
+You can download the entire source code for this article using the commit hash 4fce70f from git@bitbucket.org:bparanj/striped.git.
+
+Summary
+========
+--------
+
+In this article we cleaned up the code to make it easier to maintain subscription and update credit card expiration features.
