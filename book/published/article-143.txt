@@ -1,0 +1,291 @@
+
+Stripe Subscription and Checkout : Test Coverage using SimpleCov
+
+Objective
+=========
+---------
+
+To using SimpleCov to generate test coverage report for Stripe Subscription and Checkout codebase.
+
+Steps
+=====
+-----
+
+Step 1
+----
+
+Add the simplecov gem to Gemfile.
+
+```ruby
+group :test do
+  gem 'capybara'
+  gem 'selenium-webdriver'
+  gem 'database_cleaner'
+  gem 'simplecov', :require => false
+end
+```
+
+Run bundle install.
+
+Step 2
+----
+
+At the top of spec/spec_helper.rb, add the lines:
+
+```ruby
+require 'simplecov'
+SimpleCov.start
+```
+
+Step 3
+----
+
+Add
+
+```sh
+# :nocov: 
+```
+
+to private methods to be excluded from test coverage report.
+
+Step 4
+----
+
+Run tests with
+
+```sh
+$rake spec:models spec:controllers spec:gateways spec:features
+```
+
+Step 5
+----
+
+View the test coverage report on the browser.
+
+```sh
+$open coverage/index.html
+```
+
+By reviewing the coverage report, you can see some of the code is not being used anywhere. This dead code can be deleted with confidence. This confidence comes from our integration and unit tests.
+
+Step 6
+----
+
+Mark the private method in app/gateways/stripe_gateway.rb as 
+
+```sh
+:nocov: 
+```
+
+to exclude from coverage report.
+
+Step 7
+----
+
+Why is @error_message variable used in app/views/sales/new.html.erb and app/views/subscriptions/new.html.erb instead of flash error? Because there is a problem with testing flash with RSpec. The error is undefined method `error' for #<ActionDispatch::Flash::FlashHash.
+
+Step 8
+----
+
+How do you test helpers in the app/controllers/application_controller.rb that only sub-classes use? Create spec/controllers/application_controller_spec.rb.
+
+```ruby
+require 'rails_helper'
+
+describe ApplicationController, :type => :controller do
+
+  it "GET index returns http success" do
+    user = User.new
+    user.save(validate: false)
+    sign_in(user)
+    
+    expect(subject.current_or_guest_user.id).to eq(user.id)
+  end
+end
+```
+
+This test is for current_or_guest_user method in application_controller.rb.
+
+Step 9
+----
+
+Improvements and more tests for spec/controllers/subscriptions_controller_spec.rb.
+
+```ruby
+require 'rails_helper'
+
+describe SubscriptionsController do
+  
+  it 'should initialize plan name' do
+    get :new, {plan_name: 'gold'}
+    
+    expect(assigns(:plan_name)).to eq('gold')
+  end
+  
+  it 'should delegate creating stripe customer to stripe gateway' do 
+    sign_in   
+    expect(Actors::Customer::UseCases).to receive(:subscribe_to_a_plan) { true }
+  
+    post :create, { stripeToken: '1', plan_name: 'gold'}
+  end
+  
+  it 'should initialize the plan name to be displayed in create page' do 
+    sign_in   
+    allow(Actors::Customer::UseCases).to receive(:subscribe_to_a_plan) { true }
+  
+    post :create, { stripeToken: '1', plan_name: 'gold'}
+    
+    expect(assigns(:plan_name)).to eq('gold')
+  end
+  
+  it 'should display new page when exception occurs in create action due to credit card decline' do
+    allow(Actors::Customer::UseCases).to receive(:subscribe_to_a_plan) { raise Striped::CreditCardDeclined.new }
+    
+    post :create
+    
+    expect(response).to render_template(:new)  
+  end
+  
+  it 'should render the new page when exception occurs' do
+    allow(Actors::Customer::UseCases).to receive(:subscribe_to_a_plan) { raise Exception.new }
+    
+    post :create
+    
+    expect(response).to render_template(:new)  
+  end
+  
+  it 'should render the new page when credit card exception occurs' do
+    allow(Actors::Customer::UseCases).to receive(:subscribe_to_a_plan) { raise Striped::CreditCardException.new }
+    
+    post :create
+    
+    expect(response).to render_template(:new)  
+  end
+
+  it 'should initialize the error message when credit card exception occurs' do
+    allow(Actors::Customer::UseCases).to receive(:subscribe_to_a_plan) { raise Striped::CreditCardException.new }
+    
+    post :create
+    
+    expect(assigns(:error_message)).to eq('Subscription failed. We have been notified about this problem.')
+  end
+  
+end
+```
+
+Step 10
+----
+
+Improvements and more tests for spec/controllers/sales_controller_spec.rb
+
+```ruby
+require 'rails_helper'
+
+describe SalesController, :type => :controller do
+
+  it "returns http success" do
+    get :new
+    
+    expect(response).to be_success
+  end
+
+  it 'should display download page after one-click checkout' do 
+    user = User.new
+    user.save(validate: false)
+    sign_in(user)
+    allow(user).to receive(:has_saved_credit_card?) { true }   
+    allow(Actors::Customer::UseCases).to receive(:one_click_checkout) { true }
+
+    get :new
+    
+    expect(subject).to redirect_to(download_path)
+  end
+  
+  it 'should render the new page when exception occurs in new action' do    
+    user = User.new
+    user.save(validate: false)
+    sign_in(user)
+    allow(user).to receive(:has_saved_credit_card?) { true }
+    allow(Actors::Customer::UseCases).to receive(:one_click_checkout) { raise Striped::CreditCardDeclined.new }
+    
+    get :new
+    
+    expect(response).to render_template(:new)  
+  end
+
+  it 'should display new page when exception occurs' do
+    user = User.new
+    user.save(validate: false)
+    sign_in(user)
+    allow(user).to receive(:has_saved_credit_card?) { raise Exception.new }    
+    
+    get :new
+    
+    expect(response).to render_template(:new)  
+  end
+  
+  it 'should delegate guest checkout to use case handler' do 
+    sign_in   
+    expect(Actors::Customer::UseCases).to receive(:guest_checkout) { true }
+
+    post :create, { stripeToken: '1', plan_name: 'gold'}
+  end
+
+  it 'should render the new page when exception occurs in create action' do
+    allow(Actors::Customer::UseCases).to receive(:guest_checkout) { raise Striped::CreditCardDeclined.new }
+    
+    post :create
+    
+    expect(response).to render_template(:new)  
+  end
+
+  it 'should render the new page when exception occurs in create action' do
+    allow(Actors::Customer::UseCases).to receive(:guest_checkout) { raise Exception.new }
+    
+    post :create
+    
+    expect(response).to render_template(:new)  
+  end
+
+end
+```
+
+Step 11
+----
+
+Let's fix the deprecated warning app/controllers/stripe_controller.rb
+
+```ruby
+class StripeController < ApplicationController
+  protect_from_forgery except: :webhook
+  
+  SUBSCRIPTION_PAYMENT_FAILED = "invoice.payment_failed"
+  
+  def webhook    
+    StripeLogger.info "Received event with ID: #{params[:id]} Type: #{params[:type]}"
+
+    # Retrieving the event from the Stripe API guarantees its authenticity  
+    event = Stripe::Event.retrieve(params[:id])
+
+    if event.type == SUBSCRIPTION_PAYMENT_FAILED
+      stripe_customer_token = event.data.object.customer
+      user = User.where(stripe_customer_id: stripe_customer_token).first
+      
+      UserMailer.suscription_payment_failed(user).deliver_now
+    else
+      StripeLogger.info "Webhook received params.inspect. Did not handle this event."  
+    end  
+    
+    render text: "success"
+  end  
+  
+end
+```
+
+We are now using deliver_now to deliver the mail. I have also deleted the unused code in this project. You can download the entire source code for this article using the commit hash fa046a3 from git@bitbucket.org:bparanj/striped.git.
+
+Summary
+=======
+-------
+
+In this article you learned how to use SimpleCov to generate test coverage reports. You also learned some testing tips such as how to test helpers defined in the application controller.
