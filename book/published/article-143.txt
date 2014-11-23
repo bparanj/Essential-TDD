@@ -253,7 +253,7 @@ end
 Step 11
 ----
 
-Let's fix the deprecated warning app/controllers/stripe_controller.rb
+Create app/controllers/stripe_controller.rb 
 
 ```ruby
 class StripeController < ApplicationController
@@ -269,9 +269,7 @@ class StripeController < ApplicationController
 
     if event.type == SUBSCRIPTION_PAYMENT_FAILED
       stripe_customer_token = event.data.object.customer
-      user = User.where(stripe_customer_id: stripe_customer_token).first
-      
-      UserMailer.suscription_payment_failed(user).deliver_now
+      Actors::Stripe::UseCases.process_subscription_payment_failure(stripe_customer_token)
     else
       StripeLogger.info "Webhook received params.inspect. Did not handle this event."  
     end  
@@ -282,7 +280,45 @@ class StripeController < ApplicationController
 end
 ```
 
+Step 12
+----
+
+Create an empty stripe.rb in app/actors/stripe folder.
+
+Step 13
+----
+
+In config/application.rb
+
+```ruby 
+# Stripe System actor
+require_relative '../app/actors/stripe/use_cases/process_subscription_payment_failure'
+```
+
+Step 14
+----
+
+Let's fix the deprecated warning in app/actors/stripe/use_cases/process_subscription_payment_failure.rb
+
+```ruby
+module Actors
+  module Stripe
+    module UseCases
+      
+      def self.process_subscription_payment_failure(stripe_customer_token)
+        user = User.where(stripe_customer_id: stripe_customer_token).first
+
+        UserMailer.subscription_payment_failed(user).deliver_now
+      end      
+      
+    end
+  end
+end
+```
+
 We are now using deliver_now to deliver the mail. I have also deleted the unused code in this project. You can download the entire source code for this article using the commit hash fa046a3 from git@bitbucket.org:bparanj/striped.git.
+
+If you get the error 'An SMTP To address is required to send a message. Set the message smtp_envelope_to, to, cc, or bcc address.' Add email so that 'to' address gets set.
 
 Summary
 =======

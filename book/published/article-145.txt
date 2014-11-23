@@ -1,0 +1,364 @@
+Add New Credit Card using Stripe API
+
+Objective
+=====
+-----
+
+To add a new credit card to an existing customer. 
+
+Discussion
+=====
+-----
+
+In this article we will add a new credit card to an existing customer account. This new credit card will become the default card for one-click checkout and subscription charges.
+
+Steps
+=====
+-----
+
+Step 1
+-----
+
+Create credit_cards/new.html.erb
+
+```ruby
+<form action="create" method="POST" id="payment-form">
+  <span class="payment-errors">
+  	<noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+	</div>
+  </span>
+  <% if @error_message %>
+	<%= @error_message %>
+  <% end %>
+
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+
+  <div class="form-row">
+    <label>
+      <span>Card Number</span>
+      <input type="text" size="20" data-stripe="number"/>
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span>Expiration</span>
+<%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month", data: {stripe: "exp-month"}} %>
+
+    </label>
+    <span>/</span>
+	<%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year", data: {stripe: "exp-year"}} %>
+
+  </div>
+
+  <button type="submit">Add Credit Card</button>
+</form>
+```
+
+We are using the same form we have used before to capture credit card details.
+
+Step 2
+-----
+
+Create app/views/credit_cards/create.html.erb
+
+```ruby
+Your credit card ending in last 4 digits <%= @card.last4digits %> has been added.
+```
+
+Step 3
+-----
+
+Create app/controllers/credit_cards_controller.rb.
+
+```ruby
+class CreditCardsController < ApplicationController
+  layout 'stripe'
+  before_action :authenticate_user!
+  
+  def new
+  end
+  
+  def create
+    begin
+      @card = Actors::Customer::UseCases.add_new_credit_card(current_user, params[:stripeToken])
+    rescue Exception => e
+      StripeLogger.error "Add new credit card failed due to #{e.message}. #{e.backtrace.join("\n")}"
+      redisplay_form("Add new credit card failed. We have been notified about this problem.")
+    end
+  end
+  
+end
+```
+
+The create action delegates adding a new credit card to use case handler. 
+
+Step 4
+-----
+
+Create app/actors/customer/use_cases/add_new_credit_card.rb
+
+```ruby
+module Actors
+  module Customer
+    module UseCases
+      
+      def self.add_new_credit_card(user, stripe_token)
+        card = StripeGateway.add_new_credit_card(user.stripe_customer_id, stripe_token)
+              
+        # Update our database with last 4 digits, expiration date and month.          
+        StripeCustomer.save_credit_card_details(card, user)
+		card
+      end      
+      
+    end
+  end
+end
+```
+
+Step 5
+-----
+
+Add the add_new_credit_card use case handler in config/application.rb.
+
+```ruby
+require_relative '../app/actors/customer/use_cases/add_new_credit_card'
+```
+
+Step 6
+-----
+
+Add a new method to app/gateways/stripe_gateway.rb
+
+```ruby
+def self.add_new_credit_card(stripe_customer_id, stripe_token)
+  run_with_stripe_exception_handler('Add a new credit card failed due to') do
+    customer = Stripe::Customer.retrieve(stripe_customer_id)
+    card = customer.cards.create(card: stripe_token)
+    card.save
+    customer.default_card = card.id
+    customer.save
+    card
+  end
+end
+```
+
+The Stripe API is complicated for adding a new credit card to an existing customer. I decided to let the test hit the real Stripe servers for testing to avoid stubbing mess. This is shown in step 14.
+
+Step 7
+-----
+
+Add a new method to app/models/stripe_customer.rb
+
+```ruby
+# Use Case : Add New Credit Card
+def self.save_credit_card_details(card, user)
+  user.save_credit_card_details(card.last4, card.exp_month, card.exp_year)
+end
+```
+
+The mapping of external Stripe fields related to credit card to credit card fields in our database is done by stripe_customer.rb.
+
+Step 8
+-----
+
+Add a new method to user.rb.
+
+```ruby
+def save_credit_card_details(last4digits, expiration_month, expiration_year)
+  self.credit_card.save_credit_card_details(last4digits, expiration_month, expiration_year)
+end
+```
+
+Step 9
+-----
+
+Add the new method to credit_card.rb.
+
+```ruby
+def save_credit_card_details(last4digits, expiration_month, expiration_year)
+  self.last4digits = last4digits
+  self.expiration_month = expiration_month
+  self.expiration_year = expiration_year
+  self.save!
+end
+```
+
+Step 10
+-----
+
+Change config/routes.rb.
+
+```ruby
+get 'credit_cards/new'
+post 'credit_cards/create'
+```
+
+Step 11
+--------
+
+Create app/actors/customer/use_cases/add_new_credit_card.rb
+
+```ruby
+module Actors
+  module Customer
+    module UseCases
+      
+      def self.add_new_credit_card(user, stripe_token)
+        card = StripeGateway.add_new_credit_card(user.stripe_customer_id, stripe_token)
+              
+        # Update our database with last 4 digits, expiration date and month.          
+        StripeCustomer.save_credit_card_details(card, user)
+        card
+      end      
+      
+    end
+  end
+end
+```
+
+The use case handler delegates adding new credit card on Stripe server to StripeGateway class. It also delegates saving the credit card details in our database to StripeCustomer class. 
+
+Step 12
+--------
+
+Create spec/actors/customer/use_cases/add_new_credit_card_spec.rb.
+
+```ruby
+require 'rails_helper'
+
+describe 'Add new credit card' do
+  
+  it 'should delegate add a new card to stripe gateway class' do
+    user = double('User')
+    allow(user).to receive(:stripe_customer_id) { 1 }
+    allow(StripeCustomer).to receive(:save_credit_card_details)
+
+    expect(StripeGateway).to receive(:add_new_credit_card)
+
+    Actors::Customer::UseCases.add_new_credit_card(user, 'stripe-token')
+  end
+
+  it 'should delegate saving credit card details to stripe customer class' do
+    user = double('User')
+    allow(user).to receive(:stripe_customer_id) { 1 }
+    allow(StripeGateway).to receive(:add_new_credit_card)
+
+    expect(StripeCustomer).to receive(:save_credit_card_details)
+    
+    Actors::Customer::UseCases.add_new_credit_card(user, 'stripe-token')
+  end
+  
+end
+```
+
+Step 13
+--------
+
+Create spec/gateways/stripe_gateway_spec.rb.
+
+```ruby
+it 'adds a new credit card as the active default card on Stripe server' do
+  token = Stripe::Token.create(:card => {
+                                 :number    => "4242424242424242",
+                                 :exp_month => 11,
+                                 :exp_year  => 2025,
+                                 :cvc       => "314"})
+      
+  customer = Stripe::Customer.create(:card => token.id, :description => "stripe-gateway-test@example.com")
+
+  new_token = Stripe::Token.create(:card => {
+                                     :number => "4012888888881881",
+                                     :exp_month => 10,
+                                     :exp_year => 2035,
+                                     :cvc => "123"})
+  
+  card = StripeGateway.add_new_credit_card(customer.id, new_token.id)
+  expect(card).to be_instance_of(Stripe::Card)
+end
+```
+
+Step 14
+--------
+
+Create spec/models/credit_card_spec.rb
+
+```ruby
+require 'rails_helper'
+
+describe CreditCard, :type => :model do
+  it 'saves credit card details' do
+    cc = CreditCard.new
+    cc.save_credit_card_details('1234', 2, 2020)
+    
+    expect(cc.last4digits).to eq('1234')
+    expect(cc.expiration_month).to eq(2)
+    expect(cc.expiration_year).to eq(2020)
+  end
+end
+```
+
+Step 15
+----
+
+Add the controller test for adding a new credit card to spec/controllers/credit_cards_controller_spec.rb.
+
+```ruby
+it 'should delegate adding a new credit card to use case handler' do
+  User.create(email: 'bugs@disney.com', password: '12345678')
+  user = User.last
+  sign_in(user)   
+  
+  expect(Actors::Customer::UseCases).to receive(:add_new_credit_card)    
+  
+  post :create, {stripeToken: 1}
+end
+```
+
+Step 16
+-----
+
+Let's fix the deprecated warning: 
+
+```sh
+`named_routes.helpers` is deprecated, please use `route_defined?(route_name)` to see if a named route was defined.
+```
+
+Update the rspec-rails to 3.1. Change the version in Gemfile.
+
+```ruby
+group :development, :test do
+  gem 'rspec-rails', '~> 3.1'
+end
+```
+
+Run bundle install.
+
+Step 17
+-----
+
+You can use the following test credit cards for testing.
+
+4242424242424242    Visa
+4012888888881881    Visa
+5555555555554444	MasterCard
+378282246310005		American Express
+371449635398431		American Express
+6011111111111117	Discover
+6011000990139424	Discover
+30569309025904		Diners Club
+38520000023237		Diners Club
+3530111333300000	JCB
+3566002020360505	JCB
+
+You can download the entire source code for this article using the commit hash a3e98ce from git@bitbucket.org:bparanj/striped.git.
+ 
+Summary
+=======
+-------
+
+In this article, we developed a new feature to allow users to add a new credit to be used for all purchases and subscription charges.
+
+Stripe Google Group Discussion
+
+https://groups.google.com/a/lists.stripe.com/forum/#!topic/api-discuss/HceFv3xqdJA
