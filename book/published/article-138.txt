@@ -1,0 +1,75 @@
+Stripe Webhook Testing in Development
+
+Objective
+==========
+----------
+
+Learn how to test Stripe webhook in development.
+
+Steps
+======
+------
+
+Step 1
+-----
+
+Signup for [UltraHook](http://www.ultrahook.com/register 'UltraHook')
+
+Remember the Webhook Namespace field that you use when you signup. You need to plugin that value to the following endpoints:
+
+```sh
+https://github.namespace.ultrahook.com
+https://stripe.namespace.ultrahook.com
+```
+
+Step 2
+-----
+
+Save the API Key:
+
+```sh
+echo 'api_key: kwqoZcQ29d1N7wqIfyYepxIbT5ovtjWs' > ~/.ultrahook 
+```
+
+Step 3
+-----
+
+Install ultrahook. Add ultrahook to development group in Gemfile.
+
+```sh
+gem install ultrahook
+```
+
+Step 4
+----
+
+Register your Webhook endpoint with Stripe. Go to your Stripe account, Account Settings -> Webhooks. Enter:
+
+```sh
+https://stripe.namespace.ultrahook.com
+```
+
+in the URL field. Remember to replace the namespace with your namespace that you used when you signed up for ultrahook. Leave the drop-down box with 'Test' as it is and click 'Create Webhook URL'.
+
+Step 5
+----
+
+To forward requests from:
+
+https://stripe.YOUR-NAMESPACE.ultrahook.com --> http://localhost:3000/stripe-webhooks 
+
+In a terminal, run:
+
+```ruby
+ultrahook stripe http://localhost:3000/stripe-webhooks
+``` 
+
+References
+===========
+-----------
+
+[How to listen to Stripe webhooks and use them in your dev environment](http://blog.crowdint.com/2014/04/11/how-to-listen-to-stripe-webhooks-and-use-them-in-your-dev-environment.html 'How to listen to Stripe webhooks and use them in your dev environment')
+[Stripe Webhooks](https://stripe.com/docs/webhooks 'Webhooks')
+[How to Respond to Appropriate Stripe.com ‘events’](http://imzank.com/2012/11/how-to-use-stripe-com-to-email-your-customers/ 'How to Respond to Appropriate Stripe.com ‘events’')
+[Email Receipts](https://stripe.com/blog/email-receipts 'Email Receipts')
+[The Stripe Webhook Event Cheatsheet](https://www.petekeen.net/stripe-webhook-event-cheatsheet 'The Stripe Webhook Event Cheatsheet')
