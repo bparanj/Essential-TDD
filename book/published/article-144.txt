@@ -1,0 +1,334 @@
+Integrating Twitter Bootstrap 3.3 with Rails 4.2 
+
+Objective
+=========
+---------
+
+To learn how to integrate Twitter Bootstrap 3.3 with Rails 4.2.
+
+Steps
+=====
+-----
+
+Step 1
+------
+
+```ruby
+gem 'bootstrap-sass', '~> 3.3.1'
+```
+
+If you skip this step, you will get the error: File to import not found or unreadable: bootstrap-sprockets. Rails 4.2 automatically adds the sass-rails gem to the Gemfile.
+
+```ruby
+gem 'sass-rails', github: 'rails/sass-rails'
+```
+
+Step 2
+------
+
+It is also recommended to use [Autoprefixer](https://github.com/ai/autoprefixer-rails) with Bootstrap to add browser vendor prefixes automatically. Simply add the gem:
+
+```ruby
+gem 'autoprefixer-rails'
+```
+
+to Gemfile.
+
+Step 3
+------
+
+Run `bundle install` and restart your server to make the files available through the asset pipeline.
+
+Step 4
+-------
+
+Import Bootstrap styles in `app/assets/stylesheets/application.css.scss`:
+
+```scss
+// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+@import "bootstrap-sprockets";
+@import "bootstrap";
+```
+
+`bootstrap-sprockets` must be imported before `bootstrap` for the icon fonts to work.
+
+Step 5
+------
+
+Make sure the file has `.css.scss` extension for Sass syntax. If you have just generated a new Rails app, it may come with a `.css` file instead. If this file exists, it will be served instead of Sass, so rename the `app/assets/stylesheets/application.css` to `app/assets/stylesheets/application.css.scss`.
+
+Step 6
+------
+
+Require Bootstrap Javascripts in `app/assets/javascripts/application.js`:
+
+```js
+//= require jquery
+//= require bootstrap-sprockets
+//= require jquery_ujs
+//= require turbolinks
+//= require_tree .
+```
+
+Step 7
+--------
+
+Bootstrap makes use of certain HTML elements and CSS properties that require the use of the HTML5 doctype. Include it at the beginning of all the layout files and any views that has html tag.
+
+```html
+<!DOCTYPE html>
+<html lang='en'>
+
+</html>
+```
+
+Update the application.html.erb with the minimal Bootstrap document.
+
+```ruby
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Striped</title>
+	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+	<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  
+	<%= javascript_include_tag 'https://js.stripe.com/v2/' %>
+  
+	<%= csrf_meta_tags %>
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+	<p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    
+    <h1>Hello, Twitter Bootstrap</h1>
+	<ul class="hmenu">
+	  <%= render 'devise/menu/registration_items' %>
+	  <%= render 'devise/menu/login_items' %>
+	</ul>
+
+	<%= yield %>
+	
+  </body>
+</html>
+```
+
+Step 8
+------
+
+Start the rails server and go to the welcome page. You should see 'Hello, Twitter Bootstrap'.
+
+Step 9
+-------
+
+Create app/views/shared/_navigation_bar.html.erb.
+
+```html
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+```
+
+This is copied from Twitter Bootstrap 3.3 Documentation.
+
+Step 10
+-------
+
+Add `<%= render 'shared/navigation_bar' %>` to the app/views/application.html.erb. The navigation bar has a gap at the top. Let's fix it now. Add `navbar-fixed-top` to the nav class.
+
+```html
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+```
+
+Reload the page and the navigation bar will now stay at the top.
+
+Step 11
+-------
+
+Let's add the Login and Logout links to the navigation.
+
+```ruby
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  <ul class="nav navbar-nav">
+	<% if user_signed_in? %>
+	  <li class='active'>
+	  	<%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
+	  </li>
+	<% else %>
+	  <li class='active'>
+	  <%= link_to('Login', new_user_session_path)  %>  
+	  </li>
+	<% end %>
+
+</div>
+```
+
+Delete the app/views/devise/menu/_login_items.html.erb file. Reload the browser, the first link after the brand will be Logout if you are already logged in otherwise it will be Login.
+
+Step 12
+-------
+
+The main content for the page has no gap to the left. Let's fix it now. Edit the application.html.erb file to wrap the `yield' with div tag with class container. This class is provided by the Twitter Bootstrap 3.3.
+
+```ruby
+<div class='container'>
+	<%= yield %>
+</div>
+```
+
+Reload the page, now the main content will be displayed with a gap at the left of the browser.
+
+Step 13
+-------
+
+Let's add the Register and Edit Registration link to the navigation bar. Change the application.html.erb.
+
+```ruby
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  <ul class="nav navbar-nav">
+	<% if user_signed_in? %>
+	  <li class='active'>
+	  	<%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
+	  </li>
+	  <li>
+	  	<%= link_to('Edit Registration', edit_user_registration_path) %>
+	  </li>
+	<% else %>
+	  <li class='active'>
+	  <%= link_to('Login', new_user_session_path)  %>  
+	  </li>
+	  <li>
+	  <%= link_to('Register', new_user_registration_path)  %>
+	  </li>
+	<% end %>
+```
+
+Reload the page on the browser, you will now see the link Register next to Login if you are not logged in otherwise Edit Registration after Logout. You can delete the app/views/devise/_registration_items.html.erb file.
+
+Step 14
+--------
+
+Let's change the button to use Twitter Bootstrap button for login page. Edit the app/views/devise/sessions/new.html.erb.
+
+```ruby
+<div class="actions">
+  <%= f.submit "Log in", class: 'btn btn-primary' %>
+</div>
+```
+
+Click on the Login in the navigation. You will now see a blue button for login.
+
+Step 15
+--------
+
+Let's highlight the tab that is selected in the navigation bar. Create a nav_link helper in application_helper.rb.
+
+```ruby
+module ApplicationHelper
+  def nav_link(link_text, link_path, http_method=nil)
+    class_name = current_page?(link_path) ? 'active' : ''
+
+    content_tag(:li, class: class_name) do
+      if http_method
+        link_to(link_text, link_path, method: http_method)
+      else
+        link_to(link_text, link_path)
+      end
+    end
+  end
+end
+```
+
+Step 16
+--------
+
+Change the navigation bar in app/views/shared/_navigation_bar.html.erb.
+
+```ruby
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  <ul class="nav navbar-nav">
+	<%= nav_link 'Home', root_path %>		  
+	
+	<% if user_signed_in? %>
+	  <%= nav_link 'Logout', destroy_user_session_path, :delete %>
+	  <%= nav_link 'Edit Registration', edit_user_registration_path %>		  
+	<% else %>
+	  <%= nav_link 'Login', new_user_session_path %>
+	  <%= nav_link 'Register', new_user_registration_path %>
+	<% end %>
+```
+
+
+All the views are now styled to use Twitter Bootstrap 3 button. You can download the entire source code for this article using the commit hash 422aa79 from git@bitbucket.org:bparanj/striped.git. You can refer the Rails Guides on [Layouts and Rendering in Rails](http://guides.rubyonrails.org/layouts_and_rendering.html 'Layouts and Rendering in Rails') to learn more.
+
+Summary
+=======
+-------
+
+In this article, we styled our Rails 4.2 Striped project using Twitter Bootstrap 3.3. We centered the main content for the site and customized the navigation bar.
+
+References
+===========
+-----------
+
+[Best way to add current class to nav in Rails 3](http://stackoverflow.com/questions/3705898/best-way-to-add-current-class-to-nav-in-rails-3 'Best way to add current class to nav in Rails')
+[Official Sass port of Twitter Bootstrap](https://github.com/twbs/bootstrap-sass 'Official Sass port of Twitter Bootstrap')
+[Twitter Bootstrap 3.3 Documentation](http://getbootstrap.com/css/#buttons 'Twitter Bootstrap 3.3 Documentation')
