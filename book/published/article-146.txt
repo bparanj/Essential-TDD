@@ -1,0 +1,125 @@
+Free Themes for Twitter Bootstrap using Bootswatch
+
+Objective
+==========
+----------
+
+To learn how to change the theme using Bootswatch
+
+Discussion
+=========
+----------------
+
+We will continue working on the Striped project to learn how to use Bootswatch.
+
+Steps
+=====
+-----
+
+Step 1
+-----
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'bootswatch-rails'
+```
+
+Step 2
+-----
+
+Execute:
+
+```sh
+$bundle
+```
+
+Step 3
+-----
+
+Change application.css.scss:
+
+```ruby
+// First import cerulean variables
+@import "bootswatch/cerulean/variables";
+// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+// And finally bootswatch style itself
+@import "bootswatch/cerulean/bootswatch";
+```
+
+Problem: If you get the error `Sass::SyntaxError: File to import not found or unreadable: bootswatch/cerulean/variables.` The fix : Do not add the bootswatch-rails to assets group. It is not part of any group. If you still have the same problem, restart the server.
+
+Step 4
+-----
+
+Let's make the form pretty. Let's copy the html for [cerulean theme](http://bootswatch.com/cerulean/ 'cerulean') and change our registration form in app/views/devise/registrations/new.html.erb as follows:
+
+```ruby
+<%= devise_error_messages! %>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form-horizontal' }) do |f| %>
+  <fieldset>
+	<legend>Signup</legend>
+        
+  <div class="form-group">
+    <%= f.label :email, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-4">
+      <%= f.email_field :email, autofocus: true, size: 10, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :password, class: 'col-lg-2 control-label' %>
+    <div class="col-lg-4">
+      <%= f.password_field :password, autocomplete: "off", size: 25, class: "form-control" %> <em>(8 characters minimum)</em>
+	</div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-lg-10 col-lg-offset-2">
+	  <%= f.submit "Sign Up", class: 'btn btn-primary' %>	
+    </div>
+  </div>
+
+  </fieldset>
+<% end %>
+```
+
+You can read the [Bootstrap CSS docs](http://getbootstrap.com/css/ '') for more details on the classes I have customized from the cerulean theme.
+
+Step 5
+-----
+
+To change the theme replace the 'cerulean' with the new theme name in application.css.scss file. For example, to use spacelab theme:
+
+```ruby
+// First import spacelab variables
+@import "bootswatch/spacelab/variables";
+// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+@import "bootstrap-sprockets";
+@import "bootstrap";
+// Bootstrap body padding for fixed navbar
+body { padding-top: 60px; }
+
+// And finally bootswatch style itself
+@import "bootswatch/spacelab/bootswatch";
+```
+
+Reload the browser to see the new theme. You can download the entire source code for this article using the commit hash 5a874cf from git@bitbucket.org:bparanj/striped.git.
+
+
+Summary
+==========
+----------
+
+In this article, we customized the theme of our site using Bootswatch themes. It is easy to switch to a new theme by importing the desired theme in application stylesheet file.
+
+References
+==========
+----------
+
+[Bootswatches converted to SCSS ready to use in Rails asset pipeline.](https://github.com/maxim/bootswatch-rails 'Bootswatches converted to SCSS ready to use in Rails asset pipeline.')
+[Bootswatche Spacelab Theme](http://bootswatch.com/spacelab/ 'Bootswatche Spacelab Theme')
