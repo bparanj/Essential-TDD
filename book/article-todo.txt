@@ -1,11 +1,10 @@
 
-0. Hand drawn diagrams for CAP Theorem. Good explanation of CAP. ACID. Revise article-99 (MongoDB Basics)
-
-1. Find the image for double dispatch and add it to angry rock kata : article 28
-2. Create and Scan Red, Green, Refactor diagram.
-3. Article 7 : Insert the simplified version of the Red, Green, Refactor diagram.
-4. Look at the book for the notes for article 50.
-5. Article on 'How to integrate front end code to Rails'.
+1. Article on 'How to integrate front end code to Rails'.
+2. Hand drawn diagrams for CAP Theorem. Good explanation of CAP. ACID. Revise article-99 (MongoDB Basics)
+3. Find the image for double dispatch and add it to angry rock kata : article 28
+4. Create and Scan Red, Green, Refactor diagram.
+5. Article 7 : Insert the simplified version of the Red, Green, Refactor diagram.
+6. Look at the book for the notes for article 50.
 
 
 You can download the entire source code for this article using the commit hash 4fce70f from git@bitbucket.org:bparanj/striped.git.
@@ -30,7 +29,6 @@ feature 'One Click Checkout' do
     
   end
 end
-
 
 
 https://stackoverflow.com/questions/26925494/whats-wrong-with-my-solution
@@ -83,3 +81,127 @@ zepho-mac-pro:minitest zepho$ ruby -I test:lib -rminitest/pride test/product_tes
 
 http://blog.teamtreehouse.com/short-introduction-minitest
 http://www.sitepoint.com/minitest-shoulda/
+
+
+
+
+
+Send an email to a subscribed customer few weeks before the credit card expires to prompt them to update their credit card expiration date.
+
+Send email to subscribed users about expiring credit cards to prompt them to update their credit card expiration date.
+
+
+
+Listen for: invoice.payment_failed
+Email:
+
+Subject Of Email: Payment to [YOUR BUSINESS NAME] Failed
+Body Of Email:
+
+Oops! Your latest payment failed to go through. Please log on to [YOUR BUSINESS NAME] and update your credit card info to keep your subscription active. The details are included below.
+
+======================================
+RECEIPT #: [RECEIPT ID]
+
+Bill to:
+[NAME ON CC]
+
+[PLAN LEVEL NAME] – [START DATE] to [END DATE]
+
+Total: $[SUBSCRIPTION AMOUNT]
+
+======================================
+NEED TO CANCEL:
+======================================
+
+If you don’t need [YOUR BUSINESS NAME] anymore, go to
+[URL TO YOUR CANCELLATION PAGE]
+and cancel at any time.
+
+OPTIONAL: We do not offer refunds for
+previous payments, but once you cancel, you will not be
+charged again.
+
+If you have any questions, please reply to [CUSTOMER SERVICE EMAIL]
+
+– YOUR COMPANY NAME
+
+
+
+def stripehook
+  if params[:type] == "invoice.payment_failed"
+    @user = User.find(:first, :conditions => ["stripe_id = ?", params[:data][:object]["customer"]])
+    if @user != nil and @user.stripe_id != nil
+      if @user.payment_failed_times < 3
+        @user.payment_failed_times += 1
+        UserMailer.deliver_card_expired_warning(@user) #send expiring email
+      else
+        @user.paid = "n"
+        UserMailer.deliver_card_expired(@user) #send expired email
+      end
+      @user.save
+    end
+  elsif params[:type] == "invoice.payment_succeeded"
+    @user = User.find(:first, :conditions => ["stripe_id = ?", params[:data][:object]["customer"]])
+    if @user != nil and @user.stripe_id != nil
+      if @user.payment_failed_times > 0
+        @user.payment_failed_times = 0
+        @user.paid = "y"
+        UserMailer.deliver_email_receipt(@user, params[:data][:object]["id"], params[:data][:object]["amount_due"])
+      else #normal payment, no need to reactivate
+        UserMailer.deliver_email_receipt(@user, params[:data][:object]["id"], params[:data][:object]["amount_due"])
+      end
+      @user.save
+    end
+  end
+end
+
+
+
+Any subsequent payment is processed
+
+Listen for: charge.succeeded
+Email:
+
+Subject Of Email: Payment Received – Thank You (or ‘Online Recurring Payment’)
+Body Of Email:
+
+Thanks for using [YOUR COMPANY NAME]
+
+This is your receipt for your [PLAN LEVEL NAME] plan for [CLIENT NAME].
+
+======================================
+RECEIPT #: [RECEIPT ID]
+
+Bill to:
+[NAME ON CC]
+
+[PLAN LEVEL NAME] – [START DATE] to [END DATE]
+
+Total: $[SUBSCRIPTION AMOUNT]
+
+Your next billing date will be [NEXT BILLING DATE].
+
+If you have any questions, please reply to [CUSTOMER SERVICE EMAIL]
+
+– YOUR COMPANY NAME
+
+
+
+
+
+User updates credit card information
+
+Listen for: customer.updated
+Email:
+
+Subject Of Email: Updated Payment Information
+Body Of Email:
+
+Changes were made recently to your [YOUR BUSINESS NAME] billing information.
+
+You can login to view this changes here [YOUR URL].
+
+If you did not make these changes, please contact us immediately at [BILLING @ YOUR CO. EMAIL]
+
+– YOUR COMPANY NAME

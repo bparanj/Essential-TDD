@@ -64,6 +64,70 @@ In a terminal, run:
 ultrahook stripe http://localhost:3000/stripe-webhooks
 ``` 
 
+Sending Email Reminders to Customers
+==============
+--------------
+
+Let's jot down the sequence of steps required to send email reminder to customers if their credit card is about to expire.
+
+```ruby
+desc 'Send email reminder to customers if credit card is about to expire'
+namespace :stripe do
+
+  task :cc_expiration_reminder => :environment do
+    1. Get all credit cards for this year
+    2. Create expiration date from credit_cards table for each credit card
+      > expiration_date = DateTime.new(2014, 12,1)
+        => Mon, 01 Dec 2014 00:00:00 +0000 
+    3. today = DateTime.now
+    	 => Sun, 23 Nov 2014 23:42:40 -0800 
+    4. checker = today + 30.days
+    	 => Tue, 23 Dec 2014 23:42:40 -0800 
+    5. Check if the credit card is about to expire
+       if checker > expiration_date
+         user = User.where(user_id: credit_card.user_id).first
+         # Send an email reminder to update credit card expiration date.
+         UserMailer.subscription_payment_failed(user).deliver_now
+         # TODO : Mark reminder email sent to avoid sending emails everyday.
+       end
+  end
+
+end
+```
+
+After some rearranging of the steps, here is the rake task.
+
+```ruby
+
+desc 'Send email reminder to customers if credit card is about to expire'
+namespace :stripe do
+
+  task :cc_expiration_reminder => :environment do
+    today = DateTime.now
+    checker = today + 30.days
+    
+    cards = CreditCard.where(expiration_year: Date.today.year)
+    cards.each do |card|
+      # Assume 1, since we don't capture the day.
+      expiration_date = DateTime.new(card.expiration_year, card.expiration_month, 1)  
+      if checker > expiration_date
+        user = User.where(user_id: card.user_id).first
+        # Send an email reminder to update credit card expiration date. The message is same as subscription payment failed.
+        UserMailer.subscription_payment_failed(user).deliver_now
+        # TODO : Mark reminder email has been sent to avoid sending emails everyday to the same user.
+      else
+        puts "Card : #{card.inspect} is not about to expire"
+        puts "Expiration date is : #{expiration_date}"
+        puts "Checker is : #{checker}"
+      end
+    end
+  end
+
+end
+```
+
+You can add reminder_email_sent and reminder_email_sent_date to credit_cards table to avoid sending emails everytime the rake task is run.
+
 References
 ===========
 -----------

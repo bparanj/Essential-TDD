@@ -332,3 +332,7 @@ References
 [Best way to add current class to nav in Rails 3](http://stackoverflow.com/questions/3705898/best-way-to-add-current-class-to-nav-in-rails-3 'Best way to add current class to nav in Rails')
 [Official Sass port of Twitter Bootstrap](https://github.com/twbs/bootstrap-sass 'Official Sass port of Twitter Bootstrap')
 [Twitter Bootstrap 3.3 Documentation](http://getbootstrap.com/css/#buttons 'Twitter Bootstrap 3.3 Documentation')
+[Using Bootstrap with Rails 3](http://rvg.me/2013/11/using-bootstrap-3-with-rails-4/ 'Using Bootstrap with Rails 3')
+[Integrating Rails and Bootstrap Part 1](http://www.gotealeaf.com/blog/integrating-rails-and-bootstrap-part-1 '' )
+[Using Twitter Bootstrap 3 with Rails](https://www.youtube.com/watch?v=oq-HNuxFPdE 'Using Twitter Bootstrap 3 with Rails')
+[Twitter Bootstrap 3 in a Rails 4 application](http://www.erikminkel.com/2013/09/01/twitter-bootstrap-3-in-a-rails-4-application/ 'Twitter Bootstrap 3 in a Rails 4 application')

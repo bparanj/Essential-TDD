@@ -10,9 +10,7 @@ function(doc) {
 }
 ```
 
-By default, you see the language is javascript. Click 'Run' button, you can see the result on the browser. You will see three documents. 
-
-This map function takes one parameter called doc. Our map function calls the emit(key, value) function with doc._id and doc as the arguments.
+By default, you see the language is javascript. Click 'Run' button, you can see the result on the browser. You will see three documents. This map function takes one parameter called doc. Our map function calls the emit(key, value) function with doc._id and doc as the arguments.
 
 3
 
