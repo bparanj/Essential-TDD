@@ -1,0 +1,110 @@
+
+Objective
+=========
+---------
+
+To use checkout.js to make a purchase.
+
+Discussion
+=====
+-----
+
+Stripe makes purchase easy by using checkout.js. The only downside is the testing becomes a bit difficult due to the modal dialog. So there is a tradeoff between easy payment vs difficult of testing. I had run into problems centering the payment form when using the stripe.js.  
+
+Steps
+=====
+-----
+
+Step 1
+-----
+
+Update Gemfile.
+Following gem installation is a hassle on Mac. Install Nodejs instead.
+
+```ruby
+gem 'libv8', '3.16.14.7'
+gem 'therubyracer', '~> 0.12.0'
+```
+
+Step 2
+-----
+
+In app/controllers/sales_controller.rb remove `layout 'stripe'`. We want to center the payment form, so we will use application.html.erb file. 
+
+Step 3
+-----
+
+Let's load the product to buy in the new action, `@product = Product.find(params[:id])'. The app/controllers/sales_controller.rb :
+
+```ruby
+def new
+  begin
+    user = current_or_guest_user
+    if user.has_saved_credit_card?
+      Actors::Customer::UseCases.one_click_checkout(user, params[:id])
+              
+      redirect_to download_path
+    else
+      @product = Product.find(params[:id])
+      session[:product_id] = params[:id]
+    end
+  rescue Striped::CreditCardDeclined => e
+    redisplay_form(e.message)
+  rescue Exception => e
+    StripeLogger.error "One Click Checkout failed due to #{e.message}. #{e.backtrace.join("\n")}"
+    redisplay_form("Checkout failed. We have been notified about this problem.")
+  end
+end
+```
+
+Step 4
+-----
+
+Let's change the app/views/products/show.html.erb to use checkout.js:
+
+```ruby
+<%= form_tag sales_create_path do %>
+  <article>
+    <label class="amount">
+	  <h2><%= @product.name %></h2>
+      <span>Price: <%= number_to_currency(@product.price) %></span>
+    </label>
+  </article>
+
+  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="<%= STRIPE_PUBLIC_KEY %>"
+          data-description="<%= @product.name %>"
+          data-amount="<%= Product.price_in_cents_for(@product.id) %>"
+		  data-label='Buy Now'
+		  data-allow-remember-me="false">
+  </script>
+<% end %>
+```
+
+Step 5
+-----
+
+You can delete the app/views/sales/new.html.erb. Because the products show page now has the details about the product for purchase.
+
+Next Steps
+===========
+-----------
+
+As soon as the purchase is complete, we can prompt the customer to register. The registration form can pre-populate the email address so that only password is required to create an account. This involves transferring the Devise guest user values to a user record in our users table. The new user record will have the stripe_customer_id that we got from Stripe servers.
+
+To increase signups, since we have the email when someone makes a purchase, we can send an email to the customer and provide a link to set a password for their account. 
+
+Summary
+===========
+-----------
+
+In this article, we resolved the problem centering the payment form by using checkout.js. The checkout.js also simplifies the payment flow by validating the credit card and fields. 
+
+References
+===========
+-----------
+
+[Stripe Checkout Rails Example](https://stripe.com/docs/checkout/guides/rails 'Stripe Checkout Rails Example')
+[Using Stripe Checkout for Subscriptions](https://www.petekeen.net/using-stripe-checkout-for-subscriptions 'Using Stripe Checkout for Subscriptions')
+[A Journey in Payment World](http://blog.8thcolor.com/en/2013/12/a-journey-in-payment-world-part-2-the-only-part-you-need/ 'Payments')
+
