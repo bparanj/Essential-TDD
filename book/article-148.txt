@@ -1,0 +1,277 @@
+
+
+
+
+Steps
+=====
+-----
+
+Step 1
+-----
+
+Update Gemfile.
+Following gem installation is a hassle on Mac. Install Nodejs instead.
+
+```ruby
+gem 'libv8', '3.16.14.7'
+gem 'therubyracer', '~> 0.12.0'
+```
+
+Step 
+-----
+
+In app/controllers/registrations_controller.rb
+
+```ruby
+class RegistrationsController < Devise::RegistrationsController
+  
+  def new
+    super
+  end
+  
+  def create
+    user = current_or_guest_user
+    Actors::Customer::UseCases.register_for_an_account(user, params[:user][:email], params[:user][:password])
+    sign_in(user)
+    
+    flash.notice = 'You have signed up'
+      
+    if new_registration_without_purchase?
+      root_path
+    else
+      download_path
+    end
+  end  
+  
+  private
+  
+  def new_registration_without_purchase?
+    session[:guest_checkout].blank?
+  end
+  
+end
+```
+
+The 'session[:guest_checkout].blank?' checks if the flow is for a new user registration who has not bought anything yet. The else condition handles the customer registration after a guest_checkout, so that they can download the purchased product.
+
+Step 
+-----
+
+There is not change to the new action in app/controllers/sales_controller.rb.
+
+```ruby
+def new
+  begin
+    user = current_or_guest_user
+    if user.has_saved_credit_card?
+      Actors::Customer::UseCases.one_click_checkout(user, params[:id])
+              
+      redirect_to download_path
+    else
+      session[:product_id] = params[:id]
+    end
+  rescue Striped::CreditCardDeclined => e
+    redisplay_form(e.message)
+  rescue Exception => e
+    StripeLogger.error "One Click Checkout failed due to #{e.message}. #{e.backtrace.join("\n")}"
+    redisplay_form("Checkout failed. We have been notified about this problem.")
+  end
+end
+```
+
+Step 
+-----
+
+The create action in app/controllers/sales_controller.rb now initializes the session[:guest_checkout] to 1 to mark the guest checkout flow.
+
+```ruby
+def create    
+   begin
+     user = current_or_guest_user
+     session[:guest_checkout] = 1
+     Actors::Customer::UseCases.guest_checkout(session[:product_id], params[:stripeToken], user)
+   rescue Striped::CreditCardDeclined => e
+     redisplay_form(e.message)
+   rescue Exception => e
+     StripeLogger.error "Guest checkout failed due to #{e.message}. #{e.backtrace.join("\n")}"
+     redisplay_form("Checkout failed. We have been notified about this problem.")
+   ensure
+     session[:product_id] = nil
+     session[:guest_checkout] = nil
+     WILL THIS RUN IF THERE IS NO EXCEPTION INSIDE THE BEGIN BLOCK? WE DON'T WANT TO CLEAR THIS BEFORE THE CUSTOMER EITHER CLICKS 'CREATE A NEW ACCOUNT NOW' OR 'NO THANKS, TAKE ME TO MY DOWNLOAD' LINK.
+   end
+ end
+```
+
+For the flow that is part of guest_checkout we set the session variable flag to 1. This is used in registrations controller to redirect the customer to the appropriate page based on whether they signed up at the end of guest checkout process. So the create action in registrations controller can handle a new user registration who has not bought anything yet. It can also handle someone who purchases a product as a guest and signs up for an account at the end of the purchase flow.
+
+
+Step 
+-----
+
+In app/models/stripe_customer.rb.
+
+def self.save_credit_card_and_stripe_customer_id(customer, user)
+  last4digits = customer.cards.data[0].last4
+  expiration_month = customer.cards.data[0].exp_month
+  expiration_year = customer.cards.data[0].exp_year
+  user.email = "guest_#{Time.now.to_i}#{rand(100)}@example.com"
+      
+  user.save_stripe_customer_id(customer.id)
+  user.create_credit_card(last4digits: last4digits, 
+                          expiration_month: expiration_month, 
+                          expiration_year: expiration_year)
+end
+
+Since we are creating a guest user in our database even before a customer provides us an email during the guest checkout process, the guest user record will fail to save in the database due to NOT NULL constraint in MySQL database for email. So we generate a random email. This email will be updated if the guest user signs up for an account at the end of guest checkout. 
+
+Step 
+-----
+
+In user.rb.
+
+def save_stripe_customer_id(sci)
+  self.stripe_customer_id = sci
+  save(validate: false)                
+end
+
+WHAT IS THE REASON FOR BYPASSING THE VALIDATION HERE?
+
+Step 
+-----
+
+registrations/new
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form-horizontal' }) do |f| %>
+  <fieldset>
+	<legend>Register</legend>
+        
+  <div class="form-group">
+    <%= f.label :email, class: 'col-lg-1 control-label' %>
+    <div class="col-lg-2">
+      <%= f.email_field :email, value: @email, autofocus: true, size: 10, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :password, class: 'col-lg-1 control-label' %>
+    <div class="col-lg-2">
+      <%= f.password_field :password, autocomplete: "off", size: 25, class: "form-control" %> <em>(8 characters minimum)</em>
+	</div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-lg-10 col-lg-offset-1">
+	  <%= f.submit "Sign Up", class: 'btn btn-primary' %>	
+    </div>
+  </div>
+
+  </fieldset>
+<% end %>
+
+Step 
+-----
+
+
+app/views/credit_cards/new.html.erb
+<form action="create" method="POST" id="payment-form">
+  <span class="payment-errors">
+  	<noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+  </span>
+  <% if @error_message %>
+	<%= @error_message %>
+  <% end %>
+
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+
+  <div class="form-row">
+    <label>
+      <span>Card Number</span>
+      <input type="text" size="20" data-stripe="number"/>
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span>Expiration</span>
+<%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month", data: {stripe: "exp-month"}} %>
+
+    </label>
+    <span>/</span>
+	<%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year", data: {stripe: "exp-year"}} %>
+
+  </div>
+
+  <button type="submit" class='btn btn-primary'>Add Credit Card</button>
+</form>	
+
+THIS NEEDS CSS MAGIC
+
+
+Step 
+-----
+
+app/views/layouts/stripe.html.erb
+<body data-no-turbolink>
+	
+	<p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+
+    <%= render 'shared/navigation_bar' %>
+  
+	<div class='container'>
+		<%= yield %>
+	</div>	    
+</body>
+</html>
+
+
+Step 
+-----
+
+app/views/sales/new.html.erb. THIS NEEDS CSS MAGIC
+<fieldset>
+	<legend>Checkout</legend>
+
+<form action="create" method="POST" id="payment-form", class='form-horizontal'>
+  <span class="payment-errors">
+  	<noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+  </span>
+  <% if @error_message %>
+	<%= @error_message %>
+  <% end %>
+
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+
+  <div class="form-row">
+    <label>
+      <span>Card Number</span>
+      <input type="text" size="20" data-stripe="number"/>
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span>Expiration</span>
+		<%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month", data: {stripe: "exp-month"}} %>
+    </label>
+    <span>/</span>
+	<%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year", data: {stripe: "exp-year"}} %>
+	
+	<button type="submit" class='btn btn-primary'>Submit Payment</button>
+
+</form>
+
+</fieldset>
+
+Step 
+-----
+
+config/application.rb
+require_relative '../app/actors/customer/use_cases/register_for_an_account'
+
+Step
+-----
+
+The guest_checkout_spec.rb and signup_spec.rb has the 'You have signed up!' as the text to check in the assertion.
+

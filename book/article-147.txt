@@ -11,20 +11,6 @@ Discussion
 
 Stripe makes purchase easy by using checkout.js. The only downside is the testing becomes a bit difficult due to the modal dialog. So there is a tradeoff between easy payment vs difficult of testing. I had run into problems centering the payment form when using the stripe.js.  
 
-Steps
-=====
------
-
-Step 1
------
-
-Update Gemfile.
-Following gem installation is a hassle on Mac. Install Nodejs instead.
-
-```ruby
-gem 'libv8', '3.16.14.7'
-gem 'therubyracer', '~> 0.12.0'
-```
 
 Step 2
 -----
@@ -107,4 +93,7 @@ References
 [Stripe Checkout Rails Example](https://stripe.com/docs/checkout/guides/rails 'Stripe Checkout Rails Example')
 [Using Stripe Checkout for Subscriptions](https://www.petekeen.net/using-stripe-checkout-for-subscriptions 'Using Stripe Checkout for Subscriptions')
 [A Journey in Payment World](http://blog.8thcolor.com/en/2013/12/a-journey-in-payment-world-part-2-the-only-part-you-need/ 'Payments')
+[NodeJS Installation](http://nodejs.org/download/ 'Nodejs')
 
+https://github.com/thenickcox/slow_coffee_checkout/blob/master/spec/features/app_spec.rb
+Comment here with the link to simpler way to do it. : http://blog.endpoint.com/2012/06/devise-on-rails-prepopulating-form-data.html
