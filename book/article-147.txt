@@ -1,4 +1,6 @@
 
+
+
 Objective
 =========
 ---------
@@ -9,7 +11,7 @@ Discussion
 =====
 -----
 
-Stripe makes purchase easy by using checkout.js. The only downside is the testing becomes a bit difficult due to the modal dialog. So there is a tradeoff between easy payment vs difficult of testing. I had run into problems centering the payment form when using the stripe.js.  
+Stripe makes purchase easy by using checkout.js. The only downside is the testing becomes a bit difficult due to the modal dialog. So there is a tradeoff between easy payment vs difficult of testing. 
 
 
 Step 2

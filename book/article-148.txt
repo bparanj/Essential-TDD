@@ -54,7 +54,8 @@ end
 
 The 'session[:guest_checkout].blank?' checks if the flow is for a new user registration who has not bought anything yet. The else condition handles the customer registration after a guest_checkout, so that they can download the purchased product.
 
-Step 
+
+Step     
 -----
 
 There is not change to the new action in app/controllers/sales_controller.rb.
@@ -274,4 +275,9 @@ Step
 -----
 
 The guest_checkout_spec.rb and signup_spec.rb has the 'You have signed up!' as the text to check in the assertion.
+
+
+
+# receipt_number will allow processing refunds later
+
 
