@@ -1,0 +1,1070 @@
+Stripe API : Tracking Payments
+
+Objectives
+=========
+---------
+
+- To track payments for a given customer. 
+- To refactor and cleanup the code and tests.
+
+Steps
+=====
+-----
+
+Step 1
+-----
+
+Update Gemfile. The libv8 and therubyracer gems installation is a hassle on Mac. Install Nodejs instead.
+
+```ruby
+gem 'libv8', '3.16.14.7'
+gem 'therubyracer', '~> 0.12.0'
+```
+
+Step 2
+-----
+
+Let's create a payment model to keep track of purchases for a customer.
+
+```sh
+rails g migration payment user_id:integer product_id:integer receipt_number:string
+```
+
+Change the migration file.
+
+```ruby
+class CreatePayments < ActiveRecord::Migration
+  def change
+    create_table :payments do |t|
+      t.integer :user_id
+      t.integer :product_id
+      t.string :receipt_number
+      t.decimal  :amount, precision: 5, scale: 2
+
+      t.timestamps null: false
+    end
+  end
+end
+```
+
+The receipt_number will allow processing refunds later.
+
+Step 3
+-----
+
+Declare the relationship in app/models/user.rb.
+
+```ruby
+has_many :payments
+```
+
+Declare the relationship in app/models/payment.rb.
+
+```ruby
+class Payment < ActiveRecord::Base
+  belongs_to :user
+end
+```
+
+Step 4
+-----
+
+Let's give a better name for the method which updates the credit card expiration date in app/models/user.rb.
+
+```ruby
+def update_credit_card_expiration_date(expiration_month, expiration_year)
+  self.credit_card.update_credit_card_expiration_date(expiration_month, expiration_year)
+end
+```
+
+Let's move the guest email generation to the user class.
+
+```ruby
+def self.generate_random_guest_email
+  "guest_#{Time.now.to_i}#{rand(100)}@example.com"
+end
+```
+
+Step 5
+-----
+
+In app/actors/customer/use_cases/guest_checkout.rb, let's make the StripeGateway methods more cohesive by having them have one purpose.
+
+```ruby
+module Actors
+  module Customer
+    module UseCases
+      
+      def self.guest_checkout(product_id, stripe_token, user)
+        amount = Product.price_in_cents_for(product_id)
+        customer = StripeGateway.save_credit_card(stripe_token)
+        charge = StripeGateway.charge(amount, customer.id)
+        
+        StripeCustomer.save_credit_card_and_stripe_customer_id(customer, user)      
+        StripeCustomer.create_payment(product_id, user.id, charge.id)
+      end      
+      
+    end
+  end
+end
+```
+The saving credit card is separated from charging a customer. We also record the payment so that we can display list of all purchases for a customer.
+
+Step 6
+-----
+
+In app/actors/customer/use_cases/one_click_checkout.rb.
+
+```ruby
+module Actors
+  module Customer
+    module UseCases
+      
+      def self.one_click_checkout(user, product_id)
+        customer_id = user.stripe_customer_id
+        amount = Product.price_in_cents_for(product_id)
+        
+        charge = StripeGateway.charge(amount, customer_id)
+        StripeCustomer.create_payment(product_id, user.id, charge.id)
+      end      
+      
+    end
+  end
+end
+```
+
+We create payment after successful one-click checkout. Now we can display the receipt after purchase.
+
+Step 7
+-----
+
+Let's define the create_payment method in app/models/stripe_customer.rb.
+
+```ruby
+def self.create_payment(product_id, user_id, charge_id)
+  product = Product.find(product_id)
+  Payment.create(product_id: product_id, user_id: user_id, amount: product.price, receipt_number: charge_id)
+end
+```
+
+Step 8
+-----
+
+In app/actors/customer/use_cases/update_credit_card_expiration_date.rb
+
+```ruby
+module Actors
+  module Customer
+    module UseCases
+      
+      def self.update_credit_card_expiration_date(user, card_month, card_year)
+        cc = StripeGateway.update_credit_card_expiration_date(user.stripe_customer_id, card_month, card_year)
+        user.update_credit_card_expiration_date(cc.exp_month, cc.exp_year)
+      end      
+      
+    end
+  end
+end
+```
+
+Only expiration needs to be updated. There is no need to change the last 4 digits. So we remove that from the method signature to simplify the methods.
+
+Step 9
+-----
+
+In app/controllers/application_controller.rb
+
+```ruby
+u = User.create(:email => User.generate_random_guest_email)
+```
+
+We have moved the guest email generation to the User class. This is used in two different places in the code. So it makes sense to define it in one place.
+
+Step 10
+-----
+
+In app/controllers/credit_cards_controller.rb
+
+```ruby
+def edit
+  @credit_card = current_user.credit_card
+end
+```
+
+This is used only for changing the expiration date when a customer clicks the link in the email. There is no try when calling the credit_card method on current_user.
+
+Step 11
+-----
+
+In app/controllers/registrations_controller.rb
+
+```ruby
+def create
+  user = current_or_guest_user
+  Actors::Customer::UseCases.register_for_an_account(user, params[:user][:email], params[:user][:password])
+  sign_in(user)
+  
+  flash.notice = 'You have signed up'
+    
+  if new_registration_without_purchase?
+    redirect_to root_path
+  else
+    redirect_to download_path
+  end
+end  
+```
+
+We now make the register use case explicit in the registrations controller. The create action redirects to the appropriate page based on whether it is a new registrations without making a purchase or not. The private method is extracted from the create action.
+
+```ruby
+private
+
+def new_registration_without_purchase?
+  session[:guest_checkout].blank?
+end
+```
+
+This makes the intention of the guest_checkout session variable explicit.
+
+Step 12
+-----
+
+Let's register the register_for_an_account use case handler in config/application.rb.
+
+```ruby
+require_relative '../app/actors/customer/use_cases/register_for_an_account'
+```
+
+Step 13
+-----
+
+In app/gateways/stripe_gateway.rb
+
+```
+def self.save_credit_card(stripe_token)
+  run_with_stripe_exception_handler('StripeGateway.save_credit_card failed due to') do
+    customer = Stripe::Customer.create(card: stripe_token, description: "guest-user@example.com")
+  end    
+end
+```
+
+The save_credit_card method now has only one purpose. This makes it concise. I have also renamed another method in this class.
+
+```ruby
+self.update_credit_card_expiration_date(stripe_customer_id, card_month, card_year)
+```
+
+Step 14
+-----
+
+I have changed the name and deleted last4digits parameter in the method (not required) in app/models/credit_card.rb.
+
+```ruby
+update_credit_card_expiration_date(expiration_month, expiration_year)
+```
+
+Step 15
+-----
+
+Change the app/models/stripe_customer.rb.
+
+```ruby
+# Use Case : Add New Credit Card
+def self.save_credit_card_details(card, user)
+  user.create_credit_card(last4digits: card.last4, expiration_month: card.exp_month, expiration_year: card.exp_year)
+end
+```
+
+There is no delegation. This uses ActiveRecord create_association method.
+
+Step 16
+-----
+
+Let's cleanup the app/models/stripe_customer.rb.
+
+```ruby
+# Use Case : Guest Checkout
+# Saves the stripe response values in our database
+def self.save_credit_card_and_stripe_customer_id(customer, user)
+  mapper = StripeCustomerMapper.new(customer)
+  user.email = User.generate_random_guest_email
+      
+  user.save_stripe_customer_id(customer.id)
+  user.create_credit_card(last4digits:      mapper.credit_card_last4digits, 
+                          expiration_month: mapper.credit_card_expiration_month, 
+                          expiration_year:  mapper.credit_card_expiration_year)
+end
+```
+
+Since we are creating a guest user in our database even before a customer provides us an email during the guest checkout process, the guest user record will fail to save in the database due to NOT NULL constraint in MySQL database for email. So we generate a random email. This email will be updated if the guest user signs up for an account at the end of guest checkout. 
+
+Step 17
+-----
+
+The mapper class is now encapsulating the knowledge about traversing the object graph.
+
+```ruby
+class StripeCustomerMapper
+  def initialize(customer)
+    @customer = customer
+  end
+  
+  def credit_card_expiration_month
+    @customer.cards.data[0].exp_month
+  end
+  
+  def credit_card_expiration_year
+    @customer.cards.data[0].exp_year
+  end
+  
+  def credit_card_last4digits
+    @customer.cards.data[0].last4
+  end
+end
+```
+
+Step 18
+-----
+
+Here is the test for mapper.
+
+```ruby
+require 'rails_helper'
+
+describe StripeCustomerMapper do
+  
+  it 'should map credit card expiration month' do
+    h = JSON.parse(File.read("spec/support/fixtures/create_customer_success.json"))
+    customer = Stripe::Customer.construct_from(h)    
+    
+    mapper = StripeCustomerMapper.new(customer)
+    
+    expect(mapper.credit_card_expiration_month).to eq(11)
+  end
+  
+  it 'should map credit card expiration year' do
+    h = JSON.parse(File.read("spec/support/fixtures/create_customer_success.json"))
+    customer = Stripe::Customer.construct_from(h)    
+    
+    mapper = StripeCustomerMapper.new(customer)
+    
+    expect(mapper.credit_card_expiration_year).to eq(2015)
+  end
+
+  it 'should map credit card last 4 digits' do
+    h = JSON.parse(File.read("spec/support/fixtures/create_customer_success.json"))
+    customer = Stripe::Customer.construct_from(h)    
+    
+    mapper = StripeCustomerMapper.new(customer)
+    
+    expect(mapper.credit_card_last4digits).to eq('4242')
+  end
+
+end
+```
+
+Step 19
+-----
+
+Delete app/views/devise/registrations/create.html.erb. We don't need it since we forgot to redirect in the registrations controller create action.
+
+Step 20
+-----
+
+Let's write integration tests in the use case handler specs. Change the tests in  spec/actors/customer/use_cases/add_new_credit_card_spec.rb.
+
+```ruby
+require 'rails_helper'
+
+describe 'Add new credit card' do
+  
+  it 'should delegate add a new card to stripe gateway class' do
+    token = Stripe::Token.create(:card => {
+                                    :number => "4242424242424242",
+                                    :exp_month => 11,
+                                    :exp_year => 2025,
+                                    :cvc => "314"})
+    customer = Stripe::Customer.create(card: token.id, description: "rspec-user@example.com")
+    user = User.new(email: 'bogus@exmaple.com', password: '12345678', stripe_customer_id: customer.id)
+    user.save!
+    user.create_credit_card(last4digits: 1234)
+
+    new_token = Stripe::Token.create(:card => {
+                                       :number => "4012888888881881",
+                                       :exp_month => 10,
+                                       :exp_year => 2035,
+                                       :cvc => "123"})
+
+    card = Actors::Customer::UseCases.add_new_credit_card(user, new_token.id)
+    
+    expect(card.id).not_to be_nil
+  end
+
+  it 'should save credit card last4digits, expiration month and year in our database' do
+    token = Stripe::Token.create(:card => {
+                                    :number => "4242424242424242",
+                                    :exp_month => 11,
+                                    :exp_year => 2025,
+                                    :cvc => "314"})
+    customer = Stripe::Customer.create(card: token.id, description: "rspec-user@example.com")
+    user = User.new(email: 'bogus@exmaple.com', password: '12345678', stripe_customer_id: customer.id)
+    user.save!
+    user.create_credit_card(last4digits: 1234)
+
+    new_token = Stripe::Token.create(:card => {
+                                       :number => "4012888888881881",
+                                       :exp_month => 10,
+                                       :exp_year => 2035,
+                                       :cvc => "123"})
+
+    card = Actors::Customer::UseCases.add_new_credit_card(user, new_token.id)
+    
+    expect(user.credit_card.last4digits).to eq('1881')
+    expect(user.credit_card.expiration_month).to eq(10)
+    expect(user.credit_card.expiration_year).to eq(2035)
+  end
+  
+end
+```
+
+I decided to hit the real servers instead of stubbing. The reason is that the tests become messy because of too much stubbing. We can use VCR gem to record the network interactions and speed up the tests later.
+
+Step 21
+-----
+
+The latest tests for spec/actors/customer/use_cases/guest_checkout_spec.rb.
+
+```ruby
+require 'rails_helper'
+require 'spec_helper'
+
+feature 'Guest Checkout' do
+  before(:each) do
+    Product.create(name: 'Rails 4 Quickly', price: 47)  
+  end
+  
+  scenario 'Complete purchase of one product and register for an account', js: true do
+    checkout_product
+    make_payment('4242424242424242')
+    register_after_guest_checkout(test_email, '12345678')
+        
+    expect(page).to have_content('You have signed up')
+  end
+
+  scenario 'Complete purchase of one product and do not register for an account', js: true do
+    checkout_product
+    
+    make_payment('4242424242424242')
+    
+    click_link 'No thanks, take me to my download'
+        
+    expect(page).to have_content('Download details about the book goes here')
+  end
+  
+  scenario 'Fails due to credit card declined', js: true do
+    checkout_product
+    
+    make_payment('4000000000000002')
+    
+    expect(page).to have_content('Your card was declined.')
+  end
+
+  scenario 'Fails due to credit card expired', js: true do
+    checkout_product
+    
+    make_payment('4000000000000069')
+        
+    expect(page).to have_content('Your card has expired.')
+  end
+
+  scenario 'Fails due to incorrect credit card number', js: true do
+    checkout_product
+        
+    make_payment('4242424242424241')
+      
+    expect(page).to have_content('Your card number is incorrect.')    
+  end
+
+  scenario 'Fails due to credit card processing error', js: true do
+    checkout_product
+        
+    make_payment('4000000000000119')
+    
+    expect(page).to have_content('An error occurred while processing your card. Try again in a little bit.')
+  end
+  
+end
+```
+
+Step 22
+-----
+
+The tests for spec/actors/customer/use_cases/one_click_checkout_spec.rb.
+
+```ruby
+require 'rails_helper'
+require 'spec_helper'
+
+feature 'One click checkout' do
+  before(:each) do
+    Product.create(name: 'Rails 4 Quickly', price: 47)  
+  end
+  
+  scenario 'guest checkout, register and one-click checkout in subsequent visit', js: true do
+    # 1. A customer makes a purchase as a guest. 
+    checkout_product
+    make_payment('4242424242424242')
+    
+    # 2. Registers for an account.  
+    register_after_guest_checkout('test@example.com', '12345678')
+    
+    # 3. Logs out.
+    logout
+    
+    # 4. Logs in.
+    login('test@example.com', '12345678')
+    
+    # 5. Makes a purchase without providing any credit card details using one-click checkout.
+    checkout_product
+    
+    expect(page).to have_content('Your credit card ending in 4242 has been charged for this purchase')
+    expect(page).to have_content('Download details about the book goes here')
+  end
+    
+end
+```
+
+Step 23
+-----
+
+The tests for spec/actors/customer/use_cases/update_credit_card_expiration_date_spec.rb.
+
+```ruby
+require 'rails_helper'
+
+describe 'Update credit card expiration date' do
+  it 'it delegates update of credit card expiration to stripe gateway' do
+    cc = double('Stripe Credit Card Response')
+    allow(cc).to receive(:last4) { 1234 }
+    allow(cc).to receive(:exp_month) { 10 }
+    allow(cc).to receive(:exp_year) { 2050 }
+    
+    user = User.new(stripe_customer_id: 1)
+    user.save(validate: false)
+
+    allow(user).to receive(:update_credit_card_expiration_date) { true }
+    expect(StripeGateway).to receive(:update_credit_card_expiration_date) { cc }
+    
+    Actors::Customer::UseCases.update_credit_card_expiration_date(user, 12, 2020)
+  end
+  
+  it 'it saves credit card expiration date in our database' do
+    cc = double('Stripe Credit Card Response')
+    allow(cc).to receive(:last4) { 1234 }
+    allow(cc).to receive(:exp_month) { 10 }
+    allow(cc).to receive(:exp_year) { 2050 }
+    
+    user = User.new(stripe_customer_id: 1)
+    user.save(validate: false)
+
+    expect(user).to receive(:update_credit_card_expiration_date)
+    allow(StripeGateway).to receive(:update_credit_card_expiration_date) { cc }
+    
+    Actors::Customer::UseCases.update_credit_card_expiration_date(user, 12, 2020)
+  end
+  
+end
+```
+
+I changed the method name, so tests has to use the new method names when stubbing. 
+
+Step 24
+-----
+
+The tests for spec/controllers/products_controller_spec.rb.
+
+```ruby
+require 'rails_helper'
+
+describe ProductsController, :type => :controller do
+
+  it "returns http success for show action" do
+    get :show
+  
+    expect(response).to be_success
+  end
+
+  it "returns http success for download action" do
+    User.create(email: 'bugs@disney.com', password: '12345678')
+    user = User.last
+    user.create_credit_card(last4digits: 1234)
+    sign_in(user)   
+    
+    get :download
+  
+    expect(response).to be_success
+  end
+
+  it "returns http success for download action for guest user" do
+    User.create(email: 'bugs@disney.com', password: '12345678')
+    user = User.last
+    user.create_credit_card(last4digits: 1234)
+    
+    get :download
+  
+    expect(response).to be_success
+  end
+
+  it "initializes credit card for download action" do
+    User.create(email: 'bugs@disney.com', password: '12345678')
+    user = User.last
+    user.create_credit_card(last4digits: 1234)
+    sign_in(user)   
+    
+    get :download
+  
+    expect(assigns[:credit_card].last4digits).to eq('1234')
+  end
+    
+end
+```
+
+Step 25
+-----
+
+The tests for spec/gateways/stripe_gateway_spec.rb
+
+```ruby
+require 'rails_helper'
+require 'stripe'
+
+describe StripeGateway do
+  it 'subscribe customer to gold plan' do                              
+    token = Stripe::Token.create(:card => {
+                                    :number => "4242424242424242",
+                                    :exp_month => 11,
+                                    :exp_year => 2025,
+                                    :cvc => "314"})
+    
+    customer = StripeGateway.create_subscription('bogus-email', token.id, 'gold')
+  
+    expect(customer.id).not_to be_nil
+  end
+  
+  it 'should raise credit card exception when Stripe::InvalidRequestError occurs' do
+    expect do
+      customer = StripeGateway.create_subscription('fake', 'bogus', 'junk')
+    end.to raise_error Striped::CreditCardException
+  end
+  
+  it 'saves customer credit card on Stripe servers' do
+    token = Stripe::Token.create(:card => {
+                                    :number => "4242424242424242",
+                                    :exp_month => 11,
+                                    :exp_year => 2025,
+                                    :cvc => "314"})  
+
+    customer = StripeGateway.save_credit_card(token.id)
+  
+    expect(customer.id).not_to be_nil
+  end
+
+  it 'update credit card expiration date' do
+    token = Stripe::Token.create(:card => {
+                                    :number => "4242424242424242",
+                                    :exp_month => 11,
+                                    :exp_year => 2025,
+                                    :cvc => "314"})  
+    customer = Stripe::Customer.create(card: token.id, description: "rspec-user@example.com")
+    
+    card = StripeGateway.update_credit_card_expiration_date(customer.id, 10, 2024)
+    
+    expect(card.exp_month).to eq(10)
+    expect(card.exp_year).to eq(2024)
+  end
+  
+  it 'adds a new credit card as the active default card on Stripe server' do
+    token = Stripe::Token.create(:card => {
+                                   :number    => "4242424242424242",
+                                   :exp_month => 11,
+                                   :exp_year  => 2025,
+                                   :cvc       => "314"})
+        
+    customer = Stripe::Customer.create(:card => token.id, :description => "stripe-gateway-test@example.com")
+
+    new_token = Stripe::Token.create(:card => {
+                                       :number => "4012888888881881",
+                                       :exp_month => 10,
+                                       :exp_year => 2035,
+                                       :cvc => "123"})
+    
+    card = StripeGateway.add_new_credit_card(customer.id, new_token.id)
+    expect(card).to be_instance_of(Stripe::Card)
+  end
+end
+```
+
+We hit the real servers. The gateway class interacts with the external API so we let the tests hit the external servers. We can use VCR gem to record the network interactions and speed up the tests later.
+ 
+Step 26
+-----
+
+The tests for spec/models/credit_card_spec.rb.
+
+```ruby
+require 'rails_helper'
+
+describe CreditCard, :type => :model do
+  it 'saves credit card expiration month and year' do
+    cc = CreditCard.new
+    cc.update_credit_card_expiration_date(2, 2020)
+    
+    expect(cc.expiration_month).to eq(2)
+    expect(cc.expiration_year).to eq(2020)
+  end
+end
+```
+
+I have changed the method name.
+
+Step 27
+-----
+
+Here is the tests for testing the application helper.
+
+```ruby
+require 'spec_helper'
+require 'rails_helper'
+
+describe ApplicationHelper do
+  it 'nav_link returns empty class for non-selected tab' do
+    link = helper.nav_link('Logout', destroy_user_session_path, :delete)
+    
+    expect(link).to eq("<li class=\"\"><a rel=\"nofollow\" data-method=\"delete\" href=\"/users/sign_out\">Logout</a></li>")
+  end
+
+  it 'nav_link returns empty class for non-selected tab' do
+    link = helper.nav_link 'Login', new_user_session_path  
+    
+    expect(link).to eq("<li class=\"\"><a href=\"/users/sign_in\">Login</a></li>")
+  end
+  
+end
+```
+
+Step 28
+-----
+
+The tests for the super model in app/models/stripe_customer.rb. It's a super model because it interacts with more than one ActiveRecord objects to accomplish a task.
+
+```ruby
+require 'rails_helper'
+
+describe StripeCustomer do
+  
+  context 'save_subscription_details' do
+    it 'should save stripe_customer_id' do  
+      token = Stripe::Token.create(
+                :card => {
+                  :number => "4242424242424242",
+                  :exp_month => 11,
+                  :exp_year => 2025,
+                  :cvc => "314"})
+      customer = Stripe::Customer.create(card: token.id, description: "rspec-user@example.com")
+      user = User.new(email: 'bogus@exmaple.com', password: '12345678')
+      user.save
+
+      StripeCustomer.save_subscription_details(user, customer, 'Gold')
+
+      expect(user.stripe_customer_id).to eq(customer.id)
+    end
+    
+    it 'should save credit card details' do  
+      token = Stripe::Token.create(
+                :card => {
+                  :number => "4242424242424242",
+                  :exp_month => 11,
+                  :exp_year => 2025,
+                  :cvc => "314"})
+      customer = Stripe::Customer.create(card: token.id, description: "rspec-user@example.com")
+      user = User.new(email: 'bogus@exmaple.com', password: '12345678')
+      user.save
+
+      StripeCustomer.save_subscription_details(user, customer, 'Gold')
+
+      expect(user.credit_card.last4digits).to eq('4242')
+      expect(user.credit_card.expiration_month).to eq(11)
+      expect(user.credit_card.expiration_year).to eq(2025)
+    end
+
+    it 'should create subscription record' do  
+      token = Stripe::Token.create(
+                :card => {
+                  :number => "4242424242424242",
+                  :exp_month => 11,
+                  :exp_year => 2025,
+                  :cvc => "314"})
+      customer = Stripe::Customer.create(card: token.id, description: "rspec-user@example.com")
+      user = User.new(email: 'bogus@exmaple.com', password: '12345678')
+      user.save
+
+      StripeCustomer.save_subscription_details(user, customer, 'Gold')
+
+      expect(user.subscription.plan_name).to eq('Gold')
+      expect(user.subscription.stripe_customer_token).to eq(customer.id)
+    end
+  end    
+    
+end
+```
+
+Step 29
+-----
+
+The complete source code for app/controllers/registrations_controller.rb.
+
+```ruby
+class RegistrationsController < Devise::RegistrationsController
+  
+  def new
+    super
+  end
+  
+  def create
+    user = current_or_guest_user
+    Actors::Customer::UseCases.register_for_an_account(user, params[:user][:email], params[:user][:password])
+    sign_in(user)
+    
+    flash.notice = 'You have signed up'
+      
+    if new_registration_without_purchase?
+      root_path
+    else
+      download_path
+    end
+  end  
+  
+  private
+  
+  def new_registration_without_purchase?
+    session[:guest_checkout].blank?
+  end
+  
+end
+```
+
+The 'session[:guest_checkout].blank?' checks if the flow is for a new user registration who has not bought anything yet. The else condition handles the customer registration after a guest_checkout, so that they can download the purchased product.
+
+Step 30    
+-----
+
+There is no change to the new action in app/controllers/sales_controller.rb.
+
+```ruby
+def new
+  begin
+    user = current_or_guest_user
+    if user.has_saved_credit_card?
+      Actors::Customer::UseCases.one_click_checkout(user, params[:id])
+              
+      redirect_to download_path
+    else
+      session[:product_id] = params[:id]
+    end
+  rescue Striped::CreditCardDeclined => e
+    redisplay_form(e.message)
+  rescue Exception => e
+    StripeLogger.error "One Click Checkout failed due to #{e.message}. #{e.backtrace.join("\n")}"
+    redisplay_form("Checkout failed. We have been notified about this problem.")
+  end
+end
+```
+
+Step 31
+-----
+
+The create action in app/controllers/sales_controller.rb now initializes the session[:guest_checkout] to 1 to mark the guest checkout flow.
+
+```ruby
+def create    
+   begin
+     user = current_or_guest_user
+     session[:guest_checkout] = 1
+     Actors::Customer::UseCases.guest_checkout(session[:product_id], params[:stripeToken], user)
+   rescue Striped::CreditCardDeclined => e
+     redisplay_form(e.message)
+   rescue Exception => e
+     StripeLogger.error "Guest checkout failed due to #{e.message}. #{e.backtrace.join("\n")}"
+     redisplay_form("Checkout failed. We have been notified about this problem.")
+   ensure
+     session[:product_id] = nil
+     session[:guest_checkout] = nil
+   end
+end
+```
+
+For the flow that is part of guest_checkout we set the session variable flag to 1. This is used in registrations controller to redirect the customer to the appropriate page based on whether they signed up at the end of guest checkout process. So the create action in registrations controller can handle a new user registration who has not bought anything yet. It can also handle someone who purchases a product as a guest and signs up for an account at the end of the purchase flow.
+
+Step 32
+-----
+
+Let's bypass the validation in user.rb when saving the stripe_customer_id. This happens when a user goes through the guest checkout workflow.
+
+```ruby
+def save_stripe_customer_id(sci)
+  self.stripe_customer_id = sci
+  save(validate: false)                
+end
+```
+
+We bypass the validation to save guest user record that does not have some required fields during signup. Since the guest user record is created when user has not signed up yet, we don't want to trigger validations declared in the user model.
+
+Step 33
+-----
+
+The code for app/views/registrations/new.html.erb.
+
+```ruby
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form-horizontal' }) do |f| %>
+  <fieldset>
+	<legend>Register</legend>
+        
+  <div class="form-group">
+    <%= f.label :email, class: 'col-lg-1 control-label' %>
+    <div class="col-lg-2">
+      <%= f.email_field :email, value: @email, autofocus: true, size: 10, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :password, class: 'col-lg-1 control-label' %>
+    <div class="col-lg-2">
+      <%= f.password_field :password, autocomplete: "off", size: 25, class: "form-control" %> <em>(8 characters minimum)</em>
+	</div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-lg-10 col-lg-offset-1">
+	  <%= f.submit "Sign Up", class: 'btn btn-primary' %>	
+    </div>
+  </div>
+
+  </fieldset>
+<% end %>
+```
+
+This is styled using Twitter Bootstrap 3.3.
+
+Step 34
+-----
+
+The view for credit cards form is app/views/credit_cards/new.html.erb.
+
+```ruby
+<form action="create" method="POST" id="payment-form">
+  <span class="payment-errors">
+  	<noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+  </span>
+  <% if @error_message %>
+	<%= @error_message %>
+  <% end %>
+
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+
+  <div class="form-row">
+    <label>
+      <span>Card Number</span>
+      <input type="text" size="20" data-stripe="number"/>
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span>Expiration</span>
+<%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month", data: {stripe: "exp-month"}} %>
+
+    </label>
+    <span>/</span>
+	<%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year", data: {stripe: "exp-year"}} %>
+
+  </div>
+
+  <button type="submit" class='btn btn-primary'>Add Credit Card</button>
+</form>	
+```
+
+This needs CSS magic to align the fields properly without breaking the tests.
+
+Step 35
+-----
+
+The layout for payments is app/views/layouts/stripe.html.erb.
+
+```ruby
+<body data-no-turbolink>
+	
+	<p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+
+    <%= render 'shared/navigation_bar' %>
+  
+	<div class='container'>
+		<%= yield %>
+	</div>	    
+</body>
+</html>
+```
+
+Step 36
+-----
+
+The form for new sales app/views/sales/new.html.erb needs CSS magic. 
+
+```ruby
+<fieldset>
+	<legend>Checkout</legend>
+
+<form action="create" method="POST" id="payment-form", class='form-horizontal'>
+  <span class="payment-errors">
+  	<noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+  </span>
+  <% if @error_message %>
+	<%= @error_message %>
+  <% end %>
+
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+
+  <div class="form-row">
+    <label>
+      <span>Card Number</span>
+      <input type="text" size="20" data-stripe="number"/>
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span>Expiration</span>
+		<%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month", data: {stripe: "exp-month"}} %>
+    </label>
+    <span>/</span>
+	<%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year", data: {stripe: "exp-year"}} %>
+	
+	<button type="submit" class='btn btn-primary'>Submit Payment</button>
+
+</form>
+
+</fieldset>
+```
+
+Step 37
+-----
+
+The guest_checkout_spec.rb and signup_spec.rb has the 'You have signed up' as the text to check in the assertion.
+
+You can download the entire source code for this article using the commit hash ecb47db from git@bitbucket.org:bparanj/striped.git.
+
+Summary
+=======
+-------
+
+In this article, we now track purchases so that we can list all purchases made by a customer. We also refactored the code base and tests.
