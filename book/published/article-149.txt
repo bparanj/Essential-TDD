@@ -1,0 +1,84 @@
+Displaying Flash Messages in Rails 4.2 using Twitter Bootstrap 3.2
+
+Objective
+=====
+-----
+
+To fix the layout issue and style flash messages.
+
+Discussion
+=====
+-----
+
+We will work on the striped project to illustrate styling flash messages.
+
+Steps
+=====
+-----
+
+Step 1
+-----
+
+In app/views/shared/_flash_messages.html.erb.
+
+```ruby
+<% flash.each do |type, message| %>
+  <div class="alert <%= bootstrap_class_for(type) %> fade in">
+    <%= message %>
+  </div>
+<% end %>
+```
+
+Step 2
+------
+
+Add the flash_messages partial to the app/views/layouts/application.html.erb file.
+
+```ruby
+<%= render partial: "shared/flash_messages", flash: flash %> 
+```
+
+Delete the existing html that styles the flash messages in the layout file: 
+
+```ruby
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>
+```
+
+Step 3
+-------
+
+In app/views/helpers/application_helper.rb.
+
+```ruby
+def bootstrap_class_for(flash_type)
+  case flash_type
+  when "success"
+    "alert-success"   # Green
+  when "error"
+    "alert-danger"    # Red
+  when "alert"
+    "alert-warning"   # Yellow
+  when "notice"
+    "alert-info"      # Blue
+  else
+    flash_type.to_s
+  end
+end
+```
+
+Let's fix the navigation bar hiding the forms in the page. Add:
+
+```css
+body {
+    padding-top: 90px;
+  }
+```
+
+to app/assets/stylesheets/application.css.scss. You can download the entire source code for this article using the commit hash 30c3afc from git@bitbucket.org:bparanj/striped.git. 
+
+Summary
+=========
+---------
+
+In this article you learned how to style flash messages using Twitter Bootstrap 3.3 in a Rails 4.2 project. We also fixed the layout issue where the navigation bar was hiding part of the form.
