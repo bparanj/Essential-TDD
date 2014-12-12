@@ -15,22 +15,22 @@ Find all the primes upto a given number n. For 30 the result is 2,3,5,7,11,13,17
 
 1) First list the numbers from 2 to 30
 
-![alt text](http://www.rubyplus.com/images/sieve-1.png "Sieve Step 1")
+![alt text](https://www.rubyplus.com/images/sieve-1.png "Sieve Step 1")
 
 2) First number is prime, so keep it
 3) Cross out multiples of 2
 
-![alt text](http://www.rubyplus.com/images/sieve-3.png "Sieve Step 3")
+![alt text](https://www.rubyplus.com/images/sieve-3.png "Sieve Step 3")
 
 4) The first number left is 3, so it is the first odd prime, keep it.
 5) Cross out all multiples of 3
 
-![alt text](http://www.rubyplus.com/images/sieve-5.png "Sieve Step 5")
+![alt text](https://www.rubyplus.com/images/sieve-5.png "Sieve Step 5")
 
 6) Now the first number left is 5, the second odd prime, keep it.
 7) Cross out all multiples of 5
 
-![alt text](http://www.rubyplus.com/images/sieve-6.png "Sieve Step 6")
+![alt text](https://www.rubyplus.com/images/sieve-6.png "Sieve Step 6")
 
 8) The next number 7 is larger than the square root of 30, so there are no multiples of 7 to eliminate. Therefore the sieve is complete.
 

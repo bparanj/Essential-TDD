@@ -17,14 +17,14 @@ Prerequisites
 ==================
 ------------------
 
-- Read the article on GCD if you want to refresh your memory on [reduction](http://www.rubyplus.com/articles/481 'reduction')
+- Read the article on GCD if you want to refresh your memory on [reduction](https://www.rubyplus.com/articles/481 'reduction')
 
 - Read these articles to learn about terminating condition:
 
-1) [TDD Basics : The Sieve of Erastosthenes] (http://www.rubyplus.com/articles/471 'The Sieve of Erastosthenes')
-2) [Facotrial] (http://www.rubyplus.com/articles/441 'Facotrial')
-3) [TDD Basics : Reverse the Digits of an Integer] (http://www.rubyplus.com/articles/581 'Reverse')
-4) [TDD Advanced Concepts : Sum Kata] (http://www.rubyplus.com/articles/431 'Sum Kata')
+1) [TDD Basics : The Sieve of Erastosthenes] (https://www.rubyplus.com/articles/471 'The Sieve of Erastosthenes')
+2) [Facotrial] (https://www.rubyplus.com/articles/441 'Facotrial')
+3) [TDD Basics : Reverse the Digits of an Integer] (https://www.rubyplus.com/articles/581 'Reverse')
+4) [TDD Advanced Concepts : Sum Kata] (https://www.rubyplus.com/articles/431 'Sum Kata')
 
 Problem Statement
 ==================
@@ -41,7 +41,7 @@ Problem Domain Analysis
 (891) in base 10 = ? in base 8
 ```
 
-![alt text](http://www.rubyplus.com/images/problem-octal.png "Octal Problem")
+![alt text](https://www.rubyplus.com/images/problem-octal.png "Octal Problem")
 
 Solution Domain Analysis
 ==================
@@ -50,33 +50,33 @@ Solution Domain Analysis
 Step 1
 -----
 
-![alt text](http://www.rubyplus.com/images/sda-octal-1.png "Octal Problem")
+![alt text](https://www.rubyplus.com/images/sda-octal-1.png "Octal Problem")
 
 Step 2
 -----
 
-![alt text](http://www.rubyplus.com/images/sda-octal-2.png "Octal Problem")
+![alt text](https://www.rubyplus.com/images/sda-octal-2.png "Octal Problem")
 
 
 Step 3
 -----
 
-![alt text](http://www.rubyplus.com/images/sda-octal-3.png "Octal Problem")
+![alt text](https://www.rubyplus.com/images/sda-octal-3.png "Octal Problem")
 
 Step 4
 -----
 
-![alt text](http://www.rubyplus.com/images/sda-octal-4.png "Octal Problem")
+![alt text](https://www.rubyplus.com/images/sda-octal-4.png "Octal Problem")
 
 Step 5
 -----
 
-![alt text](http://www.rubyplus.com/images/sda-octal.png "Octal Problem")
+![alt text](https://www.rubyplus.com/images/sda-octal.png "Octal Problem")
 
 Step 6
 -----
 
-![alt text](http://www.rubyplus.com/images/sda-octal2.png "Octal Problem")
+![alt text](https://www.rubyplus.com/images/sda-octal2.png "Octal Problem")
 
 
 Algorithm

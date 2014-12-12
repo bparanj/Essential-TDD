@@ -1,0 +1,35 @@
+
+
+
+You cannot do this:
+
+start(one, &block) do
+  p 'inside block'
+end
+
+
+class Car
+  def start(one, two)
+    one.call
+    two.call
+  end
+end
+
+c = Car.new
+
+one = -> { p 'one' }
+two = -> do 
+  p 'two' 
+end
+
+c.start(one, two)
+
+
+  app/controllers/application_controller.rb
+  app/controllers/sales_controller.rb
+  app/controllers/subscriptions_controller.rb
+  app/helpers/application_helper.rb
+  spec/helpers/application_helper_spec.rb
+
+$ gc -m 'used blocks to separate exception handling in controllers'
+[master 287f630] used blocks to separate exception handling in controllers

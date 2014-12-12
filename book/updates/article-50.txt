@@ -28,7 +28,7 @@ Problem Domain Analysis
 
 Here is some sample input and output.
 
-![alt text](http://www.rubyplus.com/images/pda-prime-factors.png "Prime Factors")
+![alt text](https://www.rubyplus.com/images/pda-prime-factors.png "Prime Factors")
 
 Solution Domain Analysis
 =================
@@ -38,7 +38,7 @@ Start with the divisor 2 and repeatedly reduce n by a factor of 2 until 2 is no 
 
 Consider n = 60. Marking with an * the unsuccessful attempts to divide, we have:
 
-![alt text](http://www.rubyplus.com/images/sda-prime-factors.png "Prime Factors")
+![alt text](https://www.rubyplus.com/images/sda-prime-factors.png "Prime Factors")
 
 That is, 60 = 2 x 2 x 3 x 5, and those numbers are primes.
 
@@ -496,5 +496,5 @@ Exercises
 ----------
 
 1. Can you delete some of the tests? What is the minimum number of tests for this problem?
-2. Study the [Prime Factors Analysis](http://www.rubyplus.com/articles/541 'Prime Factors Analysis'). Compute the prime number required only upto a certain number discussed in that article.
+2. Study the [Prime Factors Analysis](https://www.rubyplus.com/articles/541 'Prime Factors Analysis'). Compute the prime number required only upto a certain number discussed in that article.
 3. To find prime factors of a given number, you can use this online tool [Find the Prime Factors of a Number](http://www.math.wustl.edu/cgi-bin/primes "Find the Prime Factors of a Number")

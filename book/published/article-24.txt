@@ -510,7 +510,7 @@ Discussion
 
 If you notice, we change either production code or the spec but not both at the same time. Regardless of whether we are refactoring or driving the design of our code. If we change both the spec and the production code at the same time we will not know which file is causing the problem. If we take small steps, we will be able to immediately fix the problem. Because we know what we just changed. If you are confident you can take bigger steps as long as the duration of the red state is minimum and you get to green and stay in green longer.
 
-![alt text](http://www.rubyplus.com/images/footprints-in-sand1.jpg "Steps")
+![alt text](https://www.rubyplus.com/images/footprints-in-sand1.jpg "Steps")
 
 
 Summary

@@ -16,7 +16,7 @@ Objectives
 - Learn recursive solution and optimize the execution by using non-recursive solution.
 - Using existing tests as regression tests when making major changes to existing code.
 
-![alt text](http://www.rubyplus.com/images/ecg-pulse.jpg "Cycle")
+![alt text](https://www.rubyplus.com/images/ecg-pulse.jpg "Cycle")
 
 Problem Statement
 =================
@@ -30,7 +30,7 @@ Problem Domain Analysis
 
 In mathematics, the Fibonacci numbers are the numbers in the following integer sequence: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610 ... By definition, the first two numbers in the Fibonacci sequence are 0 and 1 and each subsequent number is the sum of the previous two.
 
-![alt text](http://www.rubyplus.com/images/fibonacci.png "Fibonacci Numbers")
+![alt text](https://www.rubyplus.com/images/fibonacci.png "Fibonacci Numbers")
 
 Algebraic Equation
 -------------
@@ -48,7 +48,7 @@ fibonacci(0) = 0
 fibonacci(1) = 1
 ```
 
-![alt text](http://www.rubyplus.com/images/fibonacci-function.png "Fibonacci Function")
+![alt text](https://www.rubyplus.com/images/fibonacci-function.png "Fibonacci Function")
 
 Visual Representation
 -------------
@@ -65,10 +65,10 @@ Input  : 0, 1, 2, 3, 4, 5
 Output : 0, 1, 1, 2, 3, 5 
 ```
 
-![alt text](http://www.rubyplus.com/images/fibonacci-table.png "Fibonacci Input Output Table")
+![alt text](https://www.rubyplus.com/images/fibonacci-table.png "Fibonacci Input Output Table")
 
 
-![alt text](http://www.rubyplus.com/images/FibonacciTable.png "Fibonacci Sample Data")
+![alt text](https://www.rubyplus.com/images/FibonacciTable.png "Fibonacci Sample Data")
 
 The final solution should be able to take any random number and calculate the Fibonacci number without any modification to the production code.
 
@@ -81,7 +81,7 @@ Solution Domain Analysis
 =========
 -----------
 
-![alt text](http://www.rubyplus.com/images/sda-fib.png "Solution Domain Analysis Fibonacci")
+![alt text](https://www.rubyplus.com/images/sda-fib.png "Solution Domain Analysis Fibonacci")
 
 Steps
 ==========
@@ -104,7 +104,7 @@ end
 
 In this step, we got the proper require statement to execute the test. The test also follows the proper naming convention for tests. This example illustrates how to go from Requirements to Examples to Executable Specs. Each test for this problem takes an argument, does some computation and returns a result. It illustrates Direct Input and Direct Output. This is called State Based Testing. In State Based Testing, there are no side effects. Side effect free functions are easy to test.
 
-See the appendix of the [Essential TDD book](http://www.rubyplus.com/etdd.pdf "Essential TDD") for definition of Direct Input, Direct Output and Side Effects.
+See the appendix of the [Essential TDD book](https://www.rubyplus.com/etdd.pdf "Essential TDD") for definition of Direct Input, Direct Output and Side Effects.
 
 Step 2
 -------
@@ -427,14 +427,14 @@ end
 
 This version illustrates using existing tests as safety net when making major changes to the code. Notice that we only focus on one thing at a time. The focus can shift from one version to the other. 
 
-![alt text](http://www.rubyplus.com/images/bigstock_Focus_6716743.jpg "Focus")
+![alt text](https://www.rubyplus.com/images/bigstock_Focus_6716743.jpg "Focus")
 
-[Code Mutation](http://www.rubyplus.com/articles/101 'Code Mutation') we discussed in a previous article is also part of the TDD Cycle. Regression is one of the goals of TDD and we have seen how to use existing test suite as a safety net for catching regression bugs.
+[Code Mutation](https://www.rubyplus.com/articles/101 'Code Mutation') we discussed in a previous article is also part of the TDD Cycle. Regression is one of the goals of TDD and we have seen how to use existing test suite as a safety net for catching regression bugs.
 
 TDD Cycle
 -----------
 
-![alt text](http://www.rubyplus.com/images/funda-tdd-cycle.jpeg "Fundamental TDD Cycle")
+![alt text](https://www.rubyplus.com/images/funda-tdd-cycle.jpeg "Fundamental TDD Cycle")
 
 In this example we saw how we go about repeating the TDD cycle many times to form a rhythm. We wrote a failing test, we quickly made it pass with a quick and dirty implementation and then we refactored to cleanup the code. The focus is on the design during the refactor step.
 
@@ -450,4 +450,4 @@ $ruby fibonacci_test.rb
 
 2) Move the Fibonacci class into its own file and make all the tests pass.
 3) Get the output of the mini-test in color.
-4) Convert the given mini-test to rspec version fibonacci_spec.rb. You can refer the solution in the appendix of the [Essential TDD book](http://www.rubyplus.com/etdd.pdf "Essential TDD").
+4) Convert the given mini-test to rspec version fibonacci_spec.rb. You can refer the solution in the appendix of the [Essential TDD book](https://www.rubyplus.com/etdd.pdf "Essential TDD").

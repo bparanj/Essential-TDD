@@ -440,4 +440,4 @@ class TweetAnalyzer
 end
 ```
 
-Again we are green before and after refactoring. So when do we stub and when do we mock? We can use the Command Query Separation Principle in conjunction with a simple guideline : Stub queries and mock commands. Ideal design will not stub and mock at the same time, since it will violate Command Query Separation Principle. See appendix of [Essential TDD book](http://www.rubyplus.com/etdd.pdf "Essential TDD") for notes from Martin Fowler's article and jMock Home Page.
+Again we are green before and after refactoring. So when do we stub and when do we mock? We can use the Command Query Separation Principle in conjunction with a simple guideline : Stub queries and mock commands. Ideal design will not stub and mock at the same time, since it will violate Command Query Separation Principle. See appendix of [Essential TDD book](https://www.rubyplus.com/etdd.pdf "Essential TDD") for notes from Martin Fowler's article and jMock Home Page.

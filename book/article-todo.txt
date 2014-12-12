@@ -1,3 +1,7 @@
+UPDATE ARTICLE 148 ON THE SITE AND CHECKIN THE ARTICLE.
+
+Use Sinatra to introduce HTTP concepts.
+
 
 1. Article on 'How to integrate front end code to Rails'.
 2. Hand drawn diagrams for CAP Theorem. Good explanation of CAP. ACID. Revise article-99 (MongoDB Basics)

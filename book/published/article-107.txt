@@ -20,7 +20,7 @@ Why Riak?
 
 Here is a visual guide to NoSQL systems:
 
-![alt text](http://www.rubyplus.com/images/cap.png "NoSQL Visual Guide")
+![alt text](https://www.rubyplus.com/images/cap.png "NoSQL Visual Guide")
 
 You can see that Riak has picked availability and partition tolerance. This diagram also gives you a good big picture view of how different NoSQL databases fit in the CAP triangle.
 

@@ -86,7 +86,7 @@ Change the ruby_extensions.rb so that only the second spec fails like this:
 ```ruby
 class Array
   def intersection(another)
-    return [1] if another.size == 2
+    return [1] 
     self & another
   end
 end
@@ -109,10 +109,10 @@ Now run the specs. The second spec now breaks with the error:
 Step 7
 --------------
 
-Delete the short circuiting condition from the ruby_extensions.rb
+Delete the following line from the ruby_extensions.rb
 
 ```ruby
-return [1] if another.size == 2
+return [1] 
 ```
 
 Step 8

@@ -25,11 +25,11 @@ Solution Domain Analysis
 
 Let's convert 4 character sequence '1984' to the decimal number 1984.
 
-![alt text](http://www.rubyplus.com/images/character-number-conversion.png "Character to Number")
+![alt text](https://www.rubyplus.com/images/character-number-conversion.png "Character to Number")
 
 Here is the ASCII table, you can see the decimal representation of the characters '0' to '9'.
 
-![alt text](http://www.rubyplus.com/images/ascii-table.png "ASCII Table")
+![alt text](https://www.rubyplus.com/images/ascii-table.png "ASCII Table")
 
 To convert, 49 needs to be converted to 1000, 57 to 900, 56 to 80 and 52 to 4 units. To get the decimal digit we have to subtract 48 (ASCII value of character '0') from each of the decimal value for the character.
 
@@ -53,7 +53,7 @@ Second number = 57 - 48 = 9
 Third number  = 56 - 48 = 8
 Fourth number = 52 - 48 = 4
 
-![alt text](http://www.rubyplus.com/images/character-number-conversion2.png "Character to Number")
+![alt text](https://www.rubyplus.com/images/character-number-conversion2.png "Character to Number")
 
 The shifting to the left mechanism can be obtained at each step by multiplying the previous decimal value by 10 and adding it to current decimal digit.
 

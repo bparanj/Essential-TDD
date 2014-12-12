@@ -11,9 +11,9 @@ Discussion
 ==========
 ----------
 
-Refer the guessing game problem description described in the first part of this series on guessing game  : [TDD Beyond Basics : Testing Random Behavior](http://www.rubyplus.com/articles/171 "TDD Beyond Basics : Testing Random Behavior"). 
+Refer the guessing game problem description described in the first part of this series on guessing game  : [TDD Beyond Basics : Testing Random Behavior](https://www.rubyplus.com/articles/171 "TDD Beyond Basics : Testing Random Behavior"). 
 
-In the previous article you learned the [Single Purpose Principle](http://www.rubyplus.com/articles/181 "Single Purpose Principle"). The spec used a mock that complies with Gerard Meszaros standard discussed in his book xUnit Test Patterns: Refactoring Test Code. We followed that standard. We used double and set expectation, so it is a mock. If we don't set the expectation on the double, it can be used as a stub. In this article we will continue working on the guessing game.
+In the previous article you learned the [Single Purpose Principle](https://www.rubyplus.com/articles/181 "Single Purpose Principle"). The spec used a mock that complies with Gerard Meszaros standard discussed in his book xUnit Test Patterns: Refactoring Test Code. We followed that standard. We used double and set expectation, so it is a mock. If we don't set the expectation on the double, it can be used as a stub. In this article we will continue working on the guessing game.
 
 Steps
 =========

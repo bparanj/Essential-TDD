@@ -26,7 +26,7 @@ Example 1
 
 Here is a worked out example of GCD of 8 and 12.
 
-![alt text](http://www.rubyplus.com/images/gcd-example.png "GCD Example")
+![alt text](https://www.rubyplus.com/images/gcd-example.png "GCD Example")
 
 In the second division, we can divide both numbers without any remainder. So GCD of 8 and 12 is 4.
 
@@ -66,11 +66,11 @@ Basic strategy for computing the gcd of two numbers:
 
 Let's apply the above steps to calcaulate gcd(18,30):
 
-![alt text](http://www.rubyplus.com/images/sda-gcd.png "GCD Example")
+![alt text](https://www.rubyplus.com/images/sda-gcd.png "GCD Example")
 
 The above diagram shows the **reduction** process. Reduction is process where the original problem is reduced to a smaller problem in each iteration until the given problem is solved. 
 
-![alt text](http://www.rubyplus.com/images/sda-gcd2.png "GCD Worked Out Example")
+![alt text](https://www.rubyplus.com/images/sda-gcd2.png "GCD Worked Out Example")
 
 Iterative Construct
 ===================
@@ -109,7 +109,7 @@ Euclidean Algorithm
 - Let the smaller integer assume the role of the divisor until a 0 remainder is obtained.
 3. Return the GCD
 
-![alt text](http://www.rubyplus.com/images/euclidean.png "Euclidean Algorithm")
+![alt text](https://www.rubyplus.com/images/euclidean.png "Euclidean Algorithm")
 
 These three steps is illustrated in a 2 minutes video of [Euclidean Algorithm](https://www.youtube.com/watch?v=AJn843kplDw "Euclidean Algorithm") on YouTube.
 

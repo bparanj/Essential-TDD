@@ -1,0 +1,147 @@
+Using Fabricate Gem with Rails 4.1
+
+Discussion
+======
+------
+
+To learn how to use Fabricate gem to simplify creating objects in your tests.
+
+Steps
+======
+------
+
+Step 1
+------
+
+Add fabricate gem to your Gemfile.
+
+```ruby
+group :development, :test do
+  gem 'rspec-rails', '~> 3.1'
+  gem 'fabrication'
+end
+```
+
+Step 2
+-------
+
+In spec/fabricators/customer_fabricator.rb
+
+```ruby
+Fabricator(:customer) do
+  email 'bugs@disney.com'
+  password '12345678'
+end
+```
+
+By default the symbol is the class name. You can use it in your test like this:
+
+```ruby
+describe CreditCardsController, :type => :controller do
+  it "edit page returns http success if customer is logged in" do
+    customer = Fabricate(:customer)
+    sign_in(customer)   
+  
+    get :edit
+    expect(response).to be_success
+  end
+end
+```
+
+If you want to create an instance with different name, see the step 3.
+
+Step 3
+-------
+
+To define an instance of customer with a meaningful customer_with_credit_card in your tests:
+
+```ruby
+Fabricator(:customer_with_credit_card, from: :customer) do
+  email 'bugs@disney.com'
+  password '12345678'
+  credit_card  { Fabricate.build(:credit_card) }
+end 
+```
+
+The first parameter is the name you want to use for an instance of the customer and the second parameter is the class name. You can use this in your test as shown below:
+
+```ruby
+describe CreditCardsController, :type => :controller do
+  it "initializes credit card variable" do
+    customer = Fabricate(:customer_with_credit_card)
+    sign_in(customer)   
+  
+    get :edit
+    expect(assigns[:credit_card]).not_to be_nil
+  end
+end
+```
+
+The code above handles the customer has one credit_card relationship.
+
+```ruby
+class Customer < ActiveRecord::Base  
+  has_one :credit_card
+end
+```
+
+```ruby
+class CreditCard < ActiveRecord::Base
+  belongs_to :customer
+end
+```
+
+Step 4
+-------
+
+Now we need to define the credit_card before we can use. So, we have:
+
+```ruby
+Fabricator(:credit_card) do
+  last4digits  '1234'
+  expiration_month 10
+  expiration_year 2030
+end
+
+Fabricator(:customer_with_credit_card, from: :customer) do
+  email 'bugs@disney.com'
+  password '12345678'
+  credit_card  { Fabricate.build(:credit_card) }
+end
+```
+
+Step 5
+-------
+
+The has_many relationship between customer and payment can be used to create customer objects with payments.
+
+```ruby
+Fabricator(:payment) do
+  product_id 1
+  receipt_number 'x'
+  amount 47.0
+end
+
+Fabricator(:customer_with_orders, from: :customer) do
+  email 'bugs@disney.com'
+  password '12345678'
+  payments(count: 1)
+end
+```
+
+We specify that we want one payment object associated with the customer. This can be used in tests like this:
+
+```ruby
+  it 'returns true if user has orders' do
+    u = Fabricate(:customer_with_orders)
+    result = u.has_orders?
+    
+    expect(result).to eq(true)
+  end
+```
+
+Summary
+========
+--------
+
+In this article you learned how to use Fabricate gem to simplify creating objects in tests.

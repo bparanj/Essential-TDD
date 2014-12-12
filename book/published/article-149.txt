@@ -82,3 +82,9 @@ Summary
 ---------
 
 In this article you learned how to style flash messages using Twitter Bootstrap 3.3 in a Rails 4.2 project. We also fixed the layout issue where the navigation bar was hiding part of the form.
+
+Reference
+=========
+---------
+
+[Rails flash messages using Twitter Bootstrap](https://gist.github.com/roberto/3344628 'Rails flash messages using Twitter Bootstrap')

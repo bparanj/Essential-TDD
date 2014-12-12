@@ -23,7 +23,7 @@ In this phase, we define the problem clearly.
 Before exchange, the initial values are : a = 1  and b = 2
 After exchange, the final values are : a = 2  and b = 1
 
-![alt text](http://www.rubyplus.com/images/pda-exchange.png "Exchange Digits")
+![alt text](https://www.rubyplus.com/images/pda-exchange.png "Exchange Digits")
 
 Solution Domain Analysis
 ========================
@@ -70,7 +70,7 @@ a = b
 b = a
 ```
 
-![alt text](http://www.rubyplus.com/images/sda-exchange3.png "Exchange Digits")
+![alt text](https://www.rubyplus.com/images/sda-exchange3.png "Exchange Digits")
 
 Because both a and b values end up with the value of 2. Our objective in this phase is to create a model and test the model to make sure that it works. Here is a model that fixes the above problem:
 
@@ -87,7 +87,7 @@ a = b
 b = t
 ```
 
-![alt text](http://www.rubyplus.com/images/sda-exchange2.png "Exchange Digits")
+![alt text](https://www.rubyplus.com/images/sda-exchange2.png "Exchange Digits")
 
 Let's test this model in the irb session:
 

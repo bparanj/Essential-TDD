@@ -23,21 +23,8 @@ that we can't see the end from the beginning.
 As you pursue an emergent strategy, it's important
 to get the right metrics to measure your progress.
 As I think about metrics, I like to take a page out of Billy Bean's playbook.
-For those of you unfamiliar with Moneyball, it's
-an account by the brilliant Michael Lewis, of how
-the Oakland A's, one of the poorest teams in
-Major League Baseball, became one of the most successful.
-Because Billy Bean, the A's
-general manager, was willing to recast how he measured performance.
-Take pitcher Chad Bradford, for example. When the A's acquired him,
-he had a relatively slow fastball of 81 to 85 miles per hour.
-And because he looked funny when he pitched, the scouts discounted him.
-Because Bean's foremost concern was assembling a winning team on a budget.
-He was willing to look past conventional metrics.
-Bradford gave up hits like any other pitcher, but his ground ball to
-fly ratio was 5 to 1 versus an average of 1 to 1.
-Ground balls don't get hit over the wall, they make singles, occassionally doubles.
-The most important metric of success is actually how many times we show up.
+
+
 According to the research, the odds
 of a scientist writing a ground breaking paper, which is defined
 as the number of citations in other works, is directly correlated, not

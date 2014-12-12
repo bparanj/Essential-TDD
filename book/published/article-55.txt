@@ -11,7 +11,7 @@ Discussion
 ===========
 -----------
 
-This problem uses reduction process. It is a common interview question. So, this is a good problem to practice your TDD skills. Read the article on GCD if you want to refresh your memory on [reduction](http://www.rubyplus.com/articles/481 'reduction')
+This problem uses reduction process. It is a common interview question. So, this is a good problem to practice your TDD skills. Read the article on GCD if you want to refresh your memory on [reduction](https://www.rubyplus.com/articles/481 'reduction')
 
 Problem Statement
 =================
@@ -23,7 +23,7 @@ Problem Domain Analysis
 =================
 -----------------
 
-![alt text](http://www.rubyplus.com/images/pda-reverse.png "Reverse Digits")
+![alt text](https://www.rubyplus.com/images/pda-reverse.png "Reverse Digits")
 
 Solution Domain Analysis
 =================
@@ -31,11 +31,11 @@ Solution Domain Analysis
 
 The given number can be expressed as follows:
 
-![alt text](http://www.rubyplus.com/images/pda-reverse-equation.png "Reverse Digits")
+![alt text](https://www.rubyplus.com/images/pda-reverse-equation.png "Reverse Digits")
 
 To extract the rightmost digit, we can divide the given number by 10:
 
-![alt text](http://www.rubyplus.com/images/pda-reverse-mod.png "Reverse Digits")
+![alt text](https://www.rubyplus.com/images/pda-reverse-mod.png "Reverse Digits")
 
 Playing in the irb:
 
@@ -56,7 +56,7 @@ We can extract the digit programmatically by using the modulo operator like this
 
 After we extract the rightmost digit, we need to reduce the original number to a number without the rightmost digit so that we can extract the next digit. To accomplish that we already know that we can divide the original number by 10.
 
-![alt text](http://www.rubyplus.com/images/pda-reverse-table.png "Reverse")
+![alt text](https://www.rubyplus.com/images/pda-reverse-table.png "Reverse")
 
 Extract         : 5
 Transform       : 5 x 10*0
@@ -74,7 +74,7 @@ From these examples, we can generalize the steps as follows:
 
 reversed number = (previous reverse value) x 10 + (recently extracted digit)
 
-![alt text](http://www.rubyplus.com/images/pda-reverse-iterate.png "Reverse Digits")
+![alt text](https://www.rubyplus.com/images/pda-reverse-iterate.png "Reverse Digits")
 
 Algorithm Description
 =====================
@@ -88,7 +88,7 @@ while there are still digits in the number to be reversed do
 end
 ```
 
-![alt text](http://www.rubyplus.com/images/pda-reverse-terminate.png "Reverse")
+![alt text](https://www.rubyplus.com/images/pda-reverse-terminate.png "Reverse")
 
 Terminating condition is that the last number divided by 10 becomes 0.x so :
 

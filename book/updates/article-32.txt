@@ -387,7 +387,7 @@ Summary
 ===========
 -----------
 
-In this example we wrote the tests in the order of increasing complexity, ie., 0, 1, 2 and n elements. This is called [Triangulation](http://www.rubyplus.com/articles/371 'Triangulation'). We also discussed about how to choose data for test cases.
+In this example we wrote the tests in the order of increasing complexity, ie., 0, 1, 2 and n elements. This is called [Triangulation](https://www.rubyplus.com/articles/371 'Triangulation'). We also discussed about how to choose data for test cases.
 
 Exercises
 ==========

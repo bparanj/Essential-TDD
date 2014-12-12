@@ -37,7 +37,7 @@ Marking with an * the unsuccessful attempts to divide, we have:
 60 30  15* 15   5*  5*  5  1
 ```
 
-![alt text](http://www.rubyplus.com/images/sda-prime-factors.png "Prime Factors")
+![alt text](https://www.rubyplus.com/images/sda-prime-factors.png "Prime Factors")
 
 Observations
 ------------

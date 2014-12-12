@@ -19,13 +19,13 @@ n! = 1 x 2 x 3 x ... n for n >= 1
 
 Given that 0! = 1
 
-![alt text](http://www.rubyplus.com/images/pda-factorial.png "Problem Domain Analysis Factorial")
+![alt text](https://www.rubyplus.com/images/pda-factorial.png "Problem Domain Analysis Factorial")
 
 Solution Domain Analysis
 ================
 ----------------
 
-![alt text](http://www.rubyplus.com/images/sda-factorial3.png "Solution Domain Analysis Factorial")
+![alt text](https://www.rubyplus.com/images/sda-factorial3.png "Solution Domain Analysis Factorial")
 
 We observe a pattern, so we can rewrite 4! as :
 
@@ -37,7 +37,7 @@ if n = 4,
 n! = (n-1)! x n
 ```
 
-![alt text](http://www.rubyplus.com/images/sda-factorial2.png "Solution Domain Analysis Factorial")
+![alt text](https://www.rubyplus.com/images/sda-factorial2.png "Solution Domain Analysis Factorial")
 
 We can rewrite the examples as :
 
@@ -59,7 +59,7 @@ Algorithm
 2. Treat 0! as a special case
 3. 
 
-![alt text](http://www.rubyplus.com/images/sda-factorial.png "Factorial Index and Increment")
+![alt text](https://www.rubyplus.com/images/sda-factorial.png "Factorial Index and Increment")
 
 ```sh
 while less than n products has been calculated, repeatedly do

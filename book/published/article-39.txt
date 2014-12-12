@@ -169,7 +169,7 @@ Let's write our first test. Change the fizz_buzz_spec.rb to :
 
 While writing the test, I got stuck after creating the instance of the FizzBuzz class. I faced difficulty in writing the test. The pain is an indication of a bad design. It is providing us feedback. We need to listen in order to come up with a better design that will make it easy to test our code. 
 
-Why should the sequence generation logic be tied to how it is displayed to the user? What if we obeyed the [Single Purpose Principle](http://www.rubyplus.com/articles/181 "Single Purpose Principle") and separate displaying the sequence to the user from sequence generation logic?
+Why should the sequence generation logic be tied to how it is displayed to the user? What if we obeyed the [Single Purpose Principle](https://www.rubyplus.com/articles/181 "Single Purpose Principle") and separate displaying the sequence to the user from sequence generation logic?
 
 You could also argue that this problem is due to wrong order of test cases. If we had thought about sequence of test cases that gradually increase in complexity, we would not have encountered this issue.
 
@@ -306,7 +306,7 @@ end
 
 What is the point of doing the same thing (1..100).to_a that is done in the test? A good explanation is Robert C. Martin's discussion of how [TDD is like double entry bookkeeping](http://butunclebob.com/ArticleS.UncleBob.TheSensitivityProblem 'Double Entry') system in accounting. 
 
-![alt text](http://www.rubyplus.com/images/sample_acctg_equation.gif "Accounting Example")
+![alt text](https://www.rubyplus.com/images/sample_acctg_equation.gif "Accounting Example")
 
 Ideally if I had followed his suggestion I should have used a different way to create an array of 1 to 100. Since this is just a one-liner I have verified it manually and since my confidence level is high, I did not bother spending more time to find another way of generating the list of numbers.
 

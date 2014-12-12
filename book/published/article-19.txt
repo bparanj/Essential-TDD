@@ -14,7 +14,7 @@ Discussion
 
 You can use the electrical outlet to plugin a lamp, a laptop adapter, TV etc as long as the device can handle the voltage and frequency rating. There is one outlet but different devices connect to it that has different functionality. Seams in a system are similar to electrical plugin points. Why do we care about seams? Seams make the code testable and flexible. 
 
-![alt text](http://www.rubyplus.com/images/socket.jpg "Seams")
+![alt text](https://www.rubyplus.com/images/socket.jpg "Seams")
   
 >> Seam is a place where you can alter behavior of your program without editing in that place. Every seam has an enabling point, a place wehre you can make the decision to use one behavior or another.
 >>  -- Michael C. Feathers (Working Effectively with Legacy Code)

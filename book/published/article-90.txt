@@ -32,12 +32,12 @@ What Can be Mutated?
 Conditonals Boundary Mutator
 ----------
 
-![alt text](http://www.rubyplus.com/images/conditionals-boundary-mutator.png "Conditonals Boundary Mutator")
+![alt text](https://www.rubyplus.com/images/conditionals-boundary-mutator.png "Conditonals Boundary Mutator")
 
 Negate Conditionals Mutator
 ----------
 
-![alt text](http://www.rubyplus.com/images/negate-conditionals-mutator.png "Negate Conditionals Mutator")
+![alt text](https://www.rubyplus.com/images/negate-conditionals-mutator.png "Negate Conditionals Mutator")
 
 Remove Conditionals Mutator
 ----------
@@ -61,7 +61,7 @@ if true {
 Math Mutator
 ----------
 
-![alt text](http://www.rubyplus.com/images/math-mutator.png "Math Mutator")
+![alt text](https://www.rubyplus.com/images/math-mutator.png "Math Mutator")
 
 Increments Mutator
 ----------

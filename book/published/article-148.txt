@@ -14,7 +14,7 @@ Steps
 Step 1
 -----
 
-Update Gemfile. The libv8 and therubyracer gems installation is a hassle on Mac. Install Nodejs instead.
+The libv8 and therubyracer gems installation is a hassle on Mac. Install Nodejs instead. Remove the following gems from the Gemfile.
 
 ```ruby
 gem 'libv8', '3.16.14.7'
@@ -837,25 +837,92 @@ class RegistrationsController < Devise::RegistrationsController
     
     flash.notice = 'You have signed up'
       
-    if new_registration_without_purchase?
-      root_path
-    else
-      download_path
-    end
+    root_path
   end  
-  
-  private
-  
-  def new_registration_without_purchase?
-    session[:guest_checkout].blank?
-  end
-  
+    
 end
 ```
 
-The 'session[:guest_checkout].blank?' checks if the flow is for a new user registration who has not bought anything yet. The else condition handles the customer registration after a guest_checkout, so that they can download the purchased product.
+The new user registration can happen when someone register after guest checkout or they can register without buying anything. We can modify the home page so that it lists all the purchases for the logged in user.
 
-Step 30    
+Step 30
+-----
+
+We can get all the orders for a user in the index action.
+
+```ruby
+class WelcomeController < ApplicationController
+  def index
+    if user_signed_in?
+      @orders = current_user.orders if current_user.has_orders? 
+    end
+  end
+  
+  def pricing
+  end
+end
+```
+
+Let's add the has_orders? method to app/models/user.rb.
+
+```ruby
+def has_orders?
+  payments.size > 1
+end
+```
+  
+Step 31
+-----
+
+In app/models/user.rb, define the orders method.
+
+```ruby
+class User < ActiveRecord::Base
+  def orders
+    Order.all(payments)
+  end
+end
+```
+
+Step 32
+-----
+
+Let's create a Order class with a class method `all`.
+
+```ruby
+class Order
+  def self.all(payments)
+    orders = []
+    payments.each do |payment|
+      order = {}
+      product = Product.find(payment.product_id)
+      order[:product_name] = product.name
+      order[:amount] = payment.amount
+      orders << order
+    end
+    orders
+  end
+end
+```
+
+Step 33    
+-----
+
+We can now list all the purchases for a user in the home page. In app/views/welcome/index.html.erb.
+
+```ruby
+<% if @orders %>
+	Your Purchases <br/>
+	<% @orders.each do |order|  %>
+		<%= order[:product_name] %> : <%= order[:amount] %>
+	<% end %>
+	
+<% else  %>
+	This is the home page.
+<% end  %>
+```
+
+Step 34
 -----
 
 There is no change to the new action in app/controllers/sales_controller.rb.
@@ -880,46 +947,7 @@ def new
 end
 ```
 
-Step 31
------
-
-The create action in app/controllers/sales_controller.rb now initializes the session[:guest_checkout] to 1 to mark the guest checkout flow.
-
-```ruby
-def create    
-   begin
-     user = current_or_guest_user
-     session[:guest_checkout] = 1
-     Actors::Customer::UseCases.guest_checkout(session[:product_id], params[:stripeToken], user)
-   rescue Striped::CreditCardDeclined => e
-     redisplay_form(e.message)
-   rescue Exception => e
-     StripeLogger.error "Guest checkout failed due to #{e.message}. #{e.backtrace.join("\n")}"
-     redisplay_form("Checkout failed. We have been notified about this problem.")
-   ensure
-     session[:product_id] = nil
-     session[:guest_checkout] = nil
-   end
-end
-```
-
-For the flow that is part of guest_checkout we set the session variable flag to 1. This is used in registrations controller to redirect the customer to the appropriate page based on whether they signed up at the end of guest checkout process. So the create action in registrations controller can handle a new user registration who has not bought anything yet. It can also handle someone who purchases a product as a guest and signs up for an account at the end of the purchase flow.
-
-Step 32
------
-
-Let's bypass the validation in user.rb when saving the stripe_customer_id. This happens when a user goes through the guest checkout workflow.
-
-```ruby
-def save_stripe_customer_id(sci)
-  self.stripe_customer_id = sci
-  save(validate: false)                
-end
-```
-
-We bypass the validation to save guest user record that does not have some required fields during signup. Since the guest user record is created when user has not signed up yet, we don't want to trigger validations declared in the user model.
-
-Step 33
+Step 35
 -----
 
 The code for app/views/registrations/new.html.erb.
@@ -955,7 +983,7 @@ The code for app/views/registrations/new.html.erb.
 
 This is styled using Twitter Bootstrap 3.3.
 
-Step 34
+Step 36
 -----
 
 The view for credit cards form is app/views/credit_cards/new.html.erb.
@@ -995,7 +1023,7 @@ The view for credit cards form is app/views/credit_cards/new.html.erb.
 
 This needs CSS magic to align the fields properly without breaking the tests.
 
-Step 35
+Step 37
 -----
 
 The layout for payments is app/views/layouts/stripe.html.erb.
@@ -1015,7 +1043,7 @@ The layout for payments is app/views/layouts/stripe.html.erb.
 </html>
 ```
 
-Step 36
+Step 38
 -----
 
 The form for new sales app/views/sales/new.html.erb needs CSS magic. 
@@ -1056,7 +1084,7 @@ The form for new sales app/views/sales/new.html.erb needs CSS magic.
 </fieldset>
 ```
 
-Step 37
+Step 39
 -----
 
 The guest_checkout_spec.rb and signup_spec.rb has the 'You have signed up' as the text to check in the assertion.

@@ -3,7 +3,7 @@
 How to use Mailchimp API to subscribe users in Rails 4.1 
 
 
-Let's use the simple solution that is easy to setup and get it up and running quickly. The solution uses sucker_punch gem to subscribe user to mailing list in a background job. Read the article on [Sucker Punch](http://www.rubyplus.com/articles/571 'Sucker Punch') to learn how to set it up.
+Let's use the simple solution that is easy to setup and get it up and running quickly. The solution uses sucker_punch gem to subscribe user to mailing list in a background job. Read the article on [Sucker Punch](https://www.rubyplus.com/articles/571 'Sucker Punch') to learn how to set it up.
 
 Steps
 =====

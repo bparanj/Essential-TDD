@@ -1,0 +1,70 @@
+Applying the Post Redirect Get Pattern to Striped Application
+
+Discussion
+==========
+----------
+
+We will use the Striped project as an example to illustrate the Post-Redirect-Get pattern. Purchase a product as a guest. When the checkout form does a post to the sales controller create action, the app/views/sales/create.html.erb is displayed. If you refresh the browser when the sales/create page is displayed you will get a 'Confirm Form Resubmission' popup window. The customer payment should happen only once for a product, since the POST is not idempotent, we should redirect the user after the purchase is complete. This page will use a GET request to display the purchase confirmation page. Since GET is a safe operation, it will charge the customer more than once, the user can refresh the browser without affecting the state on the server.
+
+Steps
+=====
+
+Step 1
+-----
+
+Define the route for the purchase confirmation path. 
+
+```ruby
+  get 'sales/show', as: :purchase_confirmation
+```
+
+Step 2
+-----
+
+Change the sales controller create action to redirect the user to the purchase confirmation page.
+
+```ruby
+  def create    
+    log_message = 'Guest checkout failed due to'
+    user_message = 'Checkout failed. We have been notified about this problem'
+    
+    cleanup = -> { session[:product_id] = nil }
+    main = -> do
+      user = current_or_guest_user
+      @payment = Actors::Customer::UseCases.guest_checkout(session[:product_id], params[:stripeToken], user)
+      @product = Product.find(session[:product_id])      
+    end
+    
+    run_with_stripe_exception_handler(log_message, user_message, main, cleanup)
+    
+    redirect_to purchase_confirmation_path(product_id: @product, payment_id: @payment)
+  end
+```
+
+The last line of the create action now has the redirect.
+
+Step 3
+---- 
+
+Rename the app/views/create.html.erb to app/views/show.html.erb. 
+
+
+Step 4
+----
+
+Define the show page that loads the product and payment models so that the details of purchase can be displayed.
+
+```ruby
+  def show
+    @product = Product.find(params[:product_id])
+    @payment = Payment.find(params[:payment_id])
+  end
+```
+
+Now if you purchase a product, the redirect will make the purchase confirmation page safe to refresh. You can download the entire source code for this article using the commit hash 02a7246 from git@bitbucket.org:bparanj/striped.git.
+
+References
+==========
+----------
+
+[Redirect After Post](http://www.theserverside.com/news/1365146/Redirect-After-Post 'Redirect After Post')

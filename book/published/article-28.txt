@@ -382,7 +382,7 @@ beatsRock
 beatsScissor
 ```
 
-and inverts the boolean flag to return the result. This is double dispatch in action. Comparing this solution to the [Angry Rock Kata](http://www.rubyplus.com/articles/291 "Angry Rock Kata"), it might seem that this solution is complex. For this problem, it is true. If the problem involves objects with complicated logic, this solution is better. By using double dispatch we minimized conditional statements like if-else.
+and inverts the boolean flag to return the result. This is double dispatch in action. Comparing this solution to the [Angry Rock Kata](https://www.rubyplus.com/articles/291 "Angry Rock Kata"), it might seem that this solution is complex. For this problem, it is true. If the problem involves objects with complicated logic, this solution is better. By using double dispatch we minimized conditional statements like if-else.
 
 Exercises
 =========
@@ -390,6 +390,6 @@ Exercises
 
 1. Clean up the dirty implementation by making the methods small and expressive. 
 2. Add more specs for scenarios that we found in analysis section of this chapter.
-3. Compare your solution to the solution shown in the appendix of the appendix of the [Essential TDD book](http://www.rubyplus.com/etdd.pdf "Essential TDD") book. 
+3. Compare your solution to the solution shown in the appendix of the appendix of the [Essential TDD book](https://www.rubyplus.com/etdd.pdf "Essential TDD") book. 
 4. Are we ready to deploy this code to production?
 5. All tests pass. Test code is bad. Production code is bad. Can you ship the product ?

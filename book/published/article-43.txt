@@ -21,7 +21,7 @@ Fake Objects
 ================
 ----------------
 
-Fake objects actually have working implementations, but usually take some shortcut which makes them not suitable for production (an in memory database is a good example). For a concrete example, read the article [How to Use Fakes to Speed Up Tests](http://www.rubyplus.com/articles/261 "How to Use Fakes to Speed Up Tests")
+Fake objects actually have working implementations, but usually take some shortcut which makes them not suitable for production (an in memory database is a good example). For a concrete example, read the article [How to Use Fakes to Speed Up Tests](https://www.rubyplus.com/articles/261 "How to Use Fakes to Speed Up Tests")
 
 Mocks
 ================
@@ -29,7 +29,7 @@ Mocks
 
 Mocks are what we are talking about here: objects pre-programmed with expectations which form a specification of the calls they are expected to receive.
 
-Only mocks insist upon behavior verification. The other doubles can, and usually do, use state verification. For a concrete example, read the article on [Fake and Mocks] (http://www.rubyplus.com/articles/141 "Fakes and Mocks")
+Only mocks insist upon behavior verification. The other doubles can, and usually do, use state verification. For a concrete example, read the article on [Fake and Mocks] (https://www.rubyplus.com/articles/141 "Fakes and Mocks")
 
 Discussion
 ================

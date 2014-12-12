@@ -1,4 +1,4 @@
-PUBLISHED : http://www.rubyplus.com/articles/161
+PUBLISHED : https://www.rubyplus.com/articles/161
 
 TDD Beyond Basics : Contract Tests
 

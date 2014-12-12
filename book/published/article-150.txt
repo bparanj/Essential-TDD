@@ -1,0 +1,16 @@
+Problem:
+Upgrading from Rails 4.1.4 to Rails 4.1.8
+
+rails -v
+Bundler is using a binstub that was created for a different gem.
+This is deprecated, in future versions you may need to `bundle binstub rails` to work around a system/bundle conflict.
+Rails 4.1.8
+
+
+Fix:
+$rm -rf bin/*
+$bundle exec rake rails:update:bin
+zepho-mac-pro:lafon zepho$ rails -v
+Rails 4.1.8
+
+

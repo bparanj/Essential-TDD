@@ -36,18 +36,18 @@ Gauss took a big picture view. He saw the forest (entire data set) instead of on
 He saw the relationship between data. He extended the solution to derive the generalization. 
 
 
-![alt text](http://www.rubyplus.com/images/forest.jpg "Forest")
+![alt text](https://www.rubyplus.com/images/forest.jpg "Forest")
 
 
 Zoom In, Zoom Out
 ===================
 -------------------
 
-![alt text](http://www.rubyplus.com/images/micro-macro.png "Micro Macro")
+![alt text](https://www.rubyplus.com/images/micro-macro.png "Micro Macro")
 
-![alt text](http://www.rubyplus.com/images/sda-sum.png "Big Picture of Summing")
+![alt text](https://www.rubyplus.com/images/sda-sum.png "Big Picture of Summing")
 
-![alt text](http://www.rubyplus.com/images/sda-sum2.png "Big Picture Summing")
+![alt text](https://www.rubyplus.com/images/sda-sum2.png "Big Picture Summing")
 Problem 
 
 Solution 1 , 2, 3, ... n

@@ -10,7 +10,7 @@ Discussion
 ===================
 -------------------
 
-This lesson builds on top of the previous lesson on [Fakes and Mocks](http://www.rubyplus.com/articles/141 "Fakes and Mocks"). What does test driven development have to do with design principles? Test driven development is not just about reducing the duplication in code. It involves driving the design of the production code through tests. 
+This lesson builds on top of the previous lesson on [Fakes and Mocks](https://www.rubyplus.com/articles/141 "Fakes and Mocks"). What does test driven development have to do with design principles? Test driven development is not just about reducing the duplication in code. It involves driving the design of the production code through tests. 
 
 Steps
 =============
@@ -91,4 +91,4 @@ Summary
 ===========
 -----------
 
-In this lesson you learned how to apply Open Closed Principle to design a system that is [flexible](http://www.rubyplus.com/articles/661 'Flexible Design') to new requirements. We used constructor dependency injection to achieve decoupling of the scanner from the display. So interchanging new displays that conform to our interface works without any modification to the original code. 
+In this lesson you learned how to apply Open Closed Principle to design a system that is [flexible](https://www.rubyplus.com/articles/661 'Flexible Design') to new requirements. We used constructor dependency injection to achieve decoupling of the scanner from the display. So interchanging new displays that conform to our interface works without any modification to the original code. 

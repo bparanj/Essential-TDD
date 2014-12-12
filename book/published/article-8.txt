@@ -293,7 +293,7 @@ Discussion
 
 We broke the dependency on external display object by using a fake object that mimicked the interface of the real object. We used constructor dependency injection to create a scanner object with a fake display. Dependency injection allows us to design loosely coupled objects. We identified the need to decouple the scanner and display objects due to performance problem. This also increases the cohesion of these objects.
 
-![alt text](http://www.rubyplus.com/images/large_crash_test_dummy.jpg "Crash Test Dummy")
+![alt text](https://www.rubyplus.com/images/large_crash_test_dummy.jpg "Crash Test Dummy")
 
 When we write tests, we have to divide and conquer. This test tells us how scanner objects affect displays. This test helps us to see whether a problem is due to scanner. Is scanner fulfilling its responsibility? This helps us localize errors and save time during troubleshooting. 
 
@@ -321,7 +321,7 @@ describe Scanner do
 end
 ```
 
-The display method is under our control so we can mock it. Mocks is a design technique that is used to discover API. This is an example of right way to Mock. The *and* part of the doc string has been deleted. The purpose of scanner object is now clear. Scanner object scans items and Display objects display the details of a given line item. Read the article on [Concise Version of Martin Fowler's article on Mocks and Stubs](http://www.rubyplus.com/articles/401 'Mocks are not Stubs') for a quick explanation.
+The display method is under our control so we can mock it. Mocks is a design technique that is used to discover API. This is an example of right way to Mock. The *and* part of the doc string has been deleted. The purpose of scanner object is now clear. Scanner object scans items and Display objects display the details of a given line item. Read the article on [Concise Version of Martin Fowler's article on Mocks and Stubs](https://www.rubyplus.com/articles/401 'Mocks are not Stubs') for a quick explanation.
 
 Summary
 ===========

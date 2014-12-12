@@ -131,7 +131,7 @@ Discussion
 ==========
 -----------
 
-We took a bigger step by providing a non trival implementation of the spare() method. When the implementation is straight forward you can just type in the real implementation. There is no need to triangulate or Fake It Till You Make it. Since this method is just a one-liner we went ahead and implemented it. You can learn more by reading the article on [Obvious Implementation](http://www.rubyplus.com/articles/521 "Obvious Implementation")
+We took a bigger step by providing a non trival implementation of the spare() method. When the implementation is straight forward you can just type in the real implementation. There is no need to triangulate or Fake It Till You Make it. Since this method is just a one-liner we went ahead and implemented it. You can learn more by reading the article on [Obvious Implementation](https://www.rubyplus.com/articles/521 "Obvious Implementation")
 
 Step 9
 -------------

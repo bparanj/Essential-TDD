@@ -18,15 +18,15 @@ Why should I as a developer care? This is the job of Devops guy. The reason is i
 
 It's like the washing machine problem. You put the coins in, the detergent and you expect the machine to work. Sometimes it takes your money and the detergent but does not work. You can kick it, curse and scream. You become more frustrated when you find out you cannot get your clothes out since the door gets jammed.
 
-![alt text](http://www.rubyplus.com/images/washing-machine.jpg "Washing Machine")
+![alt text](https://www.rubyplus.com/images/washing-machine.jpg "Washing Machine")
 
 What if you had a switch that you could push to find out whether it's in good status or not? You will not waste your money or energy on an inoperative washing machine.
 
-![alt text](http://www.rubyplus.com/images/checklist.jpg "Check List")
+![alt text](https://www.rubyplus.com/images/checklist.jpg "Check List")
 
 Pilots use checklist before takeoff. Why can't software engineers use tools that automates the checklist review and gives us the confidence that the deployed application will work on the target environment even before we deploy it?
 
-![alt text](http://www.rubyplus.com/images/smoke-alarm.png "Smoke Alarm")
+![alt text](https://www.rubyplus.com/images/smoke-alarm.png "Smoke Alarm")
 
 Smoke Alarm with a Self-Test Button
 
