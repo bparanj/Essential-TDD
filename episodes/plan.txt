@@ -1,0 +1,96 @@
+Screencasting Framework
+===========================
+
+Elements of the Screencast
+---------------------------
+
+1. Keynote Presentation
+2. Wacom Tablet Illustration
+3. Desktop Presentation
+
+Required Software and Hardware
+------------------------------
+
+1. Wacom Tablet
+2. Screenflow
+3. Heil Pro 40
+4. M-Track
+
+Scripting
+---------
+
+Create an outline of the concepts to cover.
+
+1. Outline : Keynote Slides
+
+Create a mindmap of concepts to cover and the sequence of slides.
+
+2. Figure out all the code. 
+
+Create a before and after directory. Go through the app in 'after' directory, make changes and take notes on the steps required to accomplish the tasks.
+
+Screen Resolution
+-----------------
+Create the screencast at 1280x720 resolution. Select this resolution for Keynote slides.
+
+Creating the Slides
+------------------- 
+
+Title slide should include the title of the presentation, author and the company name. 
+
+Table of Contents
+
+	List the topics to be covered. Check mark the ones that are completed. 
+
+Use 24pt or above for font size.
+
+Exporting
+---------
+
+Play -> Record Slideshow and click through all the slides. 
+File -> Export -> Quicktime
+Playback Uses : Recorded Timing
+Format: Full Quality Large
+Check the 'Include the slideshow recording'
+
+Save the file in episode_name directory.
+
+Desktop Recording 
+-----------------
+
+Setup application resolution. Start XScope, click on the Frames icon, select 4:3. Then drag it to 1280x720.
+Arrange text editor within this box.
+Fit the terminal within this box.
+Fit the browser window to the box. Hide bookmarks.
+Shorten the terminal using : export PS1='$'
+Move each window around the screen so that you can pan during the screencast.
+Close xScope by hitting the x icon.
+Hide the system dock.
+
+Create the desktop screencast and drag n drop the .mov file into the Screenflow editor.
+
+Rehearsing
+----------
+
+1. Make a copy of before directory so you have a clean starting point.
+2. Put the script on a second monitor.
+3. Think about how you will narrate the screencast later.
+
+Recording
+---------
+
+1. Clear the terminal. Open the starting point of the project. 
+2. Start Screenflow. 
+3. Check 'Record Video from' only.
+4. Hit record button.
+5. Go through the screencast code script. Don't worry about mistakes, it can be edited later.
+6. Stop recording and save it.
+
+Editing 
+-------
+
+1. Change the resolution of the Canvas to 1280x720.
+2. Click the video, drag the screen to where you want the video to start and play through until you need to do:
+   a) Cut out the video. To delete parts of the video you're basically going to split the clip in two places, delete the video in between the cuts, and drag the other clips together. To do a split you can select the edit menu and then the "Split Clip" item or better yet, just do Shift + Command + T. Find where you want to cut the clip to, split it there, select (click) the video in between the cuts, hit the delete key, and then drag one part of the video up against the other. You can undo if you cut too much.
+   
+Refer : file:///Users/zepho/Documents/Code%20School%20Screencasting%20Framework.html

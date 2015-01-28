@@ -1,0 +1,4 @@
+% Rails 4.2 Quickly
+% Bala Paranj
+
+\newpage

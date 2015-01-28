@@ -1,0 +1,281 @@
+How to use VCR to speed up unit tests
+
+Discussion
+==========
+----------
+
+In this article, we will use the Striped project that uses the Stripe API for payment to illustrate how to use VCR gem to speed up unit tests. The feature tests will hit the real servers, since it's acceptable for the integration tests to run slow. It'a tradeoff that we make to gain confidence in integrating our code with external service like Stripe API.
+
+Steps
+=====
+
+Step 1
+------
+
+Add the vcr and webmock gems to the test group in Gemfile:
+
+```ruby
+group :test do
+  gem 'capybara'
+  gem 'selenium-webdriver'
+  gem 'database_cleaner'
+  gem 'simplecov', :require => false
+  gem 'vcr'
+  gem 'webmock'
+end
+```
+
+Run `bundle`
+
+Step 2
+--------
+
+Add `config.extend VCR::RSpec::Macros` to your RSpec configuration block in rails_helper.rb
+
+Step 3
+------
+
+Specify the directory to store the cassettes in the rails_helper.rb:
+
+```ruby
+VCR.configure do |c|
+  c.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
+  c.hook_into :webmock # or :fakeweb
+end
+```
+
+Here is my entire configuration file:
+
+```ruby
+# This file is copied to spec/ when you run 'rails generate rspec:install'
+ENV["RAILS_ENV"] ||= 'test'
+require 'spec_helper'
+require File.expand_path("../../config/environment", __FILE__)
+require 'rspec/rails'
+require 'database_cleaner'
+
+# :nocov:
+# Requires supporting ruby files with custom matchers and macros, etc, in
+# spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
+# run as spec files by default. This means that files in spec/support that end
+# in _spec.rb will both be required and run as specs, causing the specs to be
+# run twice. It is recommended that you do not name files matching this glob to
+# end with _spec.rb. You can configure this pattern with the --pattern
+# option on the command line or in ~/.rspec, .rspec or `.rspec-local`.
+Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+
+# Checks for pending migrations before tests are run.
+# If you are not using ActiveRecord, you can remove this line.
+ActiveRecord::Migration.maintain_test_schema!
+
+RSpec.configure do |config|
+  config.include Devise::TestHelpers, :type => :controller
+  config.include ControllerHelpers, :type => :controller
+  
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:each, js: true) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
+  
+  # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
+  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+
+  # If you're not using ActiveRecord, or you'd prefer not to run each of your
+  # examples within a transaction, remove the following line or assign false
+  # instead of true.
+  # config.use_transactional_fixtures = false
+
+  # RSpec Rails can automatically mix in different behaviours to your tests
+  # based on their file location, for example enabling you to call `get` and
+  # `post` in specs under `spec/controllers`.
+  #
+  # You can disable this behaviour by removing the line below, and instead
+  # explicitly tag your specs with their type, e.g.:
+  #
+  #     RSpec.describe UsersController, :type => :controller do
+  #       # ...
+  #     end
+  #
+  # The different available types are documented in the features, such as in
+  # https://relishapp.com/rspec/rspec-rails/docs
+  config.infer_spec_type_from_file_location!
+  
+  config.extend VCR::RSpec::Macros
+end
+
+VCR.configure do |c|
+  c.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
+  c.hook_into :webmock # or :fakeweb
+  c.allow_http_connections_when_no_cassette = true
+end
+```
+
+Step 4
+-------
+
+Use the cassette to record the network interaction in your tests, here is an example spec/actors/customer/use_cases/guest_checkout_spec.rb:
+
+```ruby
+require 'rails_helper'
+
+describe 'Guest Checkout' do
+  before(:each) do
+    @product = Product.create(name: 'Rails 4 Quickly', price: 47)  
+  end
+  
+  it 'should save credit card at Stripe servers and save credit_card details in our database' do
+    VCR.use_cassette "guest checkout" do
+      token = Stripe::Token.create(:card => {
+                                      :number => "4242424242424242",
+                                      :exp_month => 11,
+                                      :exp_year => 2025,
+                                      :cvc => "314"})
+      user = User.new(email: 'bogus@exmaple.com', password: '12345678')
+      user.save
+    
+      Actors::Customer::UseCases.guest_checkout(@product.id, token.id, user)
+    
+      expect(User.last.credit_card.last4digits).to eq('4242')
+      expect(User.last.credit_card.expiration_month).to eq(11)
+      expect(User.last.credit_card.expiration_year).to eq(2025)
+    end
+  end
+
+  it 'should create payment record in our database' do
+    VCR.use_cassette "guest checkout" do
+      token = Stripe::Token.create(:card => {
+                                      :number => "4242424242424242",
+                                      :exp_month => 11,
+                                      :exp_year => 2025,
+                                      :cvc => "314"})
+      user = User.new(email: 'bogus@exmaple.com', password: '12345678')
+      user.save
+    
+      Actors::Customer::UseCases.guest_checkout(@product.id, token.id, user)
+
+      payment = Payment.last
+      expect(payment.product_id).to eq(@product.id)
+      expect(payment.amount).to eq(@product.price)
+      expect(payment.user_id).to eq(user.id)
+    end
+  end
+
+  it 'should save stripe_customer_id in our database' do
+    VCR.use_cassette "guest checkout" do
+      token = Stripe::Token.create(:card => {
+                                      :number => "4242424242424242",
+                                      :exp_month => 11,
+                                      :exp_year => 2025,
+                                      :cvc => "314"})
+      guest = User.create(email: 'bogus@exmaple.com')
+      guest.save!(:validate => false)
+        
+      Actors::Customer::UseCases.guest_checkout(@product.id, token.id, guest)
+
+      user = User.last
+      expect(user.stripe_customer_id).not_to be_nil
+    end
+  end
+end
+```
+
+This will create spec/fixtures/guest_checkout.yml file that has the serialized response object from Stripe servers.
+
+Step 5
+-------
+
+You can see the improvement in performance when you run the specs after the first interaction with the server is recorded.
+
+```sh
+$ rake spec:actors
+
+Finished in 6.02 seconds (files took 3.42 seconds to load)
+6 examples, 0 failures
+
+$ rake spec:actors
+
+Finished in 2.78 seconds (files took 3.44 seconds to load)
+6 examples, 0 failures
+```
+
+Step 6
+-------
+
+You will get VCR::Errors::UnhandledHTTPRequestError: error if you don't tell VCR to record new request. To record new episodes you can use :record => :new_episodes as shown in spec/gateways/stripe_gateway_spec.rb:
+
+```ruby
+require 'rails_helper'
+require 'stripe'
+
+describe StripeGateway do
+  
+  it 'saves customer credit card on Stripe servers' do
+    VCR.use_cassette("stripe gateway", :record => :new_episodes) do
+      token = Stripe::Token.create(:card => {
+                                      :number => "4242424242424242",
+                                      :exp_month => 11,
+                                      :exp_year => 2025,
+                                      :cvc => "314"})  
+
+      customer = StripeGateway.save_credit_card(token.id)
+  
+      expect(customer.id).not_to be_nil      
+    end
+  end
+  
+  it 'can charge a customer for a given amount' do
+    VCR.use_cassette("stripe gateway", :record => :new_episodes) do
+      token = Stripe::Token.create(:card => {
+                                      :number => "4242424242424242",
+                                      :exp_month => 11,
+                                      :exp_year => 2025,
+                                      :cvc => "314"})  
+      customer = StripeGateway.save_credit_card(token.id)
+      charge = StripeGateway.charge(1500, customer.id)
+  
+      expect(charge.id).not_to be_nil      
+    end
+  end
+  
+end
+```
+
+Step 7
+-------
+
+In rails_helper.rb, turn off VCR for feature specs:
+
+```ruby
+VCR.configure do |c|
+  c.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
+  c.hook_into :webmock # or :fakeweb
+  c.allow_http_connections_when_no_cassette = true
+end
+```
+
+We are not using any cassettes for the integration tests, so this configuration will work. You can download the entire source code for this article using the commit hash e22c2a0 from git@bitbucket.org:bparanj/striped.git.
+
+References
+===========
+-----------
+
+[VCR Usage with RSpec](https://relishapp.com/vcr/vcr/v/2-9-3/docs/test-frameworks/usage-with-rspec-macro 'VCR Usage with RSpec')
+[Speeding up Rspec integration testing with the VCR gem](http://tech.xogroupinc.com/post/88009141839/speeding-up-rspec-integration-testing-with-the-vcr 'Speeding up Rspec integration testing with the VCR gem')
+[How to configure VCR to work with Rails + RSpec](http://www.chrisjeon.me/blog/2013/12/15/how-to-configure-vcr-to-work-with-rails-rspec 'How to configure VCR to work with Rails + RSpec')
+[Application Testing with Capybara](https://www.packtpub.com/application-development/application-testing-capybara 'Application Testing with Capybara')
+[Is it possible to disable VCR based on type of spec?](https://github.com/vcr/vcr/issues/427 'Is it possible to disable VCR based on type of spec?')

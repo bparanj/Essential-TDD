@@ -1,0 +1,141 @@
+
+
+
+Presentation
+
+HTTP stands for Hyper Text Transfer Protocol. 
+
+What is Hypertext?
+[[[]]]
+
+Protocol is an agreement of message format on how machines communicate with each other.  The client makes a request to a server and waits for a response. This referred to as a request response protocol. 
+
+Demo:
+
+Type a URL, www.rubyplus.com in the address bar of the browser. We see the website displayed in the browser. Let's go to the articles page, when you click on a link, the browser displays that page. Your browser is the HTTP client that makes a request to a HTTP server to retrieve documents. 
+
+Let's view the source of this page. You can see CSS, HTML, Javascript etc that makes up a HTML document. These files were sent from a HTTP server to your browser (the HTTP client). The client and server uses HTTP protocol during the communication.
+
+Demo
+
+Show how the request and response is text messages that follows a standard format that machines can understand. When the browser issues a request, it sends some text to a server. Because the client and the server use the HTTP protocol, the server can understand the request and send a response back to the browser. The browser then processes the response into content that humans can understand. 
+
+
+Presentation
+
+Clients and Servers
+
+The most common client is the Web Browser such as Firefox, Safari and Chrome. Web browsers issue HTTP requests and process the HTTP response. The content you request is located on a remote machine called a server. Servers are machines that can accept inbound requests and issue a response back. 
+
+Diagram for Client --> HTTP request Server www.rubyplus.com  sending back HTTP response.
+
+What is a Resource?
+
+A resource can be anything that has identity. It can be things such as pdf document, images, videos, html documents etc. 
+
+
+Bamboo Lesson
+
+URL
+
+A URL is abbreviation of uniform resource locator. This is a web address, used with HTTP. It is a specific character string that points to a resource. You can see this in the address bar of the web browsers. It's just like a house address or a phone number. It has an identity that uniquely identifies the resource. 
+
+
+The URL can be broken into 3 parts:
+
+http: This is called the URL scheme. It tells the http client how to access a resource. In this case, it tells the http client to use HTTP to make a request. 
+
+www.example.com . The second part of the URL, is the resource path or host. It tells the client where the resource is located.
+
+/finance/ : The third part of the URL, is the URL path. It shows what resource is being requested.
+
+
+http: // www.example.com /finance/
+
+URL Scheme   Host         URL Path
+
+Sometimes, the path can point to a specific resource on the host. For instance, https://www.rubyplus.com/articles/161 points to an HTML file located on rubyplus.com server.
+
+URLs can contain an optional port number which the host uses to listen to HTTP requests. A URL http://localhost:3000/home uses the port number 3000 to listen to HTTP requests. The default port number is 80. If you don't specify any port number, it defaults to port 80.
+
+
+Query Strings 
+
+A query string is part of the URL and usually contains data to be sent to the server. A simple URL with query string : https://www.google.com/search?q=rails&start=10
+
+? - A reserved character that marks the start of the query string
+q=rails - This is a parameter name/value pair
+& - This is a reserved character, used when adding more parameters to the query string.
+start=10 This also a parameter name/value pair.
+
+This parameter fetches the second page of the query results, it's af if you clicked on the page 2 in the bottom of the search results.
+
+
+Use this to demo the output of the query in the browser.
+
+
+https://www.google.com/search?q=rails&start=10
+
+www.google.com ---> URL
+search ---> URL path
+? - Begin query string
+q - parameter name
+rails - parameter value
+& - Query string separator.
+
+Exercise:
+
+Look at the following URL and explain each component:
+
+http://www.bing.com/images/search?q=river&go=Submit
+
+Go to this URL, what do you see?
+
+Query Strings Limitations:
+
+They have a maximum length. 
+The name/value pairs are visible in the URL. So, it cannot be used for sending sensitive information like password.
+Space and special characters cannot be used with query strings. For instance, if you wanted to search images for 'amazon river', you have to URL encode the space character which encodes the space to + character. Let's type http://www.bing.com/images/search?q=amazon+river&go=Submit in the browser.
+
+What is ASCII character set? [REFER THE SANTA CLARA CHILDREN'S BOOK FOR A NICE EXPLANATION]
+
+
+
+URL Encoding
+
+URLs can only use certain characters in the ASCII character set. Unsafe and reserverd characters not included in this set must be encoded. [REFER THE NOTES.TXT TO DESCRIBE WHAT IS UNSAFE AND RESERVED]
+
+The URL encoding converts the characters that are not allowed to % symbol followed by two hexadecimal digits that represent the ASCII code of the character WHAT IS HEXADECIMAL?
+
+Character   ASCII code      URL
+Space       020          %020 in the URL
+!	        041		     %041	
++           053          %053
+''          042			 %042	
+
+Characters must be encoded if:
+
+1.The reserved characters are used in the URL scheme and has special meaning such as /, ?, :, @ and &. These characters must be encoded.
+& is used for query string delimiter.
+: is used to delimit host/port components and user/password.
+
+2. The use of the character is unsafe. For example, % , since it is used for encoding other characters.
+3. They have no corresponding character within the ASII character set.
+
+
+We can use alphanumeric and special characters $-_.+'(),'', can be used in the URL. 
+
+
+Browser Plugins
+
+Postman and REST HTTP API Client for Chrome. cURL is a command line tool  ------------.
+Install Fiddler : http://fiddler.wikidot.com/mono
+
+HTTP Command Line Tools
+
+curl is a free command line tools used to issue HTTP requests.
+
+Take notes from here: http://www.gotealeaf.com/books/http/read/making_requests
+
+
+Statelessness [Cover this concept before discussing topics like Cookies, Session]
