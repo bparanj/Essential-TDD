@@ -15,23 +15,3 @@ Action         Purpose
  show         displaying a given article     
  index        displaying a list of articles 
 
-
-```ruby
-
-```
-
-```ruby
-
-```
-
-```ruby
-
-```
-
-```ruby
-
-```
-
-```ruby
-
-```

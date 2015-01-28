@@ -42,8 +42,15 @@ BOOKMARK: Revise IPN Handler chapter
 ## How to Generate the Book ##
 
 cd ~/projects/essential-tdd/book/en 
-$ pandoc -S --variable fontsize=12pt --epub-metadata=metadata.xml -o etdd.pdf title.txt toc.markdown out_of_scope.markdown 01-Section/01-section-1.markdown 00-intro/introduction.markdown 00-intro/what_vs_how.markdown 19-first-test/19-first-test.markdown 20-rspec-intro/20-rspec-intro.markdown 07-canonical-test-structure/07-canonical-test-structure.markdown 08-code-mutation/08-code-mutation.markdown 09-eliminate-loops/09-eliminate-loops.markdown 17-role/15-role.markdown 01-fibonacci/01-finbonacci.markdown 02-section/02-section-2.markdown 05-scanner/05-scanner.markdown 14-week/14-week.markdown 02-guess-game/02-guess-game.markdown 06-uncommenter/06-uncommenter.markdown 04-test-spy/04-test-spy.markdown 03-command-query-separation/03-command-query-separation.markdown 10-angry-rock/10-angry-rock.markdown 16-bowling-game/16-bowling-game.markdown 11-double-dispatch/11-double-dispatch.markdown 12-twitter-client/12-twitter-client.markdown  13-learning-specs/13-learning-specs.markdown 18-calculator/18-calculator.markdown appendix/appendix.markdown; open etdd.pdf
+$ pandoc -S --variable fontsize=12pt --epub-metadata=metadata.xml -o etdd42.pdf title.txt toc.markdown out_of_scope.markdown 01-Section/01-section-1.markdown 00-intro/introduction.markdown 00-intro/what_vs_how.markdown 19-first-test/19-first-test.markdown 20-rspec-intro/20-rspec-intro.markdown 07-canonical-test-structure/07-canonical-test-structure.markdown 08-code-mutation/08-code-mutation.markdown 09-eliminate-loops/09-eliminate-loops.markdown 17-role/15-role.markdown 01-fibonacci/01-finbonacci.markdown 02-section/02-section-2.markdown 05-scanner/05-scanner.markdown 14-week/14-week.markdown 02-guess-game/02-guess-game.markdown 06-uncommenter/06-uncommenter.markdown 04-test-spy/04-test-spy.markdown 03-command-query-separation/03-command-query-separation.markdown 10-angry-rock/10-angry-rock.markdown 16-bowling-game/16-bowling-game.markdown 11-double-dispatch/11-double-dispatch.markdown 12-twitter-client/12-twitter-client.markdown  13-learning-specs/13-learning-specs.markdown 18-calculator/18-calculator.markdown appendix/appendix.markdown
 
+; open etdd.pdf
+
+
+## Rails Book ##
+
+pandoc -S --variable fontsize=12pt --epub-metadata=metadata.xml -o rails42.pdf title.txt about_author.markdown about_reader.markdown acknowledgments.markdown how_to_read.markdown table_of_contents.markdown lesson_1.markdown lesson_2.markdown lesson_3.markdown lesson_4.markdown lesson_5.markdown lesson_6.markdown lesson_7.markdown lesson_8.markdown lesson_9.markdown lesson_10.markdown lesson_11.markdown lesson_12.markdown bonus_chapters.markdown resources.markdown self_learning.markdown tools.markdown survey.markdown
+ 
 ## Syntax ##
 
 Refer progit book by Scott Chacon

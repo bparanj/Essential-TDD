@@ -70,7 +70,7 @@ Right click and do 'View Page Source' in Chrome or 'Show Page Source' in Safari.
 
 You will see the hyperlink which is a relative url. 
 
-![Page Source - Relative URL](./figures/relative_url_.png)
+Page Source - Relative URL image should go here. TODO
 
 \newpage
 
@@ -82,7 +82,7 @@ Change the articles_path to articles_url in the welcome/index.html.erb.
 
 Reload the page. View page source to see the absolute URL.
 
-![Absolute URL](./figures/absolute_url_.png)
+Absolute URL (./figures/absolute_url.png)
 
 \newpage
 

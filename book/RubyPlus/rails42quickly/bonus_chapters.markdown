@@ -1,8 +1,4 @@
-Bonus Chapters
-
---------------------------------------
-
-# 1. Filters #
+# Bonus Chapter 1 - Filters #
 
 ## Objective ##
 
@@ -100,7 +96,7 @@ In this lesson we learned how to use before_action filter. It takes the name of 
 
 \newpage
 
-# 2. Validations #
+# Bonus Chapter 2 - Validations #
 
 ## Objectives ##
 
@@ -292,7 +288,7 @@ In this lesson we learned how to display validation error messages to the user w
 
 \newpage
 
-# 3. Using Twitter Bootstrap 3.3 #
+#  Bonus Chapter 3 -  Twitter Bootstrap 3.3 #
 
 ## Objective ##
 
