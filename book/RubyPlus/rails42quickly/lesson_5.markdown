@@ -122,6 +122,8 @@ Reload the browser http://localhost:3000/articles/new page.
 
 You will now see the above error.
 
+\newpage
+
 ### Step 10 ###
 
 Change the new method in articles controller as follows:
@@ -196,11 +198,13 @@ Fill out the form and click 'Create Article'.
 
 ![Article Form Values](./figures/article_form_values)
 
-You can see that the form values submitted by the user is sent to the server. Rails automatically populates a hash called params which contains a key whose name is the article symbol and the values are the different database columns and its values.
+You can see that the form values submitted by the user is sent to the server. Rails automatically populates a hash called params which contains a key whose name is the article symbol and the values are the different database columns and its values. You will see missing tempate error.
+
+\newpage
 
 ![Article Create Missing Template](./figures/article_create_missing_template)
 
-You will see missing tempate error.
+\newpage
 
 ### Step 17 ###
 
@@ -213,6 +217,8 @@ end
 ```
 
 In Figure 50, you see that the hash key article is a string, but I am using the symbol :article in the create method. How does this work? 
+
+\newpage
 
 ![HashWithIndifferentAccess](./figures/hash_with_indifferent_access)
 
@@ -227,6 +233,8 @@ Fill out the form and submit again.
 ![Forbidden Attributes Error](./figures/forbidden_attributes_error)
 
 Now we get a forbidden attributes error.
+
+\newpage
 
 ### Step 19 ###
 
@@ -247,6 +255,8 @@ Fill out the form and submit again. You will get the template missing error but 
 ![Save User Data](./figures/last_article)
 
 The ActiveRecord class method 'last' method retrieves the last row in the articles table. 
+
+\newpage
 
 ### Step 21 ### 
 
@@ -277,6 +287,8 @@ You will now see all the articles displayed in the index page.
 ![Redirect to Articles Index Page](./figures/redirecting_to_articles_index.png)
 
 Redirecting user to the articles index page.
+
+\newpage
 
 ## Summary ##
 

@@ -207,6 +207,8 @@ In the articles index page, do a 'View Page Source'.
 
 You can see the content_tag helper generated html for the notice section.
 
+\newpage
+
 ## Summary ##
 
 In this lesson we learned how to delete a given article. We also learned about flash notice to provide user feedback. In the next lesson we will learn about eliminating duplication in views.
