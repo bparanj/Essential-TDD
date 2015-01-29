@@ -15,14 +15,19 @@ Check the versions of installed ruby, rails and ruby gems by running the followi
 
 ```ruby
 $ ruby -v
-  ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-darwin11.0]
-  
- $ rails -v
-   Rails 4.2.0
-    
+```
+
+The output on my machine is : ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-darwin11.0]
+
+```ruby  
+$ rails -v
+```
+The output on my machine is: Rails 4.2.0
+
+```ruby    
 $ gem env
-  RUBYGEMS VERSION: 2.4.5
 ```		 
+The output on my machine is: RUBYGEMS VERSION: 2.4.5
 
 ### Step 2 ###
  
@@ -82,15 +87,13 @@ Welcome page displayed as the home page.
 
 You can shutdown your server by pressing Control+C. 
 
-\newpage
-
 ### Step 9 ###
 
 Click on the 'About' link and check the versions of software installed. If the background of the about section is yellow, installation is fine. If it is red then something is wrong with the installation.
 
-![About Environment](./figures/about_env.png)
+\newpage
 
-Details about your environment displayed in the browser.
+![Details About Your Environment](./figures/about_env.png)
 
 ## Explanation					
 

@@ -60,11 +60,9 @@ URI Pattern is what you see in the browser URL. In this case, it is http://local
 
 Go to the browser and reload the page : http://localhost:3000
 
-![Create Controller](./figures/welcome_controller_absent.png)
+![Uninitialized Constant WelcomeController](./figures/welcome_controller_absent.png)
 
 We see the uninitialized constant WelcomeController error. This happens because we don't have a welcome controller to handle the incoming GET request for the home page.
-
-\newpage
 
 ### Step 6 ###
 
@@ -78,7 +76,7 @@ In this new tab or the terminal, go the blog project directory and type:
 $ rails g controller welcome index
 ```
 
-![Create Controller](./figures/create_controller.png)
+![Create WelcomeController](./figures/create_controller.png)
 
 rails command takes the arguments g for generate, then the controller name and the action. In this case the controller name is welcome and the action name is index.
 

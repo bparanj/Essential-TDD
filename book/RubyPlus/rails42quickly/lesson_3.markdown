@@ -96,7 +96,7 @@ Go to the blog directory in the terminal and run :
 $ rake db:migrate
 ```
  
-![Create Table](./figures/migrate.png)
+![Create Articles Table](./figures/migrate.png)
  
 This will create the articles table. 
  
@@ -200,6 +200,7 @@ $ article.save
  
 Now query the articles table to get the number of records. 
 
+\newpage
 
 ## Summary ##
 

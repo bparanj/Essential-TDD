@@ -196,7 +196,7 @@ Fill out the form and click 'Create Article'.
 
 ![Article Form Values](./figures/article_form_values)
 
-You can see that the form values submitted by the user is sent to the server. Rails automatically populates a hash called params which contains a key whose name is the article symbol and the values are the different database columns and its values for creating a new article record.
+You can see that the form values submitted by the user is sent to the server. Rails automatically populates a hash called params which contains a key whose name is the article symbol and the values are the different database columns and its values.
 
 ![Article Create Missing Template](./figures/article_create_missing_template)
 
@@ -212,7 +212,7 @@ def create
 end
 ```
 
-In Figure 49, you see that the hash key article is a string, but I am using the symbol :article in the create method. How does this work? 
+In Figure 50, you see that the hash key article is a string, but I am using the symbol :article in the create method. How does this work? 
 
 ![HashWithIndifferentAccess](./figures/hash_with_indifferent_access)
 

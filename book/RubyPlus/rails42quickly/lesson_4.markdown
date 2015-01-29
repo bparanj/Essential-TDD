@@ -12,8 +12,6 @@ Model View Controller
 
 Router knows which controller can handle the incoming request. Controller is like a traffic cop who controls the flow of traffic on busy streets. Controller has the knowledge of which model can get the job done, so it delegates the work to the appropriate model object. Controller also knows which view to display to the user after the incoming request has been processed.
 
-Views can be in any format such as XML, CSV, Html, JSON etc. Html is displayed on the browser, JSON and other formats can be consumed by any client such as mobile devices, WebService client etc.
-
 Why MVC architecture? The advantage of MVC is the clean separation of View from the Model and Controller. It allows you to allocate work to teams according to their strengths. The View layer can be developed in parallel by the front-end developers without waiting for the Model and Controller parts to be completed by the back-end developers.
 
 If we agree on the contract between the front-end and back-end by defining the data representation exchanged between the client and server then we can develop in parallel.
@@ -64,13 +62,10 @@ You will see the hyper link in the home page.
 
 Right click and do 'View Page Source' in Chrome or 'Show Page Source' in Safari.
 
-![View Page Source in Chrome](./figures/hyperlink_source.png)
-
-![Show Page Source in Safari](./figures/hyperlink_source2.png)
+![Page Source for Relative URL](./figures/hyperlink_source.png)
 
 You will see the hyperlink which is a relative url. 
 
-Page Source - Relative URL image should go here. TODO
 
 \newpage
 
@@ -78,11 +73,9 @@ Page Source - Relative URL image should go here. TODO
 
 Change the articles_path to articles_url in the welcome/index.html.erb. 
 
-![Absolute URL](./figures/hyperlink_source2.png)
+![Page Source for Absolute URL](./figures/hyperlink_source2.png)
 
-Reload the page. View page source to see the absolute URL.
-
-Absolute URL (./figures/absolute_url.png)
+Reload the page. 
 
 \newpage
 
@@ -114,9 +107,7 @@ You can also use HTTP Live Headers Chrome plugin to see the client and server in
 
 ![Live HTTP Headers Showing Client Server Interaction](./figures/live_http_headers.png)
 
-Here you see the client-server interaction details.
-
-As you see in the figure 32, you can learn a lot by looking at the Live HTTP Header details such as Etag which is used for caching by Rails.
+Here you see the client-server interaction details. As you see in the above figure, you can learn a lot by looking at the Live HTTP Header details such as Etag which is used for caching by Rails.
 
 ![Live HTTP Headers Gives Ton of Information](./figures/live_http_headers_2.png)
 
@@ -191,10 +182,6 @@ You will see the objects in the array displayed on the browser.
 
 Articles are displayed as objects inside an array.
 
-Why does model, view and controller all have to be named Article? The view does more than just display articles in complicated web apps. 
-
-In our simple blog application we are dealing with only one concept, namely article. In complicated web apps you could have a view that displays data from different tables.
-
 \newpage
 
 If you use the Ruby scriptlet tag :
@@ -235,11 +222,9 @@ In this lesson we went from the view (home page) to the controller for articles 
 
 1. View to Controller 
 2. Controller to Model 
-3. Controller to View. 
+3. Controller to View
 
-The data flow was from the database to the user. 
-
-In real world the user data comes from the user so we cannot create them in the rails console or in the database directly. In the next lesson we will see how we can capture data from the view provided by the user and save it in the database.
+The data flow was from the database to the user. In the real world the user data comes from the user so we cannot create them in the rails console or in the database directly. In the next lesson we will see how we can capture data from the view provided by the user and save it in the database.
 
 
 \newpage

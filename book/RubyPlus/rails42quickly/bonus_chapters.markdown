@@ -92,7 +92,7 @@ Now this method can only be used within the articles controller class. Edit, del
 
 ## Summary ##
 
-In this lesson we learned how to use before_action filter. It takes the name of the method as a symbol and calls that method before an action is executed. We customized the filter by excluding some of the actions that does not require loading the article from the database. To learn more about filters check out the http://guides.rubyonrails.org/ site.
+In this lesson we learned how to use before_action filter. It takes the name of the method as a symbol and calls that method before an action is executed. We customized the filter by excluding some of the actions that does not require loading the article from the database. To learn more about filters check out the  [Rails Getting Started Guide] (http://guides.rubyonrails.org/ 'Rails Getting Started Guide') site.
 
 \newpage
 
@@ -330,7 +330,8 @@ from the blog directory. Restart your server to make the files available through
 Open the file `app/assets/stylesheets/application.css.scss` and import Bootstrap styles:
 
 ```scss
-// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+// "bootstrap-sprockets" must be imported before 
+// "bootstrap" and "bootstrap/variables"
 @import "bootstrap-sprockets";
 @import "bootstrap";
 ```

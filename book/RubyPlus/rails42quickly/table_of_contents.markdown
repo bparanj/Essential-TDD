@@ -19,5 +19,7 @@
 # Appendix #
 
 A. Self Learning
+B. Troubleshooting
+C. FAQ
 
 \newpage
