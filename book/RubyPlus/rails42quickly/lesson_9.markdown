@@ -68,6 +68,8 @@ If you get the following error:
 
 It means you did not create the app/views/articles/_form.html.erb file. Make sure you followed the instruction in step 2.
 
+\newpage
+
 ## Summary ##
 
 In this lesson we saw how to eliminate duplication in views by using partials. In the next lesson we will learn about relationships between models.

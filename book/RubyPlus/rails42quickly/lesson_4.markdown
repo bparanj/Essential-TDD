@@ -50,13 +50,11 @@ Change the link as follows :
    
 Go to the home page by going to the http://localhost:3000 in the browser. 
 
-![My Blog](./figures/my_blog_link.png)
-
-What do you see in the home page?
-
-\newpage
+![My Blog Hyperlink](./figures/my_blog_link.png)
 
 You will see the hyper link in the home page. 
+
+\newpage
 
 ### Step 4 ###
 

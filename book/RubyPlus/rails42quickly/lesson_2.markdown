@@ -84,11 +84,11 @@ rails command takes the arguments g for generate, then the controller name and t
 
 ### Step 8 ###
 
-Reload the web browser again. 
+Reload the web browser again. You will see the welcome page.
 
-![Welcome Page](./figures/welcome_index.png)
+![The Welcome Page](./figures/welcome_index.png)
 
-You will now see the above page.
+\newpage
 
 ### Step 9 ###
 

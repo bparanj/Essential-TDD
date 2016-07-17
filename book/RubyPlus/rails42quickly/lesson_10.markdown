@@ -106,6 +106,8 @@ This means each article can have many comments. Each comment points to it's corr
 
 ![Has Many Declaration](./figures/has_many.png)
 
+\newpage
+
 ### Step 11 ###
 
 Open the config/routes.rb and define the route for comments:
@@ -211,6 +213,8 @@ You can see the URI pattern and the http method used when someone submits a comm
 
 Take a look at the output of rake routes and find out the resource endpoint for the URI pattern and http method combination found in step 12.
 
+\newpage
+
 ### Step 16 ###
 
 Run rake routes in the blog directory.
@@ -218,6 +222,8 @@ Run rake routes in the blog directory.
 ![Comments Resource Endpoint](./figures/resource_endpoint_comments.png)
 
 You can see how the rails router takes the comment submit form to the comments controller, create action.
+
+\newpage
 
 ### Step 17 ###
 

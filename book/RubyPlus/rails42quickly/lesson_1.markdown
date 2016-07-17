@@ -22,11 +22,13 @@ The output on my machine is : ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-d
 ```ruby  
 $ rails -v
 ```
+
 The output on my machine is: Rails 4.2.0
 
-```ruby    
+```ruby
 $ gem env
 ```		 
+
 The output on my machine is: RUBYGEMS VERSION: 2.4.5
 
 ### Step 2 ###
@@ -94,6 +96,9 @@ Click on the 'About' link and check the versions of software installed. If the b
 \newpage
 
 ![Details About Your Environment](./figures/about_env.png)
+
+\newpage
+
 
 ## Explanation					
 

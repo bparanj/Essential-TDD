@@ -218,6 +218,8 @@ The answer lies in the hidden field called _method that has the value PATCH. Rai
 
 Rails 4.2 uses PATCH instead of PUT that it used in previous versions. This is because PUT is an indempotent operation so for any request that needs to modify the state on the server PATCH is used.
 
+\newpage
+
 ### Step 16 ##
 
 Let's implement the update method that will take the new values provided by user for the existing record and update it in the database. 
@@ -234,6 +236,8 @@ Before we update the record we need to load the existing record from the databas
 ### Step 17 ###
 
 Go to articles index page by going to http://localhost:3000/articles. Click on the 'Edit' link. In the edit form, you can change the value of either the title or description and click 'Update Article'.
+
+\newpage
 
 ### Step 18 ###
 
@@ -252,6 +256,8 @@ Change the title and click 'Update Article'. We see the template is missing but 
 ![First Article](./figures/updated_first_article.png)
 
 The ActiveRecord class method first retrieves the first record in the table. In this case we got the first row in the articles table.
+
+\newpage
 
 ### Step 19 ###
 

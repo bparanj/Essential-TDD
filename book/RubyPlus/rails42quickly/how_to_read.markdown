@@ -11,7 +11,7 @@ This step-by-step tutorial was written as a hands-on guide to Rails. You must re
  
 # Source Code #
 
-Source code is available from bitbucket Git repo : https://bitbucket.org/bparanj/rails42blog
+Source code is available from [bitbucket Git repo](https://bitbucket.org/bparanj/rails42blog 'bitbucket Git repo').
  
 
 \newpage

@@ -56,6 +56,10 @@ Look at the output of rake routes command. You can see in the URI pattern column
 
 ![Show Article Path Primary Key](./figures/article_path_id.png)
 
+\newpage
+
+### Step 4 ###
+
 So we need to pass the id as the parameter as shown below:
 
 ```ruby
@@ -74,7 +78,7 @@ We can simplify it even further by letting Rails call the id method for us by ju
 
 \newpage
 
-### Step 4 ###
+### Step 5 ###
 
 Since Rails automatically calls the id method of the ActiveRecord we can simplify it as follows:
 
@@ -84,7 +88,7 @@ Since Rails automatically calls the id method of the ActiveRecord we can simplif
 
 \newpage
 
-### Step 5 ###
+### Step 6 ###
 
 Rails has optimized this even further so you can do :
 
@@ -106,7 +110,7 @@ Rails internally uses the polymorphic_path method that takes an argument to gene
 
 \newpage
 
-### Step 6 ###
+### Step 7 ###
 
 The app/views/articles/index.html.erb looks as shown below:
 
@@ -131,7 +135,7 @@ The app/views/articles/index.html.erb looks as shown below:
 
 \newpage
 
-### Step 7 ###
+### Step 8 ###
 
 Reload the articles index page http://localhost:3000/articles 
 
@@ -141,7 +145,7 @@ You will see the show link.
 
 \newpage
 
-### Step 8 ###
+### Step 9 ###
 
 If you view the page source for articles index page, you will see the hyperlink for 'Show' with the URI pattern '/articles/1'. Since this is a hyperlink the browser will use the http verb GET when the user clicks on show.
 
@@ -155,7 +159,9 @@ In the rails server log you will see the GET request for the resource '/articles
 
 Server log is another friend.
 
-### Step 9 ###
+\newpage
+
+### Step 10 ###
 
 If you click on the 'Show' link you will get the 'Unknown action' error.
 
@@ -171,7 +177,9 @@ end
 
 We already know the instance variable @article will be made available in the view.
 
-### Step 10 ###
+\newpage
+
+### Step 11 ###
 
 If you click the 'Show' link, you will get the 'Template is missing' error. 
 
@@ -190,6 +198,8 @@ We need a view to display the selected article. Let's define app/views/show.html
 ```
 
 Since the @article variable was initialized in the show action, we can retrieve the values of the columns for this particular record and display it in the view. Now the 'Show' link will work. 
+
+\newpage
 
 ## Summary ##
 

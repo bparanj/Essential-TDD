@@ -178,6 +178,8 @@ Refresh icon of Firefox Plugin MySQLite Manager.
 
 Go to articles index page and delete an article that has comments. Now go to either rails dbconsole or use MySQLite Manager to see if the comments associated with that articles is still in the database.
 
+\newpage
+
 ### Step 9 ###
 
 When you delete the parent the children do not get deleted automatically. The comment records in our application become useless because they are specific to a given article. In order to delete them when the parent gets deleted we need to change the Article ActiveRecord sub-class like this :
@@ -202,6 +204,8 @@ The polymorphic_path method will throw an error when two arguments are passed.
 
 Rails internally uses polymorphic_path method with an array containing the parent and child objects to generate the url helper.
 
+\newpage
+
 Change the second parameter, url helper to :
 
 ```ruby
@@ -218,6 +222,8 @@ The link_to will now look like this:
 ```
 
 The delete functionality will still work. Since Rails allows passing the parent and child instances in an array instead of using the Prefix.
+
+\newpage
 
 ## Summary ##
 

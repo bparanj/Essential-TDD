@@ -49,6 +49,8 @@ For user name, enter welcome and for password enter secret. Click 'Login'. Now t
 
 Use http basic authentication to protect deleting comments in the articles show page.
 
+\newpage
+
 ## Summary ##
 
 This completes our quick tour of Rails 4.2. If you have developed the blog application following the 12 lessons you will now have a strong foundation to build upon by reading other Rails books to continue your journey to master the Rails framework. Good luck.
