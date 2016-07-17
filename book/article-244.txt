@@ -1,0 +1,360 @@
+PUBLISHED
+
+Tips for Upgrading Rails 3.2 to Rails 4.2.5
+
+Objective
+=========
+---------
+
+To learn some tips to speed up upgrading Rails 3.2 to 4.2.5
+
+Can't verify CSRF token authenticity
+=========
+---------
+
+Add CSRF Token for Ajax calls by adding `csrf_meta_tags` to the view or the layout file if it is applicable to all views.
+
+```ruby
+<%= csrf_meta_tags %>
+```
+
+My layout file looks like this:
+
+```ruby
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <title>Ruby Plus</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    
+  <%= csrf_meta_tags %>  
+  
+</head>
+<body>
+ 
+ 
+</body>
+</html>
+```
+
+Grab the `csrf-token` from the meta tag and set the `X-CSRF-TOKEN` value in the javascript as follows:
+
+```javascript
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+```
+
+This must be done before any AJAX calls are made in the views.
+
+Protect From Forgery
+=========
+---------
+
+Update the application controller:
+
+```ruby
+# Prevent CSRF attacks by raising an exception.
+# For APIs, you may want to use :null_session instead.
+  protect_from_forgery with: :exception
+```
+
+To turn off authenticity token check for any controller, do this.
+
+```ruby
+skip_before_action :verify_authenticity_token
+```
+
+Add 
+
+```ruby
+protect_from_forgery :null_session 
+```
+
+for API 
+
+Rename Partial Names with Hyphens
+=========
+---------
+
+Replace any hyphen in the partial name with underscore. To find all files that have hyphen in the file names:
+
+```sh
+find app/views -name "*-*" -print
+```
+
+Once you find the views that have hyphens in it's name, we need to find the references to these files in other files, for instance rendering partials from other views. We need to change them to the new partial name. You can use `ag` which is faster than `ack` or `grep`. To install `ag` on a Mac:
+
+```sh
+brew install the_silver_searcher
+```
+
+Find references to partial that use hyphen it its name:
+
+```sh
+ag -w my-partial
+```
+
+Here the my-partial is the partial we found using the find command. We are now going to replace the my-partial to my_partial. Note: ag has no filter to exclude directories at this time. There is a ticket open for this feature. So let's use ack to exclude multiple directories from the search using ack:
+
+```sh
+ack -w 'my-partial' --ignore-dir={app/assets,log}
+```
+
+This gives file name as well as the line number where the match is found. To list only the file so that you can pipe it to your editor, use `-l` switch:
+
+```sh
+ack -l -w 'my-partial' --ignore-dir={app/assets,log} 
+```
+
+```sh
+ack -l -w 'my-partial' --ignore-dir={app/assets,log} | xargs mate
+```
+
+You can now go to that line and rename the partial to have underscore instead of hyphen. We don't have to do this manually, we can use `sed` for this task, so instead of piping to `xargs` we would pipe it `sed` for substituting the old term to the new term. This might be a better option if there were multiple occurrences. Since the partial is mostly included once in a file, we can just edit it in our editor manually.
+
+Rename SCSS Files
+=========
+---------
+
+Rename css.scss files to .scss. Here is a script to do that:
+
+```sh
+#! /usr/bin/env bash
+
+for f in $(find . -type f -iname '*.css.scss'); do
+  renamed=$(echo "${f}" | sed 's/.css.scss$/.scss/g')
+  cmd="git mv ${f} ${renamed}"
+  echo $cmd
+  eval $cmd
+done
+```
+
+You can also use `rename` utility. To install:
+
+```sh
+brew install rename
+```
+
+To rename using it:
+
+```sh
+rename "s/\.css.scss/\.scss/" *.scss
+```
+
+Route Changes
+=========
+---------
+
+Change routes.rb:
+
+```ruby
+Rails.application.routes.draw do
+ # All routes go inside this block
+
+end
+```
+
+Any routes that uses match with GET must be changed. Change:
+
+```ruby
+match 'something', via: :get
+```
+
+to:
+
+```ruby
+get 'something'
+```
+
+development.rb, test.rb and production.rb
+========
+---------
+
+Replace:
+
+```ruby
+config.serve_static_assets = true
+```
+
+with:
+
+```ruby
+config.serve_static_files = true
+```
+
+Set the eager_load:
+
+```ruby
+config.eager_load = false 
+```
+
+for test and development, true for production.
+
+Rakefile Changes
+========
+---------
+
+Rakefile must be as follows:
+
+```ruby
+# Add your own tasks in files placed in lib/tasks ending in .rake,
+# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
+
+require File.expand_path('../config/application', __FILE__)
+
+Rails.application.load_tasks
+```
+
+ActionMailer
+========
+---------
+
+Change `deliver` to `deliver_now` or `deliver_later`. So instead of doing:
+
+```ruby
+UserMailer.welcome_email(@user).deliver
+```
+
+Do this:
+
+```ruby
+UserMailer.welcome_email(@user).deliver_now
+```
+
+secrets.yml File
+========
+---------
+
+You can generate `secret_key_base` using:
+
+```sh
+rake secret
+```
+
+You can hard code the values for development and test. Use environment variable for the production. Here is a sample file:
+
+```ruby
+development:
+  secret_key_base: some-very-long-string-generated-using-rake-secret-command
+
+test:
+  secret_key_base: some-very-long-string-generated-using-rake-secret-command
+  
+# Do not keep production secrets in the repository,
+# instead read values from the environment.
+production:
+  secret_key_base: <%= ENV["SECRET_KEY_BASE"] %>
+```  
+
+config/boot.rb
+========
+---------
+
+The `config/boot.rb` file should look like this:
+
+```ruby
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
+
+require 'bundler/setup' # Set up gems listed in the Gemfile.
+```
+
+bin/rake
+========
+---------
+
+The `bin/rake` file should look like this:
+
+```ruby
+#!/usr/bin/env ruby
+require_relative '../config/boot'
+require 'rake'
+Rake.application.run
+```
+
+bin/bundle
+========
+---------
+
+The `bin/bundle` file should look like this:
+
+```ruby
+#!/usr/bin/env ruby
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
+load Gem.bin_path('bundler', 'bundle')
+```
+
+config/environment.rb
+========
+---------
+
+The `config/environment.rb` file should look like this:
+
+```ruby
+# Load the Rails application.
+require File.expand_path('../application', __FILE__)
+
+# Initialize the Rails application.
+Rails.application.initialize!
+```
+
+config.ru
+========
+---------
+
+The config.ru file should look like this:
+
+```ruby
+# This file is used by Rack-based servers to start the application.
+
+require ::File.expand_path('../config/environment',  __FILE__)
+run Rails.application
+```
+
+Assets Group
+========
+---------
+
+Get rid of `group :assets` in Gemfile. All gems underneath that group will not be in any group. Just move them to the top level.
+
+config/initializers/mime_types.rb
+========
+---------
+
+Set the mime-types in `config/initializers/mime_types.rb`:
+
+```ruby
+# Be sure to restart your server when you modify this file.
+
+# Add new mime types for use in respond_to blocks:
+# Mime::Type.register "text/richtext", :rtf
+```
+
+Forcing a Join in ActiveRecord
+========
+---------
+
+Any ActiveRecord queries that uses `:includes` should now add `:references` to force the join.
+
+History of a File
+========
+---------
+
+```sh
+gitk app/controllers/articles_controller.rb
+```
+
+Browse through the entire history of a particular file to learn about the why things are the way they are today.
+
+Summary
+========
+---------
+
+In this article, we saw some of the things that you need to do to upgrade your Rails app from 3.2 to 4.2.5. This is not an exhaustive list. But is a very useful checklist to make sure that you have not missed anything during the upgrade process.

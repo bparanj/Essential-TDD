@@ -1,0 +1,90 @@
+https://rubyplus.com/articles/2431  STEP 7 NOT WORKING
+
+Ruby Basics
+
+
+You cannot do this:
+
+start(one, &block) do
+  p 'inside block'
+end
+
+
+class Car
+  def start(one, two)
+    one.call
+    two.call
+  end
+end
+
+c = Car.new
+
+one = -> { p 'one' }
+two = -> do 
+  p 'two' 
+end
+
+c.start(one, two)
+
+-----------------------------------------	
+	
+Ruby Object Model Presentation Notes
+--------
+
+receiver.message()
+
+1. Everything is an Object
+
+Every class is an Object and is an instance of a class called...
+How is every class an object? (Uses the class keyword)
+Object hierarchy
+
+
+1.to_s
+ 
+ '1'
+ 
+ 1.send(:to_s)
+ 
+ 
+ 1 + 1
+ 1.+(1)
+ 1.send(:+, 1)
+ 
+ 1.class
+ Fixnum
+ 
+ Fixnum.instance_methods(false)
+ 
+ + is in the methods list.
+ 
+ 1 + 1 is syntactic sugar for sending message to an object.
+ 
+ 1 == 1
+ 
+ 1.==(1)
+ 1.send(:==, 1)
+ 
+ These are not operators.
+ 
+ Getting rid of if-else by opening the TrueClass and FalseClass so that we can do:
+ 
+ (1 == 1).if_true{ puts 'They are equal'} and we can use if_false.
+ 
+2. There is always a Receiver
+
+What is self?
+ - current object
+When does self change? (Class, Module, Method)
+When is it implicit?   (Calling private methods)
+What is Top Level context?
+
+Receiver could be implicit or explicit
+
+3. Instance and Class methods
+
+What are they?
+Where do they live?
+Object hierarchy revisited
+	- Eigen class
+	- Method Lookup

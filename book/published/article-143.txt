@@ -288,11 +288,11 @@ Create an empty stripe.rb in app/actors/stripe folder.
 Step 13
 ----
 
-In config/application.rb
+In app/actors/stripe/stripe.rb
 
 ```ruby 
 # Stripe System actor
-require_relative '../app/actors/stripe/use_cases/process_subscription_payment_failure'
+require_relative "#{Rails.root}/app/actors/stripe/use_cases/process_subscription_payment_failure"
 ```
 
 Step 14

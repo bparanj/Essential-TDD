@@ -1,0 +1,54 @@
+Sinatra Basics : Customizing Status Code and Error Message
+
+Objective
+=========
+---------
+
+To learn how to use halt method.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+```ruby
+require 'sinatra'
+
+get '/' do
+  halt 400, 'Validation failed'
+end
+```
+
+You can use the status method, but it does not allow providing a custom error message.
+
+Step 2
+---------
+
+Run the application.
+
+```sh
+$shotgun status.rb
+```
+
+Step 3
+---------
+
+Browse to http://localhost:9393
+
+Step 4
+---------
+
+You see status code 400 in the server log and 'Validation failed' in the browser.
+
+Step 5
+---------
+
+Change the status code to 500 and refresh the browser. You will now see the status code is 500.
+
+Summary
+========
+---------
+
+In this article, you learned how to use halt method to customize status code and error message in a Sinatra application.

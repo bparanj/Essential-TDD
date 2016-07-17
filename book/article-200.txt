@@ -1,0 +1,62 @@
+PUBLISHED
+
+Coupling Basics : Dependency Direction
+
+Inversion of Control Principle
+=========
+---------
+
+The Hollywood Principle is another name for **Inversion of Control Principle**. Hollywood Principle says:
+
+> Don't call us, we'll call you.
+
+Martin Fowler says:
+
+> IoC is about who initiates the call. If your code initiates a call, it is not IoC, if the container/system/library calls back into code that you provided it, it is IoC.  
+
+Example #1 for Hollywood Principle:
+---------
+
+```ruby
+class Car
+  def initialize(name)
+    @name = name
+  end
+  
+  def to_s
+    "My name is #{@name}"
+  end
+end
+
+c = Car.new('Tesla')
+
+print c
+```
+
+This prints: My name is Tesla
+
+We did not explicitly call to_s in our code. The to_s method is called by print. In this case, it's the Ruby's built-in library.
+
+Example #2 for Hollywood Principle:
+---------
+
+In a Rails app:
+
+```ruby
+def	new
+  @user = User.new
+end
+```
+
+You implement the action in the controller, the framework calls this method. You as a programmer never call the new action in your code.
+
+Why Apply Inversion of Control?
+---------
+
+Inversion of Control principle helps us to achieve loose coupling thereby allowing us to achieve re-use in our projects. It is one of the ways to achieve **Context Independence**.
+
+Summary
+=========
+---------
+
+In this article you learned about the Inversion of Control Principle and examples illustrating their use. The most important take away is that Inversion of Control is about **DIRECTION** of messages and it can be used to achieve **Context Independence**.

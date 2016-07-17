@@ -1,0 +1,265 @@
+PUBLISHED
+
+Dealing with Common Capybara Feature Test Failures
+
+Objective
+=========
+---------
+
+To learn how to workaround some common Capybara test failures and how to minimize the wait time for pdf file to load on the web browser using RSpec 3.2.2 and Rails 4.2.5.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create a file for your custom helper in spec/support/wait_for_pdf_load.rb. For my project I have:
+
+```ruby
+module WaitForPdfLoad
+  def have_loaded_pdf
+    Timeout.timeout(10) do
+      pdf_loaded?
+    end
+  end
+  
+  private
+  
+  def pdf_loaded?
+    have_content('Automatic')
+  end
+end
+```
+
+Step 2 
+---------
+
+In spec/rails_helper.rb, configure RSpec to include your new helper:
+
+
+```ruby
+RSpec.configure do |config|
+  config.include WaitForPdfLoad, type: :feature
+end
+```
+
+Step 3
+---------
+
+#### Before
+
+The test with hard-coded sleep method was an ugly workaround for the page to load the pdf file.
+
+```ruby
+feature 'Download a product' do
+  before(:each) do
+    Fabricate(:product)
+  end
+  
+  scenario 'Purchase, Register and Download', js: true do
+    checkout_product
+    make_payment('4242424242424242')
+
+    register_after_guest_checkout(test_email, '12345678')
+    
+    click_link 'Download'
+    sleep 5
+  
+    expect(page).to have_content('Automatic')
+  end
+end
+```
+
+#### After
+
+In the test, use can now use the new helper like this:
+
+```ruby
+feature 'Download a product' do
+  before(:each) do
+    Fabricate(:product)
+  end
+  
+  scenario 'Purchase, Register and Download', js: true do
+    checkout_product
+    make_payment('4242424242424242')
+
+    register_after_guest_checkout(test_email, '12345678')
+    
+    click_link 'Download'
+        
+    expect(page).to have_loaded_pdf
+  end
+end
+```
+
+Besides reducing the amount of time spent in waiting, this new helper also raises the level of abstraction.
+
+Wait Until the Page Loads
+=========
+---------
+
+Sometimes the feature tests fail due the link not present, in such cases you can create a wait_until helper like this:
+
+```ruby
+module WaitForPageLoad
+  
+  def wait_until
+    Timeout.timeout(10) do
+      sleep(0.1) until value = yield
+      value
+    end
+  end
+    
+end
+```
+
+in spec/support/wait_for_page_load.rb.  You can now use in your test like this:
+
+```ruby
+require 'rails_helper'
+require 'spec_helper'
+
+feature 'Download a product' do
+  before(:each) do
+    Fabricate(:product)
+  end
+  
+  # Register, Checkout, One-Click Checkout
+  scenario 'register, checkout, one-click and download', js: true do
+
+    # 1. Register
+    sign_up('test@example.com', '12345678')
+
+    # 2. Checkout
+    checkout_product
+    make_payment('4242424242424242')
+
+    # 3. One-click checkout.
+    checkout_product
+    
+    wait_until do
+      expect(page).to have_content('Rails 4 Quickly')
+    end
+    
+    click_link 'Rails 4 Quickly'
+    
+    expect(page).to have_loaded_pdf
+  end
+
+end
+```
+
+In this example the test was failing in the click_link 'Rails 4 Quickly' step because the page was not loaded. So we wait for the 'Rails 4 Quicly' link to appear before we click that link. You can also define a helper called click_link_after_page_load like this:
+
+```ruby
+module WaitForPageLoad
+  
+  def wait_until
+    Timeout.timeout(10) do
+      sleep(0.1) until value = yield
+      value
+    end
+  end
+  
+  def click_link_after_page_load(link_text)
+    wait_until do
+      expect(page).to have_content(link_text)
+    end
+    
+    click_link link_text
+  end  
+end
+```
+
+Add this helper to the configure block in spec/rails_helper.rb:
+
+```ruby
+config.include WaitForPageLoad, type: :feature
+```
+
+Now the test becomes:
+
+```ruby
+  # Register, Checkout, One-Click Checkout
+  scenario 'register, checkout, one-click and download', js: true do
+
+    # 1. Register
+    sign_up('test@example.com', '12345678')
+
+    # 2. Checkout
+    checkout_product
+    make_payment('4242424242424242')
+
+    # 3. One-click checkout.
+    checkout_product
+        
+    click_link_after_page_load('Rails 4 Quickly') 
+    
+    expect(page).to have_loaded_pdf
+  end
+```
+
+Workaround for StaleElementReferenceError
+=========
+---------
+
+Some of the feature tests might fail with StaleElementReferenceError exception. You can simply catch the exception and retry like this:
+
+```ruby
+require 'rails_helper'
+require 'spec_helper'
+
+feature 'My orders' do
+  before(:each) do
+    Fabricate(:product)
+  end
+ 
+  # Guest Checkout, Register, View Orders
+  scenario 'Complete purchase of one product, register and view orders', js: true do
+    visit products_path
+
+    checkout_product
+    
+    begin
+      make_payment('4242424242424242')
+    
+      register_after_guest_checkout(test_email, '12345678')
+    
+      click_link 'My Orders'
+    
+      expect(page).to have_content('Rails 4 Quickly')
+    rescue Selenium::WebDriver::Error::StaleElementReferenceError
+      sleep 1
+      retry
+    end
+  end
+
+end
+```
+
+In my case this test was only failing when the entire test suite was run. It was passing when it was run separately.
+
+Sample Project
+=========
+-----------
+
+As I gradually replaced the sleep calls with the wait_until utility, I observed gradual decrease in the time it took to run the tests.
+
+```sh
+Finished in 4 minutes 9.8 seconds (files took 3.17 seconds to load)
+Finished in 3 minutes 43.4 seconds (files took 3.45 seconds to load)
+Finished in 3 minutes 19.3 seconds (files took 3.14 seconds to load)
+Finished in 3 minutes 15.8 seconds (files took 3.12 seconds to load)
+Finished in 3 minutes 2.8 seconds (files took 3.23 seconds to load)
+```
+
+You can download the sample Rails 4.2.5 project that uses RSpec 3.4, Capybara 2.5 and Devise 3.5.3 here [Striped Rails App](https://bitbucket.org/bparanj/striped 'Stripe with Rails 4.2.5') 
+
+Summary
+=========
+-----------
+
+You can get rid of hard-coded sleep method in your tests to speed it up by waiting only for the required amount of time to give the test a chance to pass. Since I knew the amount of timeout I was using before, I used a value larger than that so that it will pass when all the feature tests are run. We also saw some workaround for common problems in feature tests.

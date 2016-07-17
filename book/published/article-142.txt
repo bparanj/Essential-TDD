@@ -118,10 +118,10 @@ end
 Step 7
 -----
 
-Hookup the use case handler in config/application.rb.
+Hookup the use case handler in app/actors/customer/customer.rb.
 
 ```ruby
-require_relative '../app/actors/customer/use_cases/update_credit_card_expiration_date'
+require_relative "#{Rails.root}/app/actors/customer/use_cases/update_credit_card_expiration_date"
 ```
 
 Step 8

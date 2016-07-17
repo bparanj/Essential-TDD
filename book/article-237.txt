@@ -1,0 +1,590 @@
+Published
+
+The Three Basic Rules for a Good Design
+
+Objective
+=========
+---------
+
+To learn how to apply basic object oriented design principles
+
+Problem
+=========
+---------
+
+Write a program that:
+
+1. Loads a set of employee records from a flat file
+2. Sends a greetings email to all employees whose birthday is today
+
+The flat file is a sequence of records, separated by newlines; these are the first few lines:
+
+```sh
+last_name, first_name, date_of_birth, email
+Doe, John, 1982/10/08, john.doe@foobar.com
+Ann, Mary, 1975/09/11, mary.ann@foobar.com
+```
+
+The greetings email contains the following text:
+
+```sh
+Subject: Happy birthday!
+
+Happy birthday, dear <first_name>!
+
+where first_name is the place holder for first name.
+```
+
+Object Oriented Design Basic Principles
+=========
+---------
+
+We will apply the following three basic principles:
+
+1. Separate things that change from things that stays the same. Encapsulate what varies behind a well-defined interface.
+2. Program to interfaces, not implementations. This exploits polymorphism.
+3. Depend on abstractions. Do not depend on concrete classes.
+
+High Level Steps
+=========
+---------
+
+1. Read data.txt file
+2. Check if date of birth is today
+3. Send greetings email if today is the person's birthday
+
+Let's read a CSV file that contains data.
+
+```ruby
+file_name = "data.txt"
+
+text = open(file_name)
+
+print text.read
+```
+
+Refine the step 1.
+
+```sh
+1. Read data.txt CSV file
+	Skip the header
+2. Check if date of birth is today
+3. Send greetings email if today is birthday
+```
+
+Here is our simple program that we can start playing with:
+
+```ruby
+require 'csv'
+
+file_name = "#{Dir.pwd}/data.txt"
+
+data = CSV.read(file_name, {headers: true}) 
+
+data.each do |x|
+  p x
+end
+```
+
+Refine the step 2
+
+```sh
+1. Read data.txt CSV file
+	Skip the header
+2. Check if date of birth is today
+	Retrieve the third column
+	Remove the spaces at the ends
+	Check if month and date is the same as today's month and date
+	If yes, return the person's first name
+3. Send greetings email if today is birthday
+	Use Gmail, Sendgrid, Pony etc.
+```
+
+Refine the step 3
+
+```sh
+1. Read data.txt CSV file
+	Skip the header
+2. Check if date of birth is today
+	Retrieve the third column
+	Remove the spaces at the ends
+	Check if month and date is the same as today's month and date
+	If yes, return the person's first name
+3. Send greetings email
+	Use Gmail, Sendgrid, Pony etc.
+```
+
+Before
+=========
+---------
+
+The program written that does not apply the 3 design principles looks like this: 
+
+```ruby
+require 'csv'
+
+file_name = "#{Dir.pwd}/data.txt"
+
+data = CSV.read(file_name, {headers: true}) 
+
+data.each do |x|
+  birth_date = x[2].strip!
+  month = birth_date[5..6]
+  day = birth_date[8..9]  
+  
+  if (month.to_i == Date.today.month) and (day.to_i == Date.today.day)
+    p x[1].strip
+    
+    email = <<EMAIL_TEXT
+Subject: Happy birthday!
+
+    Happy birthday, dear #{x[1].strip}!
+EMAIL_TEXT
+    
+    p email
+  end
+end
+```
+
+Analysis
+=========
+---------
+
+This program has the following responsibilities:
+
+1. Parsing CSV file
+2. Checking if today is the birthday of a person
+3. Sending email
+
+Let's make a list of things that can change.
+
+- Input data source
+- How greetings is sent
+
+Things that stays the same are:
+
+- Logic to find if someone's birthday is today.
+
+Step 1
+=========
+---------
+
+The PersonFileStore class will have records method that will return a list of Person objects. The code that applies what we did in analysis now looks like this:
+
+```ruby
+require 'csv'
+
+# This is a domain object
+# This object has no dependency on other objects. It is agnostic to storage mechanism
+class Person 
+  attr_reader :first_name
+  
+  def initialize(first_name, last_name, date_of_birth, email)
+    @first_name = first_name
+    @last_name = last_name
+    @date_of_birth = date_of_birth
+    @email = email
+  end
+  
+  def birth_day
+    @date_of_birth[8..9]  
+  end
+  
+  def birth_month
+    @date_of_birth[5..6]
+  end
+end  
+
+# This class knows how to parse the CSV file to create Person objects
+# The direction of dependency is from PersonFileStore to the domain object
+class PersonFileStore
+  def initialize(file)
+    @file = file
+  end
+
+  def records
+    result = []
+    data = CSV.read(@file, {headers: true}) 
+    data.each do |x|
+      person = Person.new(x[1], x[0], x[2].strip!, x[3])
+      
+      result << person
+    end    
+    result
+  end
+end
+
+# This section of the code is not yet cleaned up.
+pfs = PersonFileStore.new("#{Dir.pwd}/data.txt")
+records = pfs.records
+
+records.each do |person|
+  month = person.birth_month
+  day = person.birth_day
+  
+  if (month.to_i == Date.today.month) and (day.to_i == Date.today.day)
+    
+    email = <<EMAIL_TEXT
+Subject: Happy birthday!
+
+    Happy birthday, dear #{person.first_name}!
+EMAIL_TEXT
+    
+    p email
+  end
+  
+end
+```
+
+Step 2
+=========
+---------
+
+Let's extract the logic to find if anyone has a birthday today.
+
+```ruby
+# Person and PersonFileStore classes is same as before.
+
+# This class encapsulates the logic to find out if the birthday is today or not.
+# It has no dependency on other objects
+class BirthDay
+  def initialize(month, day)
+    @month = month
+    @day = day
+  end
+  
+  def today?
+    (@month.to_i == Date.today.month) and (@day.to_i == Date.today.day)
+  end
+end
+
+pfs = PersonFileStore.new("#{Dir.pwd}/data.txt")
+records = pfs.records
+
+records.each do |person|
+  month = person.birth_month
+  day = person.birth_day
+  
+  birth_day = BirthDay.new(month, day)
+
+  if birth_day.today?
+    
+    email = <<EMAIL_TEXT
+Subject: Happy birthday!
+
+    Happy Birthday, Dear #{person.first_name}!
+EMAIL_TEXT
+    
+    p email
+  end
+  
+end
+```
+
+Step 3
+=========
+---------
+
+Let's extract sending greeting.
+
+```ruby
+# Person, PersonFileStore and Birthday classes is same as before.
+
+# Sending email to the console output is encapsulated within the send interface
+class GreetingConsole
+  def initialize(message, email)
+    @message = message
+	@email = email
+  end
+  
+  def send
+    p "Sending email to : #{email}"
+    p @message    
+  end
+end
+
+# The following code is the client code
+pfs = PersonFileStore.new("#{Dir.pwd}/data.txt")
+records = pfs.records
+
+records.each do |person|
+  month = person.birth_month
+  day = person.birth_day
+  
+  birth_day = BirthDay.new(month, day)
+
+  if birth_day.today?
+    message = <<EMAIL_TEXT
+Subject: Happy Birthday!
+
+    Happy Birthday, Dear #{person.first_name}!
+EMAIL_TEXT
+    # Client is tied to a specific implementation of sending an email message
+    # This needs to change to GreetingEmail.new(message), greeting.send to send email greeting
+    greeting = GreetingConsole.new(message)
+    greeting.send
+  end
+  
+end
+```
+
+Step 4
+=========
+---------
+
+Let's add an in-memory data source and make it work.
+
+```ruby
+class PersonMemoryStore
+
+  def records
+    result = []
+    
+    person = Person.new('Bugs', 'Bunny', '1982/10/06', 'bbunny@rubyplus.com')
+    result << person
+
+    person = Person.new('Daffy', 'Duck', '1975/09/11', 'dduck@rubyplus.com')          
+    result << person
+    
+    result
+  end
+  
+end
+
+# The following code is the client code
+pfs = PersonMemoryStore.new
+records = pfs.records
+
+records.each do |person|
+  month = person.birth_month
+  day = person.birth_day
+  
+  birth_day = BirthDay.new(month, day)
+
+  if birth_day.today?
+    message = <<EMAIL_TEXT
+Subject: Happy Birthday!
+
+    Happy Birthday, Dear #{person.first_name}!
+EMAIL_TEXT
+    # Client is tied to a specific implementation of sending an email message
+    # This needs to change to GreetingEmail.new(message), greeting.send to send email greeting
+    greeting = GreetingConsole.new(message)
+    greeting.send
+  end
+  
+end
+```
+
+Notice that the PersonMemoryStore has the same interface as the PersonFileStore class. In a real project, we could use SQLite in-memory database.
+
+Step 5
+=========
+---------
+
+Let's add a different way to send email by using Pony gem.
+
+```ruby
+require 'pony'
+
+# Sending a real email using Pony gem
+class GreetingPony
+  def initialize(message, email)
+    @message = message
+    @email = email
+  end
+  
+  def send
+    Pony.mail(:to => @email, :from => 'admin@rubyplus.com', :subject => 'Happy Birthday!', :body => @message)
+  end
+end
+```
+
+After
+=========
+---------
+
+The channel folder has greeting_console.rb and greeting_pony.rb classes. The GreetingConsole class looks like this:
+
+```ruby
+# Sending email to the console output is encapsulated within the send interface
+class GreetingConsole
+  def initialize(message, email)
+    @message = message
+    @email = email
+  end
+  
+  def send
+    p "Sending email to : #{@email}"
+    p "Subject : Happy Birthday!"
+    p @message    
+  end
+end
+```
+
+Here is the GreetingPony class:
+
+```ruby
+require 'pony'
+
+# Sending a real email using Pony gem
+class GreetingPony
+  def initialize(message, email)
+    @message = message
+    @email = email
+  end
+  
+  def send
+    Pony.mail(:to => @email, :from => 'admin@rubyplus.com', :subject => 'Happy Birthday!', :body => @message)
+  end
+end
+```
+
+The domain folder contains the BirthDay and Person classes. Here is the BirthDay class:
+
+```ruby
+require 'date'
+
+# This class encapsulates the logic to find out if the birthday is today or not.
+# It has no dependency on other objects
+class BirthDay
+  def initialize(month, day)
+    @month = month
+    @day = day
+  end
+  
+  def today?
+    (@month.to_i == Date.today.month) and (@day.to_i == Date.today.day)
+  end
+end
+```
+
+Here is the Person class:
+
+```ruby
+# This is a domain object
+# This object has no dependency on other objects. It is agnostic to storage mechanism
+class Person 
+  attr_reader :first_name, :email
+  
+  def initialize(first_name, last_name, date_of_birth, email)
+    @first_name = first_name
+    @last_name = last_name
+    @date_of_birth = date_of_birth
+    @email = email
+  end
+  
+  def birth_day
+    @date_of_birth[8..9]  
+  end
+  
+  def birth_month
+    @date_of_birth[5..6]
+  end
+end  
+```
+
+The source folder contains person_file_store.rb and person_memory_store.rb.
+
+```ruby
+require 'csv'
+require_relative '../domain/person'
+
+# This class knows how to parse the CSV file to create Person objects
+# The direction of dependency is from PersonFileStore to the domain object
+class PersonFileStore
+  def initialize(file)
+    @file = file
+  end
+
+  def records
+    result = []
+    data = CSV.read(@file, {headers: true}) 
+    data.each do |x|
+      person = Person.new(x[1], x[0], x[2].strip!, x[3])
+      
+      result << person
+    end    
+    result
+  end
+end
+```
+
+You can see that we need the require_relative statement, since it has dependency on the Person domain object. The PersonMemoryStore class looks like this:
+
+```ruby
+require_relative '../domain/person'
+
+#  This class provides in-memory implementation of the data source interface
+#  Useful in writing tests
+class PersonMemoryStore
+
+  def records
+    result = []
+    
+    person = Person.new('Bugs', 'Bunny', '1982/10/08', 'bbunny@rubyplus.com')
+    result << person
+
+    person = Person.new('Daffy', 'Duck', '1975/09/11', 'dduck@rubyplus.com')          
+    result << person
+    
+    result
+  end
+  
+end
+```
+
+You can download the final refactored code that has a better design here: [Ruby Greeter] (https://bitbucket.org/bparanj/greeter 'Ruby Greeter')
+
+Summary
+=========
+---------
+
+We separated the input data source that can change into it's own source folder. We encapsulated it behind a well-defined interface. We did the same for different ways to send birthday greetings by moving all the relevant classes to the channel folder. We depend on the send method for greeting delivery and records method for data source, so we program to the interface. The glue code in main.rb that uses the classes in the channel, domain and source folders depends on concrete classes. You can use dependency injection and vary the input source and the channel to make them depend on abstractions instead of concrete classes. 
+
+Reference
+=========
+---------
+
+[The birthday greetings kata](http://matteo.vaccari.name/blog/archives/154 "The birthday greetings kata")
+
+
+
+
+
+
+NOTES
+
+
+Objective
+
+To learn about the hexagonal architecture, which is a good way to structure an application, and how to shield your domain model from external apis and systems.
+
+Goals
+
+The goal of this exercise is to come up with a solution that is :
+
+Testable; we should be able to test the internal application logic with no need to ever send a real email.
+Flexible: we anticipate that the data source in the future could change from a flat file to a relational database, or perhaps a web service. We also anticipate that the email service could soon be replaced with a service that sends greetings through Facebook or some other social network.
+Well-designed: separate clearly the business logic from the infrastructure.
+
+
+Testability
+
+A test is not a unit test if:
+
+It talks to a database
+It communicates across the network
+It touches the file system
+You have to do things to your environment to run it (eg, change config files, comment line)
+
+Tests that do this are integration tests. Integration tests have their place; but they should be clearly marked as such, so that we can execute them separately. The reason we draw this sharp distinction is that unit tests should be
+
+1. Very fast; we expect to run thousands of tests per second.
+2. Reliable; we don’t want to see tests failing because of random technical problems in external systems.
+
+One way to make code more testable is to use Dependency Injection. This means that an object should never instantiate its collaborator by calling the new operator. It should be passed its collaborators instead. When we work this way we separate classes in two kinds.
+
+1. Application logic classes have their collaborators passed into them in the constructor.
+2. Configuration classes build a network of objects, setting up their collaborators.
+Application logic classes contain a bunch of logic, but no calls to the new operator. Configuration classes contain a bunch of calls to the new operator, but no application logic.

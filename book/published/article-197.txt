@@ -1,0 +1,46 @@
+PUBLISHED
+
+MongoDB Basics : Delete a Database in MongoDB
+
+Objective
+=========
+---------
+
+To learn how to drop database in MongoDB programmatically.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create a databases.txt file that contains a list of databases to delete.
+
+Step 2
+---------
+
+Create a clean.rb:
+
+```ruby
+require 'mongo'
+
+include Mongo
+
+# Read the database name in the junk.txt
+file = File.readlines('/path/to/the/list/of/file/to/delete/databases.txt')
+
+# Drop the database
+file.each do |line|
+  client = Client.new([ '127.0.0.1:27017' ], :database => "#{line.chomp.strip}")
+  client.database.drop
+end
+```
+
+This will save you lot of time when you have to delete many databases in MongoDB.
+
+Summary
+========
+---------
+
+In this article you learned how to delete database in MongoDB and avoid wasting time in MongoDB console to delete databases by running use database and drop database commands.

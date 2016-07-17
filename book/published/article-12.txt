@@ -1,3 +1,5 @@
+PUBLISHED
+
 TDD Beyond Basics : Single Purpose Principle - Guessing Game Kata Part 2
 
 
@@ -5,25 +7,7 @@ Objective
 ==========
 ----------
 
-- To learn about Single Purpose Principle
-
->> A class should capture one and only one key abstraction
->> Object Oriented Design Heuristics by Arthur Riel
-
-Discussion
-==========
-----------
-
-Robert C. Martin came up with the Single Responsibility Principle in 1995. The problem is CRC card already had used the term Responsibility to mean something different. CRC cards came way back in 1989. Also Robert Martin redefined the term responsibility to mean a reason to change. He basically took the concept of cohesion and added his own insights to come up with Single Responsibility Principle. 
-
-![alt text](https://www.rubyplus.com/images/bigstock_Time_For_Change.jpg "Time to Change")
-
-The main point of this principle is that there should be only one reason to change. I don't want to call it Single Responsibility Principle because of the confusion it creates with the existing terminology. Since this principle says that the set of responsibilities (as used by CRC cards) should be focused on one purpose, I think it is appropriate to call it Single Purpose Principle.
-
-![alt text](https://www.rubyplus.com/images/unix_test.png "Good Design is Timeless")
-
-Unix is a perfect example for following the Single Purpose Principle. Each command line utility does one thing really well. It proves that good design is timeless.
-
+- To apply [Single Purpose Principle](https://rubyplus.com/articles/2641 'Single Purpose Principle') to Guessing Game Kata
 
 Problem Statement
 ===================
@@ -32,8 +16,8 @@ Problem Statement
 Refer the guessing game problem description described in the previous article : [TDD Beyond Basics : Testing Random Behavior](https://www.rubyplus.com/articles/171 "TDD Beyond Basics : Testing Random Behavior")
 
 Steps
-=============
--------------
+========
+--------
 
 Step 1
 ------------
@@ -219,7 +203,6 @@ module Codebreaker
 end
 ```
 
-
 By doing so we tie our game object to the implementation details. This results in tightly coupled objects which is not desirable. Whenever we change the way we interface with the external world, the code will break. We desire loosely coupled objects with high cohesion.
 
 You might encounter a problem where random number generation spec fails when user interfacing feature is modified. Random number generation and user interfacing logic are not related in any way. Ideally they should be split into separate classes that has only one purpose. We will revisit this topic later.
@@ -228,10 +211,11 @@ Summary
 ===========
 -----------
 
-In this lesson you learned about Single Purpose principle and how to design collaborators that are highly cohesive. We also saw some bad code examples in RSpec book that ties implementation level details with game logic. If we apply Single Purpose Principle throughout the system we will obey the Separation of Concerns principle and the system will be organized into different layers. Each layer will be focused on fulfilling one purpose such as Object Relational Mapping layer, data conversion for external system and so on. For a good discussion on this topic, read [The Art of Separation of Concerns](http://aspiringcraftsman.com/2008/01/03/art-of-separation-of-concerns/ 'The Art of Separation of Concerns'). In the next lesson we will continue building the guessing game.
+In this lesson you learned how to apply Single Purpose principle and how to design collaborators that are highly cohesive. We also saw some bad code examples in RSpec book that ties implementation level details with game logic. In the next lesson we will continue building the guessing game.
 
 Reference
 =========
 ---------
 
 [Everything that is wrong with mocking, bdd, and rspec](http://ngauthier.com/2010/12/everything-that-is-wrong-with-mocking.html "Everything that is wrong with mocking, bdd, and rspec")
+[Single Purpose Principle](https://rubyplus.com/articles/2641 'Single Purpose Principle')

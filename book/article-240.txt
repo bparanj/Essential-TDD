@@ -1,0 +1,85 @@
+PUBLISHED
+
+Factory Girl Basics using Rails 3.2, Factory Girl 4.2 Part 2
+
+Objective
+=========
+---------
+
+To learn how to create objects using FactoryGirl for has_many association 
+
+Step 1
+---------
+
+Define the factory for comment model.
+
+```ruby
+factory :comment do
+  description 'Yes I want to buy this book'  
+end
+```
+
+Step 2
+---------
+
+Change the article factory as follows:
+
+```ruby
+factory :article do
+  title 'How to get rich quick'
+  
+  author
+  
+  factory :article_with_comments do
+    
+    ignore do
+      comments_count 2
+    end
+    
+    after(:create) do |article, evaluator|
+      create_list(:comment, evaluator.comments_count, article: article)
+    end
+  end
+end  
+```
+
+Note: For version we are using, you will get:
+
+```
+ undefined method `comments_count' for #<FactoryGirl::SyntaxRunner:0x04a8>` if you use `transient` instead of `ignore`. 
+```
+ 
+ Refer the [Transient vs Ignore](https://github.com/thoughtbot/factory_girl/issues/658 'Transient vs Ignore') ticket for more details.
+
+Step 3
+---------
+
+You can now use the factory in your tests as follows:
+
+```ruby
+  it "mapping has_many association to factory_girl : example 1" do
+    article = FactoryGirl.create(:article)
+    
+    expect(article.comments.length).to eq(0)
+  end
+
+  it "mapping has_many association to factory_girl : example 2" do
+    article = FactoryGirl.create(:article_with_comments)
+    
+    expect(article.comments.length).to eq(2)
+  end
+
+  it "mapping has_many association to factory_girl : example 3" do
+    article = FactoryGirl.create(:article_with_comments, comments_count: 3)
+    
+    expect(article.comments.length).to eq(3)
+  end
+```
+
+You can find the repo for this project at https://github.com/bparanj/fgirl
+
+Summary
+========
+---------
+
+In this article we saw how to create objects for has_many association using FactoryGirl. 

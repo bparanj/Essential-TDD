@@ -1,0 +1,65 @@
+Sinatra Basics : Modular Sinatra Application
+
+Objective
+=========
+---------
+
+To learn how to create a modular Sinatra application.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create hi.rb in your project folder.
+
+```ruby
+require 'sinatra'
+
+class HelloWorld < Sinatra::Base
+  get '/' do
+    'Hello, world!'
+  end
+end
+```
+
+Step 2
+---------
+
+Create config.ru in your project folder.
+
+```ruby
+require './hi'
+
+run HelloWorld
+```
+
+Step 3
+---------
+
+Run the application.
+
+```sh
+rackup
+```
+
+Step 4
+---------
+
+Browse to http://localhost:9292
+
+
+Summary
+========
+---------
+
+In this article, you learned how to create a modular Sinatra application.
+
+
+Reference
+========
+---------
+
+[Digital Ocean Sinatra Basics](https://www.digitalocean.com/community/tutorials/how-to-install-and-get-started-with-sinatra-on-your-system-or-vps "Digital Ocean Sinatra Basics") 

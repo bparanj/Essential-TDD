@@ -1,0 +1,213 @@
+PUBLISHED
+
+Authentication from Scratch :  Register Feature
+
+Objective
+=========
+---------
+
+To implement register feature using ActiveModel in Rails 4.2.1 using Ruby 2.2.2.
+
+Discussion
+=========
+---------
+
+Developing user management from scratch gives us the most flexibility in our projects. We stop wasting time on gems like devise to customize the library and focus more on keeping our code base lightweight and easy to change. This gives us the freedom from third party software release schedule. We get to choose when we can upgrade to what version of Ruby and Rails without worrying about whether a third party library has any unresolved bugs or not. Your code is also compact without any bloated unnecessary features for your projects. You get to pick what features you need for your user management system and use only what you need for your current project.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+```ruby
+rails new ascrat --skip-test-unit --skip-bundle --skip-spring
+```
+
+We do not want to use test unit framework. We also skip bundle install when the rails project is created. We do not want spring due to headaches it can create in development.
+
+Step 2
+---------
+
+We don't need the useless Coffeescript. So delete coffee-script gem in Gemfile. Uncomment bcrypt gem.
+
+```ruby
+gem 'bcrypt', '~> 3.1.7'
+```
+
+ The bcrypt gem is an easy way to keep users' passwords secure. ActiveModel::SecurePassword uses bcrypt gem. Run bundle install.
+
+Step 3
+---------
+
+Let's turn off the generation of javascripts. In development.rb, add:
+
+```ruby
+config.generators.javascripts = false
+```
+
+Step 4
+---------
+
+Adds methods to set and authenticate against a BCrypt password. This mechanism requires you to have a password_digest attribute. Create a user model with email and password_digest fields.
+
+```ruby
+rails g model user email password_digest
+```
+
+Step 5
+---------
+
+Add the not null constraints to email and password_digest fields in db/migrate/*_create_users.rb
+
+```ruby
+class CreateUsers < ActiveRecord::Migration
+  def change
+    create_table :users do |t|
+      t.string :email, null: false
+      t.string :password_digest, null: false
+
+      t.timestamps null: false
+    end
+  end
+end
+```
+
+Step 6
+---------
+
+Run:
+
+```ruby
+rake db:migrate
+```
+
+Step 7
+---------
+
+Add has_secure_password to User model.
+
+```ruby
+class User < ActiveRecord::Base
+  has_secure_password
+  
+  validates :email, uniqueness: true
+end
+```
+
+User has email and password_digest fields. The password is stored as password_digest by has_secure_password provided by ActiveModel.
+
+Step 8
+---------
+
+Create the users controller. 
+
+```ruby
+rails g controller users
+```
+
+Step 9
+---------
+
+Change the users controller to:
+
+```ruby
+class UsersController < ApplicationController
+  def new
+    @user = User.new
+  end
+  
+  def create
+    @user = User.new(permitted_params)
+    if @user.save
+      redirect_to root_url, notice: "Thank you for signing up!"
+    else
+      render "new"
+    end
+  end
+  
+  private
+  
+  def permitted_params
+    params.require(:user).permit(:email, :password)
+  end
+end
+```
+
+Step 10
+---------
+
+Add the signup form in app/views/users/new.html.erb
+
+```ruby
+<h1>Sign Up</h1>
+
+<%= form_for @user do |f| %>
+  <% if @user.errors.any? %>
+    <div class="error_messages">
+      <h2>Form is invalid</h2>
+      <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </div>
+  <div class="field">
+    <%= f.label :password %><br />
+    <%= f.password_field :password %>
+  </div>
+  <div class="actions"><%= f.submit "Sign Up" %></div>
+<% end %>
+```
+
+Step 11
+---------
+
+Add: 
+
+```ruby
+  resources :users
+  root 'welcome#index'
+```
+
+to routes.rb.
+
+Step 12
+---------
+
+Generate the controller for the home page.
+
+```ruby
+rails g controller welcome index
+```
+
+Delete get 'welcome/index' in routes.rb
+
+Step 13
+---------
+
+Add:
+
+```ruby
+<%= link_to "Sign Up", new_user_path %>
+```
+
+to application.html.erb
+
+Step 14
+---------
+
+Browse to http://localhost:3000/ Click Sign Up. Fill out the form to signup. You can verify the user record was created by looking at the last user record created in the rails console.
+
+Summary
+========
+---------
+
+In this article, we implemented register for an account using has_secure_password of ActiveModel in Rails 4.2.1. In the next article, we will continue to build upon this base by implementing login and logout features.

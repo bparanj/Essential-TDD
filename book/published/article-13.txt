@@ -3,7 +3,7 @@ TDD Beyond Basics : Dependency Inversion Principle - Guessing Game Kata Part 3
 
 Objective
 =========
-----------
+---------
 
 - Learn about Dependency Inversion Principle
 
@@ -119,7 +119,7 @@ This is version that we ended up in the previous article. We have not made any c
 
 Discussion
 ===========
--------------
+-----------
 
 This fix shows how to invert dependencies on concrete classes to abstract interface. In this case the abstract interface is 'output' and not specific method like 'puts' or GUI related method that ties the game logic to a concrete implementation of user interaction.
 

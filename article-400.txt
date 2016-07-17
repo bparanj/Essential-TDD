@@ -1,0 +1,147 @@
+PUBLISHED
+
+ActiveResource Basics using Rails 4.2.4
+
+Objective
+=========
+---------
+
+To learn how to use ActiveResource 4.0 gem with Rails 4.2.4 Rails apps.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Add the activeresource gem to the Gemfile and run bundle:
+
+```ruby
+gem 'activeresource'
+```
+
+```sh
+$bundle
+```
+
+Step 2
+---------
+
+Generate the book application using scaffold.
+
+```sh
+$rails g scaffold book title:string isbn:string
+```
+
+If you make any mistakes you can do:
+
+```sh
+$rails destroy scaffold book
+```
+
+Step 3
+---------
+
+Create an inventory application.
+
+```sh
+rails g scaffold inventory quantity:integer isbn:string
+```
+
+Step 4
+---------
+
+Create a Inventory class in models folder in the book application. 
+
+```ruby
+require 'active_resource'
+
+class Inventory < ActiveResource::Base
+  self.site = 'http://localhost:3001'
+end
+```
+
+Note: You have to require active_resource to play with it in the rails console.
+
+```ruby
+require 'active_resource'
+```
+
+Step 5
+---------
+
+Run the book application on port 3000 and the inventory application on port 3001. Create a book in the book application and an inventory record in the inventory application. Make sure the isbn is the same in both cases.
+
+Step 6
+---------
+
+Now, let's go to the rails console of the book application and find an inventory.
+
+```sh
+$ rails c
+Loading development environment (Rails 4.2.4)
+ > i = Inventory.find(1)
+ => #<Inventory:0x007ffed69614f0 @attributes={"id"=>1, "quantity"=>100, "isbn"=>"1z", "created_at"=>"2015-11-07T16:51:32.735Z", "updated_at"=>"2015-11-07T16:51:32.735Z"}, @prefix_options={}, @persisted=true> 
+```
+
+We found the inventory record that we had created using the inventory application UI. You can see the request made to the remote service in the terminal.
+
+```sh 
+ Started GET "/inventories/1.json" for ::1 at 2015-11-07 08:54:43 -0800
+ Processing by InventoriesController#show as JSON
+   Parameters: {"id"=>"1"}
+   Inventory Load (0.1ms)  SELECT  "inventories".* FROM "inventories" WHERE "inventories"."id" = ? LIMIT 1  [["id", 1]]
+   Rendered inventories/show.json.jbuilder (3.1ms)
+ Completed 200 OK in 9ms (Views: 8.0ms | ActiveRecord: 0.1ms)
+```
+
+Step 7
+---------
+
+You can use ActiveRecord like query to find records. 
+ 
+```sh
+x = Inventory.where(isbn: '1z')
+  => #<ActiveResource::Collection:0x007ffed6908d28 @elements=[#<Inventory:0x007ffed6908b70 @attributes={"id"=>1, "quantity"=>100, "isbn"=>"1z", "url"=>"http://localhost:3001/inventories/1.json"}, @prefix_options={}, @persisted=true>], @resource_class=Inventory, @original_params={:isbn=>"1z"}>
+```  
+
+This returns `ActiveResource::Collection ` instance.
+
+```sh  
+  > x.class
+   => ActiveResource::Collection 
+```   
+
+Step 8
+---------
+
+We can get an array of Inventory objects by calling the to_a method on it.
+
+```sh   
+elements = x.to_a
+=> [#<Inventory:0x007ffed6908b70 @attributes={"id"=>1, "quantity"=>100, "isbn"=>"1z", "url"=>"http://localhost:3001/inventories/1.json"}, @prefix_options={}, @persisted=true>]
+```	
+
+```sh	
+element = elements[0]
+ => #<Inventory:0x007ffed6908b70 @attributes={"id"=>1, "quantity"=>100, "isbn"=>"1z", "url"=>"http://localhost:3001/inventories/1.json"}, @prefix_options={}, @persisted=true> 
+ > element.class
+ => Inventory 
+``` 
+
+Step 9
+---------
+
+We have 100 books.	
+
+```sh
+element.quantity
+=> 100 
+```	
+	
+Summary
+========
+---------
+
+In this article we saw how to use ActiveResource 4.0 gem with Rails 4.2.4 apps. 

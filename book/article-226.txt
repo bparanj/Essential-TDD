@@ -1,0 +1,266 @@
+PUBLISHED 
+
+NOT WORKING STEP 7
+
+Docker Basics : Working with Volumes
+
+Objectives
+=========
+---------
+
+- Create containers holding volumes
+- Share volumes across containers
+- Share a host directory with one or many containers
+
+Discussion
+=========
+---------
+
+Docker volumes can be used to achieve things like:
+
+- Bypassing the copy-on-write system to obtain native disk I/O performance
+- Bypassing copy-on-write to leave some files out of docker commit
+- Sharing a directory between multiple containers
+- Sharing a directory between the host and a container
+- Sharing a single file between the host and a container
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Volumes can be declared in two different ways. Within a Dockerfile, with a VOLUME instruction.
+
+```sh
+VOLUME /var/lib/postgresql
+```
+
+On the command-line, with the -v flag for docker run.
+
+```sh
+$docker run -d -v /var/lib/postgresql training/postgres
+```
+
+```sh
+Unable to find image 'training/postgres:latest' locally
+Pulling repository training/postgres
+258105bea10d: Download complete 
+... 
+Status: Downloaded newer image for training/postgres:latest
+7ecbc638f0fc6d7f20a11f53442abba1b616159b470a37afa6529b7ad5286ea4
+```
+
+In both cases, /var/lib/postgresql inside the container will be a volume. Volumes bypass the copy-on-write system. Volumes act as passthroughts to the host filesystem. 
+
+- The I/O performance on a volume is exactly the same as I/O performance on the Docker host.
+- When you docker commit, the content of volumes is not brought into the resulting image.
+- If a RUN instruction in a Dockerfile changes the content of a volume, those changes are not recorded either.
+
+Step 2
+---------
+
+Volumes can be shared across containers. You can start a container with exactly the same volumes as another one. The new container will have the same volumes, in the same directories. They will contain exactly the same thing and remain in sync. Under the hood, they are actually the same directories on the host anyway.
+
+```sh
+$docker run --name alpha -t -i -v /var/log ubuntu bash
+root@fa89eab1310a:/# date > /var/log/now
+```
+
+In another terminal, let's start another container with the same volume.
+
+```sh
+$docker run --volumes-from alpha ubuntu cat /var/log/now
+```
+
+```sh
+FATA[0000] Post http://127.0.0.1:2375/v1.18/containers/create: EOF. Are you trying to connect to a TLS-enabled daemon without TLS? 
+```
+
+To solve this problem:
+
+```sh
+$ boot2docker start
+Waiting for VM and Docker daemon to start...
+.o
+Started.
+Writing /Users/zepho/.boot2docker/certs/boot2docker-vm/ca.pem
+Writing /Users/zepho/.boot2docker/certs/boot2docker-vm/cert.pem
+Writing /Users/zepho/.boot2docker/certs/boot2docker-vm/key.pem
+
+To connect the Docker client to the Docker daemon, please set:
+    export DOCKER_CERT_PATH=/Users/zepho/.boot2docker/certs/boot2docker-vm
+    export DOCKER_TLS_VERIFY=1
+    export DOCKER_HOST=tcp://192.168.59.103:2376
+
+zepho-mac-pro:~ zepho$ export DOCKER_CERT_PATH=/Users/zepho/.boot2docker/certs/boot2docker-vm
+zepho-mac-pro:~ zepho$ export DOCKER_TLS_VERIFY=1
+zepho-mac-pro:~ zepho$ export DOCKER_HOST=tcp://192.168.59.103:2376
+zepho-mac-pro:~ zepho$ docker run   --volumes-from alpha ubuntu cat /var/log/now
+Wed Jun 17 23:58:04 UTC 2015
+```
+
+Volumes exist independently of containers. If a container is stopped, its volumes still exist and are available. In the last example, it doesn't matter if container alpha is running or not.
+
+Step 3
+---------
+
+A data container is a container created for the sole purpose of referencing one or many volumes. It is typically created with a no-op command:
+
+```sh
+$docker run --name wwwdata -v /var/lib/www busybox true
+$docker run --name wwwlogs -v /var/log/www busybox true
+```
+
+- We created two data containers.
+- They are using the busybox image, a tiny image.
+- We used the command true, possibly the simplest command in the world.
+- We named each container to reference them easily later.
+
+Step 4
+---------
+
+This is not working right now. Data containers are used by other containers via --volumes-from. Here is an example using the previously created volumes:
+
+```sh
+docker run -d --volumes-from wwwdata --volumes-from wwwlogs webserver
+```
+
+```sh
+Unable to find image 'webserver:latest' locally
+Pulling repository webserver
+FATA[0002] Error: image library/webserver:latest not found 
+```
+
+The webserver:latest image does not exist, let's use nginx:
+
+```sh
+nginx:latest: The image you are pulling has been verified. Important: image verification is a tech preview feature and should not be relied on to provide security.
+Digest: sha256:0952acc92b56f936b5b5b93a6b7abb9205ec7ec64b920e113a6d9dae50f6f49d
+Status: Downloaded newer image for nginx:latest
+3a1fb0c845205d3d53011867cb2cb24385582f2592f3a95d2363fa6e3a274fa2
+```
+
+```sh
+docker run -d --volumes-from wwwdata ftpserver
+```
+
+```sh
+Pulling repository ftpserver
+FATA[0002] Error: image library/ftpserver:latest not found 
+```
+
+```sh
+docker run -d --volumes-from wwwlogs pipestash
+```
+
+```sh
+Pulling repository pipestash
+FATA[0002] Error: image library/pipestash:latest not found 
+```
+
+The current docker registry at https://registry.hub.docker.com/ does not have the ftpserver or pipestash images available. That's the reason for the failures. The first container runs a webserver, serving content from /var/lib/www and logging to /var/log/www. The second container runs a FTP server, allowing to upload content to the same /var/lib/www path. The third container collects the logs and sends them to logstash, a log storage and analysis system.
+
+Step 5
+---------
+
+Sharing a directory between the host and a container.
+
+```sh
+$docker run -t -i -v /src/webapp:/var/html/webapp ubuntu /bin/bash
+```
+
+This will mount the /src/webapp directory into the container at /var/www/html/webapp.
+
+```sh
+root@4f3524ebb182:/# pwd
+/
+root@4f3524ebb182:/# cd /src
+bash: cd: /src: No such file or directory
+root@4f3524ebb182:/# cd /var
+root@4f3524ebb182:/var# cd html
+root@4f3524ebb182:/var/html# ll
+total 8
+drwxr-xr-x  3 root root 4096 Jun 18 00:23 ./
+drwxr-xr-x 13 root root 4096 Jun 18 00:23 ../
+drwxr-xr-x  2 root root   40 Jun 18 00:23 webapp/
+root@4f3524ebb182:/var/html# cd webapp
+root@4f3524ebb182:/var/html/webapp# ll
+total 4
+drwxr-xr-x 2 root root   40 Jun 18 00:23 ./
+drwxr-xr-x 3 root root 4096 Jun 18 00:23 ../
+```
+
+It defaults to mounting read-write but we can also mount read-only.
+
+```sh
+$docker run -t -i -v /src/webapp:/var/www/html/webapp:ro ubuntu /bin/bash
+```
+
+Those volumes can also be shared with --volumes-from.
+
+Step 6
+---------
+
+Checking volumes used by a container.
+
+```sh
+$docker ps
+```
+
+```sh
+CONTAINER ID        IMAGE                      COMMAND               PORTS                                           NAMES
+7ecbc638f0fc        training/postgres:latest   "su postgres -c '/us  5432/tcp                                        naughty_yonath      
+7e87240f931b        training/webapp:latest     "python -m SimpleHTT  5000/tcp, 0.0.0.0:32774->80/tcp                 hungry_jones        
+603f6666054b        nginx:latest               "nginx -g 'daemon of  0.0.0.0:32773->80/tcp, 0.0.0.0:32772->443/tcp   web                
+```
+
+To find the paths that are volumes and to what they are bound, use docker inspect.
+
+```sh
+docker inspect 7ecb
+```
+
+```sh
+[{
+    "AppArmorProfile": "",
+    "Args": [
+        "postgres",
+        "-c",
+        "/usr/lib/postgresql/$PG_VERSION/bin/postgres -D /var/lib/postgresql/$PG_VERSION/main/ -c config_file=/etc/postgresql/$PG_VERSION/main/postgresql.conf"
+    ],
+
+  "Volumes": {
+        "/var/lib/postgresql": "/mnt/sda1/var/lib/docker/vfs/dir/3957ebad3f0860b3295d67e8a8993b636e8963432e65a23ba2fd40a2d19e18e6"
+    },
+    "VolumesRW": {
+        "/var/lib/postgresql": true
+    }
+}
+]
+```
+
+We can see that our volume is present on the file system of the Docker host.
+
+Step 7
+---------
+
+Sharing a single file between the host and a container. The -v flag can be used to share a single file.
+
+```sh
+$ echo 123456789 > /tmp/numbers
+zepho-mac-pro:namer zepho$ cat /tmp/numbers
+123456789
+zepho-mac-pro:namer zepho$ docker run -t -i -v /tmp/numbers:/numbers ubuntu bash
+root@7adde2f7e43f:/# cat /numbers
+cat: /numbers: Is a directory
+```
+
+This is not working.
+
+Summary
+========
+---------
+
+In this article, you learned how to create containers holding volumes, share volumes across containers and share a host directory with one or many containers.

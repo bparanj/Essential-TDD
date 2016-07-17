@@ -1,0 +1,112 @@
+PUBLISHED
+
+Web Development in Ruby : Using Javascript in a Static Website Rack App
+
+
+Objective
+=========
+---------
+
+To use javascript from a separate file and call it in static html page.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Html files must use relative references to images, css and js. You can can copy the penguin.jpg image to images directory of the project. 
+
+Step 2
+---------
+
+Change index.html to display the image:
+
+```html
+<img src="images/penguin.jpg" alt="Penguin" >
+```
+
+Step 3
+---------
+
+Reload the browser.
+
+Step 4
+---------
+
+Change the index.html:
+
+```html
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script>
+	function myFunction()
+	{
+	alert('Cute penguin!')
+	}
+	</script>
+<title>JavaScript</title>
+</head>
+<body>
+<h1>JavaScript Cute Penguin Example</h1>
+<p><button onclick="myFunction()">Click Me!</button></p>
+
+<img id='penguin' src="images/penguin.jpg" alt="Penguin" >
+
+</body>
+</html>
+```
+
+Step 5
+---------
+
+Reload the page and click on the button.
+
+Step 6
+---------
+
+Create pen.js in js directory:
+
+```sh
+function myFunction()
+{
+  alert('Very cute penguin!')
+}
+```
+
+Step 7
+---------
+
+Change index.html:
+
+```html
+<!DOCTYPE HTML>
+<html>
+<head>
+
+<title>JavaScript</title>
+</head>
+    <script type="text/javascript" src="js/pen.js"></script>
+
+<body>
+<h1>JavaScript Cute Penguin Example</h1>
+<p><button onclick="myFunction()">Click Me!</button></p>
+
+<img id='penguin' src="images/penguin.jpg" alt="Penguin" >
+
+</body>
+</html>
+```
+
+Step 8
+---------
+
+Reload the page and click on the button.
+
+Summary
+========
+---------
+
+In this article, we created a javascript file and invoked it from a static html page. In the next article we will use a css file and use it in our static html file.

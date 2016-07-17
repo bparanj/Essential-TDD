@@ -1,0 +1,84 @@
+PUBLISHED
+
+Ruby Productivity Scripts : Clone a Git Project
+
+Objective
+=========
+---------
+
+To write a simple script to automate git clone and browsing the source code.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+As developers, we are so busy that we don't have time to think about the amount of repetitive tasks we do on a daily basis. The following steps:
+
+1. Change directory to ~/temp
+2. git clone git_url
+3. mate downloaded_project_directory
+
+are repeated for every project that I want to read the source code to learn about how to use and to learn some new tricks. So, why not automate this task and learn Ruby at the same time? 
+
+Step 2
+---------
+
+```sh
+#!/usr/bin/env ruby -w
+
+require 'uri'
+require 'fileutils'
+
+if ARGV[0].nil?
+  raise 'specify git url to clone'
+else
+  git_url = ARGV[0]
+end
+
+u = URI(git_url)
+
+project_name = u.path.split('/').last
+directory_name = project_name.split('.').first
+
+Dir.chdir("/Users/bparanj/temp")
+
+unless File.directory?("./#{directory_name}")  
+  system("git clone #{git_url}")
+end
+
+system("mate #{directory_name}")
+```
+
+I have hardcoded the directory, since I usually use the temp directory for downloading projects. You can modify the script to read the project directory to use from the command line.
+
+Step 3
+---------
+
+Make the script executable:
+
+```sh
+$chmod 0755
+```
+
+Run it:
+
+```sh
+$./giter.rb https://github.com/br/hello.git
+```
+
+Summary
+========
+---------
+
+In this article, we wrote a simple pure ruby script to automate a frequent task of cloning a git repo and browsing the code.
+
+References
+========
+---------
+
+[Ruby Docs Dir] (http://ruby-doc.org/core-2.2.0/Dir.html 'Dir')
+[Ruby Docs Dir#exists] (http://ruby-doc.org/core-2.2.0/Dir.html#method-c-exists-3F 'Ruby Docs Dir#exists')
+[Ruby Docs URI] (http://ruby-doc.org/stdlib-2.1.1/libdoc/uri/rdoc/URI.html 'Ruby Docs URI')

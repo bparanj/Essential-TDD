@@ -1,0 +1,224 @@
+PUBLISHED
+
+Sinatra Beyond Basics : Post a JSON Payload
+
+Objective
+=========
+---------
+
+To learn how to post a JSON payload in a Sinatra application.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create the test file, spec/todo_controller_spec.rb.
+
+```ruby
+require 'spec_helper'
+
+RSpec.describe TodoController do
+  
+  def app
+    TodoController
+  end
+  
+  it 'should take a json payload' do
+    post "/", todo: { priority: 1, task: 'Get rich quick' }
+    
+    expect(last_response).to be_ok
+  end
+end
+```
+
+Step 2
+---------
+
+Run the test.
+
+```sh
+$rspec spec/todo_spec.rb 
+```
+
+We get:
+
+```sh
+/spec/todo_spec.rb:4:in `<top (required)>': uninitialized constant TodoController (NameError)
+```
+
+Step 3
+---------
+
+Add:
+
+```ruby
+require_relative '../controller/todo_controller'
+```
+
+to the test. The file now looks like this:
+
+```ruby
+require 'spec_helper'
+require_relative '../controllers/todo_controller'
+
+RSpec.describe TodoController do
+  
+  def app
+    TodoController
+  end
+  
+  it 'should take a json payload' do
+    post "/", todo: { priority: 1, task: 'Get rich quick' }
+    
+    expect(last_response).to be_ok
+  end
+end
+```
+
+Step 4
+---------
+
+Create a controller folder in the project root folder. Create a file, todo_controller.rb in this folder.
+
+```ruby
+class TodoController < Sinatra::Base
+  
+end
+```
+
+Step 5
+---------
+
+Run the test.
+
+```sh
+$rspec spec/todo_spec.rb 
+sin/controller/todo_controller.rb:3:in `<top (required)>': uninitialized constant Sinatra (NameError)
+```
+
+Step 6
+---------
+
+Add require 'sinatra' to the controller.
+
+```ruby
+require 'sinatra'
+
+class TodoController < Sinatra::Base
+  
+end
+```
+
+Step 7
+---------
+
+Run the test.
+
+```sh
+$rspec spec/todo_spec.rb 
+```
+
+We get:
+
+```sh
+TodoController
+  should take a json payload (FAILED - 1)
+
+Failures:
+
+  1) TodoController should take a json payload
+     Failure/Error: expect(last_response).to be_ok
+       expected `#<Rack::MockResponse:0x007fd8258306f8 </div>\n</body>\n</html>\n"]>.ok?` to return true, got false
+     # ./spec/todo_spec.rb:13:in `block (2 levels) in <top (required)>'
+
+Finished in 0.02847 seconds (files took 0.16717 seconds to load)
+1 example, 1 failure
+
+Failed examples:
+
+rspec ./spec/todo_spec.rb:10 # TodoController should take a json payload
+```
+
+Step 8
+---------
+
+Define the post method.
+
+```ruby
+require 'sinatra'
+
+class TodoController < Sinatra::Base
+  post '/' do
+    
+  end
+end
+```
+
+Step 9
+---------
+
+Run the test.
+
+```sh
+$rspec spec/todo_spec.rb 
+```
+
+We get:
+
+```ruby
+TodoController
+  should take a json payload
+
+Finished in 0.02671 seconds (files took 0.15869 seconds to load)
+1 example, 0 failures
+```
+
+Step 10
+---------
+
+Print the params to the console:
+
+```ruby
+require 'sinatra'
+
+class TodoController < Sinatra::Base
+  post '/' do
+    puts params
+  end
+end
+```
+
+Step 11
+---------
+
+Run the test.
+
+```sh
+$rspec spec/todo_spec.rb 
+```
+
+We get:
+
+```ruby
+TodoController
+{"todo"=>{"priority"=>"1", "task"=>"Get rich quick"}}
+  should take a json payload
+
+Finished in 0.02707 seconds (files took 0.16052 seconds to load)
+1 example, 0 failures
+```
+
+Summary
+========
+---------
+
+In this article, you learned how to post a JSON payload to a Sinatra application. The next article in this series will post a JSON payload instead of a hash.
+
+References
+========
+---------
+
+[Sinatra App with RSpec](http://shiroyasha.github.io/sinatra-app-with-rspec.html 'Sinatra App with RSpec')

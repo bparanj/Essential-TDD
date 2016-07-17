@@ -1,0 +1,86 @@
+PUBLISHED
+
+Web Development in Ruby : HTTP Basic Authentication in Rack App
+
+Objective
+=========
+---------
+
+To learn how to use http basic authentication in your Rack app.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Let's now run the example that comes with Rack distribution. Create lobster.rb:
+
+```ruby
+require 'rack'
+require 'thin'
+require 'rack/lobster'
+
+Rack::Handler::Thin.run Rack::Lobster.new, Port: 3222
+```
+
+Step 2
+---------
+
+```sh
+$ruby lobster.rb
+```
+
+Step 3
+---------
+
+Browse to http://localhost:3222 to view the lobster.
+
+Step 4
+---------
+
+Change the lobster.rb as follows:
+
+```ruby
+require 'rack'
+require 'thin'
+require 'rack/lobster'
+
+lobster = Rack::Lobster.new
+
+protected_lobster = Rack::Auth::Basic.new(lobster) do |username, password|
+  'secret' == password
+end
+
+protected_lobster.realm = 'Lobster 2.0'
+
+pretty_protected_lobster = Rack::ShowStatus.new(Rack::ShowExceptions.new(protected_lobster))
+
+Rack::Handler::Thin.run pretty_protected_lobster, Port: 3222
+```
+
+Step 5
+---------
+
+Run it:
+
+```sh
+ruby lobster.rb
+```
+
+Step 6
+---------
+
+Browse to http://localhost:3222. You are now prompted with http basic authentication popup.  
+
+Step 7
+---------
+
+Enter anything for the username, secret for the password. You can now see the protected lobster.
+
+Summary
+========
+---------
+
+In this article, you learned how to use basic authentication in a Rack app.

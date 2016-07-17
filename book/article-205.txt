@@ -1,0 +1,72 @@
+PUBLISHED
+
+Ruby Basics : Setting Environment variables
+
+Objective
+=========
+---------
+
+To learn about setting environment variables in your projects.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+You can set the environment variable in a terminal like this:
+
+```sh
+$export JUNK='test'
+```
+
+Step 2
+---------
+
+ In irb, you can read the value like this:
+
+```ruby
+ENV['JUNK']
+```
+
+Step 3
+---------
+
+Don't check for nil for the existence of environment variables.
+
+```sh
+ENV['JUNK'].nil?
+```
+
+Step 4
+---------
+
+Check for the existence of the key in ENV hash like this:
+
+```sh
+ENV.has_key?('JUNK')
+```
+
+Step 5
+---------
+
+This makes your conditionals in yml files easier to read. So instead of doing this:
+
+```sh
+ENV['JUNK'].nil?? ENV['JUNK'] : 'dev'
+```
+
+You can do:
+
+```sh
+ENV.has_key?('JUNK')? ENV['JUNK'] : 'dev'
+```
+
+This also prevents nil exceptions in your code.
+
+Summary
+========
+---------
+
+In this article you learned how to set environment variables properly in your projects.

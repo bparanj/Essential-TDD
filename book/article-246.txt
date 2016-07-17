@@ -1,0 +1,116 @@
+
+
+Consumer Key (API Key)	xfpqqhSgUqK09HPXy3hQPk3iW
+Consumer Secret (API Secret)	lX3jhuDLhURBgIaV6x1tdcRtr4ER2oPMhLvIjVQCnBElCYjwvl
+Access Token	4604897652-sUolf92gfSzAVhNRwiNSIs5RsrfndosZ0EJyY9a
+Access Token Secret	rxSuY6JKX9Jlj8hLldJSgvcU6YRmUyBzgxJmj81REB3IE
+
+	
+Userid : balaparanjokl
+password : nikki13
+
+https://dev.twitter.com/oauth/tools/signature-generator/9262348?nid=813
+https://dev.twitter.com/streaming/reference/get/statuses/sample
+https://apps.twitter.com/app/9262348/keys
+
+
+1. Configure TwitterClient.new
+
+with Consumer key, Consumer secret, access token and access token secret.
+
+2. Somehow authenticate with Twitter Server
+
+3. Use Authorisation headers instead of query string or POST parameters
+	- What is the format of the header?
+	- How to construct this header?
+
+4. Make a GET https://stream.twitter.com:443/1.1/statuses/sample.json to get a random sample of tweets
+
+ 
+Twitter's API relies on the OAuth 1.0a protocol. The HTTP request must have Authorization header.
+
+Authorization: 'Must be all in one line. It is shown in wrapped form for readability below'
+
+Example HTTP request:
+
+POST /1/statuses/update.json?include_entities=true HTTP/1.1
+Accept: */*
+Connection: close
+User-Agent: OAuth gem v0.4.4
+Content-Type: application/x-www-form-urlencoded
+Authorization: 
+        OAuth oauth_consumer_key="xvz1evFS4wEEPTGEFPHBog",       
+              oauth_nonce="kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg", 
+              oauth_signature="tnnArxj06cWHq44gCs1OSKk%2FjLY%3D", 
+              oauth_signature_method="HMAC-SHA1", 
+              oauth_timestamp="1318622958", 
+              oauth_token="370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb", 
+              oauth_version="1.0"
+Content-Length: 76
+Host: api.twitter.com
+
+status=Hello%20Ladies%20%2b%20Gentlemen%2c%20a%20signed%20OAuth%20request%21
+
+
+oauth_consumer_key : Which application is making the request?
+oauth_nonce : Base64 encode 32 bytes of random data, strip out non-word characters or any approach that produces a relatively random alphanumeric string.
+	
+oauth_signature : Did someone modify the request in transit?
+oauth_signature_method : hard coded to HMAC-SHA1
+oauth_timestamp : When the request was created. Number of seconds since the Unix epoch when the request is generated.
+	
+oauth_token : Use the access token that you generated in your account.
+oauth_version : Use 1.0
+
+
+Building the header string
+https://dev.twitter.com/oauth/overview/authorizing-requests
+
+Format that works:
+
+curl --get 'https://stream.twitter.com/1.1/statuses/sample.json' --header 'Authorization: OAuth oauth_consumer_key="xfpqqhSgUqK09HPXy3hQPk3iW", oauth_nonce="321474df42d6f655f8504f3e2b6dd32d", oauth_signature="I03c8gWfiQlOI%2BqFj81Y6BhZM%2Bo%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1450646086", oauth_token="4604897652-sUolf92gfSzAVhNRwiNSIs5RsrfndosZ0EJyY9a", oauth_version="1.0"' --verbose
+
+
+Does not work:
+ 
+  
+  
+  
+  
+  
+  
+  OAuth oauth_consumer_key="xfpqqhSgUqK09HPXy3hQPk3iW", oauth_nonce="70b9fd242e45b5772bc448315416d0de", oauth_signature="YyGWU7fDHjV5UuIiqpnkgHoqfw0%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="", oauth_token="4604897652-sUolf92gfSzAVhNRwiNSIs5RsrfndosZ0EJyY9a", oauth_version="1.0"
+  
+  
+  
+  1. Do a GET 'https://stream.twitter.com:443/1.1/statuses/sample.json'
+  
+  
+  
+  
+  uri = URI('')
+
+  req = Net::HTTP::Get.new(uri)
+
+  request['content_type'] = 'application/x-www-form-urlencoded'
+
+  res = Net::HTTP.start(uri.hostname, uri.port) {|http|
+    http.request(req)
+  }
+
+  open 'cached_response', 'w' do |io|
+    io.write res.body
+  end if res.is_a?(Net::HTTPSuccess)
+  
+  
+  uri = URI('https://secure.example.com/some_path?query=string')
+
+  Net::HTTP.start(uri.host, uri.port,
+    :use_ssl => uri.scheme == 'https') do |http|
+    request = Net::HTTP::Get.new uri
+
+    response = http.request request # Net::HTTPResponse object
+  end
+  
+  
+  

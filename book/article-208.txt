@@ -1,0 +1,158 @@
+PUBLISHED
+
+Chef Solo Basics : Hello World
+
+Objective
+=========
+---------
+
+To write a simple hello world program using Chef Solo.
+
+Discussion
+=========
+---------
+
+I was looking for an infrastructure automation tools for provisioning Rails stack on Linode. I considered Moonshine, Ansible and Chef. Even though it is a nightmare to learn about Chef Solo, I have decided to learn it so that I have more control over the upgrade of the software on the servers.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Install chef. 
+
+```sh
+$curl -s -L https://www.getchef.com/chef/install.sh | sudo bash
+```
+
+Step 2
+---------
+
+Verify installation. 
+
+```sh
+$chef-apply -v
+```
+
+Step 3
+---------
+
+```sh
+$mkdir first
+```
+
+Create a file first/hello_world.rb:
+
+```ruby
+file '/tmp/helloworld.txt' do
+  content 'hello world'
+end
+```
+
+Step 4
+---------
+
+```sh
+$chef-apply hello_world.rb
+/Users/bparanj/.rvm/gems/ruby-2.2.2@chef/gems/chef-11.16.0/lib/chef/data_bag_item.rb:161: warning: circular argument reference - data_bag
+Recipe: (chef-apply cookbook)::(chef-apply recipe)
+  * file[/tmp/helloworld.txt] action create
+    - create new file /tmp/helloworld.txt[2015-06-11T14:49:29-07:00] WARN: Could not set gid = 0 on /var/folders/vd/462f2l5s6jg5_zp2hs7vtmj40000gn/T/.helloworld.txt20150611-59562-ua2vqn, file modes not preserved
+
+    - update content in file /tmp/helloworld.txt from none to b94d27
+    --- /tmp/helloworld.txt	2015-06-11 14:49:29.000000000 -0700
+    +++ /var/folders/vd/462f2l5s6jg5_zp2hs7vtmj40000gn/T/.helloworld.txt20150611-59562-ua2vqn	2015-06-11 14:49:29.000000000 -0700
+    @@ -1 +1,2 @@
+    +hello world
+```
+
+Step 5
+---------
+
+```sh
+$cat /tmp/helloworld.txt 
+hello world
+```
+
+Step 6
+---------
+
+```sh
+$chef-apply hello_world.rb
+/Users/bparanj/.rvm/gems/ruby-2.2.2@chef/gems/chef-11.16.0/lib/chef/data_bag_item.rb:161: warning: circular argument reference - data_bag
+
+Recipe: (chef-apply cookbook)::(chef-apply recipe)
+  * file[/tmp/helloworld.txt] action create (up to date)
+```
+
+Step 7
+---------
+
+```sh
+$~/projects/mys3/first $rm /tmp/helloworld.txt 
+```
+
+Step 8
+---------
+
+```sh
+$chef-apply hello_world.rb
+/Users/bparanj/.rvm/gems/ruby-2.2.2@chef/gems/chef-11.16.0/lib/chef/data_bag_item.rb:161: warning: circular argument reference - data_bag
+Recipe: (chef-apply cookbook)::(chef-apply recipe)
+  * file[/tmp/helloworld.txt] action create
+    - create new file /tmp/helloworld.txt[2015-06-11T14:52:16-07:00] WARN: Could not set gid = 0 on /var/folders/vd/462f2l5s6jg5_zp2hs7vtmj40000gn/T/.helloworld.txt20150611-59805-53vak7, file modes not preserved
+
+    - update content in file /tmp/helloworld.txt from none to b94d27
+    --- /tmp/helloworld.txt	2015-06-11 14:52:16.000000000 -0700
+    +++ /var/folders/vd/462f2l5s6jg5_zp2hs7vtmj40000gn/T/.helloworld.txt20150611-59805-53vak7	2015-06-11 14:52:16.000000000 -0700
+    @@ -1 +1,2 @@
+    +hello world
+```
+
+Step 9
+---------
+
+```sh
+$echo 'wrong contents in the file' >> /tmp/helloworld.txt 
+~/projects/mys3/first $cat /tmp/helloworld.txt 
+hello worldwrong contents in the file
+```
+
+Step 10
+---------
+
+```sh
+$chef-apply hello_world.rb
+/Users/bparanj/.rvm/gems/ruby-2.2.2@chef/gems/chef-11.16.0/lib/chef/data_bag_item.rb:161: warning: circular argument reference - data_bag
+
+Recipe: (chef-apply cookbook)::(chef-apply recipe)
+  * file[/tmp/helloworld.txt] action create
+    - update content in file /tmp/helloworld.txt from 59b2ba to b94d27
+    --- /tmp/helloworld.txt	2015-06-11 14:56:00.000000000 -0700
+    +++ /var/folders/vd/462f2l5s6jg5_zp2hs7vtmj40000gn/T/.helloworld.txt20150611-59932-1j2pg4y	2015-06-11 14:56:32.000000000 -0700
+    @@ -1,2 +1,2 @@
+    -hello worldwrong contents in the file
+    +hello world
+```
+
+Step 11
+---------
+
+```sh
+$cat /tmp/helloworld.txt 
+hello world
+```
+
+Summary
+========
+---------
+
+In this article, we wrote a simple hello world program in Chef Solo and learned how Chef Solo works by creating a simple script to create a file with given contents.
+
+Reference:
+========
+---------
+
+[Chef Chapter 1](http://chefiseasy.com/2014/02/24/chapter-01/ 'Chef Chapter 1')

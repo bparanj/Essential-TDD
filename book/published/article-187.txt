@@ -1,0 +1,225 @@
+PUBLISHED 
+
+Web Development in Ruby : Hello World Rack App
+
+Objective
+=========
+---------
+
+To learn the basic Rack concepts.
+
+What is Rack?
+=========
+---------
+
+Rack is a specification (and implementation) of a minimal abstract Ruby API that models HTTP. Rack provides a minimal, modular and adaptable interface for developing web applications in Ruby. By wrapping HTTP requests and response in the simplest way possible, it unifies and distills the API for Web servers, Web frameworks, and software in between (the so-called middle- ware) into a single method call.
+
+It provides the simplest possible API that represents a generic web application. Rack consists of interface, implementations and utilities. Rack distributions has the following 6 components:
+
+> 1) Specification 
+2) Handlers
+3) Adapters
+4) Middlewares 
+5) Utilities
+
+We will discuss them in detail in upcoming articles.
+
+Why Rack?
+=========
+---------
+
+There is a proliferation of different web application servers and web frameworks. There is a lot of code duplication among frameworks since they essentially all do the same things. And still, every Ruby web framework developer is writing his own handlers for every Web application server to be supported. Developing a Ruby web framework is not hard but it's lots of repetitive boring work. That means writing interfaces to all servers and writing decoding code or copying cgi.rb. So let's write the HTTP interfacing code once and only once.
+
+However dealing with HTTP is easy. You get a request and return a response. The canonical format of a HTTP request is represented by a hash of CGI-like environment and a response consists of three parts: a status, a set of headers, and a body.
+
+This can be easily mapped onto a method call in Ruby like this:
+
+```ruby
+class HelloWorld 
+  def call(env)
+    [200, {"Content-Type" => "text/plain"}, ["Hello world!"]] 
+  end
+end
+```
+
+This is the most simple Rack application. The Rack app gets call'ed with the CGI environment and retuns and Array of status, headers and body. Rack aims to provide a minimal API for connecting web servers and web frameworks. Now the developers can stop writing handlers for every webserver. Keep the request and response simple. Rack standard is very simple, the specification is only about two pages. If you want to implement a Rack compliant web server or a web framework, just meet this simple standard.1 You can build small, simple tools that does one thing really well (like Unix).
+
+Super simple API for writing web apps. Single API to connect to all web application servers .Based on Python's WSGI. Write once and serve it on any Rack compliant web app server. Convenient way to write micro apps.
+
+Good like Camping - very minimal, single file applications. But better because Camping isn’t multi-threaded, requests are wrapped in a mutex. Rack is small, lightweight and super easy to write and deploy. It is good for multi-threaded, non-blocking requests, so you can use Rack to write non-blocking file uploader applications to compliment Rails applications.
+
+Instant Gratification 
+=========
+---------
+
+Installing Rack
+---------
+
+First install the Rack gem: 
+
+```sh
+gem install rack
+```
+
+Rack Handler
+---------
+
+You will now see how to use rack package, start irb: 
+
+```sh
+$ irb
+```
+
+```sh
+irb> require 'rack'
+=> true
+```
+
+We can now check all the embedded Rack Handlers in Rack gem.
+
+```sh
+irb> Rack::Handler.constants
+=> [:CGI, :FastCGI, :Mongrel, :EventedMongrel, :SwiftipliedMongrel, :WEBrick, :LSWS, :SCGI, :Thin] 
+```
+
+All Rack Handlers have a run method, so you can call run on any of these built-in handlers:
+
+```sh
+Rack::Handler::Mongrel.run app, :Port => 80
+Rack::Handler::WEBrick.run ...
+Rack::Handler::Thin.run ...
+```
+
+and so on. The first argument to the run method is Rack app and the second argument is options to run your program.
+
+Hello Rack
+---------
+
+Rack specification defines a Rack application as: **"A Rack application is a Ruby object (not a class) that responds to call method. It takes exactly one argument, the environment and returns an Array of exactly three values: the status, the headers, and the body."**
+
+Let's consider the first sentence: **A Rack application is a Ruby object (not a class) that responds to call method.** This implies that the object can be any of the following:
+
+> • A lambda or Proc object
+• A method object
+• Any object that has a call method
+
+Lets do the bare minimum to meet this requirement: use an empty lambda. Because it can accept call.
+
+```ruby
+ > Rack::Handler::WEBrick.run lambda{}, :Port => 3222
+[2015-05-23 01:16:51] INFO  WEBrick 1.3.1
+[2015-05-23 01:16:51] INFO  ruby 2.2.2 (2015-04-13) [x86_64-darwin11.0]
+[2015-05-23 01:16:51] INFO  WEBrick::HTTPServer#start: pid=22266 port=3222
+```
+
+The second parameter is the options in this case we are specifying the port number. The log shows that the server has started and is listening on port 3222. Browse to http://localhost:3222
+
+We get the error : wrong number of arguments (1 for 0). Let's consider the second sentence of the Rack application definition: **It takes exactly one argument, the environment and returns an Array of exactly three values: the status, the headers, and the body.**
+
+So our lambda needs to accept one parameter, namely the environment and it needs to return an Array that contains the following:
+
+> • Status - HTTP protocol defines the status code
+• Headers - Hash that contains the HTTP headers
+• Body - An array that returns string for every call of each method
+
+To satisfy this requirements in the spec, let's rewrite the Rack app as follows:
+
+```ruby
+ rack_app = lambda {|env| [200, {}, ["My Rack App"]] }
+ => #<Proc:0x007fc281823908@(irb):5 (lambda)> 
+2.2.2 :006 > Rack::Handler::WEBrick.run rack_app, :Port => 3222
+[2015-05-23 01:19:59] INFO  WEBrick 1.3.1
+[2015-05-23 01:19:59] INFO  ruby 2.2.2 (2015-04-13) [x86_64-darwin11.0]
+[2015-05-23 01:19:59] INFO  WEBrick::HTTPServer#start: pid=22266 port=3222
+localhost - - [23/May/2015:01:20:06 PDT] "GET / HTTP/1.1" 200 11
+```
+
+Browse to http://localhost:3222, you will now see the text: 'My Rack App' in the browser. Note that we passed empty hash for the headers parameter.
+
+If you have Thin server installed you can run it on Thin.
+
+```ruby
+> require 'thin'
+ => true 
+> require 'rack'
+ => false 
+> Rack::Handler::Thin.run lambda{|env| [200, {}, ['Hi from Thin']]}, Port: 3222
+Thin web server (v1.6.3 codename Protein Powder)
+Maximum connections set to 1024
+Listening on localhost:3222, CTRL+C to stop
+```
+
+Browse to http://localhost:3222. You will the text: 'Hi from Thin'. In this demo we wrote our first Rack app to meet the requirements specified in the Rack application definition.
+
+Create rack_meth.rb:
+
+```ruby
+def my_method(env)
+  [200, {}, ['Hi from my method']]
+end
+
+my_meth = method(:my_method)
+
+p my_meth.call({})
+```
+
+```ruby
+$ruby rack_meth.rb
+```
+
+This prints : [200, {}, ["Hi from my method"]]. Let's run this method using thin server. Change the rack_meth.rb as follows:
+
+```ruby
+require 'rack'
+require 'thin'
+
+def my_method(env)
+  [200, {}, ['Hi from my method']]
+end
+
+my_method = method(:my_method)
+Rack::Handler::Thin.run my_method, Port: 3222
+```
+
+```sh
+$ruby rack_meth.rb 
+Thin web server (v1.6.3 codename Protein Powder)
+Maximum connections set to 1024
+Listening on localhost:3222, CTRL+C to stop
+```
+
+This prints the text: 'Hi from my method' in the browser. The third case that we saw earlier was that any object that can respond to call can be used as a valid Rack app.
+
+Create any_class.rb:
+
+```ruby
+require 'rack'
+require 'thin'
+
+class AnyClass
+  def call(env)
+    [200, {}, ["Hi from instance of AnyClass with call defined"]]
+  end
+end
+
+rack_app = AnyClass.new
+
+Rack::Handler::Thin.run rack_app, Port: 3222
+```
+
+Run this program:
+
+```sh
+$ruby any_class.rb
+Thin web server (v1.6.3 codename Protein Powder)
+Maximum connections set to 1024
+Listening on localhost:3222, CTRL+C to stop
+```
+
+This prints: 'Hi from instance of AnyClass with call defined' in the browser.
+
+Summary
+========
+---------
+
+In this article, you learned the basic Rack concepts and saw how to write a simple Hello World Rack application.

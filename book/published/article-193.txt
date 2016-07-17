@@ -1,0 +1,166 @@
+PUBLISHED
+
+Web Development in Ruby : Middleware Assembly in Rack App
+
+Objective
+=========
+---------
+
+To learn about Middleware Assembly.
+
+Discussion
+=========
+---------
+
+How to Assemble
+---------
+
+We often need to stack multiple Rack applications to meet the application requirements. If we have a Rack app and two middlewares called Middleware1 and Middleware2 then we can use the two middlewares like this:
+
+```ruby
+Rack::Handler::Thin.run Middleware1.new(Middleware2.new(rack_app))
+```
+
+When we need to pass options in the second argument the syntax would be as follows:
+
+```ruby
+Rack::Handler::Thin.run(Middleware1.new(Middleware2.new(rack_app, options2), options1))
+```
+
+If we need to use more than two middleware this code will become even more verbose. If you want to modify the order of the middleware, it becomes complex and error-prone.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+We can define a class that has methods to use and run a given middleware.
+
+```ruby
+class Builder
+  def use
+    ...
+  end
+  def run
+    ...
+  end  
+end
+```
+
+Step 2
+---------
+
+Now we need to be able to specify the order of the middleware that we would like to chain and run a given Rack app in the end. We want to specify this in code, with something like this:
+
+```ruby
+Builder.new do
+  use Middleware1
+  use Middleware2
+  run MyRackApp
+end
+```
+
+Rack::Builder implements a small DSL to iteratively construct Rack applications. Rack implementation comes with lot of middleware. One of the middleware, Rack::ContentLength can automatically set the response header "Content-Length". 
+
+Step 3
+---------
+
+So let's delete the line 11 which sets the Content-Length : 
+
+```ruby
+headers['Content-Length'] = new_body.bytesize.to_s 
+```
+
+from Decorator class.
+
+```ruby
+class Decorator
+  def initialize(app)
+    @next_in_chain = app
+  end
+  def call(env)
+    status, headers, body = @next_in_chain.call(env)
+    new_body = "---------------Header--------------<br/>"
+    body.each{|s| new_body << s}
+    new_body << "<br/>---------Footer-------------------"
+    [status, headers, [new_body]]
+  end
+end
+
+rack_app = lambda do |env|
+  [200, {'Content-Type' => 'text/html'}, ['Hello from Builder']]
+end
+
+require 'rack'
+require 'thin'
+
+builder = Rack::Builder.new do
+  use Rack::ContentLength
+  use Decorator
+  run rack_app
+end
+
+Rack::Handler::Thin.run Decorator.new(builder), Port: 3025
+```
+
+The output is:
+
+---------------Header--------------
+---------------Header--------------
+Hello from Builde
+
+This cuts-off the body. If you add text to the response body without updating the Content-Length, the HTML may get truncated (because the browser is only displaying the original number of characters, before you added more text to the response body). Rack::ContentLength only works under certain conditions. 
+
+Step 4
+---------
+
+So we need to include the line on setting the content-length before the 
+
+```ruby
+headers['Content-Length'] = new_body.bytesize.to_s 
+```
+
+as shown below to fix this problem.
+
+```ruby
+class Decorator
+  def initialize(app)
+    @next_in_chain = app
+  end
+  def call(env)
+    status, headers, body = @next_in_chain.call(env)
+    new_body = "---------------Header--------------<br/>"
+    body.each{|s| new_body << s}
+    new_body << "<br/>---------Footer-------------------"
+    headers['Content-Length'] = new_body.bytesize.to_s
+    [status, headers, [new_body]]
+  end
+end
+```
+
+Step 5
+---------
+
+Let's write a simple example that works properly to illustrate the use of Builder.
+
+```ruby
+require 'rack'
+require 'thin'
+
+inspector = lambda do |env|
+  [200, {'Content-Type' => 'text/html'}, env.inspect]
+end
+
+builder = Rack::Builder.new
+builder.run inspector
+
+Rack::Handler::Thin.run builder, :Port => 3025
+```
+
+Summary
+========
+---------
+
+In this article, how to chain middleware together to accomplish a bigger task in a Rack app.

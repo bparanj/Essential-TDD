@@ -1,0 +1,92 @@
+PUBLISHED
+
+Docker Basics : Hello World
+
+
+Objective
+=========
+---------
+
+To run a 'hello world' program using Docker container.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Run:
+
+```sh
+$ docker run busybox echo hello world
+```
+
+Busybox is a small and lean image. You will see:
+
+```sh
+Unable to find image 'busybox:latest' locally
+latest: Pulling from busybox
+cf2616975b4a: Pull complete 
+6ce2e90b0bc7: Pull complete 
+8c2e06607696: Already exists 
+busybox:latest: The image you are pulling has been verified. Important: image verification is a tech preview feature and should not be relied on to provide security.
+Digest: sha256:38a203e1986cf79639cfb9b2e1d6e773de84002feea2d4eb006b52004ee8502d
+Status: Downloaded newer image for busybox:latest
+hello world
+```
+
+We ran a single process in the docker container that echo'ed 'hello world'. 
+
+Step 2
+---------
+
+The Busybox image doesn't do much. Let's use a beefier Ubuntu image now.
+
+```sh
+$ docker pull ubuntu:latest
+```
+
+You will see:
+
+```sh
+atest: Pulling from ubuntu
+428b411c28f0: Downloading [=========================>                         ] 33.52 MB/65.77 MB
+435050075b3f: Download complete 
+9fd3c8c9af32: Download complete 
+6d4946999d4f: Download complete 
+```
+
+It will take a few minutes to complete.
+
+```sh
+latest: Pulling from ubuntu
+428b411c28f0: Pull complete 
+435050075b3f: Pull complete 
+9fd3c8c9af32: Pull complete 
+6d4946999d4f: Already exists 
+ubuntu:latest: The image you are pulling has been verified. Important: image verification is a tech preview feature and should not be relied on to provide security.
+Digest: sha256:45e42b43f2ff4850dcf52960ee89c21cda79ec657302d36faaaa07d880215dd9
+Status: Downloaded newer image for ubuntu:latest
+```
+
+Discussion
+========
+---------
+
+Docker is a client-server application. It consists of Docker daemon which is the Docker server. It receives and processes incoming Docker API requests. The Docker client is a command line tool that allows us to talk to the Docker daemon via the Docker API. Let's now run the 'hello world' again using the latest Ubuntu.
+
+Step 3
+---------
+
+```sh
+$ docker run ubuntu echo hello world
+```
+
+You will see: **hello world**.
+
+Summary
+========
+---------
+
+In this article, we wrote a simple 'hello world' program using Docker container.

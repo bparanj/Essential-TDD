@@ -1,0 +1,130 @@
+Sinatra Basics : Cleanup
+
+Objective
+=========
+---------
+
+To clean up the code from previous article.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+In the Gemfile, we only add gems to the required environment.
+
+```ruby
+source 'https://rubygems.org'
+
+gem 'sinatra'
+
+group :test, :development do
+  gem "rspec"
+end
+
+group :test do
+  gem "rack-test", require: "rack/test"
+end
+```
+
+Step 2
+---------
+
+```ruby
+require_relative 'hello_world'
+
+run HelloWorld
+```
+
+Instead of hard coding '.', we now use require_relative.
+
+Step 3
+---------
+
+In spec/hello_world_spec.rb:
+
+```ruby
+require_relative 'spec_helper.rb'
+require_relative '../hello_world.rb'
+
+RSpec.describe HelloWorld  do
+  
+  it 'should greet' do
+    get '/'
+    
+    expect(last_response).to be_ok
+    expect(last_response.body).to eq('Hello, world!')
+  end
+end
+```
+
+Step 4
+---------
+
+In hello_world.rb
+ 
+```ruby
+ENV['RACK_ENV'] ||= 'development'
+
+require 'bundler'
+Bundler.require :default, ENV['RACK_ENV'].to_sym
+
+class HelloWorld < Sinatra::Base
+  get '/' do
+    'Hello, world!'
+  end
+end
+```
+
+Intead of require 'sinatra', we are using bundler to require the gems that is necessary for the given environment.
+
+
+Step 5
+---------
+
+Add .rspec file with:
+
+```sh
+--color
+--format documentation
+```
+
+Step 6
+---------
+
+Run the tests.
+
+```sh
+$bundle exec rspec
+```
+
+Step 7
+---------
+
+Run the application.
+
+```sh
+$rackup
+```
+
+Step 8
+---------
+
+Browse to localhost:9292
+
+Summary
+========
+---------
+
+In this article, we cleaned up the code by grouping gems in the appropriate environment and using Bundler to require the gems needed in a given environment. We also used default values to make the output show in color with formatted documentation when we run rspec.
+
+
+References
+========
+---------
+
+[Sinatra Best Practices](http://blog.carbonfive.com/2013/06/24/sinatra-best-practices-part-one/ "Sinatra Best Practices")
+[Sinatra Best Practices](https://github.com/laser/sinatra-best-practices "Sinatra Best Practices")
+[Sinatra Explained](https://github.com/zhengjia/sinatra-explained "Sinatra Best Practices")

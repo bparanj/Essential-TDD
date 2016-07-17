@@ -1,0 +1,373 @@
+PUBLISHED
+
+JSON Schema Basics
+
+Objective
+=========
+---------
+
+To learn about JSON schema.
+
+Discussion
+=========
+---------
+
+What is JSON?
+---------
+
+JSON stands for 'JavaScript Object Notation', a simple data interchange format. JSON is built on the following data structures:
+
+Object
+---------
+
+```json
+{"key1": "value1", "key2": "value2" }
+```
+
+Array
+---------
+
+```sh
+['first', 'second', 'third']
+```
+
+Number
+---------
+
+42
+3.12159
+
+String
+---------
+
+'This is a string'
+
+boolean
+---------
+
+true
+false
+
+null
+---------
+
+null
+
+In Ruby they map to Hash, Array, Integer/Float, String, TrueClass/FalseClass and NilClass.
+
+Structured data is represented using these simple data types. Here is two different ways to represent a person in JSON :
+
+```json
+{
+  "name": "George Washington",
+  "birthday": "February 22, 1732",
+  "address": "Mount Vernon, Virginia, United States"
+} 
+
+{
+"first_name": "George",
+"last_name": "Washington",
+"birthday": "1732-02-22",
+"address": {
+  "street_address": "3200 Mount Vernon Memorial Highway",
+  "city": "Mount Vernon",
+  "state": "Virginia",
+  "country": "United States"
+ }
+} 
+```
+
+Both are valid. When an application needs to consume a JSON document for a person, we need to know how the record is organized. This means we need to know what fields are expected and how the values are represented. That's where JSON Schema comes in.   
+
+The following JSON Schema describes how the second example aboe is structured:
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "first_name": { "type": "string" },
+    "last_name": { "type": "string" },
+    "birthday": { "type": "string", "format": "date-time" },
+    "address": {
+      "type": "object",
+      "properties": {
+        "street_address": { "type": "string" },
+        "city": { "type": "string" },
+        "state": { "type": "string" },
+        "country": { "type" : "string" }
+		} 
+	}
+  } 
+}
+```
+
+The JSON Schema is written in JSON. It's a declarative format for 'describing the structure of other data'. 
+
+JSON Schema
+---------
+
+What does it do? JSON Schema describes your JSON data format.
+
+JSON Schema Advantages
+---------
+
+1. Clear, human and machine-readable documentation
+2. Complete structural validation, useful for:
+      -  automated testing
+      -  validating client-submitted data
+	  
+Reading JSON
+---------
+
+JSON can be read using the JSON gem. If you use RVM. The default gem contains json gem version 1.8.1.
+
+```ruby
+require 'json'
+ => true 
+
+json_schema = "{ 'type': 'number' }"
+```
+
+Parsing the first document:
+
+```ruby
+ => "{\"type\":\"number\"}" 
+ 
+ > parsed = JSON.parse(json_schema)
+  => {"type"=>"number"} 
+ > parsed.class
+  => Hash 
+ > parsed['type']
+  => "number" 
+```
+
+Validating JSON Data
+---------
+
+You can use json-schema gem to validate data against a JSON schema like this:
+
+```ruby
+require 'json-schema'
+
+JSON::Validator.validate(schema, data)
+```
+
+Learning Specs
+=========
+---------
+
+Here is json_schema_spec.rb:
+
+```ruby
+require 'json-schema'
+
+describe 'JSON Schema' do
+  context 'illustrate how to use the string type for schema type string' do
+    let(:schema) { {'type' => 'string'} }
+    
+    it 'string is valid' do
+      data = 'hi'  
+      
+      result = JSON::Validator.validate(schema, data)
+      
+      expect(result).to be true      
+    end
+    
+    it 'integer is not valid' do
+      data = 1  
+      
+      result = JSON::Validator.validate(schema, data)
+      
+      expect(result).to be false      
+    end
+        
+  end
+  
+  context 'illustrate how to use the number type for schema type number' do
+    let(:schema) { {'type' => 'number'} }
+    
+    it 'Positive integers are valid'  do
+      data = 42
+      
+      result = JSON::Validator.validate(schema, data)
+      
+      expect(result).to be true      
+    end
+    
+    it 'Negative integers are valid' do
+      data = -1
+      
+      result = JSON::Validator.validate(schema, data)
+      
+      expect(result).to be true
+    end
+    
+    it 'simple floating point number is valid' do
+      data = 5.0
+      
+      result = JSON::Validator.validate(schema, data)
+      
+      expect(result).to be true
+    end
+    
+    it 'Exponential notation is allowed' do
+      data = 2.9979e8
+      
+      result = JSON::Validator.validate(schema, data)
+      
+      expect(result).to be true
+    end
+    
+    it 'Strings are not valid' do
+      data = 'junk'
+      
+      result = JSON::Validator.validate(schema, data)
+      
+      expect(result).to be false      
+    end
+    
+    # https://github.com/ruby-json-schema/json-schema/issues/251
+    it 'Bug in json-schema gem. Numbers which are string should fail.' do
+     data = '42'
+      
+      result = JSON::Validator.validate(schema, data, json: true)
+      
+      expect(result).to be true      
+    end
+  end
+  
+  context 'illustrate how to accept strings and numbers but not structured data types' do
+    let(:schema) { {'type' => ['number', 'string'] } }
+    
+    it 'integer is valid' do
+      data = 1
+      
+      result = JSON::Validator.validate(schema, data)
+      
+      expect(result).to be true           
+    end
+    
+    it 'string is valid' do
+      data = 'hi'
+      
+      result = JSON::Validator.validate(schema, data)
+      
+      expect(result).to be true      
+    end
+    
+    it 'structured data type is not valid' do
+      data = ['The meaning', 'of', 'and everything']
+      
+      result = JSON::Validator.validate(schema, data)
+      
+      expect(result).to be false      
+    end
+  end
+  
+end
+```
+
+Here is json_schema_object_spec.rb:
+
+```ruby
+require 'json-schema'
+
+describe 'Person representation in JSON' do
+  
+  let(:schema) {
+     {
+      "type" => "object",
+      "properties" => {
+        "first_name" => { "type" => "string" },
+        "last_name" => { "type" => "string" },
+        "birthday" => { "type" => "string", "format" => "date-time" },
+        "address" => {
+          "type" => "object",
+          "properties" => {
+            "street_address" => { "type" => "string" },
+            "city" => { "type" => "string" },
+            "state" => { "type" => "string" },
+            "country" => { "type" => "string" }
+           } 
+         }
+       }
+     }
+  }
+  
+  it 'name birthday address fails' do
+    data = {
+              "name" => "George Washington",
+              "birthday" => "February 22, 1732",
+              "address" => "Mount Vernon, Virginia, United States"
+            }
+            
+     result = JSON::Validator.validate(schema, data)
+     
+     expect(result).to be false
+  end
+
+  # This test will fail if you add the birtday with '22-10-1937
+  it 'first_name, last_name, birthday with address succeeds' do
+    data = 
+      {
+        "first_name" => "George",
+        "last_name" => "Washington",
+        "address" => {
+          "street_address" => "3200 Mount Vernon Memorial Highway",
+          "city" => "Mount Vernon",
+          "state" => "Virginia",
+          "country" => "United States"
+        } 
+      }
+    
+    result = JSON::Validator.validate(schema, data)
+    
+    expect(result).to be true
+  end
+end
+```
+
+Here is json_schema_basics_spec.rb:
+
+```ruby
+require 'json-schema'
+
+describe 'JSON Schema Basics' do
+  context 'An empty object will accept any valid JSON' do
+    it 'integer is valid' do
+      schema = {}
+      data = 1
+      
+      result = JSON::Validator.validate(schema, data)
+    
+      expect(result).to be true
+    end
+
+    it 'string is valid' do
+      schema = {}
+      data = 'hi'
+      
+      result = JSON::Validator.validate(schema, data)
+    
+      expect(result).to be true
+    end
+    
+    it 'arbitrary nested data structure is valid' do
+      schema = {}
+      data = { 'an' => [ 'arbitrarily', 'nested'], 'data' => 'structure' }
+      
+      result = JSON::Validator.validate(schema, data)
+    
+      expect(result).to be true      
+    end
+  end
+
+end
+```
+
+Resources
+=========
+---------
+
+1. JSON Schema Home page http://json-schema.org/
+2. [Understanding JSON Schema] (http://spacetelescope.github.io/understanding-json-schema/UnderstandingJSONSchema.pdf 'Understanding JSON Schema')

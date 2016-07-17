@@ -1,0 +1,37 @@
+1.
+
+mkdir app/controllers/api
+
+2. routes.rb
+
+namespace :api do
+
+end
+
+3. 
+
+$ rails c
+Loading development environment (Rails 4.2.1)
+2.2.2 :001 > Mime::SET.collect(&:to_s)
+ => ["text/html", "text/plain", "text/javascript", "text/css", "text/calendar", "text/csv", "text/vcard", "image/png", "image/jpeg", "image/gif", "image/bmp", "image/tiff", "video/mpeg", "application/xml", "application/rss+xml", "application/atom+xml", "application/x-yaml", "multipart/form-data", "application/x-www-form-urlencoded", "application/json", "application/pdf", "application/zip"] 
+ 
+ 4.
+ 
+ scope module: :v1 do
+       # We are going to list our resources here
+     end
+ 
+ 5.
+ 
+ group :test do
+   gem 'rspec-rails'
+   gem 'factor_girl_rails'
+   gem 'ffaker'
+ end
+ 
+ 
+ 6. bundle
+ 
+ rails g rspec:install
+ 
+ 

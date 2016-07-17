@@ -1,0 +1,68 @@
+PUBLISHED
+
+Web Development in Ruby : Generate Documents using Templates
+
+Objective
+=========
+---------
+
+To learn how to use embedded ruby to merge data with a template.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create a name.rb class:
+
+```ruby
+class Name
+  def initialize
+    @name = 'Bugs Bunny'
+  end
+  
+  # This is only a helper method to access
+  # the object's (private) binding method
+  def get_binding
+    binding
+  end
+end
+```
+
+Step 2
+---------
+
+Create a welcome.html.erb file:
+
+```ruby
+Welcome <%= @name %>
+```
+
+Step 3
+---------
+
+Create a play.rb class:
+
+```ruby
+require 'erb'
+require_relative 'name'
+
+name = Name.new
+
+erb_file = File.read(File.join(__dir__, 'welcome.html.erb'))
+
+template = ERB.new(erb_file)
+output = template.result(name.get_binding)
+
+puts output
+```
+
+Read the [Ruby documentation](http://ruby-doc.org/stdlib-2.2.2/libdoc/erb/rdoc/ERB.html#method-i-result 'Ruby documentation') to learn about what the above code does. Start experimenting with other methods in the ERB class.
+
+Summary
+========
+---------
+
+In this article you learned how to use ERB to generate dynamic documents by merging a given template with values from an object.

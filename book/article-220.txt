@@ -1,0 +1,92 @@
+PUBLISHED
+
+TDD Beyond Basics : Outside In Perspective
+
+Objective
+=========
+---------
+
+To learn how to do TDD effectively by using outside in perspective.
+
+Discussion
+=========
+---------
+
+Sometimes it is difficult to switch perspective and look at the system from the outside. By focusing on the intent, we can drive the design of the system. I developed the [Pair Ranking](https://bitbucket.org/bparanj/rasam 'Pair Ranking') gem driven by tests. Initially the tests were ugly with loops and complicated code for testing different scenarios. So I extracted them into a Engine and simulator classes. 
+
+After I released the gem, I installed it and wrote a simple command line interface using highline gem. By looking at the code in this script I could see which interface was required for pair ranking a given set of choices. I was able to hide certain implementation details that was not obvious while writing the tests. It was obvious by looking at the client code that I did not need the Engine or Simulator classes. So I was able to move it test_helper.rb. These classes were relevant only in the tests. Here is the command line interface to the Pair Ranking gem:
+
+```ruby
+require 'highline/import'
+require "pp"
+require 'rasam'
+
+include Rasam
+
+options = ask("Enter your choices (or a blank line to quit):",
+lambda { |ans| ans =~ /^-?\d+$/ ? Integer(ans) : ans} ) do |q|
+  q.gather = ""
+end
+
+@pr = PairRank.new(options)
+@saved_combinations = Array.new(@pr.combinations)
+combinations = Array.new(@pr.combinations)
+
+pair = combinations.shift
+
+def get_user_choice_for(pair)
+  choose do |menu|
+    menu.prompt = "Please choose your favorite: "
+
+    pair.each do |c|
+      menu.choice(c) do
+        say(c)
+        rationale = ask("Why?  ")
+        say(rationale)
+        
+        @pr.make_rational_choice(pair, c, rationale)
+      end
+    end
+  end
+end
+
+loop do
+  p pair    
+  get_user_choice_for(pair)
+  break if combinations.empty?
+  pair = combinations.shift
+end
+
+
+@pr.decisions.each do |d|
+  p d.to_s
+end 
+
+p @pr.score_for('A')
+p @pr.score_for('B')
+p @pr.score_for('C')
+
+loop do
+  p 'Handling a tie'
+  if @pr.tied_pair.empty?
+    break
+  else
+    get_user_choice_for(@pr.tied_pair)
+    
+    @pr.decisions.each do |d|
+      p d.to_s
+    end 
+    
+    p @pr.score_for('A')
+    p @pr.score_for('B')
+    p @pr.score_for('C')
+    p @pr.tied_pair
+  end
+end
+```
+
+Summary
+========
+---------
+
+In this article, you learned that using a command line interface for your gem can help you switch perspective and look at the system from outside in. This will help you come up with a better solution. You don't need complicated frameworks like Cucumber to help you with outside-in development. Become a user of your own library and see where you need to polish your existing gem. It is the best way to make your gems better.

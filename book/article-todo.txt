@@ -1,8 +1,5 @@
-UPDATE ARTICLE 148 ON THE SITE AND CHECKIN THE ARTICLE.
 
-Use Sinatra to introduce HTTP concepts.
-
-
+0. Use Sinatra to introduce HTTP concepts.
 1. Article on 'How to integrate front end code to Rails'.
 2. Hand drawn diagrams for CAP Theorem. Good explanation of CAP. ACID. Revise article-99 (MongoDB Basics)
 3. Find the image for double dispatch and add it to angry rock kata : article 28
@@ -11,11 +8,6 @@ Use Sinatra to introduce HTTP concepts.
 6. Look at the book for the notes for article 50.
 
 
-You can download the entire source code for this article using the commit hash 4fce70f from git@bitbucket.org:bparanj/striped.git.
-
-4242424242424242
-logger.info "*" * 80
-
 Revisions
 ----------
 
@@ -23,70 +15,17 @@ Revisions
 2. Open Closed Principle article: Discussion questions must be answered in the answer key. Create Answer Key in the pdf book appendix.
 3. Update 'Article by Category' : Start from article 105 SQL Basics : Constraints.
 
-spec/features/one_click_checkout_spec.rb
-require 'rails_helper'
-require 'spec_helper'
-
-feature 'One Click Checkout' do
-    
-  scenario 'Registered customer can purchase with one click', js: true do
-    
-  end
-end
 
 
-https://stackoverflow.com/questions/26925494/whats-wrong-with-my-solution
-
-
-
-
-
-
-
-
-
-zepho-mac-pro:rspec3 zepho$ gem install minitest
-Fetching: minitest-5.4.3.gem (100%)
-Successfully installed minitest-5.4.3
-1 gem installed
-zepho-mac-pro:rspec3 zepho$ gem list minit*
-
-*** LOCAL GEMS ***
-
-minitest (5.4.3, 4.7.5)
-zepho-mac-pro:rspec3 zepho$ gem uninstall minitest
-Successfully uninstalled minitest-5.4.3
-zepho-mac-pro:rspec3 zepho$ gem uninstall minitest
-ERROR:  While executing gem ... (Gem::InstallError)
-    gem "minitest" cannot be uninstalled because it is a default gem
-zepho-mac-pro:rspec3 zepho$ gem install minitest
-Fetching: minitest-5.4.3.gem (100%)
-Successfully installed minitest-5.4.3
-1 gem installed
-zepho-mac-pro:rspec3 zepho$ irb
-2.1.2 :001 > require 'minitest'
- => true 
-2.1.2 :002 > MiniTest::Version
-NameError: uninitialized constant Minitest::Version
-	from (irb):2
-	from /Users/zepho/.rvm/rubies/ruby-2.1.2/bin/irb:11:in `<main>'
-2.1.2 :003 > MiniTest::VERSION
- => "5.4.3" 
 
 Colorize output
 
-zepho-mac-pro:minitest zepho$ ruby -rminitest/pride product_spec.rb
-
-
-
-zepho-mac-pro:minitest zepho$ ruby -I test:lib -rminitest/pride test/product_test.rb
-
+$ ruby -rminitest/pride product_spec.rb
+$ ruby -I test:lib -rminitest/pride test/product_test.rb
 
 
 http://blog.teamtreehouse.com/short-introduction-minitest
 http://www.sitepoint.com/minitest-shoulda/
-
-
 
 
 

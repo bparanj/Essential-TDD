@@ -1,0 +1,107 @@
+1. rbenv install 2.2.2
+2. rbenv global 2.1.2
+3. rbenv rehash
+
+The rehash command must be run everytime a new ruby version or a gem is installed. To workaround this: https://github.com/sstephenson/rbenv-gem-rehash
+
+
+1. gem install rails
+2. rails new market -T
+3
+$ ln -s ~/projects/market
+4
+http://market.dev/
+
+5.
+Bundler::GemNotFound: Could not find rake-10.4.2 in any of the sources
+
+Problem with POW because 10.7.5 is not compatible. It requires 10.9 or above.
+
+Install pow: curl get.pow.cx | sh
+
+Workaround:
+
+$ sudo rndc-confgen -a -c /etc/rndc.key
+wrote key file "/etc/rndc.key"
+
+Edit /etc/named.conf
+zone "local" IN {
+type master;
+file "local.zone";
+allow-update { none; };
+};
+
+Add it on its own lines right after one of the existing “zone” blocks.
+
+Create /var/named/local.zone (sudo vi /var/named/local.zone)
+
+$TTL  60
+$ORIGIN local.
+@      1D IN SOA  localhost. root.localhost. (
+          45    ; serial (d. adams)
+          3H    ; refresh
+          15M    ; retry
+          1W    ; expiry
+          1D )    ; minimum
+
+      1D IN NS  localhost.
+      1D IN A  127.0.0.1
+
+*.local. 60 IN A 127.0.0.1
+4ormat.local. 60 IN A 127.0.0.1
+*.4ormat.local. 60 IN A 127.0.0.1
+
+$ sudo named-checkconf /etc/named.conf
+$ sudo named-checkzone local /var/named/local.zone
+zone local/IN: loaded serial 45
+OK
+
+sudo launchctl load -w /System/Library/LaunchDaemons/org.isc.named.plist
+
+ps aux | grep named
+
+
+
+http://mikeferrier.com/2011/04/04/setting-up-wildcard-dns-on-localhost-domains-on-osx/
+
+
+
+4. Remove jbuilder and turbolinks gem. Add active_model_serializers gem.
+
+5. bundle
+
+6.
+
+$ git config --global user.name "Type in your name"
+$ git config --global user.email "Type in your email"
+$ git config --global core.editor "mate -w"
+
+7.
+
+git init
+
+8
+
+/.bundle
+
+# Ignore the default SQLite database.
+/db/*.sqlite3
+/db/*.sqlite3-journal
+
+# Ignore all logfiles and tempfiles.
+/log/*.log
+/tmp
+
+# Extra files to ignore
+doc/
+*.swp
+*~
+.DS_Store
+
+$ git add .
+$ git commit -m "Initializes the project"
+
+ git remote add origin bitbucket url
+ git push -u origin master
+ 
+ 

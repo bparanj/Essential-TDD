@@ -1,0 +1,68 @@
+PUBLISHED
+
+Demystifying the Gem Version Comparison
+
+
+Comparing Gem Versions in Ruby
+========
+---------
+
+I read the [How to compare gem versions in Ruby](https://medium.com/@extendsmymind/how-to-compare-version-strings-in-ruby-ced0916a4b71#.m6qpi1gvq 'How to compare version strings in Ruby'). Anderson Dias shows us how we can compare using < and > operators. How is this implemented in Ruby gems? I know that comparison is made possible by implementing the <=> method. But where is it in the source code? If you git clone https://github.com/rubygems/gems.git you cannot see the implementation for <=>. So let's find out where it is defined.
+
+```ruby
+ irb
+> v = Gem::Version.new('2.1.2')
+> v.respond_to?(:<=>)
+ => true 
+> v.method(:<=>).source_location
+ => ["/Users/bparanj/.rvm/rubies/ruby-2.2.3/lib/ruby/2.2.0/rubygems/version.rb", 330] 
+```
+
+Ruby Gems Implementation of <=> Method
+========
+---------
+
+Open the version.rb in your editor and look at line 330:
+
+```ruby
+  ##
+  # Compares this version with +other+ returning -1, 0, or 1 if the
+  # other version is larger, the same, or smaller than this
+  # one. Attempts to compare to something that's not a
+  # <tt>Gem::Version</tt> return +nil+.
+
+  def <=> other
+    return unless Gem::Version === other
+    return 0 if @version == other.version
+
+    lhsegments = segments
+    rhsegments = other.segments
+
+    lhsize = lhsegments.size
+    rhsize = rhsegments.size
+    limit  = (lhsize > rhsize ? lhsize : rhsize) - 1
+
+    i = 0
+
+    while i <= limit
+      lhs, rhs = lhsegments[i] || 0, rhsegments[i] || 0
+      i += 1
+
+      next      if lhs == rhs
+      return -1 if String  === lhs && Numeric === rhs
+      return  1 if Numeric === lhs && String  === rhs
+
+      return lhs <=> rhs
+    end
+
+    return 0
+  end
+```
+
+You can see that ruby gems that ships as part of Ruby has the implementation for the <=> method. This is another example of the comparable basic concepts we saw in [Ruby Comparable Basics](https://www.rubyplus.com/articles/2791 'Ruby Comparable Basics'). This allows us to even sort an array of gem versions.
+
+Summary
+========
+---------
+
+We can find the implementation of any given method by using source_location method. This is faster than using grep, ack or ag. You learned how the gem comparisons is implemented in ruby gems that comes shipped with Ruby.

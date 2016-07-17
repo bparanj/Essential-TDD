@@ -1,0 +1,93 @@
+Translating English to SQL
+
+Example 1
+==========
+----------
+
+Statement : Which cities do our customers live?
+
+Analyze the Statement
+---------
+
+Step 1
+---------
+
+List
+Show 
+What
+Which
+Who
+
+becomes SELECT
+
+Step 2
+---------
+
+Template    : Select <item> from the <source> table
+
+Next, identify any nouns in your request, and determine whether a given noun represents an item you want to see or the name of a table in which an item might be stored. If it’s an item, use it as a replacement for <item> in the template. If it’s a table name, use it as a replacement for <source>.
+
+Step 3
+---------
+
+Translation : Select city from the customers table
+
+SQL 		: SELECT city FROM customers
+
+Example 2
+==========
+----------
+
+I need the names and addresses of all our employees
+
+Translation : Select first name, last name, street address, city, state and zip code from the employees table.
+
+SQL : select first_name, last_name, street, city, state, zip from employees
+
+Searching for Implied Columns
+==========
+----------
+
+What kind of classes do we currently offer?
+
+Translation : Select category from the classes table
+
+SQL : select category from classes
+
+Synonym for kind-of is category. In this technique we use synonym as replacements for certain words in the request. The synonym may identify a column in the database. Try different synonyms to see if you can find the column name.
+
+
+Using Multiple Columns
+==========
+----------
+
+Show me a current list of our employees and their phone numbers
+
+Translation : Select the last name, first name and phone number of all our employees from the employees table
+
+SQL : select last_name, first_name, phone from employees
+
+What are the names and prices of the producs we carry and under what category is each item listed?
+
+Translation : select name, price and category from the products table
+
+SQL : select name, price, category from products
+
+Show me a list of subjects, the category each belongs to and the code we use in our catalog. But I'd like to see the name first, followed by the category and then the code.
+
+Translation : Select the name, category, code from subjects
+
+Too simple for translating in this case. Let's move on.
+
+Eliminating Duplicates
+==========
+----------
+
+Which cities are represented by our bowling league membership?
+
+Translation : select unique cities found in the leagues table.
+
+SQL : select distinct(city) from leagues
+
+
+

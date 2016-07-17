@@ -1,0 +1,132 @@
+
+
+Ruby Gem Basics : Packaging Your Gem
+
+Objective
+=========
+---------
+
+To package anagram program into a gem.
+
+Discussion
+=========
+---------
+
+In the previous article of the Ruby Gem series, [Ruby Gem Basics : Pimp My Anagram](https://rubyplus.com/articles/2331 'Ruby Gem Basics : Pimp My Anagram'), we developed a simple library that creates a letter by rearranging the letters of another. For example, cinema formed from iceman. In this article, we are going to package that application as a gem so that it can be distributed and used by other developers.
+
+Why do we need to create a gem manually when we can use generators provided by Bundler or Jeweler? These tools make certain assumptions, such as, you will be publishing them as an open source gem on a public gem server. If such assumptions are not valid, then it is just a matter of time before someone accidentally publishes one of your gems that is meant to be hosted on a private gem server. Remember the Murphy's Law. It also gives you more control over managing your gems.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create anagram.gemspec in the top-level directory of the application.
+
+```ruby
+Gem::Specification.new do |s|
+  s.name = "anagram"
+  s.summary = "Find anagrams of words supplied on the command line"
+  s.description = File.read(File.join(File.dirname(__FILE__), 'README'))
+  s.requirements = [ 'An installed dictionary (most Unix systems have one)' ]
+  # Read about Semantic Versioning http://semver.org/ for more details
+  s.version = "0.0.1"
+  s.author = "Dave Thomas"
+  s.email = "dave@pragprog.com"
+  s.homepage = "http://pragdave.pragprog.com"
+  # This value means that our gem is pure Ruby code
+  s.platform = Gem::Platform::RUBY
+  # The gem uses require_relative, so our gem will run only with Ruby 1.9 or above
+  s.required_ruby_version = '>=1.9'
+  # What files to include when creating the gem package. Here everything is included.
+  s.files = Dir['**/**']
+  # Install the anagram command-line script when the gem gets installed on a user's machine
+  s.executables = [ 'anagram' ]
+  
+  s.test_files = Dir["test/test*.rb"]
+  # Do not extract documentation when the gem is installed
+  s.has_rdoc = false
+end
+```
+
+For a list of all gemspec attributes that you can use, refer : http://guides.rubygems.org/specification-reference/
+
+Step 2
+---------
+
+Create README file that explain what the gem does and how to use it and a LICENSE file that contains the license information in the top-leve directory of the application. You can refer : http://opensource.org/licenses/alphabetical for copying text for the LICENSE file.
+
+Step 3
+---------
+
+Make the bin/anagram executable.
+
+```sh
+$chmod 755 bin/anagram 
+```
+
+Step 4
+---------
+
+Create the gem.
+
+```sh
+$gem build anagram.gemspec
+```
+
+This will create the anagram-0.0.1.gem file in your current directory.
+
+Step 5
+---------
+
+From the project root directory, you can install the gem by:
+
+```sh
+gem install anagram-0.0.1.gem 
+```
+
+You will see:
+
+```sh
+Successfully installed anagram-0.0.1
+1 gem installed
+```
+
+Step 6
+---------
+
+Get details about the anagram gem.
+
+```sh
+$gem list anagram -d
+```
+
+You will see:
+
+```sh
+*** LOCAL GEMS ***
+
+anagram (0.0.1)
+    Author: Dave Thomas
+    Homepage: http://pragdave.pragprog.com
+    Installed at: /Users/zepho/.rvm/gems/ruby-2.1.2
+
+    Find anagrams of words supplied on the command line
+```
+
+Step 7
+---------
+
+You can now host your gem on a private server or push it to public server on rubygems.org by doing:
+
+```sh
+$gem push anagram-0.0.1.gem
+```
+
+Summary
+========
+---------
+
+In this article, we packaged our library into a gem that can be published in our own private gem server or on a public gem server.

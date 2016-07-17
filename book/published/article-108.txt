@@ -18,7 +18,7 @@ Steps
 Step 1
 ----------
 
-Create a Rails 4.1.6 project.
+Create a Rails 4.2.4 project.
 
 Step 2
 ----------
@@ -232,11 +232,7 @@ To make code robust, handle Stripe related exceptions. For example, if the plan 
 Step 14
 -------
 
-Move the subscription creation to app/gateways/stripe_gateway.rb. Add the gateways folder to the Rails autoload_paths.
-
-```ruby
-config.autoload_paths << Rails.root.join('app/gateways')
-```
+Move the subscription creation to app/gateways/stripe_gateway.rb. 
 
 Step 15
 -------
@@ -431,8 +427,6 @@ module Striped
     
     # Turn off Coffeescript
     config.generators.javascripts = false
-    
-    config.autoload_paths << Rails.root.join('app/gateways')
   end
 end
 ```

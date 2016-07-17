@@ -1,0 +1,96 @@
+PUBLISHED
+
+Sinatra Basics : The Current Environment
+
+Objective
+=========
+---------
+
+To learn about the current environment in a Sinatra app.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Here is a rake task to display the current environment in a Sinatra app.
+
+```ruby
+desc 'Show the current environment'
+task :env do
+  require 'sinatra'
+  puts Sinatra::Application.environment
+end
+```
+
+Step 2
+---------
+
+```sh
+$rake env
+```
+
+will display 'development' in development.
+
+Step 3
+---------
+
+```sh
+$export RACK_ENV='test'
+```
+
+```sh
+$rake env
+```
+
+will display 'test'.
+
+Step 4
+---------
+
+```ruby
+$unset RACK_ENV
+```
+
+to revert back to 'development'.
+
+Step 5
+---------
+
+The quirky thing about Sinatra is if you have a file with:
+
+```ruby
+require 'sinatra'
+```
+
+It will start running a server on the terminal.
+
+Step 6
+---------
+
+How to make Sinatra library programmable? Here is the trick to not let Sinatra run.
+
+```ruby
+require 'sinatra'
+puts Sinatra::Application.environment
+
+at_exit do
+  exit
+end
+```
+
+Since Sinatra uses at_exit hook to start a server, we can over-ride it so that we exit the program once we are done with our task.
+
+Exercise
+========
+---------
+
+We were able to print the current Sinatra environment in a rake task without running a server.  How does the rake task prevent Sinatra from running the server?
+
+Summary
+========
+---------
+
+In this article you learned about Sinatra environment and how to write a script that does not run a server when it is not required.

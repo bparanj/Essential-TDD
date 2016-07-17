@@ -1,0 +1,74 @@
+Sinatra Basics : Running Rspec Tests and Sinatra Console
+
+Objective
+=========
+---------
+
+To learn how to use rake to run all rspec tests in a Sinatra application and to create your own Sinatra console.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create Rakefile:
+
+```ruby
+begin
+  require 'rspec/core/rake_task'
+
+  RSpec::Core::RakeTask.new(:spec)
+
+  task :default => :spec
+rescue LoadError
+  # no rspec available
+end
+```
+
+Step 2
+---------
+
+Now you can run all the tests by running the rake command.
+
+```sh
+$rake
+```
+
+Step 3
+---------
+
+Console for Sinatra application:
+
+```ruby
+desc "Open an irb session preloaded with your model"
+task :console do
+  require 'active_record'
+  require './app/models/article.rb'
+  require 'irb'
+  ARGV.clear
+  IRB.start
+end
+```
+
+Step 4
+---------
+
+To experiment in a Sinatra console:
+
+```sh
+$rake console
+```
+
+Summary
+========
+---------
+
+In this article, you learned how to run all tests using a rake task and how to create your own Sinatra console similar to rails console.
+
+
+Reference
+========
+---------
+[Rake Task Command Line](https://www.relishapp.com/rspec/rspec-core/docs/command-line/rake-task 'Rake Task Command Line')

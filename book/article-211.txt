@@ -1,0 +1,449 @@
+PUBLISHED
+
+Chef Solo Basics : Developer Notes
+
+Objective
+=========
+---------
+
+To learn the basic Chef concepts using Chef Solo in Ubuntu 12.04.5 LTS.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+```sh
+cat /etc/lsb-release
+```
+
+Step 2
+---------
+
+```sh
+chef-solo -v
+```
+
+Step 3
+---------
+
+```sh
+sudo su
+```
+
+Step 4
+---------
+
+```sh
+curl -L https://www.opscode.com/chef/install.sh | bash
+```
+
+Step 5
+---------
+
+```sh
+chef-solo -v
+```
+
+The Chef version installed on my Ubuntu VM is 12.3.
+
+Step 6
+---------
+
+```sh
+$mkdir /etc/chef
+$cd /etc/chef
+$vi solo.rb
+```
+
+Add:
+
+```ruby
+repo = '/etc/chef/src'
+
+cookbook_path repo + '/cookbooks'
+data_bag_path repo + '/data_bags'
+role_path     repo + '/roles'
+
+log_level :info
+log_location STDOUT
+```
+
+Run:
+
+```sh
+cat solo.rb
+```
+
+Step 7
+---------
+
+```sh
+mkdir src
+cd src/
+mkdir cookbooks data_bags roles
+cd cookbooks
+mkdir common
+cd common
+mkdir recipes
+```
+
+Step 8
+---------
+
+```sh
+cd recipes
+vi default.rb
+```
+
+Add:
+
+```ruby
+directory '/root' do
+  mode '0700'
+  user 'root'
+  group 'root'
+end
+```
+
+Step 9
+---------
+
+```sh
+chef-solo -o 'recipe[common]'
+chmod 760 /root
+chef-solo -o 'recipe[common]'
+```
+
+Step 10
+---------
+
+```sh
+cat /etc/motd
+```
+
+Go to chef/src/cookbooks/common directory
+
+```sh
+$mkdir -p files/default
+$vi files/default/motd
+```
+
+Add :
+
+This is a test.
+
+Step 11
+---------
+
+```sh
+vi recipes/default.rb 
+```
+
+Add the following to the bottom of the file.
+
+```ruby
+cookbook_file '/etc/motd' do
+  mode '0644'
+  user 'root'
+  group 'root'
+end
+```
+
+Run:
+
+```sh
+cat recipes/default.rb
+```
+
+Step 12
+---------
+
+```sh
+$chef-solo -o 'recipe[common]'
+$cat /etc/motd
+```
+
+Step 13
+---------
+
+```sh
+vi recipes/packages.rb
+```
+
+Add:
+
+```ruby
+package 'whoopsie' do
+  action :remove
+end
+```
+
+Run:
+
+```sh
+$chef-solo -o 'recipe[common::packages]'
+```
+
+Step 14
+---------
+
+```sh
+vi recipes/default.rb
+```
+
+Add:
+
+```ruby
+include_recipe 'common::packages'
+```
+
+at the top
+
+```sh
+chef-solo -o 'recipe[common]'
+```
+
+Step 15
+---------
+
+```sh
+rm /etc/motd
+chef-solo -o 'recipe[common]'
+```
+
+Step 16
+---------
+
+```sh
+dpkg -l | grep landsca
+vi recipes/packages.rb
+```
+
+Add:
+
+```ruby
+package 'landscape-client-ui-install' do
+  action :remove
+end
+```
+
+Run:
+
+```sh
+chef-solo -o 'recipe[common]'
+```
+
+Step 17
+---------
+
+```sh
+ruby -v
+vi recipes/packages.rb
+```
+
+Add:
+
+```ruby
+package 'ruby1.9.1'
+```
+
+Run:
+
+```sh
+chef-solo -o 'recipe[common]'
+ruby -v
+apt-get install whoopsie
+chef-solo -o 'recipe[common]'
+dpkg -l | grep ruby
+```
+
+Step 18
+---------
+
+```sh
+cd ..
+mkdir apache
+cd apache
+mkdir attributes
+mkdir templates
+mkdir recipes
+mkdir templates/default
+vi attributes/default.rb
+```
+
+Add:
+
+```ruby
+node.default['apache']['srvlimit'] = 128
+```
+
+Edit:
+
+```sh
+vi recipes/default.rb
+```
+
+Add:
+
+```ruby
+log node['apache']['srvlimit']
+
+cat attributes/default.rb
+cat recipes/default.rb
+```
+
+Step 19
+---------
+
+```sh
+chef-solo -o 'recipe[apache]'
+
+vi recipes/default.rb
+```
+
+Add:
+
+```ruby
+package 'apache2'
+
+service 'apache2' do
+  action :start
+end
+```
+
+Run:
+
+```sh
+chef-solo -o 'recipe[apache]'
+```
+
+```sh
+service apache2 stop
+```
+
+```sh
+chef-solo -o 'recipe[apache]'
+```
+
+Step 20
+---------
+
+```sh
+vi templates/default/serverlimit.conf.erb
+```
+
+Add:
+
+```ruby
+ServerLimit <%= node['apache']['srvlimit'] %>
+MaxClients <%= node['apache']['srvlimit'] %>
+```
+
+Edit:
+
+```sh
+vi recipes/default.rb
+```
+
+Add:
+
+```ruby
+template '/etc/apache2/conf.d/serverlimit.conf' do
+  mode '0644'
+  user 'root'
+  group 'root'
+  notifies :restart, 'service[apache2]'
+end
+```
+
+Step 21
+---------
+
+```sh
+chef-solo -o 'recipe[apache]'
+
+cat /etc/apache2/conf.d/serverlimit.conf
+
+echo bidon > /etc/apache2/conf.d/serverlimit.conf
+
+cat /etc/apache2/conf.d/serverlimit.conf
+
+chef-solo -o 'recipe[apache]'
+
+cat /etc/apache2/conf.d/serverlimit.conf
+```
+
+Step 22
+---------
+
+Go to src directory.
+
+```sh
+cd roles
+vi webpetit.rb
+```
+
+Add:
+
+```ruby
+default_attributes(
+ 'apache' => {
+   'srvlimit' => 64
+ }
+ )
+
+run_list(
+  'recipe[common]',
+  'recipe[apache]'
+)
+```
+
+Run:
+
+```sh
+chef-solo -o 'role[webpetit]'
+```
+
+Step 23
+---------
+
+```sh
+cp webpetit.rb webgros.rb
+vi webgros.rb
+```
+
+Add:
+
+```ruby
+default_attributes(
+  'apache' => {
+    'srvlimit' => 1024
+  }
+)
+
+run_list(
+ 'recipe[common]',
+ 'recipe[apache]'
+)
+```
+
+Run:
+
+```sh
+$chef-solo -o 'role[webgros]'
+```
+
+Summary
+========
+---------
+
+In this article, you learned some of the basic concepts about Chef Solo.
+
+Reference
+========
+---------
+
+[Chef Tutorial on Ubuntu Linux](https://www.youtube.com/watch?v=13CqboU0ijI 'Chef Tutorial on Ubuntu Linux')

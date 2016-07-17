@@ -1,0 +1,56 @@
+1. gem devise
+2. bundle
+
+3. To include all files under lib folder, add the following line to application.rb.
+config.autoload_paths << Rails.root.join('lib')
+
+4. rails g devise:install
+5. rails g devise user
+6. spec/factories/users.rb
+
+FactoryGirl.define do
+  factory :user do
+  end
+end
+
+7. rake db:migrate
+
+8. rake db:test:prepare
+
+9. 
+
+FactoryGirl.define do
+  factory :user do
+    email { FFaker::Internet.email }
+    password "12345678"
+    password_confirmation "12345678"
+  end
+end
+
+10. spec/models/user_spec.rb
+
+require 'spec_helper'
+require 'rails_helper'
+
+describe User do
+  before { @user = FactoryGirl.build(:user) }
+
+  subject { @user }
+
+  it { should respond_to(:email) }
+  it { should respond_to(:password) }
+  it { should respond_to(:password_confirmation) }
+
+  it { should be_valid }
+end
+
+rspec spec/models/user_spec.rb 
+
+Error: Factory not registered: user
+
+Make sure the users.rb is spec/factories folder.
+
+
+
+
+

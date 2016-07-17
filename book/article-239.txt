@@ -1,0 +1,173 @@
+PUBLISHED
+
+Factory Girl Basics using Rails 3.2, Factory Girl 4.2
+
+Objective
+=========
+---------
+
+To learn how to create objects for has_one association 
+
+Creating an Instance
+=========
+---------
+
+Step 1
+---------
+
+Let's create an instance of an article using FactoryGirl.
+
+Create spec/factories/factories.rb:
+
+```ruby
+FactoryGirl.define do
+  factory :article do
+    title 'How to get rich quick'
+  end  
+end
+```
+
+Step 2
+---------
+
+Here is the spec/models/article_spec.rb:
+
+```ruby
+require 'spec_helper'
+
+describe Article do
+
+  it "creating an instance" do
+    article = FactoryGirl.create(:article)
+    
+    expect(article.title).to eq('How to get rich quick')
+  end
+
+end
+```
+
+Has One Association
+=========
+---------
+
+Step 1
+---------
+
+As you can see from the models, the article has_one :author:
+
+```ruby
+class Article < ActiveRecord::Base
+  has_one :author
+end
+
+class Author < ActiveRecord::Base
+end
+```
+
+Step 2
+---------
+
+Create the author first:
+
+```ruby
+FactoryGirl.define do
+  factory :author do
+    name 'Bugs Bunny'
+  end  
+end
+```
+
+Then associate the author to the article:
+
+```ruby
+FactoryGirl.define do
+  factory :article do
+    title 'How to get rich quick'
+    
+    author { create(:author) }
+  end  
+end
+```
+
+So the entire factories.rb file looks like this:
+
+```ruby
+FactoryGirl.define do
+  factory :author do
+    name 'Bugs Bunny'
+  end  
+
+  factory :article do
+    title 'How to get rich quick'
+    
+    author { create(:author) }
+  end  
+end
+```
+
+Step 3
+---------
+
+Add a new test :
+
+```ruby
+  it "mapping has_one association to factory_girl" do
+    article = FactoryGirl.create(:article)
+    
+    expect(article.title).to eq('How to get rich quick')
+    expect(article.author.name).to eq('Bugs Bunny')
+  end
+```
+
+So the factories.rb now looks like this:
+
+```ruby
+require 'spec_helper'
+
+describe Article do
+
+  it "creating an instance" do
+    article = FactoryGirl.create(:article)
+    
+    expect(article.title).to eq('How to get rich quick')
+  end
+
+  it "mapping has_one association to factory_girl" do
+    article = FactoryGirl.create(:article)
+    
+    expect(article.title).to eq('How to get rich quick')
+    expect(article.author.name).to eq('Bugs Bunny')
+  end
+
+end
+```
+
+Both the tests will pass. The factory name 'author' is the same as the association name `Article has_one :author`, so we can simplify the second factory as follows:
+
+```ruby
+FactoryGirl.define do
+  factory :article do
+    title 'How to get rich quick'
+    
+    author
+  end  
+end
+```
+
+It would have been easier to map the sytnax if it was like this:
+
+```ruby
+FactoryGirl.define do
+  factory :article do
+    title 'How to get rich quick'
+    
+    has_one :author
+  end  
+end
+```
+
+Summary
+========
+---------
+
+In this article you learned how to create objects using FactoryGirl for a has_one association in Rails. I do not recommend using FactoryGirl on new projects, it has convoluted syntax and adds to your learning curve which can make it difficult to keep your tests upto date in a team with varying skill sets. If you are starting a new project, I highly recommend looking at other libraries like Fabrication. 

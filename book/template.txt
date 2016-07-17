@@ -8,3 +8,83 @@ Hyperlink
 
 This is [an example](http://example.com/ "Title") inline link.
 
+Versions
+=========
+----------
+
+
+Objective
+=========
+---------
+
+
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+
+
+
+Step 2
+---------
+
+
+
+
+Step 3
+---------
+
+
+
+
+Step 4
+---------
+
+
+
+Step 5
+---------
+
+
+Step 
+---------
+
+
+Step 
+---------
+
+
+Step 
+---------
+
+
+Step 
+---------
+
+
+
+Summary
+========
+---------
+
+In this article, 
+
+Syntax Reference
+
+==highlighted==
+2^4 or 2^(nd)
+# this is a header
+_underline_
+"quote"
+
+Here is some text containing a footnote.[^somesamplefootnote]
+
+[^somesamplefootnote]: Here is the text of the footnote itself.
+
+To jump to this header you just need to do [link](#link-to-me)
+
+~strikethrough~

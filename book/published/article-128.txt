@@ -90,7 +90,9 @@ Steps
 Step 1
 ----------
 
-The directory structure we would like to have is app/actors/{actor name}/use_cases/use_case_name.rb. This allows several actors to be included inside the actors directory. Each actor will have list of use cases under use_cases directory. Each each use-case-name.rb file will provide an entry point to the fulfillment of the use case. One nice side-effect of this is that we will now have an API layer that is just below the UI layer that the view layer, scripts and tests can invoke. This means our entire system can be tested without testing it through an UI. We can drop into Rails console and invoke this API to learn and debug our software.
+The directory structure we would like to have is app/actors/{actor name}/use_cases/use_case_name.rb. This allows several actors to be included inside the actors directory. Each actor will have list of use cases under use_cases directory. Each each use-case-name.rb file will provide an entry point to the fulfillment of the use case. 
+
+One nice side-effect of this is that we will now have an API layer that is just below the UI layer that the view layer, scripts and tests can invoke. This means our entire system can be tested without testing it through an UI. We can drop into Rails console and invoke this API to learn and debug our software.
 
 Create app/actors/customer/use_cases directory. Create a file subscribe_to_a_plan.rb under this directory. The contents of this file is as follows:
 
@@ -120,10 +122,10 @@ Step 2
 ==========
 ----------
 
-Add the following to the bottom of application.rb file:
+Add the following to the app/actors/customer/customer.rb file:
 
 ```ruby
-require_relative '../app/actors/customer/use_cases/subscribe_to_a_plan'
+require_relative "#{Rails.root}/app/actors/customer/use_cases/subscribe_to_a_plan"
 ```
 
 Step 3
@@ -286,7 +288,17 @@ describe Subscription do
 end
 ```
 
-You can download the entire source code for this article from bitbucket repository git@bitbucket.org:bparanj/striped.git using the commit hash a3829cf. There are other approaches that I don't really like, such as [Writing Use Cases] (http://hawkins.io/2014/01/writing_use_cases/ 'Writing Use Cases') blog post by Adam Hawkins and the horrible [Interactor Gem](https://github.com/collectiveidea/interactor 'interactor'). For more details, read [Why using Interactor Gem is a Very Bad Idea](http://bparanj.blogspot.com/2014/06/why-using-interactor-gem-is-very-bad.html 'Why using Interactor Gem is a Very Bad Idea'). I don't think it's a good idea to have use case name as the class name. It's just ugly.
+In Code Complete 2, Steve McConnell says:
+
+Programmers who program 'in' a language limit their thoughts to constructs that the language directly supports. If the language tools are primitive, the programmer’s thoughts will also be primitive.
+
+Programmers who program 'into' a language first decide what thoughts they want to express, and then they determine how to express those thoughts using the tools provided by their specific language.
+
+Most of the important programming principles depend not on specific languages but on the way you use them. If your language lacks constructs that you want to use or is prone to other kinds of problems, try to compensate for them. Invent your own coding conventions, standards, class libraries, and other augmentations.
+ 
+I have augmentated my code base by using use cases. You can download the entire source code for this article from bitbucket repository git@bitbucket.org:bparanj/striped.git using the commit hash a3829cf. 
+
+There are other approaches that I don't really like, such as [Writing Use Cases] (http://hawkins.io/2014/01/writing_use_cases/ 'Writing Use Cases') blog post by Adam Hawkins and the horrible [Interactor Gem](https://github.com/collectiveidea/interactor 'interactor'). For more details, read [Why using Interactor Gem is a Very Bad Idea](http://bparanj.blogspot.com/2014/06/why-using-interactor-gem-is-very-bad.html 'Why using Interactor Gem is a Very Bad Idea'). I don't think it's a good idea to have use case name as the class name. It's just ugly.
 
 Summary
 ==========

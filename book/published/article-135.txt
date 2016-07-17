@@ -178,10 +178,10 @@ end
 Step 9
 -----
 
-Add the new use case controller in config/application.rb.
+Add the new use case controller in app/actors/customer/customer.rb.
 
 ```ruby
-require_relative '../app/actors/customer/use_cases/guest_checkout'
+require_relative "#{Rails.root}/app/actors/customer/use_cases/guest_checkout"
 ```
 
 Step 10

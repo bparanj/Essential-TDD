@@ -1,0 +1,139 @@
+PUBLISHED
+
+Unit Testing Sending Emails in Rails 4.2.4 using EmailSpec gem
+
+Objective 
+=========
+---------
+
+To learn how to write unit test for sending emails in Rails 4.2.4 webapp.
+
+Steps
+=========
+---------
+
+Step 1 
+---------
+
+Install email_spec gem. Add the gem to the Gemfile:
+
+```ruby
+group :test do
+  gem 'email_spec'
+end
+```
+
+and run :
+
+```sh   
+bundle
+```
+
+Step 2 
+---------
+
+Create a file spec/support/email_spec.rb:
+
+```ruby
+require 'email_spec'
+
+RSpec.configure do |config|
+
+  config.include EmailSpec::Helpers
+  config.include EmailSpec::Matchers
+
+  config.before(:each) do
+    reset_mailer # Clears out ActionMailer::Base.deliveries
+  end
+
+end
+```
+
+Step 3
+---------
+
+Require email_spec in your spec_helper.rb:
+
+```ruby
+require "email_spec"
+```
+
+Step 4
+---------
+
+Start making use of email_spec helpers and matchers. Here is my spec/mailers/purchase_confirmation_mailer_spec.rb:
+
+```ruby
+require "rails_helper"
+
+RSpec.describe PurchaseConfirmationMailer, :type => :mailer do
+  
+  before do
+    @product = Fabricate(:product)
+    customer = Fabricate(:customer_with_orders)
+    @payment = customer.payments.first
+        
+    @email = PurchaseConfirmationMailer.receipt_email(@product, @payment, customer).deliver_now
+  end
+  
+  it 'purchase confirmation mail has from address' do    
+    expect(@email.from).to eq(['support@zepho.com'])
+  end
+  
+  it 'purchase confirmation mail has email subject' do
+    expect(@email.subject).to eq('[RubyPlus] Purchase Confirmation')
+  end
+
+ 
+  it "purchase confirmation mail is sent to customer's email" do
+    expect(@email).to deliver_to('bugs-bunny@zepho.com')
+  end
+
+  it "purchase confirmation mail has receipt number" do
+    expect(@email).to have_body_text(@payment.receipt_number)
+  end
+
+  it "purchase confirmation mail has product name" do
+    expect(@email).to have_body_text(@product.name)
+  end
+
+  it "purchase confirmation mail has product price" do
+    expect(@email).to have_body_text(@product.price.to_s)
+  end
+
+  it "purchase confirmation mail has login url" do
+    expect(@email).to have_body_text(/#{new_customer_session_url}/)
+  end
+
+end
+```
+
+The tested app/mailers/purchase_confirmation_mailer.rb class looks like this:
+
+```ruby
+class PurchaseConfirmationMailer < ActionMailer::Base
+  default from: "support@zepho.com"
+  
+  def receipt_email(product, payment, customer)
+    @product = product
+    @payment = payment
+    
+    category 'Purchase Confirmation'
+    mail(to: customer.email, subject: '[RubyPlus] Purchase Confirmation')
+  end
+end
+```
+
+*Note* : If you are using sendgrid-emails gem to send emails make sure the config/initializers/mail.rb has a dummy_recipient set up like this:
+
+```ruby
+SendGrid.configure do |config|
+  config.dummy_recipient = 'bugs-bunny@zepho.com'
+end
+```
+
+Summary
+=========
+---------
+
+We can easily write unit tests using email_spec gem to check that we are sending the email to the right person, from the right email address with the correct subject. We also check that the variables used in the templates are rendered in the email text.

@@ -1,0 +1,62 @@
+PUBLISHED
+
+Sinatra Beyond Basics : Send a Zip File
+
+Objective
+=========
+---------
+
+To zip files and send the zipped file to the client
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create a bogus.txt file with:
+
+```sh
+This is a test file.
+```
+
+Step 2
+---------
+
+Crete a readme.txt file with:
+
+```sh
+This is a readme.
+```
+
+Step 3
+---------
+
+Create a tester.zip in the current directory that includes bogus.txt and readme.txt.
+
+Step 4
+---------
+
+Create zipper.rb with:
+
+```ruby
+require 'sinatra'
+
+get '/' do
+  filename ="./tester.zip"
+  
+  send_file(filename, :filename => "test.zip", :type => "application/zip")
+end
+```
+
+Step 5
+---------
+
+Run the Sinatra app, it will send the zip file when you do a GET.
+
+Summary
+========
+---------
+
+In this article you learned how to send a zip file in a Sinatra app.

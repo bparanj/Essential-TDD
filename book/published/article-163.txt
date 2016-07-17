@@ -1,0 +1,89 @@
+Sinatra Basics : Sinatra Filters
+
+Objective
+=========
+---------
+
+To learn how to use before and after filters in Sinatra.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create filter.rb
+
+```ruby
+require 'sinatra'
+
+before do
+  puts "Before called"
+end
+
+get '/' do
+  'hello'
+end
+```
+
+Step 2
+---------
+
+```sh
+bundle exec shotgun filter.rb
+```
+
+Step 3
+---------
+
+Browse to http://localhost:9393/
+
+Browser output: hi
+Server log output : Before called
+
+Step 4
+---------
+
+Add after filter:
+
+```ruby
+after do
+  puts 'after called'
+end
+```
+
+so the file now looks like this:
+
+```ruby
+require 'sinatra'
+
+before do
+  puts "Before called"
+end
+
+after do
+  puts 'after called'
+end
+
+get '/' do
+  'hello'
+end
+```
+
+Step 5
+---------
+
+Reload the browser.
+
+Before called
+after called
+
+is seen in the server log.
+
+
+Summary
+========
+---------
+
+In this article, you learned how to use before and after filter in a Sinatra application.

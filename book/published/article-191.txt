@@ -1,0 +1,237 @@
+PUBLISHED
+
+Web Development in Ruby : Rack App HTTP Response
+
+Objective
+=========
+---------
+
+To learn about the Response object in a Rack app.
+
+Discussion
+=========
+---------
+
+In the previous example we returned a hard-coded strings as the response. But in a complex Rack application, we may need to do more to control the response. For example, the need to set various HTTP response headers, handling cookies and so on. Response is your friend if you want to write Rack applications directly.
+
+The response object encapsulates all information to be returned from the server to the client. In the HTTP protocol, this information is transmitted from the server to the client either by HTTP headers or the message body of the request.
+
+Rack::Response provides a convenient interface to create a Rack response. It allows setting of headers and cookies, and provides useful defaults (a OK response containing HTML).
+
+Response provides two methods to generate the response body:
+
+• Directly set by calling response.body - In this case you have to set the response header content length
+• Use response.write to write the contents of an incremental, automatic filling Content_Length header value.
+
+You can use Response#write to iteratively generate your response, but note that this is buffered by Rack::Response until you call finish. The finish however can take a block inside with calls to write that are synchronous with the Rack response.
+
+Regardless of the method, your application's call should end returning Response#finish. Note that you should not mix these two methods. Browser needs Content-Length header to decide how much data to read from the server and this is a must.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Let's first look at how to directly set response.body:
+
+```ruby
+require 'rack'
+require 'thin'
+
+rack_app = lambda do |env|
+  request = Rack::Request.new(env)
+  response = Rack::Response.new
+
+  body = '--------------Header-------------<br/>'
+  
+  if request.path_info == '/hello'
+    body << 'Saying hi'
+    client = request['client']
+    body << "from #{client}" if client
+  else
+    body << "You need to provide the client information"
+  end
+  body << "<br/>--------Footer-----------------"
+
+  response.body = [body]
+  response.headers['Content-Length'] = body.bytesize.to_s
+  response.to_a
+end
+
+Rack::Handler::Thin.run rack_app, Port: 3025
+```
+
+Step 2
+---------
+
+Now, when we run the program and make a request without /hello in the URL, we get:
+
+You need to provide the client information
+
+Step 3
+---------
+
+Browse to http://localhost:3025/hello
+
+You can see:
+
+--------------Header-------------<br/>Saying hi<br/>--------Footer-----------------
+
+Step 4
+---------
+
+Add :
+
+```ruby
+response.headers['Content-Type'] = 'text/html'
+```
+
+Browse to http://localhost:3025/hello?client=high Here is output when we provide the value for client parameter:
+
+--------------Header-------------
+Saying hifrom high
+--------Footer-----------------
+
+Step 5
+---------
+
+Let's now write the same program using response.write. Here is the code:
+
+Step 6
+---------
+
+```ruby
+require 'rack'
+require 'thin'
+
+rack_app = lambda do |env|
+  request = Rack::Request.new(env)
+  response = Rack::Response.new
+
+  response.write '--------------Header-------------<br/>'
+  
+  if request.path_info == '/hello'
+    response.write 'Saying hiy '
+    client = request['client']
+    response.write "from #{client}" if client
+  else
+    response.write "You need to provide the client information"
+  end
+  response.write "<br/>--------Footer-----------------"
+
+  response.headers['Content-Type'] = 'text/html'
+  response.finish
+end
+
+Rack::Handler::Thin.run rack_app, Port: 3025
+```
+
+The behavior is still the same. Notice that in the previous example we generated the body string and we set it as the response body. We also had to set the content-length header value. In this example we directly write the body by using the response.write method. We also used finish in- stead of to_a method, to_a is an alias for finish method. Rack::Request & Rack::Response is used to write Rack apps directly.
+
+Step 7
+---------
+
+Status Code
+---------
+
+We can directly access the Response object to change the status code like this: 
+
+```ruby
+response.status = 200
+```
+
+If it is not set, then the status code defaults to 200. Response provides a redirect method to redirect directly:
+
+```ruby
+redirect(target, status=302)
+```
+
+Let us now run a program to illustrate the redirect method. This program will redirect your browser to Google.
+
+```ruby
+require 'rack'
+require 'thin'
+
+rack_app = lambda do |env|
+  request = Rack::Request.new(env)
+  response = Rack::Response.new
+  
+  if request.path_info == '/redirect'
+    response.redirect('http://google.com')
+  else
+    response.write 'You did not get redirected'
+  end
+  response.finish
+end
+
+Rack::Handler::Thin.run rack_app, Port: 3025
+```
+
+Step 8
+---------
+
+Response Header
+---------
+
+You can also set the response header directly on the response object. It is a hash, so you can set it like this:
+
+```ruby
+response.headers['Content-Type'] = 'text/plain'
+```
+
+Let's modify the previous example to return plain text instead of html to the browser.
+
+```ruby
+response.headers['Content-Type'] = 'text/plain'
+response.write '<h1>You did not get redirected</h1>'
+```
+
+This will display the output as plain text on the browser. 
+
+Step 9
+---------
+
+Now we are ready to see the basic structure of a Rack application. 
+
+```ruby
+class BasicRack
+  def initialize(app) 
+    @app = app
+  end
+
+  def call(env)
+  # Can modify request here (env)
+  # Can call layer below like this:
+  status, headers, response = @app.call(env)
+  # Can modify response here
+  [status, headers, response] 
+  end
+end
+```
+
+Here is an example that modifies the response:
+
+```ruby
+class Downcase
+  
+  def initialize(app)
+    @app = app 
+  end
+
+  def call(env)
+    status, headers, response = @app.call(env) 
+    [status, headers, response.body.downcase]
+  end 
+
+end
+```
+
+You see all the different content types you set here: [Content Types](http://www.w3.org/TR/html4/types.html#h-6.7 'Content Types').
+
+Summary
+========
+---------
+
+In this article, you learned about http response, status code, response header and how to generate response body.

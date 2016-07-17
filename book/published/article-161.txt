@@ -1,0 +1,81 @@
+Sinatra Basics : Reload Changes Without Restarting the Server
+
+Objective
+=========
+---------
+
+Learn to use shotgun gem to reload changes without restarting the server.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create Gemfile:
+
+```sh
+source 'https://rubygems.org'
+
+gem 'shotgun'
+gem 'sinatra'
+```
+
+If you don't specify the sinatra gem in the Gemfile you will get an error.
+
+Step 2
+---------
+
+Install the gem: 
+
+```ruby
+bundle
+```
+
+Step 3
+---------
+
+Run the Sinatra application using shotgun gem:
+
+```sh
+bundle exec shotgun hi.rb
+```
+
+Step 4
+---------
+
+Browse to http://127.0.0.1:9393/
+
+Step 5
+---------
+
+You will the text 'hi' in the browser.
+
+Step 6
+---------
+
+Change the static text to:
+
+RUBY_VERSION
+
+like this:
+
+```ruby
+require 'sinatra'
+
+get '/' do
+  RUBY_VERSION
+end
+```
+
+Step 6
+---------
+
+Reload the browser. Now you don't have to restart the server everytime you make changes to the code.
+
+Summary
+========
+--------
+
+In this article, you learned how to use shotgun to reload changes without restarting the server.

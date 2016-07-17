@@ -1,0 +1,72 @@
+
+1. 
+
+Send grid credentials are fine because I can send email by running the credentials check rake task on production:
+
+require 'mail'
+
+desc 'Check SMTP credentials'
+task :sendgrid_check => :environment do
+  Mail.defaults do
+    delivery_method :smtp, { :address   => "smtp.sendgrid.net",
+                             :port      => 587,
+                             :domain    => "rubyplus.com",
+                             :user_name => Credential.sendgrid_username,
+                             :password  => Credential.sendgrid_password,
+                             :authentication => 'plain',
+                             :enable_starttls_auto => true }
+  end
+
+  mail = Mail.deliver do
+    to 'bparanj@gmail.com'
+    from 'Bala Paranj <bparanj@zepho.com>'
+    subject 'This is the subject of your email'
+    text_part do
+      body 'Hello world in text'
+    end
+    html_part do
+      content_type 'text/html; charset=UTF-8'
+      body '<b>Hello world in HTML</b>'
+    end
+  end
+end
+
+2. production.rb:
+
+  config.action_mailer.raise_delivery_errors = true  
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.delivery_method = :smtp                    
+  config.action_mailer.smtp_settings = {
+    address:              'smtp.sendgrid.net',
+    port:                 '587',
+    domain:               'rubyplus.com',
+    authentication:       :plain,
+    user_name:            Credential.sendgrid_username,
+    password:             Credential.sendgrid_password,
+    enable_starttls_auto: true
+  }
+  
+  
+ class FeedbackMailer < ApplicationMailer
+  
+   def feedback_email(message, from, name)
+     @name = name
+     @message = message
+     mail(to: 'bparanj@gmail.com', subject: 'RubyPlus Feedback', from: from)
+   end
+ end
+ 
+ 
+ 3.
+ 
+ def feedback
+   FeedbackMailer.feedback_email(params[:message], params[:email], params[:name]).deliver_now
+   
+   redirect_to contact_url, notice: "Your message has been sent!"
+ end
+ 
+ 
+ 4. In the production log file:
+ 
+ 
+Sent mail to my-email-address (731.9ms)

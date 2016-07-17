@@ -1,0 +1,99 @@
+PUBLISHED
+
+Single Purpose Principle 
+
+Objective
+==========
+----------
+
+- To learn about Single Purpose Principle
+
+>> A class should capture one and only one key abstraction
+>> Object Oriented Design Heuristics by Arthur Riel
+
+Where Did this Confusion Begin?
+==========
+----------
+
+Robert C. Martin came up with the Single Responsibility Principle in 1995. The problem is CRC card already had used the term Responsibility to mean something different. CRC cards came way back in 1989. Also Robert Martin redefined the term responsibility to mean a reason to change. He basically took the concept of cohesion and added his own insights to come up with Single Responsibility Principle. 
+
+![alt text](https://www.rubyplus.com/images/bigstock_Time_For_Change.jpg "Time to Change")
+
+The main point of this principle is that there should be only one reason to change. I don't want to call it Single Responsibility Principle because of the confusion it creates with the existing terminology. Since this principle says that the set of responsibilities (as used by CRC cards) should be focused on one purpose, I think it is appropriate to call it Single Purpose Principle.
+
+Single Purpose
+==========
+----------
+
+![alt text](https://www.rubyplus.com/images/unix_test.png "Good Design is Timeless")
+
+Unix is a perfect example for following the Single Purpose Principle. Each command line utility does one thing really well. It proves that good design is timeless.
+
+How to Recognize Violation of Single Purpose Principle?
+===================
+-------------------
+
+Let's discuss the examples that are used in Robert C. Martins's SRP: The Single Responsibility Principle 
+
+Example 1 : Bowling
+------------
+
+Game - Keep track of frames
+Scorer - Calculate the score
+
+Each of the above is an axis of change. What is an axis of change? How do you recognize different axes of change? He does not explain in his paper. It is confusing. If you ask yourself the questions:
+
+1. Does the operations operate on the data most of time?
+2. Is the data and operations on it related together?
+3. Is this class highly cohesive?
+
+then it will be easy to recognize that we need to separate the Game and Scorer objects. In this example the abstractions are consistent and they are at the application level.
+
+Example 2 : Rectangle
+------------
+
+Application 1 : Computational geometry
+Application 2 : Graphical in nature
+
+These are different abstractions. The abstractions must be consistent, you cannot mix different levels of abstraction into one class. 
+
+He says : 
+
+>> In the context of the Single Responsibility Principle (SRP) we define a responsibility to be "a reason for change." If you can think of more than one motive for changing a class, then that class has more than one responsibility. This is sometimes hard to see.
+
+Yes, it is hard to see because, you can always say that there is only one reason to change when in reality there is more than one reason. This happens when you mix different levels of abstraction. 
+
+For instance, I worked on a project where I had to upload files to Amazon S3. The requirements demanded that I configure the number of threads that can upload files at once to S3. I wrote threading library that did not have any dependency on the S3 file uploader. The S3 file uploader was not aware that it was used by multiple threads. The plumbing code was separated from the actual task in the application. Later I can replace the threading library with a library that uses Celluloid to abstract away the plumbing code. This change will not impact the S3 file uploader.
+
+Example 3 : Modem 
+------------
+
+This example also mixes different levels of abstraction.
+
+Connection : Plumbing level abstraction (dial and hangup)
+Data Channel : Application level abstraction (send and receive)
+
+The plumbing and application level abstractions are not separated.
+
+His Conclusion
+------------
+
+The SRP is one of the simplest of the principle, and one of the hardest to get right. Conjoining responsibilities is something that we do naturally. Finding and separating those responsibilities from one another is much of what software design is really about.
+
+My Thoughts
+------------
+
+Focus on keeping abstractions consistent. Do not mix different levels of abstraction. It will be easier to make better design decisions. You can read Code Complete 2 by Steve McConnell for more detailed explanation. 
+
+Example 4 : Employee
+------------
+
+Employee class with calculate_pay, save, report_hours methods violates the SRP. In this case, he argues that the people who request changes for the business rules are different from those who request changes to the saving functionality related to the database.
+
+It is very clear in this example also that the Employee class mixes different levels of abstraction. By applying 'Separation of Concerns' we can easily recognize that the class has more than one purpose.
+  
+Summary
+===========
+-----------
+
+In this article you learned about Single Purpose principle. If we apply Single Purpose Principle throughout the system we will obey the Separation of Concerns principle and the system will be organized into different layers. Each layer will be focused on fulfilling one purpose such as Object Relational Mapping layer, data conversion for external system and so on. For a good discussion on this topic, read [The Art of Separation of Concerns](http://aspiringcraftsman.com/2008/01/03/art-of-separation-of-concerns/ 'The Art of Separation of Concerns'). 

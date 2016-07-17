@@ -311,10 +311,10 @@ end
 Step 17
 -----
 
-In application.rb, at the bottom of the file, add:
+In app/actors/customer/customer.rb, add:
 
 ```ruby
-require_relative '../app/actors/customer/use_cases/one_click_checkout'
+require_relative "#{Rails.root}/app/actors/customer/use_cases/one_click_checkout"
 ```
 
 Step 18

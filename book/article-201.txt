@@ -1,0 +1,212 @@
+PUBLISHED
+
+Object Oriented Design Basics : Localized Change vs Additive Change
+
+Objective
+=========
+---------
+
+To learn how to eliminate conditionals and come up with a good object oriented design.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+The transformer that uses conditional:
+
+```ruby
+require 'json'
+
+class Transformer
+  def initialize(string)
+    @string = string
+  end
+
+  def transformed_string(type)
+    if type == :json
+      JSON.parse(@string)
+    elsif type == :binary
+      @string.unpack('B*').first
+    end
+  end
+end
+
+t = Transformer.new('Hello')
+x = t.transformed_string(:binary)
+
+p x
+```
+
+This prints : "0100100001100101011011000110110001101111"
+
+Step 2
+---------
+
+Let's eliminate the conditional in transformed_string method:
+
+```ruby
+require 'json'
+
+class Transformer
+  def initialize(string)
+    @string = string
+  end
+
+  def transformed_string(transformation)
+    transformation.transform(@string)
+  end
+end
+
+class JSONTransformation
+  def self.transform(string)
+    JSON.parse(string)
+  end
+end
+
+y = Transformer.new('{"foo": "bar"}').transformed_string(JSONTransformation)
+
+p x
+```
+
+This prints : { "foo" => "bar" }
+
+Step 3
+---------
+
+Let's now implement the binary transformation:
+
+```ruby
+require 'json'
+ 
+class Transformer
+  same as before
+end
+
+class BinaryTransformation
+  def self.transform(string)
+    string.unpack('B*').first
+  end
+end
+
+x = Transformer.new('Hello').transformed_string(BinaryTransformation)
+
+p x
+```
+
+This prints : "0100100001100101011011000110110001101111"
+
+Step 4
+---------
+
+Let's change the setter dependency injection to constructor dependency injection and cleanup the code a bit:
+
+```ruby
+require 'json'
+ 
+class Transformer
+  def initialize(type)
+    @type = type
+  end
+ 
+  def transform(string)
+    @type.transform(string)
+  end
+end
+ 
+class BinaryTransformation
+  def transform(string)
+    string.unpack('B*').first
+  end
+end
+ 
+transformer = Transformer.new(BinaryTransformation.new)
+x = transformer.transform('Hello')
+
+p x
+```
+
+This prints : "0100100001100101011011000110110001101111"
+
+Step 5
+---------
+
+We can implement the JSON tranformation:
+
+```ruby
+class JSONTransformation
+ def transform(string)
+   JSON.parse(string)
+ end
+end
+
+t = Transformer.new(JSONTransformation.new)
+y = t.transform('{"foo": "bar"}')
+
+p y
+```
+
+Step 6
+---------
+
+Let's implement MD5 for fun:
+
+```ruby
+require 'digest'
+ 
+class MD5Transformation
+  def transform(string)
+    Digest::MD5.hexdigest string
+  end
+end
+ 
+s = Transformer.new(MD5Transformation.new)
+z = s.transform('Hello')
+
+p z
+```
+
+we eliminated conditionals and replaced it with well-defined abstraction. We went from isolated changes to additive changes to implement new functionality. In this case, the trasform() method. This is the main theme of Design Patterns: Elements of Reusable Object-Oriented Software book.
+
+Step 7
+---------
+
+We can do even better by replacing these anemic classes with blocks.
+
+```ruby
+require 'json'
+ 
+class Transformer
+ 
+  def transform(string)
+    yield(string)
+  end
+end
+ 
+binary_transformer = ->(x) { x.unpack('B*').first } 
+ 
+transformer = Transformer.new
+a = transformer.transform('Hello', &binary_transformer)
+
+p a
+
+json_transformer = ->(y) { JSON.parse(y) }
+
+b = transformer.transform('{"foo": "bar"}', &json_transformer)
+p b
+
+require 'digest'
+
+md5transformer = ->(z) { Digest::MD5.hexdigest(z) }
+
+c = transformer.transform('Hello', &md5transformer)
+p c
+```
+
+Summary
+========
+---------
+
+In this article, we used dependency injection to vary the implementation for transforming a given string. We improved the design by going from Localized Change to Additive Change. The examples used in this article is stolen from [SOLID Review: Dependency Inversion Principle](http://www.runtime-era.com/2015/04/solid-review-dependency-inversion.html 'SOLID Review: Dependency Inversion Principle').

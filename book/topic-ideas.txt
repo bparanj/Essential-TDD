@@ -1,3 +1,13 @@
+Rewrite Cognac gem. API docs:
+http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectGET.html
+http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html
+
+Review abstraction article:
+
+file:///Volumes/My%20Passport%20for%20Mac/3/print/chapter_4__static_modeling.html
+
+
+
 1. http://xunitpatterns.com/Principles%20of%20Test%20Automation.html
 
 2. Relationship between Test Data and Verification

@@ -1,0 +1,339 @@
+PUBLISHED
+
+Ruby Object Model : Singleton Methods Demystified
+
+Objective
+=========
+---------
+
+To learn about singleton methods and class methods and how they relate to each other.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Let's define a class method drive in Car class. How can we ask Ruby for the class methods defined in Car class. We cannot do Car.class_methods, we will get NoMethodError.
+
+```ruby
+class Car
+  def self.drive
+    p 'driving'
+  end
+end
+
+p Car.singleton_methods
+```
+
+This prints : [:drive]. We can call the class method like this:
+
+```ruby
+Car.drive
+```
+
+In order to view the Class method drive as a singleton method, you have to shift the perspective from Car class to Car as an instance of Class. We can define the drive class method like this:
+
+```ruby
+Car = Class.new
+
+class << Car
+  def drive
+    p 'driving'  
+  end
+end
+
+Car.drive
+```
+
+We now see that Car is a instance of class Class so it is a singleton method from that perspective. This accomplishes the same thing as this example:
+
+```ruby
+Car = Class.new
+
+def Car.drive
+  p 'driving'  
+end
+
+Car.drive
+```
+
+Step 2
+---------
+
+We can also define a class method by defining a method inside the singleton class like this:
+
+```ruby
+class Car
+  class << self
+    def drive
+      p 'driving'
+    end
+  end
+end
+
+p Car.singleton_methods
+```
+
+This prints : [:drive]. The effect is the same as step 1, we can still call the drive method like this:
+
+```ruby
+Car.drive
+```
+
+Step 3
+---------
+
+Let's define a singleton method called drive for an instance of Car class like this:
+
+```ruby
+class Car
+  
+end
+
+c = Car.new
+
+def c.drive
+  'driving'
+end
+
+p c.singleton_methods
+```
+
+This prints : [:drive]. We can call the singleton method drive like this:
+
+```ruby
+p c.drive 
+```
+
+This prints 'driving'. Since this is a singleton method, the drive method is not available for other instances of Car. So, we cannot do this:
+
+```ruby
+b = Car.new
+b.drive
+```
+
+We get the error : NoMethodError: undefined method ‘drive’ for Car.
+
+Step 4
+---------
+
+We can do what we did in previous step like this:
+
+```ruby
+class Car
+  
+end
+
+c = Car.new
+
+class << c
+  def drive
+    'driving'
+  end
+end
+
+p c.drive
+```
+
+This prints driving. Let's look at the singleton methods for Car class.
+
+```ruby
+p c.singleton_methods
+```
+
+This prints [:drive]. So, when we define a singleton method like we did in previous step, we are essentially defining a method in the singleton class as illustrated in this step.
+
+Step 5
+---------
+
+Instead of defining the singleton method directly inside the class << obj construct, we can also mixin the method from a module like this:
+
+```ruby
+module Driveable
+  def drive
+    'driving'
+  end
+end
+
+class Car
+end
+
+c = Car.new
+
+class << c
+  include Driveable
+end
+
+p c.drive
+```
+
+This prints driving.
+
+```ruby
+p c.singleton_methods
+```
+
+This prints [:drive]. This does the same thing we did in previous step.
+
+Step 6
+---------
+
+Let's now combine all the different ways we have seen so far:
+
+1. Defining a class method in a Class.
+2. Defining a singleton method for a specific car object.
+3. Using mixin to define a singleton method.
+
+into one grand example:
+
+```ruby
+module Stoppable
+  def stop
+    'stopping'    
+  end
+end
+
+class Car
+  def self.start
+    'starting'
+  end
+end
+
+c = Car.new
+
+def c.fly
+  'flying'
+end
+
+class << c
+  include Stoppable
+
+  def drive
+    'driving'
+  end
+end
+
+p Car.singleton_methods
+```
+
+This prints [:start]
+
+```ruby
+p c.singleton_methods
+```
+
+This prints [:fly, :drive, :stop]. We can exclude methods that is included in module by passing false flag to the singleton_methods like this:
+
+```ruby
+p c.singleton_methods(false)
+```
+
+This prints [:fly, :drive]
+
+```ruby
+p Car.start
+p c.drive
+p c.stop
+p c.fly
+```
+
+prints:
+
+"starting"
+"driving"
+"stopping"
+"flying"
+
+The first call is a class method call and the other three are singleton method calls.
+
+Step 7
+---------
+
+We can also ask Ruby for the singleton_class of a Class like this:
+
+```ruby
+class Car
+end
+
+p Car.singleton_class
+```
+
+This prints : #<Class:Car>
+
+Step 8
+---------
+
+Let's look at a simple example for displaying the name of the singleton_class:
+
+```ruby
+class Car
+  class << self
+    def class_name
+      to_s
+    end
+  end
+end
+
+p Car.class_name
+```
+
+This prints : 'Car'. We also use define_method to dynamically define the class_name like this:
+
+```ruby
+class Car
+ 
+end
+
+Car.define_singleton_method(:class_name) do
+  to_s
+end
+
+p Car.class_name
+```
+
+This still prints : 'Car'. Let's combine these two above into one example:
+
+```ruby
+class Car
+  class << self
+    def class_name
+      to_s
+    end
+  end
+end
+
+Car.define_singleton_method(:whoami) do
+  "I am : #{class_name}"
+end
+
+p Car.whoami
+```
+
+This prints : "I am : Car"
+
+Step 9
+---------
+
+As a last example, let's define a singleton_method on a string class.
+
+```ruby
+car = 'Beetle'
+car.define_singleton_method(:drive) { "You are driving : #{self}"}
+p car.drive
+```
+
+This prints : "You are driving : Beetle". Let's check the singleton methods for this specific string object.
+
+```ruby
+p car.singleton_methods
+```
+
+This prints [:drive].
+
+Summary
+========
+---------
+
+In this article, we saw different ways to define class methods and singleton methods and where they live. 

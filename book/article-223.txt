@@ -1,0 +1,409 @@
+PUBLISHED
+
+Docker Basics : Container Basics
+
+Objectives
+=========
+---------
+
+- Understand the different types of containers
+- Start a container
+- See a container's status
+- Inspect a container
+- Restart and attach to a container
+
+Steps
+=========
+---------
+
+Containers are created with the docker run command. Containers can run in two modes: Daemonized and Interactive. Daemonized container runs in the background. The docker run command is launched with the -d command line flag. The container runs until it is stopped or killed.
+
+Interactive containers run in the foreground. It is attached to a pseudo-terminal, ie., let's you get input and output from the container. The container also runs unitls its controlling process stops or it is stopped or killed.
+
+Step 1
+---------
+
+Let's create a new container from the ubuntu image.
+
+```sh
+$docker run -i -t ubuntu:12.04 /bin/bash
+```
+
+• The -i flag sets Docker's mode to interactive.
+• The -t flag creates a pseudo terminal (or PTY) in the container.
+• We've specified the ubuntu:12.04 image from which to create our container.
+• We passed a command to run inside the container, /bin/bash.
+
+You will see:
+
+```sh
+Unable to find image 'ubuntu:12.04' locally
+12.04: Pulling from ubuntu
+b5da78899d3a: Pull complete 
+87183ecb6716: Pull complete 
+82ed8e312318: Pull complete 
+78cef618c77e: Already exists 
+ubuntu:12.04: The image you are pulling has been verified. Important: image verification is a tech preview feature and should not be relied on to provide security.
+Digest: sha256:dd470ce8a41ded321956ea32b1fc4897ecc4c0ec11ff1ea5c732d7c2f4e08e1f
+Status: Downloaded newer image for ubuntu:12.04
+root@5fef10b1016b:/# 
+```
+
+• That command has launched a Bash shell inside our container.
+• The hexadecimal number after root@ is the container's identifier
+
+Step 2
+---------
+
+Let's run a command inside our container.
+
+```sh
+$uname -rn
+```
+
+You will see:
+
+```sh
+5fef10b1016b 4.0.3-boot2docker
+```
+
+Exit the container.
+
+```sh
+exit
+```
+
+Step 3
+---------
+
+Check the Kernel version and host name outside the container.
+
+```sh
+$uname -rn
+```
+
+In my case, it is:
+
+```sh
+zepho-mac-pro.local 11.4.2
+```
+
+When I ran this on my Ubuntu 14.04 VM on VirtualBox:
+
+```sh
+root@a124e4f82187:/# uname -rn
+a124e4f82187 3.13.0-39-generic
+root@a124e4f82187:/# exit
+```
+
+```sh
+uname -rnroot@riak:/home/bparanj/projects/namer# uname -rn
+riak 3.13.0-39-generic
+```
+
+The kernel version is the same. Host name is different.
+
+Step 4
+---------
+
+You can see the container status using the docker ps command.
+
+```sh
+$docker ps
+```
+
+On my Mac, I have only one container that is running.
+
+```sh
+CONTAINER ID        IMAGE                   COMMAND             CREATED             STATUS              PORTS                  NAMES
+70202794de9d        training/namer:latest   "rackup"            About an hour ago   Up About an hour    0.0.0.0:80->9292/tcp   grave_einstein      
+```
+
+Step 5
+---------
+
+We can check the last container status by using the -l flag.
+
+```sh
+$docker ps -l
+```
+
+In my case, it shows the previous container that was running:
+
+```sh
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                     PORTS               NAMES
+5fef10b1016b        ubuntu:12.04        "/bin/bash"         10 minutes ago      Exited (0) 8 minutes ago                       kick_land  
+```
+
+Step 6
+---------
+
+We can use docker ps command with the -a flag to show status of all containers. 
+
+```sh
+$docker ps -a
+```
+
+```sh
+CONTAINER ID        IMAGE                   COMMAND                CREATED             STATUS                           PORTS                  NAMES
+5fef10b1016b        ubuntu:12.04            "/bin/bash"            12 minutes ago      Exited (0) 10 minutes ago                               kickass_lalande      
+70202794de9d        training/namer:latest   "rackup"               About an hour ago   Up About an hour                 0.0.0.0:80->9292/tcp   grave_einstein       
+e890f9a07aeb        training/namer:latest   "rackup --host 0.0.0   About an hour ago   Exited (1) About an hour ago                            mynamer              
+d73afb15cacb        training/namer:latest   "rackup --host 0.0.0   About an hour ago   Exited (1) About an hour ago                            namer                
+06fe017c75a4        training/namer:latest   "rackup"               About an hour ago   Exited (137) About an hour ago                          sharp_galileo        
+e96dc63b23fe        ubuntu:latest           "echo hello world"     22 hours ago        Exited (0) 22 hours ago                                 sharp_wilson         
+fcfd6a016f57        busybox:latest          "echo hello world"     23 hours ago        Exited (0) 23 hours ago                                 romantic_hopper      
+d8ddc3b65d89        ubuntu:latest           "echo hello world"     29 hours ago        Exited (0) 29 hours ago                                 suspicious_euclid    
+fae9dbf52e57        ubuntu:latest           "/bin/bash"            38 hours ago        Exited (0) 38 hours ago                                 jovial_torvalds      
+603f6666054b        nginx:latest            "nginx -g 'daemon of   39 hours ago        Exited (0) 39 hours ago                                 web                  
+a37ce803ab5e        hello-world:latest      "/hello"               39 hours ago        Exited (0) 39 hours ago                                 determined_goodall   
+9712ded4e575        ubuntu:latest           "echo hello world"     12 months ago       Exited (0) 12 months ago                                sad_mayer            
+6d251526d353        ubuntu:latest           "echo hello world"     12 months ago       Exited (0) 12 months ago                                focused_bartik   
+```
+
+Using the -a flag shows all containers that could be running or stopped. 
+
+• CONTAINER ID is a unique identifier generated by Docker for our container. You can use it to manage the container (e.g. stop it, examine it, etc)
+• IMAGE is the image used to create that container. We did docker run ubuntu, and Docker selected ubuntu:12.04.
+• COMMAND is the exact command that we asked Docker to run: /bin/bash.
+• You can name your containers (with the --name option). If you don't, Docker will generate a random name for you, like sad_pare. That name shows up in the NAMES column.
+
+Step 7
+---------
+
+We can get the ID of the last container.
+
+```sh
+$docker ps -l -q
+```
+
+```sh
+5fef10b1016b
+```
+
+- -l means show only the last container started.
+- -q means show only the short ID of the container.
+
+Step 8
+---------
+
+We can use docker inspect command to inspect a container.
+
+```sh
+$docker inspect $(docker ps -l -q) 
+```
+
+You will see:
+
+```sh
+[{
+    "AppArmorProfile": "",
+    "Args": [],
+    "Config": {
+        "AttachStderr": true,
+        "AttachStdin": true,
+        "AttachStdout": true,
+        "Cmd": [
+            "/bin/bash"
+        ],
+        "CpuShares": 0,
+        "Cpuset": "",
+        "Domainname": "",
+        "Entrypoint": null,
+        "Env": null,
+        "ExposedPorts": null,
+        "Hostname": "5fef10b1016b",
+        "Image": "ubuntu:12.04",
+        "Labels": {},
+        "MacAddress": "",
+        "Memory": 0,
+        "MemorySwap": 0,
+        "NetworkDisabled": false,
+        "OnBuild": null,
+        "OpenStdin": true,
+        "PortSpecs": null,
+        "StdinOnce": true,
+        "Tty": true,
+        "User": "",
+        "Volumes": null,
+        "WorkingDir": ""
+    },
+    "Created": "2015-06-14T23:06:23.221206404Z",
+    "Driver": "aufs",
+    "ExecDriver": "native-0.2",
+    "ExecIDs": null,
+    "HostConfig": {
+        "Binds": null,
+        "CapAdd": null,
+        "CapDrop": null,
+        "CgroupParent": "",
+        "ContainerIDFile": "",
+        "CpuShares": 0,
+        "CpusetCpus": "",
+        "Devices": [],
+        "Dns": null,
+        "DnsSearch": null,
+        "ExtraHosts": null,
+        "IpcMode": "",
+        "Links": null,
+        "LogConfig": {
+            "Config": null,
+            "Type": "json-file"
+        },
+        "LxcConf": [],
+        "Memory": 0,
+        "MemorySwap": 0,
+        "NetworkMode": "bridge",
+        "PidMode": "",
+        "PortBindings": {},
+        "Privileged": false,
+        "PublishAllPorts": false,
+        "ReadonlyRootfs": false,
+        "RestartPolicy": {
+            "MaximumRetryCount": 0,
+            "Name": "no"
+        },
+        "SecurityOpt": null,
+        "Ulimits": null,
+        "VolumesFrom": null
+    },
+    "HostnamePath": "/mnt/sda1/var/lib/docker/containers/5fef10b1016b36dd60ee227bab7f8cd5a32bf28a8c23ab258c8de95ea39a0128/hostname",
+    "HostsPath": "/mnt/sda1/var/lib/docker/containers/5fef10b1016b36dd60ee227bab7f8cd5a32bf28a8c23ab258c8de95ea39a0128/hosts",
+    "Id": "5fef10b1016b36dd60ee227bab7f8cd5a32bf28a8c23ab258c8de95ea39a0128",
+    "Image": "78cef618c77e86749226ad7855e5e884a7bdbd85fa1c9361b8653931b4adaec5",
+    "LogPath": "/mnt/sda1/var/lib/docker/containers/5fef10b1016b36dd60ee227bab7f8cd5a32bf28a8c23ab258c8de95ea39a0128/5fef10b1016b36dd60ee227bab7f8cd5a32bf28a8c23ab258c8de95ea39a0128-json.log",
+    "MountLabel": "",
+    "Name": "/kickass_lalande",
+    "NetworkSettings": {
+        "Bridge": "",
+        "Gateway": "",
+        "GlobalIPv6Address": "",
+        "GlobalIPv6PrefixLen": 0,
+        "IPAddress": "",
+        "IPPrefixLen": 0,
+        "IPv6Gateway": "",
+        "LinkLocalIPv6Address": "",
+        "LinkLocalIPv6PrefixLen": 0,
+        "MacAddress": "",
+        "PortMapping": null,
+        "Ports": null
+    },
+    "Path": "/bin/bash",
+    "ProcessLabel": "",
+    "ResolvConfPath": "/mnt/sda1/var/lib/docker/containers/5fef10b1016b36dd60ee227bab7f8cd5a32bf28a8c23ab258c8de95ea39a0128/resolv.conf",
+    "RestartCount": 0,
+    "State": {
+        "Dead": false,
+        "Error": "",
+        "ExitCode": 0,
+        "FinishedAt": "2015-06-14T23:08:09.121615275Z",
+        "OOMKilled": false,
+        "Paused": false,
+        "Pid": 0,
+        "Restarting": false,
+        "Running": false,
+        "StartedAt": "2015-06-14T23:06:23.512852607Z"
+    },
+    "Volumes": {},
+    "VolumesRW": {}
+}
+]
+```
+
+Step 9
+---------
+
+We can use docker inspect command to find specific things about out container, for example:
+
+```sh
+$docker inspect --format='{{.State.Running}}' $(docker ps -l -q)
+```
+
+This returned : false.
+
+The --format flag is used to specify a single value from our inspect hash result. This will return its value, in this case a Boolean value for the container's status.
+
+
+Step 10
+---------
+
+Inspect container using its container id.
+
+```sh
+$docker inspect 7020
+```
+
+You can use the first few characters to inspect the container.
+
+
+Step 11
+---------
+
+You can restart a stopped container using its ID.
+
+```sh
+$docker start 5fef
+```
+
+```sh
+$docker ps
+```
+
+```sh
+CONTAINER ID        IMAGE                   COMMAND             CREATED             STATUS              PORTS                  NAMES
+5fef10b1016b        ubuntu:12.04            "/bin/bash"         25 minutes ago      Up 14 seconds                              kickass_lalande     
+70202794de9d        training/namer:latest   "rackup"            About an hour ago   Up About an hour    0.0.0.0:80->9292/tcp   grave_einstein      
+```
+
+You can also use the container name to start.
+
+```sh
+$docker start web
+web
+```
+
+```sh
+$ docker ps
+```
+
+```sh
+CONTAINER ID        IMAGE                   COMMAND                CREATED             STATUS              PORTS                                           NAMES
+5fef10b1016b        ubuntu:12.04            "/bin/bash"            25 minutes ago      Up 44 seconds                                                       kickass_lalande     
+70202794de9d        training/namer:latest   "rackup"               About an hour ago   Up About an hour    0.0.0.0:80->9292/tcp                            grave_einstein      
+603f6666054b        nginx:latest            "nginx -g 'daemon of   39 hours ago        Up 3 seconds        0.0.0.0:32773->80/tcp, 0.0.0.0:32772->443/tcp   web  
+```
+
+Step 12
+---------
+
+You can attach to a running container using the attach command.
+
+```sh
+$docker attach 5fef
+```
+
+```sh
+$docker attach grave_einstein
+```
+
+You can use either the container id or its name.
+
+Step 13
+---------
+
+We can start and attach by using the -a flag to combine attach with start.
+
+```sh
+$docker start -a <container id>
+```
+
+```sh
+$docker start -a 6d25
+hello world
+```
+
+Summary
+========
+---------
+
+In this article, you learned the different types of containers. You also learned how to start a container, see it's status, inspect it, start and attach to a container.

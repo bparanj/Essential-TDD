@@ -1,0 +1,83 @@
+PUBLISHED
+
+Docker Basics : Install Docker
+
+Objective
+=========
+---------
+
+To install Docker v1.6.2 on Mac OS 10.7.5 and play with start, stop and restart commands.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Go to https://github.com/boot2docker/osx-installer/releases/tag/v1.6.2
+
+Step 2
+---------
+
+Download Boot2Docker-1.6.2.pkg file. Install it.
+
+Step 3
+---------
+
+Click on the boot2docker in the Applications folder. You will get the error:
+
+FATA[0000] Error response from daemon: client and server don't have same version (client : 1.18, server: 1.12) 
+
+Step 4
+---------
+
+Run :
+
+```sh
+boot2docker stop
+boot2docker download
+boot2docker up
+```
+
+Step 5
+---------
+
+```sh
+export DOCKER_CERT_PATH=/Users/zepho/.boot2docker/certs/boot2docker-vm
+export DOCKER_TLS_VERIFY=1
+export DOCKER_HOST=tcp://192.168.59.103:2376
+```
+
+Step 6
+---------
+
+Start the Docker daemon:
+
+```sh
+boot2docker start
+```
+
+Step 7
+---------
+
+Stop the Docker daemon:
+
+```sh
+boot2docker stop
+```
+
+Step 8
+---------
+
+Restart the Docker daemon:
+
+```sh
+boot2docker restart
+```
+
+Summary
+========
+---------
+
+In this article, you installed the Docker and learned how to start, stop and restart the Docker daemon.

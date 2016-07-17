@@ -1,0 +1,95 @@
+PUBLISHED
+
+Chef Solo Basics : Installing a Package
+
+Objective
+=========
+---------
+
+To install Nodejs in a VM using Chef Solo and Vagrant.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create the following directory structure:
+
+```sh
+cookbooks
+└── nodejs
+    └── recipes
+        └── default.rb
+```
+
+
+Step 2
+---------
+
+Edit the default.rb:
+
+```ruby
+package "nodejs"
+```
+
+Step 3
+---------
+
+Create Vagrantfile in the project root. 
+
+```ruby
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu/trusty64"
+
+  config.vm.provision :chef_solo do |chef|
+    chef.add_recipe "nodejs"
+  end
+end
+```
+
+Step 4
+---------
+
+```sh
+$ vagrant up
+```
+The output shows that nodejs gets installed.
+
+```
+==> default: [2015-06-12T01:12:02+00:00] INFO: Forking chef instance to converge...
+==> default: [2015-06-12T01:12:02+00:00] INFO: *** Chef 12.3.0 ***
+==> default: [2015-06-12T01:12:02+00:00] INFO: Chef-client pid: 2435
+==> default: [2015-06-12T01:12:09+00:00] INFO: Setting the run_list to ["recipe[nodejs]"] from CLI options
+==> default: [2015-06-12T01:12:09+00:00] INFO: Run List is [recipe[nodejs]]
+==> default: [2015-06-12T01:12:09+00:00] INFO: Run List expands to [nodejs]
+==> default: [2015-06-12T01:12:09+00:00] INFO: Starting Chef Run for vagrant-ubuntu-trusty-64
+==> default: [2015-06-12T01:12:09+00:00] INFO: Running start handlers
+==> default: [2015-06-12T01:12:09+00:00] INFO: Start handlers complete.
+==> default: [2015-06-12T01:12:26+00:00] INFO: apt_package[nodejs] installed nodejs at 0.10.25~dfsg2-2ubuntu1
+==> default: [2015-06-12T01:12:26+00:00] INFO: Chef Run complete in 17.11639021 seconds
+==> default: [2015-06-12T01:12:26+00:00] INFO: Skipping removal of unused files from the cache
+==> default: [2015-06-12T01:12:26+00:00] INFO: Running report handlers
+==> default: [2015-06-12T01:12:26+00:00] INFO: Report handlers complete
+```
+
+Step 5
+---------
+
+Check the installed nodejs in the VM.
+
+```sh
+$ vagrant ssh
+$ nodejs --version
+
+v0.10.25
+```
+
+Summary
+========
+---------
+
+In this article, we created a simple reciple that install nodejs on the VM using Chef Solo and Vagrant.

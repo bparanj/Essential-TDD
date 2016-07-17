@@ -1,0 +1,158 @@
+PUBLISHED
+
+Basics of Abstraction
+
+Definition
+=========
+---------
+
+The dictionary says abstraction means to 'draw away', to remove characteristics from something in order to reduce it to a set of essential characteristics. It is a tool for simplification. We find the essence by ignoring irrelevant details. In his paper 'Is Abstraction the Key to Computing?' Jeff Kramer says abstraction also means:
+
+- The process of formulating general concepts by abstracting common properties of instances, and;
+- A general concept formed by extracting common features from specific examples. 
+
+Example 1
+=========
+---------
+
+Hand drawn Image of an apple vs Photo of Apple
+
+If the hand drawn image is just a circle, it's not an apple anymore. It could be anything. Least amount of detail.
+If the apple is a photo, there is more details but they are not required to recognize it as an apple.
+
+
+Example 2
+=========
+---------
+
+Chemistry is an abstraction of physics. Molecular interactions vs particle physics.
+Biology is an abstraction of chemistry. Growth and behavior of living things vs molecular explanations.
+Genetics is an abstraction of biology. Genes vs cells.
+
+SCANNED IMAGES
+
+Example 3
+=========
+---------
+
+IMAGES OF DIFFERENT ANIMALS AND FIND THE GENERAL CONCEPT 'ANIMAL', 'MAMMAL'.
+
+Example 4
+=========
+---------
+
+The London Underground map that overlays the underground system onto a conventional geographical map.
+
+<img src="https://3.bp.blogspot.com/-_3o5EXJ5Ozc/ViNJPTCfZKI/AAAAAAAAA8c/2St_SLIgFnI/s1600/london-railways-1928.png" alt="London Underground Map" width="825" height="697"/>
+
+In this map, you can see:
+
+- River Thames
+- Relative distances between stations. 
+
+Harry Beck's simplified map.
+
+<img src="https://1.bp.blogspot.com/-4I68wg27KP0/ViNI_mvIq4I/AAAAAAAAA8U/PQTi-LeJLN4/s1600/underground-harry-beck.jpg" alt="Harry Beck's Simplified Map" width="960" height="622.5"/>
+
+- This fits the purpose of navigating around the London Underground.
+- It is misleading for other purposes.
+
+Let's consider two extremes:
+
+Too abstract : The map would not provide sufficient information for the purpose.
+Too detailed : The map becomes confusing and less comprehensible.
+
+The level, benefit and value of a particular abstraction depend on its purpose. 
+
+Abstraction in Software
+=========
+---------
+
+To quote Booch in <em>Object-Oriented Analysis and Design with Applications</em>: 
+
+> An abstraction denotes the essential characteristics of an object that distinguish it from all other kinds of objects and thus provide crisply defined conceptual boundaries, relative to the perspective of the viewer."
+ 
+The *term perspective of the viewer* needs an explanation. Let us consider a House object, when a banker sees this house, he thinks in terms of the value of the property, opportunity for appreciation, etc whereas when a decorator views it, he thinks in terms of what color the house should be painted, total area to be painted, etc. The same object House can be viewed from different perspectives and can lead to entirely different abstractions by different people.
+
+*Booch, Fairsmith, Henderson-Sellers* define abstraction as: 
+
+> Any model that includes the most important, essential, or distinguishing aspects of something while suppressing or ignoring less important, immaterial, or diversionary details.
+
+*Coad, Fairsmith, Henderson-Sellers, Rumbaugh* define abstraction as:
+
+> The cognitive tool for rationalizing the world by considering only those details necessary for the current purpose.
+
+So, abstraction is about what details we choose to emphasize and what details we choose to ignore. What we choose to emphasize is dictated by the application. It simplifies the things that we look at in the real world. For example, a chair can be made up of different kinds of material, height adjusting knobs, reclining adjustment knobs etc. If every time we looked at the chair, if we had to deal with what material it is made up of, how the height adjustment knobs are designed and other irrelevant details related to our purpose using a chair to sit, our brains will be exhausted. So, the abstraction process simplifies things and allows us to manage complexity during problem solving process.
+
+> Computer science is a science of abstraction — creating the right model for thinking about a problem and devising the appropriate mechanizable techniques to solve it. Every other science deals with the universe as it is. The physicist’s job, for example, is to understand how the world works, not to invent a world in which physical laws would be simpler or more pleasant to follow. Computer scientists, on the other hand, must create abstractions of real-world problems that can be understood by computer users and, at the same time, that can be represented and manipulated inside a computer. 
+
+> Abstraction in the sense we use it implies simplification, the replacement of a complex and detailed real-world situation by an understandable model within which we can solve a problem. That is, we “abstract away” the details whose effect on the solution to a problem is minimal or nonexistent, thereby creating a model that lets us deal with the essence of the problem.
+
+-- From the book 'Foundations of Computer Science' by Alfred V Aho and Jeffrey D Ullman 
+
+
+Why Abstraction?
+=========
+---------
+
+Abstraction is crucial to produce clear, elegant designs and programs. It is useful to manage complexity. We can diagnose components at the interfaces rather than by exhaustively tracing functions of all components.
+
+Advantages in Treating Systems by Levels of Abstraction
+---------
+
+- Each level has its own definition and specification. So development can proceed concurrently at each level.
+- We can allocate work according to strength.
+- A system can evolve by evolving components separately. It is not necessary to re-implement the entire system when one component changes. This avoids **Second System Syndrome**.
+
+Abstraction in Daily Life
+=========
+---------
+
+You use abstraction in everyday things in your life. For instance you say : I am going to a *Rock Concert* this weekend. You don't say: "I am going to a musical performance characterized by electric guitar, electric bass guitar and drums this weekend".
+
+How to Abstract
+=========
+---------
+
+Identify what is important in a problem. Learn how to find the essence of something. Oxford dictionary defines essence as : 
+
+> The intrinsic nature or indispensable quality of something that determines its character. 
+
+Let's now think about the following question to illustrate finding the essence.
+
+- What is the essence of a chair?
+
+A chair is a thing and it has a form and function. If you assume sitting as the function of a chair, then you have the attributes such as number of legs, material of the chair, whether it has a support for the back and so on as the variables that can be varied in the chair definition. The question now is what is the least amount of these attributes we need but still retain the concept of chair? Can a chair have no support for the back? Yes. So we can consider this as irrelevant to the chair concept. We can continue this process for other attributes to come up with the essence of a chair.
+
+Leaky Abstraction
+=========
+---------
+
+Abstraction that is leaky will force us to look at implementation to learn about the usage of the API. This is like looking under the hood of your car and understanding the working of the internals of the car engine in order to learn how to drive the car.
+
+Conclusion
+=========
+---------
+
+In this article we discussed the what and the why of abstraction. Abstraction is one of the most important concepts that is taught in Computer Science. But developers still find it difficult to apply it in software development.
+
+Exercises
+=========
+---------
+
+- What is the essence of a pen?
+- What is the essence of a car?
+
+References
+=========
+---------
+
+[Abstraction in Computer Science & Software Engineering: A Pedagogical Perspective] (http://edu.technion.ac.il/Faculty/OritH/HomePage/FrontierColumns/OritHazzan_SystemDesigFrontier_Column5.pdf 'Abstraction in Computer Science')
+[Is Abstraction the Key to Computing?] (http://www.ics.uci.edu/~andre/informatics223s2007/kramer.pdf 'Is Abstraction the Key to Computing')
+[Computational Thinking](https://www.cs.cmu.edu/~15110-s13/Wing06-ct.pdf 'Computational Thinking')
+
+
+
+http://howtodrawdat.com/how-to-draw-a-chair-in-the-correct-perspective-with-easy-steps/
+
+Are you writing code that has crisp and clear boundaries? Why do we need to use abstraction in our code? Read the <a href='https://rubyplus.com/articles/2661'> Basics of Abstraction </a>

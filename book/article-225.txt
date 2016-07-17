@@ -1,0 +1,180 @@
+PUBLISHED
+
+Chef Solo Basics : Installing Nginx Webserver 
+
+Objective
+=========
+---------
+
+To learn how to use Chef Solo to install nginx webserver on VM using Vagrant 1.7.2, Chef 12.3 and VirtualBox 4.3.28
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+```sh
+$gem install chef
+```
+
+Step 2
+---------
+
+```sh
+$mkdir cengine
+$cd cengine
+$mkdir cookbooks
+```
+
+Step 3
+---------
+
+```sh
+$knife cookbook create nginx -o cookbooks
+```
+
+Step 4
+---------
+
+Edit recipes/default.rb:
+
+```ruby
+package 'nginx' do
+  action :install
+end
+```
+
+Step 5
+---------
+
+```sh
+$vagrant init
+```
+
+Step 6
+---------
+
+Copy URL for Ubuntu 14:04 from www.vgrantbox.es and configure it in Vagrantfile.
+
+```ruby
+Vagrant.configure(2) do |config|
+  config.vm.box = "ubuntu-14.04"
+  config.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box'
+
+end
+```
+
+Step 7
+---------
+
+Add chef solo configuration for installing nginx:
+
+```ruby
+Vagrant.configure(2) do |config|
+
+  config.vm.provision :chef_solo do |chef|
+    chef.run_list = [
+      "recipe[nginx]"
+    ]
+  end
+
+end
+```
+
+Step 8
+---------
+
+The Vagrantfile now looks like this:
+
+```ruby
+Vagrant.configure(2) do |config|
+  config.vm.box = "ubuntu-14.04"
+  config.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box'
+
+  config.vm.provision :chef_solo do |chef|
+    chef.run_list = [
+      "recipe[nginx]"
+    ]
+  end
+
+end
+```
+
+SSH into VM and check the nginx installation.
+
+```sh
+$vagrant ssh
+```
+
+```sh
+vagrant@vagrant-ubuntu-trusty-64:~$ nginx -v
+```
+
+You will see:
+
+```sh
+nginx version: nginx/1.4.6 (Ubuntu)
+```
+
+Exit the VM.
+
+```sh
+vagrant@vagrant-ubuntu-trusty-64:~$exit
+```
+
+Step 9
+---------
+
+Add:
+
+```ruby
+execute 'apt-get update' do
+  action :run
+end
+```
+
+to nginx/recipes/default.rb. The file now looks like this:
+
+```ruby
+execute 'apt-get update' do
+  action :run
+end
+
+package 'nginx' do
+  action :install
+end
+```
+
+Step 10
+---------
+
+Let's provision the VM to apply the changes to the recipe.
+
+```sh
+$vagrant provision
+```
+
+Step 11
+---------
+
+Verify the installation.
+
+```sh
+$vagrant ssh
+```
+
+```sh
+$nginx -v
+```
+
+```sh
+$exit
+```
+
+Summary
+========
+---------
+
+In this article, we installed nginx webserver on VM using Chef Solo using Vagrant and VirtualBox.

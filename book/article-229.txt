@@ -1,0 +1,69 @@
+PUBLISHED
+
+Docker Basics : Rebuilding Images
+
+Objective
+=========
+---------
+
+We will upgrade Ruby and Learn how to rebuild images.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Change the Ruby version in Dockerfile:
+
+```sh
+ruby:2.2.2
+```
+
+You can see all the available tags for Ruby here: https://github.com/docker-library/docs/tree/master/ruby
+
+Step 2
+---------
+
+```sh
+$ docker build -t bparanj/hello .
+```
+
+This will rebuild the image. When you run the app you will see the Ruby version is 2.2.2. 
+
+Step 3
+---------
+
+You can also check the list of images by doing:
+
+```sh
+$ docker images
+```
+
+Step 4
+---------
+
+You can verify the Ruby version by going into the container:
+
+```sh
+$ docker run -i -t bparanj/hello /bin/bash
+```
+
+```sh
+root@0503074f21c9:/app# ruby -v
+```
+
+You will see:
+
+```sh
+ruby 2.2.2p95 (2015-04-13 revision 50295) [x86_64-linux]
+```
+
+You can download the code from here: https://github.com/bparanj/hello
+
+Summary
+========
+---------
+
+In this article, we saw how we can upgrade Ruby by specifying the Ruby version in the Dockerfile and rebuilding the image.

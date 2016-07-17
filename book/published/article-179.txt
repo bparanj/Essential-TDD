@@ -1,0 +1,128 @@
+PUBLISHED
+
+Developer Notes : Service Oriented Architecture
+
+General Concepts
+=========
+---------
+
+Why do we need to do up-front design of services?
+---------
+
+Service oriented systems sacrifice iteration speed for stability, reuse and robustness.
+
+What is robustness?
+---------
+
+Ability to withstand changes in the operating environment without loss of functionality. Example: code changes, moving to another database etc.
+
+When is services a good choice?
+---------
+
+When an application has a stable, well-defined, and well-understood requirements.
+
+What are the advantages of using services rather than a monolithic application?
+---------
+
+Isolation
+
+What are the benefits of isolation?
+---------
+
+1. Easier to manage and optimize.
+2. Can be tested separately from other parts of an application.
+3. Easy way of organizing larger teams.
+
+What are the different levels of isolation?
+---------
+
+Business logic, shared system and full isolation.
+
+What is business logic isolation?
+---------
+
+Services that isolate based on business logic generally have their own application code, with a shared data store and shared systems.
+
+What is shared system isolation?
+---------
+
+Services running inside their own application instances. Each has its own databases but they could be running on the same hardware. 
+
+What is full isolation?
+---------
+
+Services have their own server instances, separate code bases and their own data stores.
+
+How does services approach help with scalability?
+---------
+
+Using services makes it easy to scale portions of an application individually. Data can be split across services, and the performance under load can be optimized for each service. Once service can optimize for data writes, another for reads.
+
+How does services approach provide agility?
+---------
+
+Switching infrastructure choices and upgrading libraries is easier.
+
+How do you deal with versioning?
+---------
+
+Each service interface should be versioned when an update includes a breaking change. We must be able to run multiple versions of a service simultaneously. If an update is additive, the service can remain at the same version.
+
+Converting to Services
+=========
+---------
+
+Segmenting into Services
+---------
+
+Questions to determine how to redesign for services:
+
+1. Which data has high read and low write frequency?
+2. Which data has high write or update frequency?
+3. Which joins occur more frequently?
+4. Which parts of the application have clearly defined requirements and design?
+
+The first three questions help us to determine where models might belong in different services. The last question helps to decide whether they remain in the Rails app.
+
+Service and API Design
+=========
+---------
+
+Partitioning Functionality into Separate Services
+---------
+
+Strategies for splitting up the functionality of the model layer into services:
+
+1. Iteration Speed
+2. Logical Function
+3. Read / Write Frequency
+4. Join Frequency
+
+Iteration Speed
+---------
+
+Identify the parts of the application that are core and unlikely to change.
+
+Logical Function
+---------
+
+Is there a process that runs outside the request/response life cycle?
+Views and Controllers can also be partitioned based on logical function. 
+
+Read / Write Frequency
+---------
+
+Different data stores are optimized for different behavior. You can optimize for either read or write.
+
+Join Frequency
+---------
+
+1. Replicate data across services using messaging system to de-normalize data.
+2. Put in a single place where it is needed most frequently to minimize joins.
+
+Versioning Services
+=========
+---------
+
+1. Version number can be part of the path of a URI or one of the arguments in a query string.
+2. Use the Accept headers in a request to specify the version of an API. Caching is a problem in this case.

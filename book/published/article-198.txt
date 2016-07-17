@@ -1,0 +1,66 @@
+PUBLISHED
+
+MongoDB Basics : List Collections and Documents
+
+
+Objective
+=========
+---------
+
+To learn how to list all collections and documents in a collection programmatically using Ruby.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create document.rb:
+
+```ruby
+require 'mongo'
+
+include Mongo
+
+client = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'blog_development')
+
+collection = :articles
+p client[collection].find.count
+
+dn = client[collection].find
+
+dn.each do |doc|
+  puts doc
+end
+```
+
+Step 2
+---------
+
+```ruby
+require 'mongo'
+
+include Mongo
+
+client = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'blog_development')
+database = client.database
+
+p database.collections #=> Returns an array of Collection objects.
+p database.collection_names #=> Returns an array of collection names as strings.
+```
+
+Step 3
+---------
+
+If you are using Mongoid gem, you can check the currently connected database: 
+
+```ruby
+puts "Connected to : #{Mongoid.default_session.options[:database]}"
+```
+
+Summary
+========
+---------
+
+In this article you learned how to list all collections in a given database and how to list all documents in a collection programmatically using mongo db Ruby driver.

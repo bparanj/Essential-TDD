@@ -1,0 +1,17 @@
+The Ruby Programming Language
+
+This works:
+
+birthyear = 1979
+
+generation = case birthyear
+             when 1946..1963
+                'Baby Boomer'
+             when 1964..1976
+                'Generation X'
+             when 1978..2000
+                'Generation Y'
+             else nil
+             end
+             
+             p generation

@@ -1,0 +1,76 @@
+Sinatra Basics : HTTP verbs
+
+Objective
+=========
+---------
+
+To learn about the HTTP verbs GET, POST, PATCH, PUT, DELETE that is used in a RESTful webservice.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create rest.rb:
+
+```ruby
+require 'sinatra'
+
+get '/articles' do
+  'listing of all the articles'  
+end
+
+get '/article/:id' do
+  'get the article with the given id'
+end
+
+post '/article' do
+  'create a new article'
+end
+
+put '/article/:id' do
+  'update an existing article'
+end
+
+patch '/article/:id' do
+  'update part of the existing article'
+end
+
+delete '/article/:id' do
+  'delete the article'
+end
+```
+
+Step 2
+---------
+
+Install [Advanced REST client](https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo 'Advanced REST client') chrome extension.
+
+Step 3
+---------
+
+Run the application:
+
+```sh
+bundle exec shotgun rest.rb
+```
+
+Step 4
+---------
+
+Play with REST client using the following URLs in REST client Chrome extension.
+
+GET http://localhost:9393/articles
+GET http://localhost:9393/article/1
+POST http://localhost:9393/article
+PUT http://localhost:9393/article/1
+PATCH http://localhost:9393/article/1
+DELETE http://localhost:9393/article/1
+
+Summary
+========
+--------
+
+In this article, you learned about the HTTP verbs and saw the request and response using Advanced REST client Chrome extension.

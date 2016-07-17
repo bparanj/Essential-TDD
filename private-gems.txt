@@ -1,0 +1,25 @@
+Hosting Private Gem 
+
+http://www.cerebris.com/blog/2011/03/15/creating-and-managing-private-rubygems-with-jeweler-github-and-bundler/
+
+
+
+Private ruby gems on bitbucket
+
+It is possible to host private gems securely on bitbucket.
+
+It involves putting username and password in a Gemfile, so best create a new user and add it a read access to the repository with private gem.
+
+Then just add this to the Gemfile:
+
+gem 'your-secret-gem', git: 'https://user-accessing-gem:its-password@bitbucket.org/user-hosting-gem/your-secret-gem.git'
+
+If you leave out the password string like in:
+
+gem 'your-secret-gem', git: 'https://user-accessing-gem@bitbucket.org/user-hosting-gem/your-secret-gem.git'
+
+bundler will ask you for the password
+
+
+
+Setting up a simple, private gem server

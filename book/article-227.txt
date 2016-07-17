@@ -1,0 +1,307 @@
+PUBLISHED
+
+Docker Basics : Connecting Containers
+
+Objectives
+=========
+---------
+
+- Launch named containers.
+- Create links between containers.
+- Use names and links to communicate across containers.
+- Use these features to decouple app dependencies and reduce complexity.
+
+Discussion
+=========
+---------
+
+We will learn how to use name and links to expose one container's ports to another. Why? So each component of your app such as DB, web app can run independently with its own dependencies. We're going to:
+
+- get two images: a PostgreSQL database image and a Ruby on Rails application image. 
+- start containers from each image. 
+- link the containers running our Rails application and database using Docker's link primitive. 
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Let's pull down the database image.
+
+```sh
+$docker pull training/postgres
+```
+
+```sh
+Pulling repository training/postgres
+258105bea10d: Download complete 
+511136ea3c5a: Download complete 
+...
+Status: Image is up to date for training/postgres:latest
+```
+
+Let's review the image:
+
+```sh
+$docker images training/postgres
+```
+
+```sh
+REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+training/postgres   latest              258105bea10d        12 months ago       364.6 MB
+```
+
+Step 2
+---------
+
+Let's look at the Dockerfile that built this image. 
+
+```sh
+FROM ubuntu:14.04
+MAINTAINER Docker Education Team <education@docker.com>
+
+ENV PG_VERSION 9.3
+RUN locale-gen en_US.UTF-8
+RUN apt-get update
+RUN apt-get -y install postgresql postgresql-client postgresql-contrib
+
+RUN pg_dropcluster $PG_VERSION main && pg_createcluster --locale en_US.UTF-8 $PG_VERSION main
+
+RUN echo "host    all             all             0.0.0.0/0 trust" >> /etc/postgresql/$PG_VERSION/main/pg_hba.conf
+RUN echo "listen_addresses='*'" >> /etc/postgresql/$PG_VERSION/main/postgresql.conf
+
+RUN service postgresql start && \
+ su postgres sh -c "createuser -d -r -s docker" && \
+ su postgres sh -c "createdb -O docker docker" && \
+ su postgres sh -c "psql -c \"GRANT ALL PRIVILEGES ON DATABASE docker to docker;\""
+
+EXPOSE 5432
+CMD ["su", "postgres", "-c", "/usr/lib/postgresql/$PG_VERSION/bin/postgres -D /var/lib/postgresql/$PG_VERSION/main/ -c config_file=/etc/postgresql/$PG_VERSION/main/postgresql.conf"]
+```
+
+This image is based on ubuntu:14.04 base image. It specifies a number of environment variables. It install the required packages and configures the PostgreSQL database settings. It exposes port 5432. It runs the PostgreSQL database when a container is launched from the image.
+
+```sh
+EXPOSE 5432
+```
+
+will expose a port to our Rails application in another container, not to the host.
+
+Step 3
+---------
+
+Let's luanch a container from the training/postgres image.
+
+```sh
+$docker run -d --name database training/postgres
+```
+
+```sh
+802443b6a4f2e05bf09d75adaa7a05b56c285f5843873ff7e4933b6f5ef97d4b
+```
+
+Let's check the container is running.
+
+```sh
+$docker ps -l
+```
+
+```sh
+CONTAINER ID        IMAGE                      COMMAND                CREATED             STATUS              PORTS               NAMES
+802443b6a4f2        training/postgres:latest   "su postgres -c '/us   30 seconds ago      Up 28 seconds       5432/tcp            database         
+```
+
+Our container is launched and running a PostgreSQL database. Using the --name flag, we have given it a name: database. Container names are unique. We are going to use that name.
+
+Step 4
+---------
+
+Let's pull down our Rails application image.
+
+```sh
+$docker pull training/notes
+```
+
+```sh
+Pulling repository training/notes
+d347176e7bb1: Download complete 
+511136ea3c5a: Download complete 
+...
+Status: Downloaded newer image for training/notes:latest
+```
+
+Review it:
+
+```sh
+$docker images training/notes
+```
+
+```sh
+REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+training/notes      latest              d347176e7bb1        9 months ago        476.7 MB
+```
+
+Step 5
+---------
+
+Let's look at the Dockerfile that built this image.
+
+```sh
+FROM ubuntu:14.04
+MAINTAINER Docker Education Team <education@docker.com>
+
+RUN apt-get update
+RUN apt-get install -y ruby ruby-dev libpq-dev build-essential
+RUN gem install sinatra bundler --no-ri --no-rdoc
+
+ADD . /opt/dockernotes
+
+WORKDIR /opt/dockernotes
+RUN bundle install
+
+EXPOSE 3000
+CMD bundle exec rails s
+```
+
+This image is based on the ubuntu base image using the 14.04 tag to get Ruby 1.9.3. It installs the required packages. Adds the Rails application itself to the /opt/dockernotes directory. Exposes port 3000. Runs Ruby on Rails when a container is launched from the image.
+
+Step 6
+---------
+
+Let's launch a container from the training/notes image. Let's setup the application database schema.
+
+```sh
+docker run --name rails training/notes rake db:create db:migrate
+```
+
+The container fails to start.
+
+```sh
+could not connect to server: No such file or directory
+	Is the server running locally and accepting
+	connections on Unix domain socket "/var/run/postgresql/.s.PGSQL.5432"?
+```
+	
+The Rails application needs access to the database to run.
+
+Step 7
+---------
+
+Container names are unique. You can only have one container named rails at a time. Let's delete our container so we can use that name again.
+
+```sh
+$docker rm rails
+```
+
+Step 8
+---------
+
+Let's link our container to our existing PostgreSQL container. The rake command below is a one-time process that needs to be done in all Rails applications to initialize the database.
+
+```sh
+$docker run -i -t --name rails --link database:db training/notes rake db:create db:migrate
+```
+
+```sh
+==  CreateNotes: migrating ====================================================
+-- create_table(:notes)
+   -> 0.0062s
+==  CreateNotes: migrated (0.0064s) ===========================================
+```
+
+The --link flag connects one container to another. We specify the name of the container to link to, database, and an alias for the link 'db'.
+
+Step 9
+---------
+
+We can remove the container.
+
+```sh
+docker rm rails
+```
+
+Step 10
+---------
+
+The link provides a secure tunnel between containers. On our database container port 5432 has been exposed to the linked container. Docker will automatically set environment variables in our container, to indicate connection information. Let's see that information.
+
+```sh
+docker run --rm --link database:db training/notes env
+```
+
+```sh
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=1d5cae52b3f6
+DB_PORT=tcp://172.17.0.33:5432
+DB_PORT_5432_TCP=tcp://172.17.0.33:5432
+DB_PORT_5432_TCP_ADDR=172.17.0.33
+DB_PORT_5432_TCP_PORT=5432
+DB_PORT_5432_TCP_PROTO=tcp
+DB_NAME=/reverent_ptolemy/db
+DB_ENV_PG_VERSION=9.3
+HOME=/
+```
+
+Each variable is prefixed with the link alias: db. It includes connection information plus any environment variables set in the database container via ENV instructions. The --rm removes the container after it exits, as this is not a long running container.
+
+Step 11
+---------
+
+Now we've configured our database. Let's start the application in a new container.
+
+```sh
+$docker run -d -p 80:3000 --name rails --link database:db training/notes
+```
+
+You will see:
+
+```sh
+c8f36026e8a2c1fdc3dfd43b99101f90bf895b22514f513f3efae4a4313ee858
+```
+
+Check the container is running.
+
+```sh
+$docker ps -l
+```
+
+```sh
+CONTAINER ID        IMAGE                   COMMAND                CREATED             STATUS              PORTS                  NAMES
+c8f36026e8a2        training/notes:latest   "/bin/sh -c 'bundle    29 seconds ago      Up 28 seconds       0.0.0.0:80->3000/tcp   rails               
+```
+Step 12
+---------
+
+Browse to http://192.168.59.103:80 to view the Rails application. You can find the IP address to use by running:
+
+```sh
+$boot2docker ip
+192.168.59.103
+```
+
+Step 13
+---------
+
+Let's cleanup.
+
+```sh
+$ docker kill rails database
+rails
+database
+```
+
+```sh
+$ docker rm rails database
+rails
+database
+```
+
+We can use container names to stop and remove them. We removed them so we can re-use their name later. 
+
+Summary
+========
+---------
+
+In this article, we learned how to launch named containers, create links between containers, use name and links to communicate across containers. Use these features to decouple app dependencies and reduce complexity.

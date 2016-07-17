@@ -1,0 +1,132 @@
+PUBLISHED
+
+Chef Solo Basics : Simple Recipe using Chef Solo and Vagrant
+
+Objective
+=========
+---------
+
+To learn how to use a simple recipe that is run in a VM using Vagrant and Chef Solo.
+
+Discussion
+=========
+---------
+
+In the previous article, we wrote a simple hello world program that created a file with the contents 'hello world' on the local machine. We are now going to use the same recipe but it will be executed in a VM.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create a new project folder. My folder is named third.
+
+Step 2
+---------
+
+Create a Vagrantfile:
+
+```sh
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu/trusty64"
+end
+```
+
+Step 3
+---------
+
+```sh
+$vagrant up
+$vagrant ssh
+```
+
+To stop: vagrant halt. To destroy: vagrant destroy
+
+Step 4
+---------
+
+Create cookbooks directory in your project folder.
+
+Step 5
+---------
+
+Change Vagrantfile:
+
+```ruby
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu/trusty64"
+
+  config.vm.provision :chef_solo do |chef|
+    chef.add_recipe "mfweb"
+  end
+end
+```
+
+Step 6
+---------
+
+Create the folder structure:
+
+```sh
+cookbooks
+└── mfweb
+    └── recipes
+        └── default.rb
+```
+
+Step 7
+---------
+
+If we want the file "hello.txt" to appear in /home/vagrant. We need the following fragment in the recipe file (cookbooks/recipes/default.rb):
+
+```ruby
+file "/home/vagrant/hello.txt" do
+  content "hello world"
+end
+```
+
+Step 8
+---------
+
+Run 
+
+```sh
+$vagrant halt
+```
+if your VM is still running. Then:
+
+```sh
+$vagrant up
+```
+
+Step 9
+---------
+
+```sh
+$vagrant ssh
+```
+
+Check the contents of the file.
+
+```sh
+vagrant@vagrant-ubuntu-trusty-64:~$ cat hello.txt
+hello world
+```
+
+Summary
+========
+---------
+
+In this article, we wrote a simple recipe to create a file in the VM using Chef Solo and Vagrant.
+
+Reference
+========
+---------
+
+[Vagrant Chef Rbenv](http://martinfowler.com/articles/vagrant-chef-rbenv.html 'Vagrant Chef Rbenv')

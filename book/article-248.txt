@@ -1,0 +1,108 @@
+
+Upgrading Server Ruby to 2.3.0 on Linode using Moonshine
+
+Objective
+=========
+---------
+
+To learn how to upgrade ruby to the latest version on your VPS using Moonshine.
+
+Steps
+=========
+---------
+
+Step 1
+--------
+
+In config/deploy.rb, define your custom Capistrano recipe to install Ruby 2.3.0:
+
+```ruby
+namespace :ruby do
+  task :src230 do
+    remove_ruby_from_apt
+    libyaml.install
+    pv = "2.3.0"
+    p = "ruby-#{pv}"
+    run [
+      'cd /tmp',
+      "sudo rm -rf #{p}* || true",
+      'sudo rm -rf /usr/lib/ruby/gems/1.8 || true',
+      'sudo rm -rf /usr/lib/ruby/gems/1.9.1 || true',
+      'sudo rm -rf /usr/lib/ruby/gems/2.0.0 || true',
+      'sudo rm -rf /usr/lib/ruby/gems/2.1.0 || true',
+      'sudo mkdir -p /usr/lib/ruby/gems/2.2.0/gems || true',
+      "wget -q http://cache.ruby-lang.org/pub/ruby/2.3/#{p}.tar.gz",
+      "tar xzf #{p}.tar.gz",
+      "cd /tmp/#{p}",
+      './configure --prefix=/usr',
+      'make',
+      'sudo make install'
+    ].join(' && ')
+    set :rubygems_version, fetch(:rubygems_version, '2.5.1')
+    set :bundler_version, fetch(:bundler_version, '1.11.2')
+  end
+end
+```
+
+Step 2
+-------
+
+In config/moonshine.yml, specify ruby 2.3.0 recipe like this:
+
+```ruby
+:ruby: src230
+```
+
+Step 3
+--------
+
+Run :
+
+```sh
+cap ruby:upgrade
+```
+
+or 
+
+```sh
+cap production ruby:upgrade
+```
+
+if you have setup different environments. 
+
+
+The installation will hang at:
+
+```sh
+ ** [out :: rp] rake's executable "rake" conflicts with /usr/bin/rake
+ ** [out :: rp] Overwrite the executable? [yN]
+```
+
+Since Moonshine is not able to say `y` during the installation, the workaround is to delete rake in user/bin manually.
+
+```sh
+rails@li552-13:/usr/bin$ ll rake
+-rwxr-xr-x 1 root root 1240 Jul 10  2014 rake*
+rails@li552-13:/usr/bin$ rm -rf rake
+rm: cannot remove `rake': Permission denied
+rails@li552-13:/usr/bin$ sudo rm -rf rake
+rails@li552-13:/usr/bin$ ll rake
+ls: cannot access rake: No such file or directory
+```
+
+Run upgrade cap task again. You can verify that your server is running Ruby 2.3 by going to rails console on the server and doing:
+
+```
+$ rails c production
+Loading production environment (Rails 4.2.5)
+irb(main):001:0> RUBY_VERSION
+=> "2.3.0"
+```
+
+That's it. Enjoy!
+
+Summary
+========
+---------
+
+Upgrading Ruby on any VPS server is easy if you are using Moonshine to deploy your apps. You can write your own custom Capistrano recipe to upgrade Ruby on the same day the new version is released.

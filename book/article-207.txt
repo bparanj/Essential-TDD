@@ -1,0 +1,134 @@
+PUBLISHED
+
+Object Oriented Design Basics : Open Closed Principle
+
+Objective
+=========
+---------
+
+To learn about Open Closed Principle
+
+Discussion
+=========
+---------
+
+Let's consider the FizzBuzz problem to learn how to apply the Open Closed Principle. FizzBuzz requirements:
+
+- For multiples of 3, print Fizz
+- For multiples of 5, print Buzz
+- For multiples of 3 and 5, print FizzBuzz
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Define classes to implement the above requirements:
+
+```ruby
+class Fizz 
+  def value(n)
+    if n % 3 == 0
+      'Fizz'
+    end
+  end
+end
+
+class Buzz
+  def value(n)
+    if n % 5 == 0
+      'Buzz'
+    end
+  end  
+end
+
+class FizzBuzz
+  def value(n)  
+    if n % 15 == 0
+      'FizzBuzz'
+    end
+  end
+end
+```
+
+Step 2
+---------
+
+One of the requirement is implicit, because numbers that is not multiple of 3, 5 or 15 should not be transformed. So we need a NoOp class:
+
+```ruby
+class NoFizzBuzz
+  def value(n)
+    n
+  end
+end
+```
+
+So far, we have the concrete classes that implement the FizzBuzz logic. Notice that we have a uniform interface value(n) that allows clients to program to an interface and not to an implementation. You will see this in action in upcoming steps.
+
+Step 3
+---------
+
+Define FizzBuzzGenerator class that will delegate the FizzBuzz generation to the concrete classes.
+
+```ruby
+class FizzBuzzGenerator
+  def initialize(objects, list)
+    @list = list
+    @objects = objects
+  end
+    
+  def generate
+    result = []
+    
+    @list.each do |num|  
+      @objects.each do |l|
+        v = l.value(num) 
+        unless v.nil?
+          result << v
+          break
+        end
+      end
+    end
+    
+    result
+  end
+end
+```
+
+Notice that the dependency is on the message value(num). There is no dependency on the name of a class. So we don't have any references to Fizz, Buzz, FizzBuzz or NoFizzBuzz classes. This class is open for extension and closed for modification. This means we can add more concrete classes such as Fazz that returns multiples of 7 as Fazz, if such a new requirement arises without modifying this class and extend the functionality.
+
+Step 4
+---------
+
+Finally, here is the test run:
+
+```ruby
+objects = [FizzBuzz.new, Fizz.new, Buzz.new, NoFizzBuzz.new]
+
+g = FizzBuzzGenerator.new(objects, (1..20).to_a)
+r = g.generate
+puts r
+```
+
+Discussion
+=========
+---------
+
+The list of concrete classes (objects), needs to change only when new concrete classes are added. Deploying new feature requires additive changes. This means we add new concrete classes and an instance of that object to the objects array. The generator class does not require any modification to the existing code. This results in a flexible and easy to maintain code base. In our solution, notice that we don't have any if-else-elsif statements. If your solution used if-else-elsif then it would require Localized Changes and it would not be Additive Change.
+
+There is a subtle dependency between the FizzBuzzGenerator class and the order of the objects in the test run code. The correct generation of the FizzBuzz sequence depends on the order of objects. This is a quick-and-dirty implementation of Chain of Responsibility pattern. However this example was chosen to illustrate the Open Closed Principle. If the concrete classes have business logic that can be implemented by passing through a chain of handlers independent of the order in which they are executed, this solution would shine. Because, in that case, there would be no dependency on the order of the handlers in the objects array.
+
+Exercise
+========
+--------
+
+In order to understand the concepts explained in this article, implement the feature where you must print Fuzz for multiples of 7. What are the changes required to satisfy the requirement?
+
+Summary
+========
+---------
+
+In this article, you learned about the Open Closed Principle and how to apply it by working through a FizzBuzz example. 

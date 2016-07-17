@@ -1,0 +1,23 @@
+PUBLISHED
+
+Implicit vs Explicit Return in Ruby
+-------------
+
+You can run the following code at rubyplus.biz:
+
+Implicit return:
+
+def times_ten(integer)
+  integer * 10
+end
+
+p times_ten(1)
+
+Explicit return:
+
+def times_ten(integer)
+  return integer * 10
+end
+
+p times_ten(2)
+

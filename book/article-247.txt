@@ -1,0 +1,43 @@
+
+1. bundle gem
+2. 
+
+In .gemspec file replace minitest with:
+
+  spec.add_development_dependency "rspec"
+
+3.
+
+rspec --init
+
+ create   .rspec
+ create   spec/spec_helper.rb
+ 
+4.
+
+ cat .rspec
+--color
+--require spec_helper
+
+You can add:
+
+--format=doc
+
+5. 
+
+You can also tell bundler to use rspec instead of minitest:
+
+bundle gem --test=rspec testicle
+
+6.
+
+Add gems that is required during runtime:
+
+
+spec.add_dependency 'lyon', "~> 1.25"  
+
+or
+
+spec.add_dependency 'lyon'
+
+if you want the latest lyon gem.

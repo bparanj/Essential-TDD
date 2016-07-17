@@ -1,0 +1,123 @@
+PUBLISHED
+
+Sinatra Beyond Basics : Processing a JSON Payload
+
+Objective
+=========
+---------
+
+To learn how to post a JSON payload and process it in the backend.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+This article will continue from where we left in the previous article [Sinatra Beyond Basics : Post a JSON Payload](https://rubyplus.com/articles/1901 'Sinatra Beyond Basics : Post a JSON Payload'). Let's organize. Create an app folder in the root of the project and move the controller directory into it. Rename the todo_spec.rb to todo_controller_spec.rb and move it to spec/app/controller folder.
+
+Step 2
+---------
+
+Change the test to post a JSON payload like this:
+
+```ruby
+require 'spec_helper'
+require_relative '../../../app/controller/todo_controller'
+require 'json'
+
+RSpec.describe TodoController do
+  
+  def app
+    TodoController
+  end
+  
+  it 'should take a json payload' do
+    body = { priority: 1, task: 'Get rich quick' }.to_json
+    post "/", body, {'Content-Type' => 'application/json'}
+    
+    expect(last_response).to be_ok
+  end
+end
+```
+
+Run the test:
+
+```sh
+$rspec spec/app/controller/todo_controller_spec.rb 
+```
+
+Step 3
+---------
+
+The test does not force the code to do much. Let's change the test to add another expectation:
+
+```ruby
+expect(last_response.body).to eq('{"success":"true"}')
+```
+
+Now the test fails.
+
+Step 4
+---------
+
+Change the todo_controller.rb:
+
+```ruby
+require 'sinatra'
+require 'json'
+
+class TodoController < Sinatra::Base
+  post '/' do   
+  
+    {success: 'true'}.to_json
+  end
+end
+```
+
+Tip : You can use http://jsonlint.com/ to check if the JSON syntax is valid.
+
+Step 5
+---------
+
+To read the posted JSON, you can do:
+
+```ruby
+require 'sinatra'
+require 'json'
+
+class TodoController < Sinatra::Base
+  post '/' do   
+    input = request.body.read
+    puts input
+    {success: 'true'}.to_json
+  end
+end
+```
+
+If you copy the string printed as the value for input and use JSONLint, you will that it is a valid JSON.
+
+```json
+{
+    "priority": 1,
+    "task": "Get rich quick"
+}
+```
+
+Step 6
+---------
+
+You can parse the posted JSON and convert it to a hash like this:
+
+```ruby
+ payload = JSON.parse(body, :symbolize_names => true)
+```
+
+You can then process the data and persist it any type of data store in the backend.
+
+Summary
+========
+---------
+
+In this article, we saw how to read the posted JSON from the client and convert it into a convenient hash for processing in the backend.

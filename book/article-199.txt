@@ -1,0 +1,121 @@
+PUBLISHED
+
+Coupling Basics : Concrete Class vs Abstract Messages
+
+Objective
+=========
+---------
+
+To learn about depending on abstract messages instead of concrete classes to create re-usable code.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create copy.rb:
+
+```ruby
+while line = gets
+  puts line
+end
+```
+
+Step 2
+---------
+
+Run it.
+
+```sh
+$ruby copy.rb
+```
+
+Here is a sample run:
+
+```sh
+Hi
+Hi
+Hello
+Hello
+```
+
+Ctrl+D to quit the program. This reads from keyboard and writes to the console.
+
+Step 3
+---------
+
+Create a readme.txt file:
+
+```sh
+This is the first line
+This is the second line
+```
+
+Now run the program as follows:
+
+```sh
+$ruby copy.rb readme.txt
+```
+
+This reads the readme.txt from the file and writes it to the console.
+
+Step 4
+---------
+
+Create file_copy.rb:
+
+```ruby
+File.open('./readme.txt', 'r') do |file|
+  while line = file.gets
+    puts line
+  end
+end
+```
+
+```
+$ruby file_copy.rb
+```
+
+This reads the readme.txt and writes it to the console.
+
+Step 5
+---------
+
+Create abstract.rb with:
+
+```ruby
+require 'stringio'
+
+ip = StringIO.new('This is a test')
+op = StringIO.new('', 'w')
+
+ip.each_line do |line|
+  op.puts line
+end
+
+print op.string
+```
+
+Step 6
+---------
+
+This uses StringIO, a fake file system to read and write. This is good for testing. The dependency is on the message: each_line and puts and not on any concrete class. If there is a name of the class in the code, it creates tight coupling in the code and makes it difficult to reuse. As long as the ip and op variables can respond to the each_line and puts messages. This program will work.
+
+> Depend on messages that capture abstractions which can be varied by having different implementations.
+
+Summary
+========
+---------
+
+In this article, we saw examples for:
+
+```sh
+Standard In --> Standard Out
+Keyboard  --> Console
+File      --> Console
+Fake File --> Fake Console
+```
+
+You learned that depending on a concrete class creates tight coupling and depending on messages that can be implemented by different implementations in different class can lead to re-usable code.

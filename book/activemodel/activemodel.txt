@@ -1,0 +1,78 @@
+D
+How to Play with Rails 5 ActiveModel in IRB.
+
+
+Install the gem.
+
+```
+gem install activemodel
+```
+
+Create a contact class and mixin ActiveModel.
+
+```ruby
+require 'active_model'
+
+class Contact
+  include ActiveModel::Model
+  
+  attr_accessor :name
+  
+  validates :name, presence: true
+end
+```
+
+We gave defined a name attribute with a validation for it. We can now experiment in the IRB console:
+
+``` 
+ $ irb
+ load './contact.rb'
+ c = Contact.new
+ c.valid?
+ # => false
+```
+
+We need a name for a valid contact object.
+
+```
+ bugs = Contact.new(name: 'Bugs Bunny')
+ bugs.valid?
+ => true 
+```
+
+The invalid contact has no name.
+
+```
+ c.name
+ => nil 
+```
+
+The valid contact has a name.
+
+```
+    bugs.name
+ => "Bugs Bunny" 
+``` 
+ 
+If you don't provide:
+
+```ruby
+ attr_accessor :name
+```
+ 
+you will get:
+
+``` 
+ NoMethodError: undefined method `name=' for #<Contact:0x004a70>
+``` 
+
+when you instantiate the object.
+
+```ruby
+bugs = Contact.new(name: 'Bugs Bunny')
+```
+
+## References
+
+[Active Model Rails 4](http://blog.remarkablelabs.com/2012/12/activemodel-model-rails-4-countdown-to-2013 '')
+[Document Structure Resource Collection Representations](http://jsonapi.org/format/#document-structure-resource-collection-representations 'Document Structure Resource Collection Representations')

@@ -1,0 +1,144 @@
+PUBLISHED
+
+Web Development in Ruby : Environment Variables in Rack App
+
+Objective
+=========
+---------
+
+To learn about environment variables.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Let's write a simple program to inspect the environment variables that is passed to the call method. Create a file env.rb with:
+
+```ruby
+require 'rack'
+require 'thin'
+
+Rack::Handler::Thin.run lambda {|env| [200, {}, [env.inspect]]}, Port: 3222
+```
+
+Step 2
+---------
+
+Run it:
+
+```ruby
+$ruby env.rb
+```
+
+Step 3
+---------
+
+```sh
+$curl http://localhost:3222
+```
+
+```ruby
+{
+"SERVER_SOFTWARE"=>"thin 1.6.3 codename Protein Powder", 
+"SERVER_NAME"=>"localhost", 
+"rack.input"=>#<StringIO:0x007fcbd3110020>, 
+"rack.version"=>[1, 0], 
+"rack.errors"=>#<IO:<STDERR>>, 
+"rack.multithread"=>false, 
+"rack.multiprocess"=>false, 
+"rack.run_once"=>false, 
+"REQUEST_METHOD"=>"GET", 
+"REQUEST_PATH"=>"/", 
+"PATH_INFO"=>"/", 
+"REQUEST_URI"=>"/", 
+"HTTP_VERSION"=>"HTTP/1.1", 
+"HTTP_USER_AGENT"=>"curl/7.21.4 (universal-apple-darwin11.0) libcurl/7.21.4 OpenSSL/0.9.8x zlib/1.2.5", "HTTP_HOST"=>"localhost:3050", "HTTP_ACCEPT"=>"*/*", "GATEWAY_INTERFACE"=>"CGI/1.2", "SERVER_PORT"=>"3050", 
+"QUERY_STRING"=>"", 
+"SERVER_PROTOCOL"=>"HTTP/1.1", "rack.url_scheme"=>"http", 
+"SCRIPT_NAME"=>"", 
+"REMOTE_ADDR"=>"127.0.0.1", 
+"async.callback"=>#<Method: Thin::Connection#post_process>, "async.close"=>#<EventMachine::DefaultDeferrable:0x007fcbd310bae8>}
+```
+
+You can see the the key value pairs in the environment hash. There are three categories, CGI-ish type variables, Rack specific variables (rack.xxx) and application specific variables (in this case Thin server related async.callback and async.close). The first two categories are specified in the Rack spec, whereas the application specific variables are used by the developers. For instance so you can add your own variables to the environment hash that is applicable to only your Rack application.
+
+CGI-like Headers
+---------
+
+The environment is required to include the following variables. From the Rack spec: 
+
+REQUEST_METHOD:
+
+The HTTP request method, such as "GET" or "POST". This cannot ever be an empty string, and so is always required.
+
+SCRIPT_NAME:
+
+The initial portion of the request URL‘s "path" that corresponds to the application object, so that the application knows its virtual "location". This may be an empty string, if the application corre- sponds to the "root" of the server.
+
+PATH_INFO:
+
+The remainder of the request URL‘s "path", designating the virtual "location" of the request‘s target within the application. This may be an empty string, if the request URL targets the applica- tion root and does not have a trailing slash. This value may be percent-encoded when I originat- ing from a URL.
+
+QUERY_STRING:
+
+The portion of the request URL that follows the ?, if any. May be empty, but is always required! 
+
+SERVER_NAME, SERVER_PORT:
+
+When combined with SCRIPT_NAME and PATH_INFO, these variables can be used to com- plete the URL. Note, however, that HTTP_HOST, if present, should be used in preference to SERVER_NAME for reconstructing the request URL. SERVER_NAME and SERVER_PORT can never be empty strings, and so are always required.
+
+HTTP_ Variables:
+
+Variables corresponding to the client-supplied HTTP request headers (i.e., variables whose names begin with HTTP_). The presence or absence of these variables should correspond with the presence or absence of the appropriate HTTP header in the request.
+
+We can write a program to demonstrate these variables.
+
+Step 4
+---------
+
+```ruby
+require 'rack'
+require 'thin'
+
+cgi_inspector = lambda do |env|
+  [200, {}, ["Your request: http method is #{env['REQUEST_METHOD']} \n path is #{env['PATH_INFO']} \nparams is #{env['QUERY_STRING']}"]]
+end
+
+Rack::Handler::Thin.run cgi_inspector, Port: 3050
+```
+
+Run this app. You will see:
+
+Your request: 
+http method is GET 
+ path is / 
+params is 
+
+in the browser. The default request shows that the browser made the get request to the server. 
+
+Step 5
+---------
+
+Next let's add on the path to the default request like this: 
+
+http://localhost:3050/rock 
+
+Now the path info has the value of rock. 
+
+Step 6
+---------
+
+Let's add parameters to the request:
+
+http://localhost:3050/rock?lucky=true
+
+This displays the parameter that we passed in on the URL. The environment variables gives you access to user requests, path names, query parameters etc. You can use them to write programs, however this low-level access makes the programming tedious even for common tasks such as parsing the query parameters, maintaining user session information, filling the appropriate HTTP response headers and so on. Rack provides a higher level convenience API to help you quickly and easily deal with application logic, in upcoming articles we will look at two important classes, Request and Response.
+
+Summary
+========
+---------
+
+In this article, you learned that the environment variables contain CGI-like variables, Rack specific variables and application specific variables. You also saw how to access the values of some of those variables.

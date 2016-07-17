@@ -1,0 +1,142 @@
+Sinatra Basics : Testing using RSpec for Modular Sinatra Application
+
+Objective
+=========
+---------
+
+To learn how to write tests using RSpec for modular Sinatra application.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create a Gemfile:
+
+```ruby
+source 'https://rubygems.org'
+
+gem 'sinatra'
+
+group :test, :development do
+  gem "rack-test", require: "rack/test"
+  gem "rspec"
+end
+```
+
+We group the gems that is not required for production in :test and :development in the Gemfile.
+
+
+Step 2
+---------
+
+Install the gems.
+
+```sh
+$bundle install
+```
+
+Step 3
+---------
+
+Create config.ru in the project folder.
+
+```ruby
+require_relative './hello_world'
+
+run HelloWorld
+```
+
+Step 4
+---------
+
+Create spec/spec_helper.rb
+
+```ruby
+require 'rack/test'
+require 'rspec'
+
+ENV['RACK_ENV'] = 'test'
+
+module RSpecMixin
+  include Rack::Test::Methods
+  
+  def app
+    described_class 
+  end
+end
+
+RSpec.configure do |c| 
+  c.include RSpecMixin 
+end
+```
+
+The app method uses described_class because we are using a modular Sinatra application.
+
+Step 5
+---------
+
+Create spec/hello_world_spec.rb with:
+
+```ruby
+require_relative '../spec_helper.rb'
+require_relative '../../hello_world.rb'
+
+RSpec.describe HelloWorld  do
+  
+  it 'should greet' do
+    get '/'
+    
+    expect(last_response).to be_ok
+    expect(last_response.body).to eq('Hello, world!')
+  end
+end
+```
+
+Step 6
+---------
+
+Create hello_world.rb with:
+
+```ruby
+require 'sinatra'
+
+class HelloWorld < Sinatra::Base
+  get '/' do
+    'Hello, world!'
+  end
+end
+```
+
+Step 7
+---------
+
+Run the test.
+
+```sh
+$rspec spec/hello_world_spec.rb
+```
+
+Step 8
+---------
+
+```ruby
+ENV['RACK_ENV'] ||= 'development'
+
+require 'bundler'
+Bundler.require :default, ENV['RACK_ENV'].to_sym
+
+class HelloWorld < Sinatra::Base
+  get '/' do
+    'Hello, world!'
+  end
+end
+```
+
+Summary
+========
+---------
+
+In this article, you learned how to test a modular Sinatra application using RSpec.

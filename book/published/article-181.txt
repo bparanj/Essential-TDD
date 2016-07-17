@@ -1,0 +1,110 @@
+PUBLISHED
+
+Web Development in Ruby : Static Website using Rack
+
+Objective
+=========
+---------
+
+To create a Rack compatible static website.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create the following directory structure.
+
+```html
+- site
+  |- config.ru
+  |- Gemfile
+  |- public
+    |- index.html
+    |- images
+    |- js
+    |- css
+```
+
+Step 2
+---------
+
+Edit Gemfile to :
+
+```ruby
+source "https://rubygems.org"
+
+gem "rack"
+```
+
+Step 3
+---------
+
+Install the rack gem.
+
+```sh
+$ bundle install
+```
+
+Step 4
+---------
+
+Add the following to index.html:
+
+Hello world
+
+Step 5
+---------
+
+Edit config.ru:
+
+```sh
+use Rack::Static,
+  :urls => ["/images", "/js", "/css"],
+  :root => "public"
+
+run lambda { |env|
+  [
+    200,
+    {
+      'Content-Type'  => 'text/html',
+      'Cache-Control' => 'public, max-age=86400'
+    },
+    File.open('public/index.html', File::RDONLY)
+  ]
+}
+```
+
+Step 6
+---------
+
+Run the application from the root directory of the project.
+
+```sh
+$rackup
+```
+
+Step 7
+---------
+
+Browse to http://localhost:9292.
+
+Step 8
+---------
+
+Change index.html to :
+
+Hello Static App
+
+Step 9
+---------
+
+Reload the browser to see the changes. Download the code from https://bitbucket.org/bparanj/static-rack.
+
+Summary
+========
+---------
+
+In this article, we created a simple web app that can display a static page. In the next article, we will see how to use javascript, images and css to create a web app that separates the front-end technologies from the backend technologies. This is very useful when we want to allocate work according to the strengths of the developers.

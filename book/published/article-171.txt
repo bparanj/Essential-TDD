@@ -1,0 +1,59 @@
+Sinatra Basics : Test Coverage for Sinatra Applications
+
+Objective
+=========
+---------
+
+To learn how to setup simplecov to generate test coverage report.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+In your Gemfilefile, add the following to the test group:
+
+```ruby
+gem 'simplecov'
+```
+
+Step 2
+---------
+
+```sh
+$bundle install
+```
+
+Step 3
+---------
+
+In spec/spec_helper.rb (before anything else)
+
+```ruby
+require 'simplecov'
+SimpleCov.start
+```
+
+Step 4
+---------
+
+```sh
+$rspec spec
+```
+
+Step 5
+---------
+
+To view the test coverage report.
+
+```sh
+$open coverage/index.html
+```
+
+Summary
+========
+---------
+
+In this article, you learned how to use simplecov gem to generate test coverage reports for a Sinatra application.

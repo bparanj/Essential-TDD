@@ -1,0 +1,128 @@
+PUBLISHED
+
+Web Development in Ruby : Using CSS in a Static Rack WebApp
+
+Objective
+=========
+---------
+
+To learn how to use CSS file in html file and how to navigate between pages in a static webapp.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create main.css in CSS folder with:
+
+```sh
+body {
+    background-color: green;
+}
+```
+
+Step 2
+---------
+
+Add the link to css file in index.html:
+
+```html
+<link href="./css/main.css" rel="stylesheet"/>
+```
+	
+within head tag.	
+
+Step 3
+---------
+
+Reload the page. The background will now be green.
+
+Step 4
+---------
+
+Add contact.html with:
+
+This is the contact page.
+
+Step 5
+---------
+
+Edit index.html
+
+```html
+<a href="./contact.html#"> Contact Me </a>
+```
+
+Step 6
+---------
+
+Click on Contact Me link, it does not work. Edit the config.ru:
+
+```ruby
+use Rack::Static,
+  :urls => Dir.glob("public/*").map { |fn| fn.gsub(/public/, '')},
+  :root => 'public',
+  :index => 'index.html',
+  :header_rules => [[:all, {'Cache-Control' => 'public, max-age=3600'}]]
+  
+  headers = {'Content-Type' => 'text/html', 'Content-Length' => '9'}
+  run lambda { |env| [404, headers, ['Not Found']] }
+```
+
+Step 7
+---------
+
+Let's see what the code does by experimenting in the irb:
+
+```ruby
+site$ irb
+> Dir.glob("public/*")
+=> ["public/contact.html", "public/css", "public/images", "public/index.html", "public/js"]
+> Dir.glob("public/*").map { |fn| fn.gsub(/public/, '')}
+=> ["/contact.html", "/css", "/images", "/index.html", "/js"]
+irb(main):003:0> 
+```
+
+Step 8
+---------
+
+Create contact.html:
+
+```html
+<!DOCTYPE HTML>
+<html>
+<head>
+
+<title>JavaScript</title>
+</head>
+    <script type="text/javascript" src="js/pen.js"></script>
+    <link href="./css/main.css" rel="stylesheet"/>
+
+<body>
+<h1>Home Page</h1>
+<p><button onclick="myFunction()">Click Me!</button></p>
+
+<a href="./contact.html"> Contact Me </a>
+
+<!-- <img id='penguin' src="images/penguin.jpg" alt="Penguin" > -->
+
+</body>
+</html>
+```
+
+You can now navigate between index.html and contact.html
+
+Summary
+========
+---------
+
+In this article, we used a separate css file and referred it in our static html page. We also fixed the problem where we could not navigate from the home page to other pages by clicking on the links.
+ 
+References
+========
+---------
+
+1. [Static Sites in Ruby](https://devcenter.heroku.com/articles/static-sites-ruby 'Static Sites in Ruby')
+2. [Creating Static Sites in Ruby with Rack](http://kmikael.com/2013/05/28/creating-static-sites-in-ruby-with-rack/ 'Creating Static Sites in Ruby with Rack')

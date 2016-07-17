@@ -1,0 +1,387 @@
+PUBLISHED
+
+Docker Basics : Container Networking
+
+Objectives
+=========
+---------
+
+• Expose a network port.
+• Manipulate container networking basics.
+• Find a container's IP address.
+• Stop and remove a container.
+
+Discussion
+=========
+---------
+
+We are going to build a web server in a daemonized container.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Let's create our new container.
+
+```sh
+$ docker run -d -p 80 training/webapp python -m SimpleHTTPServer 80
+```
+
+• We've used the -d flag to daemonize the container.
+• The -p flag exposes port 80 in the container.
+• We've used the training/webapp image, which happens to have Python.
+• We've used Python to create a web server.
+
+You will see:
+
+```sh
+Unable to find image 'training/webapp:latest' locally
+latest: Pulling from training/webapp
+23f0158a1fbe: Pull complete 
+0a4852b23749: Pull complete 
+7d0ff9745632: Pull complete 
+99b0d955e85d: Pull complete 
+33e109f2ff13: Pull complete 
+cc06fd877d54: Pull complete 
+b1ae241d644a: Pull complete 
+b37deb56df95: Pull complete 
+02a8815912ca: Already exists 
+e9e06b06e14c: Already exists 
+a82efea989f9: Already exists 
+37bea4ee0c81: Already exists 
+07f8e8c5e660: Already exists 
+Digest: sha256:06e9c1983bd6d5db5fba376ccd63bfa529e8d02f23d5079b8f74a616308fb11d
+Status: Downloaded newer image for training/webapp:latest
+7e87240f931b13f65cbae7930d409b0444e89e91ef537153875ec782ced18954
+```
+
+Step 2
+---------
+
+Let's check that the container is running.
+
+```sh
+$docker ps
+```
+
+You will see:
+
+```sh
+CONTAINER ID   IMAGE                    COMMAND                PORTS                                           NAMES
+7e87240f931b   training/webapp:latest   "python -m SimpleHTT   5000/tcp, 0.0.0.0:32774->80/tcp                 jones
+603f6666054b   nginx:latest             "nginx -g 'daemon of   0.0.0.0:32773->80/tcp, 0.0.0.0:32772->443/tcp   web 
+```
+
+The -p flag maps a random high port, here 32774 to port 80 inside the container. We can see it in the PORTS column. We can use the docker port command to find our mapped port. 
+
+```sh 
+$docker port 7e87
+```
+
+You will see:
+
+```sh 
+80/tcp -> 0.0.0.0:32774
+```
+
+We can specify the container ID and the port number for which we want to find the mapped port.
+
+```sh
+$docker port 7e87 80
+```
+
+You will see:
+
+```sh
+0.0.0.0:32774
+```
+
+Step 3
+---------
+
+Use the command boot2docker ip and browse to http://192.168.59.103:32774/
+
+This displays:
+
+Directory listing for /
+
+```sh
+.gitignore
+app.py
+Procfile
+requirements.txt
+tests.py
+```
+
+in the browser.
+
+
+Step 4
+---------
+
+You can also manaully map port.
+
+```sh
+$docker run -d -p 8080:80 training/webapp python -m SimpleHTTPServer 80
+```
+
+You will see:
+
+```sh
+61a9a4e4dcf0d12bf6f3b3df6ecc68a8d763c97ca9e32396f95104bfad1f26d3
+```
+
+The -p flag takes the form: host_port:container_port. This maps port 8080 on the host to port 80 inside the container. This prevents you from spinning up multiple instances of the same image. Since the ports will conflict. Containers also have their own private IP address.
+
+```sh
+$ docker ps
+```
+
+You will see:
+
+```sh
+CONTAINER ID        IMAGE                    COMMAND                CREATED             STATUS              PORTS                                           NAMES
+61a9a4e4dcf0        training/webapp:latest   "python -m SimpleHTT   5 seconds ago       Up 4 seconds        5000/tcp, 0.0.0.0:8080->80/tcp                  tender_hoover       
+7e87240f931b        training/webapp:latest   "python -m SimpleHTT   2 days ago          Up 2 days           5000/tcp, 0.0.0.0:32774->80/tcp                 hungry_jones        
+603f6666054b        nginx:latest             "nginx -g 'daemon of   4 days ago          Up 2 days           0.0.0.0:32773->80/tcp, 0.0.0.0:32772->443/tcp   web  
+```
+
+Step 5
+---------
+
+We can use docker inspect command to find the IP address of the container. 
+
+```sh
+$ docker inspect --format '{{ .NetworkSettings.IPAddress }}' 61a9
+```
+
+You will see the IP.
+
+```sh
+172.17.0.18
+```
+
+The --format flag selects a portion of the output returned by the docker inspect command. The default network used for Docker containers is 172.17.0.0/16. If it is already in use on your system, Docker will pick another one.
+
+Step 6
+---------
+
+We can test connectivity to the container using the IP address we found out in the previous step. 
+
+```sh
+$ping 172.17.0.18
+```
+
+For some reason I am getting:
+
+```sh
+PING 172.17.0.18 (172.17.0.18): 56 data bytes
+Request timeout for icmp_seq 0
+Request timeout for icmp_seq 1
+36 bytes from svl-edge-22.inet.qwest.net (65.113.32.217): Destination Net Unreachable
+Vr HL TOS  Len   ID Flg  off TTL Pro  cks      Src      Dst
+ 4  5  00 5400 87be   0 0000  3d  01 3ec1 10.0.1.7  172.17.0.18 
+
+Request timeout for icmp_seq 2
+36 bytes from svl-edge-22.inet.qwest.net (65.113.32.217): Destination Net Unreachable
+Vr HL TOS  Len   ID Flg  off TTL Pro  cks      Src      Dst
+ 4  5  00 5400 632f   0 0000  3d  01 6350 10.0.1.7  172.17.0.18 
+```
+
+Debug Session from Another Machine
+
+```sh
+~/temp/namer $docker run -d -p 80 training/webapp python -m SimpleHTTPServer 80
+Unable to find image 'training/webapp:latest' locally
+latest: Pulling from training/webapp
+23f0158a1fbe: Pull complete 
+0a4852b23749: Pull complete 
+a82efea989f9: Already exists 
+37bea4ee0c81: Already exists 
+Digest: sha256:06e9c1983bd6d5db5fba376ccd63bfa529e8d02f23d5079b8f74a616308fb11d
+Status: Downloaded newer image for training/webapp:latest
+9d1e6da2594ac99a758e56782bdbeedb34e14cc6934cbc6335867f57352f8530
+~/temp/namer $docker ps
+CONTAINER ID        IMAGE               COMMAND                CREATED             STATUS              PORTS                             NAMES
+9d1e6da2594a        training/webapp     "python -m SimpleHTT   17 seconds ago      Up 16 seconds       5000/tcp, 0.0.0.0:32768->80/tcp   desperate_davinci   
+~/temp/namer $docker port 9d1e6da2594a
+80/tcp -> 0.0.0.0:32768
+~/temp/namer $boot2docker ip
+192.168.59.103
+~/temp/namer $docker inspect --format '{{ .NetworkSettings.IPAddress }}' 9d1e6da2594a
+172.17.0.29
+~/temp/namer $ping 172.17.0.29
+PING 172.17.0.29 (172.17.0.29): 56 data bytes
+Request timeout for icmp_seq 0
+Request timeout for icmp_seq 1
+--- 172.17.0.29 ping statistics ---
+11 packets transmitted, 0 packets received, 100.0% packet loss
+~/temp/namer $ifconfig | less
+~/temp/namer $ifconfig | less -p 172
+~/temp/namer $docker ps
+CONTAINER ID        IMAGE               COMMAND                CREATED             STATUS              PORTS                             NAMES
+9d1e6da2594a        training/webapp     "python -m SimpleHTT   3 minutes ago       Up 3 minutes        5000/tcp, 0.0.0.0:32768->80/tcp   desperate_davinci   
+~/temp/namer $docker exec -it 9d bash
+root@9d1e6da2594a:/opt/webapp# ifconfig 
+eth0      Link encap:Ethernet  HWaddr 02:42:ac:11:00:1d  
+          inet addr:172.17.0.29  Bcast:0.0.0.0  Mask:255.255.0.0
+          inet6 addr: fe80::42:acff:fe11:1d/64 Scope:Link
+          UP BROADCAST RUNNING  MTU:1500  Metric:1
+          RX packets:21 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:21 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:2201 (2.2 KB)  TX bytes:2427 (2.4 KB)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+root@9d1e6da2594a:/opt/webapp# ps -ef | grep 
+Usage: grep [OPTION]... PATTERN [FILE]...
+Try 'grep --help' for more information.
+root@9d1e6da2594a:/opt/webapp# ps -ef        
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         1     0  0 02:59 ?        00:00:01 python -m SimpleHTTPServer 8
+root         5     0  1 03:03 ?        00:00:00 bash
+root        21     5  0 03:03 ?        00:00:00 ps -ef
+root@9d1e6da2594a:/opt/webapp# ping 172.17.0.29 
+PING 172.17.0.29 (172.17.0.29) 56(84) bytes of data.
+64 bytes from 172.17.0.29: icmp_seq=1 ttl=64 time=0.115 ms
+64 bytes from 172.17.0.29: icmp_seq=2 ttl=64 time=0.385 ms
+64 bytes from 172.17.0.29: icmp_seq=3 ttl=64 time=0.017 ms
+^C
+--- 172.17.0.29 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2014ms
+rtt min/avg/max/mdev = 0.017/0.172/0.385/0.155 ms
+root@9d1e6da2594a:/opt/webapp# exit
+~/temp/namer $docker ps 
+CONTAINER ID        IMAGE               COMMAND                CREATED             STATUS              PORTS                             NAMES
+9d1e6da2594a        training/webapp     "python -m SimpleHTT   5 minutes ago       Up 5 minutes        5000/tcp, 0.0.0.0:32768->80/tcp   desperate_davinci   
+~/temp/namer $docker exec -it 9d bash
+root@9d1e6da2594a:/opt/webapp# curl 0.0.0.0:5000
+bash: curl: command not found
+root@9d1e6da2594a:/opt/webapp# apt
+apt                   apt-extracttemplates  apt-mark
+apt-cache             apt-ftparchive        apt-sortpkgs
+apt-cdrom             apt-get               
+apt-config            apt-key               
+root@9d1e6da2594a:/opt/webapp# apt-get install -y curl
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following extra packages will be installed:
+  krb5-locales libasn1-8-heimdal libcurl3 libgssapi-krb5-2 libgssapi3-heimdal
+  libhcrypto4-heimdal libheimbase1-heimdal libheimntlm0-heimdal
+  libhx509-5-heimdal libidn11 libk5crypto3 libkeyutils1 libkrb5-26-heimdal
+  libkrb5-3 libkrb5support0 libldap-2.4-2 libroken18-heimdal librtmp0
+  libsasl2-2 libsasl2-modules libsasl2-modules-db libwind0-heimdal
+Suggested packages:
+  krb5-doc krb5-user libsasl2-modules-otp libsasl2-modules-ldap
+  libsasl2-modules-sql libsasl2-modules-gssapi-mit
+  libsasl2-modules-gssapi-heimdal
+The following NEW packages will be installed:
+  curl krb5-locales libasn1-8-heimdal libcurl3 libgssapi-krb5-2
+  libgssapi3-heimdal libhcrypto4-heimdal libheimbase1-heimdal
+  libheimntlm0-heimdal libhx509-5-heimdal libidn11 libk5crypto3 libkeyutils1
+  libkrb5-26-heimdal libkrb5-3 libkrb5support0 libldap-2.4-2
+  libroken18-heimdal librtmp0 libsasl2-2 libsasl2-modules libsasl2-modules-db
+  libwind0-heimdal
+0 upgraded, 23 newly installed, 0 to remove and 3 not upgraded.
+Need to get 2008 kB of archives.
+After this operation, 10.2 MB of additional disk space will be used.
+0% [Connecting to archive.ubuntu.com]^C
+root@9d1e6da2594a:/opt/webapp#   
+Display all 873 possibilities? (y or n)^C
+root@9d1e6da2594a:/opt/webapp# exit    
+~/temp/namer $docker run -d -p 80 training/webapp python -m SimpleHTTPServer 80
+~/temp/namer $docker ps -a
+CONTAINER ID        IMAGE               COMMAND               PORTS                             NAMES
+9d1e6da2594a        training/webapp     "python -m SimpleHTT  5000/tcp, 0.0.0.0:32768->80/tcp   desperate_davinci       
+f6b5cf85fafe        training/namer      "/bin/bash"                                             cocky_newton            
+79d6c2d2e66b        training/namer      "/bin/bash"                                             serene_poincare         
+410dc3704fd9        training/namer      "/bin/bash"                                             admiring_mcclintock     
+bd09308a91d5        training/namer      "/bin/bash"                                             insane_lovelace         
+ce525b98a46f        training/namer      "/bin/bash"                                             grave_rosalind          
+f7d41edb061a        training/namer      "/bin/bash"                                             tender_einstein         
+0ac7f8566c3a        training/namer      "/bin/bash"                                             prickly_mcclintock      
+d66f1d19515b        training/namer      "rackup"                                                drunk_ritchie           
+88271d810807        training/namer      "rackup"                                                compassionate_einstein  
+0503074f21c9        bparanj/hello       "/bin/bash"                                             cocky_kilby             
+12a028f7aa07        ruby                "bash"                                                  determined_hypatia      
+48d6cf513dfc        bparanj/hello       "ruby hello.rb"                                         agitated_fermat         
+
+~/temp/namer $docker ps
+CONTAINER ID        IMAGE               COMMAND              PORTS                             NAMES
+9d1e6da2594a        training/webapp     "python -m SimpleHTT 5000/tcp, 0.0.0.0:32768->80/tcp   desperate_davinci   
+~/temp/namer $docker kill 9d
+9d
+~/temp/namer $docker run -d -p 80:80 -p 5000:5000 training/webapp python -m SimpleHTTPServer 80
+34bf5c456f457689a46127c243bbe2c5297457e9df18939af920bbeb02a288fb
+  501 99086   346   0  4Jun15 ??         0:00.16 /usr/libexec/USBAgent
+    0   466   359   0 27May15 ttys000    0:00.02 login -pfl bparanj /bin/bash -c exec -la bash /bin/bash
+  501   467   466   0 27May15 ttys000    0:00.21 -bash
+    0 80947   359   0  7:27PM ttys001    0:00.43 login -pf bparanj
+  501 80948 80947   0  7:27PM ttys001    0:00.46 -bash
+    0 81558 80948   0  8:06PM ttys001    0:00.01 ps -ef
+    0 81261   359   0  7:46PM ttys002    0:00.02 login -pfl bparanj /bin/bash -c exec -la bash /bin/bash
+  501 81262 81261   0  7:46PM ttys002    0:00.19 -bash
+    0   933   359   0 27May15 ttys007    0:00.02 login -pfl bparanj /bin/bash -c exec -la bash /bin/bash
+  501   934   933   0 27May15 ttys007    0:04.10 -bash
+  501 69416   934   0 11Jun15 ttys007    0:01.38 ruby /Users/bparanj/.rvm/gems/ruby-2.2.2@alex/bin/knife solo prepare vagrant@localhost -i /Users/bparanj/.vagrant.d/insecure_private_key -p 2222 -N local.vagrant.json           
+    0   949   359   0 27May15 ttys008    0:00.02 login -pfl bparanj /bin/bash -c exec -la bash /bin/bash
+  501   961   949   0 27May15 ttys008    0:04.09 -bash
+    0  1077   359   0 27May15 ttys009    0:00.02 login -pfl bparanj /bin/bash -c exec -la bash /bin/bash
+  501  1078  1077   0 27May15 ttys009    0:00.74 -bash
+    0  1218   359   0 27May15 ttys011    0:00.02 login -pfl bparanj /bin/bash -c exec -la bash /bin/bash
+  501  1224  1218   0 27May15 ttys011    0:00.21 -bash
+    0  1392   359   0 27May15 ttys013    0:00.02 login -pfl bparanj /bin/bash -c exec -la bash /bin/bash
+  501  1393  1392   0 27May15 ttys013    0:00.47 -bash
+    0  1456   359   0 27May15 ttys014    0:00.02 login -pfl bparanj /bin/bash -c exec -la bash /bin/bash
+  501  1493  1456   0 27May15 ttys014    0:01.05 -bash
+~/temp/namer $docker ps
+CONTAINER ID        IMAGE               COMMAND                CREATED             STATUS              PORTS                                        NAMES
+34bf5c456f45        training/webapp     "python -m SimpleHTT   13 seconds ago      Up 11 seconds       0.0.0.0:80->80/tcp, 0.0.0.0:5000->5000/tcp   loving_hodgkin      
+~/temp/namer $telnet 0.0.0.0 5000
+Trying 0.0.0.0...
+telnet: connect to address 0.0.0.0: Connection refused
+telnet: Unable to connect to remote host
+~/temp/namer $docker exec -it 34 bash
+root@34bf5c456f45:/opt/webapp# netstat -tnaup 
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      1/python        
+tcp        0      0 172.17.0.30:80          192.168.59.3:61502      TIME_WAIT   -               
+root@34bf5c456f45:/opt/webapp# 
+```
+ 
+Step 7
+---------
+
+To stop the running container:
+
+```sh
+docker stop container-id
+```
+
+Step 8
+---------
+
+To remove the container.
+
+```sh
+docker rm container-id
+```
+
+Summary
+========
+---------
+
+In this article, you learned how to expose a network port, container networking basics such as finding it's IP address, stopping and removing container.

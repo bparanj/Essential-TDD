@@ -1,0 +1,193 @@
+PUBLISHED
+
+Comparable Basics
+
+
+### Delegating the Implementation for Spaceship Operator
+
+Create a person class with the spaceship operator that delegates the comparison logic to the size of the name (string).
+
+```ruby
+class Person
+  attr_reader :name
+  
+  def initialize(name)
+    @name = name
+  end
+  
+  def <=>(other)
+    name.size <=> other.name.size
+  end
+  
+end
+
+list = [Person.new('Bugs'), Person.new('Daffy Duck')]
+
+p list.sort
+```
+
+This prints:
+
+```sh
+[#<Person:0x007f @name="Bugs">, #<Person:0x007b @name="Daffy Duck">]
+```
+
+You can think of the <=> operator as `compare_to`, so it is easier to remember that you need the other object as the parameter to compare.
+
+### Default Spaceship Implementation
+
+We can delegate to the default <=> implementation for the String object:
+
+```ruby
+class Person
+  attr_reader :name
+  
+  def initialize(name)
+    @name = name
+  end
+  
+  def <=>(other)
+    name <=> other.name
+  end
+  
+end
+
+list = [Person.new('Bugs'), Person.new('Daffy Duck')]
+
+p list.sort
+```
+
+In this case, we don't call the size method. This prints:
+
+```sh
+[#<Person:0x007f @name="Bugs">, #<Person:0x0078 @name="Daffy Duck">]
+```
+
+So the string object sorts the list in alphabetical order, so the first element is Bugs. If you do:
+
+```ruby
+p 'Bugs Bunny' < 'Daffy Duck'
+```
+
+The output is `true`. If you do:
+
+```ruby
+p 'Yosemite Sam' < 'Daffy Duck'
+```
+
+The output is `false`, because Yosemite Sam will be the last element among these three cartoon characters.
+
+The spaceship operator is the basis for the methods <, <=, >, >= and between? methods included in Comparable module. It is also the basis for comparisons when you use `sort` method.
+
+### Custom Logic for Spaceship Operator
+
+```ruby
+class Person
+  attr_reader :name
+  
+  def initialize(name)
+    @name = name
+  end
+  
+  def <=>(other)
+    if some_condition
+	  return -1
+	elsif some_other_condition
+	  return 0
+	else
+	  return 1
+	end 
+  end
+  
+end
+```
+
+Based on your domain logic you can implement the <=> operator by comparing the receiver against another object and return -1, 0 or 1 depending on whether the receiver is <, == or > other object. 
+
+### Example from New Relic Gem 
+
+```ruby
+#!/usr/bin/ruby
+# encoding: utf-8
+# This file is distributed under New Relic's license terms.
+# See https://github.com/newrelic/rpm/blob/master/LICENSE for complete details.
+
+
+module NewRelic
+  module VERSION #:nodoc:
+    def self.build_version_string(*parts)
+      parts.compact.join('.')
+    end
+
+    MAJOR = 3
+    MINOR = 14
+    TINY  = 0
+
+    begin
+      require File.join(File.dirname(__FILE__), 'build')
+    rescue LoadError
+      BUILD = nil
+    end
+
+    STRING = build_version_string(MAJOR, MINOR, TINY, BUILD)
+  end
+
+  # Helper class for managing version comparisons
+  class VersionNumber
+    attr_reader :parts
+    include Comparable
+    def initialize(version_string)
+      version_string ||= '1.0.0'
+      @parts = version_string.split('.').map{|n| n =~ /^\d+$/ ? n.to_i : n}
+    end
+    def major_version; @parts[0]; end
+    def minor_version; @parts[1]; end
+    def tiny_version; @parts[2]; end
+
+    def <=>(other)
+      other = self.class.new(other) if other.is_a? String
+      self.class.compare(self.parts, other.parts)
+    end
+
+    def to_s
+      @parts.join(".")
+    end
+
+    def hash
+      @parts.hash
+    end
+
+    def eql? other
+      (self <=> other) == 0
+    end
+
+    private
+    def self.compare(parts1, parts2)
+      a, b = parts1.first, parts2.first
+      case
+        when a.nil? && b.nil? then 0
+        when a.nil? then b.is_a?(Fixnum) ?  -1 : 1
+        when b.nil? then -compare(parts2, parts1)
+        when a.to_s == b.to_s then compare(parts1[1..-1], parts2[1..-1])
+        when a.is_a?(String) then b.is_a?(Fixnum) ?  -1 : (a <=> b)
+        when b.is_a?(String) then -compare(parts2, parts1)
+        else # they are both fixnums, not nil
+          a <=> b
+      end
+    end
+  end
+end
+```
+
+Summary
+=========
+-----------
+
+By providing a custom implementation for <=> operator, you get a good return on your efforts because the Comparable module gives you <, <=, >, >= and between? methods for free. In addition to that you also get the sort method if you store your objects in an Array and would like to sort based on your own custom logic.
+
+Reference
+=========
+-----------
+
+[Ruby 2.2.3 Comparable Basics](http://bparanj.blogspot.com/2015/10/ruby-223-comparable-basics.html 'Ruby 2.2.3 Comparable Basics')
+

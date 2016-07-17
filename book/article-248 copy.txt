@@ -1,0 +1,105 @@
+
+Twitter Bootstrap 4 Basics
+
+Objective
+=========
+---------
+
+To learn how to 
+
+Steps
+=========
+---------
+
+Step 1
+--------
+
+Go to http://v4-alpha.getbootstrap.com/
+
+
+Step 2
+-------
+
+
+
+Step 3
+--------
+
+
+That's it. Enjoy!
+
+Summary
+========
+---------
+
+
+
+Front End Web Developer 
+
+https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001
+
+Tech Entrepreneur 
+
+https://www.udacity.com/course/tech-entrepreneur-nanodegree--nd007
+
+https://developer.mozilla.org/en-US/docs/Web/CSS/margin
+
+SEE Chrome Extension
+https://chrome.google.com/webstore/detail/see/dkihcccbkkakkbpikjmpnbamkgbjfdcn?hl=en
+
+
+1 + 1 = 2
+1.+(1)
+1.send(:+, 1)
+1.class
+
+1 is not a primitive. It's an object.
+
+class Fixnum
+  def +(other)
+    42
+  end
+end
+
+Fixnum.superclass   (Integer)
+
+1.respond_to?(:==)
+ => true 
+> 1.respond_to?(:+)
+ => true 
+1.respond_to?(:<=>)
+ => true 
+ 
+ 
+ Image Placeholder
+
+ http://placehold.it
+
+ Google Fonts
+
+ https://www.google.com/fonts
+
+ CSS Checker
+
+
+ HTML Checker
+ https://validator.w3.org/nu/#textarea
+
+
+ How to build a Ruby CLI program?
+ Mixlib::CLI
+ Mixlib::Config
+ 
+ 
+ 1. oauth_header
+ 2. simple oauth header
+
+ def oauth_header
+   SimpleOAuth::Header.new(@options[:method], full_uri, oauth_url_params, oauth_params)
+ end
+
+
+ full_uri = 'https://stream.twitter.com/1.1/statuses/sample.json'
+ h = SimpleOAuth::Header.new('get', full_uri, {}, oauth_params)
+ h.to_s
+ 

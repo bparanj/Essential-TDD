@@ -1,0 +1,212 @@
+PUBLISHED
+
+Docker Basics : Running a Nginx in a Container
+
+Objective
+=========
+---------
+
+To run a nginx web server in a container on Mac OS.
+
+Pre-requisites
+=========
+---------
+
+1. Install VirtualBox
+2. Install Docker and boot2docker
+3. Initialize boot2docker. This is done once by running:
+
+```sh
+$boot2docker init
+```
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Start boot2docker.
+
+```sh
+$boot2docker up
+```
+
+You will see:
+
+```sh
+Waiting for VM and Docker daemon to start...
+.o
+Started.
+Writing /Users/zepho/.boot2docker/certs/boot2docker-vm/ca.pem
+Writing /Users/zepho/.boot2docker/certs/boot2docker-vm/cert.pem
+Writing /Users/zepho/.boot2docker/certs/boot2docker-vm/key.pem
+
+To connect the Docker client to the Docker daemon, please set:
+    export DOCKER_HOST=tcp://192.168.59.103:2376
+    export DOCKER_CERT_PATH=/Users/zepho/.boot2docker/certs/boot2docker-vm
+    export DOCKER_TLS_VERIFY=1
+```
+
+Step 2
+---------
+
+Set environment variables:
+
+```sh
+$ export DOCKER_HOST=tcp://192.168.59.103:2376
+$ export DOCKER_CERT_PATH=/Users/zepho/.boot2docker/certs/boot2docker-vm
+$ export DOCKER_TLS_VERIFY=1
+```
+
+Step 3
+---------
+
+```sh
+$ docker info
+```
+
+You will see:
+
+```sh
+Containers: 6
+Images: 23
+Storage Driver: aufs
+ Root Dir: /mnt/sda1/var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 35
+ Dirperm1 Supported: true
+Execution Driver: native-0.2
+Kernel Version: 4.0.3-boot2docker
+Operating System: Boot2Docker 1.6.2 (TCL 5.4); master : 4534e65 - Wed May 13 21:24:28 UTC 2015
+CPUs: 8
+Total Memory: 997.3 MiB
+Name: boot2docker
+ID: ZAD4:3F4J:2OJX:7KZW:PMEL:X6FO:EJHG:MANH:TUBU:HVSF:LFSA:P52G
+Debug mode (server): true
+Debug mode (client): false
+Fds: 12
+Goroutines: 17
+System Time: Sat Jun 13 23:37:26 UTC 2015
+EventsListeners: 0
+Init SHA1: 7f9c6798b022e64f04d2aff8c75cbf38a2779493
+Init Path: /usr/local/bin/docker
+Docker Root Dir: /mnt/sda1/var/lib/docker
+$ docker run -d -P --name web nginx
+FATA[0000] Error response from daemon: Conflict. The name "web" is already in use by container 603f6666054b. You have to delete (or rename) that container to be able to reuse that name. 
+$ docker run -d -P --name web2 nginx
+4e7ef0695ace05a57c7a4bf083544a5030de31883b8087dc21279f7d9cca43c3
+```
+
+Step 4
+---------
+
+```sh
+$docker ps
+```
+
+You will see:
+
+```sh
+CONTAINER ID        IMAGE               COMMAND                CREATED             STATUS              PORTS                                           NAMES
+4e7ef0695ace        nginx:latest        "nginx -g 'daemon of   8 seconds ago       Up 7 seconds        0.0.0.0:32769->80/tcp, 0.0.0.0:32768->443/tcp   web2                
+```
+
+Step 5
+---------
+
+Looking at the above output, if we try:
+
+```sh
+$curl 0.0.0.0:32769
+```
+
+We get:
+
+```sh
+curl: (7) couldn't connect to host
+```
+
+Step 6
+---------
+
+So, let's find the IP address:
+
+```sh
+$boot2docker ip
+```
+
+You will see:
+
+```sh
+192.168.59.103
+```
+
+Step 7
+---------
+
+Run :
+
+```sh
+$curl 192.168.59.103:32769
+```
+
+You will see:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+```
+
+Browse to http://192.168.59.103:32769/ You will the Welcome to nginx! static page.
+
+Step 8
+---------
+
+Stop the container:
+
+```sh
+$docker stop web2
+```
+
+You will see: web2
+
+Remove the container:
+
+```sh
+$docker rm web2
+```
+
+You will see: web2
+
+Note that since I already have a web container called 'web' running, I had to use web2 for this article.
+
+Reference
+========
+---------
+
+[How to Use Docker on OS X: The Missing Guide](http://viget.com/extend/how-to-use-docker-on-os-x-the-missing-guide 'How to Use Docker on OS X: The Missing Guide')

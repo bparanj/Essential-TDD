@@ -1,0 +1,162 @@
+PUBLISHED
+
+Provisioning a Server using Sunzi
+
+Objective
+=========
+---------
+
+To install and configure nginx server to display a static web page on a VPS.
+
+Discussion
+=========
+---------
+
+Sunzi is the Sinatra of provisioning libraries. It is simple with minimal learning curve. It can be frustrating experience to provision a server using tools like Chef, Puppet or other tools. Sunzi is a breath of fresh air. If you find a blog post that shows you how to setup something on a server manually, you can easily convert it into a Sunzi recipe in minutes. Good news is that regardless of what stack you want for your server, there is ton of resources online to get things working on the server. Sunzi makes it easy to automate those manual tasks. There is almost no mental mapping between what you want to do and the actual code that does the work. If you just want to provision your server on Digital Ocean or Linode VPS within days instead of spending weeks on trying to learn a DSL, you will find this article useful.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+First watch the 25 minutes screen cast on how to provision a server using Sunzi [Deploy Rails 4.1 App with Sunzi and Capistrano 3](https://www.youtube.com/watch?v=3mwupXqtkmg&feature=youtu.be 'Deploy Rails 4.1 App with Sunzi and Capistrano 3'). Here is the link to my [Deploy Rails 4.1 App with Sunzi and Capistrano 3 Screencast Notes](http://bparanj.blogspot.com/2015/06/deploy-rails-41-app-with-sunzi-and.html 'Deploy Rails 4.1 App with Sunzi and Capistrano 3'). 
+
+Step 2
+---------
+
+I read the blog post on [Static Site Hosting with Nginx ](http://mockra.com/2014/02/17/nginx-static-sites/ 'Static Site Hosting with Nginx'). I ran the commands manually on the server and got it working. Then I deleted everything related to nginx and uninstalled nginx. 
+
+```sh
+$apt-get purge nginx nginx-common
+```
+
+Step 3
+---------
+
+The commands from the blog post related to ngnix installation and setup:
+
+```sh
+sudo apt-get install nginx
+sudo mkdir -p /var/www/clickplan.net/public
+sudo chown -R root:root /var/www/clickplan.net/public/
+sudo chmod 755 /var/www
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/clickplan.net
+sudo vim /etc/nginx/sites-available/clickplan.net
+```
+
+```sh
+server {
+  listen   80;
+ 
+  root /var/www/clickplan.net/public;
+  index index.html index.htm;
+ 
+  server_name clickplan.net www.clickplan.net;
+  
+  location / {
+   default_type "text/html";
+   try_files $uri.html $uri $uri/ /index.html;
+  }
+}
+```
+
+```sh
+sudo ln -s /etc/nginx/sites-available/clickplan.net /etc/nginx/sites-enabled/clickplan.net
+echo 'Webserver provisioned by sunzi is working' > /var/www/clickplan.net/public/index.html
+sudo service nginx restart
+```
+
+Step 4
+---------
+
+I have already followed the screencast to do the intial setup. This article will focus on things that is not covered in the screencast. Let's now automate these manual steps by using Sunzi. Go to your app-name/config/sunzi/recipes folder and create nginx.sh:
+
+```sh
+if aptitude search '~i ^nginx$' | grep -q nginx; then
+  echo "nginx already installed, skipping."
+else
+  add-apt-repository ppa:nginx/stable --yes
+  apt-get -y update
+  apt-get -y install nginx
+  
+  mkdir -p /var/www/clickplan.net/public
+  chown -R root:root /var/www/clickplan.net/public/
+  chmod 755 /var/www
+  mv files/nginx.conf /etc/nginx/sites-available/clickplan.net
+  
+  sudo ln -s /etc/nginx/sites-available/clickplan.net /etc/nginx/sites-enabled/clickplan.net
+  echo 'Webserver provisioned by sunzi is working' > /var/www/clickplan.net/public/index.html
+  service nginx restart
+fi
+```
+
+For the first version, I am hard-coding most of the values in this file. You can define variables in the sunzi.yml and use it here using erb tags.
+
+Step 5
+---------
+
+The configuration file nginx.conf must be copied to the sunzi/files folder:
+
+```sh
+server {
+  listen   80;
+ 
+  root /var/www/clickplan.net/public;
+  index index.html index.htm;
+ 
+  server_name clickplan.net www.clickplan.net;
+  
+  location / {
+   default_type "text/html";
+   try_files $uri.html $uri $uri/ /index.html;
+  }
+}
+```
+
+Now when the recipe is run on the server, this file will get copied to the appropriate directory. You can see the move operation in the previous step.
+
+Step 6
+---------
+
+Run:
+
+```sh
+sunzi compile
+```
+
+Say yes for overwriting the existing recipe to update the existing recipe and run:
+
+```sh
+sunzi deploy IP-Address-of-Your-Server
+```
+
+You can now browse to the site to see 'Webserver provisioned by sunzi is working' in the browser.
+
+Step 7
+---------
+
+Let's say you want to install pdftk on the server. You can create a new file called config/sunzi/recipes/pdf.sh:
+
+```sh
+if aptitude search '~i ^pdftk$' | grep -q pdftk; then
+  echo 'pdftk already installed, skipping.'
+else
+  apt-get -y install pdftk
+fi
+```
+
+Then add this line:
+
+```sh
+source recipes/pdf.sh
+```
+
+in sunzi/install.sh. Then you can re-compile and deploy as shown in Step 6. 
+
+Summary
+========
+---------
+
+In this article, we saw how you can stop pulling your hair doing devops work and get back to real work by using Sunzi to provision your server on a VPS. It feels good when you realize that you don't need any stinkin DSL.

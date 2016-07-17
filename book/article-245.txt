@@ -1,0 +1,98 @@
+Upgrading Server Ruby to 2.2.4 on Linode using Moonshine
+
+Objective
+=========
+---------
+
+To learn how to upgrade ruby to the latest version on your VPS using Moonshine.
+
+Steps
+=========
+---------
+
+Step 1
+--------
+
+In config/deploy.rb, define your custom Capistrano recipe to install Ruby 2.2.4:
+
+```ruby
+namespace :ruby do
+  task :src224 do
+    remove_ruby_from_apt
+    libyaml.install
+    pv = "2.2.4"
+    p = "ruby-#{pv}"
+    run [
+      'cd /tmp',
+      "sudo rm -rf #{p}* || true",
+      'sudo rm -rf /usr/lib/ruby/gems/1.8 || true',
+      'sudo rm -rf /usr/lib/ruby/gems/1.9.1 || true',
+      'sudo rm -rf /usr/lib/ruby/gems/2.0.0 || true',
+      'sudo rm -rf /usr/lib/ruby/gems/2.1.0 || true',
+      'sudo mkdir -p /usr/lib/ruby/gems/2.2.0/gems || true',
+      "wget -q http://cache.ruby-lang.org/pub/ruby/2.2/#{p}.tar.gz",
+      "tar xzf #{p}.tar.gz",
+      "cd /tmp/#{p}",
+      './configure --prefix=/usr',
+      'make',
+      'sudo make install'
+    ].join(' && ')
+    set :rubygems_version, fetch(:rubygems_version, '2.4.8')
+    set :bundler_version, fetch(:bundler_version, '1.11.2')
+  end
+end
+```
+
+Step 2
+-------
+
+In config/moonshine.yml, specify ruby 2.2.4 recipe like this:
+
+```ruby
+:ruby: src224
+```
+
+Step 3
+--------
+
+Commit these code changes to your git repo. Run :
+
+```sh
+cap ruby:upgrade
+```
+
+or 
+
+```sh
+cap production ruby:upgrade
+```
+
+if you have setup different environments. If you get:
+
+```sh
+The gems installed with bundler have been removed.
+You must perform a deploy to reinstall these gems with 'bundle install'.
+```
+
+Just add a comment to readme or some other file to force bundle install when you do a deploy to re-install the required gems. You can verify that your server is running Ruby 2.2.4 by going to rails console on the server and doing:
+
+```
+$ rails c production
+Loading production environment (Rails 4.2.5)
+irb(main):001:0> RUBY_VERSION
+=> "2.2.4"
+```
+
+That's it. Enjoy!
+
+Summary
+========
+---------
+
+Upgrading Ruby on any VPS server is easy if you are using Moonshine to deploy your apps. Last time when I upgraded I edited the code in vendor/plugins. You don't have to do that. You can write your own custom Capistrano recipe to upgrade Ruby to any version you like.
+
+References
+========
+---------
+
+[Upgrading Ruby with Moonshine](https://github.com/railsmachine/moonshine/wiki/Upgrading-Ruby-with-Moonshine 'Upgrading Ruby with Moonshine')

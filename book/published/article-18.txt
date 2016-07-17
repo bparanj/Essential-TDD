@@ -1,4 +1,4 @@
-
+PUBLISHED
 
 TDD Beyond Basics : Single Purpose Principle Revisited - Guessing Game Kata Part 8
 
@@ -125,7 +125,7 @@ Step 4
 
 Run the specs. It will pass.
 
-Discussion
+How to Use RSpec Syntax to Keep your Design Cohesive
 ==========
 ----------
 

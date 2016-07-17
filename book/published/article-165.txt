@@ -1,0 +1,107 @@
+Sinatra Basics : Using RSpec as the Test Framework
+
+Objective
+=========
+---------
+
+To learn how to use RSpec testing framework to test the Sinatra application.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create Gemfile in the root of the project:
+
+```ruby
+source 'https://rubygems.org'
+
+gem 'shotgun'
+gem 'sinatra'
+gem "rack-test", require: "rack/test"
+gem "rspec"
+```
+
+Step 2
+---------
+
+Install the gems:
+
+```sh
+bundle install
+```
+
+This installed RSpec version 3.2 on my system.
+
+Step 3
+---------
+
+Create spec/spec_helper.rb with the following code:
+
+```ruby
+require 'rack/test'
+require 'rspec'
+
+ENV['RACK_ENV'] = 'test'
+
+module RSpecMixin
+  include Rack::Test::Methods
+  
+  def app
+    Sinatra::Application 
+  end
+end
+
+RSpec.configure do |c| 
+  c.include RSpecMixin 
+end
+```
+
+Step 4
+---------
+
+In spec/sample_spec.rb add the test:
+
+```ruby
+require_relative '../spec_helper.rb'
+
+RSpec.describe 'Specing a Sinatra Application' do
+  
+  it 'should greet' do
+    get '/' 
+    
+    expect(last_response).to be_ok
+    expect(last_response.body).to eq('hi')
+  end
+end
+```
+
+Step 5
+---------
+
+Create sample.rb in the project folder:
+
+```ruby
+require 'sinatra'
+
+get '/' do
+  'hi'
+end
+```
+
+Step 6
+---------
+
+Run the test:
+
+```sh
+$bundle exec rspec spec/sample_spec.rb --color
+```
+
+Summary
+========
+---------
+
+In this article, you learned how to use RSpec to test the Sinatra application.

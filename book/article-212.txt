@@ -1,0 +1,315 @@
+PUBLISHED
+
+Ruby Gem Basics : Pimp My Anagram
+
+Objective
+=========
+---------
+
+To build a ruby gem from scratch.
+
+Discussion
+=========
+---------
+
+I had problems getting the anagram example explained in the Programming Ruby book by Pragmatic Programmers to work. I had to download the gem file and make some modifications to get the code working. This article summarizes the steps required to get this program working. It also resolved my WTF moment on how the runner was getting loaded when you run the command line interface program. Read the book for explanation about each step. I will only explain things that are not clear in the book. I am using Ruby 2.2.2.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+```sh
+anagram      <-- Top Level
+  |___ bin   <-- Command Line Interface
+  |___ lib   <-- Library files
+  |___ test  <-- Test files
+```
+  
+Step 2
+---------
+
+```sh
+anagram       
+  |___ bin/anagram
+  			
+  |___ lib/anagram
+  	   	     finder.rb
+			 options.rb
+			 runner.rb
+  |___ test  
+		test files
+```
+
+Step 3
+---------
+
+Create lib/anagram/options.rb:
+
+```ruby
+require 'optparse'
+
+module Anagram
+  class Options
+     
+    DEFAULT_DICTIONARY = "/usr/share/dict/words"
+    
+    attr_reader :dictionary
+    attr_reader :words_to_find
+    
+    def initialize(argv)
+      @dictionary = DEFAULT_DICTIONARY
+      parse(argv) 
+      @words_to_find = argv
+    end
+                 
+  private
+    
+    def parse(argv)
+      OptionParser.new do |opts|  
+        opts.banner = "Usage:  anagram [ options ]  word..."
+
+        opts.on("-d", "--dict path", String, "Path to dictionary") do |dict|
+          @dictionary = dict
+        end 
+
+        opts.on("-h", "--help", "Show this message") do
+          puts opts
+          exit
+        end
+
+        begin
+          argv = ["-h"] if argv.empty?
+          opts.parse!(argv)
+        rescue OptionParser::ParseError => e
+          STDERR.puts e.message, "\n", opts
+          exit(-1)
+        end
+      end    
+    end
+  end
+end
+```
+
+Step 4
+---------
+
+Create test/test_options.rb:
+
+```ruby
+require 'test/unit'
+require 'shoulda'
+require_relative '../lib/anagram/options'
+
+class TestOptions < Test::Unit::TestCase
+
+  context "specifying no dictionary" do
+    should "return default" do
+      opts = Anagram::Options.new(["someword"])
+      assert_equal Anagram::Options::DEFAULT_DICTIONARY, opts.dictionary
+    end
+  end
+
+  context "specifying a dictionary" do
+    should "return it" do
+      opts = Anagram::Options.new(["-d", "mydict", "someword"])
+      assert_equal "mydict", opts.dictionary
+    end
+  end
+
+  context "specifying words and no dictionary" do
+    should "return the words" do
+      opts = Anagram::Options.new(["word1", "word2"])
+
+      assert_equal ["word1", "word2"], opts.words_to_find
+    end
+  end
+
+  context "specifying words and a dictionary" do
+    should "return the words" do
+      opts = Anagram::Options.new(["-d", "mydict", "word1", "word2"])
+
+      assert_equal ["word1", "word2"], opts.words_to_find
+    end
+  end
+
+end
+```
+
+Step 5
+---------
+
+```sh
+$ ruby test/test_options.rb
+```
+
+Step 6
+---------
+
+Create anagram/lib/anagram/finder.rb:
+
+```ruby
+module Anagram
+  class Finder
+
+    def self.from_file(file_name)
+      new(File.readlines(file_name))
+    end
+
+    def initialize(dictionary_words)
+      @signatures = Hash.new
+
+      dictionary_words.each do |line|
+        word = line.chomp
+        signature = Finder.signature_of(word)
+        (@signatures[signature] ||= []) << word
+      end
+    end
+
+    def lookup(word)
+      signature = Finder.signature_of(word)
+      @signatures[signature]
+    end
+
+    def self.signature_of(word)
+      word.unpack("c*").sort.pack("c*")
+    end
+  end
+  
+end
+```
+
+Step 7
+---------
+
+Create anagram/test/test_finder.rb
+
+```ruby
+require 'test/unit'
+require 'shoulda'
+require_relative '../lib/anagram/finder'
+
+class TestFinder < Test::Unit::TestCase
+
+  context "signature" do
+    { "cat" => "act", "act" => "act", "wombat" => "abmotw" }.each do |word, signature|
+      should "be #{signature} for #{word}" do
+        assert_equal signature, Anagram::Finder.signature_of(word)
+      end
+    end
+  end
+
+  context "lookup" do
+    setup do
+      @finder = Anagram::Finder.new(["cat", "wombat"])
+    end
+
+    should "return word if word given" do
+      assert_equal ["cat"], @finder.lookup("cat")
+    end
+
+    should "return word if anagram given" do
+      assert_equal ["cat"], @finder.lookup("act")
+      assert_equal ["cat"], @finder.lookup("tca")
+    end
+
+    should "return nil if no word matches anagram" do
+      assert_nil @finder.lookup("wibble")
+    end
+  end
+  
+end
+```
+
+Step 8
+---------
+
+```sh
+$ ruby test/test_options.rb
+```
+
+Step 9
+---------
+
+```sh
+$ which ruby 
+```
+
+Create a file anagram/bin/anagram. Copy the output from the above command to the top of this file like this:
+
+```sh
+#! /Users/zepho/.rvm/rubies/ruby-2.2.2/bin/ruby
+require 'anagram/runner'
+
+runner = Anagram::Runner.new(ARGV)
+runner.run
+```
+
+Step 10
+---------
+
+```ruby
+require_relative 'finder'
+require_relative 'options'
+
+module Anagram
+  class Runner
+
+    def initialize(argv)
+      @options = Options.new(argv)
+    end
+    
+    def run
+      finder = Finder.from_file(@options.dictionary)
+
+      @options.words_to_find.each do |word|
+        anagrams = finder.lookup(word)
+
+        if anagrams
+          puts "Anagrams of #{word}: #{anagrams.join(', ')}"
+        else
+          puts "No anagrams of #{word} in #{@options.dictionary}"
+        end
+      end
+    end
+    
+  end
+end
+```
+
+Step 11
+---------
+
+```sh
+ruby test/test_finder.rb
+```
+
+Step 12
+---------
+
+```sh
+ruby -I lib bin/anagram teaching code
+
+Anagrams of teaching: cheating, teaching
+Anagrams of code: code, coed
+```
+
+Discussion
+========
+---------
+
+Using the switch, -I directory loads the lib directory to the $LOAD_PATH, this is the reason that anagram in the bin directory is able to find the Anagram::Runner class.
+
+Summary
+========
+---------
+
+In this article, you learned how to create your own gem. In the next article we will see how to distribute your gem.
+
+Reference
+========
+---------
+
+Programming Ruby by Pragmatic Programmers.

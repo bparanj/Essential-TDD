@@ -1,0 +1,150 @@
+PUBLISHED
+
+
+Docker Basics : Docker Images
+
+Objective
+=========
+---------
+
+- To understand images and image tags
+- To learn the commands used to search, download and list Docker images.
+
+Discussion
+=========
+---------
+
+What are Images?
+---------
+
+An image is a collection of file. You build custom images on top of base images such as Ubuntu, Busybox, Fedora etc. Images are layers and each layer represents what changed from the previous layer. 
+
+Difference Between Containers and Images
+---------
+
+Containers represent an encapsulated set of processes based on an image. You spawn them with the docker run command. In the [Docker Hello World] (https://rubyplus.com/articles/2381 'Docker Hello World') article, we created a new container by executing docker run. It was based on busybox image and we rant the echo command. Images are like templates or stencils that you can create containers from.
+
+How Do You Store and Manage Images?
+---------
+
+Images can be store on your Docker host or in a Docker registry. You can use Docker client to manage images.
+
+Find an Image
+=========
+---------
+
+Run the docker search command:
+
+```sh
+$ docker search fedora
+```
+
+You should see:
+
+```sh
+NAME                                   DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+fedora                                 Official Fedora 21 base image and semi-off...   171       [OK]       
+fedora/couchdb                                                                         30                   [OK]
+fedora/apache                                                                          30                   [OK]
+fedora/mariadb                                                                         22                   [OK]
+fedora/ssh                                                                             19                   [OK]
+fedora/memcached                                                                       18                   [OK]
+fedora/nginx                                                                           18                   [OK]
+fedora/earthquake                                                                      17                   [OK]
+tutum/fedora                           Fedora image with SSH access. For the root...   7                    [OK]
+vbatts/fedora-varnish                  https://github.com/vbatts/laughing-octo/tr...   2                    [OK]
+dockingbay/fedora-rust                 Trusted build of Rust programming language...   2                    [OK]
+fedora/owncloud                                                                        2                    [OK]
+neroinc/fedora-apache-php-phalcon      Apache, PHP and the Phalcon PHP Framework ...   1                    [OK]
+neroinc/fedora-apache-php-phalcon1.2   Apache, PHP and the Phalcon PHP Framework ...   1                    [OK]
+neroinc/fedora-apache-php              Apache and PHP based on fedora:20               1                    [OK]
+neroinc/fedora-apache                  Plain and simple image with Apache httpd b...   1                    [OK]
+startx/fedora                                                                          1                    [OK]
+dasrick/fedora-nginx                   NGINX image - port 80, 443 - based on Fedo...   0                    [OK]
+opencpu/fedora                         Development build of opencpu based on Fedora    0                    [OK]
+dasrick/fedora-mariadb                 MariaDB image - port 3306 - based on Fedora20   0                    [OK]
+timhughes/fedora                       Fedora plus systemd                             0                    [OK]
+gkhachik/rhq-fedora.20                 Docker image for RHQ release(s).  Recent R...   0                    [OK]
+macheins/fedora                                                                        0                    [OK]
+rosstimson/fedora-chef                                                                 0                    [OK]
+cloudrunnerio/fedora                                                                   0                    [OK]
+```
+
+There are three namespaces:
+
+- Root like : fedora
+
+Root namespace is for official images. Those images include barebones distro images like Ubuntu, Fedora, Centos etc. These are ready to be used as bases for your own images.
+
+- User : opencpu/fedora 
+
+The user namespace hold images for Docker Hub users and organizations. The Docker Hub user is opencpu and the image name is fedora
+
+- Self-Hosted : registry.rubyplus.com:5000/my-private-image
+
+A self-hosted registry can be public or private. 
+
+Download an Image
+=========
+---------
+
+Pull down the fedora image you just searched using the docker pull command.
+
+```sh
+$docker pull fedora
+```
+
+You should see :
+
+```sh
+latest: Pulling from fedora
+48ecf305d2cf: Download complete
+ded7cd95e059: Download complete
+```
+
+Show Currently Installed Images
+=========
+---------
+
+Let's look at what images are on our host now.
+
+```sh
+$ docker images
+```
+
+You should see:
+
+```sh
+REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+nginx               latest              a785ba7493fd        2 weeks ago         132.9 MB
+fedora              latest              ded7cd95e059        2 weeks ago         186.5 MB
+fedora              20                  d7f0e75cf11f        7 weeks ago         360.3 MB
+hello-world         latest              91c95931e552        8 weeks ago         910 B
+ubuntu              latest              ad892dd21d60        12 months ago       275.5 MB
+```
+
+Download a Tagged Image
+=========
+---------
+
+Images can have tags. Tags define image variants. It is always best to be specific when using images. The output above shows that there are two tags for fedora latest and 20. Let's download an image with a tag.
+
+```sh
+$ docker pull fedora:20
+```
+
+You should see:
+
+```sh
+20: Pulling from fedora
+eb8e83ebb17d: Download complete
+d7f0e75cf11f: Download complete 
+```
+
+You can see that the images are made up of layers. Docker has downloaded all the necessary layers.
+
+Summary
+========
+---------
+
+In this article, you learned how to use commands to search, download and list docker images.

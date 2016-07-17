@@ -1,0 +1,326 @@
+PUBLISHED
+
+Docker Basics : Running a Hello World Sinatra App in a Container
+
+Objective
+=========
+---------
+
+To learn how to run a simple Sinatra app in a Docker container.
+
+Pre-requisites
+=========
+---------
+
+You must already know the basics of creating a Sinatra app and bundler.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+
+[Install Docker on Mac OS](https://github.com/boot2docker/osx-installer/releases/tag/v1.7.0 'Install Docker on Mac OS')
+
+Step 2
+---------
+
+Create a hello directory to work on this tutorial example. Create a Dockerfile in hello directory.
+
+```sh
+FROM ruby:2.2.1
+MAINTAINER Bugs Bunny <bbunny@rubyplus.com>
+
+RUN apt-get update && \
+    apt-get install -y net-tools
+
+# Install gems
+ENV APP_HOME /app
+ENV HOME /root
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME
+COPY Gemfile* $APP_HOME/
+RUN bundle install
+
+# Upload source
+COPY . $APP_HOME
+
+# Start server
+ENV PORT 3000
+EXPOSE 3000
+CMD ["ruby", "hello.rb"]
+```
+
+Step 3
+---------
+
+Create a Gemfile:
+
+```sh
+source 'https://rubygems.org'
+
+gem 'rack'
+gem 'rack-test'
+gem 'sinatra'
+```
+
+Step 4
+---------
+
+Create hello.rb:
+
+```sh
+require 'sinatra'
+
+set :bind, '0.0.0.0'
+
+get '/' do
+  "Hello World #{params[:name]}".strip
+end
+```
+
+Step 5
+---------
+
+```sh
+~ $cd temp/hello/
+~/temp/hello $docker build -t bparanj/hello .
+```
+
+If you get this error:
+
+```sh
+Sending build context to Docker daemon 
+Post http:///var/run/docker.sock/v1.19/build?cgroupparent=&cpuperiod=0&cpuquota=0&cpusetcpus=&cpusetmems=&cpushares=0&dockerfile=Dockerfile&memory=0&memswap=0&rm=1&t=bparanj%2Fhello: dial unix /var/run/docker.sock: no such file or directory. Are you trying to connect to a TLS-enabled daemon without TLS?
+```
+
+You must run the init:
+
+```sh
+~/temp/hello $boot2docker init
+```
+
+You will see:
+
+```sh
+Latest release for github.com/boot2docker/boot2docker is v1.7.0
+Downloading boot2docker ISO image...
+Success: downloaded https://github.com/boot2docker/boot2docker/releases/download/v1.7.0/boot2docker.iso
+	to /Users/bparanj/.boot2docker/boot2docker.iso
+Generating public/private rsa key pair.
+Your identification has been saved in /Users/bparanj/.ssh/id_boot2docker.
+Your public key has been saved in /Users/bparanj/.ssh/id_boot2docker.pub.
+The key fingerprint is:
+f8:c4:ca:9c:97:9c:a6:fd:74:38:1a:7f:c5:22:35:4d bparanj@Millions.local
+The key's randomart image is:
++--[ RSA 2048]----+
+|                 |
+|              E  |
+|             o   |
+|       o    o .  |
+|      . S  . o   |
+|     o * o... o  |
+|      = O +..o   |
+|       = = o.    |
+|      . o.o.     |
++-----------------+
+```
+
+Step 6
+---------
+
+```sh
+~/temp/hello $boot2docker up
+```
+
+You will see:
+
+```sh
+Waiting for VM and Docker daemon to start...
+......................................ooooooooooooooooooooooooooo
+Started.
+Writing /Users/bparanj/.boot2docker/certs/boot2docker-vm/ca.pem
+Writing /Users/bparanj/.boot2docker/certs/boot2docker-vm/cert.pem
+Writing /Users/bparanj/.boot2docker/certs/boot2docker-vm/key.pem
+
+To connect the Docker client to the Docker daemon, please set:
+    export DOCKER_CERT_PATH=/Users/bparanj/.boot2docker/certs/boot2docker-vm
+    export DOCKER_TLS_VERIFY=1
+    export DOCKER_HOST=tcp://192.168.59.103:2376
+```
+
+Step 7
+---------
+
+Set the environment variables.
+
+```sh
+~/temp/hello $  export DOCKER_CERT_PATH=/Users/bparanj/.boot2docker/certs/boot2docker-vm
+~/temp/hello $  export DOCKER_TLS_VERIFY=1
+~/temp/hello $  export DOCKER_HOST=tcp://192.168.59.103:2376
+```
+
+Step 8
+---------
+
+Now build the image.
+
+```sh
+~/temp/hello $docker build -t bparanj/hello .
+```
+
+You will see:
+
+```sh
+Sending build context to Docker daemon 92.67 kB
+Sending build context to Docker daemon 
+Step 0 : FROM ruby:2.2.1
+2.2.1: Pulling from ruby
+511136ea3c5a: Pull complete 
+d338bb63f151: Pull complete 
+65688f7c61c4: Pull complete 
+b7820d1ee4ee: Pull complete 
+938e3817ad84: Pull complete 
+2b7102d6f8b7: Pull complete 
+13e80363fdbe: Pull complete 
+cea0b47616cc: Pull complete 
+07765c61a581: Pull complete 
+455a7f74b799: Pull complete 
+f6d62680d042: Pull complete 
+8f4076e0c1e7: Pull complete 
+8d3b208c8cb3: Pull complete 
+f24a9de1806d: Pull complete 
+279be1187a0e: Pull complete 
+ef6e4b7dc7cd: Already exists 
+ruby:2.2.1: The image you are pulling has been verified. Important: image verification is a tech preview feature and should not be relied on to provide security.
+Digest: sha256:5fe48ac5a2b631a72477d1c0e9fa7ab7d73cac56f476319320f88119236d1741
+Status: Downloaded newer image for ruby:2.2.1
+ ---> ef6e4b7dc7cd
+Step 1 : MAINTAINER Tung Nguyen <tnguyen@bleacherreport.com>
+ ---> Running in b77e2655f8d4
+ ---> 695684b308e4
+Removing intermediate container b77e2655f8d4
+Step 2 : RUN apt-get update &&     apt-get install -y net-tools
+ ---> Running in 301ed3776103
+Get:1 http://security.debian.org jessie/updates InRelease [63.1 kB]
+Get:2 http://http.debian.net jessie InRelease [134 kB]
+Get:3 http://http.debian.net jessie-updates InRelease [126 kB]
+Get:4 http://security.debian.org jessie/updates/main amd64 Packages [129 kB]
+Get:5 http://http.debian.net jessie/main amd64 Packages [9038 kB]
+Get:6 http://http.debian.net jessie-updates/main amd64 Packages [3616 B]
+Fetched 9494 kB in 9s (1006 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following NEW packages will be installed:
+  net-tools
+0 upgraded, 1 newly installed, 0 to remove and 69 not upgraded.
+Need to get 225 kB of archives.
+After this operation, 803 kB of additional disk space will be used.
+Get:1 http://http.debian.net/debian/ jessie/main net-tools amd64 1.60-26+b1 [225 kB]
+debconf: delaying package configuration, since apt-utils is not installed
+Fetched 225 kB in 1s (195 kB/s)
+Selecting previously unselected package net-tools.
+(Reading database ... 27883 files and directories currently installed.)
+Preparing to unpack .../net-tools_1.60-26+b1_amd64.deb ...
+Unpacking net-tools (1.60-26+b1) ...
+Setting up net-tools (1.60-26+b1) ...
+ ---> ef66bfea86c0
+Removing intermediate container 301ed3776103
+Step 3 : ENV APP_HOME /app
+ ---> Running in 4e082ec44bc9
+ ---> 8381274803ef
+Removing intermediate container 4e082ec44bc9
+Step 4 : ENV HOME /root
+ ---> Running in 590a5c1130ec
+ ---> 7a314bf9dd1f
+Removing intermediate container 590a5c1130ec
+Step 5 : RUN mkdir $APP_HOME
+ ---> Running in 38153ae9ade1
+ ---> 151f938534b3
+Removing intermediate container 38153ae9ade1
+Step 6 : WORKDIR $APP_HOME
+ ---> Running in 826a540a37fa
+ ---> 9bc90cc0be66
+Removing intermediate container 826a540a37fa
+Step 7 : COPY Gemfile* $APP_HOME/
+ ---> 2b1d0e4460f1
+Removing intermediate container 13eedae4464d
+Step 8 : RUN bundle install
+ ---> Running in 7626c821f248
+Don't run Bundler as root. Bundler can ask for sudo if it is needed, and
+installing your bundle as root will break this application for all non-root
+users on this machine.
+Fetching gem metadata from https://rubygems.org/..........
+Fetching version metadata from https://rubygems.org/..
+Installing rack 1.4.1
+Installing rack-protection 1.5.3
+Installing rack-test 0.6.3
+Installing tilt 1.4.1
+Installing sinatra 1.4.5
+Using bundler 1.9.2
+Bundle complete! 3 Gemfile dependencies, 6 gems now installed.
+Bundled gems are installed into /usr/local/bundle.
+ ---> c1a40addc15e
+Removing intermediate container 7626c821f248
+Step 9 : COPY . $APP_HOME
+ ---> 4d17d8ca2e5a
+Removing intermediate container b842914afe96
+Step 10 : ENV PORT 3000
+ ---> Running in ea7a0b4322b7
+ ---> c9a1091260cc
+Removing intermediate container ea7a0b4322b7
+Step 11 : EXPOSE 3000
+ ---> Running in 00e4a9631d92
+ ---> 6f786344cb53
+Removing intermediate container 00e4a9631d92
+Step 12 : CMD ruby hello.rb
+ ---> Running in e255db640718
+ ---> d881ae171075
+Removing intermediate container e255db640718
+Successfully built d881ae171075
+```
+
+Step 9
+---------
+
+Run the Sinatra app in the container.
+
+```sh
+~/temp/hello $docker run --rm -p 3000:3000 bparanj/hello
+```
+
+You will see:
+
+```sh
+[2015-06-20 10:53:23] INFO  WEBrick 1.3.1
+[2015-06-20 10:53:23] INFO  ruby 2.2.1 (2015-02-26) [x86_64-linux]
+== Sinatra/1.4.5 has taken the stage on 3000 for development with backup from WEBrick
+[2015-06-20 10:53:23] INFO  WEBrick::HTTPServer#start: pid=1 port=3000
+192.168.59.3 - - [20/Jun/2015 10:54:06] "GET / HTTP/1.1" 200 11 0.0067
+192.168.59.3 - - [20/Jun/2015:10:54:06 UTC] "GET / HTTP/1.1" 200 11
+- -> /
+192.168.59.3 - - [20/Jun/2015 10:54:07] "GET /favicon.ico HTTP/1.1" 404 453 0.0007
+192.168.59.3 - - [20/Jun/2015:10:54:07 UTC] "GET /favicon.ico HTTP/1.1" 404 453
+http://192.168.59.103:3000/ -> /favicon.ico
+```
+
+Step 10
+---------
+
+For Mac OS:
+
+```sh
+$boot2docker ip
+```
+
+Use the ip from the above command to view the application on a browser: http://192.168.59.103:3000/
+
+Summary
+========
+---------
+
+In this article, we created a Dockerfile and built an image based on this Dockerfile. Then we ran a simple Sinatra app in a Docker container.

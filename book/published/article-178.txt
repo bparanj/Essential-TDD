@@ -1,0 +1,464 @@
+PUBLISHED
+
+Authentication from Scratch :  Email Validation and User Signup
+
+Objective
+=========
+---------
+
+To validate email address and implement signup feature.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Add:
+
+```ruby 
+group :development, :test do
+  gem 'rspec-rails'
+end
+```
+
+to Gemfile and run bundle.
+
+Step 2
+---------
+
+Run:
+
+```ruby 
+$rails g rspec:install
+```
+
+Step 3
+---------
+
+Migrate the test database:
+
+```ruby
+$rake db:migrate RAILS_ENV=test
+```
+
+Step 4
+---------
+
+Write a test for password length validation:
+
+```ruby
+require 'rails_helper'
+
+RSpec.describe User, type: :model do
+  it 'password length less than 5 characters is invalid' do
+    user = User.new(email: 'bugs', password: '1234')
+
+    result = user.save
+
+    expect(result).to be(false)
+  end
+end
+```
+
+In spec/models/user_spec.rb. Run the test 
+
+```ruby
+$rspec spec/models/user_spec.rb 
+```
+
+It fails.
+
+Step 5
+---------
+
+Implement password validation:
+
+```ruby
+validates :password, length: { minimum: 5}
+```
+
+The test passes.
+
+Step 6
+---------
+
+Write the test for positive case:
+
+```ruby
+it 'password length must be atleast 5 characters' do
+  user = User.new(email: 'bugs', password: '12345')
+
+  result = user.save
+
+  expect(result).to be(true)
+end
+```
+
+Step 7
+---------
+
+Write the test for unique email:
+
+```ruby
+it 'email must be unique' do
+  user = User.new(email: 'bugs', password: '12345')
+  user.save
+
+  u = User.new(email: 'bugs', password: '12345')
+  u.save
+
+  expect(u.errors.get(:email)).to eq('must be unique')
+end
+```
+
+Run the test.
+
+Step 8
+---------
+
+Implement email unique feature:
+
+```ruby
+validates :email, uniqueness: true
+```
+
+Step 9
+---------
+
+Change the error message in the test to:
+
+```sh
+["has already been taken"]
+```
+
+So the test now looks like this:
+
+```ruby
+it 'email must be unique' do
+  user = User.new(email: 'bugs', password: '12345')
+  user.save
+
+  u = User.new(email: 'bugs', password: '12345')
+  u.save
+
+  expect(u.errors.get(:email)).to eq(["has already been taken"])
+end
+```
+
+Step 10
+---------
+
+Write a test for email format validation:
+
+```ruby
+it 'email with invalid format is invalid' do
+  user = User.new(email: 'bugs', password: '12345')
+  user.save
+
+  expect(user.errors.get(:email)).to eq(['email is not valid'])
+end
+```
+
+Run the test. It fails.
+
+Step 11
+---------
+
+Implement the email format validation. This is stolen from Rails docs:
+
+```ruby
+validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create }
+```
+
+Step 12
+---------
+
+Change the error message in the test as follows:
+
+```ruby
+expect(user.errors.get(:email)).to eq(['is invalid'])
+```
+
+Step 13
+---------
+
+Change the email value for all the old tests to bugs@disney.com. So the tests looks like this:
+
+```ruby
+require 'rails_helper'
+
+RSpec.describe User, type: :model do
+  it 'password length less than 5 characters is invalid' do
+    user = User.new(email: 'bugs@disney.com', password: '1234')
+
+    result = user.save
+
+    expect(result).to be(false)
+  end
+  
+  it 'password length must be atleast 5 characters' do
+    user = User.new(email: 'bugs@disney.com', password: '12345')
+
+    result = user.save
+
+    expect(result).to be(true)
+  end
+  
+  it 'email must be unique' do
+    user = User.new(email: 'bugs@disney.com', password: '12345')
+    user.save
+
+    u = User.new(email: 'bugs@disney.com', password: '12345')
+    u.save
+
+    expect(u.errors.get(:email)).to eq(["has already been taken"])
+  end
+  
+  it 'email with invalid format is invalid' do
+    user = User.new(email: 'bugs', password: '12345')
+    user.save
+
+    expect(user.errors.get(:email)).to eq(['is invalid'])
+  end
+end
+```
+
+All the tests pass.
+
+Step 14
+---------
+
+Write a test for success case:
+
+```ruby
+it 'has no errors for valid email format' do
+  user = User.new(email: 'bugs@disney.com', password: '12345')
+  user.save
+
+  expect(user.errors.get(:email)).to be_nil
+end
+```
+
+Only email and password fields are allowed in the user model. The controller will restrict the user from providing values for any other fields in the user model.
+
+Step 15
+---------
+
+Add the following gems and run bundle.
+
+```ruby
+group :test do
+  gem 'capybara'
+  gem 'selenium-webdriver'
+end
+```
+
+```sh
+bundle install
+```
+
+Step 16
+---------
+
+Here is the high level view of what the feature spec should look like:
+
+1. visit 'users/new'
+2. fill out 'bugs@disney.com' for user 
+3. fill out 12345 for password
+4. Click sign up
+5. I should see 'Logged in as bugs@rubyplus.com.' message.
+
+Step 17
+---------
+
+Create spec/features/create_an_account_spec.rb.
+
+```ruby
+require 'rails_helper'
+require 'spec_helper'
+
+feature 'Account Management' do  
+  scenario 'A user creates an account' do
+    visit new_user_path
+    
+    fill_in "Email", with: 'bugs@rubyplus.com'
+    fill_in "Password", with: '12345'
+    
+    click_button 'Signup'
+    
+    expect(page).to have_content('Logged in as bugs@rubyplus.com.')
+  end
+
+end
+```
+
+Step 18
+---------
+
+Create the users controller:
+
+```ruby
+rails g controller users new 
+```
+
+Step 19
+---------
+
+Create users/new.html.erb:
+
+```ruby
+<h1>Sign Up</h1>
+
+<%= form_for @user do |f| %>
+  <% if @user.errors.any? %>
+    <div class="error_messages">
+      <h2>Form is invalid</h2>
+      <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </div>
+  <div class="field">
+    <%= f.label :password %><br />
+    <%= f.password_field :password %>
+  </div>
+  <div class="actions"><%= f.submit "Signup" %></div>
+<% end %>
+```
+
+Step 20
+---------
+
+Run:
+
+```ruby
+rake db:create
+rake db:migrate
+rails s
+```
+
+Browse to localhost:3000/users/new. Add the empty user object in new action of users controller:
+
+```ruby 
+@user = User.new
+```
+
+Add the user resource in routes.rb to:
+
+```ruby 
+resources :users
+```
+
+Step 21
+---------
+
+If you don't have a javascript runtime installed, install it. On Ubuntu:
+
+```sh
+$curl -sL https://deb.nodesource.com/setup | sudo bash -
+$install nodejs
+```
+
+Step 22
+---------
+
+Implement the user signup by defining the create action in users controller:
+
+```ruby
+def create
+  permitted = params[:user].permit(:email, :password)
+  @user = User.new(permitted)
+  
+  if @user.save
+  	redirect_to root_path
+  else
+  	render :new
+  end
+end
+```
+  
+Step 23
+---------
+
+Fillout the signup form in localhost:3000/users/new
+ 
+Step 24
+---------
+
+Uncomment root line in routes.rb
+ 
+Step 25
+---------
+
+```ruby
+rails g controller welcome index
+```
+
+Signup as a user will now work.
+
+Step 26
+---------
+
+The feature spec will now pass.
+
+```sh
+$rspec spec/features/create_an_account.rb 
+```
+
+Step 27
+---------
+
+Add the link to application.html.erb:
+
+```ruby
+<%= link_to 'Signup', new_user_path %>
+```
+
+and flash message:
+
+```ruby
+<% flash.each do |name, msg| %>
+    <%= content_tag :div, msg, class: "alert alert-info" %>
+<% end %>
+```
+
+Step 28
+---------
+
+Change controller:
+
+```ruby
+redirect_to root_path, notice: 'Thanks for signing up'
+```
+
+Step 29
+---------
+
+```ruby 
+rails g controller sessions new
+```
+
+```ruby 
+resources :sessions
+```
+
+Summary
+========
+---------
+
+In this article, we implemented email validation and user signup driven by tests.
+
+Reference
+========
+---------
+
+[has_secure_password Rails docs](http://api.rubyonrails.org/classes/ActiveModel/SecurePassword/ClassMethods.html 'has_secure_password Rails docs')

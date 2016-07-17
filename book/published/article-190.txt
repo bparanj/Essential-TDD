@@ -1,0 +1,90 @@
+PUBLISHED
+
+Web Development in Ruby : Request Object in Rack App
+
+Objective
+=========
+---------
+
+To learn about the Request object.
+
+Discussion
+=========
+---------
+
+The request object encapsulates all information from the client request. In the HTTP protocol, this information is transmitted from the client to the server in the HTTP headers and the message body of the request.
+
+Rack::Request provides a convenient interface to a Rack environment. It is stateless, the environment env passed to the constructor will be directly modified. It is your friend if you want to write Rack applications directly.
+
+```ruby
+request = Rack::Request.new(env)
+request.post?
+request.params['data']
+```
+
+The environment hash passed will store a reference to the Request object instantiated so that it will only instantiate if an instance of the Request object doesn't already exist.
+
+In this example you can see how you can easily access the value of request parameter data and also check if the request is a post. Instead of accessing the env variable you use API provided by the request object. Request parameters are strings sent by the client to the server as part of its request. The parameters are stored as a set of name-value pairs.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Let us write a simple program to guess our favorite browser by using the Request object. Create guess.rb:
+
+```ruby
+require 'rack'
+require 'thin'
+
+rack_app = lambda do |env|
+  request = Rack::Request.new(env)
+  if request.path_info == '/guess'
+    client = request['client']
+    if client && client.downcase == 'safari'
+      [200, {}, ['Good Browser']]
+    else
+      [200, {}, ['Choose Another Browser']]
+    end
+  else
+    [200, {}, ['You have to guess something']]
+  end
+end
+
+Rack::Handler::Thin.run rack_app, Port: 3222
+```
+
+Step 2
+---------
+
+Run it. If you browse to http://localhost:3222. You will see : 'You have to guess something'. If you go to http://localhost:3222/guess. You will see 'Choose Another Browser'. If you hit : http://localhost:3222/guess?client=safari, you will see 'Good Browser'.
+
+Step 3
+---------
+
+We can query the current request object to find out the request type. The request could be GET, POST, PUT, DELETE, HEAD, OPTIONS, TRACE. You can use get?, post?, put?, delete?, head?, options?, trace?, xhr?
+
+```ruby
+require 'rack'
+require 'thin'
+
+rack_app = lambda do |env|
+  request = Rack::Request.new(env)
+
+  if request.get?
+    [200, {}, ['You did a GET']]
+  else
+    [200, {}, ['You did not GET']]
+  end  
+end
+
+Rack::Handler::Thin.run rack_app, Port: 3222
+```
+
+Summary
+========
+---------
+
+In this article, you learned how to work with the incoming request from a HTTP client by using the Request object. 

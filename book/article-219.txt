@@ -1,0 +1,214 @@
+PUBLISHED
+
+Docker Basics : Building Docker Images
+
+Objectives
+=========
+---------
+
+- Understand the instructions for a Dockerfile
+- Create your own Dockerfile
+- Build an image from a Dockerfile
+- Override the CMD when you run : docker run
+
+Building Images
+=========
+---------
+
+Dockerfile 
+---------
+
+We can build our own images using a Dockerfile. A Dockerfile holds Docker image definitions. It has a set of instructions that tells Docker how an image is created.
+
+Our first Dockerfile
+---------
+
+```sh
+FROM ubuntu:14.04
+```
+
+FROM specifies a source image for our new image. This is required. You can specify a base image, tagged image, user image or self-hosted image. 
+
+```sh
+MAINTAINER Docker Education Team <education@docker.com>
+```
+
+MAINTAINER tells us who maintains this image.
+
+```sh
+RUN apt-get update
+```
+
+Each RUN instruction executes a command to build our image. It can be specified with shell wrapping, which runs the specified command inside a shell with /bin/sh as above. It can also use the exec method, which avoids shell string expansiong and allows execution in images that don't have /bin/sh:
+
+```sh
+RUN ['apt-get', 'update']
+```
+
+RUN will execute the command, record changes made to the filesystem. It can be used to install libraries, packages and various files. RUN will not record state of processes and will not automatically start daemons. If you want to start something automatically when the container runs, you should use CMD or ENTRYPOINT.
+
+```sh
+CMD [ "nginx", "-g", "daemon off;" ]
+```
+
+CMD defines the default command to run when a container is launched from this image. So in this case, instead of doing:
+
+```sh
+docker run web nginx -g "daemon off;"
+```
+
+We can just do:
+
+```sh
+docker run web
+```
+
+Just like RUN, the CMD instruction somes in two forms. The first executes in a shell:
+
+```sh
+CMD nginx -g "daemon off;"
+```
+
+The second executes directly, without shell processing:
+
+```sh
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+The CMD can be overridden when you run the container:
+
+```sh
+docker run -t -i web /bin/bash
+```
+
+This command will run /bin/bash instead of nginx -g "daemon off;"
+
+```sh
+EXPOSE 80
+```
+
+EXPOSE lists the network ports to open when a container is launched from this image. All ports are private by default. The Dockerfile does not control if a port is publicly available. When you run : 
+
+```sh
+docker run -p <port>
+```
+
+that port becomes public. Even if it was declared with EXPOSE. 
+
+When you run:
+
+```sh
+docker run -P 
+```
+
+without port number, all ports declared with EXPOSE become public. A public port is reachable from other containers and from outside the host. A private port is not reachable from outside. Here is the complete Dockerfile.
+
+```sh
+FROM ubuntu:14.04
+MAINTAINER Docker Education Team <education@docker.com>
+
+RUN apt-get update
+RUN apt-get install -y nginx
+RUN echo 'Hi, I am in your container' \
+    >/usr/share/nginx/html/index.html
+
+CMD [ "nginx", "-g", "daemon off;" ]
+
+EXPOSE 80
+```
+
+Things to Keep in Mind
+
+- Dockerfile instructions are executed in order.
+- Each instruction creates a new layer in the image.
+- Instructions are cached. If no changes are detected then the instruction is skipped and the cached layer used.
+- The FROM instruction MUST be the first non-comment instruction.
+- Lines starting with # are treated as comments.
+- You can only have one CMD and one ENTRYPOINT instruction in a Dockerfile.
+
+docker build
+---------
+
+The docker build command builds an image from a Dockerfile. Create a new project folder for this exercise and go to that directory. Create a Dockerfile with contents shown in the section 'Our first Dockerfile'.
+
+```sh
+docker build -t web .
+```
+
+The -t flag tags an image. The . indicates the location of the Dockerfile being built.
+
+You will see:
+
+```sh
+Sending build context to Docker daemon 2.048 kB
+Sending build context to Docker daemon 
+Step 0 : FROM ubuntu:14.04
+14.04: Pulling from ubuntu
+428b411c28f0: Already exists 
+435050075b3f: Already exists 
+9fd3c8c9af32: Already exists 
+6d4946999d4f: Already exists 
+ubuntu:14.04: The image you are pulling has been verified. Important: image verification is a tech preview feature and should not be relied on to provide security.
+Digest: sha256:59662c823007a7a6fbc411910b472cf4ed862e8f74603267ddfe20d5af4f9d79
+Status: Downloaded newer image for ubuntu:14.04
+ ---> 6d4946999d4f
+Step 1 : MAINTAINER Docker Education Team <education@docker.com>
+ ---> Running in 29b2b054addd
+ ---> 2636ed8ef6b6
+Removing intermediate container 29b2b054addd
+Step 2 : RUN apt-get update
+ ---> Running in 89dc81b5d5cf
+Ign http://archive.ubuntu.com trusty InRelease
+Ign http://archive.ubuntu.com trusty-updates InRelease
+Ign http://archive.ubuntu.com trusty-security InRelease
+...
+...
+Setting up nginx (1.4.6-1ubuntu3.2) ...
+Processing triggers for libc-bin (2.19-0ubuntu6.6) ...
+Processing triggers for sgml-base (1.26+nmu4ubuntu1) ...
+ ---> dbb3cba0ad61
+Removing intermediate container 9b8df578f357
+Step 4 : RUN echo 'Hi, I am in your container'     >/usr/share/nginx/html/index.html
+ ---> Running in e0da0dab3b4b
+ ---> ec66ae5f793b
+Removing intermediate container e0da0dab3b4b
+Step 5 : CMD nginx -g daemon off;
+ ---> Running in d8120867dbbf
+ ---> e0e40dd40a42
+Removing intermediate container d8120867dbbf
+Step 6 : EXPOSE 80
+ ---> Running in 16f26071ec13
+ ---> a1e94d444e2e
+Removing intermediate container 16f26071ec13
+Successfully built a1e94d444e2e
+```
+
+Step 3
+---------
+
+Let's look at our newly created image.
+
+```sh
+$ docker images
+```
+
+This will show you all the images including the web image you just created.
+
+```sh
+REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+web                 latest              a1e94d444e2e        24 minutes ago      227.4 MB
+ubuntu              14.04               6d4946999d4f        2 days ago          188.3 MB
+ubuntu              latest              6d4946999d4f        2 days ago          188.3 MB
+nginx               latest              a785ba7493fd        2 weeks ago         132.9 MB
+fedora              latest              ded7cd95e059        2 weeks ago         186.5 MB
+fedora              20                  d7f0e75cf11f        7 weeks ago         360.3 MB
+hello-world         latest              91c95931e552        8 weeks ago         910 B
+busybox             latest              8c2e06607696        8 weeks ago         2.433 MB
+<none>              <none>              ad892dd21d60        12 months ago       275.5 MB
+```
+
+Summary
+========
+---------
+
+In this article, you learned the basics of Dockerfile and how to build your own Docker image using a Dockerfile.

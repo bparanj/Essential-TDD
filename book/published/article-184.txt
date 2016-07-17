@@ -1,0 +1,118 @@
+PUBLISHED
+
+Web Development in Ruby : Using WEBrick Servlet to Generate Dynamic HTML Pages
+
+Objective
+=========
+---------
+
+Simple server side dynamic html generation using WEBrick.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create webrick.rb with:
+
+```ruby
+#!/usr/bin/env ruby
+
+require 'webrick'
+include WEBrick
+
+s = HTTPServer.new(
+    :Port => 3000,
+    :DocumentRoot => File.join(Dir.pwd, "/html")
+)
+trap("INT") { s.shutdown }
+
+s.mount_proc '/today' do |req, res|
+  res.body = "Today is : #{Time.now}"
+end
+
+s.start
+```
+
+Step 2
+---------
+
+Make webrick.rb executable:
+
+```ruby
+chmod a+x webrick.rb
+```
+
+Step 3
+---------
+
+Browse to : http://localhost:3000/today You will see:
+
+Today is : 2015-05-17 22:50:46 -0700
+
+Step 4
+---------
+
+Create today_servlet.rb with:
+
+```ruby
+class TodayServlet < WEBrick::HTTPServlet::AbstractServlet
+  def do_GET(request, response)
+    response.status = 200
+    response['Content-Type'] = 'text/plain'
+    response.body = "Today is #{Time.now}"
+  end
+end
+```
+
+Step 5
+---------
+
+Change the webrick.rb to add:
+
+```ruby
+server.mount '/today', TodayServlet
+```
+
+```ruby
+#!/usr/bin/env ruby
+
+require 'webrick'
+require_relative 'today_servlet'
+
+include WEBrick
+
+s = HTTPServer.new(
+    :Port => 3000,
+    :DocumentRoot => File.join(Dir.pwd, "/html")
+)
+trap("INT") { s.shutdown }
+
+s.mount '/today', TodayServlet
+s.start
+```
+
+Step 6
+---------
+
+Browse to http://localhost:3000/today to see today's date in the browser.
+
+Step 7
+---------
+
+Let's use html header to generate the output, change the following lines in today_servlet.rb:
+
+```ruby
+response['Content-Type'] = 'text/html'
+response.body = "<h1>Today is #{Time.now}<h1>"
+```
+
+Restart the server and reload the browser. Now the page will have html header that displays the date.
+
+Summary
+========
+---------
+
+In this article, we developed a simple date display program by using WEBrick and dynamic html generation that combines ruby and html.

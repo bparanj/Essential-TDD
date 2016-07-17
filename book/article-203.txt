@@ -1,0 +1,270 @@
+PUBLISHED
+
+Authentication from Scratch :  Password Reset Feature
+
+Objective
+=========
+---------
+
+To allow users to reset their password when they forget their password
+
+Discussion
+=========
+---------
+
+To reset a password, the user goes through these steps:
+
+1. The user requests a password reset
+2. An email is sent to the user with instructions
+3. The user verifies their identity by using the link in the email
+4. The user is presented with a simple form for updating the password
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Add a column called perishable_token to your table. It is a temporary string. It is used for simple identification. Generate the migration:
+
+```ruby
+$rails g migration add_perishable_token_to_users
+```
+
+Step 2
+---------
+
+The migration contents:
+
+```ruby
+class AddPerishableTokenToUsers < ActiveRecord::Migration
+  def change
+    add_column :users, :perishable_token, :string, :default => "", :null => false
+    add_index :users, :perishable_token
+  end
+end
+```
+
+Step 3
+---------
+
+Migrate the database:
+
+```ruby
+$ rake db:migrate
+```
+
+Step 4
+---------
+
+```ruby
+$ rails generate controller password_resets
+```
+
+Step 5
+---------
+
+```ruby
+class PasswordResetsController < ApplicationController
+  def new
+    
+  end
+end
+```
+
+Step 6
+---------
+
+Create app/views/password_resets/new.html.erb:
+
+```ruby
+<h1>Reset Password</h1>
+
+<p>Please enter your email address below and then click "Reset Password".</p>
+
+<%= form_tag password_resets_path do %>
+  <%= text_field_tag :email %>
+  <%= submit_tag "Reset Password" %>
+<% end %>
+```
+
+Step 7
+---------
+
+Add the routes:
+
+```ruby
+  resources :password_resets, only: [ :new, :create]
+  
+  get '/password_resets/edit' => 'password_resets#edit', as: :edit_password_reset
+  put '/password_resets/' => 'password_resets#update', as: :password_reset
+```
+
+Step 8
+---------
+
+```sh
+rails s
+```
+
+Go to localhost:3000/password_resets/new
+
+Fill out the email address and click the 'Reset Password' button.
+
+Step 9
+---------
+
+Add the create action to password_resets controller.
+
+```ruby
+  def create
+    user = User.where(email: params[:email]).first
+    
+    if user
+      user.deliver_password_reset_instructions
+      flash[:notice] = "Instructions to reset your password have been emailed to you"
+      
+      redirect_to root_path
+    else
+      flash.now[:error] = "No user was found with email address #{params[:email]}"
+      render :new
+    end
+  end
+```
+
+Step 10
+---------
+
+In user.rb:
+
+```ruby
+  def deliver_password_reset_instructions
+    self.perishable_token = SecureRandom.hex(4)
+    save(validate: false)
+    
+    PasswordResetNotifier.password_reset_instructions(self).deliver_now
+  end
+```
+
+Step 11
+---------
+
+In app/mailers/password_reset_notifier.rb:
+
+```ruby
+class PasswordResetNotifier < ActionMailer::Base
+  def password_reset_instructions(user)
+    @url  = edit_password_reset_url(token: user.perishable_token)
+
+    mail(to: user.email, subject: "Password Reset Instructions")
+  end
+end
+```
+
+Step 12
+---------
+
+In config/environments/development.rb:
+
+```ruby
+config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+```
+
+Step 13
+---------
+
+In app/views/password_reset_notifier/password_reset_instructions.html.erb:
+
+```ruby
+<h1>Password Reset Instructions</h1>
+
+<p>
+  A request to reset your password has been made. If you did not make
+  this request, simply ignore this email. If you did make this
+  request, please click the link below.
+</p>
+
+<%= link_to "Reset Password!", @url %>
+```
+
+Step 14
+---------
+
+In the terminal you see the link in the sent email. If you click on that link: http://localhost:3000/password_resets/new 
+
+Step 15
+---------
+
+Add edit action to password_resets controller.rb:
+
+```ruby
+  def edit
+    load_user_using_perishable_token
+    @token = @user.perishable_token
+  end
+  
+  private
+  
+  def load_user_using_perishable_token
+    @user = User.where(perishable_token: params[:token]).first
+    unless @user
+      flash[:error] = "We're sorry, but we could not locate your account"
+      redirect_to root_url
+    end
+  end
+```
+
+Step 16
+---------
+
+In app/views/password_resets/edit.html.erb:
+
+```ruby
+<h1>Update your password</h1>
+
+<p>Please enter the new password below and then press "Update Password".</p>
+
+<%= form_tag password_reset_path, :method => :put do %>
+  <%= password_field_tag :password %>
+  <%= hidden_field_tag :token, @token %>
+  
+  <%= submit_tag "Update Password" %>
+<% end %>
+```
+
+Step 17
+---------
+
+Implement the update action in password_resets controller:
+
+```ruby
+  def update
+    load_user_using_perishable_token
+    @user.password = params[:password]
+
+    if @user.save
+      flash[:success] = "Your password was successfully updated"
+      redirect_to @user
+    else
+      render :edit
+    end
+  end
+```
+
+Summary
+========
+---------
+
+In this article, we developed the password reset feature. Things that can be improved area:
+
+1. Move email delivery to a background job.
+2. As soon as password is reset, change the perishable_token value for that user. So that the token is one time use only.
+
+You can download the source code for this article from : https://bitbucket.org/bparanj/ascratch.
+
+References
+=========
+---------
+
+[Authlogic Password Reset Tutorial](https://github.com/rejeep/authlogic-password-reset-tutorial 'Authlogic Password Reset Tutorial')

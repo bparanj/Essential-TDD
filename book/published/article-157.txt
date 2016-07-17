@@ -1,0 +1,347 @@
+Sinatra Beyond Basics : TDD using Sinatra
+
+Objective
+=========
+---------
+
+To write a simple hello world Sinatra program driven by tests.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+```sh
+$gem install sinatra
+```
+
+Step 2
+---------
+
+Create Gemfile in the project folder.
+
+```ruby
+source 'https://rubygems.org'
+
+group :test, :development do
+  gem "rspec"
+end
+```
+
+Step 3
+---------
+
+```sh
+$rspec --init
+```
+
+Step 4
+---------
+
+```sh
+$bundle
+```
+
+Step 5
+---------
+
+Edit .rspec in the project folder.
+
+```sh
+--format documentation
+--color
+--require spec_helper
+```
+
+Step 6
+---------
+
+Create spec/hello_spec.rb
+
+```ruby
+require 'spec_helper'
+
+RSpec.describe 'hello app' do
+  it 'says hi' do
+    get '/'
+    
+    expect(last_response).to be_ok
+  end
+  
+end
+```
+
+Step 7
+---------
+
+Run the test.
+
+```sh
+$rspec spec/hello_spec.rb 
+
+hello app
+  says hi (FAILED - 1)
+
+Failures:
+
+  1) hello app says hi
+     Failure/Error: get '/'
+     NoMethodError:
+       undefined method `get' for #<RSpec::ExampleGroups::HelloApp:0x007f9fdcb75588>
+     # ./spec/hello_spec.rb:5:in `block (2 levels) in <top (required)>'
+
+Finished in 0.0005 seconds (files took 0.12564 seconds to load)
+1 example, 1 failure
+
+Failed examples:
+
+rspec ./spec/hello_spec.rb:4 # hello app says hi
+```
+
+Step 8
+---------
+
+Add gem 'rack-test' to Gemfile 
+
+```ruby
+group :test, :development do
+  gem "rspec"
+  gem 'rack-test'
+end
+```
+
+and run bundle.
+
+Step 9
+---------
+
+Add require 'rack/test' to the hello_spec.rb
+
+```ruby
+require 'spec_helper'
+require 'rack/test'
+
+RSpec.describe 'hello app' do
+  it 'says hi' do
+    get '/'
+    
+    expect(last_response).to be_ok
+  end
+  
+end
+```
+
+Step 10
+---------
+
+Run the test.
+
+```sh
+$rspec spec/hello_spec.rb 
+
+hello app
+  says hi (FAILED - 1)
+
+Failures:
+
+  1) hello app says hi
+     Failure/Error: get '/'
+     NoMethodError:
+       undefined method `get' for #<RSpec::ExampleGroups::HelloApp:0x007fae59c51958>
+     # ./spec/hello_spec.rb:6:in `block (2 levels) in <top (required)>'
+
+Finished in 0.00055 seconds (files took 0.1249 seconds to load)
+1 example, 1 failure
+
+Failed examples:
+
+rspec ./spec/hello_spec.rb:5 # hello app says hi
+```
+
+Step 11
+---------
+
+Add include Rack::Test::Methods to the test.
+
+```ruby
+require 'spec_helper'
+require 'rack/test'
+
+RSpec.describe 'hello app' do
+  include Rack::Test::Methods
+    
+  it 'says hi' do
+    get '/'
+    
+    expect(last_response).to be_ok
+  end
+  
+end
+```
+
+Step 12
+---------
+
+Run the test.
+
+```sh
+$rspec spec/hello_spec.rb 
+
+hello app
+  says hi (FAILED - 1)
+
+Failures:
+
+  1) hello app says hi
+     Failure/Error: get '/'
+     NameError:
+       undefined local variable or method `app' for #<RSpec::ExampleGroups::HelloApp:0x007fec329df5f0>
+     # ./spec/hello_spec.rb:8:in `block (2 levels) in <top (required)>'
+
+Finished in 0.00067 seconds (files took 0.1241 seconds to load)
+1 example, 1 failure
+
+Failed examples:
+
+rspec ./spec/hello_spec.rb:7 # hello app says hi
+```
+
+
+Step 13
+---------
+
+Add app method:
+
+```ruby
+require 'spec_helper'
+require 'rack/test'
+
+RSpec.describe 'hello app' do
+  include Rack::Test::Methods
+  
+  def app
+    Sinatra::Application
+  end
+  
+  it 'says hi' do
+    get '/'
+    
+    expect(last_response).to be_ok
+  end
+  
+end
+```
+
+
+Step 14
+---------
+
+Run the test.
+
+```ruby
+rspec spec/hello_spec.rb 
+
+hello app
+  says hi (FAILED - 1)
+
+Failures:
+
+  1) hello app says hi
+     Failure/Error: Sinatra::Application
+     NameError:
+       uninitialized constant Sinatra
+     # ./spec/hello_spec.rb:8:in `app'
+
+Finished in 0.00064 seconds (files took 0.12533 seconds to load)
+1 example, 1 failure
+
+Failed examples:
+
+rspec ./spec/hello_spec.rb:11 # hello app says hi
+```
+
+Step 15
+---------
+
+Create hello.rb in the project folder.
+
+```ruby
+require 'sinatra'
+
+get '/' do
+  "Hello"
+end
+```
+
+Step 16
+---------
+
+Add require_relative '../hello' to the test.
+
+```ruby
+require 'spec_helper'
+require 'rack/test'
+require_relative '../hello'
+
+RSpec.describe 'hello app' do
+  include Rack::Test::Methods
+  
+  def app
+    Sinatra::Application
+  end
+  
+  it 'says hi' do
+    get '/'
+    
+    expect(last_response).to be_ok
+  end
+  
+end
+```
+
+Step 17
+---------
+
+Add gem 'sinatra' to Gemfile.
+
+```ruby
+source 'https://rubygems.org'
+
+gem 'sinatra'
+
+group :test, :development do
+  gem "rspec"
+  gem 'rack-test'
+end
+```
+
+Step 18 
+---------
+
+Run the test.
+
+```sh
+$rspec spec/hello_spec.rb 
+
+hello app
+  says hi
+
+Finished in 0.02757 seconds (files took 0.15931 seconds to load)
+1 example, 0 failures
+```
+
+Summary
+========
+---------
+
+In this article, we wrote a simple hello world program in Sinatra driven by tests.
+
+
+References
+========
+---------
+
+[Zero to Smoke Test with Sinatra](http://devblog.avdi.org/2014/07/08/zero-to-smoke-test-with-sinatra/ 'Zero to Smoke Test with Sinatra')
+[Testing Sinatra](http://www.sinatrarb.com/testing.html 'Testing Sinatra')

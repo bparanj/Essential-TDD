@@ -1,0 +1,133 @@
+PUBLISHED
+
+Availability Rake Tasks
+
+Objective
+=========
+---------
+
+To write useful rake tasks to manage MongoDB and Redis connectivity.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create mongoid.yml:
+
+```sh
+development:
+  sessions:
+    default:
+      database: blog_development
+      hosts:
+        - localhost:27017
+```
+
+Step 2
+---------
+
+Here is a rake task to create mongo development database:
+
+```ruby
+desc 'Create mongo development database'
+namespace :db do
+  require 'mongoid'
+
+  task :create do
+    Mongoid.load!('mongoid.yml', :development)
+  end
+  
+end
+```
+
+Step 3
+---------
+
+```ruby
+desc 'Check mongo development database connectivity'
+namespace :db do
+  require 'mongoid'
+  
+  task :test do
+    session = Moped::Session.new([ "127.0.0.1:27017"])
+    session.use :blog_development
+    puts session.command(ping: 1)
+  end
+end
+```
+
+Step 4
+---------
+
+Here is a rake task to check redis connection:
+
+```ruby
+desc 'Redis connection tester'
+task :redis do
+  require "redis"
+
+  redis = Redis.new
+  begin
+    redis.ping
+    puts "Redis connection established"
+  rescue Exception => e
+    puts e.message
+    puts "Failed to establish connection to redis server"
+  end
+  
+end
+```
+
+Discussion
+=========
+---------
+
+In MongoDB the database is created when you start using it. Sometimes, you need to create a database, in order to make sure that everything is setup properly. You can use the following script to force the creation of a database.
+
+```ruby
+  require 'date'
+  require 'moped'
+  
+  hosts = [ "127.0.0.1:27017" ]
+  database = 'bugs_bunny'
+  
+  session = Moped::Session.new(hosts)
+  database = Moped::Database.new(session, database)
+  session.use(database)
+
+  session.with(safe: true) do |safe|
+    safe[:artists].insert(name: "Bugs Bunny Calling Earth")
+  end
+```
+  
+To list databases:
+
+```ruby
+session.databases
+```
+  or 
+
+```ruby
+session.databases['databases']
+```
+
+To list all the collections:
+
+```ruby  
+database.collections
+```
+
+Summary
+========
+---------
+
+In this article, we wrote useful rake tasks to create MongoDB database and check connectivity to MongoDB and Redis.
+
+References
+=========
+---------
+
+[Mongoid Getting Started]('http://mongoid.org/en/mongoid/docs/installation.html' 'Mongoid Getting Started') 

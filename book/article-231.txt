@@ -1,0 +1,168 @@
+PUBLISHED
+
+Ruby Productivity Scripts : Simple Whois Client
+
+Objective
+=========
+---------
+
+To write a simple whois client using Ruby socket library.
+
+Discussion
+=========
+---------
+
+As web developers we have thousands of ideas for web applications than can make us rich quick. We buy domains in bulk when we get too excited. Why do we need to Google for the details? Why do we put up with Captchas? Why not write our own scripts to get the details from a terminal?
+
+What is whois? 
+---------
+
+```sh
+man whois 
+```
+
+shows you:  
+
+```sh
+whois -- Internet domain name and network number directory service. 
+```
+
+The clients make a request to whois servers such as whois.internic.net to get details about a domain.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Go to a terminal and run:
+
+```sh
+whois com
+```
+
+You will see:
+
+```sh
+Whois Server Version 2.0
+
+Domain names in the .com and .net domains can now be registered
+with many different competing registrars. Go to http://www.internic.net
+for detailed information.
+
+Aborting search 50 records found .....
+COM---------------------------------------------------------WWW.COM
+COM--------------------CN.COM
+COM------COM.COM
+
+BLAH, BLAH, BLAH...
+```
+
+Let's get some details about the next hotshot:
+
+```sh
+whois docker.com
+```
+
+The terminal utility speaks the whois protocol.
+
+Step 2
+---------
+
+Let's learn how to talk like a whois client.
+
+```sh
+$telnet whois.internic.net 43
+```
+
+You will see:
+
+```sh
+Trying 199.7.50.74...
+Connected to whois.internic.net.
+Escape character is '^]'.
+rubyplus.com[Hit Enter here]
+
+Whois Server Version 2.0
+
+Domain names in the .com and .net domains can now be registered
+with many different competing registrars. Go to http://www.internic.net
+for detailed information.
+
+   Domain Name: RUBYPLUS.COM
+   Registrar: ENOM, INC.
+   Sponsoring Registrar IANA ID: 48
+   Whois Server: whois.enom.com
+   Referral URL: http://www.enom.com
+   Name Server: NS1.LINODE.COM
+   Name Server: NS2.LINODE.COM
+   Name Server: NS3.LINODE.COM
+   Name Server: NS4.LINODE.COM
+   Name Server: NS5.LINODE.COM
+   Status: clientTransferProhibited http://www.icann.org/epp#clientTransferProhibited
+   Updated Date: 02-feb-2015
+   Creation Date: 12-feb-2007
+   Expiration Date: 12-feb-2021
+
+>>> Last update of whois database: Wed, 24 Jun 2015 00:07:00 GMT <<<
+
+NOTICE: The expiration date displayed in this record is the date the 
+blah, blah, blah...
+Connection closed by foreign host.
+```
+
+We connect to a whois server on port 43, enter a domain, and hit return. The server sent us response packets to us and then disconnected the connection.
+
+Step 3
+---------
+
+We can now describe our program at a high level.
+
+High Level Description
+---------
+
+1. Create a TCP client connection to a Whois server such as whois.internic.net on port 43.
+2. Send the domain followed by a return character as the request.
+2. Read the response from the server.
+3. Print the response to standard output.
+
+Step 4
+---------
+
+```ruby
+require 'socket'
+ 
+host = 'whois.internic.net'         # The whois server
+port = 43                           # Default whois port
+
+# This is the whois request we send to get domain details
+request = "rubyflow.com\r\n\r\n"
+
+socket = TCPSocket.open(host,port)  # Connect to server
+socket.print(request)               # Send request
+response = socket.read              # Read complete response
+
+print response                      # And display it
+```
+
+I found it difficult to understand the existing code of whois gem. It is easier to read PHP example with just one file containing 400 lines of code to get a sense of how to write a whois client. Do not be afraid of reading source code of examples from languages such as PHP, C# and Python. You will learn a lot and it can lead to cross pollination of ideas,  enabling you to build better gems.
+
+Summary
+========
+---------
+
+In this article, we wrote a simple whois client to retrieve details about a domain. We learned how to use Ruby during this process. You can send query to get more details by reading the whois protocol specification.
+
+References
+========
+---------
+
+1. [Simple C# Class to Get Whois Information] (https://coderbuddy.wordpress.com/2010/10/12/a-simple-c-class-to-get-whois-information/ 'A simple C# class to get whois information'
+)
+2. [Ruby Docs](http://ruby-doc.org/stdlib-1.9.3/libdoc/socket/rdoc/TCPSocket.html 'Ruby Docs')
+3. [Whois Protocol] (https://tools.ietf.org/html/rfc3912 'Whois Protocol')
+4. [Python Whois Client](http://www.binarytides.com/python-program-to-fetch-domain-whois-data-using-sockets/ 'Python Whois Client')
+5. [How does whois work](http://semmyfun.blogspot.com/2010/08/how-does-whois-work-dirty-guide.html 'How does whois work')
+6. [An intelligent pure Ruby WHOIS client and parser] (https://github.com/weppos/whois 'An intelligent pure Ruby WHOIS client and parser')
+7. [Whois Client in PHP](http://www.phpeasycode.com/whois/ 'Whois Client in PHP')

@@ -1,0 +1,100 @@
+Web Development in Ruby : Write a Hello World Web App
+
+Objective
+=========
+---------
+
+To write a hello world web app that displays a static web page to a user.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create webrick.rb with the following code:
+
+```ruby
+#!/usr/bin/env ruby
+require 'webrick'
+include WEBrick
+s = HTTPServer.new(
+    :Port => 3000,
+    :DocumentRoot => File.join(Dir.pwd, "/html")
+)
+trap("INT") { s.shutdown }
+s.start
+```
+
+Step 2
+---------
+
+Check the permissions on webrick.rb.
+
+```sh
+$ls -l webrick.rb 
+-rw-r--r--  1 zepho  staff  179 May 16 13:32 webrick.rb
+```
+
+Give execute permissions to the script by running:
+
+```sh
+$chmod a+x webrick.rb
+```
+
+Check the permissions:
+
+```sh
+-rwxr-xr-x  1 zepho  staff  179 May 16 13:32 webrick.rb
+```
+
+Step 3
+---------
+
+Create html directory with index.html:
+
+```sh
+Hello Static Page
+```
+
+Step 4
+---------
+
+Run the script:
+
+```sh
+$ruby webrick.rb
+```
+
+Step 5
+---------
+
+Browse to http://localhost:3000. You will see the contents of index.html file: Hello Static Page in the browser.
+
+Step 6
+---------
+
+Copy the script to local cgi-bin folder on the server.
+
+Step 7
+---------
+
+Execute it from a browser by going to your domain www.example.com.
+
+Step 8
+---------
+
+Use Ctrl+C to stop the server.
+
+Summary
+========
+---------
+
+In this article, we wrote a simple hello world program that displays a static page. In subsequent articles of this series, we will create dynamic pages that will be executed on the server and display on the browser as a webpage.
+
+Reference
+========
+---------
+
+[Ruby Webrick CGI Scripts](http://craiccomputing.blogspot.com/2008/03/ruby-webrick-and-cgi-scripts.html 'Ruby Webrick CGI Scripts')

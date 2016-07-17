@@ -1,3 +1,6 @@
+1. How to write tests for ActiveResource
+
+
 1. http://www.infoq.com/presentations/TDD-of-Asynchronous-Systems
    http://www.infoq.com/presentations/Sustainable-Test-Driven-Development
 	 http://www.infoq.com/presentations/bdd-dan-north
@@ -12,4 +15,81 @@ http://pluralsight.com/training/Courses/TableOfContents/angularjs-fundamentals  
 6. ThoughtBot Rails TDD course
 7. ThoughtBot Intermediate Rails course
 8. ThoughtBot Playbook
+
+
+
+1. Store the location in the session or pass it as a query-string parameter
+2. Redirect the user
+3. Delete the session variable if session was used to store the location
+
+
+
+
+
+https://github.com/paypal/ipn-code-samples
+https://github.com/paypal/merchant-sdk-ruby/blob/master/samples/IPN-README.md
+https://github.com/dwilkie/paypal/blob/master/lib/paypal/ipn/ipn.rb#L18
+
+
+ response.success?
+
+
+
+def generate_signed_s3_url
+  cloud_file = Cognac::CloudFile.new(params[:filename])
+  resource_end_point = cloud_file.resource_end_point
+
+  options = Cognac::Signature.generate_options_for_build_s3_upload_url(cloud_file.name, params[:content_type])
+  url = Cognac::Signature.build_s3_upload_url(resource_end_point, options)
+  
+  render :json => {put_url: url, file_url: resource_end_point}
+end
+
+
+
+
+def generate_signed_s3_url
+  cloud_file = Cognac::CloudFile.new(params[:filename])
+  resource_end_point = cloud_file.resource_end_point
+
+
+  signature = Cognac::Signature.new
+  options = signature.generate_options_for_build_s3_upload_url(cloud_file.name, params[:content_type])
+  url = signature.build_s3_upload_url(resource_end_point, options)
+  
+  render :json => {put_url: url, file_url: resource_end_point}
+end
+
+
+
+
+def generate_signed_s3_url
+  file = Cognac::CloudFile.new(params[:filename])
+  
+  resource_end_point = file.resource_end_point
+  url = file.upload_url(params[:content_type])
+  
+  render :json => {put_url: url, file_url: resource_end_point}
+end
+
+
+1. 
+
+
+
+Periodontist List
+
+1. http://www.uenoperiodontics.com/pservices.html Cambell 		EMAIL SENT
+FIND OUT WHAT LASER THEY ARE USING FOR KILLING THE BACKTERIA
+
+2. LANAP Laser Periodontal Procedures         					EMAIL SENT
+http://www.berkeleyperiodontics.com/services/lanap-laser-periodontal-procedures/
+510-548-0150           
+
+3. http://www.bayperiodontics.com/treatment/lanap-laser-surgery.aspx SEEMS TO BE BEST (USES ULTRASONIC TOOL TO REMOVE CALCULUS) THIS IS LOCATED IN ALABAMA
+
+
+
+
+Perio Lase Laser is the only laser that can cure periodontal disease.
 

@@ -119,10 +119,10 @@ end
 Step 5
 -----
 
-Add the add_new_credit_card use case handler in config/application.rb.
+Add the add_new_credit_card use case handler in app/actors/customer/customer.rb.
 
 ```ruby
-require_relative '../app/actors/customer/use_cases/add_new_credit_card'
+require_relative "#{Rails.root}/app/actors/customer/use_cases/add_new_credit_card"
 ```
 
 Step 6

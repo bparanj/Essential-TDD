@@ -1,0 +1,105 @@
+Sinatra Basics : Writing a Test using Unit Test framework 
+
+Objective
+=========
+---------
+
+Learn how to write a test using test unit framework for a Sinatra application.
+
+Steps
+=========
+---------
+
+Step 1
+---------
+
+Create a new project folder to keep all the files. 
+
+Step 2
+---------
+
+Add rack-test gem to Gemfile
+
+```ruby
+gem "rack-test", require: "rack/test"
+```
+
+the entire Gemfile looks like this:
+
+```ruby
+source 'https://rubygems.org'
+
+gem 'shotgun'
+gem 'sinatra'
+gem "rack-test", require: "rack/test"
+gem 'test-unit'
+```
+
+Step 3
+---------
+
+Install the gems.
+
+```sh
+$bundle
+```
+
+This installed test-unit gem version 3.2 and rack-test gem version 0.6.3 on my system.
+
+Step 4
+---------
+
+Create a test folder inside the project folder and create sample_test.rb in it.
+
+```ruby
+ENV['RACK_ENV'] = 'test'
+
+require 'test/unit'
+require 'rack/test'
+
+require File.expand_path '../sample.rb'
+
+class SampleTest < Test::Unit::TestCase
+  include Rack::Test::Methods
+  
+  def app
+    Sinatra::Application
+  end
+  
+  def test_sample
+    get '/'
+
+    assert last_response.ok?
+    assert_equal 'hi', last_response.body
+  end
+
+end
+```
+
+Step 5
+---------
+
+Run the test:
+
+```sh
+bundle exec ruby sample_test.rb
+```
+
+Step 6
+---------
+
+In the project folder, create sample.rb:
+
+```ruby
+require 'sinatra'
+
+get '/' do
+  'hi'
+end
+```
+
+Summary
+========
+---------
+
+In this article, you learned how to write a test using TestUnit testing framework to test Sinatra application.
