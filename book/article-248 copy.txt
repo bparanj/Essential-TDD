@@ -70,6 +70,7 @@ Fixnum.superclass   (Integer)
 1.respond_to?(:<=>)
  => true 
  
+Notes from Udacity FrontEnd Course
  
  Image Placeholder
 

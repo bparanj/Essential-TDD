@@ -24,7 +24,6 @@ Create project time allocation table
 To Do
 --------------------------------------------------------------------
 
-1. Buy chrome book and install ubuntu
 
 --------------------------------------------------------------------
 Do Not Do

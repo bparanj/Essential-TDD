@@ -50,8 +50,9 @@ Digressions
 Limited Knowledge-base
 Keep Everything Simple
 In a disciplined way, step-by-step. 
-Can you eliminate and still make it understandable.
+Can you eliminate and still make it understandable?
 
+What sections are relevant to TDD:
 
 Introduction
 Thinking Simply
