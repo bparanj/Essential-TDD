@@ -37,7 +37,7 @@ Reload the articles index page : http://localhost:3000/articles
 
 Click 'Delete' for any of the article. 
 
-![URL Error](./figures/http_basic_auth)
+![URL Error](./figures/http_basic_auth.png)
 
 You will see popup for authentication.
 

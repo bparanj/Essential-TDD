@@ -18,15 +18,23 @@ Let's add 'Delete' link to each record displayed in the articles index page. Loo
 ![URL Helper For Delete](./figures/delete_route.png)
 
 ```sh
-      Prefix Verb   URI Pattern                  Controller#Action
-    articles GET    /articles(.:format)          articles#index
-             POST   /articles(.:format)          articles#create
- new_article GET    /articles/new(.:format)      articles#new
-edit_article GET    /articles/:id/edit(.:format) articles#edit
-     article GET    /articles/:id(.:format)      articles#show
-             PATCH  /articles/:id(.:format)      articles#update
-             PUT    /articles/:id(.:format)      articles#update
-             DELETE /articles/:id(.:format)      articles#destroy
+              Prefix Verb   URI Pattern                                       Controller#Action
+    article_comments GET    /articles/:article_id/comments(.:format)          comments#index
+                     POST   /articles/:article_id/comments(.:format)          comments#create
+ new_article_comment GET    /articles/:article_id/comments/new(.:format)      comments#new
+edit_article_comment GET    /articles/:article_id/comments/:id/edit(.:format) comments#edit
+     article_comment GET    /articles/:article_id/comments/:id(.:format)      comments#show
+                     PATCH  /articles/:article_id/comments/:id(.:format)      comments#update
+                     PUT    /articles/:article_id/comments/:id(.:format)      comments#update
+                     DELETE /articles/:article_id/comments/:id(.:format)      comments#destroy
+            articles GET    /articles(.:format)                               articles#index
+                     POST   /articles(.:format)                               articles#create
+         new_article GET    /articles/new(.:format)                           articles#new
+        edit_article GET    /articles/:id/edit(.:format)                      articles#edit
+             article GET    /articles/:id(.:format)                           articles#show
+                     PATCH  /articles/:id(.:format)                           articles#update
+                     PUT    /articles/:id(.:format)                           articles#update
+                     DELETE /articles/:id(.:format)                           articles#destroy
 ```			 
 
 The last row is the route for destroy. The Prefix column is empty in this case. It means whatever is above that column that is not empty carries over to that row. So we can create our hyperlink as:
@@ -81,7 +89,7 @@ The fourth parameter will popup a window that confirms the delete action. The ap
 
 Reload the articles index page http://localhost:3000/articles
 
-![Delete Link](./figures/delete_link)
+![Delete Link](./figures/delete_link.png)
 
 The delete link in the browser.
 
@@ -91,7 +99,7 @@ The delete link in the browser.
 
 In the articles index page, do a 'View Page Source'.
 
-![Delete Link Page Source](./figures/delete_link_source)
+![Delete Link Page Source](./figures/delete_link_source.png)
 
 ```html
 <a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="/articles/1">Delete</a>
@@ -107,7 +115,7 @@ The combination of the URI pattern and the http verb DELETE uniquely identifies 
 
 Right click on the http://localhost:3000/articles page. Click on the `/assets/jquery_ujs.self-xyz.js` link. 
 
-![Data Confirm Link Element](./figures/data_confirm_ujs)
+![Data Confirm Link Element](./figures/data_confirm_ujs.png)
 
 Search for 'confirm'. The first occurrence shows you the link element bound by jquery-ujs.
 
@@ -118,7 +126,7 @@ Search for 'confirm'. The first occurrence shows you the link element bound by j
 
 UJS stands for Unobtrusive Javascript. It is unobtrusive because you don't see any javascript code in the html page.
 
-![Data Confirm Popup](./figures/data_confirm_popup)
+![Data Confirm Popup](./figures/data_confirm_popup.png)
 
 ```javascript
 // Default confirm dialog, may be overridden with custom confirm dialog in $.rails.confirm
@@ -128,7 +136,7 @@ UJS stands for Unobtrusive Javascript. It is unobtrusive because you don't see a
 ```	
 If you scroll down you the see default confirm dialog as shown in the above code snippet.
 
-![Data Method Delete](./figures/data_method_delete)
+![Data Method Delete](./figures/data_method_delete.png)
 
 You can search for 'data-method'.
 
@@ -153,7 +161,7 @@ You can see handler method that handles 'data-method' on links as shown in the a
 
 In the articles index page, click on the 'Delete' link.
 
-![Confirmation Popup](./figures/delete_confirmation)
+![Confirmation Popup](./figures/delete_confirmation.png)
 
 Click 'Cancel' for the confirmation popup window.
 
@@ -180,7 +188,7 @@ This method is very similar to update method. Instead of updating the record we 
 
 In the articles index page, click on the 'Delete' link. Click 'Ok' in the confirmation popup. The record will now be deleted from the database and you will be redirected back to the articles index page.
 
-![First Record Deleted](./figures/first_record_deleted)
+![First Record Deleted](./figures/first_record_deleted.png)
 
 ```sh
 Started DELETE "/articles/1" for ::1 at 2016-07-05 20:59:30 -0700
@@ -220,7 +228,7 @@ Add the following code after the body tag in the application layout file, app/vi
 
 ```ruby
 <% flash.each do |name, msg| -%>
-     <%= content_tag :div, msg, class: name %>
+   <%= content_tag :div, msg, class: name %>
 <% end -%>
 ```
 
@@ -253,7 +261,7 @@ Your updated layout file will now look like this:
 
 In the articles index page, click on the 'Delete' link.
 
-![Delete Success](./figures/delete_success)
+![Delete Success](./figures/delete_success.png)
 
 Now you see the feedback that is displayed to the user after delete operation.
 
@@ -263,7 +271,7 @@ Now you see the feedback that is displayed to the user after delete operation.
 
 In the articles index page, do a 'View Page Source'.
 
-![Delete Success Page Source](./figures/delete_success_source)
+![Delete Success Page Source](./figures/delete_success_source.png)
 
 ```html
 <div class="notice">Delete success</div>

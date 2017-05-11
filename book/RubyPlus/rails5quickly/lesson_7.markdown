@@ -177,7 +177,7 @@ In the rails server log you will see the GET request for the resource '/articles
 Started GET "/articles/1" for ::1 at 2016-07-05 19:32:52 -0700
 ```
 
-![Http GET Request](./figures/get_articles_server_log)
+![Http GET Request](./figures/get_articles_server_log.png)
 
 Server log is another friend.
 

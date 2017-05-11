@@ -14,7 +14,7 @@ Relationships
 
 Let's create a comment model by using the Rails generator command:
 
-![Generate Comment Model](./figures/comment_model)
+![Generate Comment Model](./figures/comment_model.png)
 
 ```ruby
 rails g model comment commenter:string description:text article:references
@@ -47,7 +47,7 @@ Run :
 $ rails db:migrate
 ```
 
-![Create Comments Table](./figures/db_migrate_comments)
+![Create Comments Table](./figures/db_migrate_comments.png)
 
 ```sh
 == 20160717220101 CreateComments: migrating =============
@@ -69,7 +69,7 @@ Install SqliteManager Firefox plugin [SqliteManager Firefox plugin](https://addo
 Let's now see the structure of the comments table. In Firefox go to : 
 Tools --> SQLiteManager
 
-![SQLite Manager Firefox Plugin](./figures/SQLiteManager)
+![SQLite Manager Firefox Plugin](./figures/SQLiteManager.png)
 
 \newpage
 
@@ -85,7 +85,7 @@ You can also click on the folder icon as shown in the screenshot.
 
 Change the file extensions to all files.
 
-![SQLite Manager All Files](./figures/format_all_files)
+![SQLite Manager All Files](./figures/format_all_files.png)
 
 \newpage
 
@@ -93,7 +93,7 @@ Change the file extensions to all files.
 
 Open the development.sqlite3 file. Select the comments table.
 
-![Comments Table Structure](./figures/comments_structure)
+![Comments Table Structure](./figures/comments_structure.png)
 
 You can see the foreign key article_id in the comments table. 
 
@@ -267,7 +267,7 @@ The app/views/show.html.erb file will now look like this:
 
 Go to http://localhost:3000/articles page and click on 'Show' for one of the article.
 
-![Add Comment Form](./figures/add_comment_form)
+![Add Comment Form](./figures/add_comment_form.png)
 
 You will now see the form for filling out the comment for this specific article.
 
@@ -277,7 +277,7 @@ You will now see the form for filling out the comment for this specific article.
 
 View the page source for the article show page by clicking any of the 'Show' link in the articles index page.
 
-![Add Comment Page Source](./figures/add_comment_source)
+![Add Comment Page Source](./figures/add_comment_source.png)
 
 You can see the URI pattern and the http method used when someone submits a comment by clicking the 'Create Comment' button.
 
@@ -323,7 +323,7 @@ end
 
 Fill out the comment form and submit it again.
 
-![Comment Values in Server Log](./figures/comments_values_in_log)
+![Comment Values in Server Log](./figures/comments_values_in_log.png)
 
 You can see the comment values in the server log.
 
@@ -346,11 +346,11 @@ params =  {"comment"=>{"commenter"=>"test", "description"=>"tester"},
 "commit"=>"Create Comment", "article_id"=>"5"}
 ```
 
-![Parameters for Comment](./figures/params_comments)
+![Parameters for Comment](./figures/params_comments.png)
 
 Here you initialize the params variable with the hash you copied in the rails server log.
 
-![Retrieving Comment](./figures/retrieving_comment)
+![Retrieving Comment](./figures/retrieving_comment.png)
 
 You can find the value for comment model by doing: params['comment'] in the Rails console.
 
@@ -414,7 +414,7 @@ The params[:comment] will retrieve the comment column values.
 
 Fill out the comment form and submit it.
 
-![Comment Record in Database](./figures/comments_in_db)
+![Comment Record in Database](./figures/comments_in_db.png)
 
 ```ruby
 Started POST "/articles/4/comments" for ::1 at 2016-07-17 15:13:37 -0700
@@ -497,7 +497,7 @@ Your app/views/articles/show.html.erb will now look like this:
 
 Reload the article show page or click on the 'Show' link for the article with comments by going to the articles index page.
 
-![Comments For an Article](./figures/comments_for_article)
+![Comments For an Article](./figures/comments_for_article.png)
 
 You will now see the existing comments for an article.
 

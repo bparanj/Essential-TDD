@@ -99,8 +99,6 @@ invoke    css
 create      app/assets/stylesheets/welcome.css
 ```
   
-![Create WelcomeController](./figures/create_controller.png)
-
 rails command takes the arguments g for generate, then the controller name and the action. In this case the controller name is welcome and the action name is index.
 
 \newpage
@@ -109,7 +107,7 @@ rails command takes the arguments g for generate, then the controller name and t
 
 Reload the web browser again. 
 
-![Welcome Page](./figures/welcome_index.png)
+![Welcome Page](./rails5figures/welcome_index.png)
 
 You will now see the welcome page.
 
@@ -131,7 +129,7 @@ You can embed ruby in .html.erb files. The .erb stands for embedded Ruby. In thi
 
 Reload the browser. 
  
-![Hello Rails](./figures/hello_rails.png)
+![Hello Rails](./rails5figures/hello_rails.png)
  
 Now you will see 'Hello Rails' as the home page content.
 
@@ -151,7 +149,7 @@ Processing by WelcomeController#index as HTML
 Completed 200 OK in 25ms (Views: 22.8ms | ActiveRecord: 0.0ms)
 ```
 
-![Server Output](./figures/server_output_1.png)
+![Server Output](./rails5figures/server_output_1.png)
 
 You can see that the browser made a GET request for the resource '/' which is the home page of your site. The request was processed by the server where Rails recognized the request and it routed the request to the welcome controller, index action. Since we did not do anything in the index action, Rails looks for the view that has the same name as the action and renders that view. In this case, the view that corresponds to the index action is app/views/welcome/index.html.erb.
 

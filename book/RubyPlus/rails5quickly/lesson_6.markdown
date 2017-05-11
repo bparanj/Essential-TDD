@@ -99,7 +99,7 @@ The app/views/articles/index.html.erb will look like this :
 
 Reload the http://localhost:3000/articles page. 
 
-![Edit Article Link](./figures/edit_article_link)
+![Edit Article Link](./figures/edit_article_link.png)
 
 You will now see the 'Edit' link for each article in the database.
 
@@ -109,7 +109,7 @@ You will now see the 'Edit' link for each article in the database.
 
 Right click on the browser and select 'View Page Source'. 
 
-![Edit Article Page Source](./figures/edit_article_link_source)
+![Edit Article Page Source](./figures/edit_article_link_source.png)
 
 You will see the primary keys of the corresponding row for the :id variable.
 
@@ -138,7 +138,7 @@ You will see the primary keys of the corresponding row for the :id variable.
 
 Click on the 'Edit' link. 
 
-![Unknown Action Edit](./figures/unknown_action_edit)
+![Unknown Action Edit](./figures/unknown_action_edit.png)
 
 You will see `The action 'edit' could not be found for ArticlesController` error page.
 
@@ -196,7 +196,7 @@ Let's create app/views/articles/edit.html.erb with the following contents:
 
 Click on the 'Edit' link. You now get the following error page:
 
-![Argument Error in Articles Edit](./figures/argument_error_in_edit)
+![Argument Error in Articles Edit](./figures/argument_error_in_edit.png)
 
 ```ruby
 ActionView::Template::Error (First argument in form cannot contain nil or be empty):
@@ -222,7 +222,7 @@ in the Webconsole on the browser.
 
 Look at the server log:
 
-![Edit Article Server Log](./figures/edit_article_server_log)
+![Edit Article Server Log](./figures/edit_article_server_log.png)
 
 ```sh
 Started GET "/articles/1/edit" for ::1 at 2016-07-05 17:35:12 -0700
@@ -235,7 +235,7 @@ Completed 500 Internal Server Error in 8ms (ActiveRecord: 0.0ms)
 
 You can see that the primary key of the selected article id and it's value.
 
-![Params Hash Populated by Rails](./figures/populating_params_hash)
+![Params Hash Populated by Rails](./figures/populating_params_hash.png)
 
 Rails automatically populates params hash and makes it available to the controllers. In this case, the params hash will contain id as the key and 1 as its value.
 
@@ -259,7 +259,7 @@ Here we find the record for the given primary key and save it in the instance va
 
 Click on the 'Edit' link. 
 
-![Edit Article Form](./figures/edit_article_form)
+![Edit Article Form](./figures/edit_article_form.png)
 
 You will now see the form with values populated.
 

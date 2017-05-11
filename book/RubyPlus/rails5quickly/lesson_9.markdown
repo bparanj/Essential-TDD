@@ -63,7 +63,7 @@ Go to http://localhost:3000/articles and create a new article and edit an existi
 
 If you get the following error:
 
-![Missing Partial Error](./figures/missing_partial_error)
+![Missing Partial Error](./figures/missing_partial_error.png)
 
 
 It means you did not create the app/views/articles/_form.html.erb file. Make sure you followed the instruction in step 2.

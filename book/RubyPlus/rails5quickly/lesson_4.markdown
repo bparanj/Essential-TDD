@@ -45,7 +45,7 @@ edit_article GET    /articles/:id/edit(.:format) articles#edit
         root GET    /                            welcome#index
 ```
  
-![Rake Routes](./figures/rake_routes_2.png)
+![Rake Routes](./figures/rails_routes.png)
  
 As you can see from the output, for articles#index the Prefix value is articles. So we can use either articles_path (relative url, which would be /articles) or articles_url (absolute url, which would be www.example.com/articles). 
  
@@ -233,7 +233,7 @@ You should see the list of articles now displayed in the browser.
 
 \newpage
 
-![Model View Controller](./figures/mvc)
+![Model View Controller](./figures/mvc.png)
 
 As you can see from the diagram Controller controls the flow of data into and out of the database and also decides which View should be rendered next.
 

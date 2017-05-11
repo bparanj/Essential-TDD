@@ -26,7 +26,7 @@ Add the following code to the bottom of the app/views/articles/index.html file:
 
 What is the url helper we should use? We know we need to display the articles/new.html.erb page. We also know that the action that is executed is 'new' before new.html.erb is displayed. Take a look at the rails routes output:
 
-![New Article URL Helper](./figures/new_article.jpg)
+![New Article URL Helper](./figures/new_article.png)
 
 The first column named Prefix gives us the URL helper we can use. We can either append 'url' or 'path' to the prefix. Let's fill in the url helper to load the new page as follows:
 
@@ -50,7 +50,7 @@ The hyperlink for creating a new article will now be displayed.
 
 Right click on the browser and click 'View Page Source'. 
 
-![View Page Source](./figures/view_page_source)
+![View Page Source](./figures/view_page_source.png)
 
 You will see 'New Article' link pointing to the resource "/articles/new".
 
@@ -74,7 +74,7 @@ AbstractController::ActionNotFound (The action 'new' could not be found for Arti
 
 You can see that the browser made a http GET request for the resource "/articles/new". 
 
-![Action New Not Found](./figures/unknown_action_new)
+![Action New Not Found](./figures/unknown_action_new.png)
 
 You will see the unknown action error page.
 
@@ -137,7 +137,7 @@ So lets create new.html.erb under app/views/articles directory with the followin
 
 Click on the 'New Article' link on the 'Listing Articles' page.
 
-![Argument Error](./figures/argument_error)
+![Argument Error](./figures/argument_error.png)
 
 ```sh
 ActionView::Template::Error (First argument in form cannot contain nil or be empty):
@@ -167,7 +167,7 @@ Here we are instantiating an instance of Article class, this gives Rails a clue 
 
 Reload the browser http://localhost:3000/articles/new page. 
 
-![New Article Form](./figures/new_article_form)
+![New Article Form](./figures/new_article_form.png)
 
 You will now see an empty form to create a new article.
 
@@ -177,7 +177,7 @@ You will now see an empty form to create a new article.
 
 Right click and select 'View Page Source' on the new article form page. 
 
-![New Article Page Source](./figures/new_article_page_source)
+![New Article Page Source](./figures/new_article_page_source.png)
 
 ```html
 <form class="new_article" id="new_article" action="/articles" accept-charset="UTF-8" method="post">
@@ -205,7 +205,7 @@ In this case we see that it maps to the articles controller and create action.
 
 Fill out the form and click 'Create Article'. Check the server log output.
 
-![Post Article Server Log](./figures/post_articles)
+![Post Article Server Log](./figures/post_articles.png)
 
 ```sh
 Started POST "/articles" for ::1 at 2016-07-05 16:40:29 -0700
@@ -215,7 +215,7 @@ AbstractController::ActionNotFound (The action 'create' could not be found for A
 
 You can see that the browser made a POST to the URL '/articles'.
 
-![Unknown Action Create](./figures/unknown_action_create)
+![Unknown Action Create](./figures/unknown_action_create.png)
 
 This error is due to absence of the create action in the articles controller.
 
@@ -235,7 +235,7 @@ end
 
 Fill out the form and click 'Create Article'.
 
-![Article Form Values](./figures/article_form_values)
+![Article Form Values](./figures/article_form_values.png)
 
 You can see that the form values submitted by the user is sent to the server. Rails automatically populates a hash called params which contains a key whose name is the article symbol and the values are the different database columns and its values.
 
@@ -261,7 +261,7 @@ end
 
 In Figure 50, you see that the hash key article is a string, but I am using the symbol :article in the create method. How does this work? 
 
-![HashWithIndifferentAccess](./figures/hash_with_indifferent_access)
+![HashWithIndifferentAccess](./figures/hash_with_indifferent_access.png)
 
 As you can see from the rails console, params hash is not a regular Ruby hash, it is a special hash called HashWithIndifferentAccess. It allows you to set the value of the hash with either a symbol or string and retreive the value using either string or symbol.
 
@@ -271,7 +271,7 @@ As you can see from the rails console, params hash is not a regular Ruby hash, i
 
 Fill out the form and submit again. 
 
-![Forbidden Attributes Error](./figures/forbidden_attributes_error)
+![Forbidden Attributes Error](./figures/forbidden_attributes_error.png)
 
 Now we get a ActiveModel::ForbiddenAttributesError error.
 
@@ -302,7 +302,7 @@ No template found for ArticlesController#create, rendering head :no_content
 Completed 204 No Content in 122ms (ActiveRecord: 50.3ms)
 ```
 
-![Save User Data](./figures/last_article)
+![Save User Data](./figures/last_article.png)
 
 Let's go to the rails console and check the record that we just created.
 
@@ -336,7 +336,7 @@ How do we know that we need to use articles_index_path url helper? We already sa
 
 Fill out the form and submit again. 
 
-![Displaying All Articles](./figures/display_all_articles)
+![Displaying All Articles](./figures/display_all_articles.png)
 
 You will now see all the articles displayed in the index page.
 

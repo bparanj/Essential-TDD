@@ -59,7 +59,7 @@ edit_article GET    /articles/:id/edit(.:format) articles#edit
         root GET    /                            welcome#index
 ```
 
-![Installed Routes](./figures/rake_routes.png)
+![Installed Routes](./figures/rails_routes.png)
 
 The output shows that defining the articles resource in the routes.rb gives us routing for :
 
