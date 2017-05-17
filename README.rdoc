@@ -48,8 +48,12 @@ $ pandoc -S --variable fontsize=12pt --epub-metadata=metadata.xml -o etdd42.pdf 
 
 ## Rails Book ##
 
-pandoc -S --variable fontsize=12pt --epub-metadata=metadata.xml -o rails42.pdf title.txt about_author.markdown about_reader.markdown acknowledgments.markdown how_to_read.markdown table_of_contents.markdown lesson_1.markdown lesson_2.markdown lesson_3.markdown lesson_4.markdown lesson_5.markdown lesson_6.markdown lesson_7.markdown lesson_8.markdown lesson_9.markdown lesson_10.markdown lesson_11.markdown lesson_12.markdown bonus_chapters.markdown resources.markdown self_learning.markdown tools.markdown survey.markdown
+pandoc -S --variable fontsize=12pt --epub-metadata=metadata.xml -o rails5.pdf title.txt about_author.markdown about_reader.markdown acknowledgments.markdown how_to_read.markdown table_of_contents.markdown lesson_1.markdown lesson_2.markdown lesson_3.markdown lesson_4.markdown lesson_5.markdown lesson_6.markdown lesson_7.markdown lesson_8.markdown lesson_9.markdown lesson_10.markdown lesson_11.markdown lesson_12.markdown bonus_chapters.markdown resources.markdown self_learning.markdown tools.markdown survey.markdown
  
+## Rails 5
+
+pandoc -S --variable fontsize=12pt --epub-metadata=metadata.xml -o rails5.pdf title.txt about_author.markdown about_reader.markdown acknowledgments.markdown how_to_read.markdown table_of_contents.markdown lesson_1.markdown lesson_2.markdown lesson_3.markdown lesson_4.markdown lesson_5.markdown lesson_6.markdown lesson_7.markdown lesson_8.markdown lesson_9.markdown lesson_10.markdown lesson_11.markdown lesson_12.markdown self_learning.markdown tools.markdown
+
 ## Syntax ##
 
 Refer progit book by Scott Chacon

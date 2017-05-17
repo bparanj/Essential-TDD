@@ -1,4 +1,4 @@
-% Rails 4.2 Quickly
+% Rails 5 Quickly
 % Bala Paranj
 
 \newpage
