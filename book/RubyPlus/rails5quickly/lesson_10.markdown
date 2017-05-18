@@ -330,7 +330,7 @@ You can see the comment values in the server log.
 ```ruby
 Started POST "/articles/4/comments" for ::1 at 2016-07-17 15:10:36 -0700
 Processing by CommentsController#create as HTML
-  Parameters: {"utf8"=>"✓", "authenticity_token"=>"2Gp+UXhpHx", "comment"=>{"commenter"=>"bugs", "description"=>"dafasdfsa"}, "commit"=>"Create Comment", "article_id"=>"4"}
+  Parameters: {"authenticity_token"=>"2Gp+UXhpHx", "comment"=>{"commenter"=>"bugs", "description"=>"dafasdfsa"}, "commit"=>"Create Comment", "article_id"=>"4"}
 No template found for CommentsController#create, rendering head :no_content
 Completed 204 No Content in 48ms (ActiveRecord: 0.0ms)
 ```
@@ -419,7 +419,7 @@ Fill out the comment form and submit it.
 ```ruby
 Started POST "/articles/4/comments" for ::1 at 2016-07-17 15:13:37 -0700
 Processing by CommentsController#create as HTML
-  Parameters: {"utf8"=>"✓", "authenticity_token"=>"oozS3q4nkxrXCxBZraMyr64B2ohB5E2QVai5N4SQByZpZnUSMhT/RoJr+mW+wcdhRy7CFjCYfADG7loSpR07CA==", "comment"=>{"commenter"=>"bugs", "description"=>"test"}, "commit"=>"Create Comment", "article_id"=>"4"}
+  Parameters: {"authenticity_token"=>"oofADG7loSpR07CA==", "comment"=>{"commenter"=>"bugs", "description"=>"test"}, "commit"=>"Create Comment", "article_id"=>"4"}
   Article Load (0.1ms)  SELECT  "articles".* FROM "articles" WHERE "articles"."id" = ? LIMIT ?  [["id", 4], ["LIMIT", 1]]
    (0.1ms)  begin transaction
   SQL (0.4ms)  INSERT INTO "comments" ("commenter", "description", "article_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["commenter", "bugs"], ["description", "test"], ["article_id", 4], ["created_at", 2016-07-17 22:13:37 UTC], ["updated_at", 2016-07-17 22:13:37 UTC]]

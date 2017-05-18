@@ -3,7 +3,6 @@ CHAPTER 5
 View to Model
 ------------------------------
 
-
 ## Objective ##
 
  - Learn how to get data from the user and save it in the database
@@ -24,11 +23,11 @@ Add the following code to the bottom of the app/views/articles/index.html file:
 
 ### Step 2 ###
 
-What is the url helper we should use? We know we need to display the articles/new.html.erb page. We also know that the action that is executed is 'new' before new.html.erb is displayed. Take a look at the rails routes output:
+What is the url helper we should use? We know we need to display the articles/new.html.erb page. We also know that the action that is executed is *new* before new.html.erb is displayed. Take a look at the rails routes output:
 
 ![New Article URL Helper](./figures/new_article.png)
 
-The first column named Prefix gives us the URL helper we can use. We can either append 'url' or 'path' to the prefix. Let's fill in the url helper to load the new page as follows:
+The first column named Prefix gives us the URL helper we can use. We can either append *url* or *path* to the prefix. Let's fill in the url helper to load the new page as follows:
 
 ```ruby
 <%= link_to 'New Article', new_article_path %>
@@ -52,10 +51,10 @@ Right click on the browser and click 'View Page Source'.
 
 ![View Page Source](./figures/view_page_source.png)
 
-You will see 'New Article' link pointing to the resource "/articles/new".
+You will see 'New Article' link pointing to the resource '/articles/new'.
 
 ```html
-<a href="/articles/new">New Article</a>
+<a href='/articles/new'>New Article</a>
 ```
 
 \newpage
@@ -67,12 +66,12 @@ Click the 'New Article' link. Go to the terminal and look at the server output.
 ![HTTP Verb Get](./figures/get_articles_new.png)
 
 ```sh
-Started GET "/articles/new" for ::1 at 2016-07-05 16:33:59 -0700
+Started GET '/articles/new' for ::1 at 2016-07-05 16:33:59 -0700
   
 AbstractController::ActionNotFound (The action 'new' could not be found for ArticlesController):
 ```
 
-You can see that the browser made a http GET request for the resource "/articles/new". 
+You can see that the browser made a http GET request for the resource '/articles/new'. 
 
 ![Action New Not Found](./figures/unknown_action_new.png)
 
@@ -95,13 +94,13 @@ end
 Go back to http://localhost:3000/articles page. Click on the 'New Article' link, in the log, you will see:
 
 ```sh
-Started GET "/articles/new" for ::1 at 2016-07-05 16:34:54 -0700
+Started GET '/articles/new' for ::1 at 2016-07-05 16:34:54 -0700
 Processing by ArticlesController#new as HTML
 Completed 406 Not Acceptable in 55ms (ActiveRecord: 0.0ms)
   
 ActionController::UnknownFormat (ArticlesController#new is missing a template for this request format and variant.
 
-request.formats: ["text/html"]
+request.formats: ['text/html']
 request.variant: []
 ```
 
@@ -180,7 +179,7 @@ Right click and select 'View Page Source' on the new article form page.
 ![New Article Page Source](./figures/new_article_page_source.png)
 
 ```html
-<form class="new_article" id="new_article" action="/articles" accept-charset="UTF-8" method="post">
+<form class='new_article' id='new_article' action='/articles' accept-charset='UTF-8' method='post'>
 ```
 
 As you can see, form will be submitted to the url '/articles' and the http verb used is POST. When the user submits the form, which controller and which action will be executed?
@@ -208,7 +207,7 @@ Fill out the form and click 'Create Article'. Check the server log output.
 ![Post Article Server Log](./figures/post_articles.png)
 
 ```sh
-Started POST "/articles" for ::1 at 2016-07-05 16:40:29 -0700
+Started POST '/articles' for ::1 at 2016-07-05 16:40:29 -0700
   
 AbstractController::ActionNotFound (The action 'create' could not be found for ArticlesController):  
 ```
@@ -230,7 +229,6 @@ def create
   
 end
 ```
-
 ### Step 16 ###
 
 Fill out the form and click 'Create Article'.
@@ -240,9 +238,9 @@ Fill out the form and click 'Create Article'.
 You can see that the form values submitted by the user is sent to the server. Rails automatically populates a hash called params which contains a key whose name is the article symbol and the values are the different database columns and its values.
 
 ```sh
-Started POST "/articles" for ::1 at 2016-07-05 16:41:31 -0700
+Started POST '/articles' for ::1 at 2016-07-05 16:41:31 -0700
 Processing by ArticlesController#create as HTML
-  Parameters: {"utf8"=>"✓", "authenticity_token"=>"1ILXAjse7lVYATqub/WzUrPwdOVF4pTHnjO/QI/ReI8faHDOpy2CCQ1h0JJ8l0acWt9sezSepVcNdVxlrlxEoQ==", "article"=>{"title"=>"sadfasd", "description"=>"adfasdf"}, "commit"=>"Create Article"}
+  Parameters: {'authenticity_token'=>'1ILcWt9sezSepVcNdV', 'article'=>{'title'=>'sadfasd', 'description'=>'adfasdf'}, 'commit'=>'Create Article'}
 No template found for ArticlesController#create, rendering head :no_content
 Completed 204 No Content in 56ms (ActiveRecord: 0.0ms)
 ```
@@ -292,11 +290,11 @@ end
 Fill out the form and submit again. You will get the no template error but you will now see that the user submitted data is saved in the database.
 
 ```sh
-Started POST "/articles" for ::1 at 2016-07-05 16:44:10 -0700
+Started POST '/articles' for ::1 at 2016-07-05 16:44:10 -0700
 Processing by ArticlesController#create as HTML
-  Parameters: {"utf8"=>"✓", "authenticity_token"=>"b1XvtCYVw5P0GYFO28LA==", "article"=>{"title"=>"Basics of Abstraction", "description"=>"testing"}, "commit"=>"Create Article"}
+  Parameters: {'authenticity_token'=>'b1XvtCYVw5P0GYFO28L', 'article'=>{'title'=>'Basics of Abstraction', 'description'=>'testing'}, 'commit'=>'Create Article'}
    (0.1ms)  begin transaction
-  SQL (0.5ms)  INSERT INTO "articles" ("title", "description", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["title", "Basics of Abstraction"], ["description", "testing"], ["created_at", 2016-07-05 23:44:10 UTC], ["updated_at", 2016-07-05 23:44:10 UTC]]
+  SQL (0.5ms)  INSERT INTO 'articles' ('title', 'description', 'created_at', 'updated_at') VALUES (?, ?, ?, ?)  [['title', 'Basics of Abstraction'], ['description', 'testing'], ['created_at', 2016-07-05 23:44:10 UTC], ['updated_at', 2016-07-05 23:44:10 UTC]]
    (48.8ms)  commit transaction
 No template found for ArticlesController#create, rendering head :no_content
 Completed 204 No Content in 122ms (ActiveRecord: 50.3ms)
@@ -310,8 +308,8 @@ Let's go to the rails console and check the record that we just created.
 $ rails c
 Loading development environment (Rails 5.0.0)
 >> Article.last
-  Article Load (0.2ms)  SELECT  "articles".* FROM "articles" ORDER BY "articles"."id" DESC LIMIT ?  [["LIMIT", 1]]
-=> #<Article id: 3, title: "Basics of Abstraction", description: "testing", created_at: "2016-07-05 23:44:10", updated_at: "2016-07-05 23:44:10">
+  Article Load (0.2ms)  SELECT  'articles'.* FROM 'articles' ORDER BY 'articles'.'id' DESC LIMIT ?  [['LIMIT', 1]]
+=> #<Article id: 3, title: 'Basics of Abstraction', description: 'testing', created_at: '2016-07-05 23:44:10', updated_at: '2016-07-05 23:44:10'>
 ```
 
 The ActiveRecord class method 'last' method retrieves the last row in the articles table. 

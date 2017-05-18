@@ -5,14 +5,10 @@ This step-by-step tutorial was written as a hands-on guide to Rails. You must re
 
 # Software Versions Used #
 
- Ruby Gems : 2.4.5
- Ruby      : 2.2
- Rails     : 4.2
- 
-# Source Code #
-
-Source code is available from bitbucket Git repo : https://bitbucket.org/bparanj/rails42blog
- 
+ Ruby Gems : 2.5.1
+ Ruby      : 2.3.1
+ Rails     : 5.0
+  
 
 \newpage
 

@@ -193,7 +193,7 @@ In the articles index page, click on the 'Delete' link. Click 'Ok' in the confir
 ```sh
 Started DELETE "/articles/1" for ::1 at 2016-07-05 20:59:30 -0700
 Processing by ArticlesController#destroy as HTML
-  Parameters: {"authenticity_token"=>"5xRDtKZ7NN7sXlzAQk6pZ+zs0lfxCrPKj78ihHuqma0s/uR4OkhYgrk+tvxRLFypBcPKyYB2gloc+cGhWielgw==", "id"=>"1"}
+  Parameters: {"authenticity_token"=>"5xRDtKZR4Okc+cGhWielgw", "id"=>"1"}
   Article Load (0.2ms)  SELECT  "articles".* FROM "articles" WHERE "articles"."id" = ? LIMIT ?  [["id", 1], ["LIMIT", 1]]
    (0.1ms)  begin transaction
   SQL (0.3ms)  DELETE FROM "articles" WHERE "articles"."id" = ?  [["id", 1]]
